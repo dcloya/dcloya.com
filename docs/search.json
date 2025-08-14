@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "Current CV (PDF):\n- Dropbox:"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "About me",
+    "section": "",
+    "text": "I am an applied micro-economist who studies health, management, productivity, and entrepreneurship.\nMy work in low- and middle-income countries focuses on designing and evaluating interventions that increase the human capital of individuals and firms.\nIn Mexico, my work relates to obesity and non-communicable diseases from the perspective of health services research and public policy."
+  },
+  {
+    "objectID": "ongoing.html#title-ongoing-research",
+    "href": "ongoing.html#title-ongoing-research",
+    "title": "Ongoing research",
+    "section": "title: “Ongoing research”",
+    "text": "title: “Ongoing research”"
+  },
+  {
+    "objectID": "ongoing.html#skills-for-effective-entrepreneurship-development-seed",
+    "href": "ongoing.html#skills-for-effective-entrepreneurship-development-seed",
+    "title": "Ongoing research",
+    "section": "Skills for Effective Entrepreneurship Development (SEED)",
+    "text": "Skills for Effective Entrepreneurship Development (SEED)\nWe study the effects of SEED, an in-residence three-week mini-MBA program for high-school students in Uganda with hard-skills and soft-skills arms. (Add abstract or bullet points; include links to NBER/CEPR/VoxDev pages as desired.)"
+  },
+  {
+    "objectID": "ongoing.html#additional-projects",
+    "href": "ongoing.html#additional-projects",
+    "title": "Ongoing research",
+    "section": "Additional projects",
+    "text": "Additional projects\n\nTitle / brief description\nTitle / brief description"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Email: d.contreras [at] tec.mx\nLinkedIn: https://www.linkedin.com/in/david-contreras-loya-8550bb44/\nGoogle Scholar: https://scholar.google.es/citations?user=axuzNJ0AAAAJ\nMailing address Av. Revolución 756, Nonoalco, Benito Juárez, 03700 Ciudad de México, CDMX"
+  },
+  {
+    "objectID": "publications.html",
+    "href": "publications.html",
+    "title": "Published research",
+    "section": "",
+    "text": "Peer-reviewed articles\n\nAuthor list. “Title.” Journal, year, pages.\n\nAuthor list. “Title.” Journal, year, pages.\n\n\n\nWorking papers\n\nAuthor list. “Title.” Series/venue, year.\n\n\n\nBook chapters\n\nAuthor list. “Title.” In Book, year.\n\n\nTip: if you want automatic citation formatting later, switch to a .bib file and add bibliography: references.bib in the YAML."
+  },
+  {
+    "objectID": "notes/iv.html",
+    "href": "notes/iv.html",
+    "title": "Instrumental Variables",
+    "section": "",
+    "text": "Some math: \\(\\widehat{\\beta} = (X'X)^{-1}X'y\\).\n\ncode to simulate IV or run 2SLS"
+  }
+]

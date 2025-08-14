@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "David Contreras-Loya"
+  navbar:
+    left:
+      - text: "About"
+        href: index.qmd
+      - text: "Notes"
+        menu:
+          - text: "IV"
+            href: notes/iv.Rmd
+      - text: "CV"
+        href: cv.qmd
+      - text: "Ongoing research"
+        href: ongoing.qmd
+      - text: "Published research"
+        href: publications.qmd
+      - text: "Contact"
+        href: contact.qmd

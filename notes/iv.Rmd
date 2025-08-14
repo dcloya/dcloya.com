@@ -1,0 +1,8 @@
+---
+title: "Instrumental Variables"
+output: html_document
+---
+Some math: $\widehat{\beta} = (X'X)^{-1}X'y$.
+
+```{r}
+# code to simulate IV or run 2SLS

@@ -1,0 +1,15 @@
+---
+title: "Published research"
+---
+
+### Peer-reviewed articles
+- Author list. “Title.” *Journal*, year, pages.  
+- Author list. “Title.” *Journal*, year, pages.
+
+### Working papers
+- Author list. “Title.” *Series/venue*, year.
+
+### Book chapters
+- Author list. “Title.” In *Book*, year.
+
+> Tip: if you want automatic citation formatting later, switch to a `.bib` file and add `bibliography: references.bib` in the YAML.

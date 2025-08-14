@@ -1,0 +1,15 @@
+{
+  "hash": "4e85a8e47e638500c2b3351db72e7d4e",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Instrumental Variables\"\noutput: html_document\n---\nSome math: $\\widehat{\\beta} = (X'X)^{-1}X'y$.\n\n# code to simulate IV or run 2SLS",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

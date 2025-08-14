@@ -1,0 +1,12 @@
+```markdown
+---
+title: "Ongoing research"
+---
+
+## Skills for Effective Entrepreneurship Development (SEED)
+We study the effects of SEED, an in-residence three-week mini-MBA program for high-school students in Uganda with hard-skills and soft-skills arms.
+(Add abstract or bullet points; include links to NBER/CEPR/VoxDev pages as desired.)
+
+## Additional projects
+- Title / brief description
+- Title / brief description

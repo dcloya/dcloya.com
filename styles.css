@@ -1,0 +1,9 @@
+/* Tighten headings a bit */
+h1, h2, h3 { margin-top: 1.2rem; }
+
+/* Make links clearly visible */
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Optional: slightly wider content */
+.quarto-container { max-width: 1050px; }
