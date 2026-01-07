@@ -1,0 +1,33 @@
+---
+title: "Exercise 3: The Budget Monte Carlo"
+format: html
+filters:
+  - webr
+---
+
+# How much should we really budget?
+
+Your engineers say the infrastructure project will cost **$100 Million**. But material prices fluctuate, and strikes happen. Instead of one number, let's simulate **1,000 possible futures**.
+
+```{webr-r}
+set.seed(42)
+simulations <- 1000
+
+# 1. Define Risks
+base_cost <- 100 # Millions
+# Random variation: Normal distribution (sometimes cheaper, sometimes expensive)
+material_fluctuation <- rnorm(simulations, mean = 0, sd = 10) 
+# Risk event: 10% chance of a strike costing $20M
+strike_risk <- sample(c(0, 20), simulations, replace = TRUE, prob = c(0.9, 0.1))
+
+# 2. Calculate Total Cost for each scenario
+total_cost <- base_cost + material_fluctuation + strike_risk
+
+# 3. What is the "Safe" Budget? (90th Percentile)
+safe_budget <- quantile(total_cost, 0.90)
+
+# 4. Visualize Risk
+hist(total_cost, col = "skyblue", main = "1,000 Scenarios of Final Cost", xlab = "Millions ($)")
+abline(v = safe_budget, col = "red", lwd = 3)
+legend("topright", legend = paste("90% Safety Cap: $", round(safe_budget, 1), "M"), col="red", lwd=3)
+```

@@ -1,0 +1,43 @@
+---
+title: "Exercise 1: The Tale of Two Cities"
+format: html
+filters:
+  - webr
+---
+
+# The Trap of the Average
+
+Both "Equality City" and "Unequal City" have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?
+
+```{webr-r}
+#| warning: false
+library(ggplot2)
+
+# 1. Simulate Data
+set.seed(123)
+n <- 500
+
+# Region A: Everyone earns roughly the same (Normal Distribution)
+region_A <- rnorm(n, mean = 15000, sd = 2000)
+
+# Region B: Most are poor, a few are millionaires (Log-Normal)
+# We adjust parameters to force the mean to be roughly ~15,000
+region_B <- rlnorm(n, meanlog = 9.2, sdlog = 0.9) 
+
+# Combine into a dataframe
+df <- data.frame(
+  Salary = c(region_A, region_B),
+  Region = c(rep("Equality City", n), rep("Unequal City", n))
+)
+
+# 2. The Trap: Calculate the Means
+print("Comparison of Means:")
+aggregate(Salary ~ Region, data = df, FUN = mean)
+
+# 3. The Truth: Visualize with Boxplots
+ggplot(df, aes(x = Region, y = Salary, fill = Region)) +
+  geom_boxplot() +
+  labs(title = "Why Averages Lie", y = "Monthly Income ($MXN)") +
+  theme_minimal() +
+  coord_flip() # Flip to see the long tail better
+```

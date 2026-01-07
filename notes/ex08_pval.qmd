@@ -1,0 +1,31 @@
+---
+title: "Exercise 8: The P-Value Lottery"
+format: html
+filters:
+  - webr
+---
+
+# Hacking the P-Value
+
+The code below simulates a program that does **NOTHING** (Effect is 0). However, we will test it **100 times**. How many times will we get a "Significant" result just by luck?
+
+```{webr-r}
+set.seed(99)
+p_values <- numeric(100)
+
+for(i in 1:100) {
+  # Generate two identical groups (No real difference)
+  group_A <- rnorm(30)
+  group_B <- rnorm(30)
+  
+  # Run t-test and save p-value
+  p_values[i] <- t.test(group_A, group_B)$p.value
+}
+
+# Count how many are "Significant" (< 0.05)
+false_discoveries <- sum(p_values < 0.05)
+
+hist(p_values, breaks = 20, main = "Distribution of P-Values (Null is True)")
+abline(v = 0.05, col = "red")
+cat("Number of False Positives:", false_discoveries)
+```

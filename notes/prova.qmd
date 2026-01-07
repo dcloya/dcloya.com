@@ -1,0 +1,50 @@
+---
+title: "La Tiranía del Promedio"
+format: html
+filters:
+  - webr
+---
+
+# The Problem with "Average" Policy
+
+Policies designed for the "average" person often fail everyone. 
+
+Imagine we are designing a tax relief program. The "average" income in our district is **$15,000 MXN/month**. A policy maker suggests a flat tax credit because "the average family is doing okay."
+
+But is the average real? Let's look at the data.
+
+## Interactive Lab: Simulating Inequality
+
+Run the code below to generate a realistic income distribution for a Mexican municipality. We will use a "log-normal" distribution, which matches real-world wealth inequality better than a bell curve.
+
+```{webr-r}
+#| warning: false
+#| message: false
+# Load libraries (ggplot2 is built-in to WebR's pre-loaded set mostly)
+library(ggplot2)
+
+# 1. Generate Data
+set.seed(42)
+# Create 1,000 households with log-normal income
+incomes <- rlnorm(n = 1000, meanlog = 9.4, sdlog = 0.8)
+
+# 2. Calculate the "Average" vs "Median"
+avg_inc <- mean(incomes)
+med_inc <- median(incomes)
+
+# Print the summary
+cat("Average Income: $", round(avg_inc, 2), "\n")
+cat("Median Income:  $", round(med_inc, 2), "\n")
+cat("Difference:     $", round(avg_inc - med_inc, 2), "\n")
+
+# 3. Visualize the Trap
+data <- data.frame(income = incomes)
+
+ggplot(data, aes(x = income)) +
+  geom_histogram(fill = "#2E86C1", color = "white", bins = 50) +
+  geom_vline(aes(xintercept = avg_inc), color = "red", linetype = "dashed", size = 1) +
+  annotate("text", x = avg_inc + 5000, y = 100, label = "Average", color = "red") +
+  labs(title = "Income Distribution", x = "Monthly Income (MXN)", y = "Count") +
+  theme_minimal() +
+  xlim(0, 80000) # Zoom in to see the bulk of people
+```

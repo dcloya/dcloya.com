@@ -1,0 +1,30 @@
+---
+title: "Exercise 5: The Pollster’s Nightmare"
+format: html
+filters:
+  - webr
+---
+
+# Law of Large Numbers
+
+Why do we need large samples? Run this simulation to see how the "measured approval" fluctuates wildly with small samples ($n=10$) but stabilizes around the truth as we interview more people.
+
+```{webr-r}
+# The Truth: 52% of the country approves the President
+true_approval <- 0.52
+
+# We take samples of increasing size: 10, 50, 100, ... up to 2000
+sample_sizes <- seq(10, 2000, by = 10)
+
+# Calculate the mean for each sample size
+measured_approval <- sapply(sample_sizes, function(n) {
+  sample_data <- rbinom(n, 1, true_approval) # 1 = Approve, 0 = Disapprove
+  mean(sample_data)
+})
+
+# Plot the convergence
+plot(sample_sizes, measured_approval, type = "l", col = "blue", 
+     ylim = c(0, 1), main = "Convergence to Truth",
+     xlab = "Sample Size", ylab = "Measured Approval")
+abline(h = true_approval, col = "red", lwd = 2, lty = 2)}
+```

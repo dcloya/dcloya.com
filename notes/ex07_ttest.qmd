@@ -1,0 +1,36 @@
+---
+title: "Exercise 7: Did the Program Work?"
+format: html
+filters:
+  - webr
+---
+
+# The A/B Test
+
+We have two groups from the "Pro-Futuro" program. 
+* **Control:** Standard diet.
+* **Treatment:** New nutrition program.
+
+We want to know if the Treatment group has a significantly lower Body Mass Index (BMI).
+
+```{webr-r}
+# 1. Generate Data
+n <- 200
+control <- rnorm(n, mean = 28, sd = 4)
+treatment <- rnorm(n, mean = 26.5, sd = 4) # Real effect of -1.5
+
+df <- data.frame(
+  BMI = c(control, treatment),
+  Group = c(rep("Control", n), rep("Treatment", n))
+)
+
+# 2. Visual Check
+boxplot(BMI ~ Group, data = df, col = c("orange", "lightgreen"), main = "BMI by Group")
+
+# 3. Statistical Check (The T-Test)
+t_test <- t.test(BMI ~ Group, data = df)
+
+print(t_test)
+cat("P-Value:", format.pval(t_test$p.value))
+# Note: If p < 0.05, we have evidence of a statistically significant difference.
+```

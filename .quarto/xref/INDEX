@@ -22,5 +22,41 @@
   },
   "cv.qmd": {
     "cv.html": "d4f8c41d"
+  },
+  "notes/prova.qmd": {
+    "prova.html": "aa6ccfcd"
+  },
+  "notes/ex03_risk.qmd": {
+    "ex03_risk.html": "77a9fa41"
+  },
+  "notes/ex10_simpsons.qmd": {
+    "ex10_simpsons.html": "dd5e569f"
+  },
+  "notes/ex09_regression.qmd": {
+    "ex09_regression.html": "d1c653ad"
+  },
+  "notes/ex07_ttest.qmd": {
+    "ex07_ttest.html": "c23db6be"
+  },
+  "notes/ex08_pval.qmd": {
+    "ex08_pval.html": "78ad1ae4"
+  },
+  "notes/ex05_lln.qmd": {
+    "ex05_lln.html": "f0f6dd7e"
+  },
+  "notes/ex02_outliers.qmd": {
+    "ex02_outliers.html": "2da17243"
+  },
+  "notes/ex06_ci.qmd": {
+    "ex06_ci.html": "c6dff265"
+  },
+  "notes/ex04_bayes.qmd": {
+    "ex04_bayes.html": "2c995753"
+  },
+  "notes/ex01_average.qmd": {
+    "ex01_average.html": "144b88f2"
+  },
+  "notes/ex_inference.qmd": {
+    "ex_inference.html": "e6e6f34e"
   }
 }

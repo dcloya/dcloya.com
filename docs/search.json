@@ -16,9 +16,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "About me",
+    "title": "David Contreras-Loya, PhD",
     "section": "",
-    "text": "I am an applied micro-economist who studies health, management, productivity, and entrepreneurship.\nMy work in low- and middle-income countries focuses on designing and evaluating interventions that increase the human capital of individuals and firms.\nIn Mexico, my work relates to obesity and non-communicable diseases from the perspective of health services research and public policy."
+    "text": "TECprofile\n  \n  \n    \n     LinkedIn\n  \n  \n      ORCID\n  \n  \n      Web of Science\n  \n  \n      Scopus\n  \n  \n      Google Scholar\n  \n  \n      Research Gate\n  \n\n  \n  \nDavid Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at Escuela de Gobierno y Transformación Pública, and is affiliated with the Institute for Obesity Research. He co-leads Evidencia y Acción para la Equidad en Salud, EVIS, a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.\nHe teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings. He also convenes Seminario Institucional en Salud, which brings practitioners and researchers into structured discussion on measurement, evaluation design, and implementation constraints in public programs.\nHis research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as Health Policy and Planning, Social Science and Medicine, the National Bureau of Economic Research and the American Journal of Clinical Nutrition, and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.\nHis research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by VoxDev and Mexico Business News, and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.\nHis work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including African Health Markets for Equity and Skills for Effective Entrepreneurship Development, and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.\nPreviously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D. in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "ongoing.html#title-ongoing-research",
@@ -61,5 +61,166 @@
     "title": "Instrumental Variables",
     "section": "",
     "text": "Some math: \\(\\widehat{\\beta} = (X'X)^{-1}X'y\\).\n\ncode to simulate IV or run 2SLS"
+  },
+  {
+    "objectID": "notes/prova.html",
+    "href": "notes/prova.html",
+    "title": "La Tiranía del Promedio",
+    "section": "",
+    "text": "Policies designed for the “average” person often fail everyone.\nImagine we are designing a tax relief program. The “average” income in our district is $15,000 MXN/month. A policy maker suggests a flat tax credit because “the average family is doing okay.”\nBut is the average real? Let’s look at the data.\n\n\nRun the code below to generate a realistic income distribution for a Mexican municipality. We will use a “log-normal” distribution, which matches real-world wealth inequality better than a bell curve.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/prova.html#interactive-lab-simulating-inequality",
+    "href": "notes/prova.html#interactive-lab-simulating-inequality",
+    "title": "La Tiranía del Promedio",
+    "section": "",
+    "text": "Run the code below to generate a realistic income distribution for a Mexican municipality. We will use a “log-normal” distribution, which matches real-world wealth inequality better than a bell curve.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex01_average.html",
+    "href": "notes/ex01_average.html",
+    "title": "Exercise 1: The Tale of Two Cities",
+    "section": "",
+    "text": "The Trap of the Average\nBoth “Equality City” and “Unequal City” have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex01_average.html#the-trap-of-the-average",
+    "href": "notes/ex01_average.html#the-trap-of-the-average",
+    "title": "Exercise 1: The Tale of Two Cities",
+    "section": "",
+    "text": "Both “Equality City” and “Unequal City” have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?\n```wrymoxqk #| warning: false library(ggplot2)"
+  },
+  {
+    "objectID": "notes/ex06_ci.html",
+    "href": "notes/ex06_ci.html",
+    "title": "Exercise 6: Capturing the Truth",
+    "section": "",
+    "text": "Visualizing Confidence Intervals\nThe red line is the TRUE unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex06_ci.html#visualizing-confidence-intervals",
+    "href": "notes/ex06_ci.html#visualizing-confidence-intervals",
+    "title": "Exercise 6: Capturing the Truth",
+    "section": "",
+    "text": "The red line is the TRUE unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.\n```krdodjrf #| warning: false library(ggplot2) set.seed(55)"
+  },
+  {
+    "objectID": "notes/ex05_lln.html",
+    "href": "notes/ex05_lln.html",
+    "title": "Exercise 5: The Pollster’s Nightmare",
+    "section": "",
+    "text": "Law of Large Numbers\nWhy do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex05_lln.html#law-of-large-numbers",
+    "href": "notes/ex05_lln.html#law-of-large-numbers",
+    "title": "Exercise 5: The Pollster’s Nightmare",
+    "section": "",
+    "text": "Why do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n```juddfmro # The Truth: 52% of the country approves the President true_approval &lt;- 0.52"
+  },
+  {
+    "objectID": "notes/ex07_ttest.html",
+    "href": "notes/ex07_ttest.html",
+    "title": "Exercise 7: Did the Program Work?",
+    "section": "",
+    "text": "The A/B Test\nWe have two groups from the “Pro-Futuro” program. * Control: Standard diet. * Treatment: New nutrition program.\nWe want to know if the Treatment group has a significantly lower Body Mass Index (BMI).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex07_ttest.html#the-ab-test",
+    "href": "notes/ex07_ttest.html#the-ab-test",
+    "title": "Exercise 7: Did the Program Work?",
+    "section": "",
+    "text": "We have two groups from the “Pro-Futuro” program. * Control: Standard diet. * Treatment: New nutrition program.\nWe want to know if the Treatment group has a significantly lower Body Mass Index (BMI).\n```kscxeqrc # 1. Generate Data n &lt;- 200 control &lt;- rnorm(n, mean = 28, sd = 4) treatment &lt;- rnorm(n, mean = 26.5, sd = 4) # Real effect of -1.5\ndf &lt;- data.frame( BMI = c(control, treatment), Group = c(rep(“Control”, n), rep(“Treatment”, n)) )"
+  },
+  {
+    "objectID": "notes/ex10_simpsons.html",
+    "href": "notes/ex10_simpsons.html",
+    "title": "Exercise 10: The Hidden Variable",
+    "section": "",
+    "text": "Simpson’s Paradox\nIt looks like Private schools have LOWER scores than Public ones. But is that fair? Private schools in this dataset are located in tougher zones. Run the code to see what happens when we control for the “Difficulty” of the zone.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex10_simpsons.html#simpsons-paradox",
+    "href": "notes/ex10_simpsons.html#simpsons-paradox",
+    "title": "Exercise 10: The Hidden Variable",
+    "section": "",
+    "text": "It looks like Private schools have LOWER scores than Public ones. But is that fair? Private schools in this dataset are located in tougher zones. Run the code to see what happens when we control for the “Difficulty” of the zone.\n```kuvnraoq #| warning: false library(ggplot2)"
+  },
+  {
+    "objectID": "notes/ex03_risk.html",
+    "href": "notes/ex03_risk.html",
+    "title": "Exercise 3: The Budget Monte Carlo",
+    "section": "",
+    "text": "How much should we really budget?\nYour engineers say the infrastructure project will cost $100 Million. But material prices fluctuate, and strikes happen. Instead of one number, let’s simulate 1,000 possible futures.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex03_risk.html#how-much-should-we-really-budget",
+    "href": "notes/ex03_risk.html#how-much-should-we-really-budget",
+    "title": "Exercise 3: The Budget Monte Carlo",
+    "section": "",
+    "text": "Your engineers say the infrastructure project will cost $100 Million. But material prices fluctuate, and strikes happen. Instead of one number, let’s simulate 1,000 possible futures.\n```tmwxvitj set.seed(42) simulations &lt;- 1000"
+  },
+  {
+    "objectID": "notes/ex09_regression.html",
+    "href": "notes/ex09_regression.html",
+    "title": "Exercise 9: Is a Masters degree worth it?",
+    "section": "",
+    "text": "Returns to Education\nWe plot Years of Schooling (X) vs. Hourly Wage (Y). The slope of the blue line tells us the monetary value of one extra year of education.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex09_regression.html#returns-to-education",
+    "href": "notes/ex09_regression.html#returns-to-education",
+    "title": "Exercise 9: Is a Masters degree worth it?",
+    "section": "",
+    "text": "We plot Years of Schooling (X) vs. Hourly Wage (Y). The slope of the blue line tells us the monetary value of one extra year of education.\n```lepniqwp # 1. Generate Data n &lt;- 100 schooling &lt;- runif(n, 0, 20) # 0 to 20 years of school # Wage = 100 base + 50 per year of school + noise wage &lt;- 100 + (50 * schooling) + rnorm(n, 0, 150)"
+  },
+  {
+    "objectID": "notes/ex08_pval.html",
+    "href": "notes/ex08_pval.html",
+    "title": "Exercise 8: The P-Value Lottery",
+    "section": "",
+    "text": "Hacking the P-Value\nThe code below simulates a program that does NOTHING (Effect is 0). However, we will test it 100 times. How many times will we get a “Significant” result just by luck?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex08_pval.html#hacking-the-p-value",
+    "href": "notes/ex08_pval.html#hacking-the-p-value",
+    "title": "Exercise 8: The P-Value Lottery",
+    "section": "",
+    "text": "The code below simulates a program that does NOTHING (Effect is 0). However, we will test it 100 times. How many times will we get a “Significant” result just by luck?\n```gkxiteta set.seed(99) p_values &lt;- numeric(100)\nfor(i in 1:100) { # Generate two identical groups (No real difference) group_A &lt;- rnorm(30) group_B &lt;- rnorm(30)\n# Run t-test and save p-value p_values[i] &lt;- t.test(group_A, group_B)$p.value }"
+  },
+  {
+    "objectID": "notes/ex02_outliers.html",
+    "href": "notes/ex02_outliers.html",
+    "title": "Exercise 2: The ‘Lazy Intern’ Error",
+    "section": "",
+    "text": "Spot the Data Error\nReal government data is messy. In this dataset of 6th-grade student heights, a data entry error has occurred (using “999” for missing data).\nTask: Identify the outlier that is destroying the average and filter it out.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex02_outliers.html#spot-the-data-error",
+    "href": "notes/ex02_outliers.html#spot-the-data-error",
+    "title": "Exercise 2: The ‘Lazy Intern’ Error",
+    "section": "",
+    "text": "Real government data is messy. In this dataset of 6th-grade student heights, a data entry error has occurred (using “999” for missing data).\nTask: Identify the outlier that is destroying the average and filter it out.\n```nxigeiui # 1. Create a dataset with a data entry error # Normal kids are around 145cm heights &lt;- rnorm(100, mean = 145, sd = 10) # The error code (or a typo) added to the data heights &lt;- c(heights, 999)"
+  },
+  {
+    "objectID": "notes/ex04_bayes.html",
+    "href": "notes/ex04_bayes.html",
+    "title": "Exercise 4: The False Positive Trap",
+    "section": "",
+    "text": "Should we audit this municipality?\nWe have an AI that detects corruption with 90% accuracy. However, only 5% of municipalities are actually corrupt. If the AI flags a city, what is the probability it is actually corrupt?\n(Hint: It’s lower than you think).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex04_bayes.html#should-we-audit-this-municipality",
+    "href": "notes/ex04_bayes.html#should-we-audit-this-municipality",
+    "title": "Exercise 4: The False Positive Trap",
+    "section": "",
+    "text": "We have an AI that detects corruption with 90% accuracy. However, only 5% of municipalities are actually corrupt. If the AI flags a city, what is the probability it is actually corrupt?\n(Hint: It’s lower than you think).\n```rvujbndw n &lt;- 10000"
+  },
+  {
+    "objectID": "notes/ex_inference.html",
+    "href": "notes/ex_inference.html",
+    "title": "Exercise 5: The Pollster’s Nightmare",
+    "section": "",
+    "text": "Law of Large Numbers\nWhy do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n```hdiqsnwn # The Truth: 52% of the country approves the President true_approval &lt;- 0.52\n\n\nWe take samples of increasing size: 10, 50, 100, … up to 2000\nsample_sizes &lt;- seq(10, 2000, by = 10)\n\n\nCalculate the mean for each sample size\nmeasured_approval &lt;- sapply(sample_sizes, function(n) { sample_data &lt;- rbinom(n, 1, true_approval) # 1 = Approve, 0 = Disapprove mean(sample_data) })\n\n\nPlot the convergence\nplot(sample_sizes, measured_approval, type = “l”, col = “blue”, ylim = c(0, 1), main = “Convergence to Truth”, xlab = “Sample Size”, ylab = “Measured Approval”) abline(h = true_approval, col = “red”, lwd = 2, lty = 2)"
   }
 ]

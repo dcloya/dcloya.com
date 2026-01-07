@@ -1,8 +1,98 @@
 ---
-title: "About me"
+title: "David Contreras-Loya, PhD"
+subtitle: |
+  Research Professor \
+  Escuela de Gobierno y Transformación Pública \
+  Institute for Obesity Research \
+  Tecnológico de Monterrey \
+  E-mail: d.contreras [at] tec.mx
+description-meta: "Gang He is an energy scholar, researcher, and teacher. He is an Associate Professor at the Marxe School of Public and International Affairs, Baruch College, City University of New York. He studies and teaches energy systems, energy and climate policy, and clean energy transition."
+image: "files/AGT_5639.PNG"
+page-navigation: false
+toc: false
+#sidebar: false
+page-layout: full
+
+about:
+  id: hero-heading
+  template: trestles
+  image-width: 70%
+  links:
+    # - icon: sun
+    #   text: DeepPolicyLab
+    #   href: https://deeppolicylab.github.io
+    #   target: _blank
+    - text: "![](/files/simbolo-tec-black-small.png){width=20} TECprofile"   # use image logo
+      href: https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya
+      target: _blank     
+#    - icon: globe
+#      text: CUNYprofile
+#      href: https://www.baruch.cuny.edu/profiles/faculty/Gang-He
+#      target: _blank
+#    - icon: envelope
+#     text: E-mail
+#      href: mailto:gang.he@baruch.cuny.edu
+#    - icon: github
+#      text: Github
+#      href: https://github.com/drganghe
+#    - icon: twitter
+#      text: Twitter
+#      href: https://twitter.com/DrGangHe
+#    - icon: mastodon
+#      text: Mastodon
+#      href: https://mastodon.social/@hegang      
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/david-contreras-loya-8550bb44
+      target: _blank
+    - text: "{{< ai orcid >}} ORCID"   # use academic icons, "" are needed
+      href: https://orcid.org/0000-0002-4042-4372
+      target: _blank
+    - text: "{{< ai clarivate >}} Web of Science"
+      href: https://www.webofscience.com/wos/author/record/NWH-0285-2025
+      target: _blank
+    - text: "{{< ai scopus >}} Scopus"
+      href: https://www.scopus.com/authid/detail.uri?authorId=55971186800
+      target: _blank
+    - text: "{{< ai google-scholar >}} Google Scholar"
+      href: https://scholar.google.com/citations?user=vf90AuEAAAAJ
+      target: _blank
+    - text: "{{< ai researchgate >}} Research Gate"
+      href: https://www.researchgate.net/profile/David-Contreras-Loya-2
+      target: _blank
+
+listing:
+  - id: recent-posts
+    contents: 
+      - posts
+      - posts/post-links.yml
+#    exclude:
+#      title: " "
+    type: grid
+    max-items: 3
+#    image-height: 150px
+    page-size: 3 #set same as max-times to remove the page number setting
+    fields: [image, date, title, subtitle]
+    max-description-length: 75
+    sort: 
+      - "date desc"
+      - "title asc"
+# include-in-header: 
+#  - file: files/includes/_mswebmaster.js
 ---
 
-I am an applied micro-economist who studies health, management, productivity, and entrepreneurship.  
-My work in low- and middle-income countries focuses on designing and evaluating interventions that increase the human capital of individuals and firms.  
 
-In Mexico, my work relates to obesity and non-communicable diseases from the perspective of health services research and public policy.
+:::{#hero-heading}
+David Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at [Escuela de Gobierno y Transformación Pública](https://egobiernoytp.tec.mx/es), and is affiliated with the [Institute for Obesity Research](https://tec.mx/en/research/institute-obesity-research). He co-leads [Evidencia y Acción para la Equidad en Salud, EVIS](https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud), a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.
+
+He teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings. He also convenes Seminario Institucional en Salud, which brings practitioners and researchers into structured discussion on measurement, evaluation design, and implementation constraints in public programs.
+
+His research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as [Health Policy and Planning](https://doi.org/10.1093/heapol/czw161), [Social Science and Medicine](https://doi.org/10.1016/j.socscimed.2024.117646), the [National Bureau of Economic Research](https://www.nber.org/papers/w28845) and the [American Journal of Clinical Nutrition](https://doi.org/10.3945/ajcn.114.092775), and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.
+
+His research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by [VoxDev](https://voxdev.org/topic/education/how-skills-training-can-boost-entrepreneurship-and-job-creation-evidence-uganda) and [Mexico Business News](https://mexicobusiness.news/health/news/building-value-based-healthcare-model-mexico), and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.
+
+His work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including [African Health Markets for Equity](https://www.povertyactionlab.org/evaluation/evaluating-african-health-market-equity-ahme-initiative-kenya) and [Skills for Effective Entrepreneurship Development](https://policycommons.net/artifacts/3533984/cedil-research-project-paper-11/4335197/), and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.
+
+Previously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D. in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.
+
+:::

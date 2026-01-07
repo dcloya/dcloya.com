@@ -1,0 +1,30 @@
+---
+title: "Exercise 9: Is a Masters degree worth it?"
+format: html
+filters:
+  - webr
+---
+
+# Returns to Education
+
+We plot **Years of Schooling** (X) vs. **Hourly Wage** (Y). The slope of the blue line tells us the monetary value of one extra year of education.
+
+```{webr-r}
+# 1. Generate Data
+n <- 100
+schooling <- runif(n, 0, 20) # 0 to 20 years of school
+# Wage = 100 base + 50 per year of school + noise
+wage <- 100 + (50 * schooling) + rnorm(n, 0, 150) 
+
+# 2. Run Regression
+model <- lm(wage ~ schooling)
+
+# 3. Plot
+plot(schooling, wage, pch = 16, col = "gray", 
+     xlab = "Years of Schooling", ylab = "Hourly Wage ($MXN)")
+abline(model, col = "blue", lwd = 3)
+
+# 4. View Results
+cat("Base Wage (Intercept): $", round(coef(model)[1], 2), "\n")
+cat("Value of 1 Year of School (Slope): $", round(coef(model)[2], 2))
+```

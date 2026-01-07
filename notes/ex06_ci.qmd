@@ -1,0 +1,45 @@
+---
+title: "Exercise 6: Capturing the Truth"
+format: html
+filters:
+  - webr
+---
+
+# Visualizing Confidence Intervals
+
+The red line is the **TRUE** unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.
+
+```{webr-r}
+#| warning: false
+library(ggplot2)
+set.seed(55)
+
+# 1. Setup
+true_mean <- 8.5
+n_studies <- 20
+sample_size <- 50
+
+# 2. Simulate Studies
+studies <- data.frame(id = 1:n_studies, mean = NA, lower = NA, upper = NA)
+
+for(i in 1:n_studies) {
+  # Take a random sample
+  samp <- rnorm(sample_size, mean = true_mean, sd = 2)
+  # Calculate interval (roughly mean +/- 2 standard errors)
+  studies$mean[i] <- mean(samp)
+  se <- sd(samp) / sqrt(sample_size)
+  studies$lower[i] <- mean(samp) - 1.96 * se
+  studies$upper[i] <- mean(samp) + 1.96 * se
+}
+
+# 3. Check which ones "failed" to capture the truth
+studies$captured <- studies$lower < true_mean & studies$upper > true_mean
+
+# 4. Plot
+ggplot(studies, aes(x = id, y = mean, color = captured)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = lower, ymax = upper)) +
+  geom_hline(yintercept = true_mean, color = "red", linetype = "dashed") +
+  labs(title = "95% Confidence Intervals", subtitle = "Red = Failed to capture truth") +
+  coord_flip()
+```

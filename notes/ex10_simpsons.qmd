@@ -1,0 +1,40 @@
+---
+title: "Exercise 10: The Hidden Variable"
+format: html
+filters:
+  - webr
+---
+
+# Simpson's Paradox
+
+It looks like **Private** schools have LOWER scores than **Public** ones. But is that fair? Private schools in this dataset are located in tougher zones. Run the code to see what happens when we control for the "Difficulty" of the zone.
+
+```{webr-r}
+#| warning: false
+library(ggplot2)
+
+# 1. Generate Simpson's Paradox Data
+n <- 200
+type <- sample(c("Private", "Public"), n, replace=TRUE)
+
+# Private schools are in tougher zones (higher difficulty)
+difficulty <- ifelse(type == "Private", rnorm(n, 8, 1), rnorm(n, 4, 1))
+
+# Score depends on Difficulty (negative) + Type (Private is actually better by +2)
+score <- 100 - (5 * difficulty) + ifelse(type=="Private", 2, 0) + rnorm(n)
+
+df <- data.frame(type, difficulty, score)
+
+# 2. Naive Plot (Looks like Private is worse)
+ggplot(df, aes(x = difficulty, y = score, color = type)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Simpson's Paradox", subtitle = "Look at the lines within the groups vs overall trend")
+
+# 3. The Naive Regression
+cat("Naive comparison (Private looks bad):\n")
+print(coef(lm(score ~ type, data = df))) 
+
+cat("\nCorrect comparison (Controlling for difficulty, Private is +2):\n")
+print(coef(lm(score ~ type + difficulty, data = df)))
+```

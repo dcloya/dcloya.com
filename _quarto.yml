@@ -2,21 +2,138 @@ project:
   type: website
   output-dir: docs
 
+filters:
+  - webr
+
+# Meta
+description-meta: "Academic website for Dr. David Contreras-Loya"
+author-meta: "Dr. David Contreras-Loya"
+
 website:
   title: "David Contreras-Loya"
+  image: "https://quarto.org/quarto.png"
+  description: "Academic website for Dr. David Contreras-Loya"
+  site-url: "https://drganghe.github.io/quarto-academic-website-template"
+  repo-url: https://github.com/dcloya/dcloya.com
+  
+  # Search configuration
+  search:
+    location: navbar
+    type: textbox
+
   navbar:
+    background: light
     left:
-      - text: "About"
-        href: index.qmd
-      - text: "Notes"
+      - text: About
         menu:
-          - text: "IV"
-            href: notes/iv.Rmd
-      - text: "CV"
-        href: cv.qmd
-      - text: "Ongoing research"
-        href: ongoing.qmd
-      - text: "Published research"
-        href: publications.qmd
-      - text: "Contact"
-        href: contact.qmd
+          - text: Contact
+            href: contact.qmd            
+      - text: Research
+        menu:
+          - text: List of Publications
+            href: publications.qmd
+          - text: Ongoing Research
+            href: ongoing.qmd
+      
+      # --- FIXED TEACHING SECTION (FLATTENED) ---
+      - text: Teaching
+        menu:
+          - text: "Course Overview"
+            href: notes/prova.qmd
+          - text: "---"
+          
+          # Bloque 1
+          - text: "B1: Datos y Viz"
+          - text: "Ex 1: Desigualdad (Promedios)"
+            href: notes/ex01_average.qmd
+          - text: "Ex 2: Limpieza de Datos"
+            href: notes/ex02_outliers.qmd
+          - text: "---"
+          
+          # Bloque 2
+          - text: "B2: Riesgo"
+          - text: "Ex 3: Presupuesto (Monte Carlo)"
+            href: notes/ex03_risk.qmd
+          - text: "Ex 4: Probabilidad Condicional"
+            href: notes/ex04_bayes.qmd
+          - text: "---"
+          
+          # Bloque 3
+          - text: "B3: Inferencia I"
+          - text: "Ex 5: Ley Grandes Números"
+            href: notes/ex05_lln.qmd
+          - text: "Ex 6: Intervalos de Confianza"
+            href: notes/ex06_ci.qmd
+          - text: "---"
+          
+          # Bloque 4
+          - text: "B4: Inferencia II"
+          - text: "Ex 7: A/B Testing (T-Test)"
+            href: notes/ex07_ttest.qmd
+          - text: "Ex 8: El P-Valor"
+            href: notes/ex08_pval.qmd
+          - text: "---"
+          
+          # Bloque 5
+          - text: "B5: Causalidad"
+          - text: "Ex 9: Regresión Simple"
+            href: notes/ex09_regression.qmd
+          - text: "Ex 10: Paradoja de Simpson"
+            href: notes/ex10_simpsons.qmd
+
+    right: 
+      - text: CV
+        href: files/nsf-biosketch.pdf
+      - icon: github
+        href: https://github.com/dcloya
+        target: _blank
+      - icon: mortarboard
+        href: https://scholar.google.es/citations?user=axuzNJ0AAAAJ
+        target: _blank
+      - icon: linkedin
+        href: https://www.linkedin.com/in/david-contreras-loya-8550bb44
+        target: _blank   
+
+  page-navigation: true
+  
+  page-footer: 
+    left: "[David Contreras-Loya](https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya) &copy; <script>document.write(new Date().getFullYear())</script>" 
+    center: "Built on [Quarto Academic Website Template](https://github.com/drganghe/quarto-academic-website-template)"
+    right:  
+      - icon: github
+        href: https://github.com/dcloya
+        target: _blank
+      - icon: mortarboard
+        href: https://scholar.google.es/citations?user=axuzNJ0AAAAJ
+        target: _blank
+      - icon: linkedin
+        href: https://www.linkedin.com/in/david-contreras-loya-8550bb44
+        target: _blank   
+
+  reader-mode: true
+  draft-mode: unlinked
+  open-graph: true
+  twitter-card: true 
+  
+  google-analytics:
+    tracking-id: ""  
+    anonymize-ip: true 
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    footnotes-hover: true
+    code-copy: true
+    code-link: true
+    code-overflow: wrap
+    fig-align: center
+    link-external-icon: false
+    link-external-newwindow: true
+    email-obfuscation: javascript
+    include-in-header:
+      text: |
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">

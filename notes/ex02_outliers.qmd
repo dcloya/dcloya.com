@@ -1,0 +1,31 @@
+---
+title: "Exercise 2: The 'Lazy Intern' Error"
+format: html
+filters:
+  - webr
+---
+
+# Spot the Data Error
+
+Real government data is messy. In this dataset of 6th-grade student heights, a data entry error has occurred (using "999" for missing data). 
+
+**Task:** Identify the outlier that is destroying the average and filter it out.
+
+```{webr-r}
+# 1. Create a dataset with a data entry error
+# Normal kids are around 145cm
+heights <- rnorm(100, mean = 145, sd = 10) 
+# The error code (or a typo) added to the data
+heights <- c(heights, 999) 
+
+# 2. Visualize the problem
+hist(heights, main = "Histogram with Outlier", col = "#ff6b6b", breaks = 20)
+
+# 3. YOUR TURN: Filter the data
+# We only want heights below 200cm
+clean_heights <- heights[heights < 200]
+
+# 4. Check the "clean" average vs the "dirty" average
+cat("Average (Dirty):", round(mean(heights), 2), "cm\n")
+cat("Average (Clean):", round(mean(clean_heights), 2), "cm")
+```
