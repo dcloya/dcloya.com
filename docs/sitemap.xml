@@ -1,67 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/index.html</loc>
-    <lastmod>2026-01-04T14:51:37.904Z</lastmod>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/cv.html</loc>
+    <lastmod>2025-08-14T18:44:30.054Z</lastmod>
   </url>
   <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/prova.html</loc>
-    <lastmod>2025-12-29T13:11:27.917Z</lastmod>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/README_EJERCICIOS.html</loc>
+    <lastmod>2026-01-16T02:00:54.918Z</lastmod>
   </url>
   <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/contact.html</loc>
-    <lastmod>2025-08-14T18:49:03.332Z</lastmod>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex07_ttest_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/INSTRUCCIONES_USO.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex03_montecarlo_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/INDICE_COMPLETO.html</loc>
+    <lastmod>2026-01-13T10:58:14.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex10_simpsons_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex09_regression_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_setup_guide.html</loc>
+    <lastmod>2026-01-07T21:06:22.150Z</lastmod>
   </url>
   <url>
     <loc>https://drganghe.github.io/quarto-academic-website-template/publications.html</loc>
     <lastmod>2025-08-14T18:45:09.639Z</lastmod>
   </url>
   <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex01_average.html</loc>
-    <lastmod>2026-01-04T16:08:29.760Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex06_ci.html</loc>
-    <lastmod>2026-01-04T16:09:11.923Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex05_lln.html</loc>
-    <lastmod>2026-01-04T16:09:01.530Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex07_ttest.html</loc>
-    <lastmod>2026-01-04T16:09:19.033Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex10_simpsons.html</loc>
-    <lastmod>2026-01-04T16:09:34.224Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex03_risk.html</loc>
-    <lastmod>2026-01-04T16:08:40.586Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex09_regression.html</loc>
-    <lastmod>2026-01-04T16:09:27.481Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex08_pval.html</loc>
-    <lastmod>2026-01-04T16:09:23.371Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex02_outliers.html</loc>
-    <lastmod>2026-01-04T16:08:35.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex04_bayes.html</loc>
-    <lastmod>2026-01-04T16:08:53.340Z</lastmod>
-  </url>
-  <url>
-    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex_inference.html</loc>
-    <lastmod>2025-12-31T22:59:06.540Z</lastmod>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/contact.html</loc>
+    <lastmod>2025-08-14T18:49:03.332Z</lastmod>
   </url>
   <url>
     <loc>https://drganghe.github.io/quarto-academic-website-template/ongoing.html</loc>
     <lastmod>2025-08-14T18:50:54.602Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/index.html</loc>
+    <lastmod>2026-01-10T01:04:35.388Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/about.html</loc>
+    <lastmod>2025-08-14T18:02:34.072Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex04_bayes_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex08_pval_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex06_ci_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex05_sampling_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex02_visualization_integrated.html</loc>
+    <lastmod>2026-01-13T10:53:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_getting_started.html</loc>
+    <lastmod>2026-01-09T00:28:56.032Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/ex01_average_integrated.html</loc>
+    <lastmod>2026-01-16T19:06:19.357Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_data_wrangling.html</loc>
+    <lastmod>2026-01-09T00:40:49.518Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_setup_guide_es.html</loc>
+    <lastmod>2026-01-16T15:42:33.767Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_getting_started_es.html</loc>
+    <lastmod>2026-01-16T16:57:24.848Z</lastmod>
+  </url>
+  <url>
+    <loc>https://drganghe.github.io/quarto-academic-website-template/notes/r_data_wrangling_es.html</loc>
+    <lastmod>2026-01-16T21:35:14.000Z</lastmod>
   </url>
 </urlset>

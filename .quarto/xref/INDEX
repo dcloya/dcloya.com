@@ -58,5 +58,74 @@
   },
   "notes/ex_inference.qmd": {
     "ex_inference.html": "e6e6f34e"
+  },
+  "notes/r_setup_guide.qmd": {
+    "r_setup_guide.html": "eb5c116a"
+  },
+  "notes/r_getting_started.qmd": {
+    "r_getting_started.html": "c21f3270"
+  },
+  "notes/r_data_wrangling.qmd": {
+    "r_data_wrangling.html": "763c2dc6"
+  },
+  "notes/INDICE_COMPLETO.md": {
+    "INDICE_COMPLETO.html": "a3c2755e"
+  },
+  "notes/ex04_bayes_integrated.qmd": {
+    "ex04_bayes_integrated.html": "6ab373f3"
+  },
+  "notes/ex09_regression_integrated.qmd": {
+    "ex09_regression_integrated.html": "c19eaed2"
+  },
+  "notes/ex08_pval_integrated.qmd": {
+    "ex08_pval_integrated.html": "f7c8c714"
+  },
+  "notes/ex10_simpsons_integrated.qmd": {
+    "ex10_simpsons_integrated.html": "cf2efc02"
+  },
+  "notes/ex06_ci_integrated.qmd": {
+    "ex06_ci_integrated.html": "dd072a70"
+  },
+  "notes/INSTRUCCIONES_USO.md": {
+    "INSTRUCCIONES_USO.html": "c90e6259"
+  },
+  "notes/ex05_sampling_integrated.qmd": {
+    "ex05_sampling_integrated.html": "ee1d2eb4"
+  },
+  "notes/ex03_montecarlo_integrated.qmd": {
+    "ex03_montecarlo_integrated.html": "378e7fdd"
+  },
+  "notes/ex02_visualization_integrated.qmd": {
+    "ex02_visualization_integrated.html": "983901dc"
+  },
+  "notes/README_EJERCICIOS.md": {
+    "README_EJERCICIOS.html": "0ae6a239"
+  },
+  "notes/ex07_ttest_integrated.qmd": {
+    "ex07_ttest_integrated.html": "55430f99"
+  },
+  "notes/ex01_average_integrated.qmd": {
+    "ex01_average_integrated.html": "01787aec"
+  },
+  "notes/INDICE_COMPLETO.qmd": {
+    "INDICE_COMPLETO.html": "75d48b5f"
+  },
+  "notes/INSTRUCCIONES_USO.qmd": {
+    "INSTRUCCIONES_USO.html": "cf69528b"
+  },
+  "notes/README_EJERCICIOS.qmd": {
+    "README_EJERCICIOS.html": "d591d2ed"
+  },
+  "notes/RESUMEN_CAMBIOS.md": {
+    "RESUMEN_CAMBIOS.html": "da08af2b"
+  },
+  "notes/r_getting_started_es.qmd": {
+    "r_getting_started_es.html": "6b4899ac"
+  },
+  "notes/r_data_wrangling_es.qmd": {
+    "r_data_wrangling_es.html": "1af271e7"
+  },
+  "notes/r_setup_guide_es.qmd": {
+    "r_setup_guide_es.html": "6b926a7d"
   }
 }

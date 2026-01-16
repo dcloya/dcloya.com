@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;David Contreras-Loya">
+<meta name="dcterms.date" content="2026-01-16">
+<meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+
+<title>Sección 0: Configuración de R – David Contreras-Loya</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id="></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '', { 'anonymize_ip': true});
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sección 0: Configuración de R – David Contreras-Loya">
+<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta property="og:image" content="https://quarto.org/quarto.png">
+<meta property="og:site_name" content="David Contreras-Loya">
+<meta name="twitter:title" content="Sección 0: Configuración de R – David Contreras-Loya">
+<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">David Contreras-Loya</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../contact.html">
+ <span class="dropdown-text">Contact</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
+        <li>
+    <a class="dropdown-item" href="../publications.html">
+ <span class="dropdown-text">List of Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ongoing.html">
+ <span class="dropdown-text">Ongoing Research</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">CONFIGURACION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../files/nsf-biosketch.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#antes-de-comenzar" id="toc-antes-de-comenzar" class="nav-link active" data-scroll-target="#antes-de-comenzar">Antes de comenzar</a></li>
+  <li><a href="#instalación" id="toc-instalación" class="nav-link" data-scroll-target="#instalación">Instalación</a>
+  <ul class="collapse">
+  <li><a href="#paso-1-instalar-r" id="toc-paso-1-instalar-r" class="nav-link" data-scroll-target="#paso-1-instalar-r">Paso 1: Instalar R</a></li>
+  <li><a href="#paso-2-instalar-rstudio" id="toc-paso-2-instalar-rstudio" class="nav-link" data-scroll-target="#paso-2-instalar-rstudio">Paso 2: Instalar RStudio</a></li>
+  </ul></li>
+  <li><a href="#actualización-de-instalaciones-existentes" id="toc-actualización-de-instalaciones-existentes" class="nav-link" data-scroll-target="#actualización-de-instalaciones-existentes">Actualización de instalaciones existentes</a></li>
+  <li><a href="#herramientas-adicionales-recomendadas" id="toc-herramientas-adicionales-recomendadas" class="nav-link" data-scroll-target="#herramientas-adicionales-recomendadas">Herramientas adicionales (recomendadas)</a>
+  <ul class="collapse">
+  <li><a href="#latex" id="toc-latex" class="nav-link" data-scroll-target="#latex">LaTeX</a></li>
+  <li><a href="#pandoc" id="toc-pandoc" class="nav-link" data-scroll-target="#pandoc">Pandoc</a></li>
+  </ul></li>
+  <li><a href="#funciona" id="toc-funciona" class="nav-link" data-scroll-target="#funciona">¿Funciona?</a></li>
+  <li><a href="#recursos-para-aprender-r" id="toc-recursos-para-aprender-r" class="nav-link" data-scroll-target="#recursos-para-aprender-r">Recursos para aprender R</a>
+  <ul class="collapse">
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos adicionales</a></li>
+  </ul></li>
+  <li><a href="#sugerencias-básicas-para-el-éxito" id="toc-sugerencias-básicas-para-el-éxito" class="nav-link" data-scroll-target="#sugerencias-básicas-para-el-éxito">Sugerencias básicas para el éxito</a>
+  <ul class="collapse">
+  <li><a href="#usa-scripts-de-r-no-solo-la-consola" id="toc-usa-scripts-de-r-no-solo-la-consola" class="nav-link" data-scroll-target="#usa-scripts-de-r-no-solo-la-consola">1. Usa scripts de R, no solo la consola</a></li>
+  <li><a href="#comenta-tu-código" id="toc-comenta-tu-código" class="nav-link" data-scroll-target="#comenta-tu-código">2. Comenta tu código</a></li>
+  <li><a href="#sé-consistente-con-las-convenciones-de-nombres" id="toc-sé-consistente-con-las-convenciones-de-nombres" class="nav-link" data-scroll-target="#sé-consistente-con-las-convenciones-de-nombres">3. Sé consistente con las convenciones de nombres</a></li>
+  <li><a href="#usa-nombres-de-archivo-descriptivos" id="toc-usa-nombres-de-archivo-descriptivos" class="nav-link" data-scroll-target="#usa-nombres-de-archivo-descriptivos">4. Usa nombres de archivo descriptivos</a></li>
+  <li><a href="#organiza-tus-archivos-y-usa-rutas-inteligentes" id="toc-organiza-tus-archivos-y-usa-rutas-inteligentes" class="nav-link" data-scroll-target="#organiza-tus-archivos-y-usa-rutas-inteligentes">5. Organiza tus archivos y usa rutas inteligentes</a></li>
+  </ul></li>
+  <li><a href="#necesitas-ayuda" id="toc-necesitas-ayuda" class="nav-link" data-scroll-target="#necesitas-ayuda">¿Necesitas ayuda?</a></li>
+  <li><a href="#listo-para-programar" id="toc-listo-para-programar" class="nav-link" data-scroll-target="#listo-para-programar">¡Listo para programar!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sección 0: Configuración de R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>David Contreras-Loya </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 16, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="antes-de-comenzar" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-comenzar">Antes de comenzar</h2>
+<p>Antes de nuestra primera sección, por favor asegúrate de tener instalaciones funcionales y actualizadas de <strong>R</strong> y <strong>RStudio</strong>. Los usaremos extensivamente en este curso, por lo que definitivamente vale la pena hacerlo bien.</p>
+<hr>
+</section>
+<section id="instalación" class="level2">
+<h2 class="anchored" data-anchor-id="instalación">Instalación</h2>
+<p>Si aún no tienes R y RStudio ejecutándose en tu computadora, entonces debes instalar ambos:</p>
+<section id="paso-1-instalar-r" class="level3">
+<h3 class="anchored" data-anchor-id="paso-1-instalar-r">Paso 1: Instalar R</h3>
+<p>Descarga e instala R desde el repositorio oficial de CRAN:</p>
+<ul>
+<li><strong>Windows</strong>: <a href="https://cran.r-project.org/bin/windows/base/">Descargar R para Windows</a></li>
+<li><strong>macOS</strong>: <a href="https://cran.r-project.org/bin/macosx/">Descargar R para macOS</a></li>
+<li><strong>Linux</strong>: <a href="https://cran.r-project.org/bin/linux/">Descargar R para Linux</a></li>
+</ul>
+</section>
+<section id="paso-2-instalar-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="paso-2-instalar-rstudio">Paso 2: Instalar RStudio</h3>
+<p>Descarga e instala RStudio Desktop (versión gratuita):</p>
+<ul>
+<li><strong>Todas las plataformas</strong>: <a href="https://posit.co/download/rstudio-desktop/">Descargar RStudio Desktop</a></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>RStudio</strong> es un IDE (Entorno de Desarrollo Integrado) súper útil para R—es muy útil tanto para aprender como para usar R.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="actualización-de-instalaciones-existentes" class="level2">
+<h2 class="anchored" data-anchor-id="actualización-de-instalaciones-existentes">Actualización de instalaciones existentes</h2>
+<p>Si ya tienes R y RStudio en tu computadora, entonces debes asegurarte de que estén <strong>actualizados</strong>:</p>
+<ul>
+<li><strong>Versión actual de R</strong>: 4.4.2 (2024-10-31) — <em>“Pile of Leaves”</em>
+<ul>
+<li>Verifica tu versión escribiendo <code>version</code> en la consola de R</li>
+</ul></li>
+<li><strong>Versión actual de RStudio</strong>: 2024.12.0 o más reciente
+<ul>
+<li>Verifica mediante: <em>Help → About RStudio</em></li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+¿Por qué actualizar?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las versiones más nuevas incluyen correcciones de errores, mejoras de rendimiento y nuevas características que hacen que tu experiencia de programación sea más fluida.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="herramientas-adicionales-recomendadas" class="level2">
+<h2 class="anchored" data-anchor-id="herramientas-adicionales-recomendadas">Herramientas adicionales (recomendadas)</h2>
+<section id="latex" class="level3">
+<h3 class="anchored" data-anchor-id="latex">LaTeX</h3>
+<p>Te recomendaría asegurarte de tener una instalación funcional de LaTeX para crear PDFs y composición tipográfica matemática:</p>
+<ul>
+<li><p><strong>Opción fácil</strong>: Instalar TinyTeX mediante R:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Instalación completa</strong>: <a href="https://miktex.org/">Descargar MiKTeX (Windows)</a> o <a href="https://www.tug.org/mactex/">MacTeX (macOS)</a></p></li>
+<li><p><strong>Alternativa en línea</strong>: <a href="https://www.overleaf.com/">Overleaf</a> (sin necesidad de instalación, incluye tutoriales de LaTeX)</p></li>
+</ul>
+</section>
+<section id="pandoc" class="level3">
+<h3 class="anchored" data-anchor-id="pandoc">Pandoc</h3>
+<p>Pandoc suele estar incluido con RStudio, pero puedes verificarlo ejecutando en R:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">pandoc_version</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Si es necesario, descarga desde: <a href="https://pandoc.org/installing.html">pandoc.org</a></p>
+<hr>
+</section>
+</section>
+<section id="funciona" class="level2">
+<h2 class="anchored" data-anchor-id="funciona">¿Funciona?</h2>
+<p>Probemos tu instalación:</p>
+<ol type="1">
+<li><p><strong>Abre RStudio</strong></p></li>
+<li><p>En la consola (panel inferior izquierdo), escribe:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Presiona <strong>Enter</strong></p></li>
+</ol>
+<p><strong>Resultado esperado:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si obtienes <code>[1] 2</code>, ¡felicidades! Todo está funcionando correctamente. ✅</p>
+<p>Si no, intenta reinstalar R y RStudio, o pide ayuda.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="recursos-para-aprender-r" class="level2">
+<h2 class="anchored" data-anchor-id="recursos-para-aprender-r">Recursos para aprender R</h2>
+<p>He compilado un gran conjunto de recursos para R. Probablemente no los necesites todos ahora mismo, pero ten en cuenta que están ahí. Sin embargo, <strong>los mejores recursos para aprender R son</strong>:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tu kit de herramientas de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Google</strong> (que probablemente te llevará a <a href="https://stackoverflow.com/">StackOverflow</a>)</li>
+<li><strong>Tiempo</strong> (¡práctica, práctica, práctica!)</li>
+<li><strong>Tus compañeros de clase</strong> (el aprendizaje colaborativo hace maravillas)</li>
+<li><strong>Yo</strong> (horas de oficina, correo electrónico, Slack/Teams)</li>
+</ol>
+</div>
+</div>
+<section id="recursos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="recursos-adicionales">Recursos adicionales</h3>
+<ul>
+<li><a href="https://r4ds.hadley.nz/">R for Data Science (2e)</a> de Hadley Wickham &amp; Garrett Grolemund</li>
+<li><a href="https://www.rstudio.com/resources/cheatsheets/">Hojas de referencia de RStudio</a></li>
+<li><a href="https://swirlstats.com/">Swirl</a> - Tutoriales interactivos de R</li>
+<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp</a> - Curso de introducción gratuito</li>
+<li><a href="https://www.r-bloggers.com/">R-bloggers</a> - Publicaciones de blog de la comunidad</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="sugerencias-básicas-para-el-éxito" class="level2">
+<h2 class="anchored" data-anchor-id="sugerencias-básicas-para-el-éxito">Sugerencias básicas para el éxito</h2>
+<section id="usa-scripts-de-r-no-solo-la-consola" class="level3">
+<h3 class="anchored" data-anchor-id="usa-scripts-de-r-no-solo-la-consola">1. Usa scripts de R, no solo la consola</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Casi todo lo que hagas debe estar en un script de R</strong>, en lugar de escribir directamente en la línea de comandos.</p>
+</div>
+</div>
+<p><strong>¿Por qué?</strong></p>
+<ul>
+<li>Puedes volver a tu código más tarde</li>
+<li>Puedes editar y mejorar tu trabajo</li>
+<li>Necesitas entregar scripts de R para las tareas</li>
+<li>¡Es investigación reproducible!</li>
+</ul>
+<p><strong>Cómo crear un script:</strong></p>
+<ul>
+<li>File → New File → R Script (o <code>Cmd/Ctrl + Shift + N</code>)</li>
+</ul>
+</section>
+<section id="comenta-tu-código" class="level3">
+<h3 class="anchored" data-anchor-id="comenta-tu-código">2. Comenta tu código</h3>
+<p>Los buenos comentarios hacen que tu código sea comprensible para otros (y para tu yo futuro):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Malo: Sin contexto</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Bueno: Explicación clara</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>price_per_unit <span class="ot">&lt;-</span> <span class="dv">5</span>           <span class="co"># Costo en dólares</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>total_cost <span class="ot">&lt;-</span> price_per_unit <span class="sc">*</span> <span class="dv">2</span>  <span class="co"># Dos unidades compradas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sé-consistente-con-las-convenciones-de-nombres" class="level3">
+<h3 class="anchored" data-anchor-id="sé-consistente-con-las-convenciones-de-nombres">3. Sé consistente con las convenciones de nombres</h3>
+<p>Elige un estilo y mantente en él:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Camel Case (recomendado para variables)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>myVariableName <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>calculateTotalCost <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { x <span class="sc">*</span> <span class="dv">2</span> }</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Snake Case (también popular)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>my_variable_name <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>calculate_total_cost <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { x <span class="sc">*</span> <span class="dv">2</span> }</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ¡Elige UNO y sé consistente!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Evita:</strong> - Comenzar nombres de variables con números: <code>2021data</code> ❌ - Usar palabras reservadas: <code>if</code>, <code>for</code>, <code>function</code> ❌ - Espacios en los nombres: <code>my variable</code> ❌</p>
+</div>
+</div>
+</section>
+<section id="usa-nombres-de-archivo-descriptivos" class="level3">
+<h3 class="anchored" data-anchor-id="usa-nombres-de-archivo-descriptivos">4. Usa nombres de archivo descriptivos</h3>
+<p>Sé inteligente al nombrar archivos y carpetas:</p>
+<p><strong>Nombres malos:</strong></p>
+<pre><code>cbn18319ddg890-7a.csv
+untitled1.R
+data.xlsx
+final_FINAL_v2_REALFINAL.R</code></pre>
+<p><strong>Nombres buenos:</strong></p>
+<pre><code>CensusCountyDemographics.csv
+01_DataCleaning.R
+HouseholdIncomeSurvey_2024.xlsx
+AnalyzeTaxReliefProgram.R</code></pre>
+<p><strong>Dos buenas convenciones de nombres:</strong></p>
+<ol type="1">
+<li><strong>Camel Case</strong>: <code>WhatAGreatFileName.csv</code></li>
+<li><strong>Snake Case</strong>: <code>what_a_great_file_name.csv</code></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Consejos profesionales
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Agrega fechas en formato AAAA-MM-DD: <code>2024-01-15_Analysis.R</code></li>
+<li>Numera archivos para mostrar el orden: <code>01_Import.R</code>, <code>02_Clean.R</code>, <code>03_Analyze.R</code></li>
+<li>Usa prefijos descriptivos: <code>fig_</code>, <code>tab_</code>, <code>data_</code></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="organiza-tus-archivos-y-usa-rutas-inteligentes" class="level3">
+<h3 class="anchored" data-anchor-id="organiza-tus-archivos-y-usa-rutas-inteligentes">5. Organiza tus archivos y usa rutas inteligentes</h3>
+<p>Haz tu vida más fácil:</p>
+<p><strong>Organizando en carpetas:</strong></p>
+<pre><code>MyProject/
+  ├── Data/
+  │   ├── Raw/
+  │   └── Processed/
+  ├── Scripts/
+  ├── Output/
+  │   ├── Figures/
+  │   └── Tables/
+  └── README.md</code></pre>
+<p><strong>Usando <code>paste0()</code> o <code>paste()</code> para rutas de archivo:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En lugar de escribir rutas completas cada vez:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/david/Documents/Project/Data/census.csv"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usa paste0() para flexibilidad:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>project_path <span class="ot">&lt;-</span> <span class="st">"/Users/david/Documents/Project"</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(project_path, <span class="st">"/Data/census.csv"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(data_path)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Aún mejor: usa rutas relativas con el paquete here</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"census.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Veremos más ejemplos de organización de archivos inteligente y gestión de rutas en la <strong>Sección 1</strong>.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="necesitas-ayuda" class="level2">
+<h2 class="anchored" data-anchor-id="necesitas-ayuda">¿Necesitas ayuda?</h2>
+<p>Si encuentras algún problema durante la instalación o configuración:</p>
+<ol type="1">
+<li><strong>Busca en Google</strong> tu mensaje de error</li>
+<li><strong>Consulta StackOverflow</strong> para problemas similares</li>
+<li><strong>Pregunta a tus compañeros</strong> en nuestro foro/Slack del curso</li>
+<li><strong>Contáctame</strong> durante las horas de oficina o por correo electrónico</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+¡No esperes hasta el último minuto!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Configura tu entorno de R <strong>antes</strong> de que venza la primera tarea. Las dificultades técnicas son más fáciles de resolver cuando no estás bajo presión de tiempo.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="listo-para-programar" class="level2">
+<h2 class="anchored" data-anchor-id="listo-para-programar">¡Listo para programar!</h2>
+<p>Una vez que todo esté configurado, ¡estás listo para comenzar a aprender R! Nos vemos en la Sección 1.</p>
+<p><em>¡Feliz programación!</em> 🚀</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<a href="https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya">David Contreras-Loya</a> ©
+<script>document.write(new Date().getFullYear())</script>
+</div>   
+    <div class="nav-footer-center">
+<p>Built on <a href="https://github.com/drganghe/quarto-academic-website-template">Quarto Academic Website Template</a></p>
+</div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank">
+      <i class="bi bi-mortarboard" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

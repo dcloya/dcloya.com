@@ -1,0 +1,693 @@
+---
+title: "Sección 1: Introducción a R"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    theme: cosmo
+    df-print: paged
+---
+
+# Lo que necesitarás
+
+1. Instalaciones funcionales y actualizadas de **R** y **RStudio**
+2. Una conexión a internet (para instalar paquetes)
+3. *Opcional:* Una fuente saludable de cafeína ☕
+
+# Resumen
+
+En esta sección nos sumergiremos en R. Comenzamos instalando y cargando paquetes útiles (`dplyr` y `pacman`). Luego cargamos el dataset clásico `iris` y comenzamos a resumirlo y manipularlo. Finalmente, haremos nuestras primeras gráficas.
+
+---
+
+# Paquetes en R
+
+Abre RStudio. Asegúrate de estar ejecutando las versiones más recientes de R y RStudio.
+
+::: {.callout-important}
+## Verifica tus versiones
+- **Versión de R**: 4.4.2 o más reciente
+- **Versión de RStudio**: 2024.12.0 o más reciente
+:::
+
+Aunque R base es útil y poderoso, el verdadero potencial de R proviene de combinar la instalación principal con los muchos paquetes generados a través de la colaboración de código abierto (ver [lista de paquetes de CRAN](https://cran.r-project.org/web/packages/available_packages_by_name.html)).
+
+## Instalación de paquetes
+
+Puedes verificar qué paquetes están instalados actualmente usando la función `installed.packages()`. ¿Listo para ejecutar tu primera función? Escribe `installed.packages()` en la consola de R y presiona enter.
+
+::: {.callout-tip}
+## Alternativa: Verifica la pestaña Packages
+También puedes verificar la pestaña **Packages** dentro de RStudio. Las casillas marcadas indican los paquetes que están actualmente cargados.
+:::
+
+Ahora, instalemos algunos paquetes que serán útiles este semestre. Usamos la función `install.packages()`, dándole el nombre(s) del paquete(s) que deseas instalar.
+
+```{r}
+#| eval: false
+
+# Instalar el paquete llamado "dplyr"
+install.packages("dplyr")
+
+# Instalar múltiples paquetes a la vez
+install.packages(c("dplyr", "ggplot2"))
+```
+
+### Notas importantes:
+
+0. **Necesitas una conexión a internet.**
+1. El nombre de la función `install.packages()` es plural independientemente del número de paquetes.
+2. El nombre de cada paquete está rodeado de **comillas** (*ej.*, `"dplyr"`). Estas comillas le dicen a R que esto es un carácter/cadena, no un objeto. Usa **comillas dobles** para consistencia.
+3. Podemos crear un **vector** de paquetes usando `c()`. Ejemplo: `c(1, 2, 3)` es un vector de tres elementos. De manera similar, `c("dplyr", "ggplot2")` es un vector de dos elementos con nombres de paquetes. **Los vectores son muy importantes en R.**
+4. El símbolo de número (`#`) crea **comentarios** en R.
+
+## Carga de paquetes
+
+Para verificar que las instalaciones fueron exitosas, cargaremos los paquetes usando la función `library()`:
+
+```{r}
+#| eval: false
+
+library(dplyr)
+library(ggplot2)
+```
+
+::: {.callout-note}
+Nota que no necesitamos comillas alrededor de los nombres de los paquetes al cargarlos (aunque aún funcionaría con comillas).
+:::
+
+## Gestión de paquetes con `pacman`
+
+Instalemos otro paquete: el paquete `pacman` (¡sí, como el juego! 🎮).
+
+```{r}
+#| eval: false
+
+# Instalar el paquete 'pacman'
+install.packages("pacman")
+
+# Cargarlo
+library(pacman)
+```
+
+El paquete `pacman` es muy meta: es un paquete para gestionar paquetes. Puedes usarlo para instalar, cargar, descargar y actualizar tus paquetes de R.
+
+En lugar de escribir `library(...)` para cada paquete, usa la función `p_load()` de `pacman`:
+
+```{r}
+#| eval: false
+
+# Forma antigua
+library(dplyr)
+library(ggplot2)
+
+# Forma nueva
+p_load(dplyr, ggplot2)
+```
+
+**Aún mejor:** Si intentas cargar un paquete que no está instalado, ¡`p_load()` lo instalará automáticamente! 
+
+```{r}
+#| eval: false
+
+# Esto instalará y cargará tidyr si no está instalado
+p_load(tidyr)
+```
+
+Instalado y cargado. ¡*Ese* es servicio! ✨
+
+---
+
+# Carga de datos
+
+## El dataset Iris
+
+El dataset **Iris** contiene mediciones de 150 flores de iris de tres especies diferentes (*Iris setosa*, *Iris versicolor*, e *Iris virginica*). Para cada flor se registraron cuatro características: la longitud y ancho del sépalo, y la longitud y ancho del pétalo (todas en centímetros).
+
+Este conjunto de datos fue introducido por el estadístico y biólogo Ronald Fisher en 1936 y se ha convertido en un clásico para enseñar análisis estadístico, clasificación y visualización de datos. Es uno de los datasets más utilizados en la enseñanza de ciencia de datos por su simplicidad, claridad y utilidad pedagógica.
+
+## Carga de datasets incluidos en R
+
+Una de las ventajas de R es que viene con varios datasets incorporados que podemos usar para practicar. El dataset `iris` es uno de ellos.
+
+Para cargar un dataset incorporado, usa la función `data()`:
+
+```{r}
+#| eval: false
+
+# Cargar el dataset iris
+data(iris)
+```
+
+::: {.callout-tip}
+## ¿Qué datasets están disponibles?
+Para ver todos los datasets incorporados en R, escribe:
+```{r}
+#| eval: false
+
+data()
+```
+:::
+
+::: {.callout-important}
+## El operador de asignación `<-`
+Aunque `iris` ya está disponible después de usar `data(iris)`, a menudo queremos crear una copia para trabajar con ella. El operador `<-` es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda. 
+
+Al leer en voz alta, la gente dice "obtiene": `flores` **obtiene** el contenido de `iris`.
+
+```{r}
+#| eval: false
+
+# Crear una copia del dataset
+flores <- iris
+```
+:::
+
+Para ver los datos, simplemente escribe su nombre:
+
+```{r}
+#| eval: false
+
+iris
+```
+
+## Funciones para cargar archivos externos
+
+Cuando trabajes con tus propios datos, necesitarás cargar archivos desde tu computadora. Principalmente usarás:
+
+- **Paquete `readr`**: para archivos CSV, TSV y delimitados
+- **Paquete `haven`**: para archivos de Stata (`.dta`), SPSS y SAS
+- **R base**: para los formatos propios de R (`.rds`, `.rdata`)
+
+::: {.callout-tip}
+## Aprende sobre las funciones
+Para aprender más sobre una función:
+
+1. Presiona **Tab** después de escribir el nombre de la función (en RStudio)
+2. Escribe `?function_name` en la consola (*ej.*, `?read.csv`)
+:::
+
+### Ejemplo: Cargar un archivo CSV
+
+```{r}
+#| eval: false
+
+# Si tuvieras un archivo CSV
+library(readr)
+mis_datos <- read_csv("ruta/a/mi_archivo.csv")
+```
+
+---
+
+# Jugando con datos
+
+Ahora que tenemos el dataset `iris` cargado, ¡hagamos algo con esos datos!
+
+## Exploración de los datos
+
+Imprime los datos en la consola:
+
+```{r}
+#| eval: false
+
+iris
+```
+
+Nota varias cosas:
+
+1. El conjunto de datos es un **data frame** (la estructura básica de R para datos tabulares)
+2. Dimensiones: 150 filas × 5 columnas
+3. Tipos de columnas: numéricas (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) y factor (`Species`)
+4. Obtienes una vista de los primeros registros
+
+### Obtener nombres de columnas
+
+```{r}
+#| eval: false
+
+names(iris)
+```
+
+### Ver primeras/últimas filas
+
+```{r}
+#| eval: false
+
+# Primeras 6 filas
+head(iris)
+
+# Primeras 10 filas
+head(iris, n = 10)
+
+# Últimas 7 filas
+tail(iris, n = 7)
+```
+
+::: {.callout-tip}
+## Visor de datos de RStudio
+Usa `View(iris)` o haz clic en el conjunto de datos en el panel Environment para abrir el visor de datos de RStudio.
+:::
+
+### Estructura del dataset
+
+```{r}
+#| eval: false
+
+# Ver estructura detallada
+str(iris)
+```
+
+Esto te mostrará:
+- El tipo de objeto (data.frame)
+- Número de observaciones y variables
+- Nombre y tipo de cada variable
+- Los primeros valores de cada variable
+
+## Resumen de los datos
+
+Obtén un resumen rápido de tu conjunto de datos:
+
+```{r}
+#| eval: false
+
+summary(iris)
+```
+
+Esto te dará estadísticas descriptivas para cada variable:
+- Para variables numéricas: mínimo, 1er cuartil, mediana, media, 3er cuartil, máximo
+- Para factores: conteo de cada categoría
+
+Para resumir una **variable única**, usa `$` para tomarla:
+
+```{r}
+#| eval: false
+
+# Tomar la variable Sepal.Length
+iris$Sepal.Length
+
+# Resumir Sepal.Length
+summary(iris$Sepal.Length)
+
+# Otras funciones útiles
+mean(iris$Sepal.Length)    # Media
+median(iris$Sepal.Length)  # Mediana
+sd(iris$Sepal.Length)      # Desviación estándar
+min(iris$Sepal.Length)     # Mínimo
+max(iris$Sepal.Length)     # Máximo
+```
+
+::: {.callout-tip}
+## Acceso a variables
+`dataset$variable` es cómo tomas una columna específica. ¡El autocompletado de pestañas de RStudio también funciona aquí!
+:::
+
+## Manipulación de los datos
+
+El paquete `dplyr` ofrece herramientas útiles para manipulación de datos usando **verbos** como acciones.
+
+### `select()` - Elegir variables
+
+Mantén solo las variables que te interesan:
+
+```{r}
+#| eval: false
+
+# Cargar dplyr
+library(dplyr)
+
+# Seleccionar solo mediciones del sépalo y especie
+iris_sepalos <- select(iris, Sepal.Length, Sepal.Width, Species)
+
+# Ver resultado
+iris_sepalos
+```
+
+¡Ahora tenemos 150 filas pero solo 3 columnas!
+
+**Alternativa:** Excluir variables con un signo menos:
+
+```{r}
+#| eval: false
+
+# Todo excepto las mediciones de pétalos
+select(iris, -Petal.Length, -Petal.Width)
+```
+
+### `arrange()` - Ordenar datos
+
+Ordena los datos por una o más columnas:
+
+```{r}
+#| eval: false
+
+# Ordenar por longitud de sépalo
+arrange(iris, Sepal.Length)
+
+# Ordenar por especie, luego por longitud de sépalo
+arrange(iris, Species, Sepal.Length)
+```
+
+::: {.callout-warning}
+## ¡Se requiere asignación!
+Si ves `iris` ahora, no está ordenado. Debes **asignar** el resultado para cambiar el objeto:
+
+```{r}
+#| eval: false
+
+iris_ordenado <- arrange(iris, Sepal.Length)
+```
+:::
+
+Para orden **descendente**, usa `desc()`:
+
+```{r}
+#| eval: false
+
+# Flores con sépalos más largos primero
+arrange(iris, desc(Sepal.Length))
+```
+
+### `filter()` - Filtrar filas
+
+Mantén solo las filas que cumplan ciertas condiciones:
+
+```{r}
+#| eval: false
+
+# Solo flores setosa
+filter(iris, Species == "setosa")
+
+# Flores con sépalos largos (> 6 cm)
+filter(iris, Sepal.Length > 6)
+
+# Setosa con sépalos largos
+filter(iris, Species == "setosa", Sepal.Length > 5)
+```
+
+### `summarize()` - Crear resúmenes
+
+Crea resúmenes específicos de tus datos:
+
+```{r}
+#| eval: false
+
+# Media y DE de longitud de sépalo
+summarize(iris, 
+          media = mean(Sepal.Length), 
+          de = sd(Sepal.Length))
+
+# Múltiples estadísticas
+summarize(iris,
+          n_flores = n(),
+          media_sepalo = mean(Sepal.Length),
+          media_petalo = mean(Petal.Length),
+          max_sepalo = max(Sepal.Length))
+```
+
+### `group_by()` - Agrupar datos
+
+Combina `group_by()` con `summarize()` para análisis por grupos:
+
+```{r}
+#| eval: false
+
+# Estadísticas por especie
+iris %>%
+  group_by(Species) %>%
+  summarize(
+    n = n(),
+    media_sepalo = mean(Sepal.Length),
+    media_petalo = mean(Petal.Length)
+  )
+```
+
+::: {.callout-note}
+## El operador pipe `%>%`
+El operador `%>%` (pipe) te permite encadenar operaciones. Se lee como "luego". En este ejemplo: "toma iris, **luego** agrupa por especie, **luego** resume". Cubriremos esto más a fondo en la Sección 2.
+:::
+
+## Gráficas de los datos
+
+Las funciones de gráficas predeterminadas de R son simples pero efectivas. Cubriremos `ggplot2` más adelante, pero por ahora, hagamos gráficas rápidas.
+
+### Histograma
+
+Crea un histograma de longitud de sépalo:
+
+```{r}
+#| eval: false
+
+# Histograma simple
+hist(iris$Sepal.Length)
+```
+
+Hazlo más bonito con etiquetas y una línea en la media:
+
+```{r}
+#| eval: false
+
+# El histograma
+hist(
+  x = iris$Sepal.Length,
+  main = "Distribución de longitud de sépalo",
+  xlab = "Longitud de sépalo (cm)",
+  ylab = "Frecuencia",
+  col = "lightblue",
+  breaks = 15
+)
+
+# Agregar línea roja en la media
+abline(v = mean(iris$Sepal.Length), col = "red", lwd = 3, lty = 2)
+```
+
+### Gráfica de dispersión
+
+Grafica la relación entre longitud de sépalo y longitud de pétalo:
+
+```{r}
+#| eval: false
+
+plot(
+  x = iris$Sepal.Length,
+  y = iris$Petal.Length,
+  xlab = "Longitud de sépalo (cm)",
+  ylab = "Longitud de pétalo (cm)",
+  main = "Relación entre sépalo y pétalo",
+  pch = 19,        # Tipo de punto
+  col = "blue"     # Color
+)
+```
+
+### Gráfica por grupos
+
+Colorea los puntos según la especie:
+
+```{r}
+#| eval: false
+
+# Convertir especies a números para colores
+colores <- as.numeric(iris$Species)
+
+plot(
+  x = iris$Sepal.Length,
+  y = iris$Petal.Length,
+  xlab = "Longitud de sépalo (cm)",
+  ylab = "Longitud de pétalo (cm)",
+  main = "Relación sépalo-pétalo por especie",
+  pch = 19,
+  col = colores
+)
+
+# Agregar leyenda
+legend("topleft", 
+       legend = levels(iris$Species),
+       col = 1:3,
+       pch = 19)
+```
+
+### Boxplot
+
+Compara distribuciones entre especies:
+
+```{r}
+#| eval: false
+
+boxplot(Sepal.Length ~ Species, 
+        data = iris,
+        main = "Longitud de sépalo por especie",
+        xlab = "Especie",
+        ylab = "Longitud de sépalo (cm)",
+        col = c("lightgreen", "lightblue", "lightpink"))
+```
+
+::: {.callout-tip}
+## Estilo de código claro
+Recomiendo definir claramente los argumentos de función. Ayuda a mantener las cosas claras, ya que **el orden importa** cuando no estás nombrando los argumentos.
+:::
+
+---
+
+# Indexación
+
+Casi todo en R está indexado numéricamente. Puedes acceder a elementos individuales usando **corchetes** `[]`.
+
+## Indexación de vectores
+
+```{r}
+#| eval: false
+
+# Crear un vector
+x <- c(3, 5, 7, 9)
+
+# Tomar el segundo elemento
+x[2]  # Devuelve: 5
+
+# Tomar segundo y tercer elementos
+x[c(2, 3)]  # Devuelve: 5 7
+x[2:3]      # Mismo resultado
+
+# ¿Qué hace 2:3?
+2:3  # Crea secuencia: 2 3
+
+# ¿Y 1:10?
+1:10  # Crea secuencia de 1 a 10
+```
+
+## Indexación de data frames
+
+Los data frames tienen **filas y columnas**: `[fila, columna]`
+
+```{r}
+#| eval: false
+
+# Tomar primera fila (todas las columnas)
+iris[1, ]
+
+# Tomar primera columna (todas las filas)
+iris[, 1]
+
+# Tomar primeras 5 filas, primeras 3 columnas
+iris[1:5, 1:3]
+
+# Usar nombre de columna como índice
+iris[1:10, "Species"]
+
+# Combinar: primeras 10 filas de setosa
+iris[iris$Species == "setosa", ][1:10, ]
+```
+
+::: {.callout-note}
+## Orden fila, columna
+Recuerda: **Filas antes de columnas**. Deja en blanco para seleccionar todo.
+- `[1, ]` = primera fila, todas las columnas
+- `[, 2]` = todas las filas, segunda columna
+- `[3, 4]` = tercera fila, cuarta columna
+:::
+
+---
+
+# Desafío divertido
+
+::: {.callout-note icon="false"}
+## Prueba esto
+1. ¿Qué sucede si le das a `head()` o `tail()` un `n` **negativo**?
+2. ¿Puedes replicar este comportamiento usando indexación?
+3. ¿Puedes obtener todas las flores *excepto* las primeras 10 usando `head()`?
+4. ¿Cuántas flores de cada especie hay en el dataset? (Pista: usa `table()`)
+:::
+
+---
+
+# Problemas de práctica
+
+## Problemas con el dataset Iris
+
+::: {.callout-tip icon="false"}
+## Problema 1: Análisis descriptivo
+Usando el dataset `iris`:
+
+1. Calcula la media y desviación estándar de `Petal.Length`
+2. ¿Cuál es la flor con el pétalo más largo? (Pista: usa `which.max()`)
+3. Crea un subset con solo flores versicolor
+4. ¿Cuál es la media de `Sepal.Width` para flores versicolor?
+:::
+
+::: {.callout-tip icon="false"}
+## Problema 2: Manipulación de datos
+1. Crea un nuevo data frame con solo flores que tengan `Sepal.Length > 5`
+2. Ordena este nuevo data frame por `Petal.Length` en orden descendente
+3. Selecciona solo las columnas de mediciones de pétalos y especie
+4. ¿Cuántas filas tiene tu resultado final?
+:::
+
+## Problemas de álgebra lineal
+
+Algunos rompecabezas clásicos de R-encuentra-álgebra-lineal para tu disfrute:
+
+::: {.callout-tip icon="false"}
+## Problema 3: Matriz identidad
+Sea **I**₅ una matriz identidad de 5×5. Demuestra que **I**₅ es simétrica e idempotente usando funciones de R.
+
+**Pista:** Usa `diag(5)` para crear una matriz identidad.
+:::
+
+::: {.callout-tip icon="false"}
+## Problema 4: Matriz idempotente
+Genera una matriz idempotente de 2×2 **X**, donde **X** no es la matriz identidad. Demuestra que **X** = **XX**.
+
+**Pista:** Una matriz idempotente satisface **X** = **X**².
+:::
+
+::: {.callout-tip icon="false"}
+## Problema 5: Regresión lineal
+Genera dos variables aleatorias, **x** y **e**, de dimensión n = 100 tal que **x**, **e** ~ N(0, 1).
+
+Genera **y** de acuerdo a: y = x + e
+
+Muestra que regresar **y** sobre **x** usando `lm()` da estimaciones: β₀ ≈ 0 y β₁ ≈ 1.
+
+**Pista:** Usa `rnorm(100)` para generar variables aleatorias normales.
+:::
+
+::: {.callout-tip icon="false"}
+## Problema 6: Valores propios y traza
+Muestra que si λ₁, λ₂, ..., λ₅ son los valores propios de una matriz de 5×5 **A**, entonces:
+
+tr(**A**) = Σλᵢ (suma de valores propios)
+
+**Pista:** Usa `eigen()` para encontrar valores propios y `sum(diag())` para la traza.
+:::
+
+---
+
+# Puntos clave
+
+::: {.callout-important icon="true"}
+## Recuerda
+
+1. **Los paquetes extienden el poder de R** - Usa `pacman::p_load()` para gestión fácil
+2. **Datasets incorporados** - R incluye datasets como `iris` para practicar
+3. **La asignación es clave** - Usa `<-` para guardar resultados: `new_data <- old_data`
+4. **Verbos de `dplyr`** - `select()`, `filter()`, `arrange()`, `summarize()`, `group_by()` para manipulación de datos
+5. **Indexación con `[fila, columna]`** - Esencial para acceder a datos
+6. **Usa `$` para columnas** - `dataset$variable` toma una variable específica
+7. **Funciones de resumen** - `summary()`, `str()`, `head()`, `tail()` para exploración
+:::
+
+---
+
+# Recursos adicionales
+
+- [R for Data Science](https://r4ds.hadley.nz/) - Guía completa
+- [Hojas de referencia de RStudio](https://posit.co/resources/cheatsheets/) - Referencias rápidas
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r) - Comunidad de preguntas y respuestas
+- `?function_name` - Ayuda integrada de R
+- `?iris` - Documentación del dataset iris
+
+---
+
+**Siguiente:** Sección 2 - Manipulación de datos con dplyr

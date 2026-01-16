@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Exercise 8: The P-Value Lottery – David Contreras-Loya</title>
+<title>Sesión 1: La Tiranía del Promedio – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -378,7 +378,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"set.seed(99)\np_values <- numeric(100)\n\nfor(i in 1:100) {\n  # Generate two identical groups (No real difference)\n  group_A <- rnorm(30)\n  group_B <- rnorm(30)\n  \n  # Run t-test and save p-value\n  p_values[i] <- t.test(group_A, group_B)$p.value\n}\n\n# Count how many are \"Significant\" (< 0.05)\nfalse_discoveries <- sum(p_values < 0.05)\n\nhist(p_values, breaks = 20, main = \"Distribution of P-Values (Null is True)\")\nabline(v = 0.05, col = \"red\")\ncat(\"Number of False Positives:\", false_discoveries)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Cargar librerías\nlibrary(ggplot2)\n\n# Simulación de datos municipales (5000 hogares)\nset.seed(2026)\nn_urbano <- 3000\nn_rural <- 2000\n\n# Zona urbana: distribución log-normal (cola larga)\n# Hay algunos hogares de clase media-alta que inflan el promedio\ningreso_urbano <- rlnorm(n_urbano, meanlog = 5.8, sdlog = 0.65)\n\n# Zona rural: distribución más concentrada pero con menor ingreso\ningreso_rural <- rlnorm(n_rural, meanlog = 5.3, sdlog = 0.50)\n\n# Crear dataframe\ndatos <- data.frame(\n  ingreso_pc_usd = c(ingreso_urbano, ingreso_rural),\n  zona = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Vista previa de los datos\nhead(datos, 10)\ncat(\"\\n📊 Total de hogares en la base:\", nrow(datos), \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Calculemos el promedio que reporta el informe técnico\npromedio_general <- mean(datos$ingreso_pc_usd)\ncat(\"💰 Ingreso promedio general: $\", round(promedio_general, 2), \"USD/mes\\n\\n\")\n\n# Pero... ¿qué nos dice la MEDIANA?\nmediana_general <- median(datos$ingreso_pc_usd)\ncat(\"📍 Ingreso mediano (hogar típico): $\", round(mediana_general, 2), \"USD/mes\\n\\n\")\n\n# Diferencia entre media y mediana\ndiferencia <- promedio_general - mediana_general\ncat(\"⚠️  Diferencia (media - mediana): $\", round(diferencia, 2), \"USD\\n\")\ncat(\"    Esto representa un\", round(100 * diferencia/mediana_general, 1), \"% más\\n\\n\")\n\n# ¿Qué significa esta diferencia?\nif (diferencia > 50) {\n  cat(\"🔴 ALERTA: La distribución es ASIMÉTRICA (cola larga a la derecha).\\n\")\n  cat(\"   El promedio está inflado por hogares de altos ingresos.\\n\")\n  cat(\"   La mediana es una mejor medida del hogar 'típico'.\\n\")\n}","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Percentiles clave para política pública\npercentiles <- quantile(datos$ingreso_pc_usd, \n                        probs = c(0.10, 0.25, 0.50, 0.75, 0.90))\n\ncat(\"📊 DISTRIBUCIÓN DE INGRESOS (Percentiles)\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"P10 (10% más pobre):     $\", round(percentiles[1], 2), \"\\n\")\ncat(\"P25 (cuartil inferior):  $\", round(percentiles[2], 2), \"\\n\")\ncat(\"P50 (mediana):           $\", round(percentiles[3], 2), \"\\n\")\ncat(\"P75 (cuartil superior):  $\", round(percentiles[4], 2), \"\\n\")\ncat(\"P90 (10% más rico):      $\", round(percentiles[5], 2), \"\\n\\n\")\n\n# Rango intercuartil (IQR): donde vive el 50% central\niqr <- IQR(datos$ingreso_pc_usd)\ncat(\"📏 Rango Intercuartil (IQR): $\", round(iqr, 2), \"\\n\")\ncat(\"   (Distancia entre P25 y P75)\\n\\n\")\n\n# Desviación estándar (dispersión)\ndesv_std <- sd(datos$ingreso_pc_usd)\ncat(\"📈 Desviación Estándar: $\", round(desv_std, 2), \"\\n\")\ncat(\"   (Qué tanto se alejan los datos del promedio)\\n\\n\")\n\n# Coeficiente de variación (dispersión relativa)\ncv <- 100 * desv_std / promedio_general\ncat(\"🎯 Coeficiente de Variación:\", round(cv, 1), \"%\\n\")\ncat(\"   (> 30% indica alta heterogeneidad)\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tabla comparativa completa\ncat(\"\\n📋 TABLA COMPARATIVA: INGRESO POR ZONA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-20s %12s %12s %12s\\n\", \"Estadística\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"────────────────────────────────────────────────────────────\\n\")\n\n# Media\nmedia_urb <- mean(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmedia_rur <- mean(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Media\", \n            media_urb, media_rur, media_urb - media_rur))\n\n# Mediana\nmed_urb <- median(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmed_rur <- median(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Mediana\", \n            med_urb, med_rur, med_urb - med_rur))\n\n# P10\np10_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.10)\np10_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.10)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P10 (más pobre)\", \n            p10_urb, p10_rur, p10_urb - p10_rur))\n\n# P90\np90_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.90)\np90_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.90)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P90 (más rico)\", \n            p90_urb, p90_rur, p90_urb - p90_rur))\n\n# IQR\niqr_urb <- IQR(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\niqr_rur <- IQR(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"IQR (dispersión)\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"════════════════════════════════════════════════════════════\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histograma general con líneas de referencia\nhist(datos$ingreso_pc_usd, \n     breaks = 40, \n     col = \"steelblue\", \n     border = \"white\",\n     main = \"Distribución de Ingresos Per Cápita\",\n     xlab = \"Ingreso mensual (USD)\",\n     ylab = \"Frecuencia de hogares\",\n     xlim = c(0, 1500))\n\n# Línea vertical: media (promedio)\nabline(v = promedio_general, col = \"red\", lwd = 3, lty = 1)\n# Línea vertical: mediana\nabline(v = mediana_general, col = \"darkgreen\", lwd = 3, lty = 2)\n# Línea vertical: umbral de elegibilidad propuesto\nabline(v = 250, col = \"orange\", lwd = 2, lty = 3)\n\n# Leyenda\nlegend(\"topright\", \n       legend = c(\"Media ($420)\", \"Mediana\", \"Umbral ($250)\"),\n       col = c(\"red\", \"darkgreen\", \"orange\"),\n       lty = c(1, 2, 3),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Agregar texto explicativo\ntext(900, max(hist(datos$ingreso_pc_usd, plot=F, breaks=40)$counts) * 0.8,\n     \"Cola larga →\\nAlgunos hogares\\nde altos ingresos\\ninflan el promedio\",\n     pos = 4, col = \"red\", cex = 0.9)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot lado a lado\nboxplot(ingreso_pc_usd ~ zona, \n        data = datos,\n        col = c(\"coral\", \"lightgreen\"),\n        main = \"Comparación de Ingresos: Urbano vs Rural\",\n        ylab = \"Ingreso per cápita (USD/mes)\",\n        xlab = \"Zona\",\n        horizontal = FALSE,\n        notch = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 0.5)\n\n# Línea de referencia: umbral de elegibilidad\nabline(h = 250, col = \"blue\", lwd = 2, lty = 2)\n\n# Agregar anotaciones sobre los elementos del boxplot\nmtext(\"Línea central = Mediana\", side = 3, line = -2, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Caja = IQR (50% central)\", side = 3, line = -3, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Bigotes = Rango esperado\", side = 3, line = -4, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Puntos = Outliers\", side = 3, line = -5, at = 1, cex = 0.8, col = \"red\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ¿Cuántos hogares califican con el umbral de $250?\numbral <- 250\nelegibles <- sum(datos$ingreso_pc_usd < umbral)\npct_elegibles <- 100 * elegibles / nrow(datos)\n\ncat(\"\\n🎯 ANÁLISIS DE ELEGIBILIDAD\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Umbral propuesto:    $\", umbral, \"USD/mes\\n\\n\")\ncat(\"Hogares elegibles:   \", elegibles, \"\\n\")\ncat(\"Porcentaje total:    \", round(pct_elegibles, 1), \"%\\n\\n\")\n\n# Por zona\nelegibles_urb <- sum(datos$ingreso_pc_usd[datos$zona == \"Urbana\"] < umbral)\nelegibles_rur <- sum(datos$ingreso_pc_usd[datos$zona == \"Rural\"] < umbral)\n\npct_urb <- 100 * elegibles_urb / n_urbano\npct_rur <- 100 * elegibles_rur / n_rural\n\ncat(\"Zona Urbana:         \", elegibles_urb, \" hogares (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"Zona Rural:          \", elegibles_rur, \" hogares (\", round(pct_rur, 1), \"%)\\n\\n\")\n\n# Comparación con diferentes umbrales\numbrales <- c(200, 250, 300, p10_urb, med_rur)\nnombres_umbrales <- c(\"$200 (restrictivo)\", \"$250 (propuesto)\", \"$300 (amplio)\", \n                      \"P10 urbano\", \"Mediana rural\")\n\ncat(\"📊 SENSIBILIDAD DEL UMBRAL\\n\")\ncat(\"════════════════════════════════════════\\n\")\nfor (i in 1:length(umbrales)) {\n  n_elegibles <- sum(datos$ingreso_pc_usd < umbrales[i])\n  pct <- 100 * n_elegibles / nrow(datos)\n  cat(sprintf(\"%-20s: %4d hogares (%5.1f%%)\\n\", \n              nombres_umbrales[i], n_elegibles, pct))\n}","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear tabla profesional para presentar al Secretario\ncat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  RESUMEN EJECUTIVO: DISTRIBUCIÓN DE INGRESOS MUNICIPAL\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. PANORAMA GENERAL\\n\")\ncat(\"   • Total de hogares:              5,000\\n\")\ncat(\"   • Ingreso promedio:              $\", round(promedio_general, 2), \" USD/mes\\n\")\ncat(\"   • Ingreso MEDIANO (típico):      $\", round(mediana_general, 2), \" USD/mes\\n\")\ncat(\"   • Diferencia media-mediana:      +\", round(diferencia, 2), \" USD (\", \n    round(100*diferencia/mediana_general, 1), \"%)\\n\\n\")\n\ncat(\"2. ANÁLISIS POR PERCENTILES\\n\")\ncat(\"   • 10% más pobre (P10):           < $\", round(percentiles[1], 2), \"\\n\")\ncat(\"   • 25% inferior (P25):            < $\", round(percentiles[2], 2), \"\\n\")\ncat(\"   • 50% inferior (Mediana):        < $\", round(percentiles[3], 2), \"\\n\")\ncat(\"   • 25% superior (P75):            > $\", round(percentiles[4], 2), \"\\n\")\ncat(\"   • 10% más rico (P90):            > $\", round(percentiles[5], 2), \"\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\")\ncat(\"   • Rango intercuartil (IQR):      $\", round(iqr, 2), \"\\n\")\ncat(\"   • Desviación estándar:           $\", round(desv_std, 2), \"\\n\")\ncat(\"   • Coeficiente de variación:      \", round(cv, 1), \"%\\n\\n\")\n\ncat(\"4. COMPARACIÓN URBANO-RURAL\\n\")\ncat(\"   • Mediana urbana:                $\", round(med_urb, 2), \"\\n\")\ncat(\"   • Mediana rural:                 $\", round(med_rur, 2), \"\\n\")\ncat(\"   • Brecha:                        $\", round(med_urb - med_rur, 2), \"\\n\\n\")\n\ncat(\"5. ELEGIBILIDAD (Umbral $250)\\n\")\ncat(\"   • Hogares elegibles TOTAL:       \", elegibles, \" (\", round(pct_elegibles, 1), \"%)\\n\")\ncat(\"   • Elegibles zona urbana:         \", elegibles_urb, \" (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"   • Elegibles zona rural:          \", elegibles_rur, \" (\", round(pct_rur, 1), \"%)\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n💡 RECOMENDACIÓN PARA EL SECRETARIO\\n\")\ncat(\"════════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"📌 HALLAZGO PRINCIPAL:\\n\")\ncat(\"El ingreso promedio de $420 USD/mes NO representa al hogar típico.\\n\")\ncat(\"La distribución es altamente asimétrica con cola larga a la derecha.\\n\")\ncat(\"El hogar mediano gana $\", round(mediana_general, 2), \" USD/mes, \", \n    round(100 * diferencia/promedio_general, 1), \"% menos que el promedio.\\n\\n\")\n\ncat(\"🎯 IMPLICACIONES PARA POLÍTICA:\\n\")\ncat(\"1. Usar el PROMEDIO como referencia subestimaría la vulnerabilidad.\\n\")\ncat(\"2. Con umbral de $250, se cubre al \", round(pct_elegibles, 1), \"% de hogares.\\n\")\ncat(\"3. Existe desigualdad significativa entre zonas (CV = \", round(cv, 1), \"%).\\n\\n\")\n\ncat(\"✅ RECOMENDACIONES:\\n\")\ncat(\"1. Considerar umbrales diferenciados por zona:\\n\")\ncat(\"   - Zona urbana: P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Urbana\"], 0.25), 2), \"\\n\")\ncat(\"   - Zona rural:  P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Rural\"], 0.25), 2), \"\\n\\n\")\n\ncat(\"2. Focalizar en el P10-P25 para maximizar impacto en pobreza extrema.\\n\\n\")\n\ncat(\"3. Monitorear la cola superior (P90+) para posibles exclusiones.\\n\\n\")\n\ncat(\"⚠️  LIMITACIONES:\\n\")\ncat(\"• Estos datos NO incluyen ingresos informales (probable subestimación)\\n\")\ncat(\"• No considera composición del hogar (per cápita vs hogar total)\\n\")\ncat(\"• La muestra puede tener sesgo de selección si hay no-respuesta diferencial\\n\")\ncat(\"• No captura variabilidad temporal (ingreso en un solo mes)\\n\\n\")\n\ncat(\"════════════════════════════════════════════════════════════════\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1634,11 +1634,11 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Exercise 8: The P-Value Lottery – David Contreras-Loya">
+<meta property="og:title" content="Sesión 1: La Tiranía del Promedio – David Contreras-Loya">
 <meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Exercise 8: The P-Value Lottery – David Contreras-Loya">
+<meta name="twitter:title" content="Sesión 1: La Tiranía del Promedio – David Contreras-Loya">
 <meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -1692,59 +1692,76 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/prova.html">
- <span class="dropdown-text">Course Overview</span></a>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B1: Datos y Viz</li>
+        <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average.html">
- <span class="dropdown-text">Ex 1: Desigualdad (Promedios)</span></a>
+    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_outliers.html">
- <span class="dropdown-text">Ex 2: Limpieza de Datos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B2: Riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../notes/ex03_risk.html">
- <span class="dropdown-text">Ex 3: Presupuesto (Monte Carlo)</span></a>
+    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes.html">
- <span class="dropdown-text">Ex 4: Probabilidad Condicional</span></a>
+    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B3: Inferencia I</li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_lln.html">
- <span class="dropdown-text">Ex 5: Ley Grandes Números</span></a>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci.html">
- <span class="dropdown-text">Ex 6: Intervalos de Confianza</span></a>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B4: Inferencia II</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest.html">
- <span class="dropdown-text">Ex 7: A/B Testing (T-Test)</span></a>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex08_pval.html">
- <span class="dropdown-text">Ex 8: El P-Valor</span></a>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B5: Causalidad</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression.html">
- <span class="dropdown-text">Ex 9: Regresión Simple</span></a>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons.html">
- <span class="dropdown-text">Ex 10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
   </li>  
     </ul>
   </li>
@@ -1790,7 +1807,19 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#hacking-the-p-value" id="toc-hacking-the-p-value" class="nav-link active" data-scroll-target="#hacking-the-p-value">Hacking the P-Value</a></li>
+  <li><a href="#caso-de-política-pública" id="toc-caso-de-política-pública" class="nav-link active" data-scroll-target="#caso-de-política-pública">Caso de Política Pública</a></li>
+  <li><a href="#parte-1-carga-y-exploración-de-datos" id="toc-parte-1-carga-y-exploración-de-datos" class="nav-link" data-scroll-target="#parte-1-carga-y-exploración-de-datos">Parte 1: Carga y Exploración de Datos</a></li>
+  <li><a href="#parte-2-estadísticas-descriptivas-básicas" id="toc-parte-2-estadísticas-descriptivas-básicas" class="nav-link" data-scroll-target="#parte-2-estadísticas-descriptivas-básicas">Parte 2: Estadísticas Descriptivas Básicas</a></li>
+  <li><a href="#parte-3-análisis-por-percentiles-las-colas-importan" id="toc-parte-3-análisis-por-percentiles-las-colas-importan" class="nav-link" data-scroll-target="#parte-3-análisis-por-percentiles-las-colas-importan">Parte 3: Análisis por Percentiles (Las Colas Importan)</a></li>
+  <li><a href="#parte-4-comparación-por-zona-urbano-vs-rural" id="toc-parte-4-comparación-por-zona-urbano-vs-rural" class="nav-link" data-scroll-target="#parte-4-comparación-por-zona-urbano-vs-rural">Parte 4: Comparación por Zona (Urbano vs Rural)</a></li>
+  <li><a href="#parte-5-visualización-1---histograma" id="toc-parte-5-visualización-1---histograma" class="nav-link" data-scroll-target="#parte-5-visualización-1---histograma">Parte 5: Visualización 1 - Histograma</a></li>
+  <li><a href="#parte-6-visualización-2---boxplot-comparativo" id="toc-parte-6-visualización-2---boxplot-comparativo" class="nav-link" data-scroll-target="#parte-6-visualización-2---boxplot-comparativo">Parte 6: Visualización 2 - Boxplot Comparativo</a></li>
+  <li><a href="#parte-7-análisis-de-elegibilidad" id="toc-parte-7-análisis-de-elegibilidad" class="nav-link" data-scroll-target="#parte-7-análisis-de-elegibilidad">Parte 7: Análisis de Elegibilidad</a></li>
+  <li><a href="#parte-8-tabla-resumen-para-memo-ejecutivo" id="toc-parte-8-tabla-resumen-para-memo-ejecutivo" class="nav-link" data-scroll-target="#parte-8-tabla-resumen-para-memo-ejecutivo">Parte 8: Tabla Resumen para Memo Ejecutivo</a></li>
+  <li><a href="#parte-9-recomendación-basada-en-evidencia" id="toc-parte-9-recomendación-basada-en-evidencia" class="nav-link" data-scroll-target="#parte-9-recomendación-basada-en-evidencia">Parte 9: Recomendación Basada en Evidencia</a></li>
+  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
+  <li><a href="#preguntas-de-discusión" id="toc-preguntas-de-discusión" class="nav-link" data-scroll-target="#preguntas-de-discusión">Preguntas de Discusión</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos Adicionales</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,7 +2112,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercise 8: The P-Value Lottery</h1>
+<h1 class="title">Sesión 1: La Tiranía del Promedio</h1>
 </div>
 
 
@@ -2100,11 +2129,125 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="hacking-the-p-value" class="level1">
-<h1>Hacking the P-Value</h1>
-<p>The code below simulates a program that does <strong>NOTHING</strong> (Effect is 0). However, we will test it <strong>100 times</strong>. How many times will we get a “Significant” result just by luck?</p>
+<section id="caso-de-política-pública" class="level1">
+<h1>Caso de Política Pública</h1>
+<p>Un municipio está diseñando un <strong>programa de subsidios alimentarios</strong> para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de <strong>$420 USD/mes</strong>. El Secretario de Desarrollo Social propone establecer el umbral de elegibilidad en $250 USD/mes.</p>
+<p><strong>Tu tarea:</strong> Analizar la distribución de ingresos para determinar: - ¿Cuántos hogares califican para el subsidio? - ¿El promedio representa bien a la población? - ¿Hay diferencias importantes entre zonas urbanas y rurales?</p>
+<hr>
+</section>
+<section id="parte-1-carga-y-exploración-de-datos" class="level1">
+<h1>Parte 1: Carga y Exploración de Datos</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de reflexión:</strong> ¿Por qué simulamos una distribución log-normal en vez de una normal? ¿Qué implica esto sobre la realidad del ingreso?</p>
+<hr>
+</section>
+<section id="parte-2-estadísticas-descriptivas-básicas" class="level1">
+<h1>Parte 2: Estadísticas Descriptivas Básicas</h1>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Para discutir:</strong> Si el promedio es $420 pero la mediana es menor, ¿qué implica esto para el diseño del programa?</p>
+<hr>
+</section>
+<section id="parte-3-análisis-por-percentiles-las-colas-importan" class="level1">
+<h1>Parte 3: Análisis por Percentiles (Las Colas Importan)</h1>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Ejercicio práctico:</strong> 1. ¿Qué porcentaje de hogares gana menos de $250/mes? 2. ¿Deberíamos usar P10 o P25 como criterio de elegibilidad?</p>
+<hr>
+</section>
+<section id="parte-4-comparación-por-zona-urbano-vs-rural" class="level1">
+<h1>Parte 4: Comparación por Zona (Urbano vs Rural)</h1>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpretación clave:</strong> - ¿En qué zona hay mayor desigualdad interna? - ¿Deberían ser diferentes los criterios de elegibilidad por zona?</p>
+<hr>
+</section>
+<section id="parte-5-visualización-1---histograma" class="level1">
+<h1>Parte 5: Visualización 1 - Histograma</h1>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de análisis:</strong> ¿Qué nos dice la forma de este histograma sobre la distribución del ingreso?</p>
+<hr>
+</section>
+<section id="parte-6-visualización-2---boxplot-comparativo" class="level1">
+<h1>Parte 6: Visualización 2 - Boxplot Comparativo</h1>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Elementos del boxplot:</strong> - <strong>Línea central:</strong> mediana (P50) - <strong>Caja:</strong> contiene el 50% central de los datos (P25 a P75) - <strong>Bigotes:</strong> se extienden hasta 1.5×IQR - <strong>Puntos rojos:</strong> valores atípicos (outliers)</p>
+<hr>
+</section>
+<section id="parte-7-análisis-de-elegibilidad" class="level1">
+<h1>Parte 7: Análisis de Elegibilidad</h1>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de política:</strong> - ¿Qué umbral recomendarías y por qué? - ¿Cómo balanceas cobertura vs.&nbsp;recursos disponibles?</p>
+<hr>
+</section>
+<section id="parte-8-tabla-resumen-para-memo-ejecutivo" class="level1">
+<h1>Parte 8: Tabla Resumen para Memo Ejecutivo</h1>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-9-recomendación-basada-en-evidencia" class="level1">
+<h1>Parte 9: Recomendación Basada en Evidencia</h1>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="ejercicio-individual-entregable" class="level1">
+<h1>Ejercicio Individual (Entregable)</h1>
+<p><strong>Instrucciones:</strong></p>
+<ol type="1">
+<li><strong>Crea una tabla</strong> comparando las siguientes estadísticas para zona urbana vs rural:
+<ul>
+<li>Media, Mediana, P10, P90, IQR</li>
+<li>Interpreta: ¿Dónde hay mayor desigualdad interna?</li>
+</ul></li>
+<li><strong>Genera un histograma</strong> del ingreso solo para zona rural:
+<ul>
+<li>Incluye líneas de referencia (media, mediana, umbral)</li>
+<li>Escribe un título-conclusión de máximo 18 palabras</li>
+</ul></li>
+<li><strong>Propón un criterio de elegibilidad</strong> basado en percentiles:
+<ul>
+<li>Justifica tu elección en 6 líneas</li>
+<li>Incluye al menos 1 limitación de tu propuesta</li>
+<li>Evita usar “promedio” como criterio único</li>
+</ul></li>
+<li><strong>Responde:</strong>
+<ul>
+<li>¿Qué riesgo operativo implica usar solo el promedio para diseñar política?</li>
+<li>¿Por qué importa ver la “cola” de la distribución (P10 y P90)?</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="preguntas-de-discusión" class="level1">
+<h1>Preguntas de Discusión</h1>
+<ol type="1">
+<li><p><strong>Focalización vs Universalidad:</strong> Si tuvieras presupuesto para solo el 20% más pobre, ¿usarías P10 o P20 como corte? ¿Por qué?</p></li>
+<li><p><strong>Denominador:</strong> ¿Debería calcularse el ingreso per cápita o por hogar? ¿Qué cambia?</p></li>
+<li><p><strong>Errores de inclusión/exclusión:</strong> ¿Preferirías un umbral que excluya a algunos elegibles (error tipo II) o que incluya a algunos no elegibles (error tipo I)?</p></li>
+<li><p><strong>Evidencia incompleta:</strong> Si no tienes datos de ingreso informal, ¿cómo afecta esto tu recomendación? ¿Serías más conservador o más agresivo con el umbral?</p></li>
+</ol>
+<hr>
+</section>
+<section id="recursos-adicionales" class="level1">
+<h1>Recursos Adicionales</h1>
+<p><strong>Conceptos clave para recordar:</strong></p>
+<ul>
+<li><strong>Media vs Mediana:</strong> En distribuciones asimétricas, la mediana es más robusta</li>
+<li><strong>Percentiles:</strong> Lenguaje para describir posiciones en la distribución</li>
+<li><strong>IQR:</strong> Mide dispersión sin ser afectado por outliers</li>
+<li><strong>Coeficiente de Variación:</strong> Dispersión relativa (&gt; 30% = alta heterogeneidad)</li>
+<li><strong>Histograma:</strong> Muestra la forma completa de la distribución</li>
+<li><strong>Boxplot:</strong> Ideal para comparar grupos y detectar outliers</li>
+</ul>
+<p><strong>Para profundizar:</strong> - Busca “Anscombe’s Quartet” para ver por qué siempre hay que visualizar - Lee sobre “Simpson’s Paradox” (lo veremos en sesión 10) - Investiga cómo se calcula la línea de pobreza en tu país</p>
+<hr>
+<p><strong>Última reflexión:</strong> En política pública, un solo número (el promedio) puede ocultar más de lo que revela. La distribución completa importa.</p>
 
 
 </section>

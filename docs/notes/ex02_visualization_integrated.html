@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Exercise 1: The Tale of Two Cities – David Contreras-Loya</title>
+<title>Sesión 2: Visualización como Evidencia – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -378,7 +378,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# 1. Simulate Data\nset.seed(123)\nn <- 500\n\n# Region A: Everyone earns roughly the same (Normal Distribution)\nregion_A <- rnorm(n, mean = 15000, sd = 2000)\n\n# Region B: Most are poor, a few are millionaires (Log-Normal)\n# We adjust parameters to force the mean to be roughly ~15,000\nregion_B <- rlnorm(n, meanlog = 9.2, sdlog = 0.9) \n\n# Combine into a dataframe\ndf <- data.frame(\n  Salary = c(region_A, region_B),\n  Region = c(rep(\"Equality City\", n), rep(\"Unequal City\", n))\n)\n\n# 2. The Trap: Calculate the Means\nprint(\"Comparison of Means:\")\naggregate(Salary ~ Region, data = df, FUN = mean)\n\n# 3. The Truth: Visualize with Boxplots\nggplot(df, aes(x = Region, y = Salary, fill = Region)) +\n  geom_boxplot() +\n  labs(title = \"Why Averages Lie\", y = \"Monthly Income ($MXN)\") +\n  theme_minimal() +\n  coord_flip() # Flip to see the long tail better","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# Simulación de datos educativos\nset.seed(2026)\nn_urbano <- 80\nn_rural <- 40\n\n# Escuelas URBANAS: mayor presupuesto pero más variabilidad\npresup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD\n# Efecto del presupuesto + ruido + efecto fijo urbano\npuntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5\n\n# Escuelas RURALES: menor presupuesto, mayor efecto marginal\npresup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)\n# Efecto más fuerte del presupuesto en contexto rural\npuntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)\n\n# Crear base de datos\nescuelas <- data.frame(\n  id_escuela = 1:(n_urbano + n_rural),\n  presupuesto_anual_kusd = c(presup_urbano, presup_rural),\n  puntaje_prueba = c(puntaje_urbano, puntaje_rural),\n  tipo = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Asegurar que puntajes estén en rango válido\nescuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))\n\n# Vista previa\nhead(escuelas, 10)\ncat(\"\\n📚 Total de escuelas:\", nrow(escuelas), \"\\n\")\ncat(\"   - Urbanas:\", n_urbano, \"\\n\")\ncat(\"   - Rurales:\", n_rural, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Función para calcular estadísticas completas\nresumen_estadistico <- function(x) {\n  c(\n    n = length(x),\n    Media = mean(x),\n    Mediana = median(x),\n    DE = sd(x),\n    Min = min(x),\n    P25 = quantile(x, 0.25),\n    P75 = quantile(x, 0.75),\n    Max = max(x),\n    IQR = IQR(x)\n  )\n}\n\ncat(\"\\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)\n\ncat(\"\\n\\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)\n\n# Tabla comparativa lado a lado\ncat(\"\\n\\n📋 COMPARACIÓN DIRECTA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-25s %12s %12s %12s\\n\", \"Variable\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"───────────────────────────────────────────────────────────\\n\")\n\n# Puntaje promedio\npunt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\npunt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje promedio\", \n            punt_urb, punt_rur, punt_urb - punt_rur))\n\n# Puntaje mediano\nmed_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\nmed_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje mediano\", \n            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))\n\n# Presupuesto promedio\npres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"])\npres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Presupuesto (kUSD)\", \n            pres_urb, pres_rur, pres_urb - pres_rur))\n\n# Dispersión (IQR)\niqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\niqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"IQR Puntaje\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot básico pero informativo\nboxplot(puntaje_prueba ~ tipo, \n        data = escuelas,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Distribución de Puntajes por Tipo de Escuela\",\n        ylab = \"Puntaje en Prueba Estandarizada (0-100)\",\n        xlab = \"Tipo de Escuela\",\n        border = \"gray30\",\n        notch = FALSE,\n        horizontal = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 1.2)\n\n# Agregar línea de referencia: puntaje mínimo aceptable\nabline(h = 60, col = \"orange\", lwd = 2, lty = 2)\ntext(1.5, 62, \"Meta mínima: 60 puntos\", pos = 4, col = \"orange\", cex = 0.9)\n\n# Agregar la media como punto\npoints(c(1, 2), c(punt_urb, punt_rur), \n       pch = 18, col = \"blue\", cex = 2.5)\nlegend(\"bottomright\", \n       legend = c(\"Mediana (línea)\", \"Media (rombo)\"),\n       pch = c(NA, 18),\n       lty = c(1, NA),\n       col = c(\"black\", \"blue\"),\n       bty = \"n\")\n\n# Anotar elementos del boxplot\nmtext(\"Línea central = MEDIANA (hogar típico)\", \n      side = 3, line = -2, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Caja = IQR (50% central de escuelas)\", \n      side = 3, line = -3, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Puntos rojos = Outliers (casos extremos)\", \n      side = 3, line = -4, at = 1, cex = 0.75, col = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Identificar escuelas por cuartil de desempeño\nescuelas$cuartil <- cut(escuelas$puntaje_prueba,\n                        breaks = quantile(escuelas$puntaje_prueba, \n                                         probs = c(0, 0.25, 0.5, 0.75, 1)),\n                        labels = c(\"Q1 (bajo)\", \"Q2\", \"Q3\", \"Q4 (alto)\"),\n                        include.lowest = TRUE)\n\n# Tabla de distribución por cuartil y tipo\ncat(\"\\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ntabla <- table(escuelas$tipo, escuelas$cuartil)\nprint(tabla)\n\ncat(\"\\nProporción por tipo:\\n\")\nprint(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)\n\n# Identificar escuelas con bajo desempeño (bottom 25%)\nescuelas_bajo_desempeno <- escuelas[escuelas$cuartil == \"Q1 (bajo)\", ]\ncat(\"\\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(escuelas_bajo_desempeno), \"escuelas\\n\")\ncat(\"Urbanas:\", sum(escuelas_bajo_desempeno$tipo == \"Urbana\"), \"\\n\")\ncat(\"Rurales:\", sum(escuelas_bajo_desempeno$tipo == \"Rural\"), \"\\n\")\ncat(\"\\nPresupuesto promedio en este grupo: $\", \n    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), \"k USD\\n\")\ncat(\"Puntaje promedio: \", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), \"\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Scatterplot con diferenciación por tipo\nplot(escuelas$presupuesto_anual_kusd, \n     escuelas$puntaje_prueba,\n     pch = ifelse(escuelas$tipo == \"Urbana\", 19, 17),\n     col = ifelse(escuelas$tipo == \"Urbana\", \"#FF6B6B\", \"#4ECDC4\"),\n     cex = 1.3,\n     main = \"Relación Presupuesto-Desempeño por Tipo de Escuela\",\n     xlab = \"Presupuesto Anual por Estudiante (miles USD)\",\n     ylab = \"Puntaje en Prueba Estandarizada\",\n     xlim = c(0, 14),\n     ylim = c(0, 100))\n\n# Líneas de tendencia por grupo\nurbanas <- escuelas[escuelas$tipo == \"Urbana\", ]\nrurales <- escuelas[escuelas$tipo == \"Rural\", ]\n\nmodelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)\nmodelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)\n\nabline(modelo_urb, col = \"#FF6B6B\", lwd = 3)\nabline(modelo_rur, col = \"#4ECDC4\", lwd = 3)\n\n# Línea de meta mínima\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\n# Leyenda\nlegend(\"bottomright\",\n       legend = c(\"Urbana\", \"Rural\", \"Meta (60 pts)\"),\n       pch = c(19, 17, NA),\n       lty = c(1, 1, 2),\n       col = c(\"#FF6B6B\", \"#4ECDC4\", \"orange\"),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Identificar outliers interesantes (alto presupuesto, bajo desempeño)\nbajo_desempeno_alto_presup <- escuelas[\n  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, \n]\n\nif (nrow(bajo_desempeno_alto_presup) > 0) {\n  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n         bajo_desempeno_alto_presup$puntaje_prueba,\n         pch = 1, col = \"red\", cex = 3, lwd = 2)\n  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n       bajo_desempeno_alto_presup$puntaje_prueba,\n       \"Problema\\nde gestión?\",\n       pos = 4, col = \"red\", cex = 0.8)\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Pendiente para escuelas urbanas\nslope_urb <- coef(modelo_urb)[2]\ncat(\"ESCUELAS URBANAS:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_urb, 2), \"puntos\\n\\n\")\n\n# Pendiente para escuelas rurales\nslope_rur <- coef(modelo_rur)[2]\ncat(\"ESCUELAS RURALES:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_rur, 2), \"puntos\\n\\n\")\n\n# Comparación\ndiferencia_slopes <- slope_rur - slope_urb\ncat(\"DIFERENCIA:\\n\")\ncat(\"  Las escuelas rurales tienen un retorno\", \n    round(abs(diferencia_slopes), 2), \"puntos\")\nif (diferencia_slopes > 0) {\n  cat(\" MAYOR por cada $1k USD\\n\")\n  cat(\"  → Invertir en rurales puede ser más eficiente\\n\")\n} else {\n  cat(\" MENOR por cada $1k USD\\n\")\n}\n\n# R² (qué tan bien explica el presupuesto el desempeño)\nr2_urb <- summary(modelo_urb)$r.squared\nr2_rur <- summary(modelo_rur)$r.squared\n\ncat(\"\\n📊 PODER EXPLICATIVO (R²):\\n\")\ncat(\"  Urbanas: El presupuesto explica el\", round(100 * r2_urb, 1), \n    \"% de la variación en puntajes\\n\")\ncat(\"  Rurales: El presupuesto explica el\", round(100 * r2_rur, 1), \n    \"% de la variación en puntajes\\n\\n\")\n\nif (r2_urb < 0.5) {\n  cat(\"⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\\n\")\n  cat(\"   Otros factores son importantes (calidad docente, infraestructura, contexto)\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histogramas superpuestos para comparar distribuciones\npar(mfrow = c(1, 2))\n\n# Urbanas\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"],\n     breaks = 15,\n     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Urbanas\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_urb, col = \"darkred\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"]), \n       col = \"darkred\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkred\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\n# Rurales\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"],\n     breaks = 12,\n     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Rurales\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_rur, col = \"darkblue\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"]), \n       col = \"darkblue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkblue\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\npar(mfrow = c(1, 1))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear categorías de desempeño\nescuelas$categoria_desempeno <- cut(\n  escuelas$puntaje_prueba,\n  breaks = c(0, 50, 70, 85, 100),\n  labels = c(\"Crítico\", \"Bajo\", \"Aceptable\", \"Destacado\"),\n  include.lowest = TRUE\n)\n\ncat(\"\\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Tabla cruzada\ntabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)\nprint(tabla_desempeno)\n\ncat(\"\\n\\nPorcentaje dentro de cada tipo:\\n\")\nprint(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))\n\n# Escuelas en situación crítica\ncriticas <- escuelas[escuelas$categoria_desempeno == \"Crítico\", ]\ncat(\"\\n\\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(criticas), \"escuelas\\n\\n\")\n\nif (nrow(criticas) > 0) {\n  cat(\"Detalle de escuelas críticas:\\n\")\n  print(criticas[, c(\"id_escuela\", \"tipo\", \"puntaje_prueba\", \n                     \"presupuesto_anual_kusd\")])\n  \n  cat(\"\\n  Presupuesto promedio de escuelas críticas: $\",\n      round(mean(criticas$presupuesto_anual_kusd), 2), \"k USD\\n\")\n  cat(\"  ¿Es el presupuesto el problema o hay otros factores?\\n\")\n}","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparemos dos formas de graficar la MISMA información\n\npar(mfrow = c(1, 2))\n\n# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(50, 80),  # NO empieza en 0\n        main = \"¿Enorme diferencia?\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 2, round(punt_urb, 1))\ntext(1.9, punt_rur + 2, round(punt_rur, 1))\n\n# GRÁFICO 2: Eje Y correcto (empieza en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(0, 100),  # Empieza en 0\n        main = \"Diferencia en contexto\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 5, round(punt_urb, 1))\ntext(1.9, punt_rur + 5, round(punt_rur, 1))\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\npar(mfrow = c(1, 1))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\\n\")\ncat(\"  Para: Secretario de Educación\\n\")\ncat(\"  Fecha:\", format(Sys.Date(), \"%d-%m-%Y\"), \"\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. HALLAZGO PRINCIPAL\\n\\n\")\ncat(\"   Las escuelas urbanas tienen en promedio\", round(pres_urb - pres_rur, 1),\n    \"k USD más de presupuesto\\n\")\ncat(\"   pero solo\", round(punt_urb - punt_rur, 1), \n    \"puntos más de desempeño.\\n\\n\")\ncat(\"   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\\n\")\ncat(\"     (\", round(slope_rur, 2), \" vs \", round(slope_urb, 2), \n    \" puntos por kUSD)\\n\\n\")\n\ncat(\"2. ESCUELAS EN RIESGO\\n\\n\")\ncat(\"   •\", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), \n    \"escuelas están por debajo de la meta mínima (60 puntos)\\n\")\ncat(\"   • De estas,\", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == \"Rural\"),\n    \"son rurales\\n\")\ncat(\"   • El\", round(100 * nrow(criticas)/nrow(escuelas), 1),\n    \"% está en situación CRÍTICA (< 50 puntos)\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\\n\")\ncat(\"   • IQR Urbanas:\", round(iqr_urb, 1), \"puntos\\n\")\ncat(\"   • IQR Rurales:\", round(iqr_rur, 1), \"puntos\\n\")\ncat(\"   → Mayor dispersión en\", \n    ifelse(iqr_urb > iqr_rur, \"urbanas\", \"rurales\"), \"\\n\\n\")\n\ncat(\"4. RECOMENDACIONES BASADAS EN EVIDENCIA\\n\\n\")\ncat(\"   a) Priorizar inversión en escuelas rurales de bajo desempeño\\n\")\ncat(\"      (mayor retorno marginal del presupuesto)\\n\\n\")\ncat(\"   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\\n\")\ncat(\"      (posible problema de gestión, no recursos)\\n\\n\")\ncat(\"   c) No usar solo presupuesto como palanca - el R² es\", \n    round(r2_urb, 2), \"\\n\")\ncat(\"      Considerar: capacitación docente, infraestructura, contexto\\n\\n\")\n\ncat(\"5. LIMITACIONES\\n\\n\")\ncat(\"   • Correlación NO implica causalidad\\n\")\ncat(\"   • No controlamos por: nivel socioeconómico, experiencia docente,\\n\")\ncat(\"     infraestructura, tamaño de clase\\n\")\ncat(\"   • Puntaje de prueba es solo un indicador de calidad educativa\\n\")\ncat(\"   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1634,11 +1634,11 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Exercise 1: The Tale of Two Cities – David Contreras-Loya">
+<meta property="og:title" content="Sesión 2: Visualización como Evidencia – David Contreras-Loya">
 <meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Exercise 1: The Tale of Two Cities – David Contreras-Loya">
+<meta name="twitter:title" content="Sesión 2: Visualización como Evidencia – David Contreras-Loya">
 <meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -1692,59 +1692,76 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/prova.html">
- <span class="dropdown-text">Course Overview</span></a>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B1: Datos y Viz</li>
+        <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average.html">
- <span class="dropdown-text">Ex 1: Desigualdad (Promedios)</span></a>
+    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_outliers.html">
- <span class="dropdown-text">Ex 2: Limpieza de Datos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B2: Riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../notes/ex03_risk.html">
- <span class="dropdown-text">Ex 3: Presupuesto (Monte Carlo)</span></a>
+    <a class="dropdown-item" href="../notes/r_getting_started.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes.html">
- <span class="dropdown-text">Ex 4: Probabilidad Condicional</span></a>
+    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B3: Inferencia I</li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_lln.html">
- <span class="dropdown-text">Ex 5: Ley Grandes Números</span></a>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci.html">
- <span class="dropdown-text">Ex 6: Intervalos de Confianza</span></a>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B4: Inferencia II</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest.html">
- <span class="dropdown-text">Ex 7: A/B Testing (T-Test)</span></a>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex08_pval.html">
- <span class="dropdown-text">Ex 8: El P-Valor</span></a>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B5: Causalidad</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression.html">
- <span class="dropdown-text">Ex 9: Regresión Simple</span></a>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons.html">
- <span class="dropdown-text">Ex 10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
   </li>  
     </ul>
   </li>
@@ -1790,7 +1807,20 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-trap-of-the-average" id="toc-the-trap-of-the-average" class="nav-link active" data-scroll-target="#the-trap-of-the-average">The Trap of the Average</a></li>
+  <li><a href="#caso-de-política-pública" id="toc-caso-de-política-pública" class="nav-link active" data-scroll-target="#caso-de-política-pública">Caso de Política Pública</a></li>
+  <li><a href="#parte-1-simulación-y-carga-de-datos" id="toc-parte-1-simulación-y-carga-de-datos" class="nav-link" data-scroll-target="#parte-1-simulación-y-carga-de-datos">Parte 1: Simulación y Carga de Datos</a></li>
+  <li><a href="#parte-2-estadísticas-descriptivas-por-tipo" id="toc-parte-2-estadísticas-descriptivas-por-tipo" class="nav-link" data-scroll-target="#parte-2-estadísticas-descriptivas-por-tipo">Parte 2: Estadísticas Descriptivas por Tipo</a></li>
+  <li><a href="#parte-3-visualización-esencial---el-boxplot" id="toc-parte-3-visualización-esencial---el-boxplot" class="nav-link" data-scroll-target="#parte-3-visualización-esencial---el-boxplot">Parte 3: Visualización Esencial - El Boxplot</a></li>
+  <li><a href="#parte-4-análisis-de-dispersión-y-desigualdad" id="toc-parte-4-análisis-de-dispersión-y-desigualdad" class="nav-link" data-scroll-target="#parte-4-análisis-de-dispersión-y-desigualdad">Parte 4: Análisis de Dispersión y Desigualdad</a></li>
+  <li><a href="#parte-5-scatterplot---relación-presupuesto-desempeño" id="toc-parte-5-scatterplot---relación-presupuesto-desempeño" class="nav-link" data-scroll-target="#parte-5-scatterplot---relación-presupuesto-desempeño">Parte 5: Scatterplot - Relación Presupuesto-Desempeño</a></li>
+  <li><a href="#parte-6-cálculo-de-pendientes-retorno-del-presupuesto" id="toc-parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="nav-link" data-scroll-target="#parte-6-cálculo-de-pendientes-retorno-del-presupuesto">Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</a></li>
+  <li><a href="#parte-7-histograma-de-presupuesto" id="toc-parte-7-histograma-de-presupuesto" class="nav-link" data-scroll-target="#parte-7-histograma-de-presupuesto">Parte 7: Histograma de Presupuesto</a></li>
+  <li><a href="#parte-8-tabla-de-rendición-de-cuentas" id="toc-parte-8-tabla-de-rendición-de-cuentas" class="nav-link" data-scroll-target="#parte-8-tabla-de-rendición-de-cuentas">Parte 8: Tabla de Rendición de Cuentas</a></li>
+  <li><a href="#parte-9-auditoría-de-gráficos-engañosos" id="toc-parte-9-auditoría-de-gráficos-engañosos" class="nav-link" data-scroll-target="#parte-9-auditoría-de-gráficos-engañosos">Parte 9: Auditoría de Gráficos Engañosos</a></li>
+  <li><a href="#parte-10-memo-ejecutivo-con-visualización" id="toc-parte-10-memo-ejecutivo-con-visualización" class="nav-link" data-scroll-target="#parte-10-memo-ejecutivo-con-visualización">Parte 10: Memo Ejecutivo con Visualización</a></li>
+  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
+  <li><a href="#preguntas-de-discusión" id="toc-preguntas-de-discusión" class="nav-link" data-scroll-target="#preguntas-de-discusión">Preguntas de Discusión</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos Adicionales</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,7 +2113,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercise 1: The Tale of Two Cities</h1>
+<h1 class="title">Sesión 2: Visualización como Evidencia</h1>
 </div>
 
 
@@ -2100,11 +2130,183 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="the-trap-of-the-average" class="level1">
-<h1>The Trap of the Average</h1>
-<p>Both “Equality City” and “Unequal City” have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?</p>
+<section id="caso-de-política-pública" class="level1">
+<h1>Caso de Política Pública</h1>
+<p>El <strong>Secretario de Educación</strong> debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)</p>
+<p><strong>Tu tarea:</strong> Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?</p>
+<p><strong>Regla de oro:</strong> Un gráfico en política pública no es decoración; es un argumento basado en evidencia.</p>
+<hr>
+</section>
+<section id="parte-1-simulación-y-carga-de-datos" class="level1">
+<h1>Parte 1: Simulación y Carga de Datos</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-2-estadísticas-descriptivas-por-tipo" class="level1">
+<h1>Parte 2: Estadísticas Descriptivas por Tipo</h1>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de reflexión:</strong> ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?</p>
+<hr>
+</section>
+<section id="parte-3-visualización-esencial---el-boxplot" class="level1">
+<h1>Parte 3: Visualización Esencial - El Boxplot</h1>
+<p><strong>¿Por qué boxplot?</strong> Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpreta el boxplot:</strong> 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?</p>
+<hr>
+</section>
+<section id="parte-4-análisis-de-dispersión-y-desigualdad" class="level1">
+<h1>Parte 4: Análisis de Dispersión y Desigualdad</h1>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-5-scatterplot---relación-presupuesto-desempeño" class="level1">
+<h1>Parte 5: Scatterplot - Relación Presupuesto-Desempeño</h1>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Análisis del scatterplot:</strong> 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)</p>
+<hr>
+</section>
+<section id="parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="level1">
+<h1>Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</h1>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Importante:</strong> Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto <em>cause</em> mejor desempeño.</p>
+<hr>
+</section>
+<section id="parte-7-histograma-de-presupuesto" class="level1">
+<h1>Parte 7: Histograma de Presupuesto</h1>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta:</strong> ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?</p>
+<hr>
+</section>
+<section id="parte-8-tabla-de-rendición-de-cuentas" class="level1">
+<h1>Parte 8: Tabla de Rendición de Cuentas</h1>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-9-auditoría-de-gráficos-engañosos" class="level1">
+<h1>Parte 9: Auditoría de Gráficos Engañosos</h1>
+<p><strong>Ejercicio de lectura crítica:</strong> Imagina que ves este titular en un reporte:</p>
+<blockquote class="blockquote">
+<p>“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”</p>
+</blockquote>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta crítica:</strong> - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?</p>
+<p><strong>Reglas de auditoría de gráficos:</strong> 1. ✅ <strong>Eje Y empieza en 0</strong> (para barras) 2. ✅ <strong>Denominador claro</strong> (¿por estudiante? ¿por escuela?) 3. ✅ <strong>Población y periodo especificados</strong> 4. ✅ <strong>Muestra dispersión</strong> (no solo promedios) 5. ✅ <strong>Declara limitaciones</strong></p>
+<hr>
+</section>
+<section id="parte-10-memo-ejecutivo-con-visualización" class="level1">
+<h1>Parte 10: Memo Ejecutivo con Visualización</h1>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="ejercicio-individual-entregable" class="level1">
+<h1>Ejercicio Individual (Entregable)</h1>
+<p><strong>Parte A: Crear Visualizaciones</strong></p>
+<ol type="1">
+<li><strong>Boxplot comparativo:</strong>
+<ul>
+<li>Grafica presupuesto_anual_kusd ~ tipo</li>
+<li>Incluye título-conclusión (máximo 18 palabras)</li>
+<li>Identifica outliers y explica qué pueden representar</li>
+</ul></li>
+<li><strong>Scatterplot con segmentación:</strong>
+<ul>
+<li>Eje X: presupuesto, Eje Y: puntaje</li>
+<li>Colorea puntos por tipo</li>
+<li>Agrega líneas de tendencia</li>
+<li>Marca escuelas con puntaje &lt; 50 (círculos rojos)</li>
+</ul></li>
+</ol>
+<p><strong>Parte B: Análisis Escrito</strong></p>
+<ol start="3" type="1">
+<li><strong>Tabla de análisis:</strong> Crea una tabla con 3 columnas:
+<ul>
+<li>Tipo de gráfico (Histograma, Boxplot, Scatterplot)</li>
+<li>Pregunta que responde mejor</li>
+<li>Limitación principal</li>
+</ul></li>
+<li><strong>Ejercicio de lectura crítica:</strong> Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
+<ul>
+<li>¿Cumple las 5 reglas de auditoría?</li>
+<li>¿Hay algo engañoso en la presentación?</li>
+<li>¿Qué mejorarías?</li>
+</ul></li>
+</ol>
+<p><strong>Parte C: Recomendación Estratégica</strong></p>
+<ol start="5" type="1">
+<li><strong>Escribe 6 líneas respondiendo:</strong>
+<ul>
+<li>Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?</li>
+<li>¿Usas criterio de presupuesto, desempeño, tipo, o combinación?</li>
+<li>Incluye 1 limitación de tu propuesta</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="preguntas-de-discusión" class="level1">
+<h1>Preguntas de Discusión</h1>
+<ol type="1">
+<li><strong>La Trampa del Promedio Revisitada:</strong>
+<ul>
+<li>¿Por qué un gráfico de solo promedios puede ser engañoso?</li>
+<li>¿Qué se pierde cuando no mostramos dispersión?</li>
+</ul></li>
+<li><strong>Escalas Visuales:</strong>
+<ul>
+<li>¿Cuándo es legítimo NO empezar el eje Y en cero?</li>
+<li>¿Qué riesgos tiene manipular las escalas?</li>
+</ul></li>
+<li><strong>Denominadores:</strong>
+<ul>
+<li>¿Deberíamos graficar presupuesto total o por estudiante?</li>
+<li>¿Puntaje promedio de escuela o distribución completa?</li>
+</ul></li>
+<li><strong>Outliers:</strong>
+<ul>
+<li>¿Los outliers son errores o información valiosa?</li>
+<li>¿Cuándo deberías investigar un outlier vs.&nbsp;eliminarlo?</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="recursos-adicionales" class="level1">
+<h1>Recursos Adicionales</h1>
+<p><strong>Principios de visualización efectiva:</strong></p>
+<ol type="1">
+<li><strong>Claridad sobre estética:</strong> El gráfico debe comunicar, no impresionar</li>
+<li><strong>Honestidad visual:</strong> Escalas apropiadas, contexto completo</li>
+<li><strong>Dispersión importa:</strong> No solo promedios</li>
+<li><strong>Comparaciones justas:</strong> Mismo denominador, misma escala</li>
+<li><strong>Contexto siempre:</strong> Población, periodo, fuente, limitaciones</li>
+</ol>
+<p><strong>Tipos de gráficos y cuándo usarlos:</strong></p>
+<ul>
+<li><strong>Histograma:</strong> Ver forma de distribución (asimetría, modas)</li>
+<li><strong>Boxplot:</strong> Comparar grupos, detectar outliers</li>
+<li><strong>Scatterplot:</strong> Explorar relaciones entre dos variables</li>
+<li><strong>Barras:</strong> Comparar cantidades (¡eje Y en 0!)</li>
+<li><strong>Líneas:</strong> Mostrar tendencias en el tiempo</li>
+</ul>
+<p><strong>Errores comunes a evitar:</strong></p>
+<ul>
+<li>❌ Solo mostrar promedios sin dispersión</li>
+<li>❌ Manipular escalas para exagerar diferencias</li>
+<li>❌ No declarar denominador</li>
+<li>❌ Graficar sin pregunta clara en mente</li>
+<li>❌ Usar 3D, colores excesivos, “chart junk”</li>
+</ul>
+<hr>
+<p><strong>Última reflexión:</strong> Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?</p>
 
 
 </section>

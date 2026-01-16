@@ -1,0 +1,296 @@
+---
+title: "Section 0: Setting up R"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    theme: cosmo
+---
+
+## Before We Begin
+
+Before our first section, please make sure you have working and up-to-date installations of **R** and **RStudio**. We will use both extensively in this course, so it is definitely worth doing right.
+
+---
+
+## Installation
+
+If you do not already have R and RStudio running on your computer, then you should install them both:
+
+### Step 1: Install R
+
+Download and install R from the official CRAN repository:
+
+- **Windows**: [Download R for Windows](https://cran.r-project.org/bin/windows/base/)
+- **macOS**: [Download R for macOS](https://cran.r-project.org/bin/macosx/)
+- **Linux**: [Download R for Linux](https://cran.r-project.org/bin/linux/)
+
+### Step 2: Install RStudio
+
+Download and install RStudio Desktop (free version):
+
+- **All platforms**: [Download RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+
+::: {.callout-note}
+**RStudio** is a super helpful IDE (Integrated Development Environment) for R—it's very helpful for both learning and using R.
+:::
+
+---
+
+## Updating Existing Installations
+
+If you already have R and RStudio on your computer, then you should make sure they are **up to date**:
+
+- **Current R version**: 4.4.2 (2024-10-31) — *"Pile of Leaves"*
+  - Check your version by typing `version` into the R console
+  
+- **Current RStudio version**: 2024.12.0 or newer
+  - Check via: *Help → About RStudio*
+
+::: {.callout-tip}
+## Why update?
+Newer versions include bug fixes, performance improvements, and new features that make your coding experience smoother.
+:::
+
+---
+
+## Additional Tools (Recommended)
+
+### LaTeX
+
+I would recommend making sure you have a working installation of LaTeX for creating PDFs and mathematical typesetting:
+
+- **Easy option**: Install TinyTeX via R:
+  ```r
+  install.packages("tinytex")
+  tinytex::install_tinytex()
+  ```
+
+- **Full installation**: [Download MiKTeX (Windows)](https://miktex.org/) or [MacTeX (macOS)](https://www.tug.org/mactex/)
+
+- **Online alternative**: [Overleaf](https://www.overleaf.com/) (no installation needed, includes LaTeX tutorials)
+
+### Pandoc
+
+Pandoc is usually included with RStudio, but you can verify by running in R:
+
+```r
+rmarkdown::pandoc_version()
+```
+
+If needed, download from: [pandoc.org](https://pandoc.org/installing.html)
+
+---
+
+## Does It Work?
+
+Let's test your installation:
+
+1. **Open RStudio**
+2. In the console (bottom-left panel), type:
+   ```r
+   1 + 1
+   ```
+3. Press **Enter**
+
+**Expected output:**
+```r
+[1] 2
+```
+
+::: {.callout-important}
+If you get `[1] 2`, congratulations! Everything is working correctly. ✅
+
+If not, try reinstalling R and RStudio, or ask for help.
+:::
+
+---
+
+## Resources for Learning R
+
+I've compiled a large set of resources for R. You probably don't need them all right now, but know they are there. However, **the best resources for learning R are**:
+
+::: {.callout-tip icon="true"}
+## Your Learning Toolkit
+
+1. **Google** (which will probably lead you to [StackOverflow](https://stackoverflow.com/))
+2. **Time** (practice, practice, practice!)
+3. **Your classmates** (collaborative learning works wonders)
+4. **Me** (office hours, email, Slack/Teams)
+:::
+
+### Additional Resources
+
+- [R for Data Science (2e)](https://r4ds.hadley.nz/) by Hadley Wickham & Garrett Grolemund
+- [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+- [Swirl](https://swirlstats.com/) - Interactive R tutorials
+- [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) - Free intro course
+- [R-bloggers](https://www.r-bloggers.com/) - Community blog posts
+
+---
+
+## Basic Suggestions for Success
+
+### 1. Use R Scripts, Not Just the Console
+
+::: {.callout-warning}
+**Nearly everything you do should be in an R script**, as opposed to typing directly in the command line.
+:::
+
+**Why?**
+
+- You can return to your code later
+- You can edit and improve your work
+- You need to turn in R scripts for assignments
+- It's reproducible research!
+
+**How to create a script:**
+
+- File → New File → R Script (or `Cmd/Ctrl + Shift + N`)
+
+### 2. Comment Your Code
+
+Good comments make your code understandable to others (and your future self):
+
+```r
+# Bad: No context
+x <- 5
+y <- x * 2
+
+# Good: Clear explanation
+price_per_unit <- 5           # Cost in dollars
+total_cost <- price_per_unit * 2  # Two units purchased
+```
+
+### 3. Be Consistent with Naming Conventions
+
+Pick a style and stick to it:
+
+```r
+# Camel Case (recommended for variables)
+myVariableName <- 10
+calculateTotalCost <- function(x) { x * 2 }
+
+# Snake Case (also popular)
+my_variable_name <- 10
+calculate_total_cost <- function(x) { x * 2 }
+
+# Choose ONE and be consistent!
+```
+
+::: {.callout-note}
+**Avoid:**
+- Starting variable names with numbers: `2021data` ❌
+- Using reserved words: `if`, `for`, `function` ❌
+- Spaces in names: `my variable` ❌
+:::
+
+### 4. Use Descriptive File Names
+
+Be smart when naming files and folders:
+
+**Bad names:**
+```
+cbn18319ddg890-7a.csv
+untitled1.R
+data.xlsx
+final_FINAL_v2_REALFINAL.R
+```
+
+**Good names:**
+```
+CensusCountyDemographics.csv
+01_DataCleaning.R
+HouseholdIncomeSurvey_2024.xlsx
+AnalyzeTaxReliefProgram.R
+```
+
+**Two good naming conventions:**
+
+1. **Camel Case**: `WhatAGreatFileName.csv`
+2. **Snake Case**: `what_a_great_file_name.csv`
+
+::: {.callout-tip}
+## Pro Tips
+- Add dates in YYYY-MM-DD format: `2024-01-15_Analysis.R`
+- Number files to show order: `01_Import.R`, `02_Clean.R`, `03_Analyze.R`
+- Use descriptive prefixes: `fig_`, `tab_`, `data_`
+:::
+
+### 5. Organize Your Files and Use Smart Paths
+
+Make your life easier by:
+
+**Organizing into folders:**
+```
+MyProject/
+  ├── Data/
+  │   ├── Raw/
+  │   └── Processed/
+  ├── Scripts/
+  ├── Output/
+  │   ├── Figures/
+  │   └── Tables/
+  └── README.md
+```
+
+**Using `paste0()` or `paste()` for file paths:**
+
+```r
+# Instead of typing full paths every time:
+data <- read.csv("/Users/david/Documents/Project/Data/census.csv")
+
+# Use paste0() for flexibility:
+project_path <- "/Users/david/Documents/Project"
+data_path <- paste0(project_path, "/Data/census.csv")
+data <- read.csv(data_path)
+
+# Even better: use relative paths with here package
+library(here)
+data <- read.csv(here("Data", "census.csv"))
+```
+
+::: {.callout-note}
+We'll see more examples of smart file organization and path management in **Section 1**.
+:::
+
+---
+
+## Getting Started Checklist
+
+Before the first class, make sure you can check all these boxes:
+
+- [ ] R is installed and up to date
+- [ ] RStudio is installed and up to date
+- [ ] I can open RStudio successfully
+- [ ] Typing `1 + 1` in the console returns `[1] 2`
+- [ ] I can create a new R script (File → New File → R Script)
+- [ ] I've bookmarked some helpful R resources
+- [ ] I understand basic file naming conventions
+
+---
+
+## Need Help?
+
+If you encounter any issues during installation or setup:
+
+1. **Search Google** with your error message
+2. **Check StackOverflow** for similar problems
+3. **Ask classmates** on our course forum/Slack
+4. **Contact me** during office hours or via email
+
+::: {.callout-important}
+## Don't wait until the last minute!
+Set up your R environment **before** the first assignment is due. Technical difficulties are easier to resolve when you're not under time pressure.
+:::
+
+---
+
+## Ready to Code!
+
+Once everything is set up, you're ready to start learning R! See you in Section 1.
+
+*Happy coding!* 🚀

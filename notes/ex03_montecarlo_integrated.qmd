@@ -1,0 +1,590 @@
+---
+title: "Sesión 3: Jugando a los Dados con el Presupuesto"
+format: html
+filters:
+  - webr
+---
+
+# Caso de Política Pública
+
+La **Dirección de Programas Sociales** debe presentar un presupuesto al Congreso para un programa de transferencias monetarias condicionadas. El problema: **múltiples fuentes de incertidumbre**:
+
+- 📦 **Costo unitario** por beneficiario (varía por logística, inflación)
+- 👥 **Número de beneficiarios** (demanda fluctuante)
+- 🚛 **Costos logísticos** (transporte, operación regional)
+- 💸 **Tasa de deserción** (beneficiarios que abandonan el programa)
+
+**Tu tarea:** Usar simulación Monte Carlo para:
+- Estimar el presupuesto necesario con su rango de incertidumbre
+- Identificar el percentil 90 (para no quedarse corto)
+- Comunicar el riesgo presupuestario al Director
+
+**Regla de oro:** Planificar con el promedio es planificar para el fracaso. Necesitamos conocer la distribución completa.
+
+---
+
+# Parte 1: Concepto de Simulación Monte Carlo
+
+**¿Qué es Monte Carlo?**
+- Técnica que usa muestreo aleatorio repetido
+- "Tira los dados" miles de veces
+- Genera distribución de resultados posibles
+- Usado en finanzas, seguros, ingeniería, salud pública
+
+**¿Por qué lo necesitamos?**
+En política pública, raramente sabemos un valor exacto. Sabemos:
+- "El costo unitario está entre $10-15 USD, pero más probable cerca de $12"
+- "Esperamos 5,000 beneficiarios ± 400"
+- "La logística cuesta entre $30k-50k USD"
+
+Monte Carlo convierte esta incertidumbre en números útiles para decidir.
+
+---
+
+# Parte 2: Componentes del Modelo
+
+```{webr-r}
+#| warning: false
+
+# Configuración de simulación
+set.seed(2026)
+B <- 10000  # Número de simulaciones (10 mil escenarios)
+
+cat("🎲 CONFIGURACIÓN DE LA SIMULACIÓN\n")
+cat("═══════════════════════════════════════════════════════════\n")
+cat("Corriendo", B, "escenarios posibles...\n\n")
+
+# COMPONENTE 1: Costo unitario por beneficiario (distribución log-normal)
+# Log-normal porque: no puede ser negativo, tiene cola derecha (inflación extrema)
+# Media esperada: $12 USD, pero con variabilidad
+
+# Parámetros log-normal para media≈12, SD≈2.5
+mu_log <- log(12)
+sigma_log <- 0.25
+
+costo_unitario <- rlnorm(B, meanlog = mu_log, sdlog = sigma_log)
+
+cat("💰 COSTO UNITARIO (por beneficiario)\n")
+cat("   Distribución: Log-normal\n")
+cat("   Media:      $", round(mean(costo_unitario), 2), " USD\n")
+cat("   Mediana:    $", round(median(costo_unitario), 2), " USD\n")
+cat("   DE:         $", round(sd(costo_unitario), 2), " USD\n")
+cat("   Rango:      $", round(min(costo_unitario), 2), " - $", 
+    round(max(costo_unitario), 2), " USD\n\n")
+
+# COMPONENTE 2: Número de beneficiarios (distribución normal)
+# Normal porque: suma de muchos factores independientes
+# Media esperada: 5,000, SD: 400
+
+n_beneficiarios <- round(rnorm(B, mean = 5000, sd = 400))
+# Asegurar que no haya valores negativos
+n_beneficiarios <- pmax(n_beneficiarios, 3000)
+
+cat("👥 NÚMERO DE BENEFICIARIOS\n")
+cat("   Distribución: Normal (truncada en 3,000)\n")
+cat("   Media:      ", round(mean(n_beneficiarios), 0), " personas\n")
+cat("   Mediana:    ", round(median(n_beneficiarios), 0), " personas\n")
+cat("   DE:         ", round(sd(n_beneficiarios), 0), " personas\n")
+cat("   Rango:      ", min(n_beneficiarios), " - ", 
+    max(n_beneficiarios), " personas\n\n")
+
+# COMPONENTE 3: Costos logísticos (distribución gamma)
+# Gamma porque: siempre positivo, puede tener cola derecha, flexible
+# Media esperada: $40k USD
+
+costos_logistica <- rgamma(B, shape = 5, rate = 1/8000)
+
+cat("🚛 COSTOS LOGÍSTICOS (transporte, operación)\n")
+cat("   Distribución: Gamma\n")
+cat("   Media:      $", round(mean(costos_logistica), 0), " USD\n")
+cat("   Mediana:    $", round(median(costos_logistica), 0), " USD\n")
+cat("   DE:         $", round(sd(costos_logistica), 0), " USD\n")
+cat("   Rango:      $", round(min(costos_logistica), 0), " - $", 
+    round(max(costos_logistica), 0), " USD\n\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+**Pregunta de reflexión:** ¿Por qué usamos distribuciones diferentes para cada componente?
+
+---
+
+# Parte 3: Cálculo del Presupuesto Total
+
+```{webr-r}
+# MODELO: Presupuesto Total = (Costo Unitario × Beneficiarios) + Logística
+presupuesto_total <- (costo_unitario * n_beneficiarios) + costos_logistica
+
+cat("\n💵 PRESUPUESTO TOTAL SIMULADO\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# Estadísticas descriptivas
+cat("Estadísticas centrales:\n")
+cat("  Media:      $", format(round(mean(presupuesto_total), 0), 
+                              big.mark = ","), " USD\n")
+cat("  Mediana:    $", format(round(median(presupuesto_total), 0), 
+                              big.mark = ","), " USD\n")
+cat("  DE:         $", format(round(sd(presupuesto_total), 0), 
+                              big.mark = ","), " USD\n\n")
+
+# Percentiles críticos
+percentiles <- quantile(presupuesto_total, 
+                        probs = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95))
+
+cat("Percentiles (rango de escenarios posibles):\n")
+cat("  P5  (optimista):     $", format(round(percentiles[1], 0), 
+                                        big.mark = ","), "\n")
+cat("  P10:                 $", format(round(percentiles[2], 0), 
+                                        big.mark = ","), "\n")
+cat("  P25 (cuartil inf):   $", format(round(percentiles[3], 0), 
+                                        big.mark = ","), "\n")
+cat("  P50 (mediana):       $", format(round(percentiles[4], 0), 
+                                        big.mark = ","), "\n")
+cat("  P75 (cuartil sup):   $", format(round(percentiles[5], 0), 
+                                        big.mark = ","), "\n")
+cat("  P90 (conservador):   $", format(round(percentiles[6], 0), 
+                                        big.mark = ","), "\n")
+cat("  P95 (muy conservador): $", format(round(percentiles[7], 0), 
+                                          big.mark = ","), "\n\n")
+
+# Rango intercuartil
+iqr <- IQR(presupuesto_total)
+cat("Rango Intercuartil (50% central): $", 
+    format(round(iqr, 0), big.mark = ","), "\n\n")
+
+# Coeficiente de variación
+cv <- 100 * sd(presupuesto_total) / mean(presupuesto_total)
+cat("Coeficiente de Variación: ", round(cv, 1), "%\n")
+if (cv > 15) {
+  cat("⚠️  Alta incertidumbre - considere planeación por escenarios\n")
+}
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 4: Visualización de la Distribución
+
+```{webr-r}
+# Histograma de presupuestos simulados
+hist(presupuesto_total / 1000,  # Convertir a miles para mejor lectura
+     breaks = 60,
+     col = "steelblue",
+     border = "white",
+     main = "Distribución de Presupuesto Total Simulado (10,000 escenarios)",
+     xlab = "Presupuesto Total (miles USD)",
+     ylab = "Frecuencia de escenarios",
+     xlim = c(30, 100))
+
+# Líneas de referencia para percentiles clave
+abline(v = percentiles[4] / 1000, col = "darkgreen", lwd = 3, lty = 1)  # P50
+abline(v = percentiles[3] / 1000, col = "orange", lwd = 2, lty = 2)     # P25
+abline(v = percentiles[5] / 1000, col = "orange", lwd = 2, lty = 2)     # P75
+abline(v = percentiles[6] / 1000, col = "red", lwd = 3, lty = 3)        # P90
+
+# Leyenda
+legend("topright",
+       legend = c("P50 (Mediana)", "P25/P75 (IQR)", "P90 (Conservador)"),
+       col = c("darkgreen", "orange", "red"),
+       lty = c(1, 2, 3),
+       lwd = c(3, 2, 3),
+       bty = "n",
+       cex = 0.9)
+
+# Anotación
+text(x = percentiles[6] / 1000 + 5, 
+     y = max(hist(presupuesto_total/1000, plot=F, breaks=60)$counts) * 0.7,
+     paste0("10% de escenarios\nexceden $", 
+            format(round(percentiles[6]/1000, 0), big.mark=","), "k"),
+     pos = 4, col = "red", cex = 0.9)
+```
+
+**Interpreta el histograma:**
+- ¿La distribución es simétrica o asimétrica?
+- ¿Hay cola larga a la derecha? (escenarios de alto costo)
+- ¿Qué tan separados están P25 y P75?
+
+---
+
+# Parte 5: Análisis de Riesgo Presupuestario
+
+```{webr-r}
+# Definir diferentes escenarios de presupuesto
+escenarios <- c(55000, 60000, 65000, 70000)
+nombres_esc <- c("Austero", "Moderado", "Prudente", "Conservador")
+
+cat("\n📊 ANÁLISIS DE RIESGO: ¿Qué presupuesto solicitar?\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+for (i in 1:length(escenarios)) {
+  presup <- escenarios[i]
+  prob_suficiente <- 100 * mean(presupuesto_total <= presup)
+  prob_insuficiente <- 100 - prob_suficiente
+  
+  cat(sprintf("%-15s ($%s):\n", 
+              nombres_esc[i], 
+              format(presup, big.mark = ",")))
+  cat(sprintf("  ✅ Probabilidad de ser SUFICIENTE:   %5.1f%%\n", 
+              prob_suficiente))
+  cat(sprintf("  ❌ Probabilidad de QUEDARSE CORTO:   %5.1f%%\n", 
+              prob_insuficiente))
+  
+  if (prob_insuficiente > 20) {
+    cat("     ⚠️  RIESGO ALTO - Más del 20% de escenarios rebasan\n")
+  } else if (prob_insuficiente > 10) {
+    cat("     ⚠️  Riesgo moderado\n")
+  } else {
+    cat("     ✅ Riesgo bajo - Presupuesto conservador\n")
+  }
+  cat("\n")
+}
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+**Pregunta de política:**
+- ¿Qué nivel de riesgo es aceptable?
+- ¿Preferirías quedarte corto en 5% o 20% de los escenarios?
+- ¿Qué costo político tiene pedir presupuesto suplementario?
+
+---
+
+# Parte 6: Análisis de Sensibilidad
+
+**¿Qué componente genera más incertidumbre?**
+
+```{webr-r}
+cat("\n🔍 ANÁLISIS DE SENSIBILIDAD\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# Calcular contribución de cada componente a la varianza total
+var_costo_unit <- var(costo_unitario * n_beneficiarios)
+var_logistica <- var(costos_logistica)
+var_total <- var(presupuesto_total)
+
+cat("Varianza de componentes:\n")
+cat("  Costo unit × Benef:  $", 
+    format(round(var_costo_unit, 0), big.mark = ","), "²\n")
+cat("  Logística:           $", 
+    format(round(var_logistica, 0), big.mark = ","), "²\n")
+cat("  Total:               $", 
+    format(round(var_total, 0), big.mark = ","), "²\n\n")
+
+pct_costo_unit <- 100 * var_costo_unit / var_total
+pct_logistica <- 100 * var_logistica / var_total
+
+cat("Contribución porcentual a la incertidumbre:\n")
+cat("  Costo unit × Benef:  ", round(pct_costo_unit, 1), "%\n")
+cat("  Logística:           ", round(pct_logistica, 1), "%\n\n")
+
+if (pct_costo_unit > 70) {
+  cat("💡 INSIGHT: La mayor fuente de incertidumbre es la combinación\n")
+  cat("   de costo unitario y número de beneficiarios.\n")
+  cat("   RECOMENDACIÓN: Invertir en mejor estimación de demanda\n")
+  cat("   y contratos fijos para reducir variabilidad de costo.\n")
+} else {
+  cat("💡 INSIGHT: Los costos logísticos son la principal fuente\n")
+  cat("   de incertidumbre.\n")
+  cat("   RECOMENDACIÓN: Negociar contratos logísticos con precios fijos.\n")
+}
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 7: Comparación de Estrategias
+
+```{webr-r}
+# Simular efecto de diferentes estrategias para reducir incertidumbre
+
+cat("\n🎯 COMPARACIÓN DE ESTRATEGIAS DE MITIGACIÓN\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# ESTRATEGIA A: Contrato fijo de costo unitario (reduce SD a la mitad)
+costo_fijo <- rlnorm(B, meanlog = mu_log, sdlog = sigma_log/2)
+presup_estrategia_a <- (costo_fijo * n_beneficiarios) + costos_logistica
+
+cat("ESTRATEGIA A: Contrato fijo con proveedores\n")
+cat("  P50:  $", format(round(median(presup_estrategia_a), 0), 
+                        big.mark = ","), "\n")
+cat("  P90:  $", format(round(quantile(presup_estrategia_a, 0.90), 0), 
+                        big.mark = ","), "\n")
+cat("  IQR:  $", format(round(IQR(presup_estrategia_a), 0), 
+                        big.mark = ","), "\n\n")
+
+# ESTRATEGIA B: Pre-registro para reducir incertidumbre en beneficiarios
+benef_estables <- round(rnorm(B, mean = 5000, sd = 200))  # SD reducido
+benef_estables <- pmax(benef_estables, 3000)
+presup_estrategia_b <- (costo_unitario * benef_estables) + costos_logistica
+
+cat("ESTRATEGIA B: Pre-registro de beneficiarios\n")
+cat("  P50:  $", format(round(median(presup_estrategia_b), 0), 
+                        big.mark = ","), "\n")
+cat("  P90:  $", format(round(quantile(presup_estrategia_b, 0.90), 0), 
+                        big.mark = ","), "\n")
+cat("  IQR:  $", format(round(IQR(presup_estrategia_b), 0), 
+                        big.mark = ","), "\n\n")
+
+# ESTRATEGIA C: Ambas (contratos fijos + pre-registro)
+presup_estrategia_c <- (costo_fijo * benef_estables) + costos_logistica
+
+cat("ESTRATEGIA C: Contratos fijos + Pre-registro\n")
+cat("  P50:  $", format(round(median(presup_estrategia_c), 0), 
+                        big.mark = ","), "\n")
+cat("  P90:  $", format(round(quantile(presup_estrategia_c, 0.90), 0), 
+                        big.mark = ","), "\n")
+cat("  IQR:  $", format(round(IQR(presup_estrategia_c), 0), 
+                        big.mark = ","), "\n\n")
+
+# Comparación de reducción de riesgo
+reduccion_iqr_c <- 100 * (1 - IQR(presup_estrategia_c) / IQR(presupuesto_total))
+
+cat("💡 RESULTADO:\n")
+cat("   Implementar ambas estrategias reduce la incertidumbre\n")
+cat("   (medida por IQR) en un ", round(reduccion_iqr_c, 1), "%\n\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 8: Visualización Comparativa
+
+```{webr-r}
+# Boxplot comparativo de las 4 estrategias
+datos_comparacion <- data.frame(
+  presupuesto = c(presupuesto_total, 
+                  presup_estrategia_a,
+                  presup_estrategia_b,
+                  presup_estrategia_c) / 1000,
+  estrategia = rep(c("Base", "Contratos Fijos", 
+                     "Pre-registro", "Ambas"),
+                   each = B)
+)
+
+boxplot(presupuesto ~ estrategia,
+        data = datos_comparacion,
+        col = c("gray", "lightblue", "lightgreen", "gold"),
+        main = "Comparación de Estrategias de Mitigación de Riesgo",
+        ylab = "Presupuesto Total (miles USD)",
+        xlab = "Estrategia",
+        las = 2,  # Rotar etiquetas
+        ylim = c(30, 100))
+
+# Línea de referencia P90 base
+abline(h = percentiles[6] / 1000, col = "red", lty = 2, lwd = 2)
+text(1, percentiles[6]/1000 + 3, 
+     "P90 sin mitigación", pos = 4, col = "red", cex = 0.8)
+```
+
+**Análisis visual:**
+- ¿Qué estrategia reduce más la dispersión?
+- ¿Hay trade-offs entre reducir incertidumbre y costo esperado?
+
+---
+
+# Parte 9: Tabla de Decisión para el Director
+
+```{webr-r}
+cat("\n═══════════════════════════════════════════════════════════════\n")
+cat("  MEMO PARA DECISIÓN: PRESUPUESTO PROGRAMA TMC 2026\n")
+cat("═══════════════════════════════════════════════════════════════\n\n")
+
+cat("RESUMEN EJECUTIVO\n\n")
+
+cat("Basado en 10,000 simulaciones Monte Carlo considerando:\n")
+cat("  • Variabilidad en costo unitario (inflación, logística)\n")
+cat("  • Incertidumbre en número de beneficiarios (demanda)\n")
+cat("  • Fluctuación en costos logísticos regionales\n\n")
+
+cat("┌─────────────────────────────────────────────────────────┐\n")
+cat("│ RECOMENDACIÓN DE PRESUPUESTO                            │\n")
+cat("└─────────────────────────────────────────────────────────┘\n\n")
+
+cat("Opción 1: CONSERVADORA (P90)\n")
+cat("  Monto:       $", format(round(percentiles[6], 0), big.mark = ","), 
+    " USD\n")
+cat("  Riesgo:      Solo 10% de escenarios rebasan este monto\n")
+cat("  Beneficio:   Evita presupuesto suplementario\n")
+cat("  Costo:       Podría sobrar presupuesto en escenarios favorables\n\n")
+
+cat("Opción 2: PRUDENTE (P75)\n")
+cat("  Monto:       $", format(round(percentiles[5], 0), big.mark = ","), 
+    " USD\n")
+cat("  Riesgo:      25% de escenarios rebasan este monto\n")
+cat("  Beneficio:   Balance entre prudencia y eficiencia\n")
+cat("  Costo:       Podría requerir ajuste presupuestal\n\n")
+
+cat("Opción 3: MEDIANA (P50)\n")
+cat("  Monto:       $", format(round(percentiles[4], 0), big.mark = ","), 
+    " USD\n")
+cat("  Riesgo:      50% de escenarios rebasan este monto\n")
+cat("  Beneficio:   Uso eficiente de recursos\n")
+cat("  Costo:       Alta probabilidad de necesitar suplemento\n\n")
+
+cat("┌─────────────────────────────────────────────────────────┐\n")
+cat("│ RECOMENDACIÓN FINAL                                     │\n")
+cat("└─────────────────────────────────────────────────────────┘\n\n")
+
+cat("Solicitar: $", format(round(percentiles[6], 0), big.mark = ","), 
+    " USD (P90)\n\n")
+
+cat("Justificación:\n")
+cat("  1. Minimiza riesgo político de presupuesto insuficiente\n")
+cat("  2. Costo de suplemento > Costo de sobre-estimar\n")
+cat("  3. Excedentes pueden reasignarse dentro del sector\n\n")
+
+cat("Además, IMPLEMENTAR:\n")
+cat("  • Estrategia de contratos fijos con proveedores\n")
+cat("  • Pre-registro de beneficiarios para reducir incertidumbre\n")
+cat("  → Reducción esperada de IQR: ", round(reduccion_iqr_c, 1), "%\n\n")
+
+cat("LIMITACIONES:\n")
+cat("  ⚠️  Modelo NO considera:\n")
+cat("      - Shocks macroeconómicos extremos (crisis)\n")
+cat("      - Cambios regulatorios durante ejecución\n")
+cat("      - Variación geográfica en costos\n")
+cat("      - Economías de escala con más beneficiarios\n\n")
+
+cat("═══════════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 10: Simulación de Escenarios Extremos
+
+```{webr-r}
+# ¿Qué pasa en el peor escenario razonable?
+cat("\n🚨 ANÁLISIS DE ESCENARIOS EXTREMOS\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# Peor 5% de escenarios
+peor_5pct <- presupuesto_total >= quantile(presupuesto_total, 0.95)
+presup_extremo <- presupuesto_total[peor_5pct]
+
+cat("ESCENARIO PESIMISTA (Peor 5%):\n")
+cat("  Presupuesto mínimo:  $", 
+    format(round(min(presup_extremo), 0), big.mark = ","), "\n")
+cat("  Presupuesto máximo:  $", 
+    format(round(max(presup_extremo), 0), big.mark = ","), "\n")
+cat("  Promedio en peor 5%: $", 
+    format(round(mean(presup_extremo), 0), big.mark = ","), "\n\n")
+
+# ¿Qué combinación lleva al peor escenario?
+idx_peor <- which.max(presupuesto_total)
+cat("EL PEOR ESCENARIO ÚNICO:\n")
+cat("  Presupuesto total:   $", 
+    format(round(presupuesto_total[idx_peor], 0), big.mark = ","), "\n")
+cat("  Costo unitario:      $", round(costo_unitario[idx_peor], 2), "\n")
+cat("  Beneficiarios:       ", n_beneficiarios[idx_peor], "\n")
+cat("  Logística:           $", 
+    format(round(costos_logistica[idx_peor], 0), big.mark = ","), "\n\n")
+
+# Mejor escenario
+idx_mejor <- which.min(presupuesto_total)
+cat("EL MEJOR ESCENARIO:\n")
+cat("  Presupuesto total:   $", 
+    format(round(presupuesto_total[idx_mejor], 0), big.mark = ","), "\n")
+cat("  Costo unitario:      $", round(costo_unitario[idx_mejor], 2), "\n")
+cat("  Beneficiarios:       ", n_beneficiarios[idx_mejor], "\n")
+cat("  Logística:           $", 
+    format(round(costos_logistica[idx_mejor], 0), big.mark = ","), "\n\n")
+
+cat("RANGO TOTAL (min-max):  $", 
+    format(round(max(presupuesto_total) - min(presupuesto_total), 0), 
+           big.mark = ","), "\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Ejercicio Individual (Entregable)
+
+**Parte A: Modificar Supuestos**
+
+1. **Re-simula el modelo** con beneficiarios más variables:
+   - Cambia SD de 400 a 800
+   - ¿Cómo cambia el P90?
+   - ¿Cuánto más presupuesto necesitarías?
+
+2. **Escenario de inflación:**
+   - Aumenta el costo unitario promedio de $12 a $14
+   - Mantén todo lo demás igual
+   - Calcula el nuevo P90 y compara
+
+**Parte B: Análisis Escrito**
+
+3. **Tabla comparativa** de las 4 estrategias:
+   - Columnas: Estrategia, P50, P90, IQR, Costo de implementación
+   - ¿Cuál recomendarías y por qué?
+
+4. **Escribe un párrafo** (6 líneas) explicando:
+   - ¿Por qué NO usar solo el promedio?
+   - ¿Qué percentil usarías para presupuestar?
+   - ¿Qué riesgo implica cada opción (P50 vs P90)?
+
+**Parte C: Comunicación**
+
+5. **Crea un memo de 1 página** para el Director que incluya:
+   - Recomendación de monto (con percentil)
+   - 1 gráfico (histograma o boxplot)
+   - 2-3 supuestos clave
+   - 2 limitaciones del modelo
+
+---
+
+# Preguntas de Discusión
+
+1. **Planificación Conservadora vs Eficiente:**
+   - ¿Qué costo tiene planificar con P90 vs P50?
+   - ¿En qué contextos políticos usarías cada uno?
+
+2. **Comunicación de Incertidumbre:**
+   - ¿Cómo le explicas al Congreso "90% de confianza"?
+   - ¿Preferirías dar un rango o un número único?
+
+3. **Mejora del Modelo:**
+   - ¿Qué otras fuentes de incertidumbre agregarías?
+   - ¿Cómo modelarías economías de escala?
+
+4. **Ética de la Incertidumbre:**
+   - ¿Es ético pedir presupuesto conservador sabiendo que podría sobrar?
+   - ¿Preferirías quedarte corto o sobre-estimar?
+
+---
+
+# Recursos Adicionales
+
+**Conceptos clave:**
+
+- **Simulación Monte Carlo:** Muestreo aleatorio repetido para generar distribución de resultados
+- **Distribuciones:**
+  - Normal: Suma de factores independientes
+  - Log-normal: Variables siempre positivas con cola derecha
+  - Gamma: Tiempo hasta eventos, costos agregados
+- **Percentiles de riesgo:**
+  - P90: Conservador (10% rebasa)
+  - P75: Prudente (25% rebasa)
+  - P50: Neutral (50% rebasa)
+- **Análisis de sensibilidad:** Identificar qué input genera más varianza en output
+
+**Usos en política pública:**
+
+- 💰 Planificación presupuestaria
+- 📊 Análisis costo-beneficio
+- 🏥 Proyecciones de demanda en salud
+- 🌾 Evaluación de riesgo en programas agrícolas
+- ⚡ Proyecciones de energía
+- 🎓 Planificación de infraestructura educativa
+
+**Para profundizar:**
+- Busca "Black Swan" de Nassim Taleb (eventos extremos)
+- Investiga "Value at Risk" (VaR) en finanzas
+- Lee sobre "Precautionary Principle" en política ambiental
+
+---
+
+**Última reflexión:** En un mundo incierto, dar un solo número es mentir. La distribución completa es la verdad.

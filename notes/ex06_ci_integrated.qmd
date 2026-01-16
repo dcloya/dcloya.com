@@ -1,0 +1,190 @@
+---
+title: "Sesión 6: Intervalos de Confianza"
+format: html
+filters:
+  - webr
+---
+
+# Caso: Evaluación de Programa de Control de Diabetes
+
+Un programa piloto de salud pública busca reducir el índice de masa corporal (IMC) en pacientes diabéticos. Se comparan dos grupos: **tratamiento** (programa intensivo) vs **control** (atención estándar).
+
+**Pregunta:** ¿El programa funciona? ¿Con qué nivel de certeza?
+
+```{webr-r}
+set.seed(2026)
+
+# Simular datos de 200 pacientes
+n_trat <- 100
+n_control <- 100
+
+# Grupo tratamiento: IMC reducido (media 28, DE 4)
+imc_tratamiento <- rnorm(n_trat, mean=28, sd=4)
+
+# Grupo control: IMC mayor (media 30, DE 4.5)
+imc_control <- rnorm(n_control, mean=30, sd=4.5)
+
+datos <- data.frame(
+  imc = c(imc_tratamiento, imc_control),
+  grupo = rep(c("Tratamiento", "Control"), c(n_trat, n_control))
+)
+
+head(datos)
+```
+
+---
+
+# Parte 1: Estadísticas Descriptivas por Grupo
+
+```{webr-r}
+cat("📊 COMPARACIÓN DE GRUPOS\n")
+cat("════════════════════════════════════════\n")
+
+by(datos$imc, datos$grupo, summary)
+
+# T-test para comparar medias
+resultado <- t.test(imc ~ grupo, data=datos)
+
+cat("\n💡 DIFERENCIA DE MEDIAS\n")
+cat("════════════════════════════════════════\n")
+cat("Media Control:       ", round(resultado$estimate[1], 2), "\n")
+cat("Media Tratamiento:   ", round(resultado$estimate[2], 2), "\n")
+cat("Diferencia:          ", round(resultado$estimate[1] - resultado$estimate[2], 2), " puntos IMC\n")
+cat("IC 95%:              [", round(resultado$conf.int[1], 2), ", ", 
+    round(resultado$conf.int[2], 2), "]\n")
+cat("p-valor:             ", format.pval(resultado$p.value, digits=3), "\n\n")
+```
+
+---
+
+# Parte 2: Visualización con Intervalos
+
+```{webr-r}
+# Boxplot con IC
+boxplot(imc ~ grupo, data=datos,
+        col=c("#4ECDC4", "#FF6B6B"),
+        main="IMC por Grupo con IC 95%",
+        ylab="Índice de Masa Corporal")
+
+# Agregar puntos de media ± IC
+medias <- tapply(datos$imc, datos$grupo, mean)
+errores <- tapply(datos$imc, datos$grupo, function(x) {
+  1.96 * sd(x) / sqrt(length(x))
+})
+
+points(1:2, medias, pch=18, cex=2.5, col="blue")
+arrows(1:2, medias - errores, 1:2, medias + errores, 
+       code=3, angle=90, length=0.1, lwd=2, col="blue")
+
+legend("topright",
+       legend=c("Media ± IC95%"),
+       pch=18, col="blue", bty="n")
+```
+
+---
+
+# Parte 3: Interpretación del IC
+
+```{webr-r}
+cat("\n🎯 INTERPRETACIÓN DEL IC 95%\n")
+cat("════════════════════════════════════════════════════════\n\n")
+
+dif <- resultado$estimate[1] - resultado$estimate[2]
+ic_lower <- resultado$conf.int[1]
+ic_upper <- resultado$conf.int[2]
+
+cat("La diferencia estimada es:", round(dif, 2), "puntos de IMC\n")
+cat("Con 95% de confianza, la verdadera diferencia está entre:\n")
+cat("  ", round(ic_lower, 2), "y", round(ic_upper, 2), "\n\n")
+
+if (ic_lower > 0 & ic_upper > 0) {
+  cat("✅ CONCLUSIÓN: El intervalo NO incluye cero.\n")
+  cat("   Podemos afirmar con 95% de confianza que hay diferencia.\n")
+  cat("   El tratamiento parece reducir el IMC.\n\n")
+} else if (ic_lower < 0 & ic_upper < 0) {
+  cat("❌ El tratamiento AUMENTA el IMC (resultado adverso)\n\n")
+} else {
+  cat("⚠️  El intervalo INCLUYE cero.\n")
+  cat("   No podemos descartar que la diferencia sea por azar.\n\n")
+}
+
+cat("⚠️  LIMITACIÓN: Esto NO prueba causalidad.\n")
+cat("   Puede haber variables confusoras (edad, sexo, adherencia).\n")
+```
+
+---
+
+# Parte 4: Simulación de 100 ICs
+
+```{webr-r}
+# Demostrar qué significa "95% de confianza"
+n_sims <- 100
+contiene_verdad <- 0
+diferencia_verdadera <- 2  # Asumida
+
+resultados_ic <- data.frame()
+
+for (i in 1:n_sims) {
+  muestra_t <- rnorm(50, mean=28, sd=4)
+  muestra_c <- rnorm(50, mean=30, sd=4.5)
+  
+  test <- t.test(muestra_t, muestra_c)
+  dif_obs <- mean(muestra_c) - mean(muestra_t)
+  
+  ic_low <- test$conf.int[1]
+  ic_high <- test$conf.int[2]
+  
+  captura <- (ic_low <= diferencia_verdadera) & (diferencia_verdadera <= ic_high)
+  if (captura) contiene_verdad <- contiene_verdad + 1
+  
+  resultados_ic <- rbind(resultados_ic, data.frame(
+    sim = i,
+    diferencia = dif_obs,
+    ic_low = ic_low,
+    ic_high = ic_high,
+    captura = captura
+  ))
+}
+
+cat("\nDe", n_sims, "intervalos al 95% de confianza:\n")
+cat("Contienen el valor verdadero:", contiene_verdad, "(", 
+    round(100*contiene_verdad/n_sims), "%)\n")
+cat("No lo contienen:            ", n_sims - contiene_verdad, "\n\n")
+
+# Plot de los ICs
+plot(1:n_sims, resultados_ic$diferencia, 
+     ylim=range(c(resultados_ic$ic_low, resultados_ic$ic_high)),
+     pch=19, cex=0.5,
+     col=ifelse(resultados_ic$captura, "blue", "red"),
+     main="100 Intervalos de Confianza al 95%",
+     xlab="Simulación", ylab="Diferencia estimada")
+
+for (i in 1:n_sims) {
+  segments(i, resultados_ic$ic_low[i], i, resultados_ic$ic_high[i],
+           col=ifelse(resultados_ic$captura[i], "blue", "red"))
+}
+
+abline(h=diferencia_verdadera, col="darkgreen", lwd=3, lty=2)
+text(50, diferencia_verdadera+0.5, "Verdad = 2.0", col="darkgreen")
+
+legend("topright",
+       legend=c("Captura verdad", "No captura"),
+       col=c("blue", "red"), pch=19, bty="n")
+```
+
+---
+
+# Ejercicio Individual
+
+1. **Calcula IC 90%** (en vez de 95%) - ¿Qué cambia?
+2. **Propón** tamaño de muestra para IC más estrecho
+3. **Escribe** memo de 1 página comunicando resultado
+
+---
+
+# Discusión
+
+- ¿"95% de confianza" significa "95% de probabilidad"?
+- ¿Cómo comunicas incertidumbre a decisores?
+- ¿Qué haces si IC es muy ancho?
+

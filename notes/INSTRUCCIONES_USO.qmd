@@ -1,0 +1,415 @@
+---
+title: "Guía de Uso del Curso"
+format: html
+filters:
+  - webr
+---
+
+# Para Estudiantes
+
+## Antes de Clase
+
+### 1. Configuración Inicial (Solo una vez)
+- ✅ Instalar R y RStudio (ver [Guía de Instalación](r_setup_guide.qmd))
+- ✅ Verificar que funciona: escribir `1 + 1` en la consola
+- ✅ Crear carpeta del curso en tu computadora
+- ✅ Descargar archivos de la sesión correspondiente
+
+### 2. Preparación para Cada Sesión (15 min)
+- 📖 Leer el **caso de política pública** al inicio del ejercicio
+- 🤔 Pensar: ¿Qué decisión hay que tomar?
+- 📝 Anotar preguntas previas
+
+## Durante Clase
+
+### Flujo de Trabajo Recomendado
+
+1. **Primera Hora (0:00-1:00):**
+   - Escuchar mini-lecture del instructor
+   - Ejecutar código junto con el instructor
+   - Hacer preguntas cuando algo no quede claro
+   - Anotar interpretaciones clave
+
+2. **Segunda Hora (1:00-2:00):**
+   - Continuar práctica guiada
+   - Modificar parámetros para experimentar
+   - Comparar resultados con compañeros
+
+3. **Tercera Hora (2:00-3:00):**
+   - Trabajar en ejercicio individual
+   - Consultar con instructor si hay dudas
+   - Participar en discusión final
+
+### Tips para Máximo Aprendizaje
+
+::: {.callout-tip icon="true"}
+## Consejos Prácticos
+
+1. **No solo copiar-pegar código:**
+   - Modifica valores y observa qué cambia
+   - Rompe el código a propósito para entender errores
+   
+2. **Usa comentarios abundantemente:**
+   ```r
+   # MAL: sin contexto
+   x <- mean(datos$ingreso)
+   
+   # BIEN: explica qué y por qué
+   ingreso_promedio <- mean(datos$ingreso)  # Para comparar con mediana
+   ```
+
+3. **Experimenta con visualizaciones:**
+   - Cambia colores, títulos, escalas
+   - Crea múltiples versiones del mismo gráfico
+   - Pregúntate: ¿Este gráfico comunica claramente?
+
+4. **Conecta con casos reales:**
+   - Busca noticias relacionadas
+   - Piensa en aplicaciones a tu contexto
+   - Discute con compañeros fuera de clase
+:::
+
+## Después de Clase
+
+### Ejercicio Individual (Entregable)
+
+Cada sesión incluye un ejercicio estructurado para entregar. Típicamente consiste en:
+
+1. **Análisis de datos (40%):**
+   - Ejecutar código R
+   - Crear tablas y gráficos
+   - Calcular estadísticas
+
+2. **Interpretación (40%):**
+   - Explicar hallazgos en lenguaje claro
+   - Relacionar con decisión de política
+   - Identificar qué cambia con este resultado
+
+3. **Limitaciones (20%):**
+   - Declarar qué NO dice el análisis
+   - Mencionar supuestos críticos
+   - Sugerir análisis complementarios
+
+### Formatos de Entrega Aceptados
+
+::: {.callout-note}
+## Opciones para Entregar
+
+**Opción A: Documento HTML** (Recomendado)
+- Ejecutar todo el .qmd en RStudio
+- Exportar a HTML (botón "Render")
+- Enviar archivo HTML completo
+
+**Opción B: Documento Word/PDF**
+- Crear nuevo archivo
+- Copiar código + outputs + gráficos
+- Agregar interpretaciones
+- Exportar y entregar
+
+**Opción C: Repositorio GitHub** (Avanzado)
+- Subir .qmd modificado con respuestas
+- Incluir outputs (.html, imágenes)
+- Compartir link del repo
+:::
+
+---
+
+# Para Instructores
+
+## Preparación de Clase
+
+### Antes de la Sesión (30 min)
+
+1. **Revisar ejercicio completo:**
+   - Ejecutar todo el código
+   - Identificar secciones para código en vivo
+   - Preparar preguntas detonadoras adicionales
+
+2. **Preparar materiales:**
+   - Proyector para código en vivo
+   - Datos disponibles para descarga
+   - Slides con conceptos clave (opcional)
+
+3. **Decidir énfasis:**
+   - ¿Qué conceptos son más difíciles?
+   - ¿Qué ejemplos adicionales usar?
+   - ¿Qué errores comunes anticipar?
+
+## Durante Clase (3 horas)
+
+### Estructura Recomendada
+
+```
+0:00-0:45  Mini-lecture + Partes 1-3 (introducción)
+           • Presentar caso de política pública
+           • Explicar conceptos clave con ejemplos
+           • Mostrar código básico en vivo
+
+0:45-1:45  Partes 4-7 (práctica guiada)
+           • Código paso a paso con explicaciones
+           • Pausas para preguntas
+           • Modificar parámetros en vivo
+           • Discutir interpretaciones en grupo
+
+1:45-2:25  Partes 8-9 (ejercicio individual)
+           • Estudiantes trabajan solos/en parejas
+           • Instructor circula ayudando
+           • Resolver dudas específicas
+
+2:25-3:00  Parte 10 (discusión y cierre)
+           • Compartir hallazgos entre estudiantes
+           • Preguntas detonadoras
+           • Conectar con siguiente sesión
+```
+
+### Técnicas Pedagógicas Efectivas
+
+::: {.callout-tip icon="true"}
+## Estrategias Probadas
+
+**1. Código en Vivo (Live Coding):**
+- Escribe código desde cero (no solo copy-paste)
+- Comete errores a propósito y muestra cómo resolverlos
+- Narra tu proceso de pensamiento
+
+**2. Think-Pair-Share:**
+- Plantea pregunta interpretativa
+- 2 min pensando individualmente
+- 3 min discutiendo en parejas
+- Compartir con clase completa
+
+**3. Predecir-Observar-Explicar:**
+- "¿Qué creen que pasará si cambio este valor?"
+- Ejecutar código
+- "¿Por qué pasó eso?"
+
+**4. Errores Intencionales:**
+- Introducir bug en código
+- Pedir a estudiantes identificarlo
+- Resolver colaborativamente
+:::
+
+## Después de Clase
+
+### Revisión de Ejercicios (2-3 horas)
+
+**Criterios de Evaluación:**
+
+| Criterio | Excelente (9-10) | Bueno (7-8) | Suficiente (6) | Insuficiente (<6) |
+|----------|------------------|-------------|----------------|-------------------|
+| **Código** | Funciona perfectamente, bien comentado | Funciona con errores menores | Funciona parcialmente | No funciona |
+| **Visualización** | Clara, honesta, informativa | Correcta pero mejorable | Básica pero adecuada | Confusa o engañosa |
+| **Interpretación** | Precisa y contextualizada | Correcta pero superficial | Básica | Incorrecta |
+| **Limitaciones** | Identifica 2-3 limitaciones clave | Identifica 1 limitación | Menciona limitaciones genéricas | No menciona |
+
+**Feedback Efectivo:**
+- ✅ **Específico:** "La interpretación del P90 es correcta, pero falta explicar por qué importa para política"
+- ❌ **Vago:** "Bien hecho"
+- ✅ **Constructivo:** "Intenta cambiar la escala del eje Y para ver el efecto"
+- ❌ **Solo crítico:** "Este gráfico está mal"
+
+### Compartir Mejores Prácticas
+
+- Seleccionar 2-3 ejercicios ejemplares (anónimos)
+- Compartir con clase
+- Explicar qué los hace destacar
+- Motivar a otros estudiantes
+
+---
+
+# Solución de Problemas Comunes
+
+## Problemas Técnicos
+
+### "Mi código no corre"
+
+::: {.callout-warning}
+## Checklist de Diagnóstico
+
+1. ✅ ¿Instalaste todos los paquetes necesarios?
+   ```r
+   install.packages("ggplot2")
+   library(ggplot2)
+   ```
+
+2. ✅ ¿Estás en el directorio correcto?
+   ```r
+   getwd()  # Ver directorio actual
+   setwd("ruta/a/tu/carpeta")  # Cambiar si necesario
+   ```
+
+3. ✅ ¿El archivo de datos está en la ubicación correcta?
+   ```r
+   list.files()  # Ver qué archivos están disponibles
+   ```
+
+4. ✅ ¿Copiaste el código exactamente?
+   - Revisa paréntesis, comas, comillas
+   - Verifica nombres de variables (R distingue mayúsculas/minúsculas)
+:::
+
+### "Error: object 'X' not found"
+
+**Causa:** Variable no existe en el ambiente
+
+**Solución:**
+```r
+# Ver qué objetos existen
+ls()
+
+# Verificar si el objeto existe
+exists("nombre_variable")
+
+# Re-ejecutar código que crea la variable
+```
+
+### "Gráfico no se muestra"
+
+**Soluciones:**
+- Asegurar que ventana de Plots esté abierta
+- Intentar: `dev.off()` para resetear dispositivo gráfico
+- Guardar explícitamente: `ggsave("grafico.png")`
+
+### "WebR no carga"
+
+**Soluciones:**
+- Intentar en navegador diferente (Chrome recomendado)
+- Limpiar caché del navegador
+- Verificar conexión a internet
+- Usar RStudio local como alternativa
+
+## Problemas Conceptuales
+
+### "No entiendo la diferencia entre media y mediana"
+
+**Respuesta corta:**
+- **Media:** Promedio aritmético (suma ÷ n)
+- **Mediana:** Valor del medio (50% arriba, 50% abajo)
+- **Cuándo difieren:** En distribuciones asimétricas
+
+**Ejemplo concreto:** Ver Sesión 1
+
+### "¿Qué significa p < 0.05?"
+
+**Respuesta corta:**
+Si la hipótesis nula fuera cierta, solo 5% de las veces obtendríamos un resultado tan extremo por puro azar.
+
+**NO significa:** "95% de probabilidad de que H₁ sea cierta"
+
+**Ver:** Sesiones 7 y 8 para profundizar
+
+### "¿Correlación implica causalidad?"
+
+**Respuesta:** NO
+
+**Por qué:** Puede haber:
+- Variable confusora
+- Causalidad inversa
+- Pura coincidencia
+
+**Ver:** Sesión 10 (Paradoja de Simpson)
+
+---
+
+# Adaptaciones y Modificaciones
+
+## Para Contexto Internacional
+
+### Cambiar Casos de Estudio
+
+Los ejercicios usan ejemplos genéricos que se pueden adaptar:
+
+```r
+# Original: Subsidios municipales en México
+# Adaptar a: Housing benefits en UK
+
+# Cambiar variables:
+ingreso_pc_usd → weekly_income_gbp
+zona → region (London, Manchester, etc.)
+```
+
+### Traducir a Otro Idioma
+
+Todos los textos están en español. Para traducir:
+
+1. Editar archivos .qmd directamente
+2. Cambiar títulos, labels de gráficos
+3. Mantener nombres de funciones en inglés (R estándar)
+
+## Para Diferentes Niveles
+
+### Simplificar (Pregrado)
+
+- Reducir cantidad de código
+- Enfocarse en interpretación
+- Usar solo funciones base R
+- Más visualizaciones, menos matemáticas
+
+### Profundizar (Posgrado Avanzado)
+
+- Agregar regresión múltiple
+- Incluir bootstrapping
+- Análisis de sensibilidad más detallado
+- Introducir causalidad (DAGs, IV)
+
+---
+
+# Recursos de Apoyo
+
+## Para Estudiantes
+
+### Libros Gratis Online
+- [R for Data Science](https://r4ds.hadley.nz/) - Wickham & Grolemund
+- [Introduction to Statistical Learning](https://www.statlearning.com/) - James et al.
+- [Causal Inference: The Mixtape](https://mixtape.scunning.com/) - Cunningham
+
+### Cursos Online
+- [DataCamp: Intro to R](https://www.datacamp.com/courses/free-introduction-to-r)
+- [Coursera: Statistics with R](https://www.coursera.org/specializations/statistics) (Duke)
+- [edX: Data Science](https://www.edx.org/course/data-science-r-basics) (Harvard)
+
+### Comunidades
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r) (etiqueta: [r])
+- [RStudio Community](https://community.rstudio.com/)
+- [Reddit: r/rstats](https://www.reddit.com/r/rstats/)
+
+## Para Instructores
+
+### Materiales Adicionales
+- [Teaching Statistics](https://teachdatascience.com/) - Blog especializado
+- [RStudio Education](https://education.rstudio.com/) - Recursos pedagógicos
+- [Journal of Statistics Education](https://www.tandfonline.com/toc/ujse20/current) - Artículos académicos
+
+### Herramientas
+- [learnr](https://rstudio.github.io/learnr/) - Tutoriales interactivos
+- [gradethis](https://pkgs.rstudio.com/gradethis/) - Autoevaluación de código
+- [Shiny](https://shiny.rstudio.com/) - Apps interactivas
+
+---
+
+# Contacto y Soporte
+
+## Canales de Comunicación
+
+**Para estudiantes:**
+- 📧 Email del instructor (respuesta en 24-48h)
+- 💬 Foro del curso (respuesta de compañeros más rápida)
+- 🕐 Horas de oficina (ver syllabus)
+
+**Para instructores:**
+- GitHub: Reportar bugs o sugerir mejoras
+- Email directo para consultas pedagógicas
+
+## Contribuciones Bienvenidas
+
+Si encuentras errores o tienes sugerencias:
+
+1. **Errores de código:** Crear issue en GitHub
+2. **Mejoras pedagógicas:** Enviar propuesta
+3. **Casos adicionales:** Compartir con comunidad
+
+---
+
+*Esta guía se actualiza periódicamente basándose en feedback de estudiantes e instructores.*
+
+**Última actualización:** Enero 2026

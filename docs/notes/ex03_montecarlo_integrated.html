@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Exercise 9: Is a Masters degree worth it? – David Contreras-Loya</title>
+<title>Sesión 3: Jugando a los Dados con el Presupuesto – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -378,7 +378,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# 1. Generate Data\nn <- 100\nschooling <- runif(n, 0, 20) # 0 to 20 years of school\n# Wage = 100 base + 50 per year of school + noise\nwage <- 100 + (50 * schooling) + rnorm(n, 0, 150) \n\n# 2. Run Regression\nmodel <- lm(wage ~ schooling)\n\n# 3. Plot\nplot(schooling, wage, pch = 16, col = \"gray\", \n     xlab = \"Years of Schooling\", ylab = \"Hourly Wage ($MXN)\")\nabline(model, col = \"blue\", lwd = 3)\n\n# 4. View Results\ncat(\"Base Wage (Intercept): $\", round(coef(model)[1], 2), \"\\n\")\ncat(\"Value of 1 Year of School (Slope): $\", round(coef(model)[2], 2))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Configuración de simulación\nset.seed(2026)\nB <- 10000  # Número de simulaciones (10 mil escenarios)\n\ncat(\"🎲 CONFIGURACIÓN DE LA SIMULACIÓN\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Corriendo\", B, \"escenarios posibles...\\n\\n\")\n\n# COMPONENTE 1: Costo unitario por beneficiario (distribución log-normal)\n# Log-normal porque: no puede ser negativo, tiene cola derecha (inflación extrema)\n# Media esperada: $12 USD, pero con variabilidad\n\n# Parámetros log-normal para media≈12, SD≈2.5\nmu_log <- log(12)\nsigma_log <- 0.25\n\ncosto_unitario <- rlnorm(B, meanlog = mu_log, sdlog = sigma_log)\n\ncat(\"💰 COSTO UNITARIO (por beneficiario)\\n\")\ncat(\"   Distribución: Log-normal\\n\")\ncat(\"   Media:      $\", round(mean(costo_unitario), 2), \" USD\\n\")\ncat(\"   Mediana:    $\", round(median(costo_unitario), 2), \" USD\\n\")\ncat(\"   DE:         $\", round(sd(costo_unitario), 2), \" USD\\n\")\ncat(\"   Rango:      $\", round(min(costo_unitario), 2), \" - $\", \n    round(max(costo_unitario), 2), \" USD\\n\\n\")\n\n# COMPONENTE 2: Número de beneficiarios (distribución normal)\n# Normal porque: suma de muchos factores independientes\n# Media esperada: 5,000, SD: 400\n\nn_beneficiarios <- round(rnorm(B, mean = 5000, sd = 400))\n# Asegurar que no haya valores negativos\nn_beneficiarios <- pmax(n_beneficiarios, 3000)\n\ncat(\"👥 NÚMERO DE BENEFICIARIOS\\n\")\ncat(\"   Distribución: Normal (truncada en 3,000)\\n\")\ncat(\"   Media:      \", round(mean(n_beneficiarios), 0), \" personas\\n\")\ncat(\"   Mediana:    \", round(median(n_beneficiarios), 0), \" personas\\n\")\ncat(\"   DE:         \", round(sd(n_beneficiarios), 0), \" personas\\n\")\ncat(\"   Rango:      \", min(n_beneficiarios), \" - \", \n    max(n_beneficiarios), \" personas\\n\\n\")\n\n# COMPONENTE 3: Costos logísticos (distribución gamma)\n# Gamma porque: siempre positivo, puede tener cola derecha, flexible\n# Media esperada: $40k USD\n\ncostos_logistica <- rgamma(B, shape = 5, rate = 1/8000)\n\ncat(\"🚛 COSTOS LOGÍSTICOS (transporte, operación)\\n\")\ncat(\"   Distribución: Gamma\\n\")\ncat(\"   Media:      $\", round(mean(costos_logistica), 0), \" USD\\n\")\ncat(\"   Mediana:    $\", round(median(costos_logistica), 0), \" USD\\n\")\ncat(\"   DE:         $\", round(sd(costos_logistica), 0), \" USD\\n\")\ncat(\"   Rango:      $\", round(min(costos_logistica), 0), \" - $\", \n    round(max(costos_logistica), 0), \" USD\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# MODELO: Presupuesto Total = (Costo Unitario × Beneficiarios) + Logística\npresupuesto_total <- (costo_unitario * n_beneficiarios) + costos_logistica\n\ncat(\"\\n💵 PRESUPUESTO TOTAL SIMULADO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Estadísticas descriptivas\ncat(\"Estadísticas centrales:\\n\")\ncat(\"  Media:      $\", format(round(mean(presupuesto_total), 0), \n                              big.mark = \",\"), \" USD\\n\")\ncat(\"  Mediana:    $\", format(round(median(presupuesto_total), 0), \n                              big.mark = \",\"), \" USD\\n\")\ncat(\"  DE:         $\", format(round(sd(presupuesto_total), 0), \n                              big.mark = \",\"), \" USD\\n\\n\")\n\n# Percentiles críticos\npercentiles <- quantile(presupuesto_total, \n                        probs = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95))\n\ncat(\"Percentiles (rango de escenarios posibles):\\n\")\ncat(\"  P5  (optimista):     $\", format(round(percentiles[1], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P10:                 $\", format(round(percentiles[2], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P25 (cuartil inf):   $\", format(round(percentiles[3], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P50 (mediana):       $\", format(round(percentiles[4], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P75 (cuartil sup):   $\", format(round(percentiles[5], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P90 (conservador):   $\", format(round(percentiles[6], 0), \n                                        big.mark = \",\"), \"\\n\")\ncat(\"  P95 (muy conservador): $\", format(round(percentiles[7], 0), \n                                          big.mark = \",\"), \"\\n\\n\")\n\n# Rango intercuartil\niqr <- IQR(presupuesto_total)\ncat(\"Rango Intercuartil (50% central): $\", \n    format(round(iqr, 0), big.mark = \",\"), \"\\n\\n\")\n\n# Coeficiente de variación\ncv <- 100 * sd(presupuesto_total) / mean(presupuesto_total)\ncat(\"Coeficiente de Variación: \", round(cv, 1), \"%\\n\")\nif (cv > 15) {\n  cat(\"⚠️  Alta incertidumbre - considere planeación por escenarios\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histograma de presupuestos simulados\nhist(presupuesto_total / 1000,  # Convertir a miles para mejor lectura\n     breaks = 60,\n     col = \"steelblue\",\n     border = \"white\",\n     main = \"Distribución de Presupuesto Total Simulado (10,000 escenarios)\",\n     xlab = \"Presupuesto Total (miles USD)\",\n     ylab = \"Frecuencia de escenarios\",\n     xlim = c(30, 100))\n\n# Líneas de referencia para percentiles clave\nabline(v = percentiles[4] / 1000, col = \"darkgreen\", lwd = 3, lty = 1)  # P50\nabline(v = percentiles[3] / 1000, col = \"orange\", lwd = 2, lty = 2)     # P25\nabline(v = percentiles[5] / 1000, col = \"orange\", lwd = 2, lty = 2)     # P75\nabline(v = percentiles[6] / 1000, col = \"red\", lwd = 3, lty = 3)        # P90\n\n# Leyenda\nlegend(\"topright\",\n       legend = c(\"P50 (Mediana)\", \"P25/P75 (IQR)\", \"P90 (Conservador)\"),\n       col = c(\"darkgreen\", \"orange\", \"red\"),\n       lty = c(1, 2, 3),\n       lwd = c(3, 2, 3),\n       bty = \"n\",\n       cex = 0.9)\n\n# Anotación\ntext(x = percentiles[6] / 1000 + 5, \n     y = max(hist(presupuesto_total/1000, plot=F, breaks=60)$counts) * 0.7,\n     paste0(\"10% de escenarios\\nexceden $\", \n            format(round(percentiles[6]/1000, 0), big.mark=\",\"), \"k\"),\n     pos = 4, col = \"red\", cex = 0.9)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Definir diferentes escenarios de presupuesto\nescenarios <- c(55000, 60000, 65000, 70000)\nnombres_esc <- c(\"Austero\", \"Moderado\", \"Prudente\", \"Conservador\")\n\ncat(\"\\n📊 ANÁLISIS DE RIESGO: ¿Qué presupuesto solicitar?\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\nfor (i in 1:length(escenarios)) {\n  presup <- escenarios[i]\n  prob_suficiente <- 100 * mean(presupuesto_total <= presup)\n  prob_insuficiente <- 100 - prob_suficiente\n  \n  cat(sprintf(\"%-15s ($%s):\\n\", \n              nombres_esc[i], \n              format(presup, big.mark = \",\")))\n  cat(sprintf(\"  ✅ Probabilidad de ser SUFICIENTE:   %5.1f%%\\n\", \n              prob_suficiente))\n  cat(sprintf(\"  ❌ Probabilidad de QUEDARSE CORTO:   %5.1f%%\\n\", \n              prob_insuficiente))\n  \n  if (prob_insuficiente > 20) {\n    cat(\"     ⚠️  RIESGO ALTO - Más del 20% de escenarios rebasan\\n\")\n  } else if (prob_insuficiente > 10) {\n    cat(\"     ⚠️  Riesgo moderado\\n\")\n  } else {\n    cat(\"     ✅ Riesgo bajo - Presupuesto conservador\\n\")\n  }\n  cat(\"\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n🔍 ANÁLISIS DE SENSIBILIDAD\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Calcular contribución de cada componente a la varianza total\nvar_costo_unit <- var(costo_unitario * n_beneficiarios)\nvar_logistica <- var(costos_logistica)\nvar_total <- var(presupuesto_total)\n\ncat(\"Varianza de componentes:\\n\")\ncat(\"  Costo unit × Benef:  $\", \n    format(round(var_costo_unit, 0), big.mark = \",\"), \"²\\n\")\ncat(\"  Logística:           $\", \n    format(round(var_logistica, 0), big.mark = \",\"), \"²\\n\")\ncat(\"  Total:               $\", \n    format(round(var_total, 0), big.mark = \",\"), \"²\\n\\n\")\n\npct_costo_unit <- 100 * var_costo_unit / var_total\npct_logistica <- 100 * var_logistica / var_total\n\ncat(\"Contribución porcentual a la incertidumbre:\\n\")\ncat(\"  Costo unit × Benef:  \", round(pct_costo_unit, 1), \"%\\n\")\ncat(\"  Logística:           \", round(pct_logistica, 1), \"%\\n\\n\")\n\nif (pct_costo_unit > 70) {\n  cat(\"💡 INSIGHT: La mayor fuente de incertidumbre es la combinación\\n\")\n  cat(\"   de costo unitario y número de beneficiarios.\\n\")\n  cat(\"   RECOMENDACIÓN: Invertir en mejor estimación de demanda\\n\")\n  cat(\"   y contratos fijos para reducir variabilidad de costo.\\n\")\n} else {\n  cat(\"💡 INSIGHT: Los costos logísticos son la principal fuente\\n\")\n  cat(\"   de incertidumbre.\\n\")\n  cat(\"   RECOMENDACIÓN: Negociar contratos logísticos con precios fijos.\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular efecto de diferentes estrategias para reducir incertidumbre\n\ncat(\"\\n🎯 COMPARACIÓN DE ESTRATEGIAS DE MITIGACIÓN\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# ESTRATEGIA A: Contrato fijo de costo unitario (reduce SD a la mitad)\ncosto_fijo <- rlnorm(B, meanlog = mu_log, sdlog = sigma_log/2)\npresup_estrategia_a <- (costo_fijo * n_beneficiarios) + costos_logistica\n\ncat(\"ESTRATEGIA A: Contrato fijo con proveedores\\n\")\ncat(\"  P50:  $\", format(round(median(presup_estrategia_a), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  P90:  $\", format(round(quantile(presup_estrategia_a, 0.90), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  IQR:  $\", format(round(IQR(presup_estrategia_a), 0), \n                        big.mark = \",\"), \"\\n\\n\")\n\n# ESTRATEGIA B: Pre-registro para reducir incertidumbre en beneficiarios\nbenef_estables <- round(rnorm(B, mean = 5000, sd = 200))  # SD reducido\nbenef_estables <- pmax(benef_estables, 3000)\npresup_estrategia_b <- (costo_unitario * benef_estables) + costos_logistica\n\ncat(\"ESTRATEGIA B: Pre-registro de beneficiarios\\n\")\ncat(\"  P50:  $\", format(round(median(presup_estrategia_b), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  P90:  $\", format(round(quantile(presup_estrategia_b, 0.90), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  IQR:  $\", format(round(IQR(presup_estrategia_b), 0), \n                        big.mark = \",\"), \"\\n\\n\")\n\n# ESTRATEGIA C: Ambas (contratos fijos + pre-registro)\npresup_estrategia_c <- (costo_fijo * benef_estables) + costos_logistica\n\ncat(\"ESTRATEGIA C: Contratos fijos + Pre-registro\\n\")\ncat(\"  P50:  $\", format(round(median(presup_estrategia_c), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  P90:  $\", format(round(quantile(presup_estrategia_c, 0.90), 0), \n                        big.mark = \",\"), \"\\n\")\ncat(\"  IQR:  $\", format(round(IQR(presup_estrategia_c), 0), \n                        big.mark = \",\"), \"\\n\\n\")\n\n# Comparación de reducción de riesgo\nreduccion_iqr_c <- 100 * (1 - IQR(presup_estrategia_c) / IQR(presupuesto_total))\n\ncat(\"💡 RESULTADO:\\n\")\ncat(\"   Implementar ambas estrategias reduce la incertidumbre\\n\")\ncat(\"   (medida por IQR) en un \", round(reduccion_iqr_c, 1), \"%\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot comparativo de las 4 estrategias\ndatos_comparacion <- data.frame(\n  presupuesto = c(presupuesto_total, \n                  presup_estrategia_a,\n                  presup_estrategia_b,\n                  presup_estrategia_c) / 1000,\n  estrategia = rep(c(\"Base\", \"Contratos Fijos\", \n                     \"Pre-registro\", \"Ambas\"),\n                   each = B)\n)\n\nboxplot(presupuesto ~ estrategia,\n        data = datos_comparacion,\n        col = c(\"gray\", \"lightblue\", \"lightgreen\", \"gold\"),\n        main = \"Comparación de Estrategias de Mitigación de Riesgo\",\n        ylab = \"Presupuesto Total (miles USD)\",\n        xlab = \"Estrategia\",\n        las = 2,  # Rotar etiquetas\n        ylim = c(30, 100))\n\n# Línea de referencia P90 base\nabline(h = percentiles[6] / 1000, col = \"red\", lty = 2, lwd = 2)\ntext(1, percentiles[6]/1000 + 3, \n     \"P90 sin mitigación\", pos = 4, col = \"red\", cex = 0.8)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO PARA DECISIÓN: PRESUPUESTO PROGRAMA TMC 2026\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"RESUMEN EJECUTIVO\\n\\n\")\n\ncat(\"Basado en 10,000 simulaciones Monte Carlo considerando:\\n\")\ncat(\"  • Variabilidad en costo unitario (inflación, logística)\\n\")\ncat(\"  • Incertidumbre en número de beneficiarios (demanda)\\n\")\ncat(\"  • Fluctuación en costos logísticos regionales\\n\\n\")\n\ncat(\"┌─────────────────────────────────────────────────────────┐\\n\")\ncat(\"│ RECOMENDACIÓN DE PRESUPUESTO                            │\\n\")\ncat(\"└─────────────────────────────────────────────────────────┘\\n\\n\")\n\ncat(\"Opción 1: CONSERVADORA (P90)\\n\")\ncat(\"  Monto:       $\", format(round(percentiles[6], 0), big.mark = \",\"), \n    \" USD\\n\")\ncat(\"  Riesgo:      Solo 10% de escenarios rebasan este monto\\n\")\ncat(\"  Beneficio:   Evita presupuesto suplementario\\n\")\ncat(\"  Costo:       Podría sobrar presupuesto en escenarios favorables\\n\\n\")\n\ncat(\"Opción 2: PRUDENTE (P75)\\n\")\ncat(\"  Monto:       $\", format(round(percentiles[5], 0), big.mark = \",\"), \n    \" USD\\n\")\ncat(\"  Riesgo:      25% de escenarios rebasan este monto\\n\")\ncat(\"  Beneficio:   Balance entre prudencia y eficiencia\\n\")\ncat(\"  Costo:       Podría requerir ajuste presupuestal\\n\\n\")\n\ncat(\"Opción 3: MEDIANA (P50)\\n\")\ncat(\"  Monto:       $\", format(round(percentiles[4], 0), big.mark = \",\"), \n    \" USD\\n\")\ncat(\"  Riesgo:      50% de escenarios rebasan este monto\\n\")\ncat(\"  Beneficio:   Uso eficiente de recursos\\n\")\ncat(\"  Costo:       Alta probabilidad de necesitar suplemento\\n\\n\")\n\ncat(\"┌─────────────────────────────────────────────────────────┐\\n\")\ncat(\"│ RECOMENDACIÓN FINAL                                     │\\n\")\ncat(\"└─────────────────────────────────────────────────────────┘\\n\\n\")\n\ncat(\"Solicitar: $\", format(round(percentiles[6], 0), big.mark = \",\"), \n    \" USD (P90)\\n\\n\")\n\ncat(\"Justificación:\\n\")\ncat(\"  1. Minimiza riesgo político de presupuesto insuficiente\\n\")\ncat(\"  2. Costo de suplemento > Costo de sobre-estimar\\n\")\ncat(\"  3. Excedentes pueden reasignarse dentro del sector\\n\\n\")\n\ncat(\"Además, IMPLEMENTAR:\\n\")\ncat(\"  • Estrategia de contratos fijos con proveedores\\n\")\ncat(\"  • Pre-registro de beneficiarios para reducir incertidumbre\\n\")\ncat(\"  → Reducción esperada de IQR: \", round(reduccion_iqr_c, 1), \"%\\n\\n\")\n\ncat(\"LIMITACIONES:\\n\")\ncat(\"  ⚠️  Modelo NO considera:\\n\")\ncat(\"      - Shocks macroeconómicos extremos (crisis)\\n\")\ncat(\"      - Cambios regulatorios durante ejecución\\n\")\ncat(\"      - Variación geográfica en costos\\n\")\ncat(\"      - Economías de escala con más beneficiarios\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ¿Qué pasa en el peor escenario razonable?\ncat(\"\\n🚨 ANÁLISIS DE ESCENARIOS EXTREMOS\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Peor 5% de escenarios\npeor_5pct <- presupuesto_total >= quantile(presupuesto_total, 0.95)\npresup_extremo <- presupuesto_total[peor_5pct]\n\ncat(\"ESCENARIO PESIMISTA (Peor 5%):\\n\")\ncat(\"  Presupuesto mínimo:  $\", \n    format(round(min(presup_extremo), 0), big.mark = \",\"), \"\\n\")\ncat(\"  Presupuesto máximo:  $\", \n    format(round(max(presup_extremo), 0), big.mark = \",\"), \"\\n\")\ncat(\"  Promedio en peor 5%: $\", \n    format(round(mean(presup_extremo), 0), big.mark = \",\"), \"\\n\\n\")\n\n# ¿Qué combinación lleva al peor escenario?\nidx_peor <- which.max(presupuesto_total)\ncat(\"EL PEOR ESCENARIO ÚNICO:\\n\")\ncat(\"  Presupuesto total:   $\", \n    format(round(presupuesto_total[idx_peor], 0), big.mark = \",\"), \"\\n\")\ncat(\"  Costo unitario:      $\", round(costo_unitario[idx_peor], 2), \"\\n\")\ncat(\"  Beneficiarios:       \", n_beneficiarios[idx_peor], \"\\n\")\ncat(\"  Logística:           $\", \n    format(round(costos_logistica[idx_peor], 0), big.mark = \",\"), \"\\n\\n\")\n\n# Mejor escenario\nidx_mejor <- which.min(presupuesto_total)\ncat(\"EL MEJOR ESCENARIO:\\n\")\ncat(\"  Presupuesto total:   $\", \n    format(round(presupuesto_total[idx_mejor], 0), big.mark = \",\"), \"\\n\")\ncat(\"  Costo unitario:      $\", round(costo_unitario[idx_mejor], 2), \"\\n\")\ncat(\"  Beneficiarios:       \", n_beneficiarios[idx_mejor], \"\\n\")\ncat(\"  Logística:           $\", \n    format(round(costos_logistica[idx_mejor], 0), big.mark = \",\"), \"\\n\\n\")\n\ncat(\"RANGO TOTAL (min-max):  $\", \n    format(round(max(presupuesto_total) - min(presupuesto_total), 0), \n           big.mark = \",\"), \"\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1634,11 +1634,11 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Exercise 9: Is a Masters degree worth it? – David Contreras-Loya">
+<meta property="og:title" content="Sesión 3: Jugando a los Dados con el Presupuesto – David Contreras-Loya">
 <meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Exercise 9: Is a Masters degree worth it? – David Contreras-Loya">
+<meta name="twitter:title" content="Sesión 3: Jugando a los Dados con el Presupuesto – David Contreras-Loya">
 <meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -1692,59 +1692,84 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/prova.html">
- <span class="dropdown-text">Course Overview</span></a>
+    <a class="dropdown-item" href="../notes/INDICE_COMPLETO.html">
+ <span class="dropdown-text">Indice Completo de Ejercicios</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/INSTRUCCIONES_USO.html">
+ <span class="dropdown-text">Guia de Uso para Estudiantes</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B1: Datos y Viz</li>
+        <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average.html">
- <span class="dropdown-text">Ex 1: Desigualdad (Promedios)</span></a>
+    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_outliers.html">
- <span class="dropdown-text">Ex 2: Limpieza de Datos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B2: Riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../notes/ex03_risk.html">
- <span class="dropdown-text">Ex 3: Presupuesto (Monte Carlo)</span></a>
+    <a class="dropdown-item" href="../notes/r_getting_started.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes.html">
- <span class="dropdown-text">Ex 4: Probabilidad Condicional</span></a>
+    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B3: Inferencia I</li>
+        <li class="dropdown-header">SESIONES (10 SESIONES)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y Visualizacion</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_lln.html">
- <span class="dropdown-text">Ex 5: Ley Grandes Números</span></a>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tirania del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci.html">
- <span class="dropdown-text">Ex 6: Intervalos de Confianza</span></a>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B4: Inferencia II</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y Riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest.html">
- <span class="dropdown-text">Ex 7: A/B Testing (T-Test)</span></a>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex08_pval.html">
- <span class="dropdown-text">Ex 8: El P-Valor</span></a>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B5: Causalidad</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia I</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression.html">
- <span class="dropdown-text">Ex 9: Regresión Simple</span></a>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons.html">
- <span class="dropdown-text">Ex 10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipotesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociacion y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
   </li>  
     </ul>
   </li>
@@ -1790,7 +1815,20 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#returns-to-education" id="toc-returns-to-education" class="nav-link active" data-scroll-target="#returns-to-education">Returns to Education</a></li>
+  <li><a href="#caso-de-política-pública" id="toc-caso-de-política-pública" class="nav-link active" data-scroll-target="#caso-de-política-pública">Caso de Política Pública</a></li>
+  <li><a href="#parte-1-concepto-de-simulación-monte-carlo" id="toc-parte-1-concepto-de-simulación-monte-carlo" class="nav-link" data-scroll-target="#parte-1-concepto-de-simulación-monte-carlo">Parte 1: Concepto de Simulación Monte Carlo</a></li>
+  <li><a href="#parte-2-componentes-del-modelo" id="toc-parte-2-componentes-del-modelo" class="nav-link" data-scroll-target="#parte-2-componentes-del-modelo">Parte 2: Componentes del Modelo</a></li>
+  <li><a href="#parte-3-cálculo-del-presupuesto-total" id="toc-parte-3-cálculo-del-presupuesto-total" class="nav-link" data-scroll-target="#parte-3-cálculo-del-presupuesto-total">Parte 3: Cálculo del Presupuesto Total</a></li>
+  <li><a href="#parte-4-visualización-de-la-distribución" id="toc-parte-4-visualización-de-la-distribución" class="nav-link" data-scroll-target="#parte-4-visualización-de-la-distribución">Parte 4: Visualización de la Distribución</a></li>
+  <li><a href="#parte-5-análisis-de-riesgo-presupuestario" id="toc-parte-5-análisis-de-riesgo-presupuestario" class="nav-link" data-scroll-target="#parte-5-análisis-de-riesgo-presupuestario">Parte 5: Análisis de Riesgo Presupuestario</a></li>
+  <li><a href="#parte-6-análisis-de-sensibilidad" id="toc-parte-6-análisis-de-sensibilidad" class="nav-link" data-scroll-target="#parte-6-análisis-de-sensibilidad">Parte 6: Análisis de Sensibilidad</a></li>
+  <li><a href="#parte-7-comparación-de-estrategias" id="toc-parte-7-comparación-de-estrategias" class="nav-link" data-scroll-target="#parte-7-comparación-de-estrategias">Parte 7: Comparación de Estrategias</a></li>
+  <li><a href="#parte-8-visualización-comparativa" id="toc-parte-8-visualización-comparativa" class="nav-link" data-scroll-target="#parte-8-visualización-comparativa">Parte 8: Visualización Comparativa</a></li>
+  <li><a href="#parte-9-tabla-de-decisión-para-el-director" id="toc-parte-9-tabla-de-decisión-para-el-director" class="nav-link" data-scroll-target="#parte-9-tabla-de-decisión-para-el-director">Parte 9: Tabla de Decisión para el Director</a></li>
+  <li><a href="#parte-10-simulación-de-escenarios-extremos" id="toc-parte-10-simulación-de-escenarios-extremos" class="nav-link" data-scroll-target="#parte-10-simulación-de-escenarios-extremos">Parte 10: Simulación de Escenarios Extremos</a></li>
+  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
+  <li><a href="#preguntas-de-discusión" id="toc-preguntas-de-discusión" class="nav-link" data-scroll-target="#preguntas-de-discusión">Preguntas de Discusión</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos Adicionales</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,7 +2121,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercise 9: Is a Masters degree worth it?</h1>
+<h1 class="title">Sesión 3: Jugando a los Dados con el Presupuesto</h1>
 </div>
 
 
@@ -2100,11 +2138,185 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="returns-to-education" class="level1">
-<h1>Returns to Education</h1>
-<p>We plot <strong>Years of Schooling</strong> (X) vs.&nbsp;<strong>Hourly Wage</strong> (Y). The slope of the blue line tells us the monetary value of one extra year of education.</p>
+<section id="caso-de-política-pública" class="level1">
+<h1>Caso de Política Pública</h1>
+<p>La <strong>Dirección de Programas Sociales</strong> debe presentar un presupuesto al Congreso para un programa de transferencias monetarias condicionadas. El problema: <strong>múltiples fuentes de incertidumbre</strong>:</p>
+<ul>
+<li>📦 <strong>Costo unitario</strong> por beneficiario (varía por logística, inflación)</li>
+<li>👥 <strong>Número de beneficiarios</strong> (demanda fluctuante)</li>
+<li>🚛 <strong>Costos logísticos</strong> (transporte, operación regional)</li>
+<li>💸 <strong>Tasa de deserción</strong> (beneficiarios que abandonan el programa)</li>
+</ul>
+<p><strong>Tu tarea:</strong> Usar simulación Monte Carlo para: - Estimar el presupuesto necesario con su rango de incertidumbre - Identificar el percentil 90 (para no quedarse corto) - Comunicar el riesgo presupuestario al Director</p>
+<p><strong>Regla de oro:</strong> Planificar con el promedio es planificar para el fracaso. Necesitamos conocer la distribución completa.</p>
+<hr>
+</section>
+<section id="parte-1-concepto-de-simulación-monte-carlo" class="level1">
+<h1>Parte 1: Concepto de Simulación Monte Carlo</h1>
+<p><strong>¿Qué es Monte Carlo?</strong> - Técnica que usa muestreo aleatorio repetido - “Tira los dados” miles de veces - Genera distribución de resultados posibles - Usado en finanzas, seguros, ingeniería, salud pública</p>
+<p><strong>¿Por qué lo necesitamos?</strong> En política pública, raramente sabemos un valor exacto. Sabemos: - “El costo unitario está entre $10-15 USD, pero más probable cerca de $12” - “Esperamos 5,000 beneficiarios ± 400” - “La logística cuesta entre $30k-50k USD”</p>
+<p>Monte Carlo convierte esta incertidumbre en números útiles para decidir.</p>
+<hr>
+</section>
+<section id="parte-2-componentes-del-modelo" class="level1">
+<h1>Parte 2: Componentes del Modelo</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de reflexión:</strong> ¿Por qué usamos distribuciones diferentes para cada componente?</p>
+<hr>
+</section>
+<section id="parte-3-cálculo-del-presupuesto-total" class="level1">
+<h1>Parte 3: Cálculo del Presupuesto Total</h1>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-4-visualización-de-la-distribución" class="level1">
+<h1>Parte 4: Visualización de la Distribución</h1>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpreta el histograma:</strong> - ¿La distribución es simétrica o asimétrica? - ¿Hay cola larga a la derecha? (escenarios de alto costo) - ¿Qué tan separados están P25 y P75?</p>
+<hr>
+</section>
+<section id="parte-5-análisis-de-riesgo-presupuestario" class="level1">
+<h1>Parte 5: Análisis de Riesgo Presupuestario</h1>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de política:</strong> - ¿Qué nivel de riesgo es aceptable? - ¿Preferirías quedarte corto en 5% o 20% de los escenarios? - ¿Qué costo político tiene pedir presupuesto suplementario?</p>
+<hr>
+</section>
+<section id="parte-6-análisis-de-sensibilidad" class="level1">
+<h1>Parte 6: Análisis de Sensibilidad</h1>
+<p><strong>¿Qué componente genera más incertidumbre?</strong></p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-7-comparación-de-estrategias" class="level1">
+<h1>Parte 7: Comparación de Estrategias</h1>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-8-visualización-comparativa" class="level1">
+<h1>Parte 8: Visualización Comparativa</h1>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Análisis visual:</strong> - ¿Qué estrategia reduce más la dispersión? - ¿Hay trade-offs entre reducir incertidumbre y costo esperado?</p>
+<hr>
+</section>
+<section id="parte-9-tabla-de-decisión-para-el-director" class="level1">
+<h1>Parte 9: Tabla de Decisión para el Director</h1>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-10-simulación-de-escenarios-extremos" class="level1">
+<h1>Parte 10: Simulación de Escenarios Extremos</h1>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="ejercicio-individual-entregable" class="level1">
+<h1>Ejercicio Individual (Entregable)</h1>
+<p><strong>Parte A: Modificar Supuestos</strong></p>
+<ol type="1">
+<li><strong>Re-simula el modelo</strong> con beneficiarios más variables:
+<ul>
+<li>Cambia SD de 400 a 800</li>
+<li>¿Cómo cambia el P90?</li>
+<li>¿Cuánto más presupuesto necesitarías?</li>
+</ul></li>
+<li><strong>Escenario de inflación:</strong>
+<ul>
+<li>Aumenta el costo unitario promedio de $12 a $14</li>
+<li>Mantén todo lo demás igual</li>
+<li>Calcula el nuevo P90 y compara</li>
+</ul></li>
+</ol>
+<p><strong>Parte B: Análisis Escrito</strong></p>
+<ol start="3" type="1">
+<li><strong>Tabla comparativa</strong> de las 4 estrategias:
+<ul>
+<li>Columnas: Estrategia, P50, P90, IQR, Costo de implementación</li>
+<li>¿Cuál recomendarías y por qué?</li>
+</ul></li>
+<li><strong>Escribe un párrafo</strong> (6 líneas) explicando:
+<ul>
+<li>¿Por qué NO usar solo el promedio?</li>
+<li>¿Qué percentil usarías para presupuestar?</li>
+<li>¿Qué riesgo implica cada opción (P50 vs P90)?</li>
+</ul></li>
+</ol>
+<p><strong>Parte C: Comunicación</strong></p>
+<ol start="5" type="1">
+<li><strong>Crea un memo de 1 página</strong> para el Director que incluya:
+<ul>
+<li>Recomendación de monto (con percentil)</li>
+<li>1 gráfico (histograma o boxplot)</li>
+<li>2-3 supuestos clave</li>
+<li>2 limitaciones del modelo</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="preguntas-de-discusión" class="level1">
+<h1>Preguntas de Discusión</h1>
+<ol type="1">
+<li><strong>Planificación Conservadora vs Eficiente:</strong>
+<ul>
+<li>¿Qué costo tiene planificar con P90 vs P50?</li>
+<li>¿En qué contextos políticos usarías cada uno?</li>
+</ul></li>
+<li><strong>Comunicación de Incertidumbre:</strong>
+<ul>
+<li>¿Cómo le explicas al Congreso “90% de confianza”?</li>
+<li>¿Preferirías dar un rango o un número único?</li>
+</ul></li>
+<li><strong>Mejora del Modelo:</strong>
+<ul>
+<li>¿Qué otras fuentes de incertidumbre agregarías?</li>
+<li>¿Cómo modelarías economías de escala?</li>
+</ul></li>
+<li><strong>Ética de la Incertidumbre:</strong>
+<ul>
+<li>¿Es ético pedir presupuesto conservador sabiendo que podría sobrar?</li>
+<li>¿Preferirías quedarte corto o sobre-estimar?</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="recursos-adicionales" class="level1">
+<h1>Recursos Adicionales</h1>
+<p><strong>Conceptos clave:</strong></p>
+<ul>
+<li><strong>Simulación Monte Carlo:</strong> Muestreo aleatorio repetido para generar distribución de resultados</li>
+<li><strong>Distribuciones:</strong>
+<ul>
+<li>Normal: Suma de factores independientes</li>
+<li>Log-normal: Variables siempre positivas con cola derecha</li>
+<li>Gamma: Tiempo hasta eventos, costos agregados</li>
+</ul></li>
+<li><strong>Percentiles de riesgo:</strong>
+<ul>
+<li>P90: Conservador (10% rebasa)</li>
+<li>P75: Prudente (25% rebasa)</li>
+<li>P50: Neutral (50% rebasa)</li>
+</ul></li>
+<li><strong>Análisis de sensibilidad:</strong> Identificar qué input genera más varianza en output</li>
+</ul>
+<p><strong>Usos en política pública:</strong></p>
+<ul>
+<li>💰 Planificación presupuestaria</li>
+<li>📊 Análisis costo-beneficio</li>
+<li>🏥 Proyecciones de demanda en salud</li>
+<li>🌾 Evaluación de riesgo en programas agrícolas</li>
+<li>⚡ Proyecciones de energía</li>
+<li>🎓 Planificación de infraestructura educativa</li>
+</ul>
+<p><strong>Para profundizar:</strong> - Busca “Black Swan” de Nassim Taleb (eventos extremos) - Investiga “Value at Risk” (VaR) en finanzas - Lee sobre “Precautionary Principle” en política ambiental</p>
+<hr>
+<p><strong>Última reflexión:</strong> En un mundo incierto, dar un solo número es mentir. La distribución completa es la verdad.</p>
 
 
 </section>

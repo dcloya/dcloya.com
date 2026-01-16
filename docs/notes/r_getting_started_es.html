@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Dr.&nbsp;David Contreras-Loya">
+<meta name="dcterms.date" content="2026-01-16">
+<meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<title>Sección 1: Introducción a R – David Contreras-Loya</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id="></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '', { 'anonymize_ip': true});
+</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sección 1: Introducción a R – David Contreras-Loya">
+<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta property="og:image" content="https://quarto.org/quarto.png">
+<meta property="og:site_name" content="David Contreras-Loya">
+<meta name="twitter:title" content="Sección 1: Introducción a R – David Contreras-Loya">
+<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">David Contreras-Loya</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">
+<li>
+    <a class="dropdown-item" href="../contact.html">
+ <span class="dropdown-text">Contact</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">
+<li>
+    <a class="dropdown-item" href="../publications.html">
+ <span class="dropdown-text">List of Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ongoing.html">
+ <span class="dropdown-text">Ongoing Research</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">
+<li class="dropdown-header">INTRODUCCION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">CONFIGURACION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../files/nsf-biosketch.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#lo-que-necesitar%C3%A1s" id="toc-lo-que-necesitarás" class="nav-link active" data-scroll-target="#lo-que-necesitar%C3%A1s">Lo que necesitarás</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  <li>
+<a href="#paquetes-en-r" id="toc-paquetes-en-r" class="nav-link" data-scroll-target="#paquetes-en-r">Paquetes en R</a>
+  <ul class="collapse">
+<li>
+<a href="#instalaci%C3%B3n-de-paquetes" id="toc-instalación-de-paquetes" class="nav-link" data-scroll-target="#instalaci%C3%B3n-de-paquetes">Instalación de paquetes</a>
+  <ul class="collapse">
+<li><a href="#notas-importantes" id="toc-notas-importantes" class="nav-link" data-scroll-target="#notas-importantes">Notas importantes:</a></li>
+  </ul>
+</li>
+  <li><a href="#carga-de-paquetes" id="toc-carga-de-paquetes" class="nav-link" data-scroll-target="#carga-de-paquetes">Carga de paquetes</a></li>
+  <li><a href="#gesti%C3%B3n-de-paquetes-con-pacman" id="toc-gestión-de-paquetes-con-pacman" class="nav-link" data-scroll-target="#gesti%C3%B3n-de-paquetes-con-pacman">Gestión de paquetes con <code>pacman</code></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a>
+  <ul class="collapse">
+<li><a href="#el-dataset-iris" id="toc-el-dataset-iris" class="nav-link" data-scroll-target="#el-dataset-iris">El dataset Iris</a></li>
+  <li><a href="#carga-de-datasets-incluidos-en-r" id="toc-carga-de-datasets-incluidos-en-r" class="nav-link" data-scroll-target="#carga-de-datasets-incluidos-en-r">Carga de datasets incluidos en R</a></li>
+  <li>
+<a href="#funciones-para-cargar-archivos-externos" id="toc-funciones-para-cargar-archivos-externos" class="nav-link" data-scroll-target="#funciones-para-cargar-archivos-externos">Funciones para cargar archivos externos</a>
+  <ul class="collapse">
+<li><a href="#ejemplo-cargar-un-archivo-csv" id="toc-ejemplo-cargar-un-archivo-csv" class="nav-link" data-scroll-target="#ejemplo-cargar-un-archivo-csv">Ejemplo: Cargar un archivo CSV</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#jugando-con-datos" id="toc-jugando-con-datos" class="nav-link" data-scroll-target="#jugando-con-datos">Jugando con datos</a>
+  <ul class="collapse">
+<li>
+<a href="#exploraci%C3%B3n-de-los-datos" id="toc-exploración-de-los-datos" class="nav-link" data-scroll-target="#exploraci%C3%B3n-de-los-datos">Exploración de los datos</a>
+  <ul class="collapse">
+<li><a href="#obtener-nombres-de-columnas" id="toc-obtener-nombres-de-columnas" class="nav-link" data-scroll-target="#obtener-nombres-de-columnas">Obtener nombres de columnas</a></li>
+  <li><a href="#ver-primeras%C3%BAltimas-filas" id="toc-ver-primerasúltimas-filas" class="nav-link" data-scroll-target="#ver-primeras%C3%BAltimas-filas">Ver primeras/últimas filas</a></li>
+  <li><a href="#estructura-del-dataset" id="toc-estructura-del-dataset" class="nav-link" data-scroll-target="#estructura-del-dataset">Estructura del dataset</a></li>
+  </ul>
+</li>
+  <li><a href="#resumen-de-los-datos" id="toc-resumen-de-los-datos" class="nav-link" data-scroll-target="#resumen-de-los-datos">Resumen de los datos</a></li>
+  <li>
+<a href="#manipulaci%C3%B3n-de-los-datos" id="toc-manipulación-de-los-datos" class="nav-link" data-scroll-target="#manipulaci%C3%B3n-de-los-datos">Manipulación de los datos</a>
+  <ul class="collapse">
+<li><a href="#select---elegir-variables" id="toc-select---elegir-variables" class="nav-link" data-scroll-target="#select---elegir-variables"><code>select()</code> - Elegir variables</a></li>
+  <li><a href="#arrange---ordenar-datos" id="toc-arrange---ordenar-datos" class="nav-link" data-scroll-target="#arrange---ordenar-datos"><code>arrange()</code> - Ordenar datos</a></li>
+  <li><a href="#filter---filtrar-filas" id="toc-filter---filtrar-filas" class="nav-link" data-scroll-target="#filter---filtrar-filas"><code>filter()</code> - Filtrar filas</a></li>
+  <li><a href="#summarize---crear-res%C3%BAmenes" id="toc-summarize---crear-resúmenes" class="nav-link" data-scroll-target="#summarize---crear-res%C3%BAmenes"><code>summarize()</code> - Crear resúmenes</a></li>
+  <li><a href="#group_by---agrupar-datos" id="toc-group_by---agrupar-datos" class="nav-link" data-scroll-target="#group_by---agrupar-datos"><code>group_by()</code> - Agrupar datos</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#gr%C3%A1ficas-de-los-datos" id="toc-gráficas-de-los-datos" class="nav-link" data-scroll-target="#gr%C3%A1ficas-de-los-datos">Gráficas de los datos</a>
+  <ul class="collapse">
+<li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma">Histograma</a></li>
+  <li><a href="#gr%C3%A1fica-de-dispersi%C3%B3n" id="toc-gráfica-de-dispersión" class="nav-link" data-scroll-target="#gr%C3%A1fica-de-dispersi%C3%B3n">Gráfica de dispersión</a></li>
+  <li><a href="#gr%C3%A1fica-por-grupos" id="toc-gráfica-por-grupos" class="nav-link" data-scroll-target="#gr%C3%A1fica-por-grupos">Gráfica por grupos</a></li>
+  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#indexaci%C3%B3n" id="toc-indexación" class="nav-link" data-scroll-target="#indexaci%C3%B3n">Indexación</a>
+  <ul class="collapse">
+<li><a href="#indexaci%C3%B3n-de-vectores" id="toc-indexación-de-vectores" class="nav-link" data-scroll-target="#indexaci%C3%B3n-de-vectores">Indexación de vectores</a></li>
+  <li><a href="#indexaci%C3%B3n-de-data-frames" id="toc-indexación-de-data-frames" class="nav-link" data-scroll-target="#indexaci%C3%B3n-de-data-frames">Indexación de data frames</a></li>
+  </ul>
+</li>
+  <li><a href="#desaf%C3%ADo-divertido" id="toc-desafío-divertido" class="nav-link" data-scroll-target="#desaf%C3%ADo-divertido">Desafío divertido</a></li>
+  <li>
+<a href="#problemas-de-pr%C3%A1ctica" id="toc-problemas-de-práctica" class="nav-link" data-scroll-target="#problemas-de-pr%C3%A1ctica">Problemas de práctica</a>
+  <ul class="collapse">
+<li><a href="#problemas-con-el-dataset-iris" id="toc-problemas-con-el-dataset-iris" class="nav-link" data-scroll-target="#problemas-con-el-dataset-iris">Problemas con el dataset Iris</a></li>
+  <li><a href="#problemas-de-%C3%A1lgebra-lineal" id="toc-problemas-de-álgebra-lineal" class="nav-link" data-scroll-target="#problemas-de-%C3%A1lgebra-lineal">Problemas de álgebra lineal</a></li>
+  </ul>
+</li>
+  <li><a href="#puntos-clave" id="toc-puntos-clave" class="nav-link" data-scroll-target="#puntos-clave">Puntos clave</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos adicionales</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Sección 1: Introducción a R</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>David Contreras-Loya </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 16, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><section id="lo-que-necesitarás" class="level1"><h1>Lo que necesitarás</h1>
+<ol type="1">
+<li>Instalaciones funcionales y actualizadas de <strong>R</strong> y <strong>RStudio</strong>
+</li>
+<li>Una conexión a internet (para instalar paquetes)</li>
+<li>
+<em>Opcional:</em> Una fuente saludable de cafeína ☕</li>
+</ol></section><section id="resumen" class="level1"><h1>Resumen</h1>
+<p>En esta sección nos sumergiremos en R. Comenzamos instalando y cargando paquetes útiles (<code>dplyr</code> y <code>pacman</code>). Luego cargamos el dataset clásico <code>iris</code> y comenzamos a resumirlo y manipularlo. Finalmente, haremos nuestras primeras gráficas.</p>
+<hr></section><section id="paquetes-en-r" class="level1"><h1>Paquetes en R</h1>
+<p>Abre RStudio. Asegúrate de estar ejecutando las versiones más recientes de R y RStudio.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verifica tus versiones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>
+<strong>Versión de R</strong>: 4.4.2 o más reciente</li>
+<li>
+<strong>Versión de RStudio</strong>: 2024.12.0 o más reciente</li>
+</ul>
+</div>
+</div>
+<p>Aunque R base es útil y poderoso, el verdadero potencial de R proviene de combinar la instalación principal con los muchos paquetes generados a través de la colaboración de código abierto (ver <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">lista de paquetes de CRAN</a>).</p>
+<section id="instalación-de-paquetes" class="level2"><h2 class="anchored" data-anchor-id="instalación-de-paquetes">Instalación de paquetes</h2>
+<p>Puedes verificar qué paquetes están instalados actualmente usando la función <code><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages()</a></code>. ¿Listo para ejecutar tu primera función? Escribe <code><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages()</a></code> en la consola de R y presiona enter.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alternativa: Verifica la pestaña Packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>También puedes verificar la pestaña <strong>Packages</strong> dentro de RStudio. Las casillas marcadas indican los paquetes que están actualmente cargados.</p>
+</div>
+</div>
+<p>Ahora, instalemos algunos paquetes que serán útiles este semestre. Usamos la función <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>, dándole el nombre(s) del paquete(s) que deseas instalar.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete llamado "dplyr"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Instalar múltiples paquetes a la vez</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="notas-importantes" class="level3"><h3 class="anchored" data-anchor-id="notas-importantes">Notas importantes:</h3>
+<ol start="0" type="1">
+<li><strong>Necesitas una conexión a internet.</strong></li>
+<li>El nombre de la función <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> es plural independientemente del número de paquetes.</li>
+<li>El nombre de cada paquete está rodeado de <strong>comillas</strong> (<em>ej.</em>, <code>"dplyr"</code>). Estas comillas le dicen a R que esto es un carácter/cadena, no un objeto. Usa <strong>comillas dobles</strong> para consistencia.</li>
+<li>Podemos crear un <strong>vector</strong> de paquetes usando <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. Ejemplo: <code>c(1, 2, 3)</code> es un vector de tres elementos. De manera similar, <code>c("dplyr", "ggplot2")</code> es un vector de dos elementos con nombres de paquetes. <strong>Los vectores son muy importantes en R.</strong>
+</li>
+<li>El símbolo de número (<code>#</code>) crea <strong>comentarios</strong> en R.</li>
+</ol></section></section><section id="carga-de-paquetes" class="level2"><h2 class="anchored" data-anchor-id="carga-de-paquetes">Carga de paquetes</h2>
+<p>Para verificar que las instalaciones fueron exitosas, cargaremos los paquetes usando la función <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nota que no necesitamos comillas alrededor de los nombres de los paquetes al cargarlos (aunque aún funcionaría con comillas).</p>
+</div>
+</div>
+</section><section id="gestión-de-paquetes-con-pacman" class="level2"><h2 class="anchored" data-anchor-id="gestión-de-paquetes-con-pacman">Gestión de paquetes con <code>pacman</code>
+</h2>
+<p>Instalemos otro paquete: el paquete <code>pacman</code> (¡sí, como el juego! 🎮).</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete 'pacman'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Cargarlo</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El paquete <code>pacman</code> es muy meta: es un paquete para gestionar paquetes. Puedes usarlo para instalar, cargar, descargar y actualizar tus paquetes de R.</p>
+<p>En lugar de escribir <code><a href="https://rdrr.io/r/base/library.html">library(...)</a></code> para cada paquete, usa la función <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> de <code>pacman</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forma antigua</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Forma nueva</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">dplyr</span>, <span class="va">ggplot2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Aún mejor:</strong> Si intentas cargar un paquete que no está instalado, ¡<code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> lo instalará automáticamente!</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esto instalará y cargará tidyr si no está instalado</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Instalado y cargado. ¡<em>Ese</em> es servicio! ✨</p>
+<hr></section></section><section id="carga-de-datos" class="level1"><h1>Carga de datos</h1>
+<section id="el-dataset-iris" class="level2"><h2 class="anchored" data-anchor-id="el-dataset-iris">El dataset Iris</h2>
+<p>El dataset <strong>Iris</strong> contiene mediciones de 150 flores de iris de tres especies diferentes (<em>Iris setosa</em>, <em>Iris versicolor</em>, e <em>Iris virginica</em>). Para cada flor se registraron cuatro características: la longitud y ancho del sépalo, y la longitud y ancho del pétalo (todas en centímetros).</p>
+<p>Este conjunto de datos fue introducido por el estadístico y biólogo Ronald Fisher en 1936 y se ha convertido en un clásico para enseñar análisis estadístico, clasificación y visualización de datos. Es uno de los datasets más utilizados en la enseñanza de ciencia de datos por su simplicidad, claridad y utilidad pedagógica.</p>
+</section><section id="carga-de-datasets-incluidos-en-r" class="level2"><h2 class="anchored" data-anchor-id="carga-de-datasets-incluidos-en-r">Carga de datasets incluidos en R</h2>
+<p>Una de las ventajas de R es que viene con varios datasets incorporados que podemos usar para practicar. El dataset <code>iris</code> es uno de ellos.</p>
+<p>Para cargar un dataset incorporado, usa la función <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar el dataset iris</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+¿Qué datasets están disponibles?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para ver todos los datasets incorporados en R, escribe:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+El operador de asignación <code>&lt;-</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Aunque <code>iris</code> ya está disponible después de usar <code>data(iris)</code>, a menudo queremos crear una copia para trabajar con ella. El operador <code>&lt;-</code> es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda.</p>
+<p>Al leer en voz alta, la gente dice “obtiene”: <code>flores</code> <strong>obtiene</strong> el contenido de <code>iris</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear una copia del dataset</span></span>
+<span><span class="va">flores</span> <span class="op">&lt;-</span> <span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Para ver los datos, simplemente escribe su nombre:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="funciones-para-cargar-archivos-externos" class="level2"><h2 class="anchored" data-anchor-id="funciones-para-cargar-archivos-externos">Funciones para cargar archivos externos</h2>
+<p>Cuando trabajes con tus propios datos, necesitarás cargar archivos desde tu computadora. Principalmente usarás:</p>
+<ul>
+<li>
+<strong>Paquete <code>readr</code></strong>: para archivos CSV, TSV y delimitados</li>
+<li>
+<strong>Paquete <code>haven</code></strong>: para archivos de Stata (<code>.dta</code>), SPSS y SAS</li>
+<li>
+<strong>R base</strong>: para los formatos propios de R (<code>.rds</code>, <code>.rdata</code>)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aprende sobre las funciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para aprender más sobre una función:</p>
+<ol type="1">
+<li>Presiona <strong>Tab</strong> después de escribir el nombre de la función (en RStudio)</li>
+<li>Escribe <code>?function_name</code> en la consola (<em>ej.</em>, <code><a href="https://rdrr.io/r/utils/read.table.html">?read.csv</a></code>)</li>
+</ol>
+</div>
+</div>
+<section id="ejemplo-cargar-un-archivo-csv" class="level3"><h3 class="anchored" data-anchor-id="ejemplo-cargar-un-archivo-csv">Ejemplo: Cargar un archivo CSV</h3>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Si tuvieras un archivo CSV</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span><span class="va">mis_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"ruta/a/mi_archivo.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr></section></section></section><section id="jugando-con-datos" class="level1"><h1>Jugando con datos</h1>
+<p>Ahora que tenemos el dataset <code>iris</code> cargado, ¡hagamos algo con esos datos!</p>
+<section id="exploración-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="exploración-de-los-datos">Exploración de los datos</h2>
+<p>Imprime los datos en la consola:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nota varias cosas:</p>
+<ol type="1">
+<li>El conjunto de datos es un <strong>data frame</strong> (la estructura básica de R para datos tabulares)</li>
+<li>Dimensiones: 150 filas × 5 columnas</li>
+<li>Tipos de columnas: numéricas (<code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, <code>Petal.Width</code>) y factor (<code>Species</code>)</li>
+<li>Obtienes una vista de los primeros registros</li>
+</ol>
+<section id="obtener-nombres-de-columnas" class="level3"><h3 class="anchored" data-anchor-id="obtener-nombres-de-columnas">Obtener nombres de columnas</h3>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="ver-primerasúltimas-filas" class="level3"><h3 class="anchored" data-anchor-id="ver-primerasúltimas-filas">Ver primeras/últimas filas</h3>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Primeras 6 filas</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Primeras 10 filas</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">iris</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Últimas 7 filas</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">iris</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Visor de datos de RStudio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Usa <code>View(iris)</code> o haz clic en el conjunto de datos en el panel Environment para abrir el visor de datos de RStudio.</p>
+</div>
+</div>
+</section><section id="estructura-del-dataset" class="level3"><h3 class="anchored" data-anchor-id="estructura-del-dataset">Estructura del dataset</h3>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ver estructura detallada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Esto te mostrará: - El tipo de objeto (data.frame) - Número de observaciones y variables - Nombre y tipo de cada variable - Los primeros valores de cada variable</p>
+</section></section><section id="resumen-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="resumen-de-los-datos">Resumen de los datos</h2>
+<p>Obtén un resumen rápido de tu conjunto de datos:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Esto te dará estadísticas descriptivas para cada variable: - Para variables numéricas: mínimo, 1er cuartil, mediana, media, 3er cuartil, máximo - Para factores: conteo de cada categoría</p>
+<p>Para resumir una <strong>variable única</strong>, usa <code>$</code> para tomarla:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar la variable Sepal.Length</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span></span>
+<span></span>
+<span><span class="co"># Resumir Sepal.Length</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Otras funciones útiles</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>    <span class="co"># Media</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>  <span class="co"># Mediana</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>      <span class="co"># Desviación estándar</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>     <span class="co"># Mínimo</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>     <span class="co"># Máximo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Acceso a variables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>dataset$variable</code> es cómo tomas una columna específica. ¡El autocompletado de pestañas de RStudio también funciona aquí!</p>
+</div>
+</div>
+</section><section id="manipulación-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="manipulación-de-los-datos">Manipulación de los datos</h2>
+<p>El paquete <code>dplyr</code> ofrece herramientas útiles para manipulación de datos usando <strong>verbos</strong> como acciones.</p>
+<section id="select---elegir-variables" class="level3"><h3 class="anchored" data-anchor-id="select---elegir-variables">
+<code>select()</code> - Elegir variables</h3>
+<p>Mantén solo las variables que te interesan:</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar dplyr</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Seleccionar solo mediciones del sépalo y especie</span></span>
+<span><span class="va">iris_sepalos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span>, <span class="va">Sepal.Width</span>, <span class="va">Species</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ver resultado</span></span>
+<span><span class="va">iris_sepalos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¡Ahora tenemos 150 filas pero solo 3 columnas!</p>
+<p><strong>Alternativa:</strong> Excluir variables con un signo menos:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Todo excepto las mediciones de pétalos</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iris</span>, <span class="op">-</span><span class="va">Petal.Length</span>, <span class="op">-</span><span class="va">Petal.Width</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="arrange---ordenar-datos" class="level3"><h3 class="anchored" data-anchor-id="arrange---ordenar-datos">
+<code>arrange()</code> - Ordenar datos</h3>
+<p>Ordena los datos por una o más columnas:</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ordenar por longitud de sépalo</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ordenar por especie, luego por longitud de sépalo</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+¡Se requiere asignación!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si ves <code>iris</code> ahora, no está ordenado. Debes <strong>asignar</strong> el resultado para cambiar el objeto:</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris_ordenado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Para orden <strong>descendente</strong>, usa <code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Flores con sépalos más largos primero</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="filter---filtrar-filas" class="level3"><h3 class="anchored" data-anchor-id="filter---filtrar-filas">
+<code>filter()</code> - Filtrar filas</h3>
+<p>Mantén solo las filas que cumplan ciertas condiciones:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Solo flores setosa</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Flores con sépalos largos (&gt; 6 cm)</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Setosa con sépalos largos</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="summarize---crear-resúmenes" class="level3"><h3 class="anchored" data-anchor-id="summarize---crear-resúmenes">
+<code>summarize()</code> - Crear resúmenes</h3>
+<p>Crea resúmenes específicos de tus datos:</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Media y DE de longitud de sépalo</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">iris</span>, </span>
+<span>          media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>, </span>
+<span>          de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Múltiples estadísticas</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">iris</span>,</span>
+<span>          n_flores <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          media_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>,</span>
+<span>          media_petalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Petal.Length</span><span class="op">)</span>,</span>
+<span>          max_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="group_by---agrupar-datos" class="level3"><h3 class="anchored" data-anchor-id="group_by---agrupar-datos">
+<code>group_by()</code> - Agrupar datos</h3>
+<p>Combina <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> con <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> para análisis por grupos:</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estadísticas por especie</span></span>
+<span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    media_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>,</span>
+<span>    media_petalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Petal.Length</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+El operador pipe <code>%&gt;%</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El operador <code>%&gt;%</code> (pipe) te permite encadenar operaciones. Se lee como “luego”. En este ejemplo: “toma iris, <strong>luego</strong> agrupa por especie, <strong>luego</strong> resume”. Cubriremos esto más a fondo en la Sección 2.</p>
+</div>
+</div>
+</section></section><section id="gráficas-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="gráficas-de-los-datos">Gráficas de los datos</h2>
+<p>Las funciones de gráficas predeterminadas de R son simples pero efectivas. Cubriremos <code>ggplot2</code> más adelante, pero por ahora, hagamos gráficas rápidas.</p>
+<section id="histograma" class="level3"><h3 class="anchored" data-anchor-id="histograma">Histograma</h3>
+<p>Crea un histograma de longitud de sépalo:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Histograma simple</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hazlo más bonito con etiquetas y una línea en la media:</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># El histograma</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Distribución de longitud de sépalo"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Frecuencia"</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fl">15</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Agregar línea roja en la media</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">3</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="gráfica-de-dispersión" class="level3"><h3 class="anchored" data-anchor-id="gráfica-de-dispersión">Gráfica de dispersión</h3>
+<p>Grafica la relación entre longitud de sépalo y longitud de pétalo:</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Longitud de pétalo (cm)"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Relación entre sépalo y pétalo"</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">19</span>,        <span class="co"># Tipo de punto</span></span>
+<span>  col <span class="op">=</span> <span class="st">"blue"</span>     <span class="co"># Color</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="gráfica-por-grupos" class="level3"><h3 class="anchored" data-anchor-id="gráfica-por-grupos">Gráfica por grupos</h3>
+<p>Colorea los puntos según la especie:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convertir especies a números para colores</span></span>
+<span><span class="va">colores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Longitud de pétalo (cm)"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Relación sépalo-pétalo por especie"</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>  col <span class="op">=</span> <span class="va">colores</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Agregar leyenda</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, </span>
+<span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span>,</span>
+<span>       col <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
+<span>       pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="boxplot" class="level3"><h3 class="anchored" data-anchor-id="boxplot">Boxplot</h3>
+<p>Compara distribuciones entre especies:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Species</span>, </span>
+<span>        data <span class="op">=</span> <span class="va">iris</span>,</span>
+<span>        main <span class="op">=</span> <span class="st">"Longitud de sépalo por especie"</span>,</span>
+<span>        xlab <span class="op">=</span> <span class="st">"Especie"</span>,</span>
+<span>        ylab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span>        col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lightgreen"</span>, <span class="st">"lightblue"</span>, <span class="st">"lightpink"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Estilo de código claro
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recomiendo definir claramente los argumentos de función. Ayuda a mantener las cosas claras, ya que <strong>el orden importa</strong> cuando no estás nombrando los argumentos.</p>
+</div>
+</div>
+<hr></section></section></section><section id="indexación" class="level1"><h1>Indexación</h1>
+<p>Casi todo en R está indexado numéricamente. Puedes acceder a elementos individuales usando <strong>corchetes</strong> <code>[]</code>.</p>
+<section id="indexación-de-vectores" class="level2"><h2 class="anchored" data-anchor-id="indexación-de-vectores">Indexación de vectores</h2>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear un vector</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">9</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Tomar el segundo elemento</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>  <span class="co"># Devuelve: 5</span></span>
+<span></span>
+<span><span class="co"># Tomar segundo y tercer elementos</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span>  <span class="co"># Devuelve: 5 7</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>      <span class="co"># Mismo resultado</span></span>
+<span></span>
+<span><span class="co"># ¿Qué hace 2:3?</span></span>
+<span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>  <span class="co"># Crea secuencia: 2 3</span></span>
+<span></span>
+<span><span class="co"># ¿Y 1:10?</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>  <span class="co"># Crea secuencia de 1 a 10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="indexación-de-data-frames" class="level2"><h2 class="anchored" data-anchor-id="indexación-de-data-frames">Indexación de data frames</h2>
+<p>Los data frames tienen <strong>filas y columnas</strong>: <code>[fila, columna]</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar primera fila (todas las columnas)</span></span>
+<span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Tomar primera columna (todas las filas)</span></span>
+<span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Tomar primeras 5 filas, primeras 3 columnas</span></span>
+<span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Usar nombre de columna como índice</span></span>
+<span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"Species"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Combinar: primeras 10 filas de setosa</span></span>
+<span><span class="va">iris</span><span class="op">[</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Orden fila, columna
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recuerda: <strong>Filas antes de columnas</strong>. Deja en blanco para seleccionar todo. - <code>[1, ]</code> = primera fila, todas las columnas - <code>[, 2]</code> = todas las filas, segunda columna - <code>[3, 4]</code> = tercera fila, cuarta columna</p>
+</div>
+</div>
+<hr></section></section><section id="desafío-divertido" class="level1"><h1>Desafío divertido</h1>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prueba esto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>¿Qué sucede si le das a <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> o <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code> un <code>n</code> <strong>negativo</strong>?</li>
+<li>¿Puedes replicar este comportamiento usando indexación?</li>
+<li>¿Puedes obtener todas las flores <em>excepto</em> las primeras 10 usando <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>?</li>
+<li>¿Cuántas flores de cada especie hay en el dataset? (Pista: usa <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>)</li>
+</ol>
+</div>
+</div>
+<hr></section><section id="problemas-de-práctica" class="level1"><h1>Problemas de práctica</h1>
+<section id="problemas-con-el-dataset-iris" class="level2"><h2 class="anchored" data-anchor-id="problemas-con-el-dataset-iris">Problemas con el dataset Iris</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 1: Análisis descriptivo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Usando el dataset <code>iris</code>:</p>
+<ol type="1">
+<li>Calcula la media y desviación estándar de <code>Petal.Length</code>
+</li>
+<li>¿Cuál es la flor con el pétalo más largo? (Pista: usa <code><a href="https://rdrr.io/r/base/which.min.html">which.max()</a></code>)</li>
+<li>Crea un subset con solo flores versicolor</li>
+<li>¿Cuál es la media de <code>Sepal.Width</code> para flores versicolor?</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 2: Manipulación de datos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Crea un nuevo data frame con solo flores que tengan <code>Sepal.Length &gt; 5</code>
+</li>
+<li>Ordena este nuevo data frame por <code>Petal.Length</code> en orden descendente</li>
+<li>Selecciona solo las columnas de mediciones de pétalos y especie</li>
+<li>¿Cuántas filas tiene tu resultado final?</li>
+</ol>
+</div>
+</div>
+</section><section id="problemas-de-álgebra-lineal" class="level2"><h2 class="anchored" data-anchor-id="problemas-de-álgebra-lineal">Problemas de álgebra lineal</h2>
+<p>Algunos rompecabezas clásicos de R-encuentra-álgebra-lineal para tu disfrute:</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 3: Matriz identidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <strong>I</strong>₅ una matriz identidad de 5×5. Demuestra que <strong>I</strong>₅ es simétrica e idempotente usando funciones de R.</p>
+<p><strong>Pista:</strong> Usa <code>diag(5)</code> para crear una matriz identidad.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 4: Matriz idempotente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Genera una matriz idempotente de 2×2 <strong>X</strong>, donde <strong>X</strong> no es la matriz identidad. Demuestra que <strong>X</strong> = <strong>XX</strong>.</p>
+<p><strong>Pista:</strong> Una matriz idempotente satisface <strong>X</strong> = <strong>X</strong>².</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 5: Regresión lineal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Genera dos variables aleatorias, <strong>x</strong> y <strong>e</strong>, de dimensión n = 100 tal que <strong>x</strong>, <strong>e</strong> ~ N(0, 1).</p>
+<p>Genera <strong>y</strong> de acuerdo a: y = x + e</p>
+<p>Muestra que regresar <strong>y</strong> sobre <strong>x</strong> usando <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> da estimaciones: β₀ ≈ 0 y β₁ ≈ 1.</p>
+<p><strong>Pista:</strong> Usa <code>rnorm(100)</code> para generar variables aleatorias normales.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problema 6: Valores propios y traza
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Muestra que si λ₁, λ₂, …, λ₅ son los valores propios de una matriz de 5×5 <strong>A</strong>, entonces:</p>
+<p>tr(<strong>A</strong>) = Σλᵢ (suma de valores propios)</p>
+<p><strong>Pista:</strong> Usa <code><a href="https://rdrr.io/r/base/eigen.html">eigen()</a></code> para encontrar valores propios y <code>sum(diag())</code> para la traza.</p>
+</div>
+</div>
+<hr></section></section><section id="puntos-clave" class="level1"><h1>Puntos clave</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recuerda
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>
+<strong>Los paquetes extienden el poder de R</strong> - Usa <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code> para gestión fácil</li>
+<li>
+<strong>Datasets incorporados</strong> - R incluye datasets como <code>iris</code> para practicar</li>
+<li>
+<strong>La asignación es clave</strong> - Usa <code>&lt;-</code> para guardar resultados: <code>new_data &lt;- old_data</code>
+</li>
+<li>
+<strong>Verbos de <code>dplyr</code></strong> - <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> para manipulación de datos</li>
+<li>
+<strong>Indexación con <code>[fila, columna]</code></strong> - Esencial para acceder a datos</li>
+<li>
+<strong>Usa <code>$</code> para columnas</strong> - <code>dataset$variable</code> toma una variable específica</li>
+<li>
+<strong>Funciones de resumen</strong> - <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code> para exploración</li>
+</ol>
+</div>
+</div>
+<hr></section><section id="recursos-adicionales" class="level1"><h1>Recursos adicionales</h1>
+<ul>
+<li>
+<a href="https://r4ds.hadley.nz/">R for Data Science</a> - Guía completa</li>
+<li>
+<a href="https://posit.co/resources/cheatsheets/">Hojas de referencia de RStudio</a> - Referencias rápidas</li>
+<li>
+<a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a> - Comunidad de preguntas y respuestas</li>
+<li>
+<code>?function_name</code> - Ayuda integrada de R</li>
+<li>
+<code><a href="https://rdrr.io/r/datasets/iris.html">?iris</a></code> - Documentación del dataset iris</li>
+</ul>
+<hr>
+<p><strong>Siguiente:</strong> Sección 2 - Manipulación de datos con dplyr</p>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb32" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Sección 1: Introducción a R"</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "David Contreras-Loya"</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: paged</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># Lo que necesitarás</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Instalaciones funcionales y actualizadas de **R** y **RStudio**</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Una conexión a internet (para instalar paquetes)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>*Opcional:* Una fuente saludable de cafeína ☕</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Resumen</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>En esta sección nos sumergiremos en R. Comenzamos instalando y cargando paquetes útiles (<span class="in">`dplyr`</span> y <span class="in">`pacman`</span>). Luego cargamos el dataset clásico <span class="in">`iris`</span> y comenzamos a resumirlo y manipularlo. Finalmente, haremos nuestras primeras gráficas.</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="fu"># Paquetes en R</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>Abre RStudio. Asegúrate de estar ejecutando las versiones más recientes de R y RStudio.</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verifica tus versiones</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Versión de R**: 4.4.2 o más reciente</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Versión de RStudio**: 2024.12.0 o más reciente</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>Aunque R base es útil y poderoso, el verdadero potencial de R proviene de combinar la instalación principal con los muchos paquetes generados a través de la colaboración de código abierto (ver <span class="co">[</span><span class="ot">lista de paquetes de CRAN</span><span class="co">](https://cran.r-project.org/web/packages/available_packages_by_name.html)</span>).</span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Instalación de paquetes</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>Puedes verificar qué paquetes están instalados actualmente usando la función <span class="in">`installed.packages()`</span>. ¿Listo para ejecutar tu primera función? Escribe <span class="in">`installed.packages()`</span> en la consola de R y presiona enter.</span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternativa: Verifica la pestaña Packages</span></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>También puedes verificar la pestaña **Packages** dentro de RStudio. Las casillas marcadas indican los paquetes que están actualmente cargados.</span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>Ahora, instalemos algunos paquetes que serán útiles este semestre. Usamos la función <span class="in">`install.packages()`</span>, dándole el nombre(s) del paquete(s) que deseas instalar.</span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar el paquete llamado "dplyr"</span></span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar múltiples paquetes a la vez</span></span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>))</span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notas importantes:</span></span>
+<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a><span class="ss">0. </span>**Necesitas una conexión a internet.**</span>
+<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>El nombre de la función <span class="in">`install.packages()`</span> es plural independientemente del número de paquetes.</span>
+<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>El nombre de cada paquete está rodeado de **comillas** (*ej.*, `"dplyr"`). Estas comillas le dicen a R que esto es un carácter/cadena, no un objeto. Usa **comillas dobles** para consistencia.</span>
+<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Podemos crear un **vector** de paquetes usando `c()`. Ejemplo: `c(1, 2, 3)` es un vector de tres elementos. De manera similar, `c("dplyr", "ggplot2")` es un vector de dos elementos con nombres de paquetes. **Los vectores son muy importantes en R.**</span>
+<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>El símbolo de número (<span class="in">`#`</span>) crea **comentarios** en R.</span>
+<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## Carga de paquetes</span></span>
+<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a>Para verificar que las instalaciones fueron exitosas, cargaremos los paquetes usando la función <span class="in">`library()`</span>:</span>
+<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb32-80"><a href="#cb32-80" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb32-81"><a href="#cb32-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-82"><a href="#cb32-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-83"><a href="#cb32-83" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb32-84"><a href="#cb32-84" aria-hidden="true" tabindex="-1"></a>Nota que no necesitamos comillas alrededor de los nombres de los paquetes al cargarlos (aunque aún funcionaría con comillas).</span>
+<span id="cb32-85"><a href="#cb32-85" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-86"><a href="#cb32-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gestión de paquetes con `pacman`</span></span>
+<span id="cb32-88"><a href="#cb32-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-89"><a href="#cb32-89" aria-hidden="true" tabindex="-1"></a>Instalemos otro paquete: el paquete <span class="in">`pacman`</span> (¡sí, como el juego! 🎮).</span>
+<span id="cb32-90"><a href="#cb32-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-93"><a href="#cb32-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-94"><a href="#cb32-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-95"><a href="#cb32-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-96"><a href="#cb32-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar el paquete 'pacman'</span></span>
+<span id="cb32-97"><a href="#cb32-97" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb32-98"><a href="#cb32-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-99"><a href="#cb32-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargarlo</span></span>
+<span id="cb32-100"><a href="#cb32-100" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb32-101"><a href="#cb32-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-102"><a href="#cb32-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-103"><a href="#cb32-103" aria-hidden="true" tabindex="-1"></a>El paquete <span class="in">`pacman`</span> es muy meta: es un paquete para gestionar paquetes. Puedes usarlo para instalar, cargar, descargar y actualizar tus paquetes de R.</span>
+<span id="cb32-104"><a href="#cb32-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-105"><a href="#cb32-105" aria-hidden="true" tabindex="-1"></a>En lugar de escribir <span class="in">`library(...)`</span> para cada paquete, usa la función <span class="in">`p_load()`</span> de <span class="in">`pacman`</span>:</span>
+<span id="cb32-106"><a href="#cb32-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-109"><a href="#cb32-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-110"><a href="#cb32-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-111"><a href="#cb32-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-112"><a href="#cb32-112" aria-hidden="true" tabindex="-1"></a><span class="co"># Forma antigua</span></span>
+<span id="cb32-113"><a href="#cb32-113" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb32-114"><a href="#cb32-114" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb32-115"><a href="#cb32-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-116"><a href="#cb32-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Forma nueva</span></span>
+<span id="cb32-117"><a href="#cb32-117" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, ggplot2)</span>
+<span id="cb32-118"><a href="#cb32-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-119"><a href="#cb32-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-120"><a href="#cb32-120" aria-hidden="true" tabindex="-1"></a>**Aún mejor:** Si intentas cargar un paquete que no está instalado, ¡<span class="in">`p_load()`</span> lo instalará automáticamente! </span>
+<span id="cb32-121"><a href="#cb32-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-124"><a href="#cb32-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-125"><a href="#cb32-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-126"><a href="#cb32-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-127"><a href="#cb32-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Esto instalará y cargará tidyr si no está instalado</span></span>
+<span id="cb32-128"><a href="#cb32-128" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyr)</span>
+<span id="cb32-129"><a href="#cb32-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-130"><a href="#cb32-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-131"><a href="#cb32-131" aria-hidden="true" tabindex="-1"></a>Instalado y cargado. ¡*Ese* es servicio! ✨</span>
+<span id="cb32-132"><a href="#cb32-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-133"><a href="#cb32-133" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-134"><a href="#cb32-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-135"><a href="#cb32-135" aria-hidden="true" tabindex="-1"></a><span class="fu"># Carga de datos</span></span>
+<span id="cb32-136"><a href="#cb32-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-137"><a href="#cb32-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## El dataset Iris</span></span>
+<span id="cb32-138"><a href="#cb32-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-139"><a href="#cb32-139" aria-hidden="true" tabindex="-1"></a>El dataset **Iris** contiene mediciones de 150 flores de iris de tres especies diferentes (*Iris setosa*, *Iris versicolor*, e *Iris virginica*). Para cada flor se registraron cuatro características: la longitud y ancho del sépalo, y la longitud y ancho del pétalo (todas en centímetros).</span>
+<span id="cb32-140"><a href="#cb32-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-141"><a href="#cb32-141" aria-hidden="true" tabindex="-1"></a>Este conjunto de datos fue introducido por el estadístico y biólogo Ronald Fisher en 1936 y se ha convertido en un clásico para enseñar análisis estadístico, clasificación y visualización de datos. Es uno de los datasets más utilizados en la enseñanza de ciencia de datos por su simplicidad, claridad y utilidad pedagógica.</span>
+<span id="cb32-142"><a href="#cb32-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-143"><a href="#cb32-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Carga de datasets incluidos en R</span></span>
+<span id="cb32-144"><a href="#cb32-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-145"><a href="#cb32-145" aria-hidden="true" tabindex="-1"></a>Una de las ventajas de R es que viene con varios datasets incorporados que podemos usar para practicar. El dataset <span class="in">`iris`</span> es uno de ellos.</span>
+<span id="cb32-146"><a href="#cb32-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-147"><a href="#cb32-147" aria-hidden="true" tabindex="-1"></a>Para cargar un dataset incorporado, usa la función <span class="in">`data()`</span>:</span>
+<span id="cb32-148"><a href="#cb32-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-151"><a href="#cb32-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-152"><a href="#cb32-152" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-153"><a href="#cb32-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-154"><a href="#cb32-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar el dataset iris</span></span>
+<span id="cb32-155"><a href="#cb32-155" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb32-156"><a href="#cb32-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-157"><a href="#cb32-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-158"><a href="#cb32-158" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-159"><a href="#cb32-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## ¿Qué datasets están disponibles?</span></span>
+<span id="cb32-160"><a href="#cb32-160" aria-hidden="true" tabindex="-1"></a>Para ver todos los datasets incorporados en R, escribe:</span>
+<span id="cb32-163"><a href="#cb32-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-164"><a href="#cb32-164" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-165"><a href="#cb32-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-166"><a href="#cb32-166" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>()</span>
+<span id="cb32-167"><a href="#cb32-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-168"><a href="#cb32-168" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-169"><a href="#cb32-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-170"><a href="#cb32-170" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb32-171"><a href="#cb32-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## El operador de asignación `&lt;-`</span></span>
+<span id="cb32-172"><a href="#cb32-172" aria-hidden="true" tabindex="-1"></a>Aunque <span class="in">`iris`</span> ya está disponible después de usar <span class="in">`data(iris)`</span>, a menudo queremos crear una copia para trabajar con ella. El operador <span class="in">`&lt;-`</span> es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda. </span>
+<span id="cb32-173"><a href="#cb32-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-174"><a href="#cb32-174" aria-hidden="true" tabindex="-1"></a>Al leer en voz alta, la gente dice "obtiene": <span class="in">`flores`</span> **obtiene** el contenido de <span class="in">`iris`</span>.</span>
+<span id="cb32-175"><a href="#cb32-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-178"><a href="#cb32-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-179"><a href="#cb32-179" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-180"><a href="#cb32-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-181"><a href="#cb32-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una copia del dataset</span></span>
+<span id="cb32-182"><a href="#cb32-182" aria-hidden="true" tabindex="-1"></a>flores <span class="ot">&lt;-</span> iris</span>
+<span id="cb32-183"><a href="#cb32-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-184"><a href="#cb32-184" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-185"><a href="#cb32-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-186"><a href="#cb32-186" aria-hidden="true" tabindex="-1"></a>Para ver los datos, simplemente escribe su nombre:</span>
+<span id="cb32-187"><a href="#cb32-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-190"><a href="#cb32-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-191"><a href="#cb32-191" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-192"><a href="#cb32-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-193"><a href="#cb32-193" aria-hidden="true" tabindex="-1"></a>iris</span>
+<span id="cb32-194"><a href="#cb32-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-195"><a href="#cb32-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-196"><a href="#cb32-196" aria-hidden="true" tabindex="-1"></a><span class="fu">## Funciones para cargar archivos externos</span></span>
+<span id="cb32-197"><a href="#cb32-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-198"><a href="#cb32-198" aria-hidden="true" tabindex="-1"></a>Cuando trabajes con tus propios datos, necesitarás cargar archivos desde tu computadora. Principalmente usarás:</span>
+<span id="cb32-199"><a href="#cb32-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-200"><a href="#cb32-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Paquete `readr`**: para archivos CSV, TSV y delimitados</span>
+<span id="cb32-201"><a href="#cb32-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Paquete `haven`**: para archivos de Stata (<span class="in">`.dta`</span>), SPSS y SAS</span>
+<span id="cb32-202"><a href="#cb32-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R base**: para los formatos propios de R (<span class="in">`.rds`</span>, <span class="in">`.rdata`</span>)</span>
+<span id="cb32-203"><a href="#cb32-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-204"><a href="#cb32-204" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-205"><a href="#cb32-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Aprende sobre las funciones</span></span>
+<span id="cb32-206"><a href="#cb32-206" aria-hidden="true" tabindex="-1"></a>Para aprender más sobre una función:</span>
+<span id="cb32-207"><a href="#cb32-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-208"><a href="#cb32-208" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Presiona **Tab** después de escribir el nombre de la función (en RStudio)</span>
+<span id="cb32-209"><a href="#cb32-209" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Escribe <span class="in">`?function_name`</span> en la consola (*ej.*, <span class="in">`?read.csv`</span>)</span>
+<span id="cb32-210"><a href="#cb32-210" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-211"><a href="#cb32-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-212"><a href="#cb32-212" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ejemplo: Cargar un archivo CSV</span></span>
+<span id="cb32-213"><a href="#cb32-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-216"><a href="#cb32-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-217"><a href="#cb32-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-218"><a href="#cb32-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-219"><a href="#cb32-219" aria-hidden="true" tabindex="-1"></a><span class="co"># Si tuvieras un archivo CSV</span></span>
+<span id="cb32-220"><a href="#cb32-220" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb32-221"><a href="#cb32-221" aria-hidden="true" tabindex="-1"></a>mis_datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"ruta/a/mi_archivo.csv"</span>)</span>
+<span id="cb32-222"><a href="#cb32-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-223"><a href="#cb32-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-224"><a href="#cb32-224" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-225"><a href="#cb32-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-226"><a href="#cb32-226" aria-hidden="true" tabindex="-1"></a><span class="fu"># Jugando con datos</span></span>
+<span id="cb32-227"><a href="#cb32-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-228"><a href="#cb32-228" aria-hidden="true" tabindex="-1"></a>Ahora que tenemos el dataset <span class="in">`iris`</span> cargado, ¡hagamos algo con esos datos!</span>
+<span id="cb32-229"><a href="#cb32-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-230"><a href="#cb32-230" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exploración de los datos</span></span>
+<span id="cb32-231"><a href="#cb32-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-232"><a href="#cb32-232" aria-hidden="true" tabindex="-1"></a>Imprime los datos en la consola:</span>
+<span id="cb32-233"><a href="#cb32-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-236"><a href="#cb32-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-237"><a href="#cb32-237" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-238"><a href="#cb32-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-239"><a href="#cb32-239" aria-hidden="true" tabindex="-1"></a>iris</span>
+<span id="cb32-240"><a href="#cb32-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-241"><a href="#cb32-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-242"><a href="#cb32-242" aria-hidden="true" tabindex="-1"></a>Nota varias cosas:</span>
+<span id="cb32-243"><a href="#cb32-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-244"><a href="#cb32-244" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>El conjunto de datos es un **data frame** (la estructura básica de R para datos tabulares)</span>
+<span id="cb32-245"><a href="#cb32-245" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Dimensiones: 150 filas × 5 columnas</span>
+<span id="cb32-246"><a href="#cb32-246" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Tipos de columnas: numéricas (<span class="in">`Sepal.Length`</span>, <span class="in">`Sepal.Width`</span>, <span class="in">`Petal.Length`</span>, <span class="in">`Petal.Width`</span>) y factor (<span class="in">`Species`</span>)</span>
+<span id="cb32-247"><a href="#cb32-247" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Obtienes una vista de los primeros registros</span>
+<span id="cb32-248"><a href="#cb32-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-249"><a href="#cb32-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### Obtener nombres de columnas</span></span>
+<span id="cb32-250"><a href="#cb32-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-253"><a href="#cb32-253" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-254"><a href="#cb32-254" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-255"><a href="#cb32-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-256"><a href="#cb32-256" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris)</span>
+<span id="cb32-257"><a href="#cb32-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-258"><a href="#cb32-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-259"><a href="#cb32-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ver primeras/últimas filas</span></span>
+<span id="cb32-260"><a href="#cb32-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-263"><a href="#cb32-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-264"><a href="#cb32-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-265"><a href="#cb32-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-266"><a href="#cb32-266" aria-hidden="true" tabindex="-1"></a><span class="co"># Primeras 6 filas</span></span>
+<span id="cb32-267"><a href="#cb32-267" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span>
+<span id="cb32-268"><a href="#cb32-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-269"><a href="#cb32-269" aria-hidden="true" tabindex="-1"></a><span class="co"># Primeras 10 filas</span></span>
+<span id="cb32-270"><a href="#cb32-270" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb32-271"><a href="#cb32-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-272"><a href="#cb32-272" aria-hidden="true" tabindex="-1"></a><span class="co"># Últimas 7 filas</span></span>
+<span id="cb32-273"><a href="#cb32-273" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(iris, <span class="at">n =</span> <span class="dv">7</span>)</span>
+<span id="cb32-274"><a href="#cb32-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-275"><a href="#cb32-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-276"><a href="#cb32-276" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-277"><a href="#cb32-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visor de datos de RStudio</span></span>
+<span id="cb32-278"><a href="#cb32-278" aria-hidden="true" tabindex="-1"></a>Usa <span class="in">`View(iris)`</span> o haz clic en el conjunto de datos en el panel Environment para abrir el visor de datos de RStudio.</span>
+<span id="cb32-279"><a href="#cb32-279" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-280"><a href="#cb32-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-281"><a href="#cb32-281" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estructura del dataset</span></span>
+<span id="cb32-282"><a href="#cb32-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-285"><a href="#cb32-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-286"><a href="#cb32-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-287"><a href="#cb32-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-288"><a href="#cb32-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver estructura detallada</span></span>
+<span id="cb32-289"><a href="#cb32-289" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)</span>
+<span id="cb32-290"><a href="#cb32-290" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-291"><a href="#cb32-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-292"><a href="#cb32-292" aria-hidden="true" tabindex="-1"></a>Esto te mostrará:</span>
+<span id="cb32-293"><a href="#cb32-293" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>El tipo de objeto (data.frame)</span>
+<span id="cb32-294"><a href="#cb32-294" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Número de observaciones y variables</span>
+<span id="cb32-295"><a href="#cb32-295" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Nombre y tipo de cada variable</span>
+<span id="cb32-296"><a href="#cb32-296" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Los primeros valores de cada variable</span>
+<span id="cb32-297"><a href="#cb32-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-298"><a href="#cb32-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## Resumen de los datos</span></span>
+<span id="cb32-299"><a href="#cb32-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-300"><a href="#cb32-300" aria-hidden="true" tabindex="-1"></a>Obtén un resumen rápido de tu conjunto de datos:</span>
+<span id="cb32-301"><a href="#cb32-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-304"><a href="#cb32-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-305"><a href="#cb32-305" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-306"><a href="#cb32-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-307"><a href="#cb32-307" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris)</span>
+<span id="cb32-308"><a href="#cb32-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-309"><a href="#cb32-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-310"><a href="#cb32-310" aria-hidden="true" tabindex="-1"></a>Esto te dará estadísticas descriptivas para cada variable:</span>
+<span id="cb32-311"><a href="#cb32-311" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Para variables numéricas: mínimo, 1er cuartil, mediana, media, 3er cuartil, máximo</span>
+<span id="cb32-312"><a href="#cb32-312" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Para factores: conteo de cada categoría</span>
+<span id="cb32-313"><a href="#cb32-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-314"><a href="#cb32-314" aria-hidden="true" tabindex="-1"></a>Para resumir una **variable única**, usa <span class="in">`$`</span> para tomarla:</span>
+<span id="cb32-315"><a href="#cb32-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-318"><a href="#cb32-318" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-319"><a href="#cb32-319" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-320"><a href="#cb32-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-321"><a href="#cb32-321" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar la variable Sepal.Length</span></span>
+<span id="cb32-322"><a href="#cb32-322" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Sepal.Length</span>
+<span id="cb32-323"><a href="#cb32-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-324"><a href="#cb32-324" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumir Sepal.Length</span></span>
+<span id="cb32-325"><a href="#cb32-325" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb32-326"><a href="#cb32-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-327"><a href="#cb32-327" aria-hidden="true" tabindex="-1"></a><span class="co"># Otras funciones útiles</span></span>
+<span id="cb32-328"><a href="#cb32-328" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length)    <span class="co"># Media</span></span>
+<span id="cb32-329"><a href="#cb32-329" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(iris<span class="sc">$</span>Sepal.Length)  <span class="co"># Mediana</span></span>
+<span id="cb32-330"><a href="#cb32-330" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(iris<span class="sc">$</span>Sepal.Length)      <span class="co"># Desviación estándar</span></span>
+<span id="cb32-331"><a href="#cb32-331" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(iris<span class="sc">$</span>Sepal.Length)     <span class="co"># Mínimo</span></span>
+<span id="cb32-332"><a href="#cb32-332" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(iris<span class="sc">$</span>Sepal.Length)     <span class="co"># Máximo</span></span>
+<span id="cb32-333"><a href="#cb32-333" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-334"><a href="#cb32-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-335"><a href="#cb32-335" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-336"><a href="#cb32-336" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acceso a variables</span></span>
+<span id="cb32-337"><a href="#cb32-337" aria-hidden="true" tabindex="-1"></a><span class="in">`dataset$variable`</span> es cómo tomas una columna específica. ¡El autocompletado de pestañas de RStudio también funciona aquí!</span>
+<span id="cb32-338"><a href="#cb32-338" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-339"><a href="#cb32-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-340"><a href="#cb32-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## Manipulación de los datos</span></span>
+<span id="cb32-341"><a href="#cb32-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-342"><a href="#cb32-342" aria-hidden="true" tabindex="-1"></a>El paquete <span class="in">`dplyr`</span> ofrece herramientas útiles para manipulación de datos usando **verbos** como acciones.</span>
+<span id="cb32-343"><a href="#cb32-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-344"><a href="#cb32-344" aria-hidden="true" tabindex="-1"></a><span class="fu">### `select()` - Elegir variables</span></span>
+<span id="cb32-345"><a href="#cb32-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-346"><a href="#cb32-346" aria-hidden="true" tabindex="-1"></a>Mantén solo las variables que te interesan:</span>
+<span id="cb32-347"><a href="#cb32-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-350"><a href="#cb32-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-351"><a href="#cb32-351" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-352"><a href="#cb32-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-353"><a href="#cb32-353" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dplyr</span></span>
+<span id="cb32-354"><a href="#cb32-354" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb32-355"><a href="#cb32-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-356"><a href="#cb32-356" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar solo mediciones del sépalo y especie</span></span>
+<span id="cb32-357"><a href="#cb32-357" aria-hidden="true" tabindex="-1"></a>iris_sepalos <span class="ot">&lt;-</span> <span class="fu">select</span>(iris, Sepal.Length, Sepal.Width, Species)</span>
+<span id="cb32-358"><a href="#cb32-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-359"><a href="#cb32-359" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver resultado</span></span>
+<span id="cb32-360"><a href="#cb32-360" aria-hidden="true" tabindex="-1"></a>iris_sepalos</span>
+<span id="cb32-361"><a href="#cb32-361" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-362"><a href="#cb32-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-363"><a href="#cb32-363" aria-hidden="true" tabindex="-1"></a>¡Ahora tenemos 150 filas pero solo 3 columnas!</span>
+<span id="cb32-364"><a href="#cb32-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-365"><a href="#cb32-365" aria-hidden="true" tabindex="-1"></a>**Alternativa:** Excluir variables con un signo menos:</span>
+<span id="cb32-366"><a href="#cb32-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-369"><a href="#cb32-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-370"><a href="#cb32-370" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-371"><a href="#cb32-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-372"><a href="#cb32-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Todo excepto las mediciones de pétalos</span></span>
+<span id="cb32-373"><a href="#cb32-373" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(iris, <span class="sc">-</span>Petal.Length, <span class="sc">-</span>Petal.Width)</span>
+<span id="cb32-374"><a href="#cb32-374" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-375"><a href="#cb32-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-376"><a href="#cb32-376" aria-hidden="true" tabindex="-1"></a><span class="fu">### `arrange()` - Ordenar datos</span></span>
+<span id="cb32-377"><a href="#cb32-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-378"><a href="#cb32-378" aria-hidden="true" tabindex="-1"></a>Ordena los datos por una o más columnas:</span>
+<span id="cb32-379"><a href="#cb32-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-382"><a href="#cb32-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-383"><a href="#cb32-383" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-384"><a href="#cb32-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-385"><a href="#cb32-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordenar por longitud de sépalo</span></span>
+<span id="cb32-386"><a href="#cb32-386" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(iris, Sepal.Length)</span>
+<span id="cb32-387"><a href="#cb32-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-388"><a href="#cb32-388" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordenar por especie, luego por longitud de sépalo</span></span>
+<span id="cb32-389"><a href="#cb32-389" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(iris, Species, Sepal.Length)</span>
+<span id="cb32-390"><a href="#cb32-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-391"><a href="#cb32-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-392"><a href="#cb32-392" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb32-393"><a href="#cb32-393" aria-hidden="true" tabindex="-1"></a><span class="fu">## ¡Se requiere asignación!</span></span>
+<span id="cb32-394"><a href="#cb32-394" aria-hidden="true" tabindex="-1"></a>Si ves <span class="in">`iris`</span> ahora, no está ordenado. Debes **asignar** el resultado para cambiar el objeto:</span>
+<span id="cb32-395"><a href="#cb32-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-398"><a href="#cb32-398" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-399"><a href="#cb32-399" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-400"><a href="#cb32-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-401"><a href="#cb32-401" aria-hidden="true" tabindex="-1"></a>iris_ordenado <span class="ot">&lt;-</span> <span class="fu">arrange</span>(iris, Sepal.Length)</span>
+<span id="cb32-402"><a href="#cb32-402" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-403"><a href="#cb32-403" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-404"><a href="#cb32-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-405"><a href="#cb32-405" aria-hidden="true" tabindex="-1"></a>Para orden **descendente**, usa <span class="in">`desc()`</span>:</span>
+<span id="cb32-406"><a href="#cb32-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-409"><a href="#cb32-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-410"><a href="#cb32-410" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-411"><a href="#cb32-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-412"><a href="#cb32-412" aria-hidden="true" tabindex="-1"></a><span class="co"># Flores con sépalos más largos primero</span></span>
+<span id="cb32-413"><a href="#cb32-413" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(iris, <span class="fu">desc</span>(Sepal.Length))</span>
+<span id="cb32-414"><a href="#cb32-414" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-415"><a href="#cb32-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-416"><a href="#cb32-416" aria-hidden="true" tabindex="-1"></a><span class="fu">### `filter()` - Filtrar filas</span></span>
+<span id="cb32-417"><a href="#cb32-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-418"><a href="#cb32-418" aria-hidden="true" tabindex="-1"></a>Mantén solo las filas que cumplan ciertas condiciones:</span>
+<span id="cb32-419"><a href="#cb32-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-422"><a href="#cb32-422" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-423"><a href="#cb32-423" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-424"><a href="#cb32-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-425"><a href="#cb32-425" aria-hidden="true" tabindex="-1"></a><span class="co"># Solo flores setosa</span></span>
+<span id="cb32-426"><a href="#cb32-426" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(iris, Species <span class="sc">==</span> <span class="st">"setosa"</span>)</span>
+<span id="cb32-427"><a href="#cb32-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-428"><a href="#cb32-428" aria-hidden="true" tabindex="-1"></a><span class="co"># Flores con sépalos largos (&gt; 6 cm)</span></span>
+<span id="cb32-429"><a href="#cb32-429" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(iris, Sepal.Length <span class="sc">&gt;</span> <span class="dv">6</span>)</span>
+<span id="cb32-430"><a href="#cb32-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-431"><a href="#cb32-431" aria-hidden="true" tabindex="-1"></a><span class="co"># Setosa con sépalos largos</span></span>
+<span id="cb32-432"><a href="#cb32-432" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(iris, Species <span class="sc">==</span> <span class="st">"setosa"</span>, Sepal.Length <span class="sc">&gt;</span> <span class="dv">5</span>)</span>
+<span id="cb32-433"><a href="#cb32-433" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-434"><a href="#cb32-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-435"><a href="#cb32-435" aria-hidden="true" tabindex="-1"></a><span class="fu">### `summarize()` - Crear resúmenes</span></span>
+<span id="cb32-436"><a href="#cb32-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-437"><a href="#cb32-437" aria-hidden="true" tabindex="-1"></a>Crea resúmenes específicos de tus datos:</span>
+<span id="cb32-438"><a href="#cb32-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-441"><a href="#cb32-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-442"><a href="#cb32-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-443"><a href="#cb32-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-444"><a href="#cb32-444" aria-hidden="true" tabindex="-1"></a><span class="co"># Media y DE de longitud de sépalo</span></span>
+<span id="cb32-445"><a href="#cb32-445" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(iris, </span>
+<span id="cb32-446"><a href="#cb32-446" aria-hidden="true" tabindex="-1"></a>          <span class="at">media =</span> <span class="fu">mean</span>(Sepal.Length), </span>
+<span id="cb32-447"><a href="#cb32-447" aria-hidden="true" tabindex="-1"></a>          <span class="at">de =</span> <span class="fu">sd</span>(Sepal.Length))</span>
+<span id="cb32-448"><a href="#cb32-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-449"><a href="#cb32-449" aria-hidden="true" tabindex="-1"></a><span class="co"># Múltiples estadísticas</span></span>
+<span id="cb32-450"><a href="#cb32-450" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(iris,</span>
+<span id="cb32-451"><a href="#cb32-451" aria-hidden="true" tabindex="-1"></a>          <span class="at">n_flores =</span> <span class="fu">n</span>(),</span>
+<span id="cb32-452"><a href="#cb32-452" aria-hidden="true" tabindex="-1"></a>          <span class="at">media_sepalo =</span> <span class="fu">mean</span>(Sepal.Length),</span>
+<span id="cb32-453"><a href="#cb32-453" aria-hidden="true" tabindex="-1"></a>          <span class="at">media_petalo =</span> <span class="fu">mean</span>(Petal.Length),</span>
+<span id="cb32-454"><a href="#cb32-454" aria-hidden="true" tabindex="-1"></a>          <span class="at">max_sepalo =</span> <span class="fu">max</span>(Sepal.Length))</span>
+<span id="cb32-455"><a href="#cb32-455" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-456"><a href="#cb32-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-457"><a href="#cb32-457" aria-hidden="true" tabindex="-1"></a><span class="fu">### `group_by()` - Agrupar datos</span></span>
+<span id="cb32-458"><a href="#cb32-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-459"><a href="#cb32-459" aria-hidden="true" tabindex="-1"></a>Combina <span class="in">`group_by()`</span> con <span class="in">`summarize()`</span> para análisis por grupos:</span>
+<span id="cb32-460"><a href="#cb32-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-463"><a href="#cb32-463" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-464"><a href="#cb32-464" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-465"><a href="#cb32-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-466"><a href="#cb32-466" aria-hidden="true" tabindex="-1"></a><span class="co"># Estadísticas por especie</span></span>
+<span id="cb32-467"><a href="#cb32-467" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
+<span id="cb32-468"><a href="#cb32-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">%&gt;%</span></span>
+<span id="cb32-469"><a href="#cb32-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb32-470"><a href="#cb32-470" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb32-471"><a href="#cb32-471" aria-hidden="true" tabindex="-1"></a>    <span class="at">media_sepalo =</span> <span class="fu">mean</span>(Sepal.Length),</span>
+<span id="cb32-472"><a href="#cb32-472" aria-hidden="true" tabindex="-1"></a>    <span class="at">media_petalo =</span> <span class="fu">mean</span>(Petal.Length)</span>
+<span id="cb32-473"><a href="#cb32-473" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-474"><a href="#cb32-474" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-475"><a href="#cb32-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-476"><a href="#cb32-476" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb32-477"><a href="#cb32-477" aria-hidden="true" tabindex="-1"></a><span class="fu">## El operador pipe `%&gt;%`</span></span>
+<span id="cb32-478"><a href="#cb32-478" aria-hidden="true" tabindex="-1"></a>El operador <span class="in">`%&gt;%`</span> (pipe) te permite encadenar operaciones. Se lee como "luego". En este ejemplo: "toma iris, **luego** agrupa por especie, **luego** resume". Cubriremos esto más a fondo en la Sección 2.</span>
+<span id="cb32-479"><a href="#cb32-479" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-480"><a href="#cb32-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-481"><a href="#cb32-481" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gráficas de los datos</span></span>
+<span id="cb32-482"><a href="#cb32-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-483"><a href="#cb32-483" aria-hidden="true" tabindex="-1"></a>Las funciones de gráficas predeterminadas de R son simples pero efectivas. Cubriremos <span class="in">`ggplot2`</span> más adelante, pero por ahora, hagamos gráficas rápidas.</span>
+<span id="cb32-484"><a href="#cb32-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-485"><a href="#cb32-485" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histograma</span></span>
+<span id="cb32-486"><a href="#cb32-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-487"><a href="#cb32-487" aria-hidden="true" tabindex="-1"></a>Crea un histograma de longitud de sépalo:</span>
+<span id="cb32-488"><a href="#cb32-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-491"><a href="#cb32-491" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-492"><a href="#cb32-492" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-493"><a href="#cb32-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-494"><a href="#cb32-494" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma simple</span></span>
+<span id="cb32-495"><a href="#cb32-495" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb32-496"><a href="#cb32-496" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-497"><a href="#cb32-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-498"><a href="#cb32-498" aria-hidden="true" tabindex="-1"></a>Hazlo más bonito con etiquetas y una línea en la media:</span>
+<span id="cb32-499"><a href="#cb32-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-502"><a href="#cb32-502" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-503"><a href="#cb32-503" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-504"><a href="#cb32-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-505"><a href="#cb32-505" aria-hidden="true" tabindex="-1"></a><span class="co"># El histograma</span></span>
+<span id="cb32-506"><a href="#cb32-506" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb32-507"><a href="#cb32-507" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length,</span>
+<span id="cb32-508"><a href="#cb32-508" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Distribución de longitud de sépalo"</span>,</span>
+<span id="cb32-509"><a href="#cb32-509" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span id="cb32-510"><a href="#cb32-510" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb32-511"><a href="#cb32-511" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"lightblue"</span>,</span>
+<span id="cb32-512"><a href="#cb32-512" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">15</span></span>
+<span id="cb32-513"><a href="#cb32-513" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-514"><a href="#cb32-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-515"><a href="#cb32-515" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar línea roja en la media</span></span>
+<span id="cb32-516"><a href="#cb32-516" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb32-517"><a href="#cb32-517" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-518"><a href="#cb32-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-519"><a href="#cb32-519" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gráfica de dispersión</span></span>
+<span id="cb32-520"><a href="#cb32-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-521"><a href="#cb32-521" aria-hidden="true" tabindex="-1"></a>Grafica la relación entre longitud de sépalo y longitud de pétalo:</span>
+<span id="cb32-522"><a href="#cb32-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-525"><a href="#cb32-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-526"><a href="#cb32-526" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-527"><a href="#cb32-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-528"><a href="#cb32-528" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb32-529"><a href="#cb32-529" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length,</span>
+<span id="cb32-530"><a href="#cb32-530" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> iris<span class="sc">$</span>Petal.Length,</span>
+<span id="cb32-531"><a href="#cb32-531" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span id="cb32-532"><a href="#cb32-532" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Longitud de pétalo (cm)"</span>,</span>
+<span id="cb32-533"><a href="#cb32-533" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Relación entre sépalo y pétalo"</span>,</span>
+<span id="cb32-534"><a href="#cb32-534" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">19</span>,        <span class="co"># Tipo de punto</span></span>
+<span id="cb32-535"><a href="#cb32-535" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>     <span class="co"># Color</span></span>
+<span id="cb32-536"><a href="#cb32-536" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-537"><a href="#cb32-537" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-538"><a href="#cb32-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-539"><a href="#cb32-539" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gráfica por grupos</span></span>
+<span id="cb32-540"><a href="#cb32-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-541"><a href="#cb32-541" aria-hidden="true" tabindex="-1"></a>Colorea los puntos según la especie:</span>
+<span id="cb32-542"><a href="#cb32-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-545"><a href="#cb32-545" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-546"><a href="#cb32-546" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-547"><a href="#cb32-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-548"><a href="#cb32-548" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir especies a números para colores</span></span>
+<span id="cb32-549"><a href="#cb32-549" aria-hidden="true" tabindex="-1"></a>colores <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species)</span>
+<span id="cb32-550"><a href="#cb32-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-551"><a href="#cb32-551" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb32-552"><a href="#cb32-552" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length,</span>
+<span id="cb32-553"><a href="#cb32-553" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> iris<span class="sc">$</span>Petal.Length,</span>
+<span id="cb32-554"><a href="#cb32-554" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span id="cb32-555"><a href="#cb32-555" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Longitud de pétalo (cm)"</span>,</span>
+<span id="cb32-556"><a href="#cb32-556" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Relación sépalo-pétalo por especie"</span>,</span>
+<span id="cb32-557"><a href="#cb32-557" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb32-558"><a href="#cb32-558" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> colores</span>
+<span id="cb32-559"><a href="#cb32-559" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-560"><a href="#cb32-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-561"><a href="#cb32-561" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar leyenda</span></span>
+<span id="cb32-562"><a href="#cb32-562" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, </span>
+<span id="cb32-563"><a href="#cb32-563" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species),</span>
+<span id="cb32-564"><a href="#cb32-564" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb32-565"><a href="#cb32-565" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb32-566"><a href="#cb32-566" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-567"><a href="#cb32-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-568"><a href="#cb32-568" aria-hidden="true" tabindex="-1"></a><span class="fu">### Boxplot</span></span>
+<span id="cb32-569"><a href="#cb32-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-570"><a href="#cb32-570" aria-hidden="true" tabindex="-1"></a>Compara distribuciones entre especies:</span>
+<span id="cb32-571"><a href="#cb32-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-574"><a href="#cb32-574" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-575"><a href="#cb32-575" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-576"><a href="#cb32-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-577"><a href="#cb32-577" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Sepal.Length <span class="sc">~</span> Species, </span>
+<span id="cb32-578"><a href="#cb32-578" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> iris,</span>
+<span id="cb32-579"><a href="#cb32-579" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Longitud de sépalo por especie"</span>,</span>
+<span id="cb32-580"><a href="#cb32-580" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Especie"</span>,</span>
+<span id="cb32-581"><a href="#cb32-581" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
+<span id="cb32-582"><a href="#cb32-582" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgreen"</span>, <span class="st">"lightblue"</span>, <span class="st">"lightpink"</span>))</span>
+<span id="cb32-583"><a href="#cb32-583" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-584"><a href="#cb32-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-585"><a href="#cb32-585" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb32-586"><a href="#cb32-586" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estilo de código claro</span></span>
+<span id="cb32-587"><a href="#cb32-587" aria-hidden="true" tabindex="-1"></a>Recomiendo definir claramente los argumentos de función. Ayuda a mantener las cosas claras, ya que **el orden importa** cuando no estás nombrando los argumentos.</span>
+<span id="cb32-588"><a href="#cb32-588" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-589"><a href="#cb32-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-590"><a href="#cb32-590" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-591"><a href="#cb32-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-592"><a href="#cb32-592" aria-hidden="true" tabindex="-1"></a><span class="fu"># Indexación</span></span>
+<span id="cb32-593"><a href="#cb32-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-594"><a href="#cb32-594" aria-hidden="true" tabindex="-1"></a>Casi todo en R está indexado numéricamente. Puedes acceder a elementos individuales usando **corchetes** <span class="in">`[]`</span>.</span>
+<span id="cb32-595"><a href="#cb32-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-596"><a href="#cb32-596" aria-hidden="true" tabindex="-1"></a><span class="fu">## Indexación de vectores</span></span>
+<span id="cb32-597"><a href="#cb32-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-600"><a href="#cb32-600" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-601"><a href="#cb32-601" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-602"><a href="#cb32-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-603"><a href="#cb32-603" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un vector</span></span>
+<span id="cb32-604"><a href="#cb32-604" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
+<span id="cb32-605"><a href="#cb32-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-606"><a href="#cb32-606" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar el segundo elemento</span></span>
+<span id="cb32-607"><a href="#cb32-607" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>]  <span class="co"># Devuelve: 5</span></span>
+<span id="cb32-608"><a href="#cb32-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-609"><a href="#cb32-609" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar segundo y tercer elementos</span></span>
+<span id="cb32-610"><a href="#cb32-610" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)]  <span class="co"># Devuelve: 5 7</span></span>
+<span id="cb32-611"><a href="#cb32-611" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]      <span class="co"># Mismo resultado</span></span>
+<span id="cb32-612"><a href="#cb32-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-613"><a href="#cb32-613" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Qué hace 2:3?</span></span>
+<span id="cb32-614"><a href="#cb32-614" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>  <span class="co"># Crea secuencia: 2 3</span></span>
+<span id="cb32-615"><a href="#cb32-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-616"><a href="#cb32-616" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Y 1:10?</span></span>
+<span id="cb32-617"><a href="#cb32-617" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>  <span class="co"># Crea secuencia de 1 a 10</span></span>
+<span id="cb32-618"><a href="#cb32-618" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-619"><a href="#cb32-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-620"><a href="#cb32-620" aria-hidden="true" tabindex="-1"></a><span class="fu">## Indexación de data frames</span></span>
+<span id="cb32-621"><a href="#cb32-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-622"><a href="#cb32-622" aria-hidden="true" tabindex="-1"></a>Los data frames tienen **filas y columnas**: <span class="in">`[fila, columna]`</span></span>
+<span id="cb32-623"><a href="#cb32-623" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-626"><a href="#cb32-626" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-627"><a href="#cb32-627" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb32-628"><a href="#cb32-628" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-629"><a href="#cb32-629" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar primera fila (todas las columnas)</span></span>
+<span id="cb32-630"><a href="#cb32-630" aria-hidden="true" tabindex="-1"></a>iris[<span class="dv">1</span>, ]</span>
+<span id="cb32-631"><a href="#cb32-631" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-632"><a href="#cb32-632" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar primera columna (todas las filas)</span></span>
+<span id="cb32-633"><a href="#cb32-633" aria-hidden="true" tabindex="-1"></a>iris[, <span class="dv">1</span>]</span>
+<span id="cb32-634"><a href="#cb32-634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-635"><a href="#cb32-635" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar primeras 5 filas, primeras 3 columnas</span></span>
+<span id="cb32-636"><a href="#cb32-636" aria-hidden="true" tabindex="-1"></a>iris[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb32-637"><a href="#cb32-637" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-638"><a href="#cb32-638" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar nombre de columna como índice</span></span>
+<span id="cb32-639"><a href="#cb32-639" aria-hidden="true" tabindex="-1"></a>iris[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"Species"</span>]</span>
+<span id="cb32-640"><a href="#cb32-640" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-641"><a href="#cb32-641" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar: primeras 10 filas de setosa</span></span>
+<span id="cb32-642"><a href="#cb32-642" aria-hidden="true" tabindex="-1"></a>iris[iris<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"setosa"</span>, ][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ]</span>
+<span id="cb32-643"><a href="#cb32-643" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-644"><a href="#cb32-644" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-645"><a href="#cb32-645" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb32-646"><a href="#cb32-646" aria-hidden="true" tabindex="-1"></a><span class="fu">## Orden fila, columna</span></span>
+<span id="cb32-647"><a href="#cb32-647" aria-hidden="true" tabindex="-1"></a>Recuerda: **Filas antes de columnas**. Deja en blanco para seleccionar todo.</span>
+<span id="cb32-648"><a href="#cb32-648" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[1, ]`</span> = primera fila, todas las columnas</span>
+<span id="cb32-649"><a href="#cb32-649" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[, 2]`</span> = todas las filas, segunda columna</span>
+<span id="cb32-650"><a href="#cb32-650" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[3, 4]`</span> = tercera fila, cuarta columna</span>
+<span id="cb32-651"><a href="#cb32-651" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-652"><a href="#cb32-652" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-653"><a href="#cb32-653" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-654"><a href="#cb32-654" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-655"><a href="#cb32-655" aria-hidden="true" tabindex="-1"></a><span class="fu"># Desafío divertido</span></span>
+<span id="cb32-656"><a href="#cb32-656" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-657"><a href="#cb32-657" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
+<span id="cb32-658"><a href="#cb32-658" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prueba esto</span></span>
+<span id="cb32-659"><a href="#cb32-659" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>¿Qué sucede si le das a <span class="in">`head()`</span> o <span class="in">`tail()`</span> un <span class="in">`n`</span> **negativo**?</span>
+<span id="cb32-660"><a href="#cb32-660" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>¿Puedes replicar este comportamiento usando indexación?</span>
+<span id="cb32-661"><a href="#cb32-661" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>¿Puedes obtener todas las flores *excepto* las primeras 10 usando <span class="in">`head()`</span>?</span>
+<span id="cb32-662"><a href="#cb32-662" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>¿Cuántas flores de cada especie hay en el dataset? (Pista: usa <span class="in">`table()`</span>)</span>
+<span id="cb32-663"><a href="#cb32-663" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-664"><a href="#cb32-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-665"><a href="#cb32-665" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-666"><a href="#cb32-666" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-667"><a href="#cb32-667" aria-hidden="true" tabindex="-1"></a><span class="fu"># Problemas de práctica</span></span>
+<span id="cb32-668"><a href="#cb32-668" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-669"><a href="#cb32-669" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problemas con el dataset Iris</span></span>
+<span id="cb32-670"><a href="#cb32-670" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-671"><a href="#cb32-671" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-672"><a href="#cb32-672" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 1: Análisis descriptivo</span></span>
+<span id="cb32-673"><a href="#cb32-673" aria-hidden="true" tabindex="-1"></a>Usando el dataset <span class="in">`iris`</span>:</span>
+<span id="cb32-674"><a href="#cb32-674" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-675"><a href="#cb32-675" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Calcula la media y desviación estándar de <span class="in">`Petal.Length`</span></span>
+<span id="cb32-676"><a href="#cb32-676" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>¿Cuál es la flor con el pétalo más largo? (Pista: usa <span class="in">`which.max()`</span>)</span>
+<span id="cb32-677"><a href="#cb32-677" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Crea un subset con solo flores versicolor</span>
+<span id="cb32-678"><a href="#cb32-678" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>¿Cuál es la media de <span class="in">`Sepal.Width`</span> para flores versicolor?</span>
+<span id="cb32-679"><a href="#cb32-679" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-680"><a href="#cb32-680" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-681"><a href="#cb32-681" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-682"><a href="#cb32-682" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 2: Manipulación de datos</span></span>
+<span id="cb32-683"><a href="#cb32-683" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Crea un nuevo data frame con solo flores que tengan <span class="in">`Sepal.Length &gt; 5`</span></span>
+<span id="cb32-684"><a href="#cb32-684" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Ordena este nuevo data frame por <span class="in">`Petal.Length`</span> en orden descendente</span>
+<span id="cb32-685"><a href="#cb32-685" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Selecciona solo las columnas de mediciones de pétalos y especie</span>
+<span id="cb32-686"><a href="#cb32-686" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>¿Cuántas filas tiene tu resultado final?</span>
+<span id="cb32-687"><a href="#cb32-687" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-688"><a href="#cb32-688" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-689"><a href="#cb32-689" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problemas de álgebra lineal</span></span>
+<span id="cb32-690"><a href="#cb32-690" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-691"><a href="#cb32-691" aria-hidden="true" tabindex="-1"></a>Algunos rompecabezas clásicos de R-encuentra-álgebra-lineal para tu disfrute:</span>
+<span id="cb32-692"><a href="#cb32-692" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-693"><a href="#cb32-693" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-694"><a href="#cb32-694" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 3: Matriz identidad</span></span>
+<span id="cb32-695"><a href="#cb32-695" aria-hidden="true" tabindex="-1"></a>Sea **I**₅ una matriz identidad de 5×5. Demuestra que **I**₅ es simétrica e idempotente usando funciones de R.</span>
+<span id="cb32-696"><a href="#cb32-696" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-697"><a href="#cb32-697" aria-hidden="true" tabindex="-1"></a>**Pista:** Usa <span class="in">`diag(5)`</span> para crear una matriz identidad.</span>
+<span id="cb32-698"><a href="#cb32-698" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-699"><a href="#cb32-699" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-700"><a href="#cb32-700" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-701"><a href="#cb32-701" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 4: Matriz idempotente</span></span>
+<span id="cb32-702"><a href="#cb32-702" aria-hidden="true" tabindex="-1"></a>Genera una matriz idempotente de 2×2 **X**, donde **X** no es la matriz identidad. Demuestra que **X** = **XX**.</span>
+<span id="cb32-703"><a href="#cb32-703" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-704"><a href="#cb32-704" aria-hidden="true" tabindex="-1"></a>**Pista:** Una matriz idempotente satisface **X** = **X**².</span>
+<span id="cb32-705"><a href="#cb32-705" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-706"><a href="#cb32-706" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-707"><a href="#cb32-707" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-708"><a href="#cb32-708" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 5: Regresión lineal</span></span>
+<span id="cb32-709"><a href="#cb32-709" aria-hidden="true" tabindex="-1"></a>Genera dos variables aleatorias, **x** y **e**, de dimensión n = 100 tal que **x**, **e** ~ N(0, 1).</span>
+<span id="cb32-710"><a href="#cb32-710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-711"><a href="#cb32-711" aria-hidden="true" tabindex="-1"></a>Genera **y** de acuerdo a: y = x + e</span>
+<span id="cb32-712"><a href="#cb32-712" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-713"><a href="#cb32-713" aria-hidden="true" tabindex="-1"></a>Muestra que regresar **y** sobre **x** usando <span class="in">`lm()`</span> da estimaciones: β₀ ≈ 0 y β₁ ≈ 1.</span>
+<span id="cb32-714"><a href="#cb32-714" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-715"><a href="#cb32-715" aria-hidden="true" tabindex="-1"></a>**Pista:** Usa <span class="in">`rnorm(100)`</span> para generar variables aleatorias normales.</span>
+<span id="cb32-716"><a href="#cb32-716" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-717"><a href="#cb32-717" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-718"><a href="#cb32-718" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb32-719"><a href="#cb32-719" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problema 6: Valores propios y traza</span></span>
+<span id="cb32-720"><a href="#cb32-720" aria-hidden="true" tabindex="-1"></a>Muestra que si λ₁, λ₂, ..., λ₅ son los valores propios de una matriz de 5×5 **A**, entonces:</span>
+<span id="cb32-721"><a href="#cb32-721" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-722"><a href="#cb32-722" aria-hidden="true" tabindex="-1"></a>tr(**A**) = Σλᵢ (suma de valores propios)</span>
+<span id="cb32-723"><a href="#cb32-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-724"><a href="#cb32-724" aria-hidden="true" tabindex="-1"></a>**Pista:** Usa <span class="in">`eigen()`</span> para encontrar valores propios y <span class="in">`sum(diag())`</span> para la traza.</span>
+<span id="cb32-725"><a href="#cb32-725" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-726"><a href="#cb32-726" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-727"><a href="#cb32-727" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-728"><a href="#cb32-728" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-729"><a href="#cb32-729" aria-hidden="true" tabindex="-1"></a><span class="fu"># Puntos clave</span></span>
+<span id="cb32-730"><a href="#cb32-730" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-731"><a href="#cb32-731" aria-hidden="true" tabindex="-1"></a>::: {.callout-important icon="true"}</span>
+<span id="cb32-732"><a href="#cb32-732" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recuerda</span></span>
+<span id="cb32-733"><a href="#cb32-733" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-734"><a href="#cb32-734" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Los paquetes extienden el poder de R** - Usa <span class="in">`pacman::p_load()`</span> para gestión fácil</span>
+<span id="cb32-735"><a href="#cb32-735" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Datasets incorporados** - R incluye datasets como <span class="in">`iris`</span> para practicar</span>
+<span id="cb32-736"><a href="#cb32-736" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**La asignación es clave** - Usa <span class="in">`&lt;-`</span> para guardar resultados: <span class="in">`new_data &lt;- old_data`</span></span>
+<span id="cb32-737"><a href="#cb32-737" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Verbos de `dplyr`** - <span class="in">`select()`</span>, <span class="in">`filter()`</span>, <span class="in">`arrange()`</span>, <span class="in">`summarize()`</span>, <span class="in">`group_by()`</span> para manipulación de datos</span>
+<span id="cb32-738"><a href="#cb32-738" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Indexación con `[fila, columna]`** - Esencial para acceder a datos</span>
+<span id="cb32-739"><a href="#cb32-739" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Usa `$` para columnas** - <span class="in">`dataset$variable`</span> toma una variable específica</span>
+<span id="cb32-740"><a href="#cb32-740" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Funciones de resumen** - <span class="in">`summary()`</span>, <span class="in">`str()`</span>, <span class="in">`head()`</span>, <span class="in">`tail()`</span> para exploración</span>
+<span id="cb32-741"><a href="#cb32-741" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb32-742"><a href="#cb32-742" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-743"><a href="#cb32-743" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-744"><a href="#cb32-744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-745"><a href="#cb32-745" aria-hidden="true" tabindex="-1"></a><span class="fu"># Recursos adicionales</span></span>
+<span id="cb32-746"><a href="#cb32-746" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-747"><a href="#cb32-747" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">R for Data Science</span><span class="co">](https://r4ds.hadley.nz/)</span> - Guía completa</span>
+<span id="cb32-748"><a href="#cb32-748" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Hojas de referencia de RStudio</span><span class="co">](https://posit.co/resources/cheatsheets/)</span> - Referencias rápidas</span>
+<span id="cb32-749"><a href="#cb32-749" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Stack Overflow</span><span class="co">](https://stackoverflow.com/questions/tagged/r)</span> - Comunidad de preguntas y respuestas</span>
+<span id="cb32-750"><a href="#cb32-750" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`?function_name`</span> - Ayuda integrada de R</span>
+<span id="cb32-751"><a href="#cb32-751" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`?iris`</span> - Documentación del dataset iris</span>
+<span id="cb32-752"><a href="#cb32-752" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-753"><a href="#cb32-753" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb32-754"><a href="#cb32-754" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-755"><a href="#cb32-755" aria-hidden="true" tabindex="-1"></a>**Siguiente:** Sección 2 - Manipulación de datos con dplyr</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<a href="https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya">David Contreras-Loya</a> ©
+<script>document.write(new Date().getFullYear())</script>
+</div>   
+    <div class="nav-footer-center">
+<p>Built on <a href="https://github.com/drganghe/quarto-academic-website-template">Quarto Academic Website Template</a></p>
+</div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank">
+      <i class="bi bi-mortarboard" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

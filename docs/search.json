@@ -7,18 +7,585 @@
     "text": "Current CV (PDF):\n- Dropbox:"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "notes/README_EJERCICIOS.html",
+    "href": "notes/README_EJERCICIOS.html",
+    "title": "Estructura del Curso: Métodos Cuantitativos para Política Pública",
     "section": "",
-    "text": "About this site"
+    "text": "Este curso está diseñado para desarrollar habilidades cuantitativas esenciales en estudiantes de política pública, sin requerir conocimientos previos de estadística o programación.\n\n\nCada sesión sigue un enfoque de aprendizaje activo:\n\nCaso Real de política pública como ancla conceptual\nAnálisis Exploratorio con datos simulados realistas\nVisualización para desarrollar intuición\nInterpretación orientada a decisiones\nComunicación para audiencias no-técnicas\nReflexión sobre limitaciones y sesgos\n\n\n\n\n\n\n\n\nCálculo de media, mediana, percentiles\nVisualización de distribuciones (histogramas, boxplots)\nMedidas de dispersión (IQR, desviación estándar)\nComparación de grupos\nTablas profesionales para reportes ejecutivos\nSección de limitaciones del análisis\n\n\n\n\n\nLectura crítica de evidencia\nComunicación para decisores\nHonestidad sobre incertidumbre\nDistinción entre correlación y causalidad\n\n\nEste curso fue diseñado con el objetivo de empoderar a decisores de política pública con herramientas cuantitativas rigurosas y honestas.\nVersión: 1.0 | Fecha: Enero 2026"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "David Contreras-Loya, PhD",
+    "objectID": "notes/README_EJERCICIOS.html#filosofía-pedagógica",
+    "href": "notes/README_EJERCICIOS.html#filosofía-pedagógica",
+    "title": "Estructura del Curso: Métodos Cuantitativos para Política Pública",
     "section": "",
-    "text": "TECprofile\n  \n  \n    \n     LinkedIn\n  \n  \n      ORCID\n  \n  \n      Web of Science\n  \n  \n      Scopus\n  \n  \n      Google Scholar\n  \n  \n      Research Gate\n  \n\n  \n  \nDavid Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at Escuela de Gobierno y Transformación Pública, and is affiliated with the Institute for Obesity Research. He co-leads Evidencia y Acción para la Equidad en Salud, EVIS, a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.\nHe teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings. He also convenes Seminario Institucional en Salud, which brings practitioners and researchers into structured discussion on measurement, evaluation design, and implementation constraints in public programs.\nHis research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as Health Policy and Planning, Social Science and Medicine, the National Bureau of Economic Research and the American Journal of Clinical Nutrition, and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.\nHis research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by VoxDev and Mexico Business News, and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.\nHis work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including African Health Markets for Equity and Skills for Effective Entrepreneurship Development, and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.\nPreviously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D. in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Cada sesión sigue un enfoque de aprendizaje activo:\n\nCaso Real de política pública como ancla conceptual\nAnálisis Exploratorio con datos simulados realistas\nVisualización para desarrollar intuición\nInterpretación orientada a decisiones\nComunicación para audiencias no-técnicas\nReflexión sobre limitaciones y sesgos"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#características-comunes-en-todas-las-sesiones",
+    "href": "notes/README_EJERCICIOS.html#características-comunes-en-todas-las-sesiones",
+    "title": "Estructura del Curso: Métodos Cuantitativos para Política Pública",
+    "section": "",
+    "text": "Cálculo de media, mediana, percentiles\nVisualización de distribuciones (histogramas, boxplots)\nMedidas de dispersión (IQR, desviación estándar)\nComparación de grupos\nTablas profesionales para reportes ejecutivos\nSección de limitaciones del análisis\n\n\n\n\n\nLectura crítica de evidencia\nComunicación para decisores\nHonestidad sobre incertidumbre\nDistinción entre correlación y causalidad\n\n\nEste curso fue diseñado con el objetivo de empoderar a decisores de política pública con herramientas cuantitativas rigurosas y honestas.\nVersión: 1.0 | Fecha: Enero 2026"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#bloque-1-datos-y-visualización",
+    "href": "notes/README_EJERCICIOS.html#bloque-1-datos-y-visualización",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "BLOQUE 1: Datos y Visualización",
+    "text": "BLOQUE 1: Datos y Visualización\n\nSesión 1: La Tiranía del Promedio\nArchivo: ex01_average_integrated.qmd\nCaso: Subsidios municipales con distribución asimétrica de ingresos\nConceptos Clave: - Media vs mediana - Percentiles (P10, P25, P50, P75, P90) - Asimetría en distribuciones - Rango intercuartil (IQR) - Coeficiente de variación\nHabilidades: - Interpretar percentiles para focalización - Crear y leer boxplots e histogramas - Comparar grupos (urbano vs rural) - Proponer criterios de elegibilidad basados en datos - Comunicar con tablas profesionales\nDecisión: ¿Qué umbral usar para subsidio ($200, $250, $300)?\n\n\n\nSesión 2: Visualización como Evidencia\nArchivo: ex02_visualization_integrated.qmd\nCaso: Desempeño escolar y presupuesto educativo\nConceptos Clave: - Boxplots comparativos - Scatterplots con tendencias - Identificación de outliers - Auditoría de gráficos engañosos - Reglas de visualización honesta\nHabilidades: - Elegir el gráfico apropiado según la pregunta - Calcular pendientes de regresión (retorno del presupuesto) - Interpretar R² (poder explicativo) - Detectar manipulación visual (escalas, ejes) - Clasificar casos por cuartiles\nDecisión: ¿A qué escuelas priorizar para intervención?"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#bloque-2-incertidumbre-y-riesgo",
+    "href": "notes/README_EJERCICIOS.html#bloque-2-incertidumbre-y-riesgo",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "BLOQUE 2: Incertidumbre y Riesgo",
+    "text": "BLOQUE 2: Incertidumbre y Riesgo\n\nSesión 3: Simulación Monte Carlo\nArchivo: ex03_montecarlo_integrated.qmd\nCaso: Planificación presupuestaria con múltiples fuentes de incertidumbre\nConceptos Clave: - Distribuciones (log-normal, gamma, normal) - Percentiles de riesgo (P50, P75, P90) - Análisis de sensibilidad - Coeficiente de variación como medida de riesgo\nHabilidades: - Simular variables aleatorias - Combinar fuentes de incertidumbre - Calcular probabilidad de insuficiencia presupuestal - Comparar estrategias de mitigación - Comunicar riesgo al Director\nDecisión: ¿Solicitar presupuesto conservador (P90) o eficiente (P50)?\n\n\n\nSesión 4: Probabilidad Condicional (Bayes)\nArchivo: ex04_bayes_integrated.qmd\nCaso: Sistema de IA anti-corrupción en compras públicas\nConceptos Clave: - Teorema de Bayes - Valor Predictivo Positivo (VPP) - Sensibilidad vs especificidad - Matriz de confusión (TP, FP, TN, FN) - Paradoja de Bayes\nHabilidades: - Calcular VPP correctamente - Entender por qué test “preciso” genera falsos positivos - Diseñar estrategias para reducir FP - Evaluar costo operativo de auditorías - Aplicar Bayes a decisiones reales\nDecisión: ¿Auditar todas las compras marcadas o implementar filtro de dos etapas?"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#bloque-3-muestreo-e-inferencia-i",
+    "href": "notes/README_EJERCICIOS.html#bloque-3-muestreo-e-inferencia-i",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "BLOQUE 3: Muestreo e Inferencia I",
+    "text": "BLOQUE 3: Muestreo e Inferencia I\n\nSesión 5: El Arte del Muestreo\nArchivo: ex05_sampling_integrated.qmd\nCaso: Encuestas de aprobación presidencial\nConceptos Clave: - Ley de grandes números - Error estándar (SE) - Convergencia con n grande - Relación SE ~ 1/√n\nHabilidades: - Simular muestras de diferentes tamaños - Calcular error estándar (teórico y empírico) - Visualizar distribución muestral - Determinar tamaño de muestra necesario - Entender limitaciones de muestras pequeñas\nDecisión: ¿Qué tan grande debe ser la muestra para margen de error &lt;3%?\n\n\n\nSesión 6: Intervalos de Confianza\nArchivo: ex06_ci_integrated.qmd\nCaso: Evaluación de programa de control de diabetes (IMC)\nConceptos Clave: - Intervalo de confianza al 95% - Margen de error - T-test para comparar medias - Interpretación correcta de “95% de confianza”\nHabilidades: - Calcular intervalos de confianza - Distinguir “no significativo” de “no hay efecto” - Visualizar IC con barras de error - Simular múltiples ICs para demostrar cobertura - Comunicar incertidumbre a decisores\nDecisión: ¿El programa de salud funciona? ¿Con qué nivel de certeza?"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#bloque-4-pruebas-de-hipótesis",
+    "href": "notes/README_EJERCICIOS.html#bloque-4-pruebas-de-hipótesis",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "BLOQUE 4: Pruebas de Hipótesis",
+    "text": "BLOQUE 4: Pruebas de Hipótesis\n\nSesión 7: Lógica de la Prueba de Hipótesis\nArchivo: ex07_ttest_integrated.qmd\nCaso: Comparación de métodos de enseñanza\nConceptos Clave: - Hipótesis nula (H₀) y alternativa (H₁) - P-valor - Error Tipo I (falso positivo) y Tipo II (falso negativo) - Metáfora del tribunal - Nivel de significancia α\nHabilidades: - Plantear hipótesis correctamente - Interpretar p-valor - Relacionar con presunción de inocencia - Considerar trade-offs entre tipos de error - Visualizar sobreposición de distribuciones\nDecisión: ¿Implementar método innovador o mantener tradicional?\n\n\n\nSesión 8: P-valor y Poder Estadístico\nArchivo: ex08_pval_integrated.qmd\nCaso: Programa piloto de empleabilidad con muestra pequeña\nConceptos Clave: - Poder estadístico (1-β) - Tamaño de muestra y poder - Significancia estadística vs relevancia práctica - Limitaciones de estudios piloto\nHabilidades: - Calcular poder estadístico empíricamente - Determinar n necesario para Poder=80% - Distinguir significancia de importancia práctica - Interpretar “no significativo” con poder bajo - Graficar curva de poder vs n\nDecisión: ¿Expandir programa piloto o abandonar proyecto?"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#bloque-5-asociación-y-causalidad",
+    "href": "notes/README_EJERCICIOS.html#bloque-5-asociación-y-causalidad",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "BLOQUE 5: Asociación y Causalidad",
+    "text": "BLOQUE 5: Asociación y Causalidad\n\nSesión 9: Correlación y Regresión Simple\nArchivo: ex09_regression_integrated.qmd\nCaso: Retornos a la educación (salario vs escolaridad)\nConceptos Clave: - Regresión lineal simple - Interpretación de coeficientes (intercepto, pendiente) - R² como medida de ajuste - Análisis de residuos - Correlación vs causalidad\nHabilidades: - Ajustar modelo de regresión lineal - Interpretar pendiente en unidades reales - Diagnosticar modelo con residuos - Hacer predicciones con intervalos - Identificar posibles variables omitidas\nDecisión: ¿Cuánto vale un año adicional de educación?\n\n\n\nSesión 10: Paradoja de Simpson\nArchivo: ex10_simpsons_integrated.qmd\nCaso: Presupuesto escolar controlando por tipo (urbana/rural)\nConceptos Clave: - Variable confusora - Regresión múltiple - Sesgo de variable omitida - Cambio de coeficiente al controlar - Paradoja de Simpson\nHabilidades: - Identificar variable confusora - Comparar regresión simple vs múltiple - Observar reversión de signo - Visualizar paradoja - Proponer variables de control\nDecisión: ¿Basta igualar presupuestos o hay que compensar desventajas estructurales?"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#nivel-de-dificultad",
+    "href": "notes/README_EJERCICIOS.html#nivel-de-dificultad",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Nivel de Dificultad",
+    "text": "Nivel de Dificultad\nSesiones 1-2: Fundamentos (estadística descriptiva)\n            ↓\nSesiones 3-4: Pensamiento probabilístico\n            ↓\nSesiones 5-6: Generalización (muestreo → población)\n            ↓\nSesiones 7-8: Toma de decisiones bajo incertidumbre\n            ↓\nSesiones 9-10: Amenazas a la validez causal"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#habilidades-acumulativas",
+    "href": "notes/README_EJERCICIOS.html#habilidades-acumulativas",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Habilidades Acumulativas",
+    "text": "Habilidades Acumulativas\nCada sesión refuerza conceptos previos:\n\nSesión 1 introduce percentiles → usado en TODAS las demás\nSesión 2 enseña visualización → aplicado constantemente\nSesión 3 introduce simulación → usado en Sesión 5, 8\nSesión 4 enseña matrices 2×2 → usado en Sesión 7\nSesión 6 introduce IC → usado en Sesión 7, 9\nSesión 9 introduce regresión → extendido en Sesión 10"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#formato",
+    "href": "notes/README_EJERCICIOS.html#formato",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Formato",
+    "text": "Formato\n\nArchivos: Quarto Markdown (.qmd)\nEjecución: WebR (R en navegador) o RStudio local\nDependencias: Base R + ggplot2 (sesiones 1-4)"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#datos",
+    "href": "notes/README_EJERCICIOS.html#datos",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Datos",
+    "text": "Datos\n\nTodos simulados para reproducibilidad\nset.seed() para resultados consistentes\nCasos realistas basados en política pública real"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#duración",
+    "href": "notes/README_EJERCICIOS.html#duración",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Duración",
+    "text": "Duración\n\nPor sesión: 3 horas\n\n0:00-0:45 - Mini-lecture + conceptos\n0:45-1:45 - Práctica guiada (código paso a paso)\n1:45-2:25 - Ejercicio individual\n2:25-3:00 - Discusión + cierre"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#por-sesión",
+    "href": "notes/README_EJERCICIOS.html#por-sesión",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Por Sesión",
+    "text": "Por Sesión\nCada ejercicio individual incluye: 1. Análisis de datos (código R) 2. Visualizaciones (gráficos) 3. Tabla resumen 4. Interpretación escrita (6 líneas) 5. Limitaciones del análisis"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#rúbrica-sugerida",
+    "href": "notes/README_EJERCICIOS.html#rúbrica-sugerida",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Rúbrica Sugerida",
+    "text": "Rúbrica Sugerida\n\nCódigo funcional (30%): Corre sin errores, bien comentado\nVisualizaciones (25%): Claras, honestas, con títulos informativos\nInterpretación (25%): Correcta, contextualizada a decisión\nLimitaciones (10%): Identifica qué NO dice el análisis\nComunicación (10%): Lenguaje claro para no-técnicos"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#para-profundizar",
+    "href": "notes/README_EJERCICIOS.html#para-profundizar",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Para Profundizar",
+    "text": "Para Profundizar\n\nLibros: “R for Data Science” (Wickham), “Introduction to Statistical Learning” (James et al.)\nCursos online: DataCamp, Coursera Statistics with R\nComunidad: Stack Overflow, RStudio Community"
+  },
+  {
+    "objectID": "notes/README_EJERCICIOS.html#datos-reales-opcional",
+    "href": "notes/README_EJERCICIOS.html#datos-reales-opcional",
+    "title": "Estructura del Curso: Métodos Cuantitativos",
+    "section": "Datos Reales (Opcional)",
+    "text": "Datos Reales (Opcional)\nDespués de practicar con simulaciones, se pueden usar: - ENIGH (encuesta de hogares, México) - World Bank Open Data - INEGI (estadísticas México) - CDC Data (salud pública, USA)"
+  },
+  {
+    "objectID": "notes/ex07_ttest_integrated.html",
+    "href": "notes/ex07_ttest_integrated.html",
+    "title": "Sesión 7: Prueba de Hipótesis",
+    "section": "",
+    "text": "Caso: Método de Enseñanza Innovador\nDos escuelas prueban métodos diferentes: Método Tradicional vs Método Innovador (aprendizaje activo). Se comparan puntajes en matemáticas.\nHipótesis Nula (H₀): “No hay diferencia entre métodos” (presunción de inocencia) Hipótesis Alternativa (H₁): “El método innovador es mejor”\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: La Metáfora del Tribunal\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Visualización de los Grupos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Errores Tipo I y II\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nRe-simula con n=30 (muestra pequeña) - ¿Cambia conclusión?\nCalcula tamaño de muestra para Poder=80%\nEscribe recomendación considerando ambos tipos de error\n\n\n\n\nDiscusión\n\n¿Qué error es peor: Tipo I o II?\n¿“No significativo” = “no hay efecto”?\n¿Cómo decides el nivel α?"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html",
+    "href": "notes/INSTRUCCIONES_USO.html",
+    "title": "Guía de Uso del Curso",
+    "section": "",
+    "text": "✅ Instalar R y RStudio (ver Guía de Instalación)\n✅ Verificar que funciona: escribir 1 + 1 en la consola\n✅ Crear carpeta del curso en tu computadora\n✅ Descargar archivos de la sesión correspondiente\n\n\n\n\n\n📖 Leer el caso de política pública al inicio del ejercicio\n🤔 Pensar: ¿Qué decisión hay que tomar?\n📝 Anotar preguntas previas\n\n\n\n\n\n\n\n\nPrimera Hora (0:00-1:00):\n\nEscuchar mini-lecture del instructor\nEjecutar código junto con el instructor\nHacer preguntas cuando algo no quede claro\nAnotar interpretaciones clave\n\nSegunda Hora (1:00-2:00):\n\nContinuar práctica guiada\nModificar parámetros para experimentar\nComparar resultados con compañeros\n\nTercera Hora (2:00-3:00):\n\nTrabajar en ejercicio individual\nConsultar con instructor si hay dudas\nParticipar en discusión final\n\n\n\n\n\n\n\n\n\n\n\nConsejos Prácticos\n\n\n\n\nNo solo copiar-pegar código:\n\nModifica valores y observa qué cambia\nRompe el código a propósito para entender errores\n\nUsa comentarios abundantemente:\n# MAL: sin contexto\nx &lt;- mean(datos$ingreso)\n\n# BIEN: explica qué y por qué\ningreso_promedio &lt;- mean(datos$ingreso)  # Para comparar con mediana\nExperimenta con visualizaciones:\n\nCambia colores, títulos, escalas\nCrea múltiples versiones del mismo gráfico\nPregúntate: ¿Este gráfico comunica claramente?\n\nConecta con casos reales:\n\nBusca noticias relacionadas\nPiensa en aplicaciones a tu contexto\nDiscute con compañeros fuera de clase\n\n\n\n\n\n\n\n\n\n\nCada sesión incluye un ejercicio estructurado para entregar. Típicamente consiste en:\n\nAnálisis de datos (40%):\n\nEjecutar código R\nCrear tablas y gráficos\nCalcular estadísticas\n\nInterpretación (40%):\n\nExplicar hallazgos en lenguaje claro\nRelacionar con decisión de política\nIdentificar qué cambia con este resultado\n\nLimitaciones (20%):\n\nDeclarar qué NO dice el análisis\nMencionar supuestos críticos\nSugerir análisis complementarios\n\n\n\n\n\n\n\n\n\n\n\nOpciones para Entregar\n\n\n\nOpción A: Documento HTML (Recomendado) - Ejecutar todo el .qmd en RStudio - Exportar a HTML (botón “Render”) - Enviar archivo HTML completo\nOpción B: Documento Word/PDF - Crear nuevo archivo - Copiar código + outputs + gráficos - Agregar interpretaciones - Exportar y entregar\nOpción C: Repositorio GitHub (Avanzado) - Subir .qmd modificado con respuestas - Incluir outputs (.html, imágenes) - Compartir link del repo"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#antes-de-clase",
+    "href": "notes/INSTRUCCIONES_USO.html#antes-de-clase",
+    "title": "Guía de Uso del Curso",
+    "section": "",
+    "text": "✅ Instalar R y RStudio (ver Guía de Instalación)\n✅ Verificar que funciona: escribir 1 + 1 en la consola\n✅ Crear carpeta del curso en tu computadora\n✅ Descargar archivos de la sesión correspondiente\n\n\n\n\n\n📖 Leer el caso de política pública al inicio del ejercicio\n🤔 Pensar: ¿Qué decisión hay que tomar?\n📝 Anotar preguntas previas"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#durante-clase",
+    "href": "notes/INSTRUCCIONES_USO.html#durante-clase",
+    "title": "Guía de Uso del Curso",
+    "section": "",
+    "text": "Primera Hora (0:00-1:00):\n\nEscuchar mini-lecture del instructor\nEjecutar código junto con el instructor\nHacer preguntas cuando algo no quede claro\nAnotar interpretaciones clave\n\nSegunda Hora (1:00-2:00):\n\nContinuar práctica guiada\nModificar parámetros para experimentar\nComparar resultados con compañeros\n\nTercera Hora (2:00-3:00):\n\nTrabajar en ejercicio individual\nConsultar con instructor si hay dudas\nParticipar en discusión final\n\n\n\n\n\n\n\n\n\n\n\nConsejos Prácticos\n\n\n\n\nNo solo copiar-pegar código:\n\nModifica valores y observa qué cambia\nRompe el código a propósito para entender errores\n\nUsa comentarios abundantemente:\n# MAL: sin contexto\nx &lt;- mean(datos$ingreso)\n\n# BIEN: explica qué y por qué\ningreso_promedio &lt;- mean(datos$ingreso)  # Para comparar con mediana\nExperimenta con visualizaciones:\n\nCambia colores, títulos, escalas\nCrea múltiples versiones del mismo gráfico\nPregúntate: ¿Este gráfico comunica claramente?\n\nConecta con casos reales:\n\nBusca noticias relacionadas\nPiensa en aplicaciones a tu contexto\nDiscute con compañeros fuera de clase"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#después-de-clase",
+    "href": "notes/INSTRUCCIONES_USO.html#después-de-clase",
+    "title": "Guía de Uso del Curso",
+    "section": "",
+    "text": "Cada sesión incluye un ejercicio estructurado para entregar. Típicamente consiste en:\n\nAnálisis de datos (40%):\n\nEjecutar código R\nCrear tablas y gráficos\nCalcular estadísticas\n\nInterpretación (40%):\n\nExplicar hallazgos en lenguaje claro\nRelacionar con decisión de política\nIdentificar qué cambia con este resultado\n\nLimitaciones (20%):\n\nDeclarar qué NO dice el análisis\nMencionar supuestos críticos\nSugerir análisis complementarios\n\n\n\n\n\n\n\n\n\n\n\nOpciones para Entregar\n\n\n\nOpción A: Documento HTML (Recomendado) - Ejecutar todo el .qmd en RStudio - Exportar a HTML (botón “Render”) - Enviar archivo HTML completo\nOpción B: Documento Word/PDF - Crear nuevo archivo - Copiar código + outputs + gráficos - Agregar interpretaciones - Exportar y entregar\nOpción C: Repositorio GitHub (Avanzado) - Subir .qmd modificado con respuestas - Incluir outputs (.html, imágenes) - Compartir link del repo"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#preparación-de-clase",
+    "href": "notes/INSTRUCCIONES_USO.html#preparación-de-clase",
+    "title": "Guía de Uso del Curso",
+    "section": "Preparación de Clase",
+    "text": "Preparación de Clase\n\nAntes de la Sesión (30 min)\n\nRevisar ejercicio completo:\n\nEjecutar todo el código\nIdentificar secciones para código en vivo\nPreparar preguntas detonadoras adicionales\n\nPreparar materiales:\n\nProyector para código en vivo\nDatos disponibles para descarga\nSlides con conceptos clave (opcional)\n\nDecidir énfasis:\n\n¿Qué conceptos son más difíciles?\n¿Qué ejemplos adicionales usar?\n¿Qué errores comunes anticipar?"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#durante-clase-3-horas",
+    "href": "notes/INSTRUCCIONES_USO.html#durante-clase-3-horas",
+    "title": "Guía de Uso del Curso",
+    "section": "Durante Clase (3 horas)",
+    "text": "Durante Clase (3 horas)\n\nEstructura Recomendada\n0:00-0:45  Mini-lecture + Partes 1-3 (introducción)\n           • Presentar caso de política pública\n           • Explicar conceptos clave con ejemplos\n           • Mostrar código básico en vivo\n\n0:45-1:45  Partes 4-7 (práctica guiada)\n           • Código paso a paso con explicaciones\n           • Pausas para preguntas\n           • Modificar parámetros en vivo\n           • Discutir interpretaciones en grupo\n\n1:45-2:25  Partes 8-9 (ejercicio individual)\n           • Estudiantes trabajan solos/en parejas\n           • Instructor circula ayudando\n           • Resolver dudas específicas\n\n2:25-3:00  Parte 10 (discusión y cierre)\n           • Compartir hallazgos entre estudiantes\n           • Preguntas detonadoras\n           • Conectar con siguiente sesión\n\n\nTécnicas Pedagógicas Efectivas\n\n\n\n\n\n\nEstrategias Probadas\n\n\n\n1. Código en Vivo (Live Coding): - Escribe código desde cero (no solo copy-paste) - Comete errores a propósito y muestra cómo resolverlos - Narra tu proceso de pensamiento\n2. Think-Pair-Share: - Plantea pregunta interpretativa - 2 min pensando individualmente - 3 min discutiendo en parejas - Compartir con clase completa\n3. Predecir-Observar-Explicar: - “¿Qué creen que pasará si cambio este valor?” - Ejecutar código - “¿Por qué pasó eso?”\n4. Errores Intencionales: - Introducir bug en código - Pedir a estudiantes identificarlo - Resolver colaborativamente"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#después-de-clase-1",
+    "href": "notes/INSTRUCCIONES_USO.html#después-de-clase-1",
+    "title": "Guía de Uso del Curso",
+    "section": "Después de Clase",
+    "text": "Después de Clase\n\nRevisión de Ejercicios (2-3 horas)\nCriterios de Evaluación:\n\n\n\n\n\n\n\n\n\n\nCriterio\nExcelente (9-10)\nBueno (7-8)\nSuficiente (6)\nInsuficiente (&lt;6)\n\n\n\n\nCódigo\nFunciona perfectamente, bien comentado\nFunciona con errores menores\nFunciona parcialmente\nNo funciona\n\n\nVisualización\nClara, honesta, informativa\nCorrecta pero mejorable\nBásica pero adecuada\nConfusa o engañosa\n\n\nInterpretación\nPrecisa y contextualizada\nCorrecta pero superficial\nBásica\nIncorrecta\n\n\nLimitaciones\nIdentifica 2-3 limitaciones clave\nIdentifica 1 limitación\nMenciona limitaciones genéricas\nNo menciona\n\n\n\nFeedback Efectivo: - ✅ Específico: “La interpretación del P90 es correcta, pero falta explicar por qué importa para política” - ❌ Vago: “Bien hecho” - ✅ Constructivo: “Intenta cambiar la escala del eje Y para ver el efecto” - ❌ Solo crítico: “Este gráfico está mal”\n\n\nCompartir Mejores Prácticas\n\nSeleccionar 2-3 ejercicios ejemplares (anónimos)\nCompartir con clase\nExplicar qué los hace destacar\nMotivar a otros estudiantes"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#problemas-técnicos",
+    "href": "notes/INSTRUCCIONES_USO.html#problemas-técnicos",
+    "title": "Guía de Uso del Curso",
+    "section": "Problemas Técnicos",
+    "text": "Problemas Técnicos\n\n“Mi código no corre”\n\n\n\n\n\n\nChecklist de Diagnóstico\n\n\n\n\n✅ ¿Instalaste todos los paquetes necesarios?\ninstall.packages(\"ggplot2\")\nlibrary(ggplot2)\n✅ ¿Estás en el directorio correcto?\ngetwd()  # Ver directorio actual\nsetwd(\"ruta/a/tu/carpeta\")  # Cambiar si necesario\n✅ ¿El archivo de datos está en la ubicación correcta?\nlist.files()  # Ver qué archivos están disponibles\n✅ ¿Copiaste el código exactamente?\n\nRevisa paréntesis, comas, comillas\nVerifica nombres de variables (R distingue mayúsculas/minúsculas)\n\n\n\n\n\n\n“Error: object ‘X’ not found”\nCausa: Variable no existe en el ambiente\nSolución:\n# Ver qué objetos existen\nls()\n\n# Verificar si el objeto existe\nexists(\"nombre_variable\")\n\n# Re-ejecutar código que crea la variable\n\n\n“Gráfico no se muestra”\nSoluciones: - Asegurar que ventana de Plots esté abierta - Intentar: dev.off() para resetear dispositivo gráfico - Guardar explícitamente: ggsave(\"grafico.png\")\n\n\n“WebR no carga”\nSoluciones: - Intentar en navegador diferente (Chrome recomendado) - Limpiar caché del navegador - Verificar conexión a internet - Usar RStudio local como alternativa"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#problemas-conceptuales",
+    "href": "notes/INSTRUCCIONES_USO.html#problemas-conceptuales",
+    "title": "Guía de Uso del Curso",
+    "section": "Problemas Conceptuales",
+    "text": "Problemas Conceptuales\n\n“No entiendo la diferencia entre media y mediana”\nRespuesta corta: - Media: Promedio aritmético (suma ÷ n) - Mediana: Valor del medio (50% arriba, 50% abajo) - Cuándo difieren: En distribuciones asimétricas\nEjemplo concreto: Ver Sesión 1\n\n\n“¿Qué significa p &lt; 0.05?”\nRespuesta corta: Si la hipótesis nula fuera cierta, solo 5% de las veces obtendríamos un resultado tan extremo por puro azar.\nNO significa: “95% de probabilidad de que H₁ sea cierta”\nVer: Sesiones 7 y 8 para profundizar\n\n\n“¿Correlación implica causalidad?”\nRespuesta: NO\nPor qué: Puede haber: - Variable confusora - Causalidad inversa - Pura coincidencia\nVer: Sesión 10 (Paradoja de Simpson)"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#para-contexto-internacional",
+    "href": "notes/INSTRUCCIONES_USO.html#para-contexto-internacional",
+    "title": "Guía de Uso del Curso",
+    "section": "Para Contexto Internacional",
+    "text": "Para Contexto Internacional\n\nCambiar Casos de Estudio\nLos ejercicios usan ejemplos genéricos que se pueden adaptar:\n# Original: Subsidios municipales en México\n# Adaptar a: Housing benefits en UK\n\n# Cambiar variables:\ningreso_pc_usd → weekly_income_gbp\nzona → region (London, Manchester, etc.)\n\n\nTraducir a Otro Idioma\nTodos los textos están en español. Para traducir:\n\nEditar archivos .qmd directamente\nCambiar títulos, labels de gráficos\nMantener nombres de funciones en inglés (R estándar)"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#para-diferentes-niveles",
+    "href": "notes/INSTRUCCIONES_USO.html#para-diferentes-niveles",
+    "title": "Guía de Uso del Curso",
+    "section": "Para Diferentes Niveles",
+    "text": "Para Diferentes Niveles\n\nSimplificar (Pregrado)\n\nReducir cantidad de código\nEnfocarse en interpretación\nUsar solo funciones base R\nMás visualizaciones, menos matemáticas\n\n\n\nProfundizar (Posgrado Avanzado)\n\nAgregar regresión múltiple\nIncluir bootstrapping\nAnálisis de sensibilidad más detallado\nIntroducir causalidad (DAGs, IV)"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#para-estudiantes-1",
+    "href": "notes/INSTRUCCIONES_USO.html#para-estudiantes-1",
+    "title": "Guía de Uso del Curso",
+    "section": "Para Estudiantes",
+    "text": "Para Estudiantes\n\nLibros Gratis Online\n\nR for Data Science - Wickham & Grolemund\nIntroduction to Statistical Learning - James et al.\nCausal Inference: The Mixtape - Cunningham\n\n\n\nCursos Online\n\nDataCamp: Intro to R\nCoursera: Statistics with R (Duke)\nedX: Data Science (Harvard)\n\n\n\nComunidades\n\nStack Overflow (etiqueta: [r])\nRStudio Community\nReddit: r/rstats"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#para-instructores-1",
+    "href": "notes/INSTRUCCIONES_USO.html#para-instructores-1",
+    "title": "Guía de Uso del Curso",
+    "section": "Para Instructores",
+    "text": "Para Instructores\n\nMateriales Adicionales\n\nTeaching Statistics - Blog especializado\nRStudio Education - Recursos pedagógicos\nJournal of Statistics Education - Artículos académicos\n\n\n\nHerramientas\n\nlearnr - Tutoriales interactivos\ngradethis - Autoevaluación de código\nShiny - Apps interactivas"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#canales-de-comunicación",
+    "href": "notes/INSTRUCCIONES_USO.html#canales-de-comunicación",
+    "title": "Guía de Uso del Curso",
+    "section": "Canales de Comunicación",
+    "text": "Canales de Comunicación\nPara estudiantes: - 📧 Email del instructor (respuesta en 24-48h) - 💬 Foro del curso (respuesta de compañeros más rápida) - 🕐 Horas de oficina (ver syllabus)\nPara instructores: - GitHub: Reportar bugs o sugerir mejoras - Email directo para consultas pedagógicas"
+  },
+  {
+    "objectID": "notes/INSTRUCCIONES_USO.html#contribuciones-bienvenidas",
+    "href": "notes/INSTRUCCIONES_USO.html#contribuciones-bienvenidas",
+    "title": "Guía de Uso del Curso",
+    "section": "Contribuciones Bienvenidas",
+    "text": "Contribuciones Bienvenidas\nSi encuentras errores o tienes sugerencias:\n\nErrores de código: Crear issue en GitHub\nMejoras pedagógicas: Enviar propuesta\nCasos adicionales: Compartir con comunidad\n\n\nEsta guía se actualiza periódicamente basándose en feedback de estudiantes e instructores.\nÚltima actualización: Enero 2026"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated.html",
+    "href": "notes/ex03_montecarlo_integrated.html",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "",
+    "text": "Caso de Política Pública\nLa Dirección de Programas Sociales debe presentar un presupuesto al Congreso para un programa de transferencias monetarias condicionadas. El problema: múltiples fuentes de incertidumbre:\n\n📦 Costo unitario por beneficiario (varía por logística, inflación)\n👥 Número de beneficiarios (demanda fluctuante)\n🚛 Costos logísticos (transporte, operación regional)\n💸 Tasa de deserción (beneficiarios que abandonan el programa)\n\nTu tarea: Usar simulación Monte Carlo para: - Estimar el presupuesto necesario con su rango de incertidumbre - Identificar el percentil 90 (para no quedarse corto) - Comunicar el riesgo presupuestario al Director\nRegla de oro: Planificar con el promedio es planificar para el fracaso. Necesitamos conocer la distribución completa.\n\n\n\nParte 1: Concepto de Simulación Monte Carlo\n¿Qué es Monte Carlo? - Técnica que usa muestreo aleatorio repetido - “Tira los dados” miles de veces - Genera distribución de resultados posibles - Usado en finanzas, seguros, ingeniería, salud pública\n¿Por qué lo necesitamos? En política pública, raramente sabemos un valor exacto. Sabemos: - “El costo unitario está entre $10-15 USD, pero más probable cerca de $12” - “Esperamos 5,000 beneficiarios ± 400” - “La logística cuesta entre $30k-50k USD”\nMonte Carlo convierte esta incertidumbre en números útiles para decidir.\n\n\n\nParte 2: Componentes del Modelo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de reflexión: ¿Por qué usamos distribuciones diferentes para cada componente?\n\n\n\nParte 3: Cálculo del Presupuesto Total\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 4: Visualización de la Distribución\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpreta el histograma: - ¿La distribución es simétrica o asimétrica? - ¿Hay cola larga a la derecha? (escenarios de alto costo) - ¿Qué tan separados están P25 y P75?\n\n\n\nParte 5: Análisis de Riesgo Presupuestario\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de política: - ¿Qué nivel de riesgo es aceptable? - ¿Preferirías quedarte corto en 5% o 20% de los escenarios? - ¿Qué costo político tiene pedir presupuesto suplementario?\n\n\n\nParte 6: Análisis de Sensibilidad\n¿Qué componente genera más incertidumbre?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 7: Comparación de Estrategias\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 8: Visualización Comparativa\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nAnálisis visual: - ¿Qué estrategia reduce más la dispersión? - ¿Hay trade-offs entre reducir incertidumbre y costo esperado?\n\n\n\nParte 9: Tabla de Decisión para el Director\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 10: Simulación de Escenarios Extremos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual (Entregable)\nParte A: Modificar Supuestos\n\nRe-simula el modelo con beneficiarios más variables:\n\nCambia SD de 400 a 800\n¿Cómo cambia el P90?\n¿Cuánto más presupuesto necesitarías?\n\nEscenario de inflación:\n\nAumenta el costo unitario promedio de $12 a $14\nMantén todo lo demás igual\nCalcula el nuevo P90 y compara\n\n\nParte B: Análisis Escrito\n\nTabla comparativa de las 4 estrategias:\n\nColumnas: Estrategia, P50, P90, IQR, Costo de implementación\n¿Cuál recomendarías y por qué?\n\nEscribe un párrafo (6 líneas) explicando:\n\n¿Por qué NO usar solo el promedio?\n¿Qué percentil usarías para presupuestar?\n¿Qué riesgo implica cada opción (P50 vs P90)?\n\n\nParte C: Comunicación\n\nCrea un memo de 1 página para el Director que incluya:\n\nRecomendación de monto (con percentil)\n1 gráfico (histograma o boxplot)\n2-3 supuestos clave\n2 limitaciones del modelo\n\n\n\n\n\nPreguntas de Discusión\n\nPlanificación Conservadora vs Eficiente:\n\n¿Qué costo tiene planificar con P90 vs P50?\n¿En qué contextos políticos usarías cada uno?\n\nComunicación de Incertidumbre:\n\n¿Cómo le explicas al Congreso “90% de confianza”?\n¿Preferirías dar un rango o un número único?\n\nMejora del Modelo:\n\n¿Qué otras fuentes de incertidumbre agregarías?\n¿Cómo modelarías economías de escala?\n\nÉtica de la Incertidumbre:\n\n¿Es ético pedir presupuesto conservador sabiendo que podría sobrar?\n¿Preferirías quedarte corto o sobre-estimar?\n\n\n\n\n\nRecursos Adicionales\nConceptos clave:\n\nSimulación Monte Carlo: Muestreo aleatorio repetido para generar distribución de resultados\nDistribuciones:\n\nNormal: Suma de factores independientes\nLog-normal: Variables siempre positivas con cola derecha\nGamma: Tiempo hasta eventos, costos agregados\n\nPercentiles de riesgo:\n\nP90: Conservador (10% rebasa)\nP75: Prudente (25% rebasa)\nP50: Neutral (50% rebasa)\n\nAnálisis de sensibilidad: Identificar qué input genera más varianza en output\n\nUsos en política pública:\n\n💰 Planificación presupuestaria\n📊 Análisis costo-beneficio\n🏥 Proyecciones de demanda en salud\n🌾 Evaluación de riesgo en programas agrícolas\n⚡ Proyecciones de energía\n🎓 Planificación de infraestructura educativa\n\nPara profundizar: - Busca “Black Swan” de Nassim Taleb (eventos extremos) - Investiga “Value at Risk” (VaR) en finanzas - Lee sobre “Precautionary Principle” en política ambiental\n\nÚltima reflexión: En un mundo incierto, dar un solo número es mentir. La distribución completa es la verdad."
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html",
+    "href": "notes/INDICE_COMPLETO.html",
+    "title": "Índice Completo de Ejercicios",
+    "section": "",
+    "text": "Este documento proporciona una descripción exhaustiva de cada uno de los 10 ejercicios del curso, incluyendo objetivos, contenido, datasets, y habilidades desarrolladas."
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#información-general",
+    "href": "notes/INDICE_COMPLETO.html#información-general",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Información General",
+    "text": "Información General\n\nArchivo: ex01_average_integrated.qmd\nTamaño: 17 KB | ~550 líneas de código pedagógico\nDuración: 3 horas (45 min teoría + 60 min práctica + 40 min individual + 35 min discusión)"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#caso-de-política-pública",
+    "href": "notes/INDICE_COMPLETO.html#caso-de-política-pública",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Caso de Política Pública",
+    "text": "Caso de Política Pública\nUn municipio diseña un programa de subsidios alimentarios para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de $420 USD/mes. El Secretario propone establecer el umbral de elegibilidad en $250 USD/mes.\n\nPregunta de Decisión\n¿Cuántos hogares califican para el subsidio? ¿El promedio representa bien a la población?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#dataset-simulado",
+    "href": "notes/INDICE_COMPLETO.html#dataset-simulado",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Dataset Simulado",
+    "text": "Dataset Simulado\n\nObservaciones: 5,000 hogares\nVariables:\n\ningreso_pc_usd: Ingreso per cápita mensual (USD)\nzona: Urbana (3,000) vs Rural (2,000)\n\nDistribución: Log-normal (asimétrica con cola derecha)"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#conceptos-clave",
+    "href": "notes/INDICE_COMPLETO.html#conceptos-clave",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Conceptos Clave",
+    "text": "Conceptos Clave\n\nMedia vs Mediana\nPercentiles (P10, P25, P50, P75, P90)\nRango Intercuartil (IQR)\nDesviación Estándar (DE)\nCoeficiente de Variación (CV)\nAsimetría en distribuciones"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas",
+    "href": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Habilidades Desarrolladas",
+    "text": "Habilidades Desarrolladas\n\nAnálisis Descriptivo\n\nCalcular estadísticas de tendencia central y dispersión\nInterpretar percentiles para focalización de política\nComparar distribuciones entre grupos\nIdentificar asimetría visual y numéricamente\n\n\n\nVisualización\n\nCrear histogramas con líneas de referencia\nBoxplots comparativos entre zonas\nInterpretación de elementos del boxplot (mediana, IQR, bigotes, outliers)\n\n\n\nComunicación\n\nConstruir tablas profesionales para memos ejecutivos\nRedactar recomendaciones basadas en evidencia\nDeclarar limitaciones del análisis\nProponer criterios de elegibilidad basados en percentiles"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio",
+    "href": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Contenido del Ejercicio",
+    "text": "Contenido del Ejercicio\nParte 1-2: Carga de datos y estadísticas básicas\nParte 3: Análisis por percentiles\nParte 4: Comparación urbano-rural\nParte 5-6: Visualizaciones (histograma + boxplot)\nParte 7: Análisis de elegibilidad\nParte 8: Tabla resumen ejecutivo\nParte 9: Recomendación basada en evidencia"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable",
+    "href": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Ejercicio Individual Entregable",
+    "text": "Ejercicio Individual Entregable\n\nCrear tabla comparativa (media, mediana, P10, P90, IQR) por zona\nGenerar histograma solo para zona rural con líneas de referencia\nProponer criterio de elegibilidad justificado\nResponder: ¿Qué riesgo implica usar solo el promedio?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#información-general-1",
+    "href": "notes/INDICE_COMPLETO.html#información-general-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Información General",
+    "text": "Información General\n\nArchivo: ex02_visualization_integrated.qmd\nTamaño: 23 KB | ~670 líneas\nÉnfasis: Crear gráficos honestos y detectar manipulación visual"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#caso-de-política-pública-1",
+    "href": "notes/INDICE_COMPLETO.html#caso-de-política-pública-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Caso de Política Pública",
+    "text": "Caso de Política Pública\nEl Secretario de Educación debe decidir cómo distribuir recursos adicionales entre 120 escuelas públicas con datos de: - Puntaje en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles USD) - Tipo de escuela (Urbana vs Rural)\n\nPregunta de Decisión\n¿Más presupuesto se traduce en mejor desempeño? ¿Hay diferencias sistemáticas entre tipos?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#dataset-simulado-1",
+    "href": "notes/INDICE_COMPLETO.html#dataset-simulado-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Dataset Simulado",
+    "text": "Dataset Simulado\n\nObservaciones: 120 escuelas (80 urbanas, 40 rurales)\nVariables:\n\npresupuesto_anual_kusd: Presupuesto por estudiante\npuntaje_prueba: Desempeño en matemáticas\ntipo: Urbana/Rural\n\nRelación: Escuelas urbanas tienen más presupuesto pero menor retorno marginal"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#conceptos-clave-1",
+    "href": "notes/INDICE_COMPLETO.html#conceptos-clave-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Conceptos Clave",
+    "text": "Conceptos Clave\n\nBoxplot: elementos y lectura\nScatterplot con líneas de tendencia\nRegresión lineal simple (interpretación visual)\nR² como poder explicativo\nIdentificación de outliers\nAuditoría de gráficos engañosos"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-1",
+    "href": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Habilidades Desarrolladas",
+    "text": "Habilidades Desarrolladas\n\nSelección de Gráficos\n\nElegir tipo de gráfico según pregunta\nBoxplot para comparar grupos\nScatterplot para explorar relaciones\n\n\n\nAnálisis de Regresión (Básico)\n\nCalcular pendiente (retorno del presupuesto)\nInterpretar R² (variación explicada)\nIdentificar outliers influyentes\n\n\n\nAuditoría Visual\n\nDetectar escalas manipuladas (eje Y no en cero)\nIdentificar denominadores engañosos\nAplicar 5 reglas de honestidad visual\n\n\n\nClasificación de Casos\n\nCategorizar escuelas por cuartil de desempeño\nIdentificar escuelas en situación crítica\nPriorizar intervenciones"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-1",
+    "href": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Contenido del Ejercicio",
+    "text": "Contenido del Ejercicio\nParte 1-2: Estadísticas descriptivas y tabla comparativa\nParte 3: Boxplot (el mejor aliado del analista)\nParte 4: Análisis de dispersión y cuartiles\nParte 5: Scatterplot con líneas de tendencia por tipo\nParte 6: Cálculo de pendientes (retorno del presupuesto)\nParte 7: Histograma de presupuesto por tipo\nParte 8: Tabla de rendición de cuentas\nParte 9: Auditoría de gráficos engañosos\nParte 10: Memo ejecutivo con visualización"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-1",
+    "href": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-1",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Ejercicio Individual Entregable",
+    "text": "Ejercicio Individual Entregable\n\nBoxplot de presupuesto por tipo con título-conclusión\nScatterplot segmentado con outliers marcados\nTabla: tipo de gráfico → pregunta que responde → limitación\nEjercicio de lectura crítica de gráfico real\nRecomendación: ¿A qué 20 escuelas intervenir?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#información-general-2",
+    "href": "notes/INDICE_COMPLETO.html#información-general-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Información General",
+    "text": "Información General\n\nArchivo: ex03_montecarlo_integrated.qmd\nTamaño: 24 KB | ~700 líneas\nTécnica: 10,000 simulaciones por escenario"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#caso-de-política-pública-2",
+    "href": "notes/INDICE_COMPLETO.html#caso-de-política-pública-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Caso de Política Pública",
+    "text": "Caso de Política Pública\nLa Dirección de Programas Sociales debe presentar presupuesto al Congreso para transferencias monetarias condicionadas con múltiples fuentes de incertidumbre: - Costo unitario por beneficiario (varía por inflación, logística) - Número de beneficiarios (demanda fluctuante) - Costos logísticos regionales\n\nPregunta de Decisión\n¿Qué presupuesto solicitar? ¿Usar P50 (eficiente) o P90 (conservador)?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#modelo-de-simulación",
+    "href": "notes/INDICE_COMPLETO.html#modelo-de-simulación",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Modelo de Simulación",
+    "text": "Modelo de Simulación\n\nCosto unitario: Log-normal (media=$12, SD=0.25)\nBeneficiarios: Normal truncada (media=5000, SD=400)\nLogística: Gamma (shape=5, rate=1/8000)\nPresupuesto Total: (Costo × Beneficiarios) + Logística"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#conceptos-clave-2",
+    "href": "notes/INDICE_COMPLETO.html#conceptos-clave-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Conceptos Clave",
+    "text": "Conceptos Clave\n\nDistribuciones de probabilidad (normal, log-normal, gamma)\nSimulación Monte Carlo\nPercentiles de riesgo (P50, P75, P90)\nAnálisis de sensibilidad (qué componente genera más varianza)\nCoeficiente de variación como medida de riesgo"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-2",
+    "href": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Habilidades Desarrolladas",
+    "text": "Habilidades Desarrolladas\n\nSimulación\n\nGenerar variables aleatorias con distribuciones apropiadas\nCombinar múltiples fuentes de incertidumbre\nEjecutar miles de escenarios\n\n\n\nAnálisis de Riesgo\n\nCalcular percentiles de riesgo\nInterpretar probabilidad de insuficiencia\nComparar estrategias de mitigación\n\n\n\nToma de Decisiones\n\nEvaluar trade-off entre riesgo y eficiencia\nCalcular costo esperado de quedarse corto\nComunicar incertidumbre a tomadores de decisión"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-2",
+    "href": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Contenido del Ejercicio",
+    "text": "Contenido del Ejercicio\nParte 1-2: Componentes del modelo y configuración\nParte 3: Cálculo de presupuesto total (10,000 escenarios)\nParte 4: Visualización de distribución\nParte 5: Análisis de riesgo presupuestario\nParte 6: Análisis de sensibilidad (qué componente importa más)\nParte 7: Comparación de estrategias de mitigación\nParte 8: Visualización comparativa (boxplot de estrategias)\nParte 9: Tabla de decisión para el Director\nParte 10: Escenarios extremos (peor y mejor caso)"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-2",
+    "href": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Ejercicio Individual Entregable",
+    "text": "Ejercicio Individual Entregable\n\nRe-simular con beneficiarios más variables (SD=800)\nEscenario de inflación (costo unitario de $12 a $14)\nTabla comparativa de estrategias (A, B, C)\nPárrafo: ¿Por qué NO usar solo el promedio?\nMemo de 1 página con recomendación de monto"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#información-general-3",
+    "href": "notes/INDICE_COMPLETO.html#información-general-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Información General",
+    "text": "Información General\n\nArchivo: ex04_bayes_integrated.qmd\nTamaño: 18 KB | ~550 líneas\nSimulación: 10,000 compras públicas"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#caso-de-política-pública-3",
+    "href": "notes/INDICE_COMPLETO.html#caso-de-política-pública-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Caso de Política Pública",
+    "text": "Caso de Política Pública\nLa Contraloría Municipal implementó sistema de IA para detectar irregularidades en compras públicas: - Sensibilidad: 90% (detecta 9 de cada 10 fraudes) - Especificidad: 95% (solo 5% de honestos marcados incorrectamente) - Prevalencia: 5% de compras tienen irregularidades reales\n\nPregunta de Decisión\nSi el sistema marca una compra, ¿cuál es la probabilidad REAL de que sea fraudulenta?"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#dataset-simulado-2",
+    "href": "notes/INDICE_COMPLETO.html#dataset-simulado-2",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Dataset Simulado",
+    "text": "Dataset Simulado\n\nObservaciones: 10,000 compras públicas\nVariables:\n\nrealidad: Honesto/Fraude (ground truth)\nresultado_test: Marcado/No Marcado (predicción IA)\n\nMétricas: TP, FP, TN, FN, VPP"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#conceptos-clave-3",
+    "href": "notes/INDICE_COMPLETO.html#conceptos-clave-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Conceptos Clave",
+    "text": "Conceptos Clave\n\nTeorema de Bayes\nValor Predictivo Positivo (VPP)\nSensibilidad vs Especificidad\nMatriz de confusión (2×2)\nParadoja de Bayes (alta precisión ≠ bajo falso positivo)\nPrevalencia y su impacto en VPP"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-3",
+    "href": "notes/INDICE_COMPLETO.html#habilidades-desarrolladas-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Habilidades Desarrolladas",
+    "text": "Habilidades Desarrolladas\n\nProbabilidad Condicional\n\nAplicar fórmula de Bayes\nCalcular VPP correctamente\nEntender por qué test “90% preciso” genera falsos positivos\n\n\n\nAnálisis Diagnóstico\n\nConstruir matriz de confusión\nInterpretar TP, FP, TN, FN\nCalcular métricas derivadas\n\n\n\nToma de Decisiones\n\nEvaluar costo operativo de auditorías\nDiseñar estrategias para reducir falsos positivos\nComparar sistema de una vs dos etapas"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-3",
+    "href": "notes/INDICE_COMPLETO.html#contenido-del-ejercicio-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Contenido del Ejercicio",
+    "text": "Contenido del Ejercicio\nParte 1-2: Configuración y simulación de realidad\nParte 3: Matriz de confusión completa\nParte 4: Cálculo e interpretación del VPP\nParte 5: Fórmula de Bayes (verificación analítica)\nParte 6: Análisis de sensibilidad (prevalencia)\nParte 7: Estrategias de mejora (3 opciones)\nParte 8: Visualización del problema\nParte 9: Tabla de decisión (auditar todas vs muestra)\nParte 10: Comparación visual de estrategias"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-3",
+    "href": "notes/INDICE_COMPLETO.html#ejercicio-individual-entregable-3",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Ejercicio Individual Entregable",
+    "text": "Ejercicio Individual Entregable\n\nRe-simular con prevalencia=1% (fraude muy raro)\nMejorar sensibilidad a 95% (mantener todo lo demás)\nTabla comparativa de 4 estrategias\nExplicar: ¿Por qué test “90% preciso” falla?\nDiseñar protocolo de auditoría (1 página)"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#por-nivel-de-complejidad",
+    "href": "notes/INDICE_COMPLETO.html#por-nivel-de-complejidad",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Por Nivel de Complejidad",
+    "text": "Por Nivel de Complejidad\nEjercicios Extensos (17-24 KB): - Sesiones 1-4: Fundamentos detallados - Múltiples visualizaciones - Tablas ejecutivas completas - Análisis de sensibilidad profundo\nEjercicios Compactos (4-6 KB): - Sesiones 5-10: Conceptos avanzados - Código esencial pero completo - Visualizaciones clave - Ejercicios individuales estructurados"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#elementos-comunes-en-todos",
+    "href": "notes/INDICE_COMPLETO.html#elementos-comunes-en-todos",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Elementos Comunes en TODOS",
+    "text": "Elementos Comunes en TODOS\n✅ Caso real de política pública\n✅ Análisis descriptivo completo\n✅ Visualizaciones informativas\n✅ Interpretación contextualizada\n✅ Ejercicio individual entregable\n✅ Preguntas de discusión\n✅ Sección de limitaciones"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#formato-y-ejecución",
+    "href": "notes/INDICE_COMPLETO.html#formato-y-ejecución",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Formato y Ejecución",
+    "text": "Formato y Ejecución\n\nArchivos: Quarto Markdown (.qmd)\nEjecución: WebR (navegador) o RStudio local\nDependencias: Base R + ggplot2 (sesiones 1-4)"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#datos",
+    "href": "notes/INDICE_COMPLETO.html#datos",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Datos",
+    "text": "Datos\n\n100% simulados para reproducibilidad\nset.seed() para consistencia\nCasos realistas basados en política real"
+  },
+  {
+    "objectID": "notes/INDICE_COMPLETO.html#duración-total",
+    "href": "notes/INDICE_COMPLETO.html#duración-total",
+    "title": "Índice Completo de Ejercicios",
+    "section": "Duración Total",
+    "text": "Duración Total\n\n30 horas de clase (10 sesiones × 3 horas)\n20-30 horas de trabajo individual\nTotal: ~50-60 horas de carga de trabajo\n\n\nEste índice se actualiza conforme se agregan nuevas sesiones o se mejoran las existentes.\nVersión: 1.0 | Fecha: Enero 2026"
+  },
+  {
+    "objectID": "notes/ex10_simpsons_integrated.html",
+    "href": "notes/ex10_simpsons_integrated.html",
+    "title": "Sesión 10: Paradoja de Simpson",
+    "section": "",
+    "text": "Caso: Presupuesto y Desempeño Escolar Revisitado\nUsaremos los datos de escuelas de la Sesión 2, pero ahora controlando por tipo.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: Regresión Simple (INGENUA)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Regresión Múltiple (CONTROLANDO)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Visualización de Simpson\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 4: Implicaciones para Política\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nSimula un caso donde la relación se INVIERTE al controlar\nIdentifica 3 variables omitidas en este modelo\nPropón diseño de estudio que minimice confusión\n\n\n\n\nDiscusión\n\n¿Cuándo sospechar de una variable confusora?\n¿Qué variables siempre debes controlar en educación?\n¿Experimento aleatorio vs regresión: pros/contras?"
+  },
+  {
+    "objectID": "notes/ex09_regression_integrated.html",
+    "href": "notes/ex09_regression_integrated.html",
+    "title": "Sesión 9: Correlación y Regresión Simple",
+    "section": "",
+    "text": "Caso: Salarios y Años de Escolaridad\n¿Cuánto vale un año adicional de educación en el mercado laboral?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: Residuos y Diagnóstico\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Predicción e Intervalo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nGrafica relación con ejes transformados (log-log)\nCalcula R² si excluyes outliers\nCompara pendientes por género (si tuvieras esa variable)\n\n\n\n\nDiscusión\n\n¿Correlación = causalidad?\n¿Qué variables omitidas podrían sesgar la pendiente?\n¿Cómo interpretarías R²=0.3 vs R²=0.9?"
+  },
+  {
+    "objectID": "notes/r_setup_guide.html",
+    "href": "notes/r_setup_guide.html",
+    "title": "Section 0: Setting up R",
+    "section": "",
+    "text": "Before our first section, please make sure you have working and up-to-date installations of R and RStudio. We will use both extensively in this course, so it is definitely worth doing right."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#before-we-begin",
+    "href": "notes/r_setup_guide.html#before-we-begin",
+    "title": "Section 0: Setting up R",
+    "section": "",
+    "text": "Before our first section, please make sure you have working and up-to-date installations of R and RStudio. We will use both extensively in this course, so it is definitely worth doing right."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#installation",
+    "href": "notes/r_setup_guide.html#installation",
+    "title": "Section 0: Setting up R",
+    "section": "Installation",
+    "text": "Installation\nIf you do not already have R and RStudio running on your computer, then you should install them both:\n\nStep 1: Install R\nDownload and install R from the official CRAN repository:\n\nWindows: Download R for Windows\nmacOS: Download R for macOS\nLinux: Download R for Linux\n\n\n\nStep 2: Install RStudio\nDownload and install RStudio Desktop (free version):\n\nAll platforms: Download RStudio Desktop\n\n\n\n\n\n\n\nNote\n\n\n\nRStudio is a super helpful IDE (Integrated Development Environment) for R—it’s very helpful for both learning and using R."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#updating-existing-installations",
+    "href": "notes/r_setup_guide.html#updating-existing-installations",
+    "title": "Section 0: Setting up R",
+    "section": "Updating Existing Installations",
+    "text": "Updating Existing Installations\nIf you already have R and RStudio on your computer, then you should make sure they are up to date:\n\nCurrent R version: 4.4.2 (2024-10-31) — “Pile of Leaves”\n\nCheck your version by typing version into the R console\n\nCurrent RStudio version: 2024.12.0 or newer\n\nCheck via: Help → About RStudio\n\n\n\n\n\n\n\n\nWhy update?\n\n\n\nNewer versions include bug fixes, performance improvements, and new features that make your coding experience smoother."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#additional-tools-recommended",
+    "href": "notes/r_setup_guide.html#additional-tools-recommended",
+    "title": "Section 0: Setting up R",
+    "section": "Additional Tools (Recommended)",
+    "text": "Additional Tools (Recommended)\n\nLaTeX\nI would recommend making sure you have a working installation of LaTeX for creating PDFs and mathematical typesetting:\n\nEasy option: Install TinyTeX via R:\ninstall.packages(\"tinytex\")\ntinytex::install_tinytex()\nFull installation: Download MiKTeX (Windows) or MacTeX (macOS)\nOnline alternative: Overleaf (no installation needed, includes LaTeX tutorials)\n\n\n\nPandoc\nPandoc is usually included with RStudio, but you can verify by running in R:\nrmarkdown::pandoc_version()\nIf needed, download from: pandoc.org"
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#does-it-work",
+    "href": "notes/r_setup_guide.html#does-it-work",
+    "title": "Section 0: Setting up R",
+    "section": "Does It Work?",
+    "text": "Does It Work?\nLet’s test your installation:\n\nOpen RStudio\nIn the console (bottom-left panel), type:\n1 + 1\nPress Enter\n\nExpected output:\n[1] 2\n\n\n\n\n\n\nImportant\n\n\n\nIf you get [1] 2, congratulations! Everything is working correctly. ✅\nIf not, try reinstalling R and RStudio, or ask for help."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#resources-for-learning-r",
+    "href": "notes/r_setup_guide.html#resources-for-learning-r",
+    "title": "Section 0: Setting up R",
+    "section": "Resources for Learning R",
+    "text": "Resources for Learning R\nI’ve compiled a large set of resources for R. You probably don’t need them all right now, but know they are there. However, the best resources for learning R are:\n\n\n\n\n\n\nYour Learning Toolkit\n\n\n\n\nGoogle (which will probably lead you to StackOverflow)\nTime (practice, practice, practice!)\nYour classmates (collaborative learning works wonders)\nMe (office hours, email, Slack/Teams)\n\n\n\n\nAdditional Resources\n\nR for Data Science (2e) by Hadley Wickham & Garrett Grolemund\nRStudio Cheatsheets\nSwirl - Interactive R tutorials\nDataCamp - Free intro course\nR-bloggers - Community blog posts"
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#basic-suggestions-for-success",
+    "href": "notes/r_setup_guide.html#basic-suggestions-for-success",
+    "title": "Section 0: Setting up R",
+    "section": "Basic Suggestions for Success",
+    "text": "Basic Suggestions for Success\n\n1. Use R Scripts, Not Just the Console\n\n\n\n\n\n\nWarning\n\n\n\nNearly everything you do should be in an R script, as opposed to typing directly in the command line.\n\n\nWhy?\n\nYou can return to your code later\nYou can edit and improve your work\nYou need to turn in R scripts for assignments\nIt’s reproducible research!\n\nHow to create a script:\n\nFile → New File → R Script (or Cmd/Ctrl + Shift + N)\n\n\n\n2. Comment Your Code\nGood comments make your code understandable to others (and your future self):\n# Bad: No context\nx &lt;- 5\ny &lt;- x * 2\n\n# Good: Clear explanation\nprice_per_unit &lt;- 5           # Cost in dollars\ntotal_cost &lt;- price_per_unit * 2  # Two units purchased\n\n\n3. Be Consistent with Naming Conventions\nPick a style and stick to it:\n# Camel Case (recommended for variables)\nmyVariableName &lt;- 10\ncalculateTotalCost &lt;- function(x) { x * 2 }\n\n# Snake Case (also popular)\nmy_variable_name &lt;- 10\ncalculate_total_cost &lt;- function(x) { x * 2 }\n\n# Choose ONE and be consistent!\n\n\n\n\n\n\nNote\n\n\n\nAvoid: - Starting variable names with numbers: 2021data ❌ - Using reserved words: if, for, function ❌ - Spaces in names: my variable ❌\n\n\n\n\n4. Use Descriptive File Names\nBe smart when naming files and folders:\nBad names:\ncbn18319ddg890-7a.csv\nuntitled1.R\ndata.xlsx\nfinal_FINAL_v2_REALFINAL.R\nGood names:\nCensusCountyDemographics.csv\n01_DataCleaning.R\nHouseholdIncomeSurvey_2024.xlsx\nAnalyzeTaxReliefProgram.R\nTwo good naming conventions:\n\nCamel Case: WhatAGreatFileName.csv\nSnake Case: what_a_great_file_name.csv\n\n\n\n\n\n\n\nPro Tips\n\n\n\n\nAdd dates in YYYY-MM-DD format: 2024-01-15_Analysis.R\nNumber files to show order: 01_Import.R, 02_Clean.R, 03_Analyze.R\nUse descriptive prefixes: fig_, tab_, data_\n\n\n\n\n\n5. Organize Your Files and Use Smart Paths\nMake your life easier by:\nOrganizing into folders:\nMyProject/\n  ├── Data/\n  │   ├── Raw/\n  │   └── Processed/\n  ├── Scripts/\n  ├── Output/\n  │   ├── Figures/\n  │   └── Tables/\n  └── README.md\nUsing paste0() or paste() for file paths:\n# Instead of typing full paths every time:\ndata &lt;- read.csv(\"/Users/david/Documents/Project/Data/census.csv\")\n\n# Use paste0() for flexibility:\nproject_path &lt;- \"/Users/david/Documents/Project\"\ndata_path &lt;- paste0(project_path, \"/Data/census.csv\")\ndata &lt;- read.csv(data_path)\n\n# Even better: use relative paths with here package\nlibrary(here)\ndata &lt;- read.csv(here(\"Data\", \"census.csv\"))\n\n\n\n\n\n\nNote\n\n\n\nWe’ll see more examples of smart file organization and path management in Section 1."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#getting-started-checklist",
+    "href": "notes/r_setup_guide.html#getting-started-checklist",
+    "title": "Section 0: Setting up R",
+    "section": "Getting Started Checklist",
+    "text": "Getting Started Checklist\nBefore the first class, make sure you can check all these boxes:\n\nR is installed and up to date\nRStudio is installed and up to date\nI can open RStudio successfully\nTyping 1 + 1 in the console returns [1] 2\nI can create a new R script (File → New File → R Script)\nI’ve bookmarked some helpful R resources\nI understand basic file naming conventions"
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#need-help",
+    "href": "notes/r_setup_guide.html#need-help",
+    "title": "Section 0: Setting up R",
+    "section": "Need Help?",
+    "text": "Need Help?\nIf you encounter any issues during installation or setup:\n\nSearch Google with your error message\nCheck StackOverflow for similar problems\nAsk classmates on our course forum/Slack\nContact me during office hours or via email\n\n\n\n\n\n\n\nDon’t wait until the last minute!\n\n\n\nSet up your R environment before the first assignment is due. Technical difficulties are easier to resolve when you’re not under time pressure."
+  },
+  {
+    "objectID": "notes/r_setup_guide.html#ready-to-code",
+    "href": "notes/r_setup_guide.html#ready-to-code",
+    "title": "Section 0: Setting up R",
+    "section": "Ready to Code!",
+    "text": "Ready to Code!\nOnce everything is set up, you’re ready to start learning R! See you in Section 1.\nHappy coding! 🚀"
+  },
+  {
+    "objectID": "publications.html",
+    "href": "publications.html",
+    "title": "Published research",
+    "section": "",
+    "text": "Peer-reviewed articles\n\nAuthor list. “Title.” Journal, year, pages.\n\nAuthor list. “Title.” Journal, year, pages.\n\n\n\nWorking papers\n\nAuthor list. “Title.” Series/venue, year.\n\n\n\nBook chapters\n\nAuthor list. “Title.” In Book, year.\n\n\nTip: if you want automatic citation formatting later, switch to a .bib file and add bibliography: references.bib in the YAML."
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Email: d.contreras [at] tec.mx\nLinkedIn: https://www.linkedin.com/in/david-contreras-loya-8550bb44/\nGoogle Scholar: https://scholar.google.es/citations?user=axuzNJ0AAAAJ\nMailing address Av. Revolución 756, Nonoalco, Benito Juárez, 03700 Ciudad de México, CDMX"
   },
   {
     "objectID": "ongoing.html#title-ongoing-research",
@@ -42,185 +609,717 @@
     "text": "Additional projects\n\nTitle / brief description\nTitle / brief description"
   },
   {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "Contact",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "David Contreras-Loya, PhD",
     "section": "",
-    "text": "Email: d.contreras [at] tec.mx\nLinkedIn: https://www.linkedin.com/in/david-contreras-loya-8550bb44/\nGoogle Scholar: https://scholar.google.es/citations?user=axuzNJ0AAAAJ\nMailing address Av. Revolución 756, Nonoalco, Benito Juárez, 03700 Ciudad de México, CDMX"
+    "text": "TECprofile\n  \n  \n    \n     LinkedIn\n  \n  \n      ORCID\n  \n  \n      Web of Science\n  \n  \n      Scopus\n  \n  \n      Google Scholar\n  \n  \n      Research Gate\n  \n\n  \n  \nDavid Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at Escuela de Gobierno y Transformación Pública, and is affiliated with the Institute for Obesity Research. He co-leads Evidencia y Acción para la Equidad en Salud, EVIS, a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.\nHis research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as Health Policy and Planning, Social Science and Medicine, the National Bureau of Economic Research and the American Journal of Clinical Nutrition, and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.\nHis research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by VoxDev and Mexico Business News, and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.\nHis work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including African Health Markets for Equity and Skills for Effective Entrepreneurship Development, or the Global Health Research Group on Violence Against Women and Violence Against Children and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.\nHe teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings.\nPreviously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D. in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "publications.html",
-    "href": "publications.html",
-    "title": "Published research",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Peer-reviewed articles\n\nAuthor list. “Title.” Journal, year, pages.\n\nAuthor list. “Title.” Journal, year, pages.\n\n\n\nWorking papers\n\nAuthor list. “Title.” Series/venue, year.\n\n\n\nBook chapters\n\nAuthor list. “Title.” In Book, year.\n\n\nTip: if you want automatic citation formatting later, switch to a .bib file and add bibliography: references.bib in the YAML."
+    "text": "About this site"
   },
   {
-    "objectID": "notes/iv.html",
-    "href": "notes/iv.html",
-    "title": "Instrumental Variables",
+    "objectID": "notes/ex04_bayes_integrated.html",
+    "href": "notes/ex04_bayes_integrated.html",
+    "title": "Sesión 4: Probabilidad Condicional (Bayes para Política Pública)",
     "section": "",
-    "text": "Some math: \\(\\widehat{\\beta} = (X'X)^{-1}X'y\\).\n\ncode to simulate IV or run 2SLS"
+    "text": "Caso de Política Pública\nLa Contraloría Municipal implementó un sistema de IA para detectar posibles irregularidades en compras públicas. El sistema tiene: - Sensibilidad: 90% (detecta 9 de cada 10 casos reales de corrupción) - Especificidad: 95% (solo 5% de casos honestos son marcados incorrectamente)\nSuena genial, ¿verdad? Pero… solo el 5% de las compras tienen irregularidades reales\nTu tarea: Calcular: - Si el sistema marca una compra, ¿cuál es la probabilidad REAL de que sea fraudulenta? - ¿Cuántos falsos positivos generaremos? - ¿Vale la pena auditar todas las compras marcadas?\nParadoja de Bayes: Un test “muy preciso” puede generar más falsos que verdaderos.\n\n\n\nParte 1: Configuración y Conceptos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Simulación de la Realidad\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Matriz de Confusión\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 4: El Valor Predictivo Positivo (VPP)\nLA PREGUNTA CLAVE: Si la IA marca una compra, ¿cuál es la probabilidad de que SEA REALMENTE fraudulenta?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 5: Fórmula de Bayes\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 6: Análisis de Sensibilidad (Prevalencia)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 7: Estrategias de Mejora\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 8: Visualización del Problema\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 9: Tabla de Decisión\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 10: Comparación Visual de Estrategias\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual (Entregable)\nParte A: Variación de Parámetros\n\nRe-simula con prevalencia = 1% (fraude muy raro):\n\nCalcula el nuevo VPP\n¿Cuántos falsos positivos genera?\n¿Cambiaría tu recomendación?\n\nMejora de sensibilidad: Cambia sensibilidad a 95% (mantén todo lo demás):\n\n¿Mejora más el VPP que mejorar especificidad?\nExplica por qué\n\n\nParte B: Análisis Escrito\n\nTabla comparativa de las 4 estrategias: | Estrategia | VPP | Costo | Fraudes detectados | Trade-off | |————|—–|——-|——————-|———–|\nExplica en 6 líneas:\n\n¿Por qué un test “90% preciso” puede generar más falsos que verdaderos?\n¿Qué factor importa más: sensibilidad, especificidad, o prevalencia?\n\n\nParte C: Aplicación Práctica\n\nDiseña un protocolo de auditoría (1 página):\n\n¿Qué compras auditar?\n¿En qué orden?\n¿Con qué criterios adicionales?\nIncluye 1 limitación\n\n\n\n\n\nPreguntas de Discusión\n\nFalsos positivos vs falsos negativos:\n\n¿Qué es peor: auditar inocentes o dejar pasar fraudes?\n¿Cambia tu respuesta según el contexto?\n\nComunicación del riesgo:\n\n¿Cómo explicas “VPP = 30%” a un no-experto?\n¿Dirías “70% son falsos” o “solo 30% son reales”?\n\nDilema ético:\n\n¿Es justo marcar compras sabiendo que la mayoría son honestas?\n¿Cómo proteges reputaciones ante falsos positivos?\n\nMejora continua:\n\n¿Invertirías más en mejorar sensibilidad o especificidad?\n¿Por qué importa tanto la prevalencia?\n\n\n\n\n\nRecursos Adicionales\nConceptos clave:\n\nTeorema de Bayes: P(A|B) = P(B|A) × P(A) / P(B)\nSensibilidad: Proporción de positivos correctamente identificados\nEspecificidad: Proporción de negativos correctamente identificados\nVPP: Probabilidad de enfermedad dado resultado positivo\nPrevalencia: Proporción de casos en la población\n\nAplicaciones:\n\n🏥 Tests médicos (COVID, VIH, cáncer)\n🔍 Sistemas anticorrupción\n✈️ Detección de amenazas en aeropuertos\n📧 Filtros de spam\n🎯 Sistemas de recomendación\n\nPara profundizar: - “Thinking, Fast and Slow” - Kahneman (sobre sesgos) - “The Signal and the Noise” - Nate Silver - “Base rate fallacy” en Wikipedia\n\nÚltima reflexión: Un test perfecto con población incorrecta genera basura. El contexto (prevalencia) importa tanto como la precisión."
   },
   {
-    "objectID": "notes/prova.html",
-    "href": "notes/prova.html",
-    "title": "La Tiranía del Promedio",
+    "objectID": "notes/ex08_pval_integrated.html",
+    "href": "notes/ex08_pval_integrated.html",
+    "title": "Sesión 8: P-valor y Poder Estadístico",
     "section": "",
-    "text": "Policies designed for the “average” person often fail everyone.\nImagine we are designing a tax relief program. The “average” income in our district is $15,000 MXN/month. A policy maker suggests a flat tax credit because “the average family is doing okay.”\nBut is the average real? Let’s look at the data.\n\n\nRun the code below to generate a realistic income distribution for a Mexican municipality. We will use a “log-normal” distribution, which matches real-world wealth inequality better than a bell curve.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "text": "Caso: Programa Piloto con Muestra Pequeña\nUn programa piloto de empleabilidad tiene solo n=50 participantes. Hay mejora del 10% en tasa de empleo vs control, pero p=0.12 (no significativo).\n¿Conclusión: “El programa no funciona”? ¡FALSO!\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: Simulación de Poder\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Significancia vs Relevancia Práctica\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nCalcula tamaño de muestra para detectar efecto de 5% con Poder=90%\nSimula 1000 experimentos con n=50 y efecto=0 - ¿Cuántos dan p&lt;0.05? (debe ser ~5%)\nEscribe recomendación: ¿Expandir piloto o abandonar?\n\n\n\n\nDiscusión\n\n¿“No significativo” = “no funciona”?\n¿Cuándo el tamaño de muestra es una limitación ética?\n¿P-valor vs tamaño de efecto: qué reportar?"
   },
   {
-    "objectID": "notes/prova.html#interactive-lab-simulating-inequality",
-    "href": "notes/prova.html#interactive-lab-simulating-inequality",
-    "title": "La Tiranía del Promedio",
+    "objectID": "notes/ex06_ci_integrated.html",
+    "href": "notes/ex06_ci_integrated.html",
+    "title": "Sesión 6: Intervalos de Confianza",
     "section": "",
-    "text": "Run the code below to generate a realistic income distribution for a Mexican municipality. We will use a “log-normal” distribution, which matches real-world wealth inequality better than a bell curve.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "text": "Caso: Evaluación de Programa de Control de Diabetes\nUn programa piloto de salud pública busca reducir el índice de masa corporal (IMC) en pacientes diabéticos. Se comparan dos grupos: tratamiento (programa intensivo) vs control (atención estándar).\nPregunta: ¿El programa funciona? ¿Con qué nivel de certeza?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: Estadísticas Descriptivas por Grupo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Visualización con Intervalos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Interpretación del IC\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 4: Simulación de 100 ICs\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nCalcula IC 90% (en vez de 95%) - ¿Qué cambia?\nPropón tamaño de muestra para IC más estrecho\nEscribe memo de 1 página comunicando resultado\n\n\n\n\nDiscusión\n\n¿“95% de confianza” significa “95% de probabilidad”?\n¿Cómo comunicas incertidumbre a decisores?\n¿Qué haces si IC es muy ancho?"
   },
   {
-    "objectID": "notes/ex01_average.html",
-    "href": "notes/ex01_average.html",
-    "title": "Exercise 1: The Tale of Two Cities",
+    "objectID": "notes/ex05_sampling_integrated.html",
+    "href": "notes/ex05_sampling_integrated.html",
+    "title": "Sesión 5: El Arte del Muestreo",
     "section": "",
-    "text": "The Trap of the Average\nBoth “Equality City” and “Unequal City” have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "text": "Caso: Encuesta de Aprobación Presidencial\nEl Instituto Electoral debe estimar la aprobación presidencial para presupuestar campañas. La verdad poblacional es 52% de aprobación, pero solo podemos encuestar una muestra.\nPreguntas: - ¿Qué tan grande debe ser la muestra? - ¿Cuánto varía el resultado con muestras pequeñas vs grandes? - ¿Cuál es el margen de error esperado?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 1: Experimento con Diferentes Tamaños de Muestra\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Visualización de la Convergencia\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Fórmula del Error Estándar\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual\n\nSimula una encuesta con n=500 y calcula intervalo [estimación ± 2×SE]\nCompara costo-beneficio de n=1000 vs n=3000\nRecomienda tamaño de muestra para margen de error &lt;3%\n\n\n\n\nDiscusión\n\n¿Cuándo vale la pena una muestra grande?\n¿Sesgo vs varianza: qué es peor?\n¿Cómo afecta la no-respuesta?"
   },
   {
-    "objectID": "notes/ex01_average.html#the-trap-of-the-average",
-    "href": "notes/ex01_average.html#the-trap-of-the-average",
-    "title": "Exercise 1: The Tale of Two Cities",
+    "objectID": "notes/ex02_visualization_integrated.html",
+    "href": "notes/ex02_visualization_integrated.html",
+    "title": "Sesión 2: Visualización como Evidencia",
     "section": "",
-    "text": "Both “Equality City” and “Unequal City” have the exact same average salary ($15,000 MXN). If you only look at the mean, they look identical. Which one has the inequality problem?\n```wrymoxqk #| warning: false library(ggplot2)"
+    "text": "Caso de Política Pública\nEl Secretario de Educación debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)\nTu tarea: Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?\nRegla de oro: Un gráfico en política pública no es decoración; es un argumento basado en evidencia.\n\n\n\nParte 1: Simulación y Carga de Datos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Estadísticas Descriptivas por Tipo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de reflexión: ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?\n\n\n\nParte 3: Visualización Esencial - El Boxplot\n¿Por qué boxplot? Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpreta el boxplot: 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?\n\n\n\nParte 4: Análisis de Dispersión y Desigualdad\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 5: Scatterplot - Relación Presupuesto-Desempeño\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nAnálisis del scatterplot: 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)\n\n\n\nParte 6: Cálculo de Pendientes (Retorno del Presupuesto)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nImportante: Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto cause mejor desempeño.\n\n\n\nParte 7: Histograma de Presupuesto\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta: ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?\n\n\n\nParte 8: Tabla de Rendición de Cuentas\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 9: Auditoría de Gráficos Engañosos\nEjercicio de lectura crítica: Imagina que ves este titular en un reporte:\n\n“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta crítica: - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?\nReglas de auditoría de gráficos: 1. ✅ Eje Y empieza en 0 (para barras) 2. ✅ Denominador claro (¿por estudiante? ¿por escuela?) 3. ✅ Población y periodo especificados 4. ✅ Muestra dispersión (no solo promedios) 5. ✅ Declara limitaciones\n\n\n\nParte 10: Memo Ejecutivo con Visualización\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual (Entregable)\nParte A: Crear Visualizaciones\n\nBoxplot comparativo:\n\nGrafica presupuesto_anual_kusd ~ tipo\nIncluye título-conclusión (máximo 18 palabras)\nIdentifica outliers y explica qué pueden representar\n\nScatterplot con segmentación:\n\nEje X: presupuesto, Eje Y: puntaje\nColorea puntos por tipo\nAgrega líneas de tendencia\nMarca escuelas con puntaje &lt; 50 (círculos rojos)\n\n\nParte B: Análisis Escrito\n\nTabla de análisis: Crea una tabla con 3 columnas:\n\nTipo de gráfico (Histograma, Boxplot, Scatterplot)\nPregunta que responde mejor\nLimitación principal\n\nEjercicio de lectura crítica: Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)\n\n¿Cumple las 5 reglas de auditoría?\n¿Hay algo engañoso en la presentación?\n¿Qué mejorarías?\n\n\nParte C: Recomendación Estratégica\n\nEscribe 6 líneas respondiendo:\n\nSi solo puedes intervenir en 20 escuelas, ¿cuáles eliges?\n¿Usas criterio de presupuesto, desempeño, tipo, o combinación?\nIncluye 1 limitación de tu propuesta\n\n\n\n\n\nPreguntas de Discusión\n\nLa Trampa del Promedio Revisitada:\n\n¿Por qué un gráfico de solo promedios puede ser engañoso?\n¿Qué se pierde cuando no mostramos dispersión?\n\nEscalas Visuales:\n\n¿Cuándo es legítimo NO empezar el eje Y en cero?\n¿Qué riesgos tiene manipular las escalas?\n\nDenominadores:\n\n¿Deberíamos graficar presupuesto total o por estudiante?\n¿Puntaje promedio de escuela o distribución completa?\n\nOutliers:\n\n¿Los outliers son errores o información valiosa?\n¿Cuándo deberías investigar un outlier vs. eliminarlo?\n\n\n\n\n\nRecursos Adicionales\nPrincipios de visualización efectiva:\n\nClaridad sobre estética: El gráfico debe comunicar, no impresionar\nHonestidad visual: Escalas apropiadas, contexto completo\nDispersión importa: No solo promedios\nComparaciones justas: Mismo denominador, misma escala\nContexto siempre: Población, periodo, fuente, limitaciones\n\nTipos de gráficos y cuándo usarlos:\n\nHistograma: Ver forma de distribución (asimetría, modas)\nBoxplot: Comparar grupos, detectar outliers\nScatterplot: Explorar relaciones entre dos variables\nBarras: Comparar cantidades (¡eje Y en 0!)\nLíneas: Mostrar tendencias en el tiempo\n\nErrores comunes a evitar:\n\n❌ Solo mostrar promedios sin dispersión\n❌ Manipular escalas para exagerar diferencias\n❌ No declarar denominador\n❌ Graficar sin pregunta clara en mente\n❌ Usar 3D, colores excesivos, “chart junk”\n\n\nÚltima reflexión: Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?"
   },
   {
-    "objectID": "notes/ex06_ci.html",
-    "href": "notes/ex06_ci.html",
-    "title": "Exercise 6: Capturing the Truth",
+    "objectID": "notes/r_getting_started.html",
+    "href": "notes/r_getting_started.html",
+    "title": "Section 1: Getting Started with R",
     "section": "",
-    "text": "Visualizing Confidence Intervals\nThe red line is the TRUE unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "text": "Working and up-to-date installations of R and RStudio\n\nData files: auto.csv and auto.dta (download from course materials)\nAn internet connection\n\nOptional: A healthy source of caffeine ☕"
   },
   {
-    "objectID": "notes/ex06_ci.html#visualizing-confidence-intervals",
-    "href": "notes/ex06_ci.html#visualizing-confidence-intervals",
-    "title": "Exercise 6: Capturing the Truth",
-    "section": "",
-    "text": "The red line is the TRUE unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.\n```krdodjrf #| warning: false library(ggplot2) set.seed(55)"
+    "objectID": "notes/r_getting_started.html#installing-packages",
+    "href": "notes/r_getting_started.html#installing-packages",
+    "title": "Section 1: Getting Started with R",
+    "section": "Installing Packages",
+    "text": "Installing Packages\nYou can check which packages are currently installed using the function installed.packages(). Ready to run your first function? Type installed.packages() into the R console and hit return.\n\n\n\n\n\n\nAlternative: Check Packages Tab\n\n\n\nYou can also check the Packages tab inside RStudio. The checked boxes denote the packages that are currently loaded.\n\n\nNow, let’s install a few packages that will prove useful this semester. We use the install.packages() function, giving it the name(s) of the package(s) you want to install.\n\n# Install the package named \"dplyr\"\ninstall.packages(\"dplyr\")\n\n# Install the packages named \"haven\" and \"readr\"\ninstall.packages(c(\"haven\", \"readr\"))\n\nImportant Notes:\n\nYou need an internet connection.\nThe function name install.packages() is plural regardless of the number of packages.\nEach package’s name is surrounded by quotes (e.g., \"haven\"). These quotation marks tell R this is a character/string, not an object. Use double quotes for consistency.\nWe can create a vector of packages using c(). Example: c(1, 2, 3) is a three-element vector. Similarly, c(\"haven\", \"readr\") is a two-element vector of package names. Vectors are a big deal in R.\n\nThe hashtag (#) creates comments in R."
   },
   {
-    "objectID": "notes/ex05_lln.html",
-    "href": "notes/ex05_lln.html",
-    "title": "Exercise 5: The Pollster’s Nightmare",
-    "section": "",
-    "text": "Law of Large Numbers\nWhy do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#loading-packages",
+    "href": "notes/r_getting_started.html#loading-packages",
+    "title": "Section 1: Getting Started with R",
+    "section": "Loading Packages",
+    "text": "Loading Packages\nTo check that installations were successful, we’ll load the packages using the library() function:\n\nlibrary(dplyr)\nlibrary(haven)\nlibrary(readr)\n\n\n\n\n\n\n\nNote\n\n\n\nNotice we didn’t need quotation marks around package names when loading (though it would still work with quotes)."
   },
   {
-    "objectID": "notes/ex05_lln.html#law-of-large-numbers",
-    "href": "notes/ex05_lln.html#law-of-large-numbers",
-    "title": "Exercise 5: The Pollster’s Nightmare",
-    "section": "",
-    "text": "Why do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n```juddfmro # The Truth: 52% of the country approves the President true_approval &lt;- 0.52"
+    "objectID": "notes/r_getting_started.html#package-management-with-pacman",
+    "href": "notes/r_getting_started.html#package-management-with-pacman",
+    "title": "Section 1: Getting Started with R",
+    "section": "Package Management with pacman\n",
+    "text": "Package Management with pacman\n\nLet’s install another package: the pacman package (yes, like the game! 🎮).\n\n# Install the 'pacman' package\ninstall.packages(\"pacman\")\n\n# Load it\nlibrary(pacman)\n\nThe pacman package is very meta: it’s a package to manage packages. You can use it to install, load, unload, and update your R packages.\nRather than typing library(...) for every package, use pacman’s p_load() function:\n\n# Old way\nlibrary(dplyr)\nlibrary(haven)\nlibrary(readr)\n\n# New way\np_load(dplyr, haven, readr)\n\nBetter yet: If you try to load a package that isn’t installed, p_load() will install it automatically! Let’s install and load ggplot2:\n\np_load(ggplot2)\n\nInstalled and loaded. That’s service! ✨"
   },
   {
-    "objectID": "notes/ex07_ttest.html",
-    "href": "notes/ex07_ttest.html",
-    "title": "Exercise 7: Did the Program Work?",
-    "section": "",
-    "text": "The A/B Test\nWe have two groups from the “Pro-Futuro” program. * Control: Standard diet. * Treatment: New nutrition program.\nWe want to know if the Treatment group has a significantly lower Body Mass Index (BMI).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#file-paths-and-navigation",
+    "href": "notes/r_getting_started.html#file-paths-and-navigation",
+    "title": "Section 1: Getting Started with R",
+    "section": "File Paths and Navigation",
+    "text": "File Paths and Navigation\nR wants file paths as character vectors (i.e., the path surrounded by quotations). For example:\n\"/Users/david/Dropbox/Teaching/MyClass\"\nChanging and Checking Directories\nTo change R’s working directory, use setwd():\n\nsetwd(\"/Users/david/Dropbox/Teaching/MyClass\")\n\nTo find R’s current working directory:\n\ngetwd()\n\n\n\n\n\n\n\nWindows Users\n\n\n\nWhen you copy paths from File Explorer, slashes may be backwards (\\). Change them to forward slashes (/) or double them (\\\\).\n\n\nNavigation Commands\nSimilar to Linux/Unix:\n\n\n.. moves up one level\n\n~ returns to your home directory\nYou can use full paths or relative paths\n\n\n# Check current directory\ngetwd()\n\n# Move up one level\nsetwd(\"..\")\ngetwd()\n\n# Go home\nsetwd(\"~\")\ngetwd()\n\n# Return to class folder\nsetwd(\"Dropbox/Teaching/MyClass\")\n\nSmart Path Management\nI prefer to store paths at the start of my script for easy updating:\n\n# Path to my class folder\ndir_class &lt;- \"/Users/david/Documents/MyClass/\"\n\n# Path to section 1 folder (inside class folder)\ndir_section1 &lt;- paste0(dir_class, \"Section01/\")\n\n\n\n\n\n\n\npaste0() vs paste()\n\n\n\n\n\npaste0() pastes without spaces\n\npaste() defaults to single space between elements\n\n\n# Default paste0()\npaste0(1, 2, 3)  # \"123\"\n\n# Default paste()\npaste(1, 2, 3)   # \"1 2 3\"\n\n# Custom separator\npaste(1, 2, 3, sep = \"+\")  # \"1+2+3\"\n\n\n\nRStudio Tab Completion\nRStudio assists with completing file paths—begin typing and press Tab. Super useful!"
   },
   {
-    "objectID": "notes/ex07_ttest.html#the-ab-test",
-    "href": "notes/ex07_ttest.html#the-ab-test",
-    "title": "Exercise 7: Did the Program Work?",
-    "section": "",
-    "text": "We have two groups from the “Pro-Futuro” program. * Control: Standard diet. * Treatment: New nutrition program.\nWe want to know if the Treatment group has a significantly lower Body Mass Index (BMI).\n```kscxeqrc # 1. Generate Data n &lt;- 200 control &lt;- rnorm(n, mean = 28, sd = 4) treatment &lt;- rnorm(n, mean = 26.5, sd = 4) # Real effect of -1.5\ndf &lt;- data.frame( BMI = c(control, treatment), Group = c(rep(“Control”, n), rep(“Treatment”, n)) )"
+    "objectID": "notes/r_getting_started.html#the-dir-function",
+    "href": "notes/r_getting_started.html#the-dir-function",
+    "title": "Section 1: Getting Started with R",
+    "section": "The dir() Function",
+    "text": "The dir() Function\nThe dir() function shows contents of a folder:\n\n# Look inside my class folder\ndir(dir_class)\n\n# Look inside my section 1 folder\ndir(dir_section1)\n\nThis helps when you forget file names!"
   },
   {
-    "objectID": "notes/ex10_simpsons.html",
-    "href": "notes/ex10_simpsons.html",
-    "title": "Exercise 10: The Hidden Variable",
-    "section": "",
-    "text": "Simpson’s Paradox\nIt looks like Private schools have LOWER scores than Public ones. But is that fair? Private schools in this dataset are located in tougher zones. Run the code to see what happens when we control for the “Difficulty” of the zone.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#functions-to-load-files",
+    "href": "notes/r_getting_started.html#functions-to-load-files",
+    "title": "Section 1: Getting Started with R",
+    "section": "Functions to Load Files",
+    "text": "Functions to Load Files\nWe’ll mostly use:\n\n\nreadr package: for CSV, TSV, and delimited files\n\nhaven package: for Stata (.dta), SPSS, and SAS files\n\nBase R: for R’s own formats (.rds, .rdata)\n\n\n\n\n\n\n\nLearn About Functions\n\n\n\nTo learn more about a function:\n\nPress Tab after typing the function name (in RStudio)\nType ?function_name in console (e.g., ?read_dta)\n\n\n\nLoading a Stata File\nLet’s load auto.dta using read_dta() from the haven package:\n\n# Load the .dta file\ncar_data &lt;- read_dta(paste0(dir_section1, \"auto.dta\"))\n\n\n\n\n\n\n\nThe Assignment Operator &lt;-\n\n\n\nThe &lt;- operator is central to R. It assigns the value(s) on the right to the name on the left.\nWhen reading aloud, people say “gets”: car_data gets the contents of auto.dta.\n\n\nTo view the data, just type its name:\n\ncar_data\n\nLoading a CSV File\nFor a CSV file, use read_csv() from the readr package:\n\n# Load the .csv file\ncar_data &lt;- read_csv(paste0(dir_section1, \"auto.csv\"))\n\n# View it\ncar_data\n\n\n\n\n\n\n\nRelative Paths\n\n\n\nIf you’re already in the right directory, you don’t need the full path:\n\nread_csv(\"Section01/auto.csv\")"
   },
   {
-    "objectID": "notes/ex10_simpsons.html#simpsons-paradox",
-    "href": "notes/ex10_simpsons.html#simpsons-paradox",
-    "title": "Exercise 10: The Hidden Variable",
-    "section": "",
-    "text": "It looks like Private schools have LOWER scores than Public ones. But is that fair? Private schools in this dataset are located in tougher zones. Run the code to see what happens when we control for the “Difficulty” of the zone.\n```kuvnraoq #| warning: false library(ggplot2)"
+    "objectID": "notes/r_getting_started.html#exploring-the-data",
+    "href": "notes/r_getting_started.html#exploring-the-data",
+    "title": "Section 1: Getting Started with R",
+    "section": "Exploring the Data",
+    "text": "Exploring the Data\nPrint the data to the console:\n\ncar_data\n\nNotice several things:\n\nThe dataset is a tibble (like a data frame with rules)\nDimensions: 74 rows × 12 columns\nColumn types: &lt;chr&gt; (character), &lt;dbl&gt; (double/numeric), &lt;int&gt; (integer)\nYou get a snapshot of the first 10 rows\n\nGetting Column Names\n\nnames(car_data)\n\nViewing First/Last Rows\n\n# First 6 rows\nhead(car_data)\n\n# First 11 rows\nhead(car_data, n = 11)\n\n# Last 7 rows\ntail(car_data, n = 7)\n\n\n\n\n\n\n\nRStudio Data Viewer\n\n\n\nUse View(car_data) or click the dataset in the Environment pane to open RStudio’s data viewer."
   },
   {
-    "objectID": "notes/ex03_risk.html",
-    "href": "notes/ex03_risk.html",
-    "title": "Exercise 3: The Budget Monte Carlo",
-    "section": "",
-    "text": "How much should we really budget?\nYour engineers say the infrastructure project will cost $100 Million. But material prices fluctuate, and strikes happen. Instead of one number, let’s simulate 1,000 possible futures.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#summarizing-the-data",
+    "href": "notes/r_getting_started.html#summarizing-the-data",
+    "title": "Section 1: Getting Started with R",
+    "section": "Summarizing the Data",
+    "text": "Summarizing the Data\nGet a quick summary of your dataset:\n\nsummary(car_data)\n\nTo summarize a single variable, use $ to grab it:\n\n# Grab the price variable\ncar_data$price\n\n# Summarize price\nsummary(car_data$price)\n\n\n\n\n\n\n\nAccessing Variables\n\n\n\ndataset$variable is how you grab a specific column. RStudio’s tab completion works here too!"
   },
   {
-    "objectID": "notes/ex03_risk.html#how-much-should-we-really-budget",
-    "href": "notes/ex03_risk.html#how-much-should-we-really-budget",
-    "title": "Exercise 3: The Budget Monte Carlo",
-    "section": "",
-    "text": "Your engineers say the infrastructure project will cost $100 Million. But material prices fluctuate, and strikes happen. Instead of one number, let’s simulate 1,000 possible futures.\n```tmwxvitj set.seed(42) simulations &lt;- 1000"
+    "objectID": "notes/r_getting_started.html#manipulating-the-data",
+    "href": "notes/r_getting_started.html#manipulating-the-data",
+    "title": "Section 1: Getting Started with R",
+    "section": "Manipulating the Data",
+    "text": "Manipulating the Data\nThe dplyr package offers helpful tools for data manipulation using verbs as actions.\n\nselect() - Choose Variables\nKeep only variables you care about:\n\n# Select desired variables\ncar_sub &lt;- select(car_data, price, mpg, weight, length)\n\n# View result\ncar_sub\n\nWe now have 74 rows but only 4 columns!\nAlternative: Exclude variables with a minus sign:\n\nselect(car_data, -price, -mpg, -weight, -length)\n\n\narrange() - Sort Data\nArrange data by one or more columns:\n\n# Arrange by price, then mpg\narrange(car_sub, price, mpg)\n\n\n\n\n\n\n\nAssignment Required!\n\n\n\nIf you view car_sub now, it’s not arranged. You must assign the result to change the object:\n\ncar_sub &lt;- arrange(car_sub, price)\n\n\n\nFor descending order, use desc():\n\narrange(car_sub, desc(price), mpg)\n\n\nsummarize() - Create Summaries\nCreate specific summaries of your data:\n\n# Mean and SD of price\nsummarize(car_sub, mean(price), sd(price))\n\n# With custom names\nsummarize(car_sub, price_mean = mean(price), price_sd = sd(price))\n\nFor simple summaries, you could also just type:\n\nmean(car_sub$price)\nsd(car_sub$price)"
   },
   {
-    "objectID": "notes/ex09_regression.html",
-    "href": "notes/ex09_regression.html",
-    "title": "Exercise 9: Is a Masters degree worth it?",
-    "section": "",
-    "text": "Returns to Education\nWe plot Years of Schooling (X) vs. Hourly Wage (Y). The slope of the blue line tells us the monetary value of one extra year of education.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#plotting-the-data",
+    "href": "notes/r_getting_started.html#plotting-the-data",
+    "title": "Section 1: Getting Started with R",
+    "section": "Plotting the Data",
+    "text": "Plotting the Data\nR’s default plot functions are simple but effective. We’ll cover ggplot2 later, but for now, let’s make quick plots.\nHistogram\nCreate a histogram of miles per gallon:\n\n# Plain histogram\nhist(car_sub$mpg)\n\nMake it prettier with labels and a median line:\n\n# The histogram\nhist(\n  x = car_sub$mpg,\n  main = \"Distribution of Fuel Economy\",\n  xlab = \"MPG (miles per gallon)\"\n)\n\n# Add blue line at median\nabline(v = median(car_sub$mpg), col = \"blue\", lwd = 3)\n\nScatterplot\nPlot price vs. mileage:\n\nplot(\n  x = car_sub$mpg,\n  y = car_sub$price,\n  xlab = \"Fuel Economy (MPG)\",\n  ylab = \"Price ($)\"\n)\n\n\n\n\n\n\n\nClear Code Style\n\n\n\nI recommend clearly defining function arguments. It helps keep things straight, as order matters when you’re not naming arguments."
   },
   {
-    "objectID": "notes/ex09_regression.html#returns-to-education",
-    "href": "notes/ex09_regression.html#returns-to-education",
-    "title": "Exercise 9: Is a Masters degree worth it?",
-    "section": "",
-    "text": "We plot Years of Schooling (X) vs. Hourly Wage (Y). The slope of the blue line tells us the monetary value of one extra year of education.\n```lepniqwp # 1. Generate Data n &lt;- 100 schooling &lt;- runif(n, 0, 20) # 0 to 20 years of school # Wage = 100 base + 50 per year of school + noise wage &lt;- 100 + (50 * schooling) + rnorm(n, 0, 150)"
+    "objectID": "notes/r_getting_started.html#vector-indexing",
+    "href": "notes/r_getting_started.html#vector-indexing",
+    "title": "Section 1: Getting Started with R",
+    "section": "Vector Indexing",
+    "text": "Vector Indexing\n\n# Create a vector\nx &lt;- c(3, 5, 7, 9)\n\n# Grab the second element\nx[2]  # Returns: 5\n\n# Grab second and third elements\nx[c(2, 3)]  # Returns: 5 7\nx[2:3]      # Same result\n\n# What does 2:3 do?\n2:3  # Creates sequence: 2 3"
   },
   {
-    "objectID": "notes/ex08_pval.html",
-    "href": "notes/ex08_pval.html",
-    "title": "Exercise 8: The P-Value Lottery",
-    "section": "",
-    "text": "Hacking the P-Value\nThe code below simulates a program that does NOTHING (Effect is 0). However, we will test it 100 times. How many times will we get a “Significant” result just by luck?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_getting_started.html#data-frame-indexing",
+    "href": "notes/r_getting_started.html#data-frame-indexing",
+    "title": "Section 1: Getting Started with R",
+    "section": "Data Frame Indexing",
+    "text": "Data Frame Indexing\nData frames have rows and columns: [row, column]\n\n# Grab first row (all columns)\ncar_sub[1, ]\n\n# Grab first column (all rows)\ncar_sub[, 1]\n\n# Use column name as index\ncar_sub[, \"price\"]\n\n\n\n\n\n\n\nRow, Column Order\n\n\n\nRemember: Rows before columns. Leave blank to select all. - [1, ] = first row, all columns - [, 2] = all rows, second column - [3, 4] = third row, fourth column"
   },
   {
-    "objectID": "notes/ex08_pval.html#hacking-the-p-value",
-    "href": "notes/ex08_pval.html#hacking-the-p-value",
-    "title": "Exercise 8: The P-Value Lottery",
+    "objectID": "notes/ex01_average_integrated.html",
+    "href": "notes/ex01_average_integrated.html",
+    "title": "Sesión 1: La Tiranía del Promedio",
     "section": "",
-    "text": "The code below simulates a program that does NOTHING (Effect is 0). However, we will test it 100 times. How many times will we get a “Significant” result just by luck?\n```gkxiteta set.seed(99) p_values &lt;- numeric(100)\nfor(i in 1:100) { # Generate two identical groups (No real difference) group_A &lt;- rnorm(30) group_B &lt;- rnorm(30)\n# Run t-test and save p-value p_values[i] &lt;- t.test(group_A, group_B)$p.value }"
+    "text": "Caso de Política Pública\nUn municipio está diseñando un programa de subsidios alimentarios para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de $420 USD/mes. El Secretario de Desarrollo Social propone establecer el umbral de elegibilidad en $250 USD/mes.\nTu tarea: Analizar la distribución de ingresos para determinar: - ¿Cuántos hogares califican para el subsidio? - ¿El promedio representa bien a la población? - ¿Hay diferencias importantes entre zonas urbanas y rurales?\n\n\n\nParte 1: Carga y Exploración de Datos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de reflexión: ¿Por qué simulamos una distribución log-normal en vez de una normal? ¿Qué implica esto sobre la realidad del ingreso?\n\n\n\nParte 2: Estadísticas Descriptivas Básicas\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPara discutir: Si el promedio es $420 pero la mediana es menor, ¿qué implica esto para el diseño del programa?\n\n\n\nParte 3: Análisis por Percentiles (Las Colas Importan)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nEjercicio práctico: 1. ¿Qué porcentaje de hogares gana menos de $250/mes? 2. ¿Deberíamos usar P10 o P25 como criterio de elegibilidad?\n\n\n\nParte 4: Comparación por Zona (Urbano vs Rural)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación clave: - ¿En qué zona hay mayor desigualdad interna? - ¿Deberían ser diferentes los criterios de elegibilidad por zona?\n\n\n\nParte 5: Visualización 1 - Histograma\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de análisis: ¿Qué nos dice la forma de este histograma sobre la distribución del ingreso?\n\n\n\nParte 6: Visualización 2 - Boxplot Comparativo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nElementos del boxplot: - Línea central: mediana (P50) - Caja: contiene el 50% central de los datos (P25 a P75) - Bigotes: se extienden hasta 1.5×IQR - Puntos rojos: valores atípicos (outliers)\n\n\n\nParte 7: Análisis de Elegibilidad\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de política: - ¿Qué umbral recomendarías y por qué? - ¿Cómo balanceas cobertura vs. recursos disponibles?\n\n\n\nParte 8: Tabla Resumen para Memo Ejecutivo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 9: Recomendación Basada en Evidencia\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nEjercicio Individual (Entregable)\nInstrucciones:\n\nCrea una tabla comparando las siguientes estadísticas para zona urbana vs rural:\n\nMedia, Mediana, P10, P90, IQR\nInterpreta: ¿Dónde hay mayor desigualdad interna?\n\nGenera un histograma del ingreso solo para zona rural:\n\nIncluye líneas de referencia (media, mediana, umbral)\nEscribe un título-conclusión de máximo 18 palabras\n\nPropón un criterio de elegibilidad basado en percentiles:\n\nJustifica tu elección en 6 líneas\nIncluye al menos 1 limitación de tu propuesta\nEvita usar “promedio” como criterio único\n\nResponde:\n\n¿Qué riesgo operativo implica usar solo el promedio para diseñar política?\n¿Por qué importa ver la “cola” de la distribución (P10 y P90)?\n\n\n\n\n\nPreguntas de Discusión\n\nFocalización vs Universalidad: Si tuvieras presupuesto para solo el 20% más pobre, ¿usarías P10 o P20 como corte? ¿Por qué?\nDenominador: ¿Debería calcularse el ingreso per cápita o por hogar? ¿Qué cambia?\nErrores de inclusión/exclusión: ¿Preferirías un umbral que excluya a algunos elegibles (error tipo II) o que incluya a algunos no elegibles (error tipo I)?\nEvidencia incompleta: Si no tienes datos de ingreso informal, ¿cómo afecta esto tu recomendación? ¿Serías más conservador o más agresivo con el umbral?\n\n\n\n\nRecursos Adicionales\nConceptos clave para recordar:\n\nMedia vs Mediana: En distribuciones asimétricas, la mediana es más robusta\nPercentiles: Lenguaje para describir posiciones en la distribución\nIQR: Mide dispersión sin ser afectado por outliers\nCoeficiente de Variación: Dispersión relativa (&gt; 30% = alta heterogeneidad)\nHistograma: Muestra la forma completa de la distribución\nBoxplot: Ideal para comparar grupos y detectar outliers\n\nPara profundizar: - Busca “Anscombe’s Quartet” para ver por qué siempre hay que visualizar - Lee sobre “Simpson’s Paradox” (lo veremos en sesión 10) - Investiga cómo se calcula la línea de pobreza en tu país\n\nÚltima reflexión: En política pública, un solo número (el promedio) puede ocultar más de lo que revela. La distribución completa importa."
   },
   {
-    "objectID": "notes/ex02_outliers.html",
-    "href": "notes/ex02_outliers.html",
-    "title": "Exercise 2: The ‘Lazy Intern’ Error",
+    "objectID": "notes/r_data_wrangling.html",
+    "href": "notes/r_data_wrangling.html",
+    "title": "Section 2: Data Wrangling with dplyr",
     "section": "",
-    "text": "Spot the Data Error\nReal government data is messy. In this dataset of 6th-grade student heights, a data entry error has occurred (using “999” for missing data).\nTask: Identify the outlier that is destroying the average and filter it out.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "text": "Packages: - dplyr - Data manipulation - readr - Reading data files - haven - Reading Stata/SPSS/SAS files - pacman - Package management\nData: Download the auto.csv or auto.dta file from course materials.\nSkills from Section 1: Loading packages, reading data, basic R operations."
   },
   {
-    "objectID": "notes/ex02_outliers.html#spot-the-data-error",
-    "href": "notes/ex02_outliers.html#spot-the-data-error",
-    "title": "Exercise 2: The ‘Lazy Intern’ Error",
-    "section": "",
-    "text": "Real government data is messy. In this dataset of 6th-grade student heights, a data entry error has occurred (using “999” for missing data).\nTask: Identify the outlier that is destroying the average and filter it out.\n```nxigeiui # 1. Create a dataset with a data entry error # Normal kids are around 145cm heights &lt;- rnorm(100, mean = 145, sd = 10) # The error code (or a typo) added to the data heights &lt;- c(heights, 999)"
+    "objectID": "notes/r_data_wrangling.html#how-pipes-work",
+    "href": "notes/r_data_wrangling.html#how-pipes-work",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "How Pipes Work",
+    "text": "How Pipes Work\nThe pipe takes the output from one expression and feeds it into the first argument of the next expression:\n\n# Without pipes (ugly!)\nsummary(select(cars, price, mpg, weight))\n\n# With pipes (beautiful!)\ncars %&gt;% \n  select(price, mpg, weight) %&gt;% \n  summary()\n\n\n\n\n\n\n\nReading Pipes Aloud\n\n\n\nWhen reading code with pipes, say “then” for each %&gt;%:\n“Take cars, then select price, mpg, and weight, then summarize.”"
   },
   {
-    "objectID": "notes/ex04_bayes.html",
-    "href": "notes/ex04_bayes.html",
-    "title": "Exercise 4: The False Positive Trap",
-    "section": "",
-    "text": "Should we audit this municipality?\nWe have an AI that detects corruption with 90% accuracy. However, only 5% of municipalities are actually corrupt. If the AI flags a city, what is the probability it is actually corrupt?\n(Hint: It’s lower than you think).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "objectID": "notes/r_data_wrangling.html#saving-results",
+    "href": "notes/r_data_wrangling.html#saving-results",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Saving Results",
+    "text": "Saving Results\nTo save the final output, assign it as usual:\n\n# Save the result\ncar_summary &lt;- cars %&gt;% \n  select(price, mpg, weight) %&gt;% \n  summary()"
   },
   {
-    "objectID": "notes/ex04_bayes.html#should-we-audit-this-municipality",
-    "href": "notes/ex04_bayes.html#should-we-audit-this-municipality",
-    "title": "Exercise 4: The False Positive Trap",
-    "section": "",
-    "text": "We have an AI that detects corruption with 90% accuracy. However, only 5% of municipalities are actually corrupt. If the AI flags a city, what is the probability it is actually corrupt?\n(Hint: It’s lower than you think).\n```rvujbndw n &lt;- 10000"
+    "objectID": "notes/r_data_wrangling.html#using-the-dot-.-placeholder",
+    "href": "notes/r_data_wrangling.html#using-the-dot-.-placeholder",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Using the Dot . Placeholder",
+    "text": "Using the Dot . Placeholder\nSometimes you need to specify where the piped data should go:\n\n# The dot specifies where to place the input\ncars %&gt;% \n  select(price, mpg) %&gt;% \n  lm(price ~ mpg, data = .)"
   },
   {
-    "objectID": "notes/ex_inference.html",
-    "href": "notes/ex_inference.html",
-    "title": "Exercise 5: The Pollster’s Nightmare",
+    "objectID": "notes/r_data_wrangling.html#select---choose-columns",
+    "href": "notes/r_data_wrangling.html#select---choose-columns",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\nselect() - Choose Columns",
+    "text": "select() - Choose Columns\nSelect specific variables (columns) from your dataset:\n\n# Select specific columns\ncars %&gt;% \n  select(make, price, mpg, weight)\n\n# Select a range of columns\ncars %&gt;% \n  select(make:mpg)\n\n# Select columns that start with \"w\"\ncars %&gt;% \n  select(starts_with(\"w\"))\n\n# Select columns that contain \"price\"\ncars %&gt;% \n  select(contains(\"price\"))\n\n# Exclude columns with minus sign\ncars %&gt;% \n  select(-foreign, -rep78)\n\n\n\n\n\n\n\nHelper Functions for select()\n\n\n\n\n\nstarts_with(\"abc\") - Columns starting with “abc”\n\nends_with(\"xyz\") - Columns ending with “xyz”\n\ncontains(\"ijk\") - Columns containing “ijk”\n\nmatches(\"regex\") - Columns matching a regular expression\n\nnum_range(\"x\", 1:3) - Columns x1, x2, x3"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#filter---choose-rows",
+    "href": "notes/r_data_wrangling.html#filter---choose-rows",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\nfilter() - Choose Rows",
+    "text": "filter() - Choose Rows\nFilter rows based on logical conditions:\n\n# Cars with mpg greater than 25\ncars %&gt;% \n  filter(mpg &gt; 25)\n\n# Foreign cars only\ncars %&gt;% \n  filter(foreign == 1)\n\n# Expensive AND fuel-efficient cars\ncars %&gt;% \n  filter(price &gt; 10000, mpg &gt; 20)\n\n# Expensive OR fuel-efficient cars\ncars %&gt;% \n  filter(price &gt; 10000 | mpg &gt; 20)\n\n# Cars that are NOT foreign\ncars %&gt;% \n  filter(foreign != 1)\n# or\ncars %&gt;% \n  filter(!foreign)\n\n\n\n\n\n\n\nLogical Operators\n\n\n\n\n\n== equal to\n\n!= not equal to\n\n&gt; greater than\n\n&lt; less than\n\n&gt;= greater than or equal to\n\n&lt;= less than or equal to\n\n& and\n\n| or\n\n! not\n\n%in% in a set\n\n\n\nFiltering with Multiple Conditions\n\n# Cars from specific makes\ncars %&gt;% \n  filter(make %in% c(\"Toyota\", \"Honda\", \"Mazda\"))\n\n# Cars between certain price range\ncars %&gt;% \n  filter(price &gt;= 5000, price &lt;= 10000)\n# or use between()\ncars %&gt;% \n  filter(between(price, 5000, 10000))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#mutate---createmodify-columns",
+    "href": "notes/r_data_wrangling.html#mutate---createmodify-columns",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\nmutate() - Create/Modify Columns",
+    "text": "mutate() - Create/Modify Columns\nCreate new variables or modify existing ones:\n\n# Create new variable: price per mpg\ncars %&gt;% \n  mutate(price_per_mpg = price / mpg)\n\n# Multiple new variables\ncars %&gt;% \n  mutate(\n    price_1000 = price / 1000,\n    weight_tons = weight / 2000,\n    efficiency = mpg * weight\n  )\n\n# Modify existing variable\ncars %&gt;% \n  mutate(price = price / 1000)  # Convert to thousands\n\n# Use newly created variables\ncars %&gt;% \n  mutate(\n    price_1000 = price / 1000,\n    log_price = log(price_1000)  # Use price_1000 immediately\n  )\n\n\n\n\n\n\n\nUseful Functions with mutate()\n\n\n\n\nMath: +, -, *, /, ^, log(), exp(), sqrt()\n\nAggregates: mean(), median(), min(), max(), sum()\n\nLogical: &, |, !, &lt;, &gt;, ==, !=\n\nRanking: min_rank(), row_number(), dense_rank()\n\nOffsets: lead(), lag()\n\nCumulative: cumsum(), cumprod(), cummin(), cummax()"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#arrange---sort-rows",
+    "href": "notes/r_data_wrangling.html#arrange---sort-rows",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\narrange() - Sort Rows",
+    "text": "arrange() - Sort Rows\nSort your data by one or more variables:\n\n# Sort by price (ascending)\ncars %&gt;% \n  arrange(price)\n\n# Sort by price (descending)\ncars %&gt;% \n  arrange(desc(price))\n\n# Sort by multiple variables\ncars %&gt;% \n  arrange(foreign, desc(price))  # Foreign first, then price within"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#summarize---aggregate-data",
+    "href": "notes/r_data_wrangling.html#summarize---aggregate-data",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\nsummarize() - Aggregate Data",
+    "text": "summarize() - Aggregate Data\nCreate summary statistics:\n\n# Single summary\ncars %&gt;% \n  summarize(mean_price = mean(price))\n\n# Multiple summaries\ncars %&gt;% \n  summarize(\n    n_cars = n(),\n    mean_price = mean(price),\n    sd_price = sd(price),\n    median_mpg = median(mpg),\n    min_weight = min(weight),\n    max_weight = max(weight)\n  )\n\n\n\n\n\n\n\nCommon Summary Functions\n\n\n\n\n\nn() - count rows\n\nn_distinct() - count unique values\n\nmean(), median() - central tendency\n\nsd(), var() - dispersion\n\nmin(), max() - range\n\nfirst(), last(), nth() - position\n\nsum() - total"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#group_by---group-data",
+    "href": "notes/r_data_wrangling.html#group_by---group-data",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\ngroup_by() - Group Data",
+    "text": "group_by() - Group Data\nGroup your data by one or more variables:\n\n# Group by foreign status\ncars %&gt;% \n  group_by(foreign)\n\n# Nothing appears to happen... but it's grouped!"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#summarize-by-groups",
+    "href": "notes/r_data_wrangling.html#summarize-by-groups",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Summarize by Groups",
+    "text": "Summarize by Groups\n\n# Compare domestic vs. foreign cars\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  summarize(\n    n_cars = n(),\n    mean_price = mean(price),\n    mean_mpg = mean(mpg),\n    mean_weight = mean(weight)\n  )\n\n# Group by multiple variables\ncars %&gt;% \n  group_by(foreign, rep78) %&gt;% \n  summarize(\n    count = n(),\n    avg_price = mean(price, na.rm = TRUE)\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#mutate-by-groups",
+    "href": "notes/r_data_wrangling.html#mutate-by-groups",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Mutate by Groups",
+    "text": "Mutate by Groups\nCreate variables that depend on group-level calculations:\n\n# Price relative to group mean\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(\n    mean_price = mean(price),\n    price_diff = price - mean_price\n  )\n\n# Rank within groups\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(price_rank = min_rank(desc(price)))\n\n# Calculate percentiles within groups\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(price_pct = percent_rank(price))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#ungroup---remove-grouping",
+    "href": "notes/r_data_wrangling.html#ungroup---remove-grouping",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\nungroup() - Remove Grouping",
+    "text": "ungroup() - Remove Grouping\nAlways ungroup when you’re done with grouped operations:\n\ncars_grouped &lt;- cars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(mean_price = mean(price)) %&gt;% \n  ungroup()  # Important!"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#understanding-na",
+    "href": "notes/r_data_wrangling.html#understanding-na",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Understanding NA\n",
+    "text": "Understanding NA\n\n\n# Check if values are NA\nis.na(NA)  # TRUE\nis.na(5)   # FALSE\n\n# NA in operations\n2 + NA     # NA\nNA == 5    # NA\nNA == NA   # NA (!!)\n\n\n\n\n\n\n\nNA is Contagious\n\n\n\nAny operation involving NA typically returns NA. Use na.rm = TRUE in functions like mean(), sum(), etc."
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#filtering-nas",
+    "href": "notes/r_data_wrangling.html#filtering-nas",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Filtering NAs",
+    "text": "Filtering NAs\n\n# Keep only complete cases\ncars %&gt;% \n  filter(!is.na(rep78))\n\n# Remove rows with any NA\ncars %&gt;% \n  na.omit()\n\n# Keep rows with NA in specific column\ncars %&gt;% \n  filter(is.na(rep78))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#working-with-nas-in-summaries",
+    "href": "notes/r_data_wrangling.html#working-with-nas-in-summaries",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Working with NAs in Summaries",
+    "text": "Working with NAs in Summaries\n\n# This returns NA if any values are NA\ncars %&gt;% \n  summarize(mean_rep78 = mean(rep78))\n\n# Remove NAs when calculating\ncars %&gt;% \n  summarize(mean_rep78 = mean(rep78, na.rm = TRUE))\n\n# Count NAs\ncars %&gt;% \n  summarize(\n    n_total = n(),\n    n_missing = sum(is.na(rep78)),\n    n_complete = sum(!is.na(rep78))\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#replacing-nas",
+    "href": "notes/r_data_wrangling.html#replacing-nas",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Replacing NAs",
+    "text": "Replacing NAs\n\n# Replace NA with a value\ncars %&gt;% \n  mutate(rep78 = ifelse(is.na(rep78), 0, rep78))\n\n# Replace NA with mean\ncars %&gt;% \n  mutate(rep78 = ifelse(is.na(rep78), mean(rep78, na.rm = TRUE), rep78))\n\n# Using replace_na() from tidyr\ncars %&gt;% \n  mutate(rep78 = replace_na(rep78, 0))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#example-1-data-pipeline",
+    "href": "notes/r_data_wrangling.html#example-1-data-pipeline",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Example 1: Data Pipeline",
+    "text": "Example 1: Data Pipeline\n\n# Complex analysis in one pipeline\ncars %&gt;% \n  # Remove missing values\n  filter(!is.na(rep78)) %&gt;% \n  # Keep only relevant variables\n  select(make, price, mpg, weight, foreign) %&gt;% \n  # Create new variables\n  mutate(\n    price_1000 = price / 1000,\n    efficiency = mpg / weight * 1000\n  ) %&gt;% \n  # Group by foreign status\n  group_by(foreign) %&gt;% \n  # Calculate summaries\n  summarize(\n    n = n(),\n    mean_price = mean(price_1000),\n    mean_efficiency = mean(efficiency)\n  ) %&gt;% \n  # Sort results\n  arrange(desc(mean_efficiency))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#example-2-top-n-by-group",
+    "href": "notes/r_data_wrangling.html#example-2-top-n-by-group",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Example 2: Top N by Group",
+    "text": "Example 2: Top N by Group\n\n# Find top 3 most expensive cars by foreign status\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  arrange(desc(price)) %&gt;% \n  slice(1:3) %&gt;% \n  select(make, price, mpg, foreign)"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#example-3-conditional-summaries",
+    "href": "notes/r_data_wrangling.html#example-3-conditional-summaries",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Example 3: Conditional Summaries",
+    "text": "Example 3: Conditional Summaries\n\n# Compare expensive vs. cheap cars\ncars %&gt;% \n  mutate(price_category = ifelse(price &gt; median(price), \"Expensive\", \"Cheap\")) %&gt;% \n  group_by(price_category) %&gt;% \n  summarize(\n    n = n(),\n    mean_mpg = mean(mpg),\n    mean_weight = mean(weight)\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#types-of-joins",
+    "href": "notes/r_data_wrangling.html#types-of-joins",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Types of Joins",
+    "text": "Types of Joins\n\n# Example datasets\ndf1 &lt;- data.frame(\n  id = c(1, 2, 3),\n  x = c(\"a\", \"b\", \"c\")\n)\n\ndf2 &lt;- data.frame(\n  id = c(1, 2, 4),\n  y = c(\"A\", \"B\", \"D\")\n)\n\n# Inner join - keep only matching rows\ninner_join(df1, df2, by = \"id\")\n# Result: id 1, 2\n\n# Left join - keep all rows from df1\nleft_join(df1, df2, by = \"id\")\n# Result: id 1, 2, 3 (y is NA for id 3)\n\n# Right join - keep all rows from df2\nright_join(df1, df2, by = \"id\")\n# Result: id 1, 2, 4 (x is NA for id 4)\n\n# Full join - keep all rows from both\nfull_join(df1, df2, by = \"id\")\n# Result: id 1, 2, 3, 4 (NAs where no match)\n\n\n\n\n\n\n\nChoosing the Right Join\n\n\n\n\n\ninner_join() - Only keep matching observations\n\nleft_join() - Keep all from left, match from right\n\nright_join() - Keep all from right, match from left\n\nfull_join() - Keep everything\n\nsemi_join() - Keep left observations that have a match\n\nanti_join() - Keep left observations that DON’T have a match"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#practical-join-example",
+    "href": "notes/r_data_wrangling.html#practical-join-example",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Practical Join Example",
+    "text": "Practical Join Example\n\n# Car prices dataset\nprices &lt;- data.frame(\n  make = c(\"Toyota\", \"Honda\", \"Ford\"),\n  msrp = c(25000, 27000, 22000)\n)\n\n# Add MSRP to cars dataset\ncars %&gt;% \n  left_join(prices, by = \"make\") %&gt;% \n  select(make, price, msrp, mpg)"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#wide-vs.-long-format",
+    "href": "notes/r_data_wrangling.html#wide-vs.-long-format",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Wide vs. Long Format",
+    "text": "Wide vs. Long Format\nWide format:\nstudent  math  science  history\nAlice    90    85       88\nBob      75    92       80\nLong format:\nstudent  subject   score\nAlice    math      90\nAlice    science   85\nAlice    history   88\nBob      math      75\nBob      science   92\nBob      history   80"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#pivot_longer---wide-to-long",
+    "href": "notes/r_data_wrangling.html#pivot_longer---wide-to-long",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\npivot_longer() - Wide to Long",
+    "text": "pivot_longer() - Wide to Long\n\n# Example: reshape test scores\nscores_wide &lt;- data.frame(\n  student = c(\"Alice\", \"Bob\"),\n  math = c(90, 75),\n  science = c(85, 92),\n  history = c(88, 80)\n)\n\n# Convert to long format\nscores_long &lt;- scores_wide %&gt;% \n  pivot_longer(\n    cols = math:history,           # Columns to pivot\n    names_to = \"subject\",           # Name for the new \"name\" column\n    values_to = \"score\"             # Name for the new \"value\" column\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#pivot_wider---long-to-wide",
+    "href": "notes/r_data_wrangling.html#pivot_wider---long-to-wide",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "\npivot_wider() - Long to Wide",
+    "text": "pivot_wider() - Long to Wide\n\n# Convert back to wide format\nscores_long %&gt;% \n  pivot_wider(\n    names_from = subject,           # Column containing new column names\n    values_from = score             # Column containing values\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling.html#example-of-good-style",
+    "href": "notes/r_data_wrangling.html#example-of-good-style",
+    "title": "Section 2: Data Wrangling with dplyr",
+    "section": "Example of Good Style",
+    "text": "Example of Good Style\n\n# Analyze fuel efficiency by car origin\nfuel_analysis &lt;- cars %&gt;% \n  # Remove incomplete observations\n  filter(!is.na(mpg), !is.na(weight)) %&gt;% \n  # Create relevant variables\n  mutate(\n    origin = ifelse(foreign == 1, \"Foreign\", \"Domestic\"),\n    efficiency_ratio = mpg / (weight / 1000)  # MPG per 1000 lbs\n  ) %&gt;% \n  # Group by origin\n  group_by(origin) %&gt;% \n  # Calculate summary statistics\n  summarize(\n    n_cars = n(),\n    mean_mpg = mean(mpg),\n    mean_efficiency = mean(efficiency_ratio),\n    sd_efficiency = sd(efficiency_ratio)\n  ) %&gt;% \n  # Remove grouping\n  ungroup() %&gt;% \n  # Sort by efficiency\n  arrange(desc(mean_efficiency))\n\n# View results\nfuel_analysis"
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html",
+    "href": "notes/r_setup_guide_es.html",
+    "title": "Sección 0: Configuración de R",
     "section": "",
-    "text": "Law of Large Numbers\nWhy do we need large samples? Run this simulation to see how the “measured approval” fluctuates wildly with small samples (\\(n=10\\)) but stabilizes around the truth as we interview more people.\n```hdiqsnwn # The Truth: 52% of the country approves the President true_approval &lt;- 0.52\n\n\nWe take samples of increasing size: 10, 50, 100, … up to 2000\nsample_sizes &lt;- seq(10, 2000, by = 10)\n\n\nCalculate the mean for each sample size\nmeasured_approval &lt;- sapply(sample_sizes, function(n) { sample_data &lt;- rbinom(n, 1, true_approval) # 1 = Approve, 0 = Disapprove mean(sample_data) })\n\n\nPlot the convergence\nplot(sample_sizes, measured_approval, type = “l”, col = “blue”, ylim = c(0, 1), main = “Convergence to Truth”, xlab = “Sample Size”, ylab = “Measured Approval”) abline(h = true_approval, col = “red”, lwd = 2, lty = 2)"
+    "text": "Antes de nuestra primera sección, por favor asegúrate de tener instalaciones funcionales y actualizadas de R y RStudio. Los usaremos extensivamente en este curso, por lo que definitivamente vale la pena hacerlo bien."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#antes-de-comenzar",
+    "href": "notes/r_setup_guide_es.html#antes-de-comenzar",
+    "title": "Sección 0: Configuración de R",
+    "section": "",
+    "text": "Antes de nuestra primera sección, por favor asegúrate de tener instalaciones funcionales y actualizadas de R y RStudio. Los usaremos extensivamente en este curso, por lo que definitivamente vale la pena hacerlo bien."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#instalación",
+    "href": "notes/r_setup_guide_es.html#instalación",
+    "title": "Sección 0: Configuración de R",
+    "section": "Instalación",
+    "text": "Instalación\nSi aún no tienes R y RStudio ejecutándose en tu computadora, entonces debes instalar ambos:\n\nPaso 1: Instalar R\nDescarga e instala R desde el repositorio oficial de CRAN:\n\nWindows: Descargar R para Windows\nmacOS: Descargar R para macOS\nLinux: Descargar R para Linux\n\n\n\nPaso 2: Instalar RStudio\nDescarga e instala RStudio Desktop (versión gratuita):\n\nTodas las plataformas: Descargar RStudio Desktop\n\n\n\n\n\n\n\nNote\n\n\n\nRStudio es un IDE (Entorno de Desarrollo Integrado) súper útil para R—es muy útil tanto para aprender como para usar R."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#actualización-de-instalaciones-existentes",
+    "href": "notes/r_setup_guide_es.html#actualización-de-instalaciones-existentes",
+    "title": "Sección 0: Configuración de R",
+    "section": "Actualización de instalaciones existentes",
+    "text": "Actualización de instalaciones existentes\nSi ya tienes R y RStudio en tu computadora, entonces debes asegurarte de que estén actualizados:\n\nVersión actual de R: 4.4.2 (2024-10-31) — “Pile of Leaves”\n\nVerifica tu versión escribiendo version en la consola de R\n\nVersión actual de RStudio: 2024.12.0 o más reciente\n\nVerifica mediante: Help → About RStudio\n\n\n\n\n\n\n\n\n¿Por qué actualizar?\n\n\n\nLas versiones más nuevas incluyen correcciones de errores, mejoras de rendimiento y nuevas características que hacen que tu experiencia de programación sea más fluida."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#herramientas-adicionales-recomendadas",
+    "href": "notes/r_setup_guide_es.html#herramientas-adicionales-recomendadas",
+    "title": "Sección 0: Configuración de R",
+    "section": "Herramientas adicionales (recomendadas)",
+    "text": "Herramientas adicionales (recomendadas)\n\nLaTeX\nTe recomendaría asegurarte de tener una instalación funcional de LaTeX para crear PDFs y composición tipográfica matemática:\n\nOpción fácil: Instalar TinyTeX mediante R:\ninstall.packages(\"tinytex\")\ntinytex::install_tinytex()\nInstalación completa: Descargar MiKTeX (Windows) o MacTeX (macOS)\nAlternativa en línea: Overleaf (sin necesidad de instalación, incluye tutoriales de LaTeX)\n\n\n\nPandoc\nPandoc suele estar incluido con RStudio, pero puedes verificarlo ejecutando en R:\nrmarkdown::pandoc_version()\nSi es necesario, descarga desde: pandoc.org"
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#funciona",
+    "href": "notes/r_setup_guide_es.html#funciona",
+    "title": "Sección 0: Configuración de R",
+    "section": "¿Funciona?",
+    "text": "¿Funciona?\nProbemos tu instalación:\n\nAbre RStudio\nEn la consola (panel inferior izquierdo), escribe:\n1 + 1\nPresiona Enter\n\nResultado esperado:\n[1] 2\n\n\n\n\n\n\nImportant\n\n\n\nSi obtienes [1] 2, ¡felicidades! Todo está funcionando correctamente. ✅\nSi no, intenta reinstalar R y RStudio, o pide ayuda."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#recursos-para-aprender-r",
+    "href": "notes/r_setup_guide_es.html#recursos-para-aprender-r",
+    "title": "Sección 0: Configuración de R",
+    "section": "Recursos para aprender R",
+    "text": "Recursos para aprender R\nHe compilado un gran conjunto de recursos para R. Probablemente no los necesites todos ahora mismo, pero ten en cuenta que están ahí. Sin embargo, los mejores recursos para aprender R son:\n\n\n\n\n\n\nTu kit de herramientas de aprendizaje\n\n\n\n\nGoogle (que probablemente te llevará a StackOverflow)\nTiempo (¡práctica, práctica, práctica!)\nTus compañeros de clase (el aprendizaje colaborativo hace maravillas)\nYo (horas de oficina, correo electrónico, Slack/Teams)\n\n\n\n\nRecursos adicionales\n\nR for Data Science (2e) de Hadley Wickham & Garrett Grolemund\nHojas de referencia de RStudio\nSwirl - Tutoriales interactivos de R\nDataCamp - Curso de introducción gratuito\nR-bloggers - Publicaciones de blog de la comunidad"
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#sugerencias-básicas-para-el-éxito",
+    "href": "notes/r_setup_guide_es.html#sugerencias-básicas-para-el-éxito",
+    "title": "Sección 0: Configuración de R",
+    "section": "Sugerencias básicas para el éxito",
+    "text": "Sugerencias básicas para el éxito\n\n1. Usa scripts de R, no solo la consola\n\n\n\n\n\n\nWarning\n\n\n\nCasi todo lo que hagas debe estar en un script de R, en lugar de escribir directamente en la línea de comandos.\n\n\n¿Por qué?\n\nPuedes volver a tu código más tarde\nPuedes editar y mejorar tu trabajo\nNecesitas entregar scripts de R para las tareas\n¡Es investigación reproducible!\n\nCómo crear un script:\n\nFile → New File → R Script (o Cmd/Ctrl + Shift + N)\n\n\n\n2. Comenta tu código\nLos buenos comentarios hacen que tu código sea comprensible para otros (y para tu yo futuro):\n# Malo: Sin contexto\nx &lt;- 5\ny &lt;- x * 2\n\n# Bueno: Explicación clara\nprice_per_unit &lt;- 5           # Costo en dólares\ntotal_cost &lt;- price_per_unit * 2  # Dos unidades compradas\n\n\n3. Sé consistente con las convenciones de nombres\nElige un estilo y mantente en él:\n# Camel Case (recomendado para variables)\nmyVariableName &lt;- 10\ncalculateTotalCost &lt;- function(x) { x * 2 }\n\n# Snake Case (también popular)\nmy_variable_name &lt;- 10\ncalculate_total_cost &lt;- function(x) { x * 2 }\n\n# ¡Elige UNO y sé consistente!\n\n\n\n\n\n\nNote\n\n\n\nEvita: - Comenzar nombres de variables con números: 2021data ❌ - Usar palabras reservadas: if, for, function ❌ - Espacios en los nombres: my variable ❌\n\n\n\n\n4. Usa nombres de archivo descriptivos\nSé inteligente al nombrar archivos y carpetas:\nNombres malos:\ncbn18319ddg890-7a.csv\nuntitled1.R\ndata.xlsx\nfinal_FINAL_v2_REALFINAL.R\nNombres buenos:\nCensusCountyDemographics.csv\n01_DataCleaning.R\nHouseholdIncomeSurvey_2024.xlsx\nAnalyzeTaxReliefProgram.R\nDos buenas convenciones de nombres:\n\nCamel Case: WhatAGreatFileName.csv\nSnake Case: what_a_great_file_name.csv\n\n\n\n\n\n\n\nConsejos profesionales\n\n\n\n\nAgrega fechas en formato AAAA-MM-DD: 2024-01-15_Analysis.R\nNumera archivos para mostrar el orden: 01_Import.R, 02_Clean.R, 03_Analyze.R\nUsa prefijos descriptivos: fig_, tab_, data_\n\n\n\n\n\n5. Organiza tus archivos y usa rutas inteligentes\nHaz tu vida más fácil:\nOrganizando en carpetas:\nMyProject/\n  ├── Data/\n  │   ├── Raw/\n  │   └── Processed/\n  ├── Scripts/\n  ├── Output/\n  │   ├── Figures/\n  │   └── Tables/\n  └── README.md\nUsando paste0() o paste() para rutas de archivo:\n# En lugar de escribir rutas completas cada vez:\ndata &lt;- read.csv(\"/Users/david/Documents/Project/Data/census.csv\")\n\n# Usa paste0() para flexibilidad:\nproject_path &lt;- \"/Users/david/Documents/Project\"\ndata_path &lt;- paste0(project_path, \"/Data/census.csv\")\ndata &lt;- read.csv(data_path)\n\n# Aún mejor: usa rutas relativas con el paquete here\nlibrary(here)\ndata &lt;- read.csv(here(\"Data\", \"census.csv\"))\n\n\n\n\n\n\nNote\n\n\n\nVeremos más ejemplos de organización de archivos inteligente y gestión de rutas en la Sección 1."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#lista-de-verificación-para-comenzar",
+    "href": "notes/r_setup_guide_es.html#lista-de-verificación-para-comenzar",
+    "title": "Sección 0: Configuración de R",
+    "section": "Lista de verificación para comenzar",
+    "text": "Lista de verificación para comenzar\nAntes de la primera clase, asegúrate de poder marcar todas estas casillas:\n\nR está instalado y actualizado\nRStudio está instalado y actualizado\nPuedo abrir RStudio exitosamente\nEscribir 1 + 1 en la consola devuelve [1] 2\nPuedo crear un nuevo script de R (File → New File → R Script)\nHe marcado algunos recursos útiles de R\nEntiendo las convenciones básicas de nomenclatura de archivos"
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#necesitas-ayuda",
+    "href": "notes/r_setup_guide_es.html#necesitas-ayuda",
+    "title": "Sección 0: Configuración de R",
+    "section": "¿Necesitas ayuda?",
+    "text": "¿Necesitas ayuda?\nSi encuentras algún problema durante la instalación o configuración:\n\nBusca en Google tu mensaje de error\nConsulta StackOverflow para problemas similares\nPregunta a tus compañeros en nuestro foro/Slack del curso\nContáctame durante las horas de oficina o por correo electrónico\n\n\n\n\n\n\n\n¡No esperes hasta el último minuto!\n\n\n\nConfigura tu entorno de R antes de que venza la primera tarea. Las dificultades técnicas son más fáciles de resolver cuando no estás bajo presión de tiempo."
+  },
+  {
+    "objectID": "notes/r_setup_guide_es.html#listo-para-programar",
+    "href": "notes/r_setup_guide_es.html#listo-para-programar",
+    "title": "Sección 0: Configuración de R",
+    "section": "¡Listo para programar!",
+    "text": "¡Listo para programar!\nUna vez que todo esté configurado, ¡estás listo para comenzar a aprender R! Nos vemos en la Sección 1.\n¡Feliz programación! 🚀"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html",
+    "href": "notes/r_getting_started_es.html",
+    "title": "Sección 1: Introducción a R",
+    "section": "",
+    "text": "Instalaciones funcionales y actualizadas de R y RStudio\n\nUna conexión a internet (para instalar paquetes)\n\nOpcional: Una fuente saludable de cafeína ☕"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#instalación-de-paquetes",
+    "href": "notes/r_getting_started_es.html#instalación-de-paquetes",
+    "title": "Sección 1: Introducción a R",
+    "section": "Instalación de paquetes",
+    "text": "Instalación de paquetes\nPuedes verificar qué paquetes están instalados actualmente usando la función installed.packages(). ¿Listo para ejecutar tu primera función? Escribe installed.packages() en la consola de R y presiona enter.\n\n\n\n\n\n\nAlternativa: Verifica la pestaña Packages\n\n\n\nTambién puedes verificar la pestaña Packages dentro de RStudio. Las casillas marcadas indican los paquetes que están actualmente cargados.\n\n\nAhora, instalemos algunos paquetes que serán útiles este semestre. Usamos la función install.packages(), dándole el nombre(s) del paquete(s) que deseas instalar.\n\n# Instalar el paquete llamado \"dplyr\"\ninstall.packages(\"dplyr\")\n\n# Instalar múltiples paquetes a la vez\ninstall.packages(c(\"dplyr\", \"ggplot2\"))\n\nNotas importantes:\n\nNecesitas una conexión a internet.\nEl nombre de la función install.packages() es plural independientemente del número de paquetes.\nEl nombre de cada paquete está rodeado de comillas (ej., \"dplyr\"). Estas comillas le dicen a R que esto es un carácter/cadena, no un objeto. Usa comillas dobles para consistencia.\nPodemos crear un vector de paquetes usando c(). Ejemplo: c(1, 2, 3) es un vector de tres elementos. De manera similar, c(\"dplyr\", \"ggplot2\") es un vector de dos elementos con nombres de paquetes. Los vectores son muy importantes en R.\n\nEl símbolo de número (#) crea comentarios en R."
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#carga-de-paquetes",
+    "href": "notes/r_getting_started_es.html#carga-de-paquetes",
+    "title": "Sección 1: Introducción a R",
+    "section": "Carga de paquetes",
+    "text": "Carga de paquetes\nPara verificar que las instalaciones fueron exitosas, cargaremos los paquetes usando la función library():\n\nlibrary(dplyr)\nlibrary(ggplot2)\n\n\n\n\n\n\n\nNote\n\n\n\nNota que no necesitamos comillas alrededor de los nombres de los paquetes al cargarlos (aunque aún funcionaría con comillas)."
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#gestión-de-paquetes-con-pacman",
+    "href": "notes/r_getting_started_es.html#gestión-de-paquetes-con-pacman",
+    "title": "Sección 1: Introducción a R",
+    "section": "Gestión de paquetes con pacman\n",
+    "text": "Gestión de paquetes con pacman\n\nInstalemos otro paquete: el paquete pacman (¡sí, como el juego! 🎮).\n\n# Instalar el paquete 'pacman'\ninstall.packages(\"pacman\")\n\n# Cargarlo\nlibrary(pacman)\n\nEl paquete pacman es muy meta: es un paquete para gestionar paquetes. Puedes usarlo para instalar, cargar, descargar y actualizar tus paquetes de R.\nEn lugar de escribir library(...) para cada paquete, usa la función p_load() de pacman:\n\n# Forma antigua\nlibrary(dplyr)\nlibrary(ggplot2)\n\n# Forma nueva\np_load(dplyr, ggplot2)\n\nAún mejor: Si intentas cargar un paquete que no está instalado, ¡p_load() lo instalará automáticamente!\n\n# Esto instalará y cargará tidyr si no está instalado\np_load(tidyr)\n\nInstalado y cargado. ¡Ese es servicio! ✨"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#rutas-de-archivo-y-navegación",
+    "href": "notes/r_getting_started_es.html#rutas-de-archivo-y-navegación",
+    "title": "Sección 1: Introducción a R",
+    "section": "Rutas de archivo y navegación",
+    "text": "Rutas de archivo y navegación\nR quiere rutas de archivo como vectores de caracteres (es decir, la ruta rodeada de comillas). Por ejemplo:\n\"/Users/david/Dropbox/Teaching/MyClass\"\nCambiar y verificar directorios\nPara cambiar el directorio de trabajo de R, usa setwd():\n\nsetwd(\"/Users/david/Dropbox/Teaching/MyClass\")\n\nPara encontrar el directorio de trabajo actual de R:\n\ngetwd()\n\n\n\n\n\n\n\nUsuarios de Windows\n\n\n\nCuando copies rutas desde el Explorador de archivos, las barras pueden estar invertidas (\\). Cámbialas a barras diagonales (/) o duplícalas (\\\\).\n\n\nComandos de navegación\nSimilar a Linux/Unix:\n\n\n.. sube un nivel\n\n~ regresa a tu directorio principal\nPuedes usar rutas completas o rutas relativas\n\n\n# Verificar directorio actual\ngetwd()\n\n# Subir un nivel\nsetwd(\"..\")\ngetwd()\n\n# Ir a casa\nsetwd(\"~\")\ngetwd()\n\n# Regresar a la carpeta de clase\nsetwd(\"Dropbox/Teaching/MyClass\")\n\nGestión inteligente de rutas\nPrefiero almacenar rutas al inicio de mi script para facilitar la actualización:\n\n# Ruta a mi carpeta de clase\ndir_class &lt;- \"/Users/david/Documents/MyClass/\"\n\n# Ruta a la carpeta de sección 1 (dentro de la carpeta de clase)\ndir_section1 &lt;- paste0(dir_class, \"Section01/\")\n\n\n\n\n\n\n\npaste0() vs paste()\n\n\n\n\n\npaste0() pega sin espacios\n\npaste() por defecto usa un espacio simple entre elementos\n\n\n# paste0() por defecto\npaste0(1, 2, 3)  # \"123\"\n\n# paste() por defecto\npaste(1, 2, 3)   # \"1 2 3\"\n\n# Separador personalizado\npaste(1, 2, 3, sep = \"+\")  # \"1+2+3\"\n\n\n\nAutocompletado de pestañas de RStudio\nRStudio ayuda a completar rutas de archivo—comienza a escribir y presiona Tab. ¡Súper útil!"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#la-función-dir",
+    "href": "notes/r_getting_started_es.html#la-función-dir",
+    "title": "Sección 1: Introducción a R",
+    "section": "La función dir()\n",
+    "text": "La función dir()\n\nLa función dir() muestra el contenido de una carpeta:\n\n# Mirar dentro de mi carpeta de clase\ndir(dir_class)\n\n# Mirar dentro de mi carpeta de sección 1\ndir(dir_section1)\n\n¡Esto ayuda cuando olvidas los nombres de los archivos!"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#funciones-para-cargar-archivos",
+    "href": "notes/r_getting_started_es.html#funciones-para-cargar-archivos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Funciones para cargar archivos",
+    "text": "Funciones para cargar archivos\nPrincipalmente usaremos:\n\n\nPaquete readr: para archivos CSV, TSV y delimitados\n\nPaquete haven: para archivos de Stata (.dta), SPSS y SAS\n\nR base: para los formatos propios de R (.rds, .rdata)\n\n\n\n\n\n\n\nAprende sobre las funciones\n\n\n\nPara aprender más sobre una función:\n\nPresiona Tab después de escribir el nombre de la función (en RStudio)\nEscribe ?function_name en la consola (ej., ?read_dta)\n\n\n\nCarga de un archivo de Stata\nCarguemos auto.dta usando read_dta() del paquete haven:\n\n# Cargar el archivo .dta\ncar_data &lt;- read_dta(paste0(dir_section1, \"auto.dta\"))\n\n\n\n\n\n\n\nEl operador de asignación &lt;-\n\n\n\nEl operador &lt;- es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda.\nAl leer en voz alta, la gente dice “obtiene”: car_data obtiene el contenido de auto.dta.\n\n\nPara ver los datos, simplemente escribe su nombre:\n\ncar_data\n\nCarga de un archivo CSV\nPara un archivo CSV, usa read_csv() del paquete readr:\n\n# Cargar el archivo .csv\ncar_data &lt;- read_csv(paste0(dir_section1, \"auto.csv\"))\n\n# Verlo\ncar_data\n\n\n\n\n\n\n\nRutas relativas\n\n\n\nSi ya estás en el directorio correcto, no necesitas la ruta completa:\n\nread_csv(\"Section01/auto.csv\")"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#exploración-de-los-datos",
+    "href": "notes/r_getting_started_es.html#exploración-de-los-datos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Exploración de los datos",
+    "text": "Exploración de los datos\nImprime los datos en la consola:\n\niris\n\nNota varias cosas:\n\nEl conjunto de datos es un data frame (la estructura básica de R para datos tabulares)\nDimensiones: 150 filas × 5 columnas\nTipos de columnas: numéricas (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width) y factor (Species)\nObtienes una vista de los primeros registros\n\nObtener nombres de columnas\n\nnames(iris)\n\nVer primeras/últimas filas\n\n# Primeras 6 filas\nhead(iris)\n\n# Primeras 10 filas\nhead(iris, n = 10)\n\n# Últimas 7 filas\ntail(iris, n = 7)\n\n\n\n\n\n\n\nVisor de datos de RStudio\n\n\n\nUsa View(iris) o haz clic en el conjunto de datos en el panel Environment para abrir el visor de datos de RStudio.\n\n\nEstructura del dataset\n\n# Ver estructura detallada\nstr(iris)\n\nEsto te mostrará: - El tipo de objeto (data.frame) - Número de observaciones y variables - Nombre y tipo de cada variable - Los primeros valores de cada variable"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#resumen-de-los-datos",
+    "href": "notes/r_getting_started_es.html#resumen-de-los-datos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Resumen de los datos",
+    "text": "Resumen de los datos\nObtén un resumen rápido de tu conjunto de datos:\n\nsummary(iris)\n\nEsto te dará estadísticas descriptivas para cada variable: - Para variables numéricas: mínimo, 1er cuartil, mediana, media, 3er cuartil, máximo - Para factores: conteo de cada categoría\nPara resumir una variable única, usa $ para tomarla:\n\n# Tomar la variable Sepal.Length\niris$Sepal.Length\n\n# Resumir Sepal.Length\nsummary(iris$Sepal.Length)\n\n# Otras funciones útiles\nmean(iris$Sepal.Length)    # Media\nmedian(iris$Sepal.Length)  # Mediana\nsd(iris$Sepal.Length)      # Desviación estándar\nmin(iris$Sepal.Length)     # Mínimo\nmax(iris$Sepal.Length)     # Máximo\n\n\n\n\n\n\n\nAcceso a variables\n\n\n\ndataset$variable es cómo tomas una columna específica. ¡El autocompletado de pestañas de RStudio también funciona aquí!"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#manipulación-de-los-datos",
+    "href": "notes/r_getting_started_es.html#manipulación-de-los-datos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Manipulación de los datos",
+    "text": "Manipulación de los datos\nEl paquete dplyr ofrece herramientas útiles para manipulación de datos usando verbos como acciones.\n\nselect() - Elegir variables\nMantén solo las variables que te interesan:\n\n# Cargar dplyr\nlibrary(dplyr)\n\n# Seleccionar solo mediciones del sépalo y especie\niris_sepalos &lt;- select(iris, Sepal.Length, Sepal.Width, Species)\n\n# Ver resultado\niris_sepalos\n\n¡Ahora tenemos 150 filas pero solo 3 columnas!\nAlternativa: Excluir variables con un signo menos:\n\n# Todo excepto las mediciones de pétalos\nselect(iris, -Petal.Length, -Petal.Width)\n\n\narrange() - Ordenar datos\nOrdena los datos por una o más columnas:\n\n# Ordenar por longitud de sépalo\narrange(iris, Sepal.Length)\n\n# Ordenar por especie, luego por longitud de sépalo\narrange(iris, Species, Sepal.Length)\n\n\n\n\n\n\n\n¡Se requiere asignación!\n\n\n\nSi ves iris ahora, no está ordenado. Debes asignar el resultado para cambiar el objeto:\n\niris_ordenado &lt;- arrange(iris, Sepal.Length)\n\n\n\nPara orden descendente, usa desc():\n\n# Flores con sépalos más largos primero\narrange(iris, desc(Sepal.Length))\n\n\nfilter() - Filtrar filas\nMantén solo las filas que cumplan ciertas condiciones:\n\n# Solo flores setosa\nfilter(iris, Species == \"setosa\")\n\n# Flores con sépalos largos (&gt; 6 cm)\nfilter(iris, Sepal.Length &gt; 6)\n\n# Setosa con sépalos largos\nfilter(iris, Species == \"setosa\", Sepal.Length &gt; 5)\n\n\nsummarize() - Crear resúmenes\nCrea resúmenes específicos de tus datos:\n\n# Media y DE de longitud de sépalo\nsummarize(iris, \n          media = mean(Sepal.Length), \n          de = sd(Sepal.Length))\n\n# Múltiples estadísticas\nsummarize(iris,\n          n_flores = n(),\n          media_sepalo = mean(Sepal.Length),\n          media_petalo = mean(Petal.Length),\n          max_sepalo = max(Sepal.Length))\n\n\ngroup_by() - Agrupar datos\nCombina group_by() con summarize() para análisis por grupos:\n\n# Estadísticas por especie\niris %&gt;%\n  group_by(Species) %&gt;%\n  summarize(\n    n = n(),\n    media_sepalo = mean(Sepal.Length),\n    media_petalo = mean(Petal.Length)\n  )\n\n\n\n\n\n\n\nEl operador pipe %&gt;%\n\n\n\nEl operador %&gt;% (pipe) te permite encadenar operaciones. Se lee como “luego”. En este ejemplo: “toma iris, luego agrupa por especie, luego resume”. Cubriremos esto más a fondo en la Sección 2."
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#gráficas-de-los-datos",
+    "href": "notes/r_getting_started_es.html#gráficas-de-los-datos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Gráficas de los datos",
+    "text": "Gráficas de los datos\nLas funciones de gráficas predeterminadas de R son simples pero efectivas. Cubriremos ggplot2 más adelante, pero por ahora, hagamos gráficas rápidas.\nHistograma\nCrea un histograma de longitud de sépalo:\n\n# Histograma simple\nhist(iris$Sepal.Length)\n\nHazlo más bonito con etiquetas y una línea en la media:\n\n# El histograma\nhist(\n  x = iris$Sepal.Length,\n  main = \"Distribución de longitud de sépalo\",\n  xlab = \"Longitud de sépalo (cm)\",\n  ylab = \"Frecuencia\",\n  col = \"lightblue\",\n  breaks = 15\n)\n\n# Agregar línea roja en la media\nabline(v = mean(iris$Sepal.Length), col = \"red\", lwd = 3, lty = 2)\n\nGráfica de dispersión\nGrafica la relación entre longitud de sépalo y longitud de pétalo:\n\nplot(\n  x = iris$Sepal.Length,\n  y = iris$Petal.Length,\n  xlab = \"Longitud de sépalo (cm)\",\n  ylab = \"Longitud de pétalo (cm)\",\n  main = \"Relación entre sépalo y pétalo\",\n  pch = 19,        # Tipo de punto\n  col = \"blue\"     # Color\n)\n\nGráfica por grupos\nColorea los puntos según la especie:\n\n# Convertir especies a números para colores\ncolores &lt;- as.numeric(iris$Species)\n\nplot(\n  x = iris$Sepal.Length,\n  y = iris$Petal.Length,\n  xlab = \"Longitud de sépalo (cm)\",\n  ylab = \"Longitud de pétalo (cm)\",\n  main = \"Relación sépalo-pétalo por especie\",\n  pch = 19,\n  col = colores\n)\n\n# Agregar leyenda\nlegend(\"topleft\", \n       legend = levels(iris$Species),\n       col = 1:3,\n       pch = 19)\n\nBoxplot\nCompara distribuciones entre especies:\n\nboxplot(Sepal.Length ~ Species, \n        data = iris,\n        main = \"Longitud de sépalo por especie\",\n        xlab = \"Especie\",\n        ylab = \"Longitud de sépalo (cm)\",\n        col = c(\"lightgreen\", \"lightblue\", \"lightpink\"))\n\n\n\n\n\n\n\nEstilo de código claro\n\n\n\nRecomiendo definir claramente los argumentos de función. Ayuda a mantener las cosas claras, ya que el orden importa cuando no estás nombrando los argumentos."
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#indexación-de-vectores",
+    "href": "notes/r_getting_started_es.html#indexación-de-vectores",
+    "title": "Sección 1: Introducción a R",
+    "section": "Indexación de vectores",
+    "text": "Indexación de vectores\n\n# Crear un vector\nx &lt;- c(3, 5, 7, 9)\n\n# Tomar el segundo elemento\nx[2]  # Devuelve: 5\n\n# Tomar segundo y tercer elementos\nx[c(2, 3)]  # Devuelve: 5 7\nx[2:3]      # Mismo resultado\n\n# ¿Qué hace 2:3?\n2:3  # Crea secuencia: 2 3\n\n# ¿Y 1:10?\n1:10  # Crea secuencia de 1 a 10"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#indexación-de-data-frames",
+    "href": "notes/r_getting_started_es.html#indexación-de-data-frames",
+    "title": "Sección 1: Introducción a R",
+    "section": "Indexación de data frames",
+    "text": "Indexación de data frames\nLos data frames tienen filas y columnas: [fila, columna]\n\n# Tomar primera fila (todas las columnas)\niris[1, ]\n\n# Tomar primera columna (todas las filas)\niris[, 1]\n\n# Tomar primeras 5 filas, primeras 3 columnas\niris[1:5, 1:3]\n\n# Usar nombre de columna como índice\niris[1:10, \"Species\"]\n\n# Combinar: primeras 10 filas de setosa\niris[iris$Species == \"setosa\", ][1:10, ]\n\n\n\n\n\n\n\nOrden fila, columna\n\n\n\nRecuerda: Filas antes de columnas. Deja en blanco para seleccionar todo. - [1, ] = primera fila, todas las columnas - [, 2] = todas las filas, segunda columna - [3, 4] = tercera fila, cuarta columna"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html",
+    "href": "notes/r_data_wrangling_es.html",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "",
+    "text": "Paquetes: - dplyr - Manipulación de datos - readr - Lectura de archivos de datos - haven - Lectura de archivos de Stata/SPSS/SAS - pacman - Gestión de paquetes\nDatos: Descarga el archivo auto.csv o auto.dta de los materiales del curso.\nHabilidades de la Sección 1: Carga de paquetes, lectura de datos, operaciones básicas de R."
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#cómo-funcionan-los-pipes",
+    "href": "notes/r_data_wrangling_es.html#cómo-funcionan-los-pipes",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Cómo funcionan los pipes",
+    "text": "Cómo funcionan los pipes\nEl pipe toma la salida de una expresión y la alimenta al primer argumento de la siguiente expresión:\n\n# Sin pipes (¡feo!)\nsummary(select(cars, price, mpg, weight))\n\n# Con pipes (¡hermoso!)\ncars %&gt;% \n  select(price, mpg, weight) %&gt;% \n  summary()\n\n\n\n\n\n\n\nLeyendo pipes en voz alta\n\n\n\nAl leer código con pipes, di “luego” para cada %&gt;%:\n“Toma cars, luego selecciona price, mpg, y weight, luego resume.”"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#guardando-resultados",
+    "href": "notes/r_data_wrangling_es.html#guardando-resultados",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Guardando resultados",
+    "text": "Guardando resultados\nPara guardar la salida final, asígnala como de costumbre:\n\n# Guardar el resultado\ncar_summary &lt;- cars %&gt;% \n  select(price, mpg, weight) %&gt;% \n  summary()"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#uso-del-marcador-de-posición-.",
+    "href": "notes/r_data_wrangling_es.html#uso-del-marcador-de-posición-.",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Uso del marcador de posición .\n",
+    "text": "Uso del marcador de posición .\n\nA veces necesitas especificar dónde deben ir los datos canalizados:\n\n# El punto especifica dónde colocar la entrada\ncars %&gt;% \n  select(price, mpg) %&gt;% \n  lm(price ~ mpg, data = .)"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#select---elegir-columnas",
+    "href": "notes/r_data_wrangling_es.html#select---elegir-columnas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\nselect() - Elegir columnas",
+    "text": "select() - Elegir columnas\nSelecciona variables específicas (columnas) de tu conjunto de datos:\n\n# Seleccionar columnas específicas\ncars %&gt;% \n  select(make, price, mpg, weight)\n\n# Seleccionar un rango de columnas\ncars %&gt;% \n  select(make:mpg)\n\n# Seleccionar columnas que comienzan con \"w\"\ncars %&gt;% \n  select(starts_with(\"w\"))\n\n# Seleccionar columnas que contienen \"price\"\ncars %&gt;% \n  select(contains(\"price\"))\n\n# Excluir columnas con signo menos\ncars %&gt;% \n  select(-foreign, -rep78)\n\n\n\n\n\n\n\nFunciones auxiliares para select()\n\n\n\n\n\nstarts_with(\"abc\") - Columnas que comienzan con “abc”\n\nends_with(\"xyz\") - Columnas que terminan con “xyz”\n\ncontains(\"ijk\") - Columnas que contienen “ijk”\n\nmatches(\"regex\") - Columnas que coinciden con una expresión regular\n\nnum_range(\"x\", 1:3) - Columnas x1, x2, x3"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#filter---elegir-filas",
+    "href": "notes/r_data_wrangling_es.html#filter---elegir-filas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\nfilter() - Elegir filas",
+    "text": "filter() - Elegir filas\nFiltra filas basándose en condiciones lógicas:\n\n# Autos con mpg mayor a 25\ncars %&gt;% \n  filter(mpg &gt; 25)\n\n# Solo autos extranjeros\ncars %&gt;% \n  filter(foreign == 1)\n\n# Autos caros Y eficientes en combustible\ncars %&gt;% \n  filter(price &gt; 10000, mpg &gt; 20)\n\n# Autos caros O eficientes en combustible\ncars %&gt;% \n  filter(price &gt; 10000 | mpg &gt; 20)\n\n# Autos que NO son extranjeros\ncars %&gt;% \n  filter(foreign != 1)\n# o\ncars %&gt;% \n  filter(!foreign)\n\n\n\n\n\n\n\nOperadores lógicos\n\n\n\n\n\n== igual a\n\n!= no igual a\n\n&gt; mayor que\n\n&lt; menor que\n\n&gt;= mayor o igual que\n\n&lt;= menor o igual que\n\n& y\n\n| o\n\n! no\n\n%in% en un conjunto\n\n\n\nFiltrado con múltiples condiciones\n\n# Autos de marcas específicas\ncars %&gt;% \n  filter(make %in% c(\"Toyota\", \"Honda\", \"Mazda\"))\n\n# Autos entre cierto rango de precio\ncars %&gt;% \n  filter(price &gt;= 5000, price &lt;= 10000)\n# o usa between()\ncars %&gt;% \n  filter(between(price, 5000, 10000))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#mutate---crearmodificar-columnas",
+    "href": "notes/r_data_wrangling_es.html#mutate---crearmodificar-columnas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\nmutate() - Crear/modificar columnas",
+    "text": "mutate() - Crear/modificar columnas\nCrea nuevas variables o modifica las existentes:\n\n# Crear nueva variable: precio por mpg\ncars %&gt;% \n  mutate(price_per_mpg = price / mpg)\n\n# Múltiples variables nuevas\ncars %&gt;% \n  mutate(\n    price_1000 = price / 1000,\n    weight_tons = weight / 2000,\n    efficiency = mpg * weight\n  )\n\n# Modificar variable existente\ncars %&gt;% \n  mutate(price = price / 1000)  # Convertir a miles\n\n# Usar variables recién creadas\ncars %&gt;% \n  mutate(\n    price_1000 = price / 1000,\n    log_price = log(price_1000)  # Usar price_1000 inmediatamente\n  )\n\n\n\n\n\n\n\nFunciones útiles con mutate()\n\n\n\n\nMatemáticas: +, -, *, /, ^, log(), exp(), sqrt()\n\nAgregados: mean(), median(), min(), max(), sum()\n\nLógicas: &, |, !, &lt;, &gt;, ==, !=\n\nRanking: min_rank(), row_number(), dense_rank()\n\nDesplazamientos: lead(), lag()\n\nAcumulativos: cumsum(), cumprod(), cummin(), cummax()"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#arrange---ordenar-filas",
+    "href": "notes/r_data_wrangling_es.html#arrange---ordenar-filas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\narrange() - Ordenar filas",
+    "text": "arrange() - Ordenar filas\nOrdena tus datos por una o más variables:\n\n# Ordenar por price (ascendente)\ncars %&gt;% \n  arrange(price)\n\n# Ordenar por price (descendente)\ncars %&gt;% \n  arrange(desc(price))\n\n# Ordenar por múltiples variables\ncars %&gt;% \n  arrange(foreign, desc(price))  # Foreign primero, luego price dentro"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#summarize---agregar-datos",
+    "href": "notes/r_data_wrangling_es.html#summarize---agregar-datos",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\nsummarize() - Agregar datos",
+    "text": "summarize() - Agregar datos\nCrea estadísticas de resumen:\n\n# Resumen único\ncars %&gt;% \n  summarize(mean_price = mean(price))\n\n# Múltiples resúmenes\ncars %&gt;% \n  summarize(\n    n_cars = n(),\n    mean_price = mean(price),\n    sd_price = sd(price),\n    median_mpg = median(mpg),\n    min_weight = min(weight),\n    max_weight = max(weight)\n  )\n\n\n\n\n\n\n\nFunciones de resumen comunes\n\n\n\n\n\nn() - contar filas\n\nn_distinct() - contar valores únicos\n\nmean(), median() - tendencia central\n\nsd(), var() - dispersión\n\nmin(), max() - rango\n\nfirst(), last(), nth() - posición\n\nsum() - total"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#group_by---agrupar-datos",
+    "href": "notes/r_data_wrangling_es.html#group_by---agrupar-datos",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\ngroup_by() - Agrupar datos",
+    "text": "group_by() - Agrupar datos\nAgrupa tus datos por una o más variables:\n\n# Agrupar por estado foreign\ncars %&gt;% \n  group_by(foreign)\n\n# Nada parece suceder... ¡pero está agrupado!"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#resumir-por-grupos",
+    "href": "notes/r_data_wrangling_es.html#resumir-por-grupos",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Resumir por grupos",
+    "text": "Resumir por grupos\n\n# Comparar autos domésticos vs. extranjeros\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  summarize(\n    n_cars = n(),\n    mean_price = mean(price),\n    mean_mpg = mean(mpg),\n    mean_weight = mean(weight)\n  )\n\n# Agrupar por múltiples variables\ncars %&gt;% \n  group_by(foreign, rep78) %&gt;% \n  summarize(\n    count = n(),\n    avg_price = mean(price, na.rm = TRUE)\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#mutar-por-grupos",
+    "href": "notes/r_data_wrangling_es.html#mutar-por-grupos",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Mutar por grupos",
+    "text": "Mutar por grupos\nCrea variables que dependen de cálculos a nivel de grupo:\n\n# Precio relativo a la media del grupo\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(\n    mean_price = mean(price),\n    price_diff = price - mean_price\n  )\n\n# Ranking dentro de grupos\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(price_rank = min_rank(desc(price)))\n\n# Calcular percentiles dentro de grupos\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(price_pct = percent_rank(price))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ungroup---eliminar-agrupación",
+    "href": "notes/r_data_wrangling_es.html#ungroup---eliminar-agrupación",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\nungroup() - Eliminar agrupación",
+    "text": "ungroup() - Eliminar agrupación\nSiempre desagrupa cuando termines con operaciones agrupadas:\n\ncars_grouped &lt;- cars %&gt;% \n  group_by(foreign) %&gt;% \n  mutate(mean_price = mean(price))\n\n# Eliminar la agrupación\ncars_ungrouped &lt;- cars_grouped %&gt;% \n  ungroup()"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#entendiendo-na",
+    "href": "notes/r_data_wrangling_es.html#entendiendo-na",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Entendiendo NA\n",
+    "text": "Entendiendo NA\n\n\n# Verificar si los valores son NA\nis.na(NA)  # TRUE\nis.na(5)   # FALSE\n\n# NA en operaciones\n2 + NA     # NA\nNA == 5    # NA\nNA == NA   # NA (!!)\n\n\n\n\n\n\n\nNA es contagioso\n\n\n\nCualquier operación que involucre NA típicamente devuelve NA. Usa na.rm = TRUE en funciones como mean(), sum(), etc."
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#filtrado-de-nas",
+    "href": "notes/r_data_wrangling_es.html#filtrado-de-nas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Filtrado de NAs",
+    "text": "Filtrado de NAs\n\n# Mantener solo casos completos\ncars %&gt;% \n  filter(!is.na(rep78))\n\n# Eliminar filas con cualquier NA\ncars %&gt;% \n  na.omit()\n\n# Mantener filas con NA en columna específica\ncars %&gt;% \n  filter(is.na(rep78))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#trabajando-con-nas-en-resúmenes",
+    "href": "notes/r_data_wrangling_es.html#trabajando-con-nas-en-resúmenes",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Trabajando con NAs en resúmenes",
+    "text": "Trabajando con NAs en resúmenes\n\n# Esto devuelve NA si algún valor es NA\ncars %&gt;% \n  summarize(mean_rep78 = mean(rep78))\n\n# Eliminar NAs al calcular\ncars %&gt;% \n  summarize(mean_rep78 = mean(rep78, na.rm = TRUE))\n\n# Contar NAs\ncars %&gt;% \n  summarize(\n    n_total = n(),\n    n_missing = sum(is.na(rep78)),\n    n_complete = sum(!is.na(rep78))\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#reemplazo-de-nas",
+    "href": "notes/r_data_wrangling_es.html#reemplazo-de-nas",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Reemplazo de NAs",
+    "text": "Reemplazo de NAs\n\n# Reemplazar NA con un valor\ncars %&gt;% \n  mutate(rep78 = ifelse(is.na(rep78), 0, rep78))\n\n# Reemplazar NA con la media\ncars %&gt;% \n  mutate(rep78 = ifelse(is.na(rep78), mean(rep78, na.rm = TRUE), rep78))\n\n# Usando replace_na() de tidyr\ncars %&gt;% \n  mutate(rep78 = replace_na(rep78, 0))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ejemplo-1-pipeline-de-datos",
+    "href": "notes/r_data_wrangling_es.html#ejemplo-1-pipeline-de-datos",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Ejemplo 1: Pipeline de datos",
+    "text": "Ejemplo 1: Pipeline de datos\n\n# Análisis complejo en un pipeline\ncars %&gt;% \n  # Eliminar valores faltantes\n  filter(!is.na(rep78)) %&gt;% \n  # Mantener solo variables relevantes\n  select(make, price, mpg, weight, foreign) %&gt;% \n  # Crear nuevas variables\n  mutate(\n    price_1000 = price / 1000,\n    efficiency = mpg / weight * 1000\n  ) %&gt;% \n  # Agrupar por estado foreign\n  group_by(foreign) %&gt;% \n  # Calcular resúmenes\n  summarize(\n    n = n(),\n    mean_price = mean(price_1000),\n    mean_efficiency = mean(efficiency)\n  ) %&gt;% \n  # Ordenar resultados\n  arrange(desc(mean_efficiency))"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ejemplo-2-top-n-por-grupo",
+    "href": "notes/r_data_wrangling_es.html#ejemplo-2-top-n-por-grupo",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Ejemplo 2: Top N por grupo",
+    "text": "Ejemplo 2: Top N por grupo\n\n# Encontrar los 3 autos más caros por estado foreign\ncars %&gt;% \n  group_by(foreign) %&gt;% \n  arrange(desc(price)) %&gt;% \n  slice(1:3) %&gt;% \n  select(make, price, mpg, foreign)"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ejemplo-3-resúmenes-condicionales",
+    "href": "notes/r_data_wrangling_es.html#ejemplo-3-resúmenes-condicionales",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Ejemplo 3: Resúmenes condicionales",
+    "text": "Ejemplo 3: Resúmenes condicionales\n\n# Comparar autos caros vs. baratos\ncars %&gt;% \n  mutate(price_category = ifelse(price &gt; median(price), \"Expensive\", \"Cheap\")) %&gt;% \n  group_by(price_category) %&gt;% \n  summarize(\n    n = n(),\n    mean_mpg = mean(mpg),\n    mean_weight = mean(weight)\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#tipos-de-uniones",
+    "href": "notes/r_data_wrangling_es.html#tipos-de-uniones",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Tipos de uniones",
+    "text": "Tipos de uniones\n\n# Conjuntos de datos de ejemplo\ndf1 &lt;- data.frame(\n  id = c(1, 2, 3),\n  x = c(\"a\", \"b\", \"c\")\n)\n\ndf2 &lt;- data.frame(\n  id = c(1, 2, 4),\n  y = c(\"A\", \"B\", \"D\")\n)\n\n# Inner join - mantener solo filas coincidentes\ninner_join(df1, df2, by = \"id\")\n# Resultado: id 1, 2\n\n# Left join - mantener todas las filas de df1\nleft_join(df1, df2, by = \"id\")\n# Resultado: id 1, 2, 3 (y es NA para id 3)\n\n# Right join - mantener todas las filas de df2\nright_join(df1, df2, by = \"id\")\n# Resultado: id 1, 2, 4 (x es NA para id 4)\n\n# Full join - mantener todas las filas de ambos\nfull_join(df1, df2, by = \"id\")\n# Resultado: id 1, 2, 3, 4 (NAs donde no hay coincidencia)\n\n\n\n\n\n\n\nEligiendo la unión correcta\n\n\n\n\n\ninner_join() - Solo mantener observaciones coincidentes\n\nleft_join() - Mantener todo de la izquierda, coincidir de la derecha\n\nright_join() - Mantener todo de la derecha, coincidir de la izquierda\n\nfull_join() - Mantener todo\n\nsemi_join() - Mantener observaciones de la izquierda que tienen coincidencia\n\nanti_join() - Mantener observaciones de la izquierda que NO tienen coincidencia"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ejemplo-práctico-de-unión",
+    "href": "notes/r_data_wrangling_es.html#ejemplo-práctico-de-unión",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Ejemplo práctico de unión",
+    "text": "Ejemplo práctico de unión\n\n# Conjunto de datos de precios de autos\nprices &lt;- data.frame(\n  make = c(\"Toyota\", \"Honda\", \"Ford\"),\n  msrp = c(25000, 27000, 22000)\n)\n\n# Agregar MSRP al conjunto de datos de autos\ncars %&gt;% \n  left_join(prices, by = \"make\") %&gt;% \n  select(make, price, msrp, mpg)"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#formato-ancho-vs.-largo",
+    "href": "notes/r_data_wrangling_es.html#formato-ancho-vs.-largo",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Formato ancho vs. largo",
+    "text": "Formato ancho vs. largo\nFormato ancho:\nstudent  math  science  history\nAlice    90    85       88\nBob      75    92       80\nFormato largo:\nstudent  subject   score\nAlice    math      90\nAlice    science   85\nAlice    history   88\nBob      math      75\nBob      science   92\nBob      history   80"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#pivot_longer---ancho-a-largo",
+    "href": "notes/r_data_wrangling_es.html#pivot_longer---ancho-a-largo",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\npivot_longer() - Ancho a largo",
+    "text": "pivot_longer() - Ancho a largo\n\n# Ejemplo: reestructurar calificaciones de exámenes\nscores_wide &lt;- data.frame(\n  student = c(\"Alice\", \"Bob\"),\n  math = c(90, 75),\n  science = c(85, 92),\n  history = c(88, 80)\n)\n\n# Convertir a formato largo\nscores_long &lt;- scores_wide %&gt;% \n  pivot_longer(\n    cols = math:history,           # Columnas a pivotar\n    names_to = \"subject\",           # Nombre para la nueva columna de \"nombres\"\n    values_to = \"score\"             # Nombre para la nueva columna de \"valores\"\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#pivot_wider---largo-a-ancho",
+    "href": "notes/r_data_wrangling_es.html#pivot_wider---largo-a-ancho",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "\npivot_wider() - Largo a ancho",
+    "text": "pivot_wider() - Largo a ancho\n\n# Convertir de vuelta a formato ancho\nscores_long %&gt;% \n  pivot_wider(\n    names_from = subject,           # Columna que contiene nuevos nombres de columna\n    values_from = score             # Columna que contiene valores\n  )"
+  },
+  {
+    "objectID": "notes/r_data_wrangling_es.html#ejemplo-de-buen-estilo",
+    "href": "notes/r_data_wrangling_es.html#ejemplo-de-buen-estilo",
+    "title": "Sección 2: Manipulación de datos con dplyr",
+    "section": "Ejemplo de buen estilo",
+    "text": "Ejemplo de buen estilo\n\n# Analizar eficiencia de combustible por origen del auto\nfuel_analysis &lt;- cars %&gt;% \n  # Eliminar observaciones incompletas\n  filter(!is.na(mpg), !is.na(weight)) %&gt;% \n  # Crear variables relevantes\n  mutate(\n    origin = ifelse(foreign == 1, \"Foreign\", \"Domestic\"),\n    efficiency_ratio = mpg / (weight / 1000)  # MPG por 1000 lbs\n  ) %&gt;% \n  # Agrupar por origen\n  group_by(origin) %&gt;% \n  # Calcular estadísticas de resumen\n  summarize(\n    n_cars = n(),\n    mean_mpg = mean(mpg),\n    mean_efficiency = mean(efficiency_ratio),\n    sd_efficiency = sd(efficiency_ratio)\n  ) %&gt;% \n  # Eliminar agrupación\n  ungroup() %&gt;% \n  # Ordenar por eficiencia\n  arrange(desc(mean_efficiency))\n\n# Ver resultados\nfuel_analysis"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#el-dataset-iris",
+    "href": "notes/r_getting_started_es.html#el-dataset-iris",
+    "title": "Sección 1: Introducción a R",
+    "section": "El dataset Iris",
+    "text": "El dataset Iris\nEl dataset Iris contiene mediciones de 150 flores de iris de tres especies diferentes (Iris setosa, Iris versicolor, e Iris virginica). Para cada flor se registraron cuatro características: la longitud y ancho del sépalo, y la longitud y ancho del pétalo (todas en centímetros).\nEste conjunto de datos fue introducido por el estadístico y biólogo Ronald Fisher en 1936 y se ha convertido en un clásico para enseñar análisis estadístico, clasificación y visualización de datos. Es uno de los datasets más utilizados en la enseñanza de ciencia de datos por su simplicidad, claridad y utilidad pedagógica."
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#carga-de-datasets-incluidos-en-r",
+    "href": "notes/r_getting_started_es.html#carga-de-datasets-incluidos-en-r",
+    "title": "Sección 1: Introducción a R",
+    "section": "Carga de datasets incluidos en R",
+    "text": "Carga de datasets incluidos en R\nUna de las ventajas de R es que viene con varios datasets incorporados que podemos usar para practicar. El dataset iris es uno de ellos.\nPara cargar un dataset incorporado, usa la función data():\n\n# Cargar el dataset iris\ndata(iris)\n\n\n\n\n\n\n\n¿Qué datasets están disponibles?\n\n\n\nPara ver todos los datasets incorporados en R, escribe:\n\ndata()\n\n\n\n\n\n\n\n\n\nEl operador de asignación &lt;-\n\n\n\nAunque iris ya está disponible después de usar data(iris), a menudo queremos crear una copia para trabajar con ella. El operador &lt;- es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda.\nAl leer en voz alta, la gente dice “obtiene”: flores obtiene el contenido de iris.\n\n# Crear una copia del dataset\nflores &lt;- iris\n\n\n\nPara ver los datos, simplemente escribe su nombre:\n\niris"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#funciones-para-cargar-archivos-externos",
+    "href": "notes/r_getting_started_es.html#funciones-para-cargar-archivos-externos",
+    "title": "Sección 1: Introducción a R",
+    "section": "Funciones para cargar archivos externos",
+    "text": "Funciones para cargar archivos externos\nCuando trabajes con tus propios datos, necesitarás cargar archivos desde tu computadora. Principalmente usarás:\n\n\nPaquete readr: para archivos CSV, TSV y delimitados\n\nPaquete haven: para archivos de Stata (.dta), SPSS y SAS\n\nR base: para los formatos propios de R (.rds, .rdata)\n\n\n\n\n\n\n\nAprende sobre las funciones\n\n\n\nPara aprender más sobre una función:\n\nPresiona Tab después de escribir el nombre de la función (en RStudio)\nEscribe ?function_name en la consola (ej., ?read.csv)\n\n\n\nEjemplo: Cargar un archivo CSV\n\n# Si tuvieras un archivo CSV\nlibrary(readr)\nmis_datos &lt;- read_csv(\"ruta/a/mi_archivo.csv\")"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#problemas-con-el-dataset-iris",
+    "href": "notes/r_getting_started_es.html#problemas-con-el-dataset-iris",
+    "title": "Sección 1: Introducción a R",
+    "section": "Problemas con el dataset Iris",
+    "text": "Problemas con el dataset Iris\n\n\n\n\n\n\nProblema 1: Análisis descriptivo\n\n\n\nUsando el dataset iris:\n\nCalcula la media y desviación estándar de Petal.Length\n\n¿Cuál es la flor con el pétalo más largo? (Pista: usa which.max())\nCrea un subset con solo flores versicolor\n¿Cuál es la media de Sepal.Width para flores versicolor?\n\n\n\n\n\n\n\n\n\nProblema 2: Manipulación de datos\n\n\n\n\nCrea un nuevo data frame con solo flores que tengan Sepal.Length &gt; 5\n\nOrdena este nuevo data frame por Petal.Length en orden descendente\nSelecciona solo las columnas de mediciones de pétalos y especie\n¿Cuántas filas tiene tu resultado final?"
+  },
+  {
+    "objectID": "notes/r_getting_started_es.html#problemas-de-álgebra-lineal",
+    "href": "notes/r_getting_started_es.html#problemas-de-álgebra-lineal",
+    "title": "Sección 1: Introducción a R",
+    "section": "Problemas de álgebra lineal",
+    "text": "Problemas de álgebra lineal\nAlgunos rompecabezas clásicos de R-encuentra-álgebra-lineal para tu disfrute:\n\n\n\n\n\n\nProblema 3: Matriz identidad\n\n\n\nSea I₅ una matriz identidad de 5×5. Demuestra que I₅ es simétrica e idempotente usando funciones de R.\nPista: Usa diag(5) para crear una matriz identidad.\n\n\n\n\n\n\n\n\nProblema 4: Matriz idempotente\n\n\n\nGenera una matriz idempotente de 2×2 X, donde X no es la matriz identidad. Demuestra que X = XX.\nPista: Una matriz idempotente satisface X = X².\n\n\n\n\n\n\n\n\nProblema 5: Regresión lineal\n\n\n\nGenera dos variables aleatorias, x y e, de dimensión n = 100 tal que x, e ~ N(0, 1).\nGenera y de acuerdo a: y = x + e\nMuestra que regresar y sobre x usando lm() da estimaciones: β₀ ≈ 0 y β₁ ≈ 1.\nPista: Usa rnorm(100) para generar variables aleatorias normales.\n\n\n\n\n\n\n\n\nProblema 6: Valores propios y traza\n\n\n\nMuestra que si λ₁, λ₂, …, λ₅ son los valores propios de una matriz de 5×5 A, entonces:\ntr(A) = Σλᵢ (suma de valores propios)\nPista: Usa eigen() para encontrar valores propios y sum(diag()) para la traza."
   }
 ]

@@ -1,0 +1,598 @@
+---
+title: "Sesión 2: Visualización como Evidencia"
+format: html
+filters:
+  - webr
+---
+
+# Caso de Política Pública
+
+El **Secretario de Educación** debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre:
+- Puntaje promedio en prueba estandarizada (0-100)
+- Presupuesto anual por estudiante (miles de USD)
+- Tipo de escuela (Urbana vs Rural)
+
+**Tu tarea:** Crear visualizaciones que ayuden a responder:
+- ¿Más presupuesto se traduce en mejor desempeño?
+- ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales?
+- ¿Dónde están las mejores oportunidades de mejora?
+
+**Regla de oro:** Un gráfico en política pública no es decoración; es un argumento basado en evidencia.
+
+---
+
+# Parte 1: Simulación y Carga de Datos
+
+```{webr-r}
+#| warning: false
+
+library(ggplot2)
+
+# Simulación de datos educativos
+set.seed(2026)
+n_urbano <- 80
+n_rural <- 40
+
+# Escuelas URBANAS: mayor presupuesto pero más variabilidad
+presup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD
+# Efecto del presupuesto + ruido + efecto fijo urbano
+puntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5
+
+# Escuelas RURALES: menor presupuesto, mayor efecto marginal
+presup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)
+# Efecto más fuerte del presupuesto en contexto rural
+puntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)
+
+# Crear base de datos
+escuelas <- data.frame(
+  id_escuela = 1:(n_urbano + n_rural),
+  presupuesto_anual_kusd = c(presup_urbano, presup_rural),
+  puntaje_prueba = c(puntaje_urbano, puntaje_rural),
+  tipo = c(rep("Urbana", n_urbano), rep("Rural", n_rural))
+)
+
+# Asegurar que puntajes estén en rango válido
+escuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))
+
+# Vista previa
+head(escuelas, 10)
+cat("\n📚 Total de escuelas:", nrow(escuelas), "\n")
+cat("   - Urbanas:", n_urbano, "\n")
+cat("   - Rurales:", n_rural, "\n")
+```
+
+---
+
+# Parte 2: Estadísticas Descriptivas por Tipo
+
+```{webr-r}
+# Función para calcular estadísticas completas
+resumen_estadistico <- function(x) {
+  c(
+    n = length(x),
+    Media = mean(x),
+    Mediana = median(x),
+    DE = sd(x),
+    Min = min(x),
+    P25 = quantile(x, 0.25),
+    P75 = quantile(x, 0.75),
+    Max = max(x),
+    IQR = IQR(x)
+  )
+}
+
+cat("\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\n")
+cat("═══════════════════════════════════════════════════════════\n")
+by(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)
+
+cat("\n\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\n")
+cat("═══════════════════════════════════════════════════════════\n")
+by(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)
+
+# Tabla comparativa lado a lado
+cat("\n\n📋 COMPARACIÓN DIRECTA\n")
+cat("═══════════════════════════════════════════════════════════\n")
+cat(sprintf("%-25s %12s %12s %12s\n", "Variable", "Urbana", "Rural", "Diferencia"))
+cat("───────────────────────────────────────────────────────────\n")
+
+# Puntaje promedio
+punt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == "Urbana"])
+punt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == "Rural"])
+cat(sprintf("%-25s %12.2f %12.2f %12.2f\n", "Puntaje promedio", 
+            punt_urb, punt_rur, punt_urb - punt_rur))
+
+# Puntaje mediano
+med_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == "Urbana"])
+med_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == "Rural"])
+cat(sprintf("%-25s %12.2f %12.2f %12.2f\n", "Puntaje mediano", 
+            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))
+
+# Presupuesto promedio
+pres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Urbana"])
+pres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Rural"])
+cat(sprintf("%-25s %12.2f %12.2f %12.2f\n", "Presupuesto (kUSD)", 
+            pres_urb, pres_rur, pres_urb - pres_rur))
+
+# Dispersión (IQR)
+iqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == "Urbana"])
+iqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == "Rural"])
+cat(sprintf("%-25s %12.2f %12.2f %12.2f\n", "IQR Puntaje", 
+            iqr_urb, iqr_rur, iqr_urb - iqr_rur))
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+**Pregunta de reflexión:** ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?
+
+---
+
+# Parte 3: Visualización Esencial - El Boxplot
+
+**¿Por qué boxplot?** Porque muestra de un vistazo:
+- El "típico" (mediana)
+- La dispersión (IQR)
+- Los valores extremos (outliers)
+- Permite comparar grupos fácilmente
+
+```{webr-r}
+# Boxplot básico pero informativo
+boxplot(puntaje_prueba ~ tipo, 
+        data = escuelas,
+        col = c("#FF6B6B", "#4ECDC4"),
+        main = "Distribución de Puntajes por Tipo de Escuela",
+        ylab = "Puntaje en Prueba Estandarizada (0-100)",
+        xlab = "Tipo de Escuela",
+        border = "gray30",
+        notch = FALSE,
+        horizontal = FALSE,
+        outcol = "red",
+        outpch = 19,
+        outcex = 1.2)
+
+# Agregar línea de referencia: puntaje mínimo aceptable
+abline(h = 60, col = "orange", lwd = 2, lty = 2)
+text(1.5, 62, "Meta mínima: 60 puntos", pos = 4, col = "orange", cex = 0.9)
+
+# Agregar la media como punto
+points(c(1, 2), c(punt_urb, punt_rur), 
+       pch = 18, col = "blue", cex = 2.5)
+legend("bottomright", 
+       legend = c("Mediana (línea)", "Media (rombo)"),
+       pch = c(NA, 18),
+       lty = c(1, NA),
+       col = c("black", "blue"),
+       bty = "n")
+
+# Anotar elementos del boxplot
+mtext("Línea central = MEDIANA (hogar típico)", 
+      side = 3, line = -2, at = 1, cex = 0.75, col = "gray30")
+mtext("Caja = IQR (50% central de escuelas)", 
+      side = 3, line = -3, at = 1, cex = 0.75, col = "gray30")
+mtext("Puntos rojos = Outliers (casos extremos)", 
+      side = 3, line = -4, at = 1, cex = 0.75, col = "red")
+```
+
+**Interpreta el boxplot:**
+1. ¿Qué grupo tiene mayor dispersión?
+2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos?
+3. ¿Se traslapan las cajas? ¿Qué significa esto?
+
+---
+
+# Parte 4: Análisis de Dispersión y Desigualdad
+
+```{webr-r}
+# Identificar escuelas por cuartil de desempeño
+escuelas$cuartil <- cut(escuelas$puntaje_prueba,
+                        breaks = quantile(escuelas$puntaje_prueba, 
+                                         probs = c(0, 0.25, 0.5, 0.75, 1)),
+                        labels = c("Q1 (bajo)", "Q2", "Q3", "Q4 (alto)"),
+                        include.lowest = TRUE)
+
+# Tabla de distribución por cuartil y tipo
+cat("\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\n")
+cat("═══════════════════════════════════════════════════════════\n")
+tabla <- table(escuelas$tipo, escuelas$cuartil)
+print(tabla)
+
+cat("\nProporción por tipo:\n")
+print(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)
+
+# Identificar escuelas con bajo desempeño (bottom 25%)
+escuelas_bajo_desempeno <- escuelas[escuelas$cuartil == "Q1 (bajo)", ]
+cat("\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\n")
+cat("═══════════════════════════════════════════════════════════\n")
+cat("Total:", nrow(escuelas_bajo_desempeno), "escuelas\n")
+cat("Urbanas:", sum(escuelas_bajo_desempeno$tipo == "Urbana"), "\n")
+cat("Rurales:", sum(escuelas_bajo_desempeno$tipo == "Rural"), "\n")
+cat("\nPresupuesto promedio en este grupo: $", 
+    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), "k USD\n")
+cat("Puntaje promedio: ", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), "\n")
+```
+
+---
+
+# Parte 5: Scatterplot - Relación Presupuesto-Desempeño
+
+```{webr-r}
+# Scatterplot con diferenciación por tipo
+plot(escuelas$presupuesto_anual_kusd, 
+     escuelas$puntaje_prueba,
+     pch = ifelse(escuelas$tipo == "Urbana", 19, 17),
+     col = ifelse(escuelas$tipo == "Urbana", "#FF6B6B", "#4ECDC4"),
+     cex = 1.3,
+     main = "Relación Presupuesto-Desempeño por Tipo de Escuela",
+     xlab = "Presupuesto Anual por Estudiante (miles USD)",
+     ylab = "Puntaje en Prueba Estandarizada",
+     xlim = c(0, 14),
+     ylim = c(0, 100))
+
+# Líneas de tendencia por grupo
+urbanas <- escuelas[escuelas$tipo == "Urbana", ]
+rurales <- escuelas[escuelas$tipo == "Rural", ]
+
+modelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)
+modelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)
+
+abline(modelo_urb, col = "#FF6B6B", lwd = 3)
+abline(modelo_rur, col = "#4ECDC4", lwd = 3)
+
+# Línea de meta mínima
+abline(h = 60, col = "orange", lty = 2, lwd = 2)
+
+# Leyenda
+legend("bottomright",
+       legend = c("Urbana", "Rural", "Meta (60 pts)"),
+       pch = c(19, 17, NA),
+       lty = c(1, 1, 2),
+       col = c("#FF6B6B", "#4ECDC4", "orange"),
+       lwd = c(3, 3, 2),
+       bty = "n")
+
+# Identificar outliers interesantes (alto presupuesto, bajo desempeño)
+bajo_desempeno_alto_presup <- escuelas[
+  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, 
+]
+
+if (nrow(bajo_desempeno_alto_presup) > 0) {
+  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,
+         bajo_desempeno_alto_presup$puntaje_prueba,
+         pch = 1, col = "red", cex = 3, lwd = 2)
+  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,
+       bajo_desempeno_alto_presup$puntaje_prueba,
+       "Problema\nde gestión?",
+       pos = 4, col = "red", cex = 0.8)
+}
+```
+
+**Análisis del scatterplot:**
+1. ¿La relación es lineal o se aplana en algún punto?
+2. ¿Las pendientes son iguales para urbanas y rurales?
+3. ¿Hay escuelas que están "fuera de la curva"? (outliers influyentes)
+
+---
+
+# Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)
+
+```{webr-r}
+cat("\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# Pendiente para escuelas urbanas
+slope_urb <- coef(modelo_urb)[2]
+cat("ESCUELAS URBANAS:\n")
+cat("  Por cada $1,000 USD adicionales de presupuesto anual,\n")
+cat("  el puntaje aumenta en promedio:", round(slope_urb, 2), "puntos\n\n")
+
+# Pendiente para escuelas rurales
+slope_rur <- coef(modelo_rur)[2]
+cat("ESCUELAS RURALES:\n")
+cat("  Por cada $1,000 USD adicionales de presupuesto anual,\n")
+cat("  el puntaje aumenta en promedio:", round(slope_rur, 2), "puntos\n\n")
+
+# Comparación
+diferencia_slopes <- slope_rur - slope_urb
+cat("DIFERENCIA:\n")
+cat("  Las escuelas rurales tienen un retorno", 
+    round(abs(diferencia_slopes), 2), "puntos")
+if (diferencia_slopes > 0) {
+  cat(" MAYOR por cada $1k USD\n")
+  cat("  → Invertir en rurales puede ser más eficiente\n")
+} else {
+  cat(" MENOR por cada $1k USD\n")
+}
+
+# R² (qué tan bien explica el presupuesto el desempeño)
+r2_urb <- summary(modelo_urb)$r.squared
+r2_rur <- summary(modelo_rur)$r.squared
+
+cat("\n📊 PODER EXPLICATIVO (R²):\n")
+cat("  Urbanas: El presupuesto explica el", round(100 * r2_urb, 1), 
+    "% de la variación en puntajes\n")
+cat("  Rurales: El presupuesto explica el", round(100 * r2_rur, 1), 
+    "% de la variación en puntajes\n\n")
+
+if (r2_urb < 0.5) {
+  cat("⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\n")
+  cat("   Otros factores son importantes (calidad docente, infraestructura, contexto)\n")
+}
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+**Importante:** Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto *cause* mejor desempeño.
+
+---
+
+# Parte 7: Histograma de Presupuesto
+
+```{webr-r}
+# Histogramas superpuestos para comparar distribuciones
+par(mfrow = c(1, 2))
+
+# Urbanas
+hist(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Urbana"],
+     breaks = 15,
+     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente
+     border = "white",
+     main = "Distribución: Escuelas Urbanas",
+     xlab = "Presupuesto (kUSD)",
+     ylab = "Frecuencia",
+     xlim = c(0, 14))
+abline(v = pres_urb, col = "darkred", lwd = 3)
+abline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Urbana"]), 
+       col = "darkred", lwd = 2, lty = 2)
+legend("topright", legend = c("Media", "Mediana"), 
+       col = "darkred", lty = c(1, 2), lwd = c(3, 2), bty = "n")
+
+# Rurales
+hist(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Rural"],
+     breaks = 12,
+     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente
+     border = "white",
+     main = "Distribución: Escuelas Rurales",
+     xlab = "Presupuesto (kUSD)",
+     ylab = "Frecuencia",
+     xlim = c(0, 14))
+abline(v = pres_rur, col = "darkblue", lwd = 3)
+abline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == "Rural"]), 
+       col = "darkblue", lwd = 2, lty = 2)
+legend("topright", legend = c("Media", "Mediana"), 
+       col = "darkblue", lty = c(1, 2), lwd = c(3, 2), bty = "n")
+
+par(mfrow = c(1, 1))
+```
+
+**Pregunta:** ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?
+
+---
+
+# Parte 8: Tabla de Rendición de Cuentas
+
+```{webr-r}
+# Crear categorías de desempeño
+escuelas$categoria_desempeno <- cut(
+  escuelas$puntaje_prueba,
+  breaks = c(0, 50, 70, 85, 100),
+  labels = c("Crítico", "Bajo", "Aceptable", "Destacado"),
+  include.lowest = TRUE
+)
+
+cat("\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# Tabla cruzada
+tabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)
+print(tabla_desempeno)
+
+cat("\n\nPorcentaje dentro de cada tipo:\n")
+print(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))
+
+# Escuelas en situación crítica
+criticas <- escuelas[escuelas$categoria_desempeno == "Crítico", ]
+cat("\n\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\n")
+cat("═══════════════════════════════════════════════════════════\n")
+cat("Total:", nrow(criticas), "escuelas\n\n")
+
+if (nrow(criticas) > 0) {
+  cat("Detalle de escuelas críticas:\n")
+  print(criticas[, c("id_escuela", "tipo", "puntaje_prueba", 
+                     "presupuesto_anual_kusd")])
+  
+  cat("\n  Presupuesto promedio de escuelas críticas: $",
+      round(mean(criticas$presupuesto_anual_kusd), 2), "k USD\n")
+  cat("  ¿Es el presupuesto el problema o hay otros factores?\n")
+}
+```
+
+---
+
+# Parte 9: Auditoría de Gráficos Engañosos
+
+**Ejercicio de lectura crítica:** Imagina que ves este titular en un reporte:
+
+> "Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!"
+
+```{webr-r}
+# Comparemos dos formas de graficar la MISMA información
+
+par(mfrow = c(1, 2))
+
+# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)
+barplot(c(punt_urb, punt_rur),
+        names.arg = c("Urbana", "Rural"),
+        col = c("#FF6B6B", "#4ECDC4"),
+        ylim = c(50, 80),  # NO empieza en 0
+        main = "¿Enorme diferencia?",
+        ylab = "Puntaje promedio")
+text(0.7, punt_urb + 2, round(punt_urb, 1))
+text(1.9, punt_rur + 2, round(punt_rur, 1))
+
+# GRÁFICO 2: Eje Y correcto (empieza en 0)
+barplot(c(punt_urb, punt_rur),
+        names.arg = c("Urbana", "Rural"),
+        col = c("#FF6B6B", "#4ECDC4"),
+        ylim = c(0, 100),  # Empieza en 0
+        main = "Diferencia en contexto",
+        ylab = "Puntaje promedio")
+text(0.7, punt_urb + 5, round(punt_urb, 1))
+text(1.9, punt_rur + 5, round(punt_rur, 1))
+abline(h = 60, col = "orange", lty = 2, lwd = 2)
+
+par(mfrow = c(1, 1))
+```
+
+**Pregunta crítica:**
+- ¿Cuál gráfico exagera la diferencia?
+- ¿Cuál es más honesto?
+- ¿Por qué importa la escala del eje Y?
+
+**Reglas de auditoría de gráficos:**
+1. ✅ **Eje Y empieza en 0** (para barras)
+2. ✅ **Denominador claro** (¿por estudiante? ¿por escuela?)
+3. ✅ **Población y periodo especificados**
+4. ✅ **Muestra dispersión** (no solo promedios)
+5. ✅ **Declara limitaciones**
+
+---
+
+# Parte 10: Memo Ejecutivo con Visualización
+
+```{webr-r}
+cat("\n═══════════════════════════════════════════════════════════════\n")
+cat("  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\n")
+cat("  Para: Secretario de Educación\n")
+cat("  Fecha:", format(Sys.Date(), "%d-%m-%Y"), "\n")
+cat("═══════════════════════════════════════════════════════════════\n\n")
+
+cat("1. HALLAZGO PRINCIPAL\n\n")
+cat("   Las escuelas urbanas tienen en promedio", round(pres_urb - pres_rur, 1),
+    "k USD más de presupuesto\n")
+cat("   pero solo", round(punt_urb - punt_rur, 1), 
+    "puntos más de desempeño.\n\n")
+cat("   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\n")
+cat("     (", round(slope_rur, 2), " vs ", round(slope_urb, 2), 
+    " puntos por kUSD)\n\n")
+
+cat("2. ESCUELAS EN RIESGO\n\n")
+cat("   •", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), 
+    "escuelas están por debajo de la meta mínima (60 puntos)\n")
+cat("   • De estas,", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == "Rural"),
+    "son rurales\n")
+cat("   • El", round(100 * nrow(criticas)/nrow(escuelas), 1),
+    "% está en situación CRÍTICA (< 50 puntos)\n\n")
+
+cat("3. DISPERSIÓN Y DESIGUALDAD\n\n")
+cat("   • IQR Urbanas:", round(iqr_urb, 1), "puntos\n")
+cat("   • IQR Rurales:", round(iqr_rur, 1), "puntos\n")
+cat("   → Mayor dispersión en", 
+    ifelse(iqr_urb > iqr_rur, "urbanas", "rurales"), "\n\n")
+
+cat("4. RECOMENDACIONES BASADAS EN EVIDENCIA\n\n")
+cat("   a) Priorizar inversión en escuelas rurales de bajo desempeño\n")
+cat("      (mayor retorno marginal del presupuesto)\n\n")
+cat("   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\n")
+cat("      (posible problema de gestión, no recursos)\n\n")
+cat("   c) No usar solo presupuesto como palanca - el R² es", 
+    round(r2_urb, 2), "\n")
+cat("      Considerar: capacitación docente, infraestructura, contexto\n\n")
+
+cat("5. LIMITACIONES\n\n")
+cat("   • Correlación NO implica causalidad\n")
+cat("   • No controlamos por: nivel socioeconómico, experiencia docente,\n")
+cat("     infraestructura, tamaño de clase\n")
+cat("   • Puntaje de prueba es solo un indicador de calidad educativa\n")
+cat("   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\n\n")
+
+cat("═══════════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Ejercicio Individual (Entregable)
+
+**Parte A: Crear Visualizaciones**
+
+1. **Boxplot comparativo:**
+   - Grafica presupuesto_anual_kusd ~ tipo
+   - Incluye título-conclusión (máximo 18 palabras)
+   - Identifica outliers y explica qué pueden representar
+
+2. **Scatterplot con segmentación:**
+   - Eje X: presupuesto, Eje Y: puntaje
+   - Colorea puntos por tipo
+   - Agrega líneas de tendencia
+   - Marca escuelas con puntaje < 50 (círculos rojos)
+
+**Parte B: Análisis Escrito**
+
+3. **Tabla de análisis:**
+   Crea una tabla con 3 columnas:
+   - Tipo de gráfico (Histograma, Boxplot, Scatterplot)
+   - Pregunta que responde mejor
+   - Limitación principal
+
+4. **Ejercicio de lectura crítica:**
+   Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
+   - ¿Cumple las 5 reglas de auditoría?
+   - ¿Hay algo engañoso en la presentación?
+   - ¿Qué mejorarías?
+
+**Parte C: Recomendación Estratégica**
+
+5. **Escribe 6 líneas respondiendo:**
+   - Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?
+   - ¿Usas criterio de presupuesto, desempeño, tipo, o combinación?
+   - Incluye 1 limitación de tu propuesta
+
+---
+
+# Preguntas de Discusión
+
+1. **La Trampa del Promedio Revisitada:**
+   - ¿Por qué un gráfico de solo promedios puede ser engañoso?
+   - ¿Qué se pierde cuando no mostramos dispersión?
+
+2. **Escalas Visuales:**
+   - ¿Cuándo es legítimo NO empezar el eje Y en cero?
+   - ¿Qué riesgos tiene manipular las escalas?
+
+3. **Denominadores:**
+   - ¿Deberíamos graficar presupuesto total o por estudiante?
+   - ¿Puntaje promedio de escuela o distribución completa?
+
+4. **Outliers:**
+   - ¿Los outliers son errores o información valiosa?
+   - ¿Cuándo deberías investigar un outlier vs. eliminarlo?
+
+---
+
+# Recursos Adicionales
+
+**Principios de visualización efectiva:**
+
+1. **Claridad sobre estética:** El gráfico debe comunicar, no impresionar
+2. **Honestidad visual:** Escalas apropiadas, contexto completo
+3. **Dispersión importa:** No solo promedios
+4. **Comparaciones justas:** Mismo denominador, misma escala
+5. **Contexto siempre:** Población, periodo, fuente, limitaciones
+
+**Tipos de gráficos y cuándo usarlos:**
+
+- **Histograma:** Ver forma de distribución (asimetría, modas)
+- **Boxplot:** Comparar grupos, detectar outliers
+- **Scatterplot:** Explorar relaciones entre dos variables
+- **Barras:** Comparar cantidades (¡eje Y en 0!)
+- **Líneas:** Mostrar tendencias en el tiempo
+
+**Errores comunes a evitar:**
+
+- ❌ Solo mostrar promedios sin dispersión
+- ❌ Manipular escalas para exagerar diferencias
+- ❌ No declarar denominador
+- ❌ Graficar sin pregunta clara en mente
+- ❌ Usar 3D, colores excesivos, "chart junk"
+
+---
+
+**Última reflexión:** Un buen gráfico en política pública debe pasar la "prueba del ascensor": ¿Puedes explicarlo en 30 segundos y cambiar una decisión?

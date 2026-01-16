@@ -28,62 +28,72 @@ website:
         menu:
           - text: Contact
             href: contact.qmd            
-      - text: Research
-        menu:
-          - text: List of Publications
-            href: publications.qmd
-          - text: Ongoing Research
-            href: ongoing.qmd
       
-      # --- FIXED TEACHING SECTION (FLATTENED) ---
+      # --- TEACHING SECTION (REORGANIZED) ---
       - text: Teaching
         menu:
-          - text: "Course Overview"
-            href: notes/prova.qmd
+          # INTRODUCCION AL CURSO
+          - text: "INTRODUCCION"
+          - text: "Estructura y Objetivos"
+            href: notes/README_EJERCICIOS.qmd
           - text: "---"
           
-          # Bloque 1
-          - text: "B1: Datos y Viz"
-          - text: "Ex 1: Desigualdad (Promedios)"
-            href: notes/ex01_average.qmd
-          - text: "Ex 2: Limpieza de Datos"
-            href: notes/ex02_outliers.qmd
+          # CONFIGURACION Y HERRAMIENTAS
+          - text: "CONFIGURACION"
+          - text: "Como Instalar R y RStudio"
+            href: notes/r_setup_guide_es.qmd
+          - text: "Primeros Pasos con R"
+            href: notes/r_getting_started_es.qmd
+          - text: "Manejo de Datos con dplyr"
+            href: notes/r_data_wrangling_es.qmd
           - text: "---"
           
-          # Bloque 2
-          - text: "B2: Riesgo"
-          - text: "Ex 3: Presupuesto (Monte Carlo)"
-            href: notes/ex03_risk.qmd
-          - text: "Ex 4: Probabilidad Condicional"
-            href: notes/ex04_bayes.qmd
+          # SESIONES DE CLASE
+          - text: "Sesiones de clase (10)"
           - text: "---"
           
-          # Bloque 3
-          - text: "B3: Inferencia I"
-          - text: "Ex 5: Ley Grandes Números"
-            href: notes/ex05_lln.qmd
-          - text: "Ex 6: Intervalos de Confianza"
-            href: notes/ex06_ci.qmd
+          # Bloque 1: Estadistica Descriptiva y Visualizacion
+          - text: "BLOQUE 1: Datos y visualización"
+          - text: "S1: La Tiranía del Promedio"
+            href: notes/ex01_average_integrated.qmd
+          - text: "S2: Visualizacion como Evidencia"
+            href: notes/ex02_visualization_integrated.qmd
           - text: "---"
           
-          # Bloque 4
-          - text: "B4: Inferencia II"
-          - text: "Ex 7: A/B Testing (T-Test)"
-            href: notes/ex07_ttest.qmd
-          - text: "Ex 8: El P-Valor"
-            href: notes/ex08_pval.qmd
+          # Bloque 2: Incertidumbre y Riesgo
+          - text: "BLOQUE 2: Incertidumbre y riesgo"
+          - text: "S3: Simulacion Monte Carlo"
+            href: notes/ex03_montecarlo_integrated.qmd
+          - text: "S4: Probabilidad Condicional (Bayes)"
+            href: notes/ex04_bayes_integrated.qmd
           - text: "---"
           
-          # Bloque 5
-          - text: "B5: Causalidad"
-          - text: "Ex 9: Regresión Simple"
-            href: notes/ex09_regression.qmd
-          - text: "Ex 10: Paradoja de Simpson"
-            href: notes/ex10_simpsons.qmd
+          # Bloque 3: Muestreo e Inferencia I
+          - text: "BLOQUE 3: Muestreo e Inferencia"
+          - text: "S5: El Arte del Muestreo"
+            href: notes/ex05_sampling_integrated.qmd
+          - text: "S6: Intervalos de Confianza"
+            href: notes/ex06_ci_integrated.qmd
+          - text: "---"
+          
+          # Bloque 4: Pruebas de Hipotesis
+          - text: "BLOQUE 4: Pruebas de Hipótesis"
+          - text: "S7: Logica de la Prueba de Hipotesis"
+            href: notes/ex07_ttest_integrated.qmd
+          - text: "S8: P-valor y Poder Estadistico"
+            href: notes/ex08_pval_integrated.qmd
+          - text: "---"
+          
+          # Bloque 5: Asociacion y Causalidad
+          - text: "BLOQUE 5: Asociación y Causalidad"
+          - text: "S9: Correlacion y Regresion Simple"
+            href: notes/ex09_regression_integrated.qmd
+          - text: "S10: Paradoja de Simpson"
+            href: notes/ex10_simpsons_integrated.qmd
 
     right: 
       - text: CV
-        href: files/nsf-biosketch.pdf
+        href: files/Contreras_D_academic_CV_2026.pdf
       - icon: github
         href: https://github.com/dcloya
         target: _blank

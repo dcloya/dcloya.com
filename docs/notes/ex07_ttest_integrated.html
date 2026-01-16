@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Exercise 3: The Budget Monte Carlo – David Contreras-Loya</title>
+<title>Sesión 7: Prueba de Hipótesis – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -378,7 +378,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"set.seed(42)\nsimulations <- 1000\n\n# 1. Define Risks\nbase_cost <- 100 # Millions\n# Random variation: Normal distribution (sometimes cheaper, sometimes expensive)\nmaterial_fluctuation <- rnorm(simulations, mean = 0, sd = 10) \n# Risk event: 10% chance of a strike costing $20M\nstrike_risk <- sample(c(0, 20), simulations, replace = TRUE, prob = c(0.9, 0.1))\n\n# 2. Calculate Total Cost for each scenario\ntotal_cost <- base_cost + material_fluctuation + strike_risk\n\n# 3. What is the \"Safe\" Budget? (90th Percentile)\nsafe_budget <- quantile(total_cost, 0.90)\n\n# 4. Visualize Risk\nhist(total_cost, col = \"skyblue\", main = \"1,000 Scenarios of Final Cost\", xlab = \"Millions ($)\")\nabline(v = safe_budget, col = \"red\", lwd = 3)\nlegend(\"topright\", legend = paste(\"90% Safety Cap: $\", round(safe_budget, 1), \"M\"), col=\"red\", lwd=3)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"set.seed(2026)\n\n# Simular puntajes (0-100)\nn <- 60\npuntajes_tradicional <- rnorm(n, mean=68, sd=12)\npuntajes_innovador <- rnorm(n, mean=72, sd=11)\n\ndatos <- data.frame(\n  puntaje = c(puntajes_tradicional, puntajes_innovador),\n  metodo = rep(c(\"Tradicional\", \"Innovador\"), each=n)\n)\n\n# Prueba t\nresultado <- t.test(puntaje ~ metodo, data=datos)\n\ncat(\"📊 RESULTADO DE LA PRUEBA\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Diferencia observada: \", round(diff(resultado$estimate), 2), \" puntos\\n\")\ncat(\"Estadístico t:        \", round(resultado$statistic, 3), \"\\n\")\ncat(\"p-valor:              \", format.pval(resultado$p.value, digits=4), \"\\n\")\ncat(\"IC 95%:               [\", round(resultado$conf.int[1], 2), \", \",\n    round(resultado$conf.int[2], 2), \"]\\n\\n\")\n\nif (resultado$p.value < 0.05) {\n  cat(\"✅ DECISIÓN: Rechazamos H₀\\n\")\n  cat(\"   La evidencia sugiere que hay diferencia real.\\n\\n\")\n} else {\n  cat(\"⚠️  DECISIÓN: No rechazamos H₀\\n\")\n  cat(\"   No hay evidencia suficiente de diferencia.\\n\\n\")\n}","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"⚖️  ANALOGÍA LEGAL\\n\")\ncat(\"════════════════════════════════════════════════════════\\n\\n\")\ncat(\"TRIBUNAL DE JUSTICIA          |  PRUEBA ESTADÍSTICA\\n\")\ncat(\"────────────────────────────────────────────────────────\\n\")\ncat(\"Presunción de inocencia       |  H₀ (no hay diferencia)\\n\")\ncat(\"Fiscal presenta evidencia     |  Diferencia observada\\n\")\ncat(\"'Más allá de duda razonable'  |  p-valor < 0.05\\n\")\ncat(\"Condenar inocente (Error I)   |  Rechazar H₀ verdadera\\n\")\ncat(\"Absolver culpable (Error II)  |  No rechazar H₀ falsa\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"par(mfrow=c(1,2))\n\n# Boxplot\nboxplot(puntaje ~ metodo, data=datos,\n        col=c(\"#FF6B6B\", \"#4ECDC4\"),\n        main=\"Comparación de Métodos\",\n        ylab=\"Puntaje\")\n\n# Histogramas superpuestos\nhist(puntajes_tradicional, col=rgb(1,0.4,0.4,0.5), \n     breaks=20, main=\"Distribuciones Superpuestas\",\n     xlab=\"Puntaje\", xlim=c(30, 110), ylim=c(0, 20))\nhist(puntajes_innovador, col=rgb(0.3,0.8,0.77,0.5), \n     breaks=20, add=TRUE)\nlegend(\"topright\", \n       legend=c(\"Tradicional\", \"Innovador\"),\n       fill=c(rgb(1,0.4,0.4,0.5), rgb(0.3,0.8,0.77,0.5)),\n       bty=\"n\")\n\npar(mfrow=c(1,1))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n🚨 TIPOS DE ERROR\\n\")\ncat(\"════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"ERROR TIPO I (Falso Positivo):\\n\")\ncat(\"  Rechazar H₀ cuando es verdadera\\n\")\ncat(\"  Probabilidad máxima: α = 0.05 (nivel de significancia)\\n\")\ncat(\"  Consecuencia: Implementar método inefectivo\\n\\n\")\n\ncat(\"ERROR TIPO II (Falso Negativo):\\n\")\ncat(\"  No rechazar H₀ cuando es falsa\\n\")\ncat(\"  Probabilidad: β (depende de tamaño de efecto y muestra)\\n\")\ncat(\"  Consecuencia: Descartar método que SÍ funciona\\n\\n\")\n\ncat(\"PODER = 1 - β\\n\")\ncat(\"  Probabilidad de detectar efecto real\\n\")\ncat(\"  Con n=60 y diferencia real de 4 puntos: Poder ≈ 50%\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1634,11 +1634,11 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Exercise 3: The Budget Monte Carlo – David Contreras-Loya">
+<meta property="og:title" content="Sesión 7: Prueba de Hipótesis – David Contreras-Loya">
 <meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Exercise 3: The Budget Monte Carlo – David Contreras-Loya">
+<meta name="twitter:title" content="Sesión 7: Prueba de Hipótesis – David Contreras-Loya">
 <meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -1692,59 +1692,84 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/prova.html">
- <span class="dropdown-text">Course Overview</span></a>
+    <a class="dropdown-item" href="../notes/INDICE_COMPLETO.html">
+ <span class="dropdown-text">Indice Completo de Ejercicios</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/INSTRUCCIONES_USO.html">
+ <span class="dropdown-text">Guia de Uso para Estudiantes</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B1: Datos y Viz</li>
+        <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average.html">
- <span class="dropdown-text">Ex 1: Desigualdad (Promedios)</span></a>
+    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_outliers.html">
- <span class="dropdown-text">Ex 2: Limpieza de Datos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B2: Riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../notes/ex03_risk.html">
- <span class="dropdown-text">Ex 3: Presupuesto (Monte Carlo)</span></a>
+    <a class="dropdown-item" href="../notes/r_getting_started.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes.html">
- <span class="dropdown-text">Ex 4: Probabilidad Condicional</span></a>
+    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B3: Inferencia I</li>
+        <li class="dropdown-header">SESIONES (10 SESIONES)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y Visualizacion</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_lln.html">
- <span class="dropdown-text">Ex 5: Ley Grandes Números</span></a>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tirania del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci.html">
- <span class="dropdown-text">Ex 6: Intervalos de Confianza</span></a>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B4: Inferencia II</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y Riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest.html">
- <span class="dropdown-text">Ex 7: A/B Testing (T-Test)</span></a>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex08_pval.html">
- <span class="dropdown-text">Ex 8: El P-Valor</span></a>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B5: Causalidad</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia I</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression.html">
- <span class="dropdown-text">Ex 9: Regresión Simple</span></a>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons.html">
- <span class="dropdown-text">Ex 10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipotesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociacion y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
   </li>  
     </ul>
   </li>
@@ -1790,7 +1815,12 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#how-much-should-we-really-budget" id="toc-how-much-should-we-really-budget" class="nav-link active" data-scroll-target="#how-much-should-we-really-budget">How much should we really budget?</a></li>
+  <li><a href="#caso-método-de-enseñanza-innovador" id="toc-caso-método-de-enseñanza-innovador" class="nav-link active" data-scroll-target="#caso-método-de-enseñanza-innovador">Caso: Método de Enseñanza Innovador</a></li>
+  <li><a href="#parte-1-la-metáfora-del-tribunal" id="toc-parte-1-la-metáfora-del-tribunal" class="nav-link" data-scroll-target="#parte-1-la-metáfora-del-tribunal">Parte 1: La Metáfora del Tribunal</a></li>
+  <li><a href="#parte-2-visualización-de-los-grupos" id="toc-parte-2-visualización-de-los-grupos" class="nav-link" data-scroll-target="#parte-2-visualización-de-los-grupos">Parte 2: Visualización de los Grupos</a></li>
+  <li><a href="#parte-3-errores-tipo-i-y-ii" id="toc-parte-3-errores-tipo-i-y-ii" class="nav-link" data-scroll-target="#parte-3-errores-tipo-i-y-ii">Parte 3: Errores Tipo I y II</a></li>
+  <li><a href="#ejercicio-individual" id="toc-ejercicio-individual" class="nav-link" data-scroll-target="#ejercicio-individual">Ejercicio Individual</a></li>
+  <li><a href="#discusión" id="toc-discusión" class="nav-link" data-scroll-target="#discusión">Discusión</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,7 +2113,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercise 3: The Budget Monte Carlo</h1>
+<h1 class="title">Sesión 7: Prueba de Hipótesis</h1>
 </div>
 
 
@@ -2100,11 +2130,48 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="how-much-should-we-really-budget" class="level1">
-<h1>How much should we really budget?</h1>
-<p>Your engineers say the infrastructure project will cost <strong>$100 Million</strong>. But material prices fluctuate, and strikes happen. Instead of one number, let’s simulate <strong>1,000 possible futures</strong>.</p>
+<section id="caso-método-de-enseñanza-innovador" class="level1">
+<h1>Caso: Método de Enseñanza Innovador</h1>
+<p>Dos escuelas prueban métodos diferentes: <strong>Método Tradicional</strong> vs <strong>Método Innovador</strong> (aprendizaje activo). Se comparan puntajes en matemáticas.</p>
+<p><strong>Hipótesis Nula (H₀):</strong> “No hay diferencia entre métodos” (presunción de inocencia) <strong>Hipótesis Alternativa (H₁):</strong> “El método innovador es mejor”</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-1-la-metáfora-del-tribunal" class="level1">
+<h1>Parte 1: La Metáfora del Tribunal</h1>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-2-visualización-de-los-grupos" class="level1">
+<h1>Parte 2: Visualización de los Grupos</h1>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-3-errores-tipo-i-y-ii" class="level1">
+<h1>Parte 3: Errores Tipo I y II</h1>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="ejercicio-individual" class="level1">
+<h1>Ejercicio Individual</h1>
+<ol type="1">
+<li><strong>Re-simula</strong> con n=30 (muestra pequeña) - ¿Cambia conclusión?</li>
+<li><strong>Calcula</strong> tamaño de muestra para Poder=80%</li>
+<li><strong>Escribe</strong> recomendación considerando ambos tipos de error</li>
+</ol>
+<hr>
+</section>
+<section id="discusión" class="level1">
+<h1>Discusión</h1>
+<ul>
+<li>¿Qué error es peor: Tipo I o II?</li>
+<li>¿“No significativo” = “no hay efecto”?</li>
+<li>¿Cómo decides el nivel α?</li>
+</ul>
 
 
 </section>

@@ -1,0 +1,416 @@
+---
+title: "Sesión 1: La Tiranía del Promedio"
+format: html
+filters:
+  - webr
+---
+
+# Caso de Política Pública
+
+Un municipio está diseñando un **programa de subsidios alimentarios** para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de **$420 USD/mes**. El Secretario de Desarrollo Social propone establecer el umbral de elegibilidad en $250 USD/mes.
+
+**Tu tarea:** Analizar la distribución de ingresos para determinar:
+- ¿Cuántos hogares califican para el subsidio?
+- ¿El promedio representa bien a la población?
+- ¿Hay diferencias importantes entre zonas urbanas y rurales?
+
+---
+
+# Parte 1: Carga y Exploración de Datos
+
+```{webr-r}
+#| warning: false
+
+# Cargar librerías
+library(ggplot2)
+
+# Simulación de datos municipales (5000 hogares)
+set.seed(2026)
+n_urbano <- 3000
+n_rural <- 2000
+
+# Zona urbana: distribución log-normal (cola larga)
+# Hay algunos hogares de clase media-alta que inflan el promedio
+ingreso_urbano <- rlnorm(n_urbano, meanlog = 5.8, sdlog = 0.65)
+
+# Zona rural: distribución más concentrada pero con menor ingreso
+ingreso_rural <- rlnorm(n_rural, meanlog = 5.3, sdlog = 0.50)
+
+# Crear dataframe
+datos <- data.frame(
+  ingreso_pc_usd = c(ingreso_urbano, ingreso_rural),
+  zona = c(rep("Urbana", n_urbano), rep("Rural", n_rural))
+)
+
+# Vista previa de los datos
+head(datos, 10)
+cat("\n📊 Total de hogares en la base:", nrow(datos), "\n")
+```
+
+**Pregunta de reflexión:** ¿Por qué simulamos una distribución log-normal en vez de una normal? ¿Qué implica esto sobre la realidad del ingreso?
+
+---
+
+# Parte 2: Estadísticas Descriptivas Básicas
+
+```{webr-r}
+# Calculemos el promedio que reporta el informe técnico
+promedio_general <- mean(datos$ingreso_pc_usd)
+cat("💰 Ingreso promedio general: $", round(promedio_general, 2), "USD/mes\n\n")
+
+# Pero... ¿qué nos dice la MEDIANA?
+mediana_general <- median(datos$ingreso_pc_usd)
+cat("📍 Ingreso mediano (hogar típico): $", round(mediana_general, 2), "USD/mes\n\n")
+
+# Diferencia entre media y mediana
+diferencia <- promedio_general - mediana_general
+cat("⚠️  Diferencia (media - mediana): $", round(diferencia, 2), "USD\n")
+cat("    Esto representa un", round(100 * diferencia/mediana_general, 1), "% más\n\n")
+
+# ¿Qué significa esta diferencia?
+if (diferencia > 50) {
+  cat("🔴 ALERTA: La distribución es ASIMÉTRICA (cola larga a la derecha).\n")
+  cat("   El promedio está inflado por hogares de altos ingresos.\n")
+  cat("   La mediana es una mejor medida del hogar 'típico'.\n")
+}
+```
+
+**Para discutir:** Si el promedio es $420 pero la mediana es menor, ¿qué implica esto para el diseño del programa?
+
+---
+
+# Parte 3: Análisis por Percentiles (Las Colas Importan)
+
+```{webr-r}
+# Percentiles clave para política pública
+percentiles <- quantile(datos$ingreso_pc_usd, 
+                        probs = c(0.10, 0.25, 0.50, 0.75, 0.90))
+
+cat("📊 DISTRIBUCIÓN DE INGRESOS (Percentiles)\n")
+cat("════════════════════════════════════════\n")
+cat("P10 (10% más pobre):     $", round(percentiles[1], 2), "\n")
+cat("P25 (cuartil inferior):  $", round(percentiles[2], 2), "\n")
+cat("P50 (mediana):           $", round(percentiles[3], 2), "\n")
+cat("P75 (cuartil superior):  $", round(percentiles[4], 2), "\n")
+cat("P90 (10% más rico):      $", round(percentiles[5], 2), "\n\n")
+
+# Rango intercuartil (IQR): donde vive el 50% central
+iqr <- IQR(datos$ingreso_pc_usd)
+cat("📏 Rango Intercuartil (IQR): $", round(iqr, 2), "\n")
+cat("   (Distancia entre P25 y P75)\n\n")
+
+# Desviación estándar (dispersión)
+desv_std <- sd(datos$ingreso_pc_usd)
+cat("📈 Desviación Estándar: $", round(desv_std, 2), "\n")
+cat("   (Qué tanto se alejan los datos del promedio)\n\n")
+
+# Coeficiente de variación (dispersión relativa)
+cv <- 100 * desv_std / promedio_general
+cat("🎯 Coeficiente de Variación:", round(cv, 1), "%\n")
+cat("   (> 30% indica alta heterogeneidad)\n")
+```
+
+**Ejercicio práctico:** 
+1. ¿Qué porcentaje de hogares gana menos de $250/mes?
+2. ¿Deberíamos usar P10 o P25 como criterio de elegibilidad?
+
+---
+
+# Parte 4: Comparación por Zona (Urbano vs Rural)
+
+```{webr-r}
+# Tabla comparativa completa
+cat("\n📋 TABLA COMPARATIVA: INGRESO POR ZONA\n")
+cat("════════════════════════════════════════════════════════════\n")
+cat(sprintf("%-20s %12s %12s %12s\n", "Estadística", "Urbana", "Rural", "Diferencia"))
+cat("────────────────────────────────────────────────────────────\n")
+
+# Media
+media_urb <- mean(datos$ingreso_pc_usd[datos$zona == "Urbana"])
+media_rur <- mean(datos$ingreso_pc_usd[datos$zona == "Rural"])
+cat(sprintf("%-20s $%10.2f $%10.2f $%10.2f\n", "Media", 
+            media_urb, media_rur, media_urb - media_rur))
+
+# Mediana
+med_urb <- median(datos$ingreso_pc_usd[datos$zona == "Urbana"])
+med_rur <- median(datos$ingreso_pc_usd[datos$zona == "Rural"])
+cat(sprintf("%-20s $%10.2f $%10.2f $%10.2f\n", "Mediana", 
+            med_urb, med_rur, med_urb - med_rur))
+
+# P10
+p10_urb <- quantile(datos$ingreso_pc_usd[datos$zona == "Urbana"], 0.10)
+p10_rur <- quantile(datos$ingreso_pc_usd[datos$zona == "Rural"], 0.10)
+cat(sprintf("%-20s $%10.2f $%10.2f $%10.2f\n", "P10 (más pobre)", 
+            p10_urb, p10_rur, p10_urb - p10_rur))
+
+# P90
+p90_urb <- quantile(datos$ingreso_pc_usd[datos$zona == "Urbana"], 0.90)
+p90_rur <- quantile(datos$ingreso_pc_usd[datos$zona == "Rural"], 0.90)
+cat(sprintf("%-20s $%10.2f $%10.2f $%10.2f\n", "P90 (más rico)", 
+            p90_urb, p90_rur, p90_urb - p90_rur))
+
+# IQR
+iqr_urb <- IQR(datos$ingreso_pc_usd[datos$zona == "Urbana"])
+iqr_rur <- IQR(datos$ingreso_pc_usd[datos$zona == "Rural"])
+cat(sprintf("%-20s $%10.2f $%10.2f $%10.2f\n", "IQR (dispersión)", 
+            iqr_urb, iqr_rur, iqr_urb - iqr_rur))
+
+cat("════════════════════════════════════════════════════════════\n")
+```
+
+**Interpretación clave:**
+- ¿En qué zona hay mayor desigualdad interna?
+- ¿Deberían ser diferentes los criterios de elegibilidad por zona?
+
+---
+
+# Parte 5: Visualización 1 - Histograma
+
+```{webr-r}
+# Histograma general con líneas de referencia
+hist(datos$ingreso_pc_usd, 
+     breaks = 40, 
+     col = "steelblue", 
+     border = "white",
+     main = "Distribución de Ingresos Per Cápita",
+     xlab = "Ingreso mensual (USD)",
+     ylab = "Frecuencia de hogares",
+     xlim = c(0, 1500))
+
+# Línea vertical: media (promedio)
+abline(v = promedio_general, col = "red", lwd = 3, lty = 1)
+# Línea vertical: mediana
+abline(v = mediana_general, col = "darkgreen", lwd = 3, lty = 2)
+# Línea vertical: umbral de elegibilidad propuesto
+abline(v = 250, col = "orange", lwd = 2, lty = 3)
+
+# Leyenda
+legend("topright", 
+       legend = c("Media ($420)", "Mediana", "Umbral ($250)"),
+       col = c("red", "darkgreen", "orange"),
+       lty = c(1, 2, 3),
+       lwd = c(3, 3, 2),
+       bty = "n")
+
+# Agregar texto explicativo
+text(900, max(hist(datos$ingreso_pc_usd, plot=F, breaks=40)$counts) * 0.8,
+     "Cola larga →\nAlgunos hogares\nde altos ingresos\ninflan el promedio",
+     pos = 4, col = "red", cex = 0.9)
+```
+
+**Pregunta de análisis:** ¿Qué nos dice la forma de este histograma sobre la distribución del ingreso?
+
+---
+
+# Parte 6: Visualización 2 - Boxplot Comparativo
+
+```{webr-r}
+# Boxplot lado a lado
+boxplot(ingreso_pc_usd ~ zona, 
+        data = datos,
+        col = c("coral", "lightgreen"),
+        main = "Comparación de Ingresos: Urbano vs Rural",
+        ylab = "Ingreso per cápita (USD/mes)",
+        xlab = "Zona",
+        horizontal = FALSE,
+        notch = FALSE,
+        outcol = "red",
+        outpch = 19,
+        outcex = 0.5)
+
+# Línea de referencia: umbral de elegibilidad
+abline(h = 250, col = "blue", lwd = 2, lty = 2)
+
+# Agregar anotaciones sobre los elementos del boxplot
+mtext("Línea central = Mediana", side = 3, line = -2, at = 1, cex = 0.8, col = "gray30")
+mtext("Caja = IQR (50% central)", side = 3, line = -3, at = 1, cex = 0.8, col = "gray30")
+mtext("Bigotes = Rango esperado", side = 3, line = -4, at = 1, cex = 0.8, col = "gray30")
+mtext("Puntos = Outliers", side = 3, line = -5, at = 1, cex = 0.8, col = "red")
+```
+
+**Elementos del boxplot:**
+- **Línea central:** mediana (P50)
+- **Caja:** contiene el 50% central de los datos (P25 a P75)
+- **Bigotes:** se extienden hasta 1.5×IQR
+- **Puntos rojos:** valores atípicos (outliers)
+
+---
+
+# Parte 7: Análisis de Elegibilidad
+
+```{webr-r}
+# ¿Cuántos hogares califican con el umbral de $250?
+umbral <- 250
+elegibles <- sum(datos$ingreso_pc_usd < umbral)
+pct_elegibles <- 100 * elegibles / nrow(datos)
+
+cat("\n🎯 ANÁLISIS DE ELEGIBILIDAD\n")
+cat("════════════════════════════════════════\n")
+cat("Umbral propuesto:    $", umbral, "USD/mes\n\n")
+cat("Hogares elegibles:   ", elegibles, "\n")
+cat("Porcentaje total:    ", round(pct_elegibles, 1), "%\n\n")
+
+# Por zona
+elegibles_urb <- sum(datos$ingreso_pc_usd[datos$zona == "Urbana"] < umbral)
+elegibles_rur <- sum(datos$ingreso_pc_usd[datos$zona == "Rural"] < umbral)
+
+pct_urb <- 100 * elegibles_urb / n_urbano
+pct_rur <- 100 * elegibles_rur / n_rural
+
+cat("Zona Urbana:         ", elegibles_urb, " hogares (", round(pct_urb, 1), "%)\n")
+cat("Zona Rural:          ", elegibles_rur, " hogares (", round(pct_rur, 1), "%)\n\n")
+
+# Comparación con diferentes umbrales
+umbrales <- c(200, 250, 300, p10_urb, med_rur)
+nombres_umbrales <- c("$200 (restrictivo)", "$250 (propuesto)", "$300 (amplio)", 
+                      "P10 urbano", "Mediana rural")
+
+cat("📊 SENSIBILIDAD DEL UMBRAL\n")
+cat("════════════════════════════════════════\n")
+for (i in 1:length(umbrales)) {
+  n_elegibles <- sum(datos$ingreso_pc_usd < umbrales[i])
+  pct <- 100 * n_elegibles / nrow(datos)
+  cat(sprintf("%-20s: %4d hogares (%5.1f%%)\n", 
+              nombres_umbrales[i], n_elegibles, pct))
+}
+```
+
+**Pregunta de política:**
+- ¿Qué umbral recomendarías y por qué?
+- ¿Cómo balanceas cobertura vs. recursos disponibles?
+
+---
+
+# Parte 8: Tabla Resumen para Memo Ejecutivo
+
+```{webr-r}
+# Crear tabla profesional para presentar al Secretario
+cat("\n═══════════════════════════════════════════════════════════════\n")
+cat("  RESUMEN EJECUTIVO: DISTRIBUCIÓN DE INGRESOS MUNICIPAL\n")
+cat("═══════════════════════════════════════════════════════════════\n\n")
+
+cat("1. PANORAMA GENERAL\n")
+cat("   • Total de hogares:              5,000\n")
+cat("   • Ingreso promedio:              $", round(promedio_general, 2), " USD/mes\n")
+cat("   • Ingreso MEDIANO (típico):      $", round(mediana_general, 2), " USD/mes\n")
+cat("   • Diferencia media-mediana:      +", round(diferencia, 2), " USD (", 
+    round(100*diferencia/mediana_general, 1), "%)\n\n")
+
+cat("2. ANÁLISIS POR PERCENTILES\n")
+cat("   • 10% más pobre (P10):           < $", round(percentiles[1], 2), "\n")
+cat("   • 25% inferior (P25):            < $", round(percentiles[2], 2), "\n")
+cat("   • 50% inferior (Mediana):        < $", round(percentiles[3], 2), "\n")
+cat("   • 25% superior (P75):            > $", round(percentiles[4], 2), "\n")
+cat("   • 10% más rico (P90):            > $", round(percentiles[5], 2), "\n\n")
+
+cat("3. DISPERSIÓN Y DESIGUALDAD\n")
+cat("   • Rango intercuartil (IQR):      $", round(iqr, 2), "\n")
+cat("   • Desviación estándar:           $", round(desv_std, 2), "\n")
+cat("   • Coeficiente de variación:      ", round(cv, 1), "%\n\n")
+
+cat("4. COMPARACIÓN URBANO-RURAL\n")
+cat("   • Mediana urbana:                $", round(med_urb, 2), "\n")
+cat("   • Mediana rural:                 $", round(med_rur, 2), "\n")
+cat("   • Brecha:                        $", round(med_urb - med_rur, 2), "\n\n")
+
+cat("5. ELEGIBILIDAD (Umbral $250)\n")
+cat("   • Hogares elegibles TOTAL:       ", elegibles, " (", round(pct_elegibles, 1), "%)\n")
+cat("   • Elegibles zona urbana:         ", elegibles_urb, " (", round(pct_urb, 1), "%)\n")
+cat("   • Elegibles zona rural:          ", elegibles_rur, " (", round(pct_rur, 1), "%)\n\n")
+
+cat("═══════════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 9: Recomendación Basada en Evidencia
+
+```{webr-r}
+cat("\n💡 RECOMENDACIÓN PARA EL SECRETARIO\n")
+cat("════════════════════════════════════════════════════════════════\n\n")
+
+cat("📌 HALLAZGO PRINCIPAL:\n")
+cat("El ingreso promedio de $420 USD/mes NO representa al hogar típico.\n")
+cat("La distribución es altamente asimétrica con cola larga a la derecha.\n")
+cat("El hogar mediano gana $", round(mediana_general, 2), " USD/mes, ", 
+    round(100 * diferencia/promedio_general, 1), "% menos que el promedio.\n\n")
+
+cat("🎯 IMPLICACIONES PARA POLÍTICA:\n")
+cat("1. Usar el PROMEDIO como referencia subestimaría la vulnerabilidad.\n")
+cat("2. Con umbral de $250, se cubre al ", round(pct_elegibles, 1), "% de hogares.\n")
+cat("3. Existe desigualdad significativa entre zonas (CV = ", round(cv, 1), "%).\n\n")
+
+cat("✅ RECOMENDACIONES:\n")
+cat("1. Considerar umbrales diferenciados por zona:\n")
+cat("   - Zona urbana: P25 = $", round(quantile(datos$ingreso_pc_usd[datos$zona=="Urbana"], 0.25), 2), "\n")
+cat("   - Zona rural:  P25 = $", round(quantile(datos$ingreso_pc_usd[datos$zona=="Rural"], 0.25), 2), "\n\n")
+
+cat("2. Focalizar en el P10-P25 para maximizar impacto en pobreza extrema.\n\n")
+
+cat("3. Monitorear la cola superior (P90+) para posibles exclusiones.\n\n")
+
+cat("⚠️  LIMITACIONES:\n")
+cat("• Estos datos NO incluyen ingresos informales (probable subestimación)\n")
+cat("• No considera composición del hogar (per cápita vs hogar total)\n")
+cat("• La muestra puede tener sesgo de selección si hay no-respuesta diferencial\n")
+cat("• No captura variabilidad temporal (ingreso en un solo mes)\n\n")
+
+cat("════════════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Ejercicio Individual (Entregable)
+
+**Instrucciones:**
+
+1. **Crea una tabla** comparando las siguientes estadísticas para zona urbana vs rural:
+   - Media, Mediana, P10, P90, IQR
+   - Interpreta: ¿Dónde hay mayor desigualdad interna?
+
+2. **Genera un histograma** del ingreso solo para zona rural:
+   - Incluye líneas de referencia (media, mediana, umbral)
+   - Escribe un título-conclusión de máximo 18 palabras
+
+3. **Propón un criterio de elegibilidad** basado en percentiles:
+   - Justifica tu elección en 6 líneas
+   - Incluye al menos 1 limitación de tu propuesta
+   - Evita usar "promedio" como criterio único
+
+4. **Responde:**
+   - ¿Qué riesgo operativo implica usar solo el promedio para diseñar política?
+   - ¿Por qué importa ver la "cola" de la distribución (P10 y P90)?
+
+---
+
+# Preguntas de Discusión
+
+1. **Focalización vs Universalidad:** Si tuvieras presupuesto para solo el 20% más pobre, ¿usarías P10 o P20 como corte? ¿Por qué?
+
+2. **Denominador:** ¿Debería calcularse el ingreso per cápita o por hogar? ¿Qué cambia?
+
+3. **Errores de inclusión/exclusión:** ¿Preferirías un umbral que excluya a algunos elegibles (error tipo II) o que incluya a algunos no elegibles (error tipo I)?
+
+4. **Evidencia incompleta:** Si no tienes datos de ingreso informal, ¿cómo afecta esto tu recomendación? ¿Serías más conservador o más agresivo con el umbral?
+
+---
+
+# Recursos Adicionales
+
+**Conceptos clave para recordar:**
+
+- **Media vs Mediana:** En distribuciones asimétricas, la mediana es más robusta
+- **Percentiles:** Lenguaje para describir posiciones en la distribución
+- **IQR:** Mide dispersión sin ser afectado por outliers
+- **Coeficiente de Variación:** Dispersión relativa (> 30% = alta heterogeneidad)
+- **Histograma:** Muestra la forma completa de la distribución
+- **Boxplot:** Ideal para comparar grupos y detectar outliers
+
+**Para profundizar:**
+- Busca "Anscombe's Quartet" para ver por qué siempre hay que visualizar
+- Lee sobre "Simpson's Paradox" (lo veremos en sesión 10)
+- Investiga cómo se calcula la línea de pobreza en tu país
+
+---
+
+**Última reflexión:** En política pública, un solo número (el promedio) puede ocultar más de lo que revela. La distribución completa importa.

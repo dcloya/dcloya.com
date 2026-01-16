@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Exercise 6: Capturing the Truth – David Contreras-Loya</title>
+<title>Sesión 5: El Arte del Muestreo – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -378,7 +378,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nset.seed(55)\n\n# 1. Setup\ntrue_mean <- 8.5\nn_studies <- 20\nsample_size <- 50\n\n# 2. Simulate Studies\nstudies <- data.frame(id = 1:n_studies, mean = NA, lower = NA, upper = NA)\n\nfor(i in 1:n_studies) {\n  # Take a random sample\n  samp <- rnorm(sample_size, mean = true_mean, sd = 2)\n  # Calculate interval (roughly mean +/- 2 standard errors)\n  studies$mean[i] <- mean(samp)\n  se <- sd(samp) / sqrt(sample_size)\n  studies$lower[i] <- mean(samp) - 1.96 * se\n  studies$upper[i] <- mean(samp) + 1.96 * se\n}\n\n# 3. Check which ones \"failed\" to capture the truth\nstudies$captured <- studies$lower < true_mean & studies$upper > true_mean\n\n# 4. Plot\nggplot(studies, aes(x = id, y = mean, color = captured)) +\n  geom_point() +\n  geom_errorbar(aes(ymin = lower, ymax = upper)) +\n  geom_hline(yintercept = true_mean, color = \"red\", linetype = \"dashed\") +\n  labs(title = \"95% Confidence Intervals\", subtitle = \"Red = Failed to capture truth\") +\n  coord_flip()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nset.seed(2026)\n\n# VERDAD POBLACIONAL (desconocida en la realidad)\naprobacion_real <- 0.52\nN_poblacion <- 50000000  # 50 millones de votantes\n\ncat(\"🗳️  PARÁMETROS POBLACIONALES\\n\")\ncat(\"════════════════════════════════\\n\")\ncat(\"Aprobación real:    \", aprobacion_real*100, \"%\\n\")\ncat(\"Población total:    \", format(N_poblacion, big.mark=\",\"), \"\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 1000 encuestas con diferentes tamaños\nn_simulaciones <- 1000\ntamanos_muestra <- c(30, 100, 300, 1000, 3000)\n\nresultados <- data.frame()\n\nfor (n in tamanos_muestra) {\n  estimaciones <- replicate(n_simulaciones, {\n    muestra <- sample(c(0, 1), n, replace=TRUE, prob=c(1-aprobacion_real, aprobacion_real))\n    mean(muestra)\n  })\n  \n  temp_df <- data.frame(\n    n = n,\n    estimacion = estimaciones\n  )\n  resultados <- rbind(resultados, temp_df)\n}\n\ncat(\"📊 ESTADÍSTICAS POR TAMAÑO DE MUESTRA\\n\")\ncat(\"════════════════════════════════════════════════════════\\n\\n\")\n\nfor (n in tamanos_muestra) {\n  subset_data <- resultados$estimacion[resultados$n == n]\n  media <- mean(subset_data)\n  ee <- sd(subset_data)  # Error estándar empírico\n  \n  cat(\"n =\", n, \"\\n\")\n  cat(\"  Media de estimaciones:  \", round(media, 4), \"\\n\")\n  cat(\"  Error Estándar:         \", round(ee, 4), \"\\n\")\n  cat(\"  Rango (min-max):        \", round(min(subset_data), 3), \"-\", \n      round(max(subset_data), 3), \"\\n\\n\")\n}","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot comparativo\nboxplot(estimacion ~ n, data=resultados,\n        col=rainbow(length(tamanos_muestra)),\n        main=\"Distribución de Estimaciones según Tamaño de Muestra\",\n        xlab=\"Tamaño de muestra (n)\",\n        ylab=\"Aprobación estimada\",\n        ylim=c(0.35, 0.70))\n\nabline(h=aprobacion_real, col=\"red\", lwd=3, lty=2)\ntext(3, aprobacion_real+0.02, \"Verdad = 52%\", col=\"red\", pos=3)\n\n# Histogramas superpuestos\npar(mfrow=c(2, 3))\nfor (n in tamanos_muestra) {\n  subset_data <- resultados$estimacion[resultados$n == n]\n  hist(subset_data, \n       breaks=30,\n       col=rgb(0.2, 0.4, 0.8, 0.6),\n       border=\"white\",\n       main=paste(\"n =\", n),\n       xlab=\"Aprobación estimada\",\n       xlim=c(0.35, 0.70))\n  abline(v=aprobacion_real, col=\"red\", lwd=2)\n  abline(v=mean(subset_data), col=\"blue\", lwd=2, lty=2)\n}\npar(mfrow=c(1, 1))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📐 ERROR ESTÁNDAR TEÓRICO vs EMPÍRICO\\n\")\ncat(\"════════════════════════════════════════════════════════\\n\\n\")\n\nfor (n in tamanos_muestra) {\n  # Teórico: SE = sqrt(p*(1-p)/n)\n  se_teorico <- sqrt(aprobacion_real * (1-aprobacion_real) / n)\n  \n  # Empírico: DE de las 1000 simulaciones\n  se_empirico <- sd(resultados$estimacion[resultados$n == n])\n  \n  cat(\"n =\", n, \"\\n\")\n  cat(\"  SE teórico:   \", round(se_teorico, 5), \"\\n\")\n  cat(\"  SE empírico:  \", round(se_empirico, 5), \"\\n\")\n  cat(\"  Diferencia:   \", round(abs(se_teorico - se_empirico), 5), \"\\n\\n\")\n}\n\ncat(\"💡 INSIGHT: El error estándar disminuye con √n, no con n.\\n\")\ncat(\"   Para reducir el error a la mitad, necesitas 4× más gente.\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1634,11 +1634,11 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Exercise 6: Capturing the Truth – David Contreras-Loya">
+<meta property="og:title" content="Sesión 5: El Arte del Muestreo – David Contreras-Loya">
 <meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Exercise 6: Capturing the Truth – David Contreras-Loya">
+<meta name="twitter:title" content="Sesión 5: El Arte del Muestreo – David Contreras-Loya">
 <meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -1692,59 +1692,84 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/prova.html">
- <span class="dropdown-text">Course Overview</span></a>
+    <a class="dropdown-item" href="../notes/INDICE_COMPLETO.html">
+ <span class="dropdown-text">Indice Completo de Ejercicios</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/INSTRUCCIONES_USO.html">
+ <span class="dropdown-text">Guia de Uso para Estudiantes</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B1: Datos y Viz</li>
+        <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average.html">
- <span class="dropdown-text">Ex 1: Desigualdad (Promedios)</span></a>
+    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_outliers.html">
- <span class="dropdown-text">Ex 2: Limpieza de Datos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B2: Riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../notes/ex03_risk.html">
- <span class="dropdown-text">Ex 3: Presupuesto (Monte Carlo)</span></a>
+    <a class="dropdown-item" href="../notes/r_getting_started.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes.html">
- <span class="dropdown-text">Ex 4: Probabilidad Condicional</span></a>
+    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B3: Inferencia I</li>
+        <li class="dropdown-header">SESIONES (10 SESIONES)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y Visualizacion</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_lln.html">
- <span class="dropdown-text">Ex 5: Ley Grandes Números</span></a>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tirania del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci.html">
- <span class="dropdown-text">Ex 6: Intervalos de Confianza</span></a>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B4: Inferencia II</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y Riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest.html">
- <span class="dropdown-text">Ex 7: A/B Testing (T-Test)</span></a>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex08_pval.html">
- <span class="dropdown-text">Ex 8: El P-Valor</span></a>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">B5: Causalidad</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia I</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression.html">
- <span class="dropdown-text">Ex 9: Regresión Simple</span></a>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons.html">
- <span class="dropdown-text">Ex 10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipotesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociacion y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
   </li>  
     </ul>
   </li>
@@ -1790,7 +1815,12 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#visualizing-confidence-intervals" id="toc-visualizing-confidence-intervals" class="nav-link active" data-scroll-target="#visualizing-confidence-intervals">Visualizing Confidence Intervals</a></li>
+  <li><a href="#caso-encuesta-de-aprobación-presidencial" id="toc-caso-encuesta-de-aprobación-presidencial" class="nav-link active" data-scroll-target="#caso-encuesta-de-aprobación-presidencial">Caso: Encuesta de Aprobación Presidencial</a></li>
+  <li><a href="#parte-1-experimento-con-diferentes-tamaños-de-muestra" id="toc-parte-1-experimento-con-diferentes-tamaños-de-muestra" class="nav-link" data-scroll-target="#parte-1-experimento-con-diferentes-tamaños-de-muestra">Parte 1: Experimento con Diferentes Tamaños de Muestra</a></li>
+  <li><a href="#parte-2-visualización-de-la-convergencia" id="toc-parte-2-visualización-de-la-convergencia" class="nav-link" data-scroll-target="#parte-2-visualización-de-la-convergencia">Parte 2: Visualización de la Convergencia</a></li>
+  <li><a href="#parte-3-fórmula-del-error-estándar" id="toc-parte-3-fórmula-del-error-estándar" class="nav-link" data-scroll-target="#parte-3-fórmula-del-error-estándar">Parte 3: Fórmula del Error Estándar</a></li>
+  <li><a href="#ejercicio-individual" id="toc-ejercicio-individual" class="nav-link" data-scroll-target="#ejercicio-individual">Ejercicio Individual</a></li>
+  <li><a href="#discusión" id="toc-discusión" class="nav-link" data-scroll-target="#discusión">Discusión</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,7 +2113,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercise 6: Capturing the Truth</h1>
+<h1 class="title">Sesión 5: El Arte del Muestreo</h1>
 </div>
 
 
@@ -2100,11 +2130,48 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="visualizing-confidence-intervals" class="level1">
-<h1>Visualizing Confidence Intervals</h1>
-<p>The red line is the <strong>TRUE</strong> unemployment rate. The black bars are 20 different surveys (Intervals). A 95% Confidence Interval means that, over many studies, 95% of our bars should touch the red line.</p>
+<section id="caso-encuesta-de-aprobación-presidencial" class="level1">
+<h1>Caso: Encuesta de Aprobación Presidencial</h1>
+<p>El <strong>Instituto Electoral</strong> debe estimar la aprobación presidencial para presupuestar campañas. La verdad poblacional es 52% de aprobación, pero solo podemos encuestar una muestra.</p>
+<p><strong>Preguntas:</strong> - ¿Qué tan grande debe ser la muestra? - ¿Cuánto varía el resultado con muestras pequeñas vs grandes? - ¿Cuál es el margen de error esperado?</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-1-experimento-con-diferentes-tamaños-de-muestra" class="level1">
+<h1>Parte 1: Experimento con Diferentes Tamaños de Muestra</h1>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-2-visualización-de-la-convergencia" class="level1">
+<h1>Parte 2: Visualización de la Convergencia</h1>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-3-fórmula-del-error-estándar" class="level1">
+<h1>Parte 3: Fórmula del Error Estándar</h1>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="ejercicio-individual" class="level1">
+<h1>Ejercicio Individual</h1>
+<ol type="1">
+<li><strong>Simula</strong> una encuesta con n=500 y calcula intervalo [estimación ± 2×SE]</li>
+<li><strong>Compara</strong> costo-beneficio de n=1000 vs n=3000</li>
+<li><strong>Recomienda</strong> tamaño de muestra para margen de error &lt;3%</li>
+</ol>
+<hr>
+</section>
+<section id="discusión" class="level1">
+<h1>Discusión</h1>
+<ul>
+<li>¿Cuándo vale la pena una muestra grande?</li>
+<li>¿Sesgo vs varianza: qué es peor?</li>
+<li>¿Cómo afecta la no-respuesta?</li>
+</ul>
 
 
 </section>
