@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Dr.&nbsp;David Contreras-Loya">
+<meta name="dcterms.date" content="2026-01-15">
+<meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<title>Section 1: Getting Started with R – David Contreras-Loya</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id="></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '', { 'anonymize_ip': true});
+</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Section 1: Getting Started with R – David Contreras-Loya">
+<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta property="og:image" content="https://quarto.org/quarto.png">
+<meta property="og:site_name" content="David Contreras-Loya">
+<meta name="twitter:title" content="Section 1: Getting Started with R – David Contreras-Loya">
+<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">David Contreras-Loya</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">
+<li>
+    <a class="dropdown-item" href="../contact.html">
+ <span class="dropdown-text">Contact</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">
+<li>
+    <a class="dropdown-item" href="../publications.html">
+ <span class="dropdown-text">List of Publications</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ongoing.html">
+ <span class="dropdown-text">Ongoing Research</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">
+<li class="dropdown-header">INTRODUCCION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">CONFIGURACION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_getting_started.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
+ <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
+ <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../files/nsf-biosketch.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#what-you-will-need" id="toc-what-you-will-need" class="nav-link active" data-scroll-target="#what-you-will-need">What You Will Need</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li>
+<a href="#packages-in-r" id="toc-packages-in-r" class="nav-link" data-scroll-target="#packages-in-r">Packages in R</a>
+  <ul class="collapse">
+<li>
+<a href="#installing-packages" id="toc-installing-packages" class="nav-link" data-scroll-target="#installing-packages">Installing Packages</a>
+  <ul class="collapse">
+<li><a href="#important-notes" id="toc-important-notes" class="nav-link" data-scroll-target="#important-notes">Important Notes:</a></li>
+  </ul>
+</li>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages">Loading Packages</a></li>
+  <li><a href="#package-management-with-pacman" id="toc-package-management-with-pacman" class="nav-link" data-scroll-target="#package-management-with-pacman">Package Management with <code>pacman</code></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#loading-data" id="toc-loading-data" class="nav-link" data-scroll-target="#loading-data">Loading Data</a>
+  <ul class="collapse">
+<li>
+<a href="#file-paths-and-navigation" id="toc-file-paths-and-navigation" class="nav-link" data-scroll-target="#file-paths-and-navigation">File Paths and Navigation</a>
+  <ul class="collapse">
+<li><a href="#changing-and-checking-directories" id="toc-changing-and-checking-directories" class="nav-link" data-scroll-target="#changing-and-checking-directories">Changing and Checking Directories</a></li>
+  <li><a href="#navigation-commands" id="toc-navigation-commands" class="nav-link" data-scroll-target="#navigation-commands">Navigation Commands</a></li>
+  <li><a href="#smart-path-management" id="toc-smart-path-management" class="nav-link" data-scroll-target="#smart-path-management">Smart Path Management</a></li>
+  <li><a href="#rstudio-tab-completion" id="toc-rstudio-tab-completion" class="nav-link" data-scroll-target="#rstudio-tab-completion">RStudio Tab Completion</a></li>
+  </ul>
+</li>
+  <li><a href="#the-dir-function" id="toc-the-dir-function" class="nav-link" data-scroll-target="#the-dir-function">The <code>dir()</code> Function</a></li>
+  <li>
+<a href="#functions-to-load-files" id="toc-functions-to-load-files" class="nav-link" data-scroll-target="#functions-to-load-files">Functions to Load Files</a>
+  <ul class="collapse">
+<li><a href="#loading-a-stata-file" id="toc-loading-a-stata-file" class="nav-link" data-scroll-target="#loading-a-stata-file">Loading a Stata File</a></li>
+  <li><a href="#loading-a-csv-file" id="toc-loading-a-csv-file" class="nav-link" data-scroll-target="#loading-a-csv-file">Loading a CSV File</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#playing-with-data" id="toc-playing-with-data" class="nav-link" data-scroll-target="#playing-with-data">Playing with Data</a>
+  <ul class="collapse">
+<li>
+<a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data">Exploring the Data</a>
+  <ul class="collapse">
+<li><a href="#getting-column-names" id="toc-getting-column-names" class="nav-link" data-scroll-target="#getting-column-names">Getting Column Names</a></li>
+  <li><a href="#viewing-firstlast-rows" id="toc-viewing-firstlast-rows" class="nav-link" data-scroll-target="#viewing-firstlast-rows">Viewing First/Last Rows</a></li>
+  </ul>
+</li>
+  <li><a href="#summarizing-the-data" id="toc-summarizing-the-data" class="nav-link" data-scroll-target="#summarizing-the-data">Summarizing the Data</a></li>
+  <li>
+<a href="#manipulating-the-data" id="toc-manipulating-the-data" class="nav-link" data-scroll-target="#manipulating-the-data">Manipulating the Data</a>
+  <ul class="collapse">
+<li><a href="#select---choose-variables" id="toc-select---choose-variables" class="nav-link" data-scroll-target="#select---choose-variables"><code>select()</code> - Choose Variables</a></li>
+  <li><a href="#arrange---sort-data" id="toc-arrange---sort-data" class="nav-link" data-scroll-target="#arrange---sort-data"><code>arrange()</code> - Sort Data</a></li>
+  <li><a href="#summarize---create-summaries" id="toc-summarize---create-summaries" class="nav-link" data-scroll-target="#summarize---create-summaries"><code>summarize()</code> - Create Summaries</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#plotting-the-data" id="toc-plotting-the-data" class="nav-link" data-scroll-target="#plotting-the-data">Plotting the Data</a>
+  <ul class="collapse">
+<li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram">Histogram</a></li>
+  <li><a href="#scatterplot" id="toc-scatterplot" class="nav-link" data-scroll-target="#scatterplot">Scatterplot</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#indexing" id="toc-indexing" class="nav-link" data-scroll-target="#indexing">Indexing</a>
+  <ul class="collapse">
+<li><a href="#vector-indexing" id="toc-vector-indexing" class="nav-link" data-scroll-target="#vector-indexing">Vector Indexing</a></li>
+  <li><a href="#data-frame-indexing" id="toc-data-frame-indexing" class="nav-link" data-scroll-target="#data-frame-indexing">Data Frame Indexing</a></li>
+  </ul>
+</li>
+  <li><a href="#fun-challenge" id="toc-fun-challenge" class="nav-link" data-scroll-target="#fun-challenge">Fun Challenge</a></li>
+  <li><a href="#practice-problems" id="toc-practice-problems" class="nav-link" data-scroll-target="#practice-problems">Practice Problems</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Section 1: Getting Started with R</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>David Contreras-Loya </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><section id="what-you-will-need" class="level1"><h1>What You Will Need</h1>
+<ol type="1">
+<li>Working and up-to-date installations of <strong>R</strong> and <strong>RStudio</strong>
+</li>
+<li>Data files: <code>auto.csv</code> and <code>auto.dta</code> (download from course materials)</li>
+<li>An internet connection</li>
+<li>
+<em>Optional:</em> A healthy source of caffeine ☕</li>
+</ol></section><section id="summary" class="level1"><h1>Summary</h1>
+<p>In this section we will dive into R. We start by installing and loading useful packages (<code>dplyr</code>, <code>haven</code>, <code>readr</code>, and <code>pacman</code>). We then load datasets and begin summarizing and manipulating them. Finally, we’ll make our first plots.</p>
+<hr></section><section id="packages-in-r" class="level1"><h1>Packages in R</h1>
+<p>Open RStudio. Make sure you are running the most recent versions of R and RStudio.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Your Versions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>
+<strong>R version</strong>: 4.4.2 or newer</li>
+<li>
+<strong>RStudio version</strong>: 2024.12.0 or newer</li>
+</ul>
+</div>
+</div>
+<p>While base R is helpful and powerful, R’s true potential comes from combining the core installation with the many packages generated through open-source collaboration (see <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN’s list of packages</a>).</p>
+<section id="installing-packages" class="level2"><h2 class="anchored" data-anchor-id="installing-packages">Installing Packages</h2>
+<p>You can check which packages are currently installed using the function <code><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages()</a></code>. Ready to run your first function? Type <code><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages()</a></code> into the R console and hit return.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alternative: Check Packages Tab
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also check the <strong>Packages</strong> tab inside RStudio. The checked boxes denote the packages that are currently loaded.</p>
+</div>
+</div>
+<p>Now, let’s install a few packages that will prove useful this semester. We use the <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> function, giving it the name(s) of the package(s) you want to install.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Install the package named "dplyr"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install the packages named "haven" and "readr"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"haven"</span>, <span class="st">"readr"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="important-notes" class="level3"><h3 class="anchored" data-anchor-id="important-notes">Important Notes:</h3>
+<ol start="0" type="1">
+<li><strong>You need an internet connection.</strong></li>
+<li>The function name <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> is plural regardless of the number of packages.</li>
+<li>Each package’s name is surrounded by <strong>quotes</strong> (<em>e.g.</em>, <code>"haven"</code>). These quotation marks tell R this is a character/string, not an object. Use <strong>double quotes</strong> for consistency.</li>
+<li>We can create a <strong>vector</strong> of packages using <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. Example: <code>c(1, 2, 3)</code> is a three-element vector. Similarly, <code>c("haven", "readr")</code> is a two-element vector of package names. <strong>Vectors are a big deal in R.</strong>
+</li>
+<li>The hashtag (<code>#</code>) creates <strong>comments</strong> in R.</li>
+</ol></section></section><section id="loading-packages" class="level2"><h2 class="anchored" data-anchor-id="loading-packages">Loading Packages</h2>
+<p>To check that installations were successful, we’ll load the packages using the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org">haven</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice we didn’t need quotation marks around package names when loading (though it would still work with quotes).</p>
+</div>
+</div>
+</section><section id="package-management-with-pacman" class="level2"><h2 class="anchored" data-anchor-id="package-management-with-pacman">Package Management with <code>pacman</code>
+</h2>
+<p>Let’s install another package: the <code>pacman</code> package (yes, like the game! 🎮).</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Install the 'pacman' package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load it</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>pacman</code> package is very meta: it’s a package to manage packages. You can use it to install, load, unload, and update your R packages.</p>
+<p>Rather than typing <code><a href="https://rdrr.io/r/base/library.html">library(...)</a></code> for every package, use <code>pacman</code>’s <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> function:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Old way</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org">haven</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># New way</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">dplyr</span>, <span class="va">haven</span>, <span class="va">readr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Better yet:</strong> If you try to load a package that isn’t installed, <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> will install it automatically! Let’s install and load <code>ggplot2</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Installed and loaded. <em>That’s</em> service! ✨</p>
+<hr></section></section><section id="loading-data" class="level1"><h1>Loading Data</h1>
+<p>Loading a dataset in R requires three things:</p>
+<ol type="1">
+<li>The <strong>path</strong> of the data file (where it exists on your computer)</li>
+<li>The <strong>name</strong> of the data file<br>
+</li>
+<li>The proper <strong>function</strong> for the file type (<em>e.g.</em>, different functions for <code>.csv</code> vs <code>.dta</code> files)</li>
+</ol>
+<section id="file-paths-and-navigation" class="level2"><h2 class="anchored" data-anchor-id="file-paths-and-navigation">File Paths and Navigation</h2>
+<p>R wants file paths as <strong>character vectors</strong> (<em>i.e.</em>, the path surrounded by quotations). For example:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="st">"/Users/david/Dropbox/Teaching/MyClass"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="changing-and-checking-directories" class="level3"><h3 class="anchored" data-anchor-id="changing-and-checking-directories">Changing and Checking Directories</h3>
+<p>To change R’s working directory, use <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"/Users/david/Dropbox/Teaching/MyClass"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To find R’s current working directory:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Windows Users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you copy paths from File Explorer, slashes may be backwards (<code>\</code>). Change them to forward slashes (<code>/</code>) or double them (<code>\\</code>).</p>
+</div>
+</div>
+</section><section id="navigation-commands" class="level3"><h3 class="anchored" data-anchor-id="navigation-commands">Navigation Commands</h3>
+<p>Similar to Linux/Unix:</p>
+<ul>
+<li>
+<code>..</code> moves up one level</li>
+<li>
+<code>~</code> returns to your home directory</li>
+<li>You can use full paths or relative paths</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Check current directory</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Move up one level</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">".."</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Go home</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"~"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Return to class folder</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"Dropbox/Teaching/MyClass"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="smart-path-management" class="level3"><h3 class="anchored" data-anchor-id="smart-path-management">Smart Path Management</h3>
+<p>I prefer to store paths at the start of my script for easy updating:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Path to my class folder</span></span>
+<span><span class="va">dir_class</span> <span class="op">&lt;-</span> <span class="st">"/Users/david/Documents/MyClass/"</span></span>
+<span></span>
+<span><span class="co"># Path to section 1 folder (inside class folder)</span></span>
+<span><span class="va">dir_section1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_class</span>, <span class="st">"Section01/"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> vs <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> pastes without spaces</li>
+<li>
+<code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> defaults to single space between elements</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Default paste0()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>  <span class="co"># "123"</span></span>
+<span></span>
+<span><span class="co"># Default paste()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>   <span class="co"># "1 2 3"</span></span>
+<span></span>
+<span><span class="co"># Custom separator</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, sep <span class="op">=</span> <span class="st">"+"</span><span class="op">)</span>  <span class="co"># "1+2+3"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section><section id="rstudio-tab-completion" class="level3"><h3 class="anchored" data-anchor-id="rstudio-tab-completion">RStudio Tab Completion</h3>
+<p>RStudio assists with completing file paths—begin typing and press <strong>Tab</strong>. Super useful!</p>
+</section></section><section id="the-dir-function" class="level2"><h2 class="anchored" data-anchor-id="the-dir-function">The <code>dir()</code> Function</h2>
+<p>The <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code> function shows contents of a folder:</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Look inside my class folder</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="va">dir_class</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Look inside my section 1 folder</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="va">dir_section1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This helps when you forget file names!</p>
+</section><section id="functions-to-load-files" class="level2"><h2 class="anchored" data-anchor-id="functions-to-load-files">Functions to Load Files</h2>
+<p>We’ll mostly use:</p>
+<ul>
+<li>
+<strong><code>readr</code></strong> package: for CSV, TSV, and delimited files</li>
+<li>
+<strong><code>haven</code></strong> package: for Stata (<code>.dta</code>), SPSS, and SAS files</li>
+<li>
+<strong>Base R</strong>: for R’s own formats (<code>.rds</code>, <code>.rdata</code>)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learn About Functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To learn more about a function:</p>
+<ol type="1">
+<li>Press <strong>Tab</strong> after typing the function name (in RStudio)</li>
+<li>Type <code>?function_name</code> in console (<em>e.g.</em>, <code><a href="https://haven.tidyverse.org/reference/read_dta.html">?read_dta</a></code>)</li>
+</ol>
+</div>
+</div>
+<section id="loading-a-stata-file" class="level3"><h3 class="anchored" data-anchor-id="loading-a-stata-file">Loading a Stata File</h3>
+<p>Let’s load <code>auto.dta</code> using <code><a href="https://haven.tidyverse.org/reference/read_dta.html">read_dta()</a></code> from the <code>haven</code> package:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the .dta file</span></span>
+<span><span class="va">car_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_dta.html">read_dta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_section1</span>, <span class="st">"auto.dta"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The Assignment Operator <code>&lt;-</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>&lt;-</code> operator is central to R. It assigns the value(s) on the right to the name on the left.</p>
+<p>When reading aloud, people say “gets”: <code>car_data</code> <strong>gets</strong> the contents of <code>auto.dta</code>.</p>
+</div>
+</div>
+<p>To view the data, just type its name:</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">car_data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="loading-a-csv-file" class="level3"><h3 class="anchored" data-anchor-id="loading-a-csv-file">Loading a CSV File</h3>
+<p>For a CSV file, use <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> from the <code>readr</code> package:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the .csv file</span></span>
+<span><span class="va">car_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_section1</span>, <span class="st">"auto.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View it</span></span>
+<span><span class="va">car_data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Relative Paths
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’re already in the right directory, you don’t need the full path:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"Section01/auto.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<hr></section></section></section><section id="playing-with-data" class="level1"><h1>Playing with Data</h1>
+<p>You now know how to navigate your computer and load data. Let’s do something with those data!</p>
+<section id="exploring-the-data" class="level2"><h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the Data</h2>
+<p>Print the data to the console:</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">car_data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice several things:</p>
+<ol type="1">
+<li>The dataset is a <strong>tibble</strong> (like a data frame with rules)</li>
+<li>Dimensions: 74 rows × 12 columns</li>
+<li>Column types: <code>&lt;chr&gt;</code> (character), <code>&lt;dbl&gt;</code> (double/numeric), <code>&lt;int&gt;</code> (integer)</li>
+<li>You get a snapshot of the first 10 rows</li>
+</ol>
+<section id="getting-column-names" class="level3"><h3 class="anchored" data-anchor-id="getting-column-names">Getting Column Names</h3>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="viewing-firstlast-rows" class="level3"><h3 class="anchored" data-anchor-id="viewing-firstlast-rows">Viewing First/Last Rows</h3>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># First 6 rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># First 11 rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">car_data</span>, n <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Last 7 rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">car_data</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RStudio Data Viewer
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>View(car_data)</code> or click the dataset in the Environment pane to open RStudio’s data viewer.</p>
+</div>
+</div>
+</section></section><section id="summarizing-the-data" class="level2"><h2 class="anchored" data-anchor-id="summarizing-the-data">Summarizing the Data</h2>
+<p>Get a quick summary of your dataset:</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To summarize a <strong>single variable</strong>, use <code>$</code> to grab it:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Grab the price variable</span></span>
+<span><span class="va">car_data</span><span class="op">$</span><span class="va">price</span></span>
+<span></span>
+<span><span class="co"># Summarize price</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Accessing Variables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>dataset$variable</code> is how you grab a specific column. RStudio’s tab completion works here too!</p>
+</div>
+</div>
+</section><section id="manipulating-the-data" class="level2"><h2 class="anchored" data-anchor-id="manipulating-the-data">Manipulating the Data</h2>
+<p>The <code>dplyr</code> package offers helpful tools for data manipulation using <strong>verbs</strong> as actions.</p>
+<section id="select---choose-variables" class="level3"><h3 class="anchored" data-anchor-id="select---choose-variables">
+<code>select()</code> - Choose Variables</h3>
+<p>Keep only variables you care about:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Select desired variables</span></span>
+<span><span class="va">car_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">car_data</span>, <span class="va">price</span>, <span class="va">mpg</span>, <span class="va">weight</span>, <span class="va">length</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View result</span></span>
+<span><span class="va">car_sub</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now have 74 rows but only 4 columns!</p>
+<p><strong>Alternative:</strong> Exclude variables with a minus sign:</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">car_data</span>, <span class="op">-</span><span class="va">price</span>, <span class="op">-</span><span class="va">mpg</span>, <span class="op">-</span><span class="va">weight</span>, <span class="op">-</span><span class="va">length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="arrange---sort-data" class="level3"><h3 class="anchored" data-anchor-id="arrange---sort-data">
+<code>arrange()</code> - Sort Data</h3>
+<p>Arrange data by one or more columns:</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Arrange by price, then mpg</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">car_sub</span>, <span class="va">price</span>, <span class="va">mpg</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Assignment Required!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you view <code>car_sub</code> now, it’s not arranged. You must <strong>assign</strong> the result to change the object:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">car_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">car_sub</span>, <span class="va">price</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>For <strong>descending</strong> order, use <code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">car_sub</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span>, <span class="va">mpg</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="summarize---create-summaries" class="level3"><h3 class="anchored" data-anchor-id="summarize---create-summaries">
+<code>summarize()</code> - Create Summaries</h3>
+<p>Create specific summaries of your data:</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Mean and SD of price</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">car_sub</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># With custom names</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">car_sub</span>, price_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span>, price_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For simple summaries, you could also just type:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">car_sub</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">car_sub</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="plotting-the-data" class="level2"><h2 class="anchored" data-anchor-id="plotting-the-data">Plotting the Data</h2>
+<p>R’s default plot functions are simple but effective. We’ll cover <code>ggplot2</code> later, but for now, let’s make quick plots.</p>
+<section id="histogram" class="level3"><h3 class="anchored" data-anchor-id="histogram">Histogram</h3>
+<p>Create a histogram of miles per gallon:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plain histogram</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">car_sub</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make it prettier with labels and a median line:</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># The histogram</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">car_sub</span><span class="op">$</span><span class="va">mpg</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Distribution of Fuel Economy"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"MPG (miles per gallon)"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add blue line at median</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">car_sub</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="scatterplot" class="level3"><h3 class="anchored" data-anchor-id="scatterplot">Scatterplot</h3>
+<p>Plot price vs.&nbsp;mileage:</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">car_sub</span><span class="op">$</span><span class="va">mpg</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">car_sub</span><span class="op">$</span><span class="va">price</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Fuel Economy (MPG)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Price ($)"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Clear Code Style
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I recommend clearly defining function arguments. It helps keep things straight, as <strong>order matters</strong> when you’re not naming arguments.</p>
+</div>
+</div>
+<hr></section></section></section><section id="indexing" class="level1"><h1>Indexing</h1>
+<p>Nearly everything in R is numerically indexed. You can access individual elements using <strong>square brackets</strong> <code>[]</code>.</p>
+<section id="vector-indexing" class="level2"><h2 class="anchored" data-anchor-id="vector-indexing">Vector Indexing</h2>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create a vector</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">9</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Grab the second element</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>  <span class="co"># Returns: 5</span></span>
+<span></span>
+<span><span class="co"># Grab second and third elements</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span>  <span class="co"># Returns: 5 7</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>      <span class="co"># Same result</span></span>
+<span></span>
+<span><span class="co"># What does 2:3 do?</span></span>
+<span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>  <span class="co"># Creates sequence: 2 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="data-frame-indexing" class="level2"><h2 class="anchored" data-anchor-id="data-frame-indexing">Data Frame Indexing</h2>
+<p>Data frames have <strong>rows and columns</strong>: <code>[row, column]</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Grab first row (all columns)</span></span>
+<span><span class="va">car_sub</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Grab first column (all rows)</span></span>
+<span><span class="va">car_sub</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Use column name as index</span></span>
+<span><span class="va">car_sub</span><span class="op">[</span>, <span class="st">"price"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Row, Column Order
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember: <strong>Rows before columns</strong>. Leave blank to select all. - <code>[1, ]</code> = first row, all columns - <code>[, 2]</code> = all rows, second column - <code>[3, 4]</code> = third row, fourth column</p>
+</div>
+</div>
+<hr></section></section><section id="fun-challenge" class="level1"><h1>Fun Challenge</h1>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try This
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>What happens if you give <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> or <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code> a <strong>negative</strong> <code>n</code>?</li>
+<li>Can you replicate this behavior using indexing?</li>
+<li>Can you replicate <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code> using only the <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> function?</li>
+</ol>
+</div>
+</div>
+<hr></section><section id="practice-problems" class="level1"><h1>Practice Problems</h1>
+<p>Some classic R-meets-linear-algebra puzzles for your enjoyment:</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problem 1: Identity Matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <strong>I</strong>₅ be a 5×5 identity matrix. Demonstrate that <strong>I</strong>₅ is symmetric and idempotent using R functions.</p>
+<p><strong>Hint:</strong> Use <code>diag(5)</code> to create an identity matrix.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problem 2: Idempotent Matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Generate a 2×2 idempotent matrix <strong>X</strong>, where <strong>X</strong> is not the identity matrix. Demonstrate that <strong>X</strong> = <strong>XX</strong>.</p>
+<p><strong>Hint:</strong> An idempotent matrix satisfies <strong>X</strong> = <strong>X</strong>².</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problem 3: Linear Regression
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Generate two random variables, <strong>x</strong> and <strong>e</strong>, of dimension n = 100 such that <strong>x</strong>, <strong>e</strong> ~ N(0, 1).</p>
+<p>Generate <strong>y</strong> according to: y = x + e</p>
+<p>Show that regressing <strong>y</strong> on <strong>x</strong> using <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> gives estimates: β₀ ≈ 0 and β₁ ≈ 1.</p>
+<p><strong>Hint:</strong> Use <code>rnorm(100)</code> to generate normal random variables.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problem 4: Eigenvalues and Trace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Show that if λ₁, λ₂, …, λ₅ are the eigenvalues of a 5×5 matrix <strong>A</strong>, then:</p>
+<p>tr(<strong>A</strong>) = Σλᵢ (sum of eigenvalues)</p>
+<p><strong>Hint:</strong> Use <code><a href="https://rdrr.io/r/base/eigen.html">eigen()</a></code> to find eigenvalues and <code>sum(diag())</code> for the trace.</p>
+</div>
+</div>
+<hr></section><section id="key-takeaways" class="level1"><h1>Key Takeaways</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remember
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>
+<strong>Packages extend R’s power</strong> - Use <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code> for easy management</li>
+<li>
+<strong>File paths are strings</strong> - Use <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> to build paths programmatically</li>
+<li>
+<strong>Assignment is key</strong> - Use <code>&lt;-</code> to save results: <code>new_data &lt;- old_data</code>
+</li>
+<li>
+<strong><code>dplyr</code> verbs</strong> - <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> for data manipulation</li>
+<li>
+<strong>Indexing with <code>[row, column]</code></strong> - Essential for accessing data</li>
+<li>
+<strong>Use <code>$</code> for columns</strong> - <code>dataset$variable</code> grabs a specific variable</li>
+</ol>
+</div>
+</div>
+<hr></section><section id="additional-resources" class="level1"><h1>Additional Resources</h1>
+<ul>
+<li>
+<a href="https://r4ds.hadley.nz/">R for Data Science</a> - Comprehensive guide</li>
+<li>
+<a href="https://posit.co/resources/cheatsheets/">RStudio Cheatsheets</a> - Quick references</li>
+<li>
+<a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a> - Q&amp;A community</li>
+<li>
+<code>?function_name</code> - Built-in R help</li>
+</ul>
+<hr>
+<p><strong>Next:</strong> Section 2 - Data Wrangling with dplyr</p>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb34" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Section 1: Getting Started with R"</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "David Contreras-Loya"</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: paged</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># What You Will Need</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Working and up-to-date installations of **R** and **RStudio**</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Data files: <span class="in">`auto.csv`</span> and <span class="in">`auto.dta`</span> (download from course materials)</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>An internet connection</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>*Optional:* A healthy source of caffeine ☕</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>In this section we will dive into R. We start by installing and loading useful packages (<span class="in">`dplyr`</span>, <span class="in">`haven`</span>, <span class="in">`readr`</span>, and <span class="in">`pacman`</span>). We then load datasets and begin summarizing and manipulating them. Finally, we'll make our first plots.</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a><span class="fu"># Packages in R</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>Open RStudio. Make sure you are running the most recent versions of R and RStudio.</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Check Your Versions</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R version**: 4.4.2 or newer</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RStudio version**: 2024.12.0 or newer</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>While base R is helpful and powerful, R's true potential comes from combining the core installation with the many packages generated through open-source collaboration (see <span class="co">[</span><span class="ot">CRAN's list of packages</span><span class="co">](https://cran.r-project.org/web/packages/available_packages_by_name.html)</span>).</span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installing Packages</span></span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a>You can check which packages are currently installed using the function <span class="in">`installed.packages()`</span>. Ready to run your first function? Type <span class="in">`installed.packages()`</span> into the R console and hit return.</span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternative: Check Packages Tab</span></span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a>You can also check the **Packages** tab inside RStudio. The checked boxes denote the packages that are currently loaded.</span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a>Now, let's install a few packages that will prove useful this semester. We use the <span class="in">`install.packages()`</span> function, giving it the name(s) of the package(s) you want to install.</span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the package named "dplyr"</span></span>
+<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the packages named "haven" and "readr"</span></span>
+<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"haven"</span>, <span class="st">"readr"</span>))</span>
+<span id="cb34-61"><a href="#cb34-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-62"><a href="#cb34-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Important Notes:</span></span>
+<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a><span class="ss">0. </span>**You need an internet connection.**</span>
+<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The function name <span class="in">`install.packages()`</span> is plural regardless of the number of packages.</span>
+<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Each package's name is surrounded by **quotes** (*e.g.*, `"haven"`). These quotation marks tell R this is a character/string, not an object. Use **double quotes** for consistency.</span>
+<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>We can create a **vector** of packages using `c()`. Example: `c(1, 2, 3)` is a three-element vector. Similarly, `c("haven", "readr")` is a two-element vector of package names. **Vectors are a big deal in R.**</span>
+<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The hashtag (<span class="in">`#`</span>) creates **comments** in R.</span>
+<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Loading Packages</span></span>
+<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a>To check that installations were successful, we'll load the packages using the <span class="in">`library()`</span> function:</span>
+<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-78"><a href="#cb34-78" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-79"><a href="#cb34-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-80"><a href="#cb34-80" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb34-81"><a href="#cb34-81" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb34-82"><a href="#cb34-82" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb34-83"><a href="#cb34-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-84"><a href="#cb34-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-85"><a href="#cb34-85" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb34-86"><a href="#cb34-86" aria-hidden="true" tabindex="-1"></a>Notice we didn't need quotation marks around package names when loading (though it would still work with quotes).</span>
+<span id="cb34-87"><a href="#cb34-87" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-88"><a href="#cb34-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-89"><a href="#cb34-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Package Management with `pacman`</span></span>
+<span id="cb34-90"><a href="#cb34-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-91"><a href="#cb34-91" aria-hidden="true" tabindex="-1"></a>Let's install another package: the <span class="in">`pacman`</span> package (yes, like the game! 🎮).</span>
+<span id="cb34-92"><a href="#cb34-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-95"><a href="#cb34-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-96"><a href="#cb34-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-97"><a href="#cb34-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-98"><a href="#cb34-98" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the 'pacman' package</span></span>
+<span id="cb34-99"><a href="#cb34-99" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb34-100"><a href="#cb34-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-101"><a href="#cb34-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Load it</span></span>
+<span id="cb34-102"><a href="#cb34-102" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb34-103"><a href="#cb34-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-104"><a href="#cb34-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-105"><a href="#cb34-105" aria-hidden="true" tabindex="-1"></a>The <span class="in">`pacman`</span> package is very meta: it's a package to manage packages. You can use it to install, load, unload, and update your R packages.</span>
+<span id="cb34-106"><a href="#cb34-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-107"><a href="#cb34-107" aria-hidden="true" tabindex="-1"></a>Rather than typing <span class="in">`library(...)`</span> for every package, use <span class="in">`pacman`</span>'s <span class="in">`p_load()`</span> function:</span>
+<span id="cb34-108"><a href="#cb34-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-111"><a href="#cb34-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-112"><a href="#cb34-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-113"><a href="#cb34-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-114"><a href="#cb34-114" aria-hidden="true" tabindex="-1"></a><span class="co"># Old way</span></span>
+<span id="cb34-115"><a href="#cb34-115" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb34-116"><a href="#cb34-116" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb34-117"><a href="#cb34-117" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb34-118"><a href="#cb34-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-119"><a href="#cb34-119" aria-hidden="true" tabindex="-1"></a><span class="co"># New way</span></span>
+<span id="cb34-120"><a href="#cb34-120" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, haven, readr)</span>
+<span id="cb34-121"><a href="#cb34-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-122"><a href="#cb34-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-123"><a href="#cb34-123" aria-hidden="true" tabindex="-1"></a>**Better yet:** If you try to load a package that isn't installed, <span class="in">`p_load()`</span> will install it automatically! Let's install and load <span class="in">`ggplot2`</span>:</span>
+<span id="cb34-124"><a href="#cb34-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-127"><a href="#cb34-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-128"><a href="#cb34-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-129"><a href="#cb34-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-130"><a href="#cb34-130" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(ggplot2)</span>
+<span id="cb34-131"><a href="#cb34-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-132"><a href="#cb34-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-133"><a href="#cb34-133" aria-hidden="true" tabindex="-1"></a>Installed and loaded. *That's* service! ✨</span>
+<span id="cb34-134"><a href="#cb34-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-135"><a href="#cb34-135" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-136"><a href="#cb34-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-137"><a href="#cb34-137" aria-hidden="true" tabindex="-1"></a><span class="fu"># Loading Data</span></span>
+<span id="cb34-138"><a href="#cb34-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-139"><a href="#cb34-139" aria-hidden="true" tabindex="-1"></a>Loading a dataset in R requires three things:</span>
+<span id="cb34-140"><a href="#cb34-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-141"><a href="#cb34-141" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The **path** of the data file (where it exists on your computer)</span>
+<span id="cb34-142"><a href="#cb34-142" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The **name** of the data file  </span>
+<span id="cb34-143"><a href="#cb34-143" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The proper **function** for the file type (*e.g.*, different functions for <span class="in">`.csv`</span> vs <span class="in">`.dta`</span> files)</span>
+<span id="cb34-144"><a href="#cb34-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-145"><a href="#cb34-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## File Paths and Navigation</span></span>
+<span id="cb34-146"><a href="#cb34-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-147"><a href="#cb34-147" aria-hidden="true" tabindex="-1"></a>R wants file paths as **character vectors** (*i.e.*, the path surrounded by quotations). For example:</span>
+<span id="cb34-148"><a href="#cb34-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-149"><a href="#cb34-149" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb34-150"><a href="#cb34-150" aria-hidden="true" tabindex="-1"></a><span class="st">"/Users/david/Dropbox/Teaching/MyClass"</span></span>
+<span id="cb34-151"><a href="#cb34-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-152"><a href="#cb34-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-153"><a href="#cb34-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Changing and Checking Directories</span></span>
+<span id="cb34-154"><a href="#cb34-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-155"><a href="#cb34-155" aria-hidden="true" tabindex="-1"></a>To change R's working directory, use <span class="in">`setwd()`</span>:</span>
+<span id="cb34-156"><a href="#cb34-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-159"><a href="#cb34-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-160"><a href="#cb34-160" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-161"><a href="#cb34-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-162"><a href="#cb34-162" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/Users/david/Dropbox/Teaching/MyClass"</span>)</span>
+<span id="cb34-163"><a href="#cb34-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-164"><a href="#cb34-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-165"><a href="#cb34-165" aria-hidden="true" tabindex="-1"></a>To find R's current working directory:</span>
+<span id="cb34-166"><a href="#cb34-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-169"><a href="#cb34-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-170"><a href="#cb34-170" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-171"><a href="#cb34-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-172"><a href="#cb34-172" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb34-173"><a href="#cb34-173" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-174"><a href="#cb34-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-175"><a href="#cb34-175" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb34-176"><a href="#cb34-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows Users</span></span>
+<span id="cb34-177"><a href="#cb34-177" aria-hidden="true" tabindex="-1"></a>When you copy paths from File Explorer, slashes may be backwards (<span class="in">`\`</span>). Change them to forward slashes (<span class="in">`/`</span>) or double them (<span class="in">`\\`</span>).</span>
+<span id="cb34-178"><a href="#cb34-178" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-179"><a href="#cb34-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-180"><a href="#cb34-180" aria-hidden="true" tabindex="-1"></a><span class="fu">### Navigation Commands</span></span>
+<span id="cb34-181"><a href="#cb34-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-182"><a href="#cb34-182" aria-hidden="true" tabindex="-1"></a>Similar to Linux/Unix:</span>
+<span id="cb34-183"><a href="#cb34-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-184"><a href="#cb34-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`..`</span> moves up one level</span>
+<span id="cb34-185"><a href="#cb34-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`~`</span> returns to your home directory</span>
+<span id="cb34-186"><a href="#cb34-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You can use full paths or relative paths</span>
+<span id="cb34-187"><a href="#cb34-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-190"><a href="#cb34-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-191"><a href="#cb34-191" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-192"><a href="#cb34-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-193"><a href="#cb34-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current directory</span></span>
+<span id="cb34-194"><a href="#cb34-194" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb34-195"><a href="#cb34-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-196"><a href="#cb34-196" aria-hidden="true" tabindex="-1"></a><span class="co"># Move up one level</span></span>
+<span id="cb34-197"><a href="#cb34-197" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">".."</span>)</span>
+<span id="cb34-198"><a href="#cb34-198" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb34-199"><a href="#cb34-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-200"><a href="#cb34-200" aria-hidden="true" tabindex="-1"></a><span class="co"># Go home</span></span>
+<span id="cb34-201"><a href="#cb34-201" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"~"</span>)</span>
+<span id="cb34-202"><a href="#cb34-202" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb34-203"><a href="#cb34-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-204"><a href="#cb34-204" aria-hidden="true" tabindex="-1"></a><span class="co"># Return to class folder</span></span>
+<span id="cb34-205"><a href="#cb34-205" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"Dropbox/Teaching/MyClass"</span>)</span>
+<span id="cb34-206"><a href="#cb34-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-207"><a href="#cb34-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-208"><a href="#cb34-208" aria-hidden="true" tabindex="-1"></a><span class="fu">### Smart Path Management</span></span>
+<span id="cb34-209"><a href="#cb34-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-210"><a href="#cb34-210" aria-hidden="true" tabindex="-1"></a>I prefer to store paths at the start of my script for easy updating:</span>
+<span id="cb34-211"><a href="#cb34-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-214"><a href="#cb34-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-215"><a href="#cb34-215" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-216"><a href="#cb34-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-217"><a href="#cb34-217" aria-hidden="true" tabindex="-1"></a><span class="co"># Path to my class folder</span></span>
+<span id="cb34-218"><a href="#cb34-218" aria-hidden="true" tabindex="-1"></a>dir_class <span class="ot">&lt;-</span> <span class="st">"/Users/david/Documents/MyClass/"</span></span>
+<span id="cb34-219"><a href="#cb34-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-220"><a href="#cb34-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Path to section 1 folder (inside class folder)</span></span>
+<span id="cb34-221"><a href="#cb34-221" aria-hidden="true" tabindex="-1"></a>dir_section1 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(dir_class, <span class="st">"Section01/"</span>)</span>
+<span id="cb34-222"><a href="#cb34-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-223"><a href="#cb34-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-224"><a href="#cb34-224" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-225"><a href="#cb34-225" aria-hidden="true" tabindex="-1"></a><span class="fu">## `paste0()` vs `paste()`</span></span>
+<span id="cb34-226"><a href="#cb34-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-227"><a href="#cb34-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`paste0()`</span> pastes without spaces</span>
+<span id="cb34-228"><a href="#cb34-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`paste()`</span> defaults to single space between elements</span>
+<span id="cb34-229"><a href="#cb34-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-232"><a href="#cb34-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-233"><a href="#cb34-233" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-234"><a href="#cb34-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-235"><a href="#cb34-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Default paste0()</span></span>
+<span id="cb34-236"><a href="#cb34-236" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co"># "123"</span></span>
+<span id="cb34-237"><a href="#cb34-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-238"><a href="#cb34-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Default paste()</span></span>
+<span id="cb34-239"><a href="#cb34-239" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)   <span class="co"># "1 2 3"</span></span>
+<span id="cb34-240"><a href="#cb34-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-241"><a href="#cb34-241" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom separator</span></span>
+<span id="cb34-242"><a href="#cb34-242" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="at">sep =</span> <span class="st">"+"</span>)  <span class="co"># "1+2+3"</span></span>
+<span id="cb34-243"><a href="#cb34-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-244"><a href="#cb34-244" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-245"><a href="#cb34-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-246"><a href="#cb34-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### RStudio Tab Completion</span></span>
+<span id="cb34-247"><a href="#cb34-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-248"><a href="#cb34-248" aria-hidden="true" tabindex="-1"></a>RStudio assists with completing file paths—begin typing and press **Tab**. Super useful!</span>
+<span id="cb34-249"><a href="#cb34-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-250"><a href="#cb34-250" aria-hidden="true" tabindex="-1"></a><span class="fu">## The `dir()` Function</span></span>
+<span id="cb34-251"><a href="#cb34-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-252"><a href="#cb34-252" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dir()`</span> function shows contents of a folder:</span>
+<span id="cb34-253"><a href="#cb34-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-256"><a href="#cb34-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-257"><a href="#cb34-257" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-258"><a href="#cb34-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-259"><a href="#cb34-259" aria-hidden="true" tabindex="-1"></a><span class="co"># Look inside my class folder</span></span>
+<span id="cb34-260"><a href="#cb34-260" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(dir_class)</span>
+<span id="cb34-261"><a href="#cb34-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-262"><a href="#cb34-262" aria-hidden="true" tabindex="-1"></a><span class="co"># Look inside my section 1 folder</span></span>
+<span id="cb34-263"><a href="#cb34-263" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(dir_section1)</span>
+<span id="cb34-264"><a href="#cb34-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-265"><a href="#cb34-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-266"><a href="#cb34-266" aria-hidden="true" tabindex="-1"></a>This helps when you forget file names!</span>
+<span id="cb34-267"><a href="#cb34-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-268"><a href="#cb34-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Functions to Load Files</span></span>
+<span id="cb34-269"><a href="#cb34-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-270"><a href="#cb34-270" aria-hidden="true" tabindex="-1"></a>We'll mostly use:</span>
+<span id="cb34-271"><a href="#cb34-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-272"><a href="#cb34-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`readr`** package: for CSV, TSV, and delimited files</span>
+<span id="cb34-273"><a href="#cb34-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`haven`** package: for Stata (<span class="in">`.dta`</span>), SPSS, and SAS files</span>
+<span id="cb34-274"><a href="#cb34-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Base R**: for R's own formats (<span class="in">`.rds`</span>, <span class="in">`.rdata`</span>)</span>
+<span id="cb34-275"><a href="#cb34-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-276"><a href="#cb34-276" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-277"><a href="#cb34-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn About Functions</span></span>
+<span id="cb34-278"><a href="#cb34-278" aria-hidden="true" tabindex="-1"></a>To learn more about a function:</span>
+<span id="cb34-279"><a href="#cb34-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-280"><a href="#cb34-280" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Press **Tab** after typing the function name (in RStudio)</span>
+<span id="cb34-281"><a href="#cb34-281" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Type <span class="in">`?function_name`</span> in console (*e.g.*, <span class="in">`?read_dta`</span>)</span>
+<span id="cb34-282"><a href="#cb34-282" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-283"><a href="#cb34-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-284"><a href="#cb34-284" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading a Stata File</span></span>
+<span id="cb34-285"><a href="#cb34-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-286"><a href="#cb34-286" aria-hidden="true" tabindex="-1"></a>Let's load <span class="in">`auto.dta`</span> using <span class="in">`read_dta()`</span> from the <span class="in">`haven`</span> package:</span>
+<span id="cb34-287"><a href="#cb34-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-290"><a href="#cb34-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-291"><a href="#cb34-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-292"><a href="#cb34-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-293"><a href="#cb34-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the .dta file</span></span>
+<span id="cb34-294"><a href="#cb34-294" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">paste0</span>(dir_section1, <span class="st">"auto.dta"</span>))</span>
+<span id="cb34-295"><a href="#cb34-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-296"><a href="#cb34-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-297"><a href="#cb34-297" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb34-298"><a href="#cb34-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Assignment Operator `&lt;-`</span></span>
+<span id="cb34-299"><a href="#cb34-299" aria-hidden="true" tabindex="-1"></a>The <span class="in">`&lt;-`</span> operator is central to R. It assigns the value(s) on the right to the name on the left. </span>
+<span id="cb34-300"><a href="#cb34-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-301"><a href="#cb34-301" aria-hidden="true" tabindex="-1"></a>When reading aloud, people say "gets": <span class="in">`car_data`</span> **gets** the contents of <span class="in">`auto.dta`</span>.</span>
+<span id="cb34-302"><a href="#cb34-302" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-303"><a href="#cb34-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-304"><a href="#cb34-304" aria-hidden="true" tabindex="-1"></a>To view the data, just type its name:</span>
+<span id="cb34-305"><a href="#cb34-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-308"><a href="#cb34-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-309"><a href="#cb34-309" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-310"><a href="#cb34-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-311"><a href="#cb34-311" aria-hidden="true" tabindex="-1"></a>car_data</span>
+<span id="cb34-312"><a href="#cb34-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-313"><a href="#cb34-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-314"><a href="#cb34-314" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading a CSV File</span></span>
+<span id="cb34-315"><a href="#cb34-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-316"><a href="#cb34-316" aria-hidden="true" tabindex="-1"></a>For a CSV file, use <span class="in">`read_csv()`</span> from the <span class="in">`readr`</span> package:</span>
+<span id="cb34-317"><a href="#cb34-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-320"><a href="#cb34-320" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-321"><a href="#cb34-321" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-322"><a href="#cb34-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-323"><a href="#cb34-323" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the .csv file</span></span>
+<span id="cb34-324"><a href="#cb34-324" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(dir_section1, <span class="st">"auto.csv"</span>))</span>
+<span id="cb34-325"><a href="#cb34-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-326"><a href="#cb34-326" aria-hidden="true" tabindex="-1"></a><span class="co"># View it</span></span>
+<span id="cb34-327"><a href="#cb34-327" aria-hidden="true" tabindex="-1"></a>car_data</span>
+<span id="cb34-328"><a href="#cb34-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-329"><a href="#cb34-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-330"><a href="#cb34-330" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb34-331"><a href="#cb34-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## Relative Paths</span></span>
+<span id="cb34-332"><a href="#cb34-332" aria-hidden="true" tabindex="-1"></a>If you're already in the right directory, you don't need the full path:</span>
+<span id="cb34-333"><a href="#cb34-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-336"><a href="#cb34-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-337"><a href="#cb34-337" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-338"><a href="#cb34-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-339"><a href="#cb34-339" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"Section01/auto.csv"</span>)</span>
+<span id="cb34-340"><a href="#cb34-340" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-341"><a href="#cb34-341" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-342"><a href="#cb34-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-343"><a href="#cb34-343" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-344"><a href="#cb34-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-345"><a href="#cb34-345" aria-hidden="true" tabindex="-1"></a><span class="fu"># Playing with Data</span></span>
+<span id="cb34-346"><a href="#cb34-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-347"><a href="#cb34-347" aria-hidden="true" tabindex="-1"></a>You now know how to navigate your computer and load data. Let's do something with those data!</span>
+<span id="cb34-348"><a href="#cb34-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-349"><a href="#cb34-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exploring the Data</span></span>
+<span id="cb34-350"><a href="#cb34-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-351"><a href="#cb34-351" aria-hidden="true" tabindex="-1"></a>Print the data to the console:</span>
+<span id="cb34-352"><a href="#cb34-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-355"><a href="#cb34-355" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-356"><a href="#cb34-356" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-357"><a href="#cb34-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-358"><a href="#cb34-358" aria-hidden="true" tabindex="-1"></a>car_data</span>
+<span id="cb34-359"><a href="#cb34-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-360"><a href="#cb34-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-361"><a href="#cb34-361" aria-hidden="true" tabindex="-1"></a>Notice several things:</span>
+<span id="cb34-362"><a href="#cb34-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-363"><a href="#cb34-363" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The dataset is a **tibble** (like a data frame with rules)</span>
+<span id="cb34-364"><a href="#cb34-364" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Dimensions: 74 rows × 12 columns</span>
+<span id="cb34-365"><a href="#cb34-365" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Column types: <span class="in">`&lt;chr&gt;`</span> (character), <span class="in">`&lt;dbl&gt;`</span> (double/numeric), <span class="in">`&lt;int&gt;`</span> (integer)</span>
+<span id="cb34-366"><a href="#cb34-366" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>You get a snapshot of the first 10 rows</span>
+<span id="cb34-367"><a href="#cb34-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-368"><a href="#cb34-368" aria-hidden="true" tabindex="-1"></a><span class="fu">### Getting Column Names</span></span>
+<span id="cb34-369"><a href="#cb34-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-372"><a href="#cb34-372" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-373"><a href="#cb34-373" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-374"><a href="#cb34-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-375"><a href="#cb34-375" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(car_data)</span>
+<span id="cb34-376"><a href="#cb34-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-377"><a href="#cb34-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-378"><a href="#cb34-378" aria-hidden="true" tabindex="-1"></a><span class="fu">### Viewing First/Last Rows</span></span>
+<span id="cb34-379"><a href="#cb34-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-382"><a href="#cb34-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-383"><a href="#cb34-383" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-384"><a href="#cb34-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-385"><a href="#cb34-385" aria-hidden="true" tabindex="-1"></a><span class="co"># First 6 rows</span></span>
+<span id="cb34-386"><a href="#cb34-386" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_data)</span>
+<span id="cb34-387"><a href="#cb34-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-388"><a href="#cb34-388" aria-hidden="true" tabindex="-1"></a><span class="co"># First 11 rows</span></span>
+<span id="cb34-389"><a href="#cb34-389" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_data, <span class="at">n =</span> <span class="dv">11</span>)</span>
+<span id="cb34-390"><a href="#cb34-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-391"><a href="#cb34-391" aria-hidden="true" tabindex="-1"></a><span class="co"># Last 7 rows</span></span>
+<span id="cb34-392"><a href="#cb34-392" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(car_data, <span class="at">n =</span> <span class="dv">7</span>)</span>
+<span id="cb34-393"><a href="#cb34-393" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-394"><a href="#cb34-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-395"><a href="#cb34-395" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-396"><a href="#cb34-396" aria-hidden="true" tabindex="-1"></a><span class="fu">## RStudio Data Viewer</span></span>
+<span id="cb34-397"><a href="#cb34-397" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`View(car_data)`</span> or click the dataset in the Environment pane to open RStudio's data viewer.</span>
+<span id="cb34-398"><a href="#cb34-398" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-399"><a href="#cb34-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-400"><a href="#cb34-400" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing the Data</span></span>
+<span id="cb34-401"><a href="#cb34-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-402"><a href="#cb34-402" aria-hidden="true" tabindex="-1"></a>Get a quick summary of your dataset:</span>
+<span id="cb34-403"><a href="#cb34-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-406"><a href="#cb34-406" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-407"><a href="#cb34-407" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-408"><a href="#cb34-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-409"><a href="#cb34-409" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(car_data)</span>
+<span id="cb34-410"><a href="#cb34-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-411"><a href="#cb34-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-412"><a href="#cb34-412" aria-hidden="true" tabindex="-1"></a>To summarize a **single variable**, use <span class="in">`$`</span> to grab it:</span>
+<span id="cb34-413"><a href="#cb34-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-416"><a href="#cb34-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-417"><a href="#cb34-417" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-418"><a href="#cb34-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-419"><a href="#cb34-419" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab the price variable</span></span>
+<span id="cb34-420"><a href="#cb34-420" aria-hidden="true" tabindex="-1"></a>car_data<span class="sc">$</span>price</span>
+<span id="cb34-421"><a href="#cb34-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-422"><a href="#cb34-422" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize price</span></span>
+<span id="cb34-423"><a href="#cb34-423" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(car_data<span class="sc">$</span>price)</span>
+<span id="cb34-424"><a href="#cb34-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-425"><a href="#cb34-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-426"><a href="#cb34-426" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-427"><a href="#cb34-427" aria-hidden="true" tabindex="-1"></a><span class="fu">## Accessing Variables</span></span>
+<span id="cb34-428"><a href="#cb34-428" aria-hidden="true" tabindex="-1"></a><span class="in">`dataset$variable`</span> is how you grab a specific column. RStudio's tab completion works here too!</span>
+<span id="cb34-429"><a href="#cb34-429" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-430"><a href="#cb34-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-431"><a href="#cb34-431" aria-hidden="true" tabindex="-1"></a><span class="fu">## Manipulating the Data</span></span>
+<span id="cb34-432"><a href="#cb34-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-433"><a href="#cb34-433" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package offers helpful tools for data manipulation using **verbs** as actions.</span>
+<span id="cb34-434"><a href="#cb34-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-435"><a href="#cb34-435" aria-hidden="true" tabindex="-1"></a><span class="fu">### `select()` - Choose Variables</span></span>
+<span id="cb34-436"><a href="#cb34-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-437"><a href="#cb34-437" aria-hidden="true" tabindex="-1"></a>Keep only variables you care about:</span>
+<span id="cb34-438"><a href="#cb34-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-441"><a href="#cb34-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-442"><a href="#cb34-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-443"><a href="#cb34-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-444"><a href="#cb34-444" aria-hidden="true" tabindex="-1"></a><span class="co"># Select desired variables</span></span>
+<span id="cb34-445"><a href="#cb34-445" aria-hidden="true" tabindex="-1"></a>car_sub <span class="ot">&lt;-</span> <span class="fu">select</span>(car_data, price, mpg, weight, length)</span>
+<span id="cb34-446"><a href="#cb34-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-447"><a href="#cb34-447" aria-hidden="true" tabindex="-1"></a><span class="co"># View result</span></span>
+<span id="cb34-448"><a href="#cb34-448" aria-hidden="true" tabindex="-1"></a>car_sub</span>
+<span id="cb34-449"><a href="#cb34-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-450"><a href="#cb34-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-451"><a href="#cb34-451" aria-hidden="true" tabindex="-1"></a>We now have 74 rows but only 4 columns!</span>
+<span id="cb34-452"><a href="#cb34-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-453"><a href="#cb34-453" aria-hidden="true" tabindex="-1"></a>**Alternative:** Exclude variables with a minus sign:</span>
+<span id="cb34-454"><a href="#cb34-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-457"><a href="#cb34-457" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-458"><a href="#cb34-458" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-459"><a href="#cb34-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-460"><a href="#cb34-460" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(car_data, <span class="sc">-</span>price, <span class="sc">-</span>mpg, <span class="sc">-</span>weight, <span class="sc">-</span>length)</span>
+<span id="cb34-461"><a href="#cb34-461" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-462"><a href="#cb34-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-463"><a href="#cb34-463" aria-hidden="true" tabindex="-1"></a><span class="fu">### `arrange()` - Sort Data</span></span>
+<span id="cb34-464"><a href="#cb34-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-465"><a href="#cb34-465" aria-hidden="true" tabindex="-1"></a>Arrange data by one or more columns:</span>
+<span id="cb34-466"><a href="#cb34-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-469"><a href="#cb34-469" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-470"><a href="#cb34-470" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-471"><a href="#cb34-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-472"><a href="#cb34-472" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange by price, then mpg</span></span>
+<span id="cb34-473"><a href="#cb34-473" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(car_sub, price, mpg)</span>
+<span id="cb34-474"><a href="#cb34-474" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-475"><a href="#cb34-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-476"><a href="#cb34-476" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb34-477"><a href="#cb34-477" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assignment Required!</span></span>
+<span id="cb34-478"><a href="#cb34-478" aria-hidden="true" tabindex="-1"></a>If you view <span class="in">`car_sub`</span> now, it's not arranged. You must **assign** the result to change the object:</span>
+<span id="cb34-479"><a href="#cb34-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-482"><a href="#cb34-482" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-483"><a href="#cb34-483" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-484"><a href="#cb34-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-485"><a href="#cb34-485" aria-hidden="true" tabindex="-1"></a>car_sub <span class="ot">&lt;-</span> <span class="fu">arrange</span>(car_sub, price)</span>
+<span id="cb34-486"><a href="#cb34-486" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-487"><a href="#cb34-487" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-488"><a href="#cb34-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-489"><a href="#cb34-489" aria-hidden="true" tabindex="-1"></a>For **descending** order, use <span class="in">`desc()`</span>:</span>
+<span id="cb34-490"><a href="#cb34-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-493"><a href="#cb34-493" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-494"><a href="#cb34-494" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-495"><a href="#cb34-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-496"><a href="#cb34-496" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(car_sub, <span class="fu">desc</span>(price), mpg)</span>
+<span id="cb34-497"><a href="#cb34-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-498"><a href="#cb34-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-499"><a href="#cb34-499" aria-hidden="true" tabindex="-1"></a><span class="fu">### `summarize()` - Create Summaries</span></span>
+<span id="cb34-500"><a href="#cb34-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-501"><a href="#cb34-501" aria-hidden="true" tabindex="-1"></a>Create specific summaries of your data:</span>
+<span id="cb34-502"><a href="#cb34-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-505"><a href="#cb34-505" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-506"><a href="#cb34-506" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-507"><a href="#cb34-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-508"><a href="#cb34-508" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean and SD of price</span></span>
+<span id="cb34-509"><a href="#cb34-509" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(car_sub, <span class="fu">mean</span>(price), <span class="fu">sd</span>(price))</span>
+<span id="cb34-510"><a href="#cb34-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-511"><a href="#cb34-511" aria-hidden="true" tabindex="-1"></a><span class="co"># With custom names</span></span>
+<span id="cb34-512"><a href="#cb34-512" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(car_sub, <span class="at">price_mean =</span> <span class="fu">mean</span>(price), <span class="at">price_sd =</span> <span class="fu">sd</span>(price))</span>
+<span id="cb34-513"><a href="#cb34-513" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-514"><a href="#cb34-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-515"><a href="#cb34-515" aria-hidden="true" tabindex="-1"></a>For simple summaries, you could also just type:</span>
+<span id="cb34-516"><a href="#cb34-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-519"><a href="#cb34-519" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-520"><a href="#cb34-520" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-521"><a href="#cb34-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-522"><a href="#cb34-522" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(car_sub<span class="sc">$</span>price)</span>
+<span id="cb34-523"><a href="#cb34-523" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(car_sub<span class="sc">$</span>price)</span>
+<span id="cb34-524"><a href="#cb34-524" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-525"><a href="#cb34-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-526"><a href="#cb34-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plotting the Data</span></span>
+<span id="cb34-527"><a href="#cb34-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-528"><a href="#cb34-528" aria-hidden="true" tabindex="-1"></a>R's default plot functions are simple but effective. We'll cover <span class="in">`ggplot2`</span> later, but for now, let's make quick plots.</span>
+<span id="cb34-529"><a href="#cb34-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-530"><a href="#cb34-530" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histogram</span></span>
+<span id="cb34-531"><a href="#cb34-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-532"><a href="#cb34-532" aria-hidden="true" tabindex="-1"></a>Create a histogram of miles per gallon:</span>
+<span id="cb34-533"><a href="#cb34-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-536"><a href="#cb34-536" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-537"><a href="#cb34-537" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-538"><a href="#cb34-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-539"><a href="#cb34-539" aria-hidden="true" tabindex="-1"></a><span class="co"># Plain histogram</span></span>
+<span id="cb34-540"><a href="#cb34-540" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(car_sub<span class="sc">$</span>mpg)</span>
+<span id="cb34-541"><a href="#cb34-541" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-542"><a href="#cb34-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-543"><a href="#cb34-543" aria-hidden="true" tabindex="-1"></a>Make it prettier with labels and a median line:</span>
+<span id="cb34-544"><a href="#cb34-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-547"><a href="#cb34-547" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-548"><a href="#cb34-548" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-549"><a href="#cb34-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-550"><a href="#cb34-550" aria-hidden="true" tabindex="-1"></a><span class="co"># The histogram</span></span>
+<span id="cb34-551"><a href="#cb34-551" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb34-552"><a href="#cb34-552" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> car_sub<span class="sc">$</span>mpg,</span>
+<span id="cb34-553"><a href="#cb34-553" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Distribution of Fuel Economy"</span>,</span>
+<span id="cb34-554"><a href="#cb34-554" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"MPG (miles per gallon)"</span></span>
+<span id="cb34-555"><a href="#cb34-555" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-556"><a href="#cb34-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-557"><a href="#cb34-557" aria-hidden="true" tabindex="-1"></a><span class="co"># Add blue line at median</span></span>
+<span id="cb34-558"><a href="#cb34-558" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">median</span>(car_sub<span class="sc">$</span>mpg), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb34-559"><a href="#cb34-559" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-560"><a href="#cb34-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-561"><a href="#cb34-561" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scatterplot</span></span>
+<span id="cb34-562"><a href="#cb34-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-563"><a href="#cb34-563" aria-hidden="true" tabindex="-1"></a>Plot price vs. mileage:</span>
+<span id="cb34-564"><a href="#cb34-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-567"><a href="#cb34-567" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-568"><a href="#cb34-568" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-569"><a href="#cb34-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-570"><a href="#cb34-570" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb34-571"><a href="#cb34-571" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> car_sub<span class="sc">$</span>mpg,</span>
+<span id="cb34-572"><a href="#cb34-572" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> car_sub<span class="sc">$</span>price,</span>
+<span id="cb34-573"><a href="#cb34-573" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Fuel Economy (MPG)"</span>,</span>
+<span id="cb34-574"><a href="#cb34-574" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Price ($)"</span></span>
+<span id="cb34-575"><a href="#cb34-575" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-576"><a href="#cb34-576" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-577"><a href="#cb34-577" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-578"><a href="#cb34-578" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb34-579"><a href="#cb34-579" aria-hidden="true" tabindex="-1"></a><span class="fu">## Clear Code Style</span></span>
+<span id="cb34-580"><a href="#cb34-580" aria-hidden="true" tabindex="-1"></a>I recommend clearly defining function arguments. It helps keep things straight, as **order matters** when you're not naming arguments.</span>
+<span id="cb34-581"><a href="#cb34-581" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-582"><a href="#cb34-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-583"><a href="#cb34-583" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-584"><a href="#cb34-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-585"><a href="#cb34-585" aria-hidden="true" tabindex="-1"></a><span class="fu"># Indexing</span></span>
+<span id="cb34-586"><a href="#cb34-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-587"><a href="#cb34-587" aria-hidden="true" tabindex="-1"></a>Nearly everything in R is numerically indexed. You can access individual elements using **square brackets** <span class="in">`[]`</span>.</span>
+<span id="cb34-588"><a href="#cb34-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-589"><a href="#cb34-589" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vector Indexing</span></span>
+<span id="cb34-590"><a href="#cb34-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-593"><a href="#cb34-593" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-594"><a href="#cb34-594" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-595"><a href="#cb34-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-596"><a href="#cb34-596" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vector</span></span>
+<span id="cb34-597"><a href="#cb34-597" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
+<span id="cb34-598"><a href="#cb34-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-599"><a href="#cb34-599" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab the second element</span></span>
+<span id="cb34-600"><a href="#cb34-600" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>]  <span class="co"># Returns: 5</span></span>
+<span id="cb34-601"><a href="#cb34-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-602"><a href="#cb34-602" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab second and third elements</span></span>
+<span id="cb34-603"><a href="#cb34-603" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)]  <span class="co"># Returns: 5 7</span></span>
+<span id="cb34-604"><a href="#cb34-604" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]      <span class="co"># Same result</span></span>
+<span id="cb34-605"><a href="#cb34-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-606"><a href="#cb34-606" aria-hidden="true" tabindex="-1"></a><span class="co"># What does 2:3 do?</span></span>
+<span id="cb34-607"><a href="#cb34-607" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>  <span class="co"># Creates sequence: 2 3</span></span>
+<span id="cb34-608"><a href="#cb34-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-609"><a href="#cb34-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-610"><a href="#cb34-610" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Frame Indexing</span></span>
+<span id="cb34-611"><a href="#cb34-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-612"><a href="#cb34-612" aria-hidden="true" tabindex="-1"></a>Data frames have **rows and columns**: <span class="in">`[row, column]`</span></span>
+<span id="cb34-613"><a href="#cb34-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-616"><a href="#cb34-616" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-617"><a href="#cb34-617" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb34-618"><a href="#cb34-618" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-619"><a href="#cb34-619" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab first row (all columns)</span></span>
+<span id="cb34-620"><a href="#cb34-620" aria-hidden="true" tabindex="-1"></a>car_sub[<span class="dv">1</span>, ]</span>
+<span id="cb34-621"><a href="#cb34-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-622"><a href="#cb34-622" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab first column (all rows)</span></span>
+<span id="cb34-623"><a href="#cb34-623" aria-hidden="true" tabindex="-1"></a>car_sub[, <span class="dv">1</span>]</span>
+<span id="cb34-624"><a href="#cb34-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-625"><a href="#cb34-625" aria-hidden="true" tabindex="-1"></a><span class="co"># Use column name as index</span></span>
+<span id="cb34-626"><a href="#cb34-626" aria-hidden="true" tabindex="-1"></a>car_sub[, <span class="st">"price"</span>]</span>
+<span id="cb34-627"><a href="#cb34-627" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-628"><a href="#cb34-628" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-629"><a href="#cb34-629" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb34-630"><a href="#cb34-630" aria-hidden="true" tabindex="-1"></a><span class="fu">## Row, Column Order</span></span>
+<span id="cb34-631"><a href="#cb34-631" aria-hidden="true" tabindex="-1"></a>Remember: **Rows before columns**. Leave blank to select all.</span>
+<span id="cb34-632"><a href="#cb34-632" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[1, ]`</span> = first row, all columns</span>
+<span id="cb34-633"><a href="#cb34-633" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[, 2]`</span> = all rows, second column</span>
+<span id="cb34-634"><a href="#cb34-634" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[3, 4]`</span> = third row, fourth column</span>
+<span id="cb34-635"><a href="#cb34-635" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-636"><a href="#cb34-636" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-637"><a href="#cb34-637" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-638"><a href="#cb34-638" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-639"><a href="#cb34-639" aria-hidden="true" tabindex="-1"></a><span class="fu"># Fun Challenge</span></span>
+<span id="cb34-640"><a href="#cb34-640" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-641"><a href="#cb34-641" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
+<span id="cb34-642"><a href="#cb34-642" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try This</span></span>
+<span id="cb34-643"><a href="#cb34-643" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>What happens if you give <span class="in">`head()`</span> or <span class="in">`tail()`</span> a **negative** <span class="in">`n`</span>?</span>
+<span id="cb34-644"><a href="#cb34-644" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Can you replicate this behavior using indexing?</span>
+<span id="cb34-645"><a href="#cb34-645" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Can you replicate <span class="in">`tail()`</span> using only the <span class="in">`head()`</span> function?</span>
+<span id="cb34-646"><a href="#cb34-646" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-647"><a href="#cb34-647" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-648"><a href="#cb34-648" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-649"><a href="#cb34-649" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-650"><a href="#cb34-650" aria-hidden="true" tabindex="-1"></a><span class="fu"># Practice Problems</span></span>
+<span id="cb34-651"><a href="#cb34-651" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-652"><a href="#cb34-652" aria-hidden="true" tabindex="-1"></a>Some classic R-meets-linear-algebra puzzles for your enjoyment:</span>
+<span id="cb34-653"><a href="#cb34-653" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-654"><a href="#cb34-654" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb34-655"><a href="#cb34-655" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 1: Identity Matrix</span></span>
+<span id="cb34-656"><a href="#cb34-656" aria-hidden="true" tabindex="-1"></a>Let **I**₅ be a 5×5 identity matrix. Demonstrate that **I**₅ is symmetric and idempotent using R functions.</span>
+<span id="cb34-657"><a href="#cb34-657" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-658"><a href="#cb34-658" aria-hidden="true" tabindex="-1"></a>**Hint:** Use <span class="in">`diag(5)`</span> to create an identity matrix.</span>
+<span id="cb34-659"><a href="#cb34-659" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-660"><a href="#cb34-660" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-661"><a href="#cb34-661" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb34-662"><a href="#cb34-662" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 2: Idempotent Matrix</span></span>
+<span id="cb34-663"><a href="#cb34-663" aria-hidden="true" tabindex="-1"></a>Generate a 2×2 idempotent matrix **X**, where **X** is not the identity matrix. Demonstrate that **X** = **XX**.</span>
+<span id="cb34-664"><a href="#cb34-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-665"><a href="#cb34-665" aria-hidden="true" tabindex="-1"></a>**Hint:** An idempotent matrix satisfies **X** = **X**².</span>
+<span id="cb34-666"><a href="#cb34-666" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-667"><a href="#cb34-667" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-668"><a href="#cb34-668" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb34-669"><a href="#cb34-669" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3: Linear Regression</span></span>
+<span id="cb34-670"><a href="#cb34-670" aria-hidden="true" tabindex="-1"></a>Generate two random variables, **x** and **e**, of dimension n = 100 such that **x**, **e** ~ N(0, 1).</span>
+<span id="cb34-671"><a href="#cb34-671" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-672"><a href="#cb34-672" aria-hidden="true" tabindex="-1"></a>Generate **y** according to: y = x + e</span>
+<span id="cb34-673"><a href="#cb34-673" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-674"><a href="#cb34-674" aria-hidden="true" tabindex="-1"></a>Show that regressing **y** on **x** using <span class="in">`lm()`</span> gives estimates: β₀ ≈ 0 and β₁ ≈ 1.</span>
+<span id="cb34-675"><a href="#cb34-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-676"><a href="#cb34-676" aria-hidden="true" tabindex="-1"></a>**Hint:** Use <span class="in">`rnorm(100)`</span> to generate normal random variables.</span>
+<span id="cb34-677"><a href="#cb34-677" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-678"><a href="#cb34-678" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-679"><a href="#cb34-679" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb34-680"><a href="#cb34-680" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 4: Eigenvalues and Trace</span></span>
+<span id="cb34-681"><a href="#cb34-681" aria-hidden="true" tabindex="-1"></a>Show that if λ₁, λ₂, ..., λ₅ are the eigenvalues of a 5×5 matrix **A**, then:</span>
+<span id="cb34-682"><a href="#cb34-682" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-683"><a href="#cb34-683" aria-hidden="true" tabindex="-1"></a>tr(**A**) = Σλᵢ (sum of eigenvalues)</span>
+<span id="cb34-684"><a href="#cb34-684" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-685"><a href="#cb34-685" aria-hidden="true" tabindex="-1"></a>**Hint:** Use <span class="in">`eigen()`</span> to find eigenvalues and <span class="in">`sum(diag())`</span> for the trace.</span>
+<span id="cb34-686"><a href="#cb34-686" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-687"><a href="#cb34-687" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-688"><a href="#cb34-688" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-689"><a href="#cb34-689" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-690"><a href="#cb34-690" aria-hidden="true" tabindex="-1"></a><span class="fu"># Key Takeaways</span></span>
+<span id="cb34-691"><a href="#cb34-691" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-692"><a href="#cb34-692" aria-hidden="true" tabindex="-1"></a>::: {.callout-important icon="true"}</span>
+<span id="cb34-693"><a href="#cb34-693" aria-hidden="true" tabindex="-1"></a><span class="fu">## Remember</span></span>
+<span id="cb34-694"><a href="#cb34-694" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-695"><a href="#cb34-695" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Packages extend R's power** - Use <span class="in">`pacman::p_load()`</span> for easy management</span>
+<span id="cb34-696"><a href="#cb34-696" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**File paths are strings** - Use <span class="in">`paste0()`</span> to build paths programmatically</span>
+<span id="cb34-697"><a href="#cb34-697" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Assignment is key** - Use <span class="in">`&lt;-`</span> to save results: <span class="in">`new_data &lt;- old_data`</span></span>
+<span id="cb34-698"><a href="#cb34-698" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**`dplyr` verbs** - <span class="in">`select()`</span>, <span class="in">`arrange()`</span>, <span class="in">`summarize()`</span> for data manipulation</span>
+<span id="cb34-699"><a href="#cb34-699" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Indexing with `[row, column]`** - Essential for accessing data</span>
+<span id="cb34-700"><a href="#cb34-700" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Use `$` for columns** - <span class="in">`dataset$variable`</span> grabs a specific variable</span>
+<span id="cb34-701"><a href="#cb34-701" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-702"><a href="#cb34-702" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-703"><a href="#cb34-703" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-704"><a href="#cb34-704" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-705"><a href="#cb34-705" aria-hidden="true" tabindex="-1"></a><span class="fu"># Additional Resources</span></span>
+<span id="cb34-706"><a href="#cb34-706" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-707"><a href="#cb34-707" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">R for Data Science</span><span class="co">](https://r4ds.hadley.nz/)</span> - Comprehensive guide</span>
+<span id="cb34-708"><a href="#cb34-708" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">RStudio Cheatsheets</span><span class="co">](https://posit.co/resources/cheatsheets/)</span> - Quick references</span>
+<span id="cb34-709"><a href="#cb34-709" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Stack Overflow</span><span class="co">](https://stackoverflow.com/questions/tagged/r)</span> - Q&amp;A community</span>
+<span id="cb34-710"><a href="#cb34-710" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`?function_name`</span> - Built-in R help</span>
+<span id="cb34-711"><a href="#cb34-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-712"><a href="#cb34-712" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb34-713"><a href="#cb34-713" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-714"><a href="#cb34-714" aria-hidden="true" tabindex="-1"></a>**Next:** Section 2 - Data Wrangling with dplyr</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<a href="https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya">David Contreras-Loya</a> ©
+<script>document.write(new Date().getFullYear())</script>
+</div>   
+    <div class="nav-footer-center">
+<p>Built on <a href="https://github.com/drganghe/quarto-academic-website-template">Quarto Academic Website Template</a></p>
+</div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank">
+      <i class="bi bi-mortarboard" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
