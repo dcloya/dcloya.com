@@ -63,9 +63,9 @@ website:
           # Bloque 2: Incertidumbre y Riesgo
           - text: "BLOQUE 2: Incertidumbre y riesgo"
           - text: "S3: Simulacion Monte Carlo"
-            href: notes/ex03_montecarlo_integrated.qmd
+            href: notes/ex03_montecarlo_simplified.qmd
           - text: "S4: Probabilidad Condicional (Bayes)"
-            href: notes/ex04_bayes_integrated.qmd
+            href: notes/ex04_bayes_simulation.qmd
           - text: "---"
           
           # Bloque 3: Muestreo e Inferencia I

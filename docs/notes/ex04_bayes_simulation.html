@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 4: Probabilidad Condicional (Bayes para Política Pública) – David Contreras-Loya</title>
+<title>Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -378,7 +413,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# Simulación de 10,000 compras públicas\nset.seed(2026)\nN <- 10000\n\n# Parámetros del sistema\nprevalencia <- 0.05    # 5% tienen irregularidades\nsensibilidad <- 0.90   # Detecta 90% de casos reales\nespecificidad <- 0.95  # 95% de honestos pasan bien\n\ncat(\"📊 SISTEMA DE DETECCIÓN ANTICORRUPCIÓN\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total de compras analizadas:  \", N, \"\\n\")\ncat(\"Prevalencia real (corrupción): \", prevalencia*100, \"%\\n\")\ncat(\"Sensibilidad (detecta fraude):  \", sensibilidad*100, \"%\\n\")\ncat(\"Especificidad (evita falsos):  \", especificidad*100, \"%\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# PASO 1: Generar la realidad (quién es realmente corrupto)\nrealidad <- sample(c(\"Honesto\", \"Fraude\"), \n                   N, \n                   replace = TRUE, \n                   prob = c(1-prevalencia, prevalencia))\n\n# Contar casos reales\nn_fraude_real <- sum(realidad == \"Fraude\")\nn_honesto_real <- sum(realidad == \"Honesto\")\n\ncat(\"REALIDAD (ground truth):\\n\")\ncat(\"  Compras con fraude REAL:  \", n_fraude_real, \" (\", \n    round(100*n_fraude_real/N, 1), \"%)\\n\")\ncat(\"  Compras honestas:         \", n_honesto_real, \" (\", \n    round(100*n_honesto_real/N, 1), \"%)\\n\\n\")\n\n# PASO 2: Aplicar el test de IA\n# Si es fraude → 90% lo detecta\n# Si es honesto → 5% lo marca mal (falso positivo)\n\nresultado_test <- ifelse(\n  realidad == \"Fraude\",\n  sample(c(\"Marcado\", \"No Marcado\"), N, replace=TRUE, \n         prob = c(sensibilidad, 1-sensibilidad)),\n  sample(c(\"Marcado\", \"No Marcado\"), N, replace=TRUE, \n         prob = c(1-especificidad, especificidad))\n)\n\n# Crear tabla de confusión\ntabla <- table(realidad, resultado_test)\n\ncat(\"RESULTADO DEL TEST:\\n\")\ncat(\"  Compras MARCADAS por IA:  \", sum(resultado_test == \"Marcado\"), \"\\n\")\ncat(\"  Compras NO marcadas:       \", sum(resultado_test == \"No Marcado\"), \"\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"          MATRIZ DE CONFUSIÓN (Tabla 2x2)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\nprint(tabla)\n\n# Calcular métricas clave\nTP <- sum(realidad == \"Fraude\" & resultado_test == \"Marcado\")      # Verdaderos Positivos\nFP <- sum(realidad == \"Honesto\" & resultado_test == \"Marcado\")     # Falsos Positivos\nTN <- sum(realidad == \"Honesto\" & resultado_test == \"No Marcado\")  # Verdaderos Negativos\nFN <- sum(realidad == \"Fraude\" & resultado_test == \"No Marcado\")   # Falsos Negativos\n\ncat(\"\\n\\nMÉTRICAS:\\n\")\ncat(\"─────────────────────────────────────────────────────────\\n\")\ncat(\"Verdaderos Positivos (TP): \", TP, \" - Fraudes detectados correctamente\\n\")\ncat(\"Falsos Positivos (FP):     \", FP, \" - Honestos marcados por error\\n\")\ncat(\"Verdaderos Negativos (TN): \", TN, \" - Honestos correctamente libres\\n\")\ncat(\"Falsos Negativos (FN):     \", FN, \" - Fraudes que escaparon\\n\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Valor Predictivo Positivo (Positive Predictive Value)\nVPP <- TP / (TP + FP)\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"  ⚡ VALOR PREDICTIVO POSITIVO (VPP)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"De las\", (TP + FP), \"compras MARCADAS por el sistema:\\n\\n\")\ncat(\"  • Realmente fraudulentas (TP): \", TP, \"\\n\")\ncat(\"  • Falsos positivos (FP):       \", FP, \"\\n\\n\")\n\ncat(\"VPP = TP / (TP + FP) = \", round(VPP, 3), \"\\n\")\ncat(\"    = \", round(100*VPP, 1), \"%\\n\\n\")\n\ncat(\"🔍 INTERPRETACIÓN:\\n\")\ncat(\"   Solo el \", round(100*VPP, 1), \"% de las compras marcadas son realmente fraude.\\n\")\ncat(\"   Es decir, \", round(100*(1-VPP), 1), \"% son FALSOS POSITIVOS.\\n\\n\")\n\nif (VPP < 0.5) {\n  cat(\"⚠️  ALERTA: MÁS DE LA MITAD de las marcas son falsas alarmas!\\n\")\n  cat(\"   Auditar todas las marcas sería ineficiente.\\n\\n\")\n}\n\n# Costo operativo\ncat(\"💰 IMPLICACIÓN OPERATIVA:\\n\")\ncat(\"   Si auditas las\", (TP + FP), \"compras marcadas:\\n\")\ncat(\"   - Encontrarás\", TP, \"fraudes reales ✅\\n\")\ncat(\"   - Pero harás\", FP, \"auditorías innecesarias ❌\\n\\n\")\n\ncosto_auditoria <- 5000  # USD por auditoría\ncosto_total <- (TP + FP) * costo_auditoria\ncosto_util <- TP * costo_auditoria\ndesperdicio <- FP * costo_auditoria\n\ncat(\"   Costo total:          $\", format(costo_total, big.mark=\",\"), \"\\n\")\ncat(\"   Costo útil (fraudes): $\", format(costo_util, big.mark=\",\"), \"\\n\")\ncat(\"   Desperdicio (FP):     $\", format(desperdicio, big.mark=\",\"), \"\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📐 FÓRMULA DE BAYES (Calculado analíticamente)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# P(Fraude | Marcado) = P(Marcado | Fraude) × P(Fraude) / P(Marcado)\n\n# P(Marcado | Fraude) = Sensibilidad\np_marcado_dado_fraude <- sensibilidad\n\n# P(Fraude) = Prevalencia\np_fraude <- prevalencia\n\n# P(Marcado) = P(Marcado|Fraude)×P(Fraude) + P(Marcado|Honesto)×P(Honesto)\np_marcado <- (sensibilidad * prevalencia) + ((1-especificidad) * (1-prevalencia))\n\n# Teorema de Bayes\nvpp_bayes <- (p_marcado_dado_fraude * p_fraude) / p_marcado\n\ncat(\"P(Fraude | Marcado) = [P(Marcado|Fraude) × P(Fraude)] / P(Marcado)\\n\\n\")\ncat(\"                    = [\", sensibilidad, \" × \", prevalencia, \"] / \", \n    round(p_marcado, 4), \"\\n\")\ncat(\"                    = \", round(vpp_bayes, 3), \"\\n\")\ncat(\"                    = \", round(100*vpp_bayes, 1), \"%\\n\\n\")\n\ncat(\"✅ VERIFICACIÓN: VPP simulado vs. Bayes\\n\")\ncat(\"   Simulación: \", round(100*VPP, 2), \"%\\n\")\ncat(\"   Bayes:      \", round(100*vpp_bayes, 2), \"%\\n\")\ncat(\"   Diferencia: \", abs(round(100*(VPP - vpp_bayes), 2)), \"% (error de muestreo)\\n\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n🔬 ANÁLISIS: ¿Cómo cambia VPP con diferentes prevalencias?\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\nprevalencias <- c(0.01, 0.05, 0.10, 0.20, 0.50)\n\nfor (prev in prevalencias) {\n  p_marcado_new <- (sensibilidad * prev) + ((1-especificidad) * (1-prev))\n  vpp_new <- (sensibilidad * prev) / p_marcado_new\n  \n  cat(sprintf(\"Prevalencia %3.0f%%: VPP = %5.1f%%\", \n              prev*100, vpp_new*100))\n  \n  if (prev == prevalencia) {\n    cat(\" ← Escenario actual\\n\")\n  } else {\n    cat(\"\\n\")\n  }\n}\n\ncat(\"\\n💡 INSIGHT:\\n\")\ncat(\"   Cuando la prevalencia es baja (fraude raro), incluso un test preciso\\n\")\ncat(\"   genera MUCHOS falsos positivos.\\n\")\ncat(\"   → El VPP depende MÁS de la prevalencia que de la precisión del test.\\n\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n🎯 ESTRATEGIAS PARA MEJORAR EL SISTEMA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# ESTRATEGIA A: Mejorar especificidad (95% → 98%)\nespec_mejorada <- 0.98\np_marcado_a <- (sensibilidad * prevalencia) + ((1-espec_mejorada) * (1-prevalencia))\nvpp_a <- (sensibilidad * prevalencia) / p_marcado_a\n\ncat(\"A) MEJORAR ESPECIFICIDAD (reducir falsos positivos)\\n\")\ncat(\"   Especificidad: 95% → 98%\\n\")\ncat(\"   VPP nuevo:     \", round(100*vpp_a, 1), \"% (antes: \", \n    round(100*vpp_bayes, 1), \"%)\\n\")\ncat(\"   Mejora:        +\", round(100*(vpp_a - vpp_bayes), 1), \" puntos porcentuales\\n\\n\")\n\n# ESTRATEGIA B: Filtro de dos etapas (re-test los marcados)\n# Solo auditamos si ambos tests marcan\nprob_ambos_marcan_si_fraude <- sensibilidad^2\nprob_ambos_marcan_si_honesto <- (1-especificidad)^2\n\np_doble_marcado <- (prob_ambos_marcan_si_fraude * prevalencia) + \n                   (prob_ambos_marcan_si_honesto * (1-prevalencia))\nvpp_b <- (prob_ambos_marcan_si_fraude * prevalencia) / p_doble_marcado\n\ncat(\"B) SISTEMA DE DOS ETAPAS (re-test)\\n\")\ncat(\"   Solo auditar si AMBOS tests marcan\\n\")\ncat(\"   VPP nuevo:     \", round(100*vpp_b, 1), \"%\\n\")\ncat(\"   Trade-off:     Detectamos menos fraudes (\", \n    round(100*prob_ambos_marcan_si_fraude, 1), \"% vs \", \n    round(100*sensibilidad, 1), \"%)\\n\")\ncat(\"   Pero casi eliminamos falsos positivos\\n\\n\")\n\n# ESTRATEGIA C: Focalización en alto riesgo\n# Solo aplicar IA a compras > $50k (donde prevalencia es 15%)\nprev_alto_riesgo <- 0.15\np_marcado_c <- (sensibilidad * prev_alto_riesgo) + \n               ((1-especificidad) * (1-prev_alto_riesgo))\nvpp_c <- (sensibilidad * prev_alto_riesgo) / p_marcado_c\n\ncat(\"C) FOCALIZACIÓN EN ALTO RIESGO\\n\")\ncat(\"   Solo analizar compras > $50k (prevalencia 15%)\\n\")\ncat(\"   VPP nuevo:     \", round(100*vpp_c, 1), \"%\\n\")\ncat(\"   Beneficio:     Menos falsos positivos, más eficiente\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Gráfico de barras apiladas mostrando composición de marcados\nmarcados_df <- data.frame(\n  categoria = c(\"Verdaderos Positivos\", \"Falsos Positivos\"),\n  cantidad = c(TP, FP),\n  porcentaje = c(100*VPP, 100*(1-VPP))\n)\n\nbarplot(marcados_df$cantidad,\n        names.arg = marcados_df$categoria,\n        col = c(\"darkgreen\", \"red\"),\n        main = paste0(\"Composición de las \", TP+FP, \" Compras Marcadas\"),\n        ylab = \"Número de casos\",\n        ylim = c(0, max(marcados_df$cantidad)*1.2))\n\n# Agregar porcentajes\ntext(0.7, TP/2, paste0(round(100*VPP, 1), \"%\"), col=\"white\", cex=1.5, font=2)\ntext(1.9, FP/2, paste0(round(100*(1-VPP), 1), \"%\"), col=\"white\", cex=1.5, font=2)\n\n# Leyenda explicativa\nlegend(\"topright\",\n       legend = c(\"TP: Fraude detectado correctamente\",\n                  \"FP: Honesto marcado por error\"),\n       fill = c(\"darkgreen\", \"red\"),\n       bty = \"n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════\\n\")\ncat(\"  TABLA DE DECISIÓN: ¿AUDITAR TODAS LAS MARCADAS?\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"ESCENARIO ACTUAL:\\n\")\ncat(\"─────────────────────────────────────────────────────────\\n\")\ncat(\"Compras marcadas:         \", TP + FP, \"\\n\")\ncat(\"Fraudes reales en marcas: \", TP, \" (\", round(100*VPP, 1), \"%)\\n\")\ncat(\"Falsos positivos:         \", FP, \" (\", round(100*(1-VPP), 1), \"%)\\n\\n\")\n\ncat(\"COSTO POR ESTRATEGIA:\\n\")\ncat(\"─────────────────────────────────────────────────────────\\n\")\n\n# Opción 1: Auditar todas\ncat(\"1. AUDITAR TODAS las marcadas\\n\")\ncat(\"   Costo:        $\", format((TP+FP)*costo_auditoria, big.mark=\",\"), \"\\n\")\ncat(\"   Fraudes:      \", TP, \"\\n\")\ncat(\"   Eficiencia:   \", round(100*TP/(TP+FP), 1), \"% (costo útil)\\n\\n\")\n\n# Opción 2: Muestra aleatoria de marcadas\nmuestra_pct <- 0.30\ncat(\"2. AUDITAR MUESTRA del 30% de marcadas\\n\")\ncat(\"   Costo:        $\", format(round((TP+FP)*muestra_pct*costo_auditoria), big.mark=\",\"), \"\\n\")\ncat(\"   Fraudes:      ~\", round(TP*muestra_pct), \" (esperados)\\n\")\ncat(\"   Riesgo:       Perderse \", round(TP*(1-muestra_pct)), \" fraudes\\n\\n\")\n\n# Opción 3: Solo alto riesgo (>$100k)\ncat(\"3. SOLO compras > $100k marcadas (30% de marcadas)\\n\")\ncat(\"   Asumiendo que 70% de fraudes están en este grupo\\n\")\ncat(\"   Costo:        $\", format(round((TP+FP)*0.30*costo_auditoria), big.mark=\",\"), \"\\n\")\ncat(\"   Fraudes:      ~\", round(TP*0.70), \" (70% del total)\\n\\n\")\n\ncat(\"RECOMENDACIÓN:\\n\")\ncat(\"─────────────────────────────────────────────────────────\\n\")\ncat(\"Dado que VPP = \", round(100*VPP, 1), \"%, NO es eficiente auditar todas.\\n\")\ncat(\"→ Implementar sistema de dos etapas (Estrategia B)\\n\")\ncat(\"→ O focalizar en compras de alto riesgo (Estrategia C)\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar VPP de diferentes estrategias\nestrategias <- c(\"Base\", \"Espec+\", \"Dos etapas\", \"Alto riesgo\")\nvpps <- c(vpp_bayes, vpp_a, vpp_b, vpp_c) * 100\n\nbarplot(vpps,\n        names.arg = estrategias,\n        col = c(\"gray\", \"lightblue\", \"lightgreen\", \"gold\"),\n        main = \"Comparación de Valor Predictivo Positivo (VPP)\",\n        ylab = \"VPP (%)\",\n        ylim = c(0, 100),\n        las = 2)\n\nabline(h = 50, col = \"red\", lty = 2, lwd = 2)\ntext(1, 55, \"50% (umbral mínimo aceptable)\", pos = 4, col = \"red\", cex = 0.8)\n\n# Agregar valores\ntext(1:4, vpps + 5, paste0(round(vpps, 1), \"%\"), cex = 1.2, font = 2)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Parámetros del estudio\nset.seed(2026)\n\n# Características de la población y la prueba\nprevalencia <- 0.01      # 1% tiene cáncer (tasa base)\nsensibilidad <- 0.90     # 90% de enfermos detectados\nespecificidad <- 0.91    # 91% de sanos correctamente identificados\n\n# Tamaño de la población simulada\nn <- 10000\n\ncat(\"PARÁMETROS DE LA SIMULACIÓN\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Prevalencia (tasa base):  \", prevalencia * 100, \"%\\n\")\ncat(\"Sensibilidad P(+|caso):   \", sensibilidad * 100, \"%\\n\")\ncat(\"Especificidad P(-|sano):  \", especificidad * 100, \"%\\n\")\ncat(\"Población simulada:       \", n, \"personas\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Asignar estado real (tiene cáncer o no)\ntiene_cancer <- rbinom(n, size = 1, prob = prevalencia)\n\ncat(\"ESTADO REAL DE LA POBLACIÓN\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Personas CON cáncer:     \", sum(tiene_cancer), \"\\n\")\ncat(\"Personas SIN cáncer:     \", sum(1 - tiene_cancer), \"\\n\")\ncat(\"Total:                   \", n, \"\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Inicializar vector de resultados\nresultado_prueba <- numeric(n)\n\n# Para las personas CON cáncer: aplicar sensibilidad\nresultado_prueba[tiene_cancer == 1] <- rbinom(\n  sum(tiene_cancer), \n  size = 1, \n  prob = sensibilidad\n)\n\n# Para las personas SIN cáncer: aplicar especificidad\n# Si especificidad = 0.91 → prob de positivo falso = 1 - 0.91 = 0.09\nresultado_prueba[tiene_cancer == 0] <- rbinom(\n  sum(1 - tiene_cancer), \n  size = 1, \n  prob = 1 - especificidad\n)\n\ncat(\"RESULTADOS DE LA PRUEBA\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Total de pruebas POSITIVAS: \", sum(resultado_prueba), \"\\n\")\ncat(\"Total de pruebas NEGATIVAS: \", sum(1 - resultado_prueba), \"\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular elementos de la tabla 2x2\nTP <- sum(tiene_cancer == 1 & resultado_prueba == 1)  # Verdaderos Positivos\nFP <- sum(tiene_cancer == 0 & resultado_prueba == 1)  # Falsos Positivos\nFN <- sum(tiene_cancer == 1 & resultado_prueba == 0)  # Falsos Negativos\nTN <- sum(tiene_cancer == 0 & resultado_prueba == 0)  # Verdaderos Negativos\n\n# Crear tabla\ntabla_2x2 <- matrix(c(TP, FN, FP, TN), \n                    nrow = 2, \n                    byrow = TRUE)\nrownames(tabla_2x2) <- c(\"Tiene cáncer\", \"No tiene cáncer\")\ncolnames(tabla_2x2) <- c(\"Test +\", \"Test -\")\n\ncat(\"TABLA 2×2 (SIMULADA)\\n\")\ncat(\"══════════════════════════════════════════════════\\n\")\nprint(tabla_2x2)\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\n# Verificación\ncat(\"Verificación de totales:\\n\")\ncat(\"  Total de casos:    \", sum(tabla_2x2[1, ]), \"\\n\")\ncat(\"  Total de sanos:    \", sum(tabla_2x2[2, ]), \"\\n\")\ncat(\"  Total de positivos:\", sum(tabla_2x2[, 1]), \"\\n\")\ncat(\"  Total de negativos:\", sum(tabla_2x2[, 2]), \"\\n\")\ncat(\"  TOTAL:             \", sum(tabla_2x2), \"\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Valor Predictivo Positivo (VPP)\nVPP <- TP / (TP + FP)\n\n# Valor Predictivo Negativo (VPN)\nVPN <- TN / (TN + FN)\n\n# Sensibilidad observada\nsens_obs <- TP / (TP + FN)\n\n# Especificidad observada\nespec_obs <- TN / (TN + FP)\n\n# Accuracy (precisión general)\naccuracy <- (TP + TN) / n\n\ncat(\"MÉTRICAS DIAGNÓSTICAS\\n\")\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\ncat(\"CARACTERÍSTICAS DE LA PRUEBA (observadas):\\n\")\ncat(\"  Sensibilidad:      \", round(sens_obs * 100, 2), \"%\\n\")\ncat(\"  Especificidad:     \", round(espec_obs * 100, 2), \"%\\n\\n\")\n\ncat(\"UTILIDAD PARA LA DECISIÓN:\\n\")\ncat(\"  VPP (+ → caso):    \", round(VPP * 100, 2), \"%\\n\")\ncat(\"  VPN (- → sano):    \", round(VPN * 100, 2), \"%\\n\\n\")\n\ncat(\"PRECISIÓN GENERAL:\\n\")\ncat(\"  Accuracy:          \", round(accuracy * 100, 2), \"%\\n\\n\")\n\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\ncat(\"💡 INTERPRETACIÓN DEL VPP:\\n\")\ncat(\"   Si una persona tiene resultado POSITIVO,\\n\")\ncat(\"   la probabilidad de que REALMENTE tenga cáncer es \", \n    round(VPP * 100, 1), \"%\\n\\n\")\n\ncat(\"   En otras palabras: De cada 100 positivos,\\n\")\ncat(\"   solo \", round(VPP * 100, 1), \" realmente tienen cáncer.\\n\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear visualización de la tabla con colores\npar(mar = c(3, 3, 3, 3))\nplot(1, type = \"n\", xlim = c(0, 3), ylim = c(0, 3.5), \n     axes = FALSE, xlab = \"\", ylab = \"\",\n     main = \"Tabla 2×2: Resultados de la Simulación\")\n\n# Dibujar rectángulos con colores\nrect(0.5, 2, 1.5, 3, col = \"red\", border = \"black\", lwd = 2)\nrect(1.5, 2, 2.5, 3, col = \"pink\", border = \"black\", lwd = 2)\nrect(0.5, 1, 1.5, 2, col = \"orange\", border = \"black\", lwd = 2)\nrect(1.5, 1, 2.5, 2, col = \"lightgreen\", border = \"black\", lwd = 2)\n\n# Añadir valores\ntext(1, 2.5, paste0(\"VP\\n\", TP), cex = 1.8, font = 2)\ntext(2, 2.5, paste0(\"FN\\n\", FN), cex = 1.8, font = 2)\ntext(1, 1.5, paste0(\"FP\\n\", FP), cex = 1.8, font = 2)\ntext(2, 1.5, paste0(\"VN\\n\", TN), cex = 1.8, font = 2)\n\n# Etiquetas de filas\ntext(0.2, 2.5, \"Tiene\\ncáncer\", cex = 0.9, adj = 1)\ntext(0.2, 1.5, \"No tiene\\ncáncer\", cex = 0.9, adj = 1)\n\n# Etiquetas de columnas\ntext(1, 3.3, \"Test +\", cex = 1, font = 2)\ntext(2, 3.3, \"Test -\", cex = 1, font = 2)\n\n# Totales marginales\ntext(2.8, 2.5, TP + FN, cex = 1.2, col = \"darkred\", font = 2)\ntext(2.8, 1.5, FP + TN, cex = 1.2, col = \"darkgreen\", font = 2)\ntext(1, 0.6, TP + FP, cex = 1.2, col = \"darkorange\", font = 2)\ntext(2, 0.6, FN + TN, cex = 1.2, col = \"darkblue\", font = 2)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función para calcular VPP teórico\ncalcular_VPP <- function(prevalencia, sensibilidad, especificidad) {\n  # Aplicar fórmula de Bayes\n  numerador <- sensibilidad * prevalencia\n  denominador <- (sensibilidad * prevalencia) + \n                 ((1 - especificidad) * (1 - prevalencia))\n  return(numerador / denominador)\n}\n\n# Probar diferentes tasas base\ntasas_base <- seq(0.001, 0.50, by = 0.001)\nVPP_teorico <- sapply(tasas_base, calcular_VPP, \n                       sensibilidad = sensibilidad, \n                       especificidad = especificidad)\n\n# Gráfico\nplot(tasas_base * 100, VPP_teorico * 100,\n     type = \"l\", lwd = 3, col = \"navy\",\n     xlab = \"Tasa base / Prevalencia (%)\",\n     ylab = \"VPP (%)\",\n     main = \"Efecto de la Tasa Base en el Valor Predictivo Positivo\",\n     xlim = c(0, 50), ylim = c(0, 100),\n     las = 1, bty = \"l\")\n\n# Líneas de referencia\nabline(h = c(25, 50, 75), lty = 2, col = \"gray\")\nabline(v = c(1, 5, 10, 20), lty = 2, col = \"gray\")\n\n# Marcar el caso actual\npoints(prevalencia * 100, VPP * 100, \n       pch = 19, cex = 2, col = \"red\")\ntext(prevalencia * 100 + 3, VPP * 100 + 8, \n     paste0(\"Nuestra\\nsimulación\\n(\", round(VPP*100, 1), \"%)\"),\n     cex = 0.8, col = \"red\", adj = 0)\n\n# Leyenda\nlegend(\"bottomright\", \n       legend = c(\"Sensibilidad = 90%\", \"Especificidad = 91%\"),\n       bty = \"n\", cex = 0.9)\n\ngrid()","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 3 escenarios con diferentes prevalencias\nescenarios <- data.frame(\n  Escenario = c(\"Población general\", \"Grupo de riesgo\", \"Alta sospecha\"),\n  Prevalencia = c(0.01, 0.20, 0.50),\n  VPP = NA,\n  Interpretacion = c(\"9 de cada 10 + son falsos\", \n                     \"1 de cada 3 + es falso\", \n                     \"1 de cada 10 + es falso\")\n)\n\n# Calcular VPP para cada escenario\nfor (i in 1:nrow(escenarios)) {\n  escenarios$VPP[i] <- calcular_VPP(\n    escenarios$Prevalencia[i], \n    sensibilidad, \n    especificidad\n  ) * 100\n}\n\ncat(\"COMPARACIÓN DE ESCENARIOS (Misma prueba, diferentes poblaciones)\\n\")\ncat(\"═════════════════════════════════════════════════════════════════════\\n\")\nprint(escenarios, row.names = FALSE, digits = 3)\ncat(\"═════════════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"💡 LECCIÓN CLAVE:\\n\")\ncat(\"   La MISMA prueba puede ser inútil o excelente\\n\")\ncat(\"   dependiendo de A QUIÉN se la apliques.\\n\\n\")\n\ncat(\"   • Tamizaje universal (1%):   VPP bajo, muchos FP, carga operativa alta\\n\")\ncat(\"   • Tamizaje focalizado (20%): VPP aceptable, balance razonable\\n\")\ncat(\"   • Confirmación (50%):        VPP alto, confiable para decisión\\n\\n\")\n\ncat(\"DECISIÓN DE POLÍTICA:\\n\")\ncat(\"   ¿Conviene tamizaje universal o focalizado?\\n\")\ncat(\"   Depende del costo de:\\n\")\ncat(\"     - Procesar un Falso Positivo (recursos, ansiedad)\\n\")\ncat(\"     - Perder un caso real (Falso Negativo)\\n\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"ESTRATEGIA DE DOS ETAPAS\\n\")\ncat(\"═════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"Etapa 1: Tamizaje inicial (prueba barata, sensible)\\n\")\ncat(\"   - Aplicar a toda la población\\n\")\ncat(\"   - Captura la mayoría de casos\\n\")\ncat(\"   - Genera muchos FP\\n\\n\")\n\ncat(\"Etapa 2: Confirmación (prueba cara, específica)\\n\")\ncat(\"   - Solo a los positivos de Etapa 1\\n\")\ncat(\"   - Filtra los FP\\n\")\ncat(\"   - VPP final mucho mayor\\n\\n\")\n\n# Simular etapa 1: prueba sensible pero menos específica\nsens_etapa1 <- 0.95   # Muy sensible\nespec_etapa1 <- 0.85  # Menos específica\n\n# Aplicar etapa 1\nresultado_etapa1 <- numeric(n)\nresultado_etapa1[tiene_cancer == 1] <- rbinom(sum(tiene_cancer), 1, sens_etapa1)\nresultado_etapa1[tiene_cancer == 0] <- rbinom(sum(1 - tiene_cancer), 1, 1 - espec_etapa1)\n\npositivos_etapa1 <- sum(resultado_etapa1)\n\ncat(\"RESULTADOS ETAPA 1:\\n\")\ncat(\"  Positivos detectados: \", positivos_etapa1, \"\\n\")\ncat(\"  VPP Etapa 1:          \", \n    round(sum(tiene_cancer == 1 & resultado_etapa1 == 1) / positivos_etapa1 * 100, 1), \"%\\n\\n\")\n\n# Simular etapa 2: solo en positivos de etapa 1\n# Prueba más específica\nsens_etapa2 <- 0.90\nespec_etapa2 <- 0.95  # Muy específica\n\nidx_positivos_e1 <- which(resultado_etapa1 == 1)\nresultado_etapa2 <- numeric(length(idx_positivos_e1))\n\nfor (i in seq_along(idx_positivos_e1)) {\n  idx <- idx_positivos_e1[i]\n  if (tiene_cancer[idx] == 1) {\n    resultado_etapa2[i] <- rbinom(1, 1, sens_etapa2)\n  } else {\n    resultado_etapa2[i] <- rbinom(1, 1, 1 - espec_etapa2)\n  }\n}\n\npositivos_etapa2 <- sum(resultado_etapa2)\ncasos_reales_detectados <- sum(tiene_cancer[idx_positivos_e1] == 1 & resultado_etapa2 == 1)\n\nVPP_final <- casos_reales_detectados / positivos_etapa2\n\ncat(\"RESULTADOS ETAPA 2:\\n\")\ncat(\"  Positivos confirmados:\", positivos_etapa2, \"\\n\")\ncat(\"  De los cuales son casos reales: \", casos_reales_detectados, \"\\n\")\ncat(\"  VPP Final:            \", round(VPP_final * 100, 1), \"%\\n\\n\")\n\ncat(\"COMPARACIÓN:\\n\")\ncat(\"  VPP una sola etapa:   ~9%\\n\")\ncat(\"  VPP dos etapas:       \", round(VPP_final * 100, 1), \"%\\n\\n\")\n\ncat(\"¡El diseño de dos etapas mejora drásticamente el VPP!\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1632,14 +1667,41 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Sesión 4: Probabilidad Condicional (Bayes para Política Pública) – David Contreras-Loya">
-<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta property="og:title" content="Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes – David Contreras-Loya">
 <meta property="og:image" content="https://quarto.org/quarto.png">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Sesión 4: Probabilidad Condicional (Bayes para Política Pública) – David Contreras-Loya">
-<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+<meta name="twitter:title" content="Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes – David Contreras-Loya">
 <meta name="twitter:image" content="https://quarto.org/quarto.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -1715,12 +1777,8 @@ globalThis.qwebrExecuteCode = async function (
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
- <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
- <span class="dropdown-text">S4b: Probabilidad Condicional (Bayes)</span></a>
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
@@ -1796,20 +1854,24 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#caso-de-política-pública" id="toc-caso-de-política-pública" class="nav-link active" data-scroll-target="#caso-de-política-pública">Caso de Política Pública</a></li>
-  <li><a href="#parte-1-configuración-y-conceptos" id="toc-parte-1-configuración-y-conceptos" class="nav-link" data-scroll-target="#parte-1-configuración-y-conceptos">Parte 1: Configuración y Conceptos</a></li>
-  <li><a href="#parte-2-simulación-de-la-realidad" id="toc-parte-2-simulación-de-la-realidad" class="nav-link" data-scroll-target="#parte-2-simulación-de-la-realidad">Parte 2: Simulación de la Realidad</a></li>
-  <li><a href="#parte-3-matriz-de-confusión" id="toc-parte-3-matriz-de-confusión" class="nav-link" data-scroll-target="#parte-3-matriz-de-confusión">Parte 3: Matriz de Confusión</a></li>
-  <li><a href="#parte-4-el-valor-predictivo-positivo-vpp" id="toc-parte-4-el-valor-predictivo-positivo-vpp" class="nav-link" data-scroll-target="#parte-4-el-valor-predictivo-positivo-vpp">Parte 4: El Valor Predictivo Positivo (VPP)</a></li>
-  <li><a href="#parte-5-fórmula-de-bayes" id="toc-parte-5-fórmula-de-bayes" class="nav-link" data-scroll-target="#parte-5-fórmula-de-bayes">Parte 5: Fórmula de Bayes</a></li>
-  <li><a href="#parte-6-análisis-de-sensibilidad-prevalencia" id="toc-parte-6-análisis-de-sensibilidad-prevalencia" class="nav-link" data-scroll-target="#parte-6-análisis-de-sensibilidad-prevalencia">Parte 6: Análisis de Sensibilidad (Prevalencia)</a></li>
-  <li><a href="#parte-7-estrategias-de-mejora" id="toc-parte-7-estrategias-de-mejora" class="nav-link" data-scroll-target="#parte-7-estrategias-de-mejora">Parte 7: Estrategias de Mejora</a></li>
-  <li><a href="#parte-8-visualización-del-problema" id="toc-parte-8-visualización-del-problema" class="nav-link" data-scroll-target="#parte-8-visualización-del-problema">Parte 8: Visualización del Problema</a></li>
-  <li><a href="#parte-9-tabla-de-decisión" id="toc-parte-9-tabla-de-decisión" class="nav-link" data-scroll-target="#parte-9-tabla-de-decisión">Parte 9: Tabla de Decisión</a></li>
-  <li><a href="#parte-10-comparación-visual-de-estrategias" id="toc-parte-10-comparación-visual-de-estrategias" class="nav-link" data-scroll-target="#parte-10-comparación-visual-de-estrategias">Parte 10: Comparación Visual de Estrategias</a></li>
-  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
-  <li><a href="#preguntas-de-discusión" id="toc-preguntas-de-discusión" class="nav-link" data-scroll-target="#preguntas-de-discusión">Preguntas de Discusión</a></li>
-  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos Adicionales</a></li>
+  <li><a href="#simulación-de-tabla-22-y-cálculo-de-vpp" id="toc-simulación-de-tabla-22-y-cálculo-de-vpp" class="nav-link active" data-scroll-target="#simulación-de-tabla-22-y-cálculo-de-vpp">Simulación de Tabla 2×2 y Cálculo de VPP</a>
+  <ul class="collapse">
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#paso-1-definir-parámetros" id="toc-paso-1-definir-parámetros" class="nav-link" data-scroll-target="#paso-1-definir-parámetros">Paso 1: Definir parámetros</a></li>
+  <li><a href="#paso-2-simular-la-población" id="toc-paso-2-simular-la-población" class="nav-link" data-scroll-target="#paso-2-simular-la-población">Paso 2: Simular la población</a></li>
+  <li><a href="#paso-3-simular-resultados-de-la-prueba" id="toc-paso-3-simular-resultados-de-la-prueba" class="nav-link" data-scroll-target="#paso-3-simular-resultados-de-la-prueba">Paso 3: Simular resultados de la prueba</a></li>
+  <li><a href="#paso-4-construir-tabla-22" id="toc-paso-4-construir-tabla-22" class="nav-link" data-scroll-target="#paso-4-construir-tabla-22">Paso 4: Construir tabla 2×2</a></li>
+  <li><a href="#paso-5-calcular-métricas-diagnósticas" id="toc-paso-5-calcular-métricas-diagnósticas" class="nav-link" data-scroll-target="#paso-5-calcular-métricas-diagnósticas">Paso 5: Calcular métricas diagnósticas</a></li>
+  <li><a href="#paso-6-visualización-de-la-tabla-22" id="toc-paso-6-visualización-de-la-tabla-22" class="nav-link" data-scroll-target="#paso-6-visualización-de-la-tabla-22">Paso 6: Visualización de la tabla 2×2</a></li>
+  <li><a href="#paso-7-efecto-de-la-tasa-base-en-el-vpp" id="toc-paso-7-efecto-de-la-tasa-base-en-el-vpp" class="nav-link" data-scroll-target="#paso-7-efecto-de-la-tasa-base-en-el-vpp">Paso 7: Efecto de la tasa base en el VPP</a></li>
+  <li><a href="#paso-8-comparación-de-escenarios" id="toc-paso-8-comparación-de-escenarios" class="nav-link" data-scroll-target="#paso-8-comparación-de-escenarios">Paso 8: Comparación de escenarios</a></li>
+  <li><a href="#paso-9-simulación-de-tamizaje-de-dos-etapas" id="toc-paso-9-simulación-de-tamizaje-de-dos-etapas" class="nav-link" data-scroll-target="#paso-9-simulación-de-tamizaje-de-dos-etapas">Paso 9: Simulación de tamizaje de dos etapas</a></li>
+  <li><a href="#ejercicios-para-practicar" id="toc-ejercicios-para-practicar" class="nav-link" data-scroll-target="#ejercicios-para-practicar">Ejercicios para practicar</a></li>
+  <li><a href="#preguntas-de-reflexión" id="toc-preguntas-de-reflexión" class="nav-link" data-scroll-target="#preguntas-de-reflexión">Preguntas de reflexión</a></li>
+  <li><a href="#conceptos-clave-para-recordar" id="toc-conceptos-clave-para-recordar" class="nav-link" data-scroll-target="#conceptos-clave-para-recordar">Conceptos clave para recordar</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos adicionales</a></li>
+  <li><a href="#código-completo-para-copy-paste" id="toc-código-completo-para-copy-paste" class="nav-link" data-scroll-target="#código-completo-para-copy-paste">Código completo para copy-paste</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2102,7 +2164,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 4: Probabilidad Condicional (Bayes para Política Pública)</h1>
+<h1 class="title">Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes</h1>
 </div>
 
 
@@ -2119,161 +2181,261 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="caso-de-política-pública" class="level1">
-<h1>Caso de Política Pública</h1>
-<p>La <strong>Contraloría Municipal</strong> implementó un sistema de IA para detectar posibles irregularidades en compras públicas. El sistema tiene: - <strong>Sensibilidad:</strong> 90% (detecta 9 de cada 10 casos reales de corrupción) - <strong>Especificidad:</strong> 95% (solo 5% de casos honestos son marcados incorrectamente)</p>
-<p>Suena genial, ¿verdad? Pero… <strong>solo el 5% de las compras tienen irregularidades reales</strong></p>
-<p><strong>Tu tarea:</strong> Calcular: - Si el sistema marca una compra, ¿cuál es la probabilidad REAL de que sea fraudulenta? - ¿Cuántos falsos positivos generaremos? - ¿Vale la pena auditar todas las compras marcadas?</p>
-<p><strong>Paradoja de Bayes:</strong> Un test “muy preciso” puede generar más falsos que verdaderos.</p>
+<section id="simulación-de-tabla-22-y-cálculo-de-vpp" class="level1">
+<h1>Simulación de Tabla 2×2 y Cálculo de VPP</h1>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Generar 10,000 casos simulados para entender cómo la <strong>tasa base (prevalencia)</strong> afecta el <strong>Valor Predictivo Positivo (VPP)</strong> de una prueba diagnóstica.</p>
 <hr>
 </section>
-<section id="parte-1-configuración-y-conceptos" class="level1">
-<h1>Parte 1: Configuración y Conceptos</h1>
+<section id="paso-1-definir-parámetros" class="level2">
+<h2 class="anchored" data-anchor-id="paso-1-definir-parámetros">Paso 1: Definir parámetros</h2>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>¿Qué estamos haciendo?</strong></p>
+<p>Definimos los parámetros clave de nuestro problema: - <strong>Prevalencia:</strong> Qué tan común es el cáncer en la población (1%) - <strong>Sensibilidad:</strong> Qué tan buena es la prueba detectando casos reales (90%) - <strong>Especificidad:</strong> Qué tan buena es la prueba descartando sanos (91%)</p>
 <hr>
 </section>
-<section id="parte-2-simulación-de-la-realidad" class="level1">
-<h1>Parte 2: Simulación de la Realidad</h1>
+<section id="paso-2-simular-la-población" class="level2">
+<h2 class="anchored" data-anchor-id="paso-2-simular-la-población">Paso 2: Simular la población</h2>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>¿Qué hace este código?</strong></p>
+<p>Usamos <code>rbinom()</code> para simular una moneda sesgada: - Probabilidad de “éxito” (tener cáncer) = 1% - Lanzamos la moneda 10,000 veces - Resultado: vector de 0s (sano) y 1s (enfermo)</p>
+<p>Esperamos aproximadamente 100 personas con cáncer (1% de 10,000).</p>
 <hr>
 </section>
-<section id="parte-3-matriz-de-confusión" class="level1">
-<h1>Parte 3: Matriz de Confusión</h1>
+<section id="paso-3-simular-resultados-de-la-prueba" class="level2">
+<h2 class="anchored" data-anchor-id="paso-3-simular-resultados-de-la-prueba">Paso 3: Simular resultados de la prueba</h2>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Lógica del código:</strong></p>
+<p>Este es el paso CRÍTICO donde aplicamos sensibilidad y especificidad:</p>
+<ol type="1">
+<li><strong>Para enfermos:</strong> La prueba da positivo con probabilidad = sensibilidad (90%)</li>
+<li><strong>Para sanos:</strong> La prueba da positivo con probabilidad = 1 - especificidad (9%)</li>
+</ol>
+<p>Esperamos aproximadamente: - 90 verdaderos positivos (90% de ~100 enfermos) - 891 falsos positivos (9% de ~9,900 sanos) - <strong>Total de positivos ≈ 981</strong></p>
 <hr>
 </section>
-<section id="parte-4-el-valor-predictivo-positivo-vpp" class="level1">
-<h1>Parte 4: El Valor Predictivo Positivo (VPP)</h1>
-<p><strong>LA PREGUNTA CLAVE:</strong> Si la IA marca una compra, ¿cuál es la probabilidad de que SEA REALMENTE fraudulenta?</p>
+<section id="paso-4-construir-tabla-22" class="level2">
+<h2 class="anchored" data-anchor-id="paso-4-construir-tabla-22">Paso 4: Construir tabla 2×2</h2>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Entendiendo la tabla 2×2:</strong></p>
+<pre><code>                    Test +    Test -
+Tiene cáncer        TP (~90)  FN (~10)
+No tiene cáncer     FP (~891) TN (~9,009)</code></pre>
+<ul>
+<li><strong>TP (Verdadero +):</strong> La prueba acertó, detectó un caso real</li>
+<li><strong>FP (Falso +):</strong> Alarma falsa, persona sana con resultado positivo</li>
+<li><strong>FN (Falso -):</strong> La prueba falló, caso real no detectado</li>
+<li><strong>TN (Verdadero -):</strong> Correctamente identificó a persona sana</li>
+</ul>
 <hr>
 </section>
-<section id="parte-5-fórmula-de-bayes" class="level1">
-<h1>Parte 5: Fórmula de Bayes</h1>
+<section id="paso-5-calcular-métricas-diagnósticas" class="level2">
+<h2 class="anchored" data-anchor-id="paso-5-calcular-métricas-diagnósticas">Paso 5: Calcular métricas diagnósticas</h2>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>La distinción crítica:</strong></p>
+<ul>
+<li><strong>Sensibilidad (90%):</strong> De los enfermos, ¿cuántos detecta la prueba?</li>
+<li><strong>VPP (~9%):</strong> De los positivos, ¿cuántos son realmente enfermos?</li>
+</ul>
+<p><strong>¡NO SON LO MISMO!</strong> Confundirlos es el error más común.</p>
+<p>La sensibilidad mide la calidad de la prueba.<br>
+El VPP mide su utilidad para TI cuando recibes un resultado positivo.</p>
 <hr>
 </section>
-<section id="parte-6-análisis-de-sensibilidad-prevalencia" class="level1">
-<h1>Parte 6: Análisis de Sensibilidad (Prevalencia)</h1>
+<section id="paso-6-visualización-de-la-tabla-22" class="level2">
+<h2 class="anchored" data-anchor-id="paso-6-visualización-de-la-tabla-22">Paso 6: Visualización de la tabla 2×2</h2>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpretación visual:</strong></p>
+<ul>
+<li><strong>Rojo oscuro (VP):</strong> Casos correctamente detectados</li>
+<li><strong>Naranja (FP):</strong> El “problema” - sanos alarmados falsamente</li>
+<li><strong>Rosa (FN):</strong> Casos perdidos (fallos de la prueba)</li>
+<li><strong>Verde (VN):</strong> Sanos correctamente descartados</li>
+</ul>
+<p>¡Nota cómo el rectángulo naranja (FP) es mucho más grande que el rojo (VP)!</p>
 <hr>
 </section>
-<section id="parte-7-estrategias-de-mejora" class="level1">
-<h1>Parte 7: Estrategias de Mejora</h1>
+<section id="paso-7-efecto-de-la-tasa-base-en-el-vpp" class="level2">
+<h2 class="anchored" data-anchor-id="paso-7-efecto-de-la-tasa-base-en-el-vpp">Paso 7: Efecto de la tasa base en el VPP</h2>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Lecciones del gráfico:</strong></p>
+<ol type="1">
+<li>Con prevalencia muy baja (1%), el VPP es terrible (~9%)</li>
+<li>A medida que aumenta la prevalencia, el VPP sube <strong>no linealmente</strong></li>
+<li>Con prevalencia del 20%, el VPP sería ~68% (mucho mejor)</li>
+<li>La tasa base importa TANTO como la calidad de la prueba</li>
+</ol>
+<p><strong>Implicación para política pública:</strong><br>
+Focalizar el tamizaje en población de riesgo mejora drásticamente el VPP.</p>
 <hr>
 </section>
-<section id="parte-8-visualización-del-problema" class="level1">
-<h1>Parte 8: Visualización del Problema</h1>
+<section id="paso-8-comparación-de-escenarios" class="level2">
+<h2 class="anchored" data-anchor-id="paso-8-comparación-de-escenarios">Paso 8: Comparación de escenarios</h2>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Tabla de decisión:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 27%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Estrategia</th>
+<th>Ventaja</th>
+<th>Desventaja</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Universal</strong></td>
+<td>No perdemos ningún caso</td>
+<td>90% de positivos son falsos</td>
+</tr>
+<tr class="even">
+<td><strong>Focalizada</strong></td>
+<td>Mejor VPP, menos desperdicio</td>
+<td>Podríamos perder casos fuera del grupo</td>
+</tr>
+<tr class="odd">
+<td><strong>Dos etapas</strong></td>
+<td>Balance óptimo</td>
+<td>Más complejo de implementar</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
-<section id="parte-9-tabla-de-decisión" class="level1">
-<h1>Parte 9: Tabla de Decisión</h1>
+<section id="paso-9-simulación-de-tamizaje-de-dos-etapas" class="level2">
+<h2 class="anchored" data-anchor-id="paso-9-simulación-de-tamizaje-de-dos-etapas">Paso 9: Simulación de tamizaje de dos etapas</h2>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Ventaja de dos etapas:</strong> - Capturamos casi todos los casos (alta sensibilidad en etapa 1) - Descartamos la mayoría de falsos positivos (alta especificidad en etapa 2) - VPP final es mucho más útil para decisiones</p>
 <hr>
 </section>
-<section id="parte-10-comparación-visual-de-estrategias" class="level1">
-<h1>Parte 10: Comparación Visual de Estrategias</h1>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="ejercicio-individual-entregable" class="level1">
-<h1>Ejercicio Individual (Entregable)</h1>
-<p><strong>Parte A: Variación de Parámetros</strong></p>
+<section id="ejercicios-para-practicar" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-para-practicar">Ejercicios para practicar</h2>
+<p><strong>Ejercicio 1: Cambiar parámetros</strong></p>
+<p>Modifica el código del Paso 1 y vuelve a correr toda la simulación:</p>
 <ol type="1">
-<li><strong>Re-simula</strong> con prevalencia = 1% (fraude muy raro):
+<li>Cambia <code>prevalencia &lt;- 0.10</code> (10% en lugar de 1%)
 <ul>
-<li>Calcula el nuevo VPP</li>
-<li>¿Cuántos falsos positivos genera?</li>
-<li>¿Cambiaría tu recomendación?</li>
+<li>¿Cómo cambia el VPP?</li>
 </ul></li>
-<li><strong>Mejora de sensibilidad:</strong> Cambia sensibilidad a 95% (mantén todo lo demás):
+<li>Cambia <code>sensibilidad &lt;- 0.95</code> (mejor prueba)
 <ul>
-<li>¿Mejora más el VPP que mejorar especificidad?</li>
-<li>Explica por qué</li>
+<li>¿Vale la pena una prueba más cara pero más sensible?</li>
 </ul></li>
-</ol>
-<p><strong>Parte B: Análisis Escrito</strong></p>
-<ol start="3" type="1">
-<li><p><strong>Tabla comparativa</strong> de las 4 estrategias: | Estrategia | VPP | Costo | Fraudes detectados | Trade-off | |————|—–|——-|——————-|———–|</p></li>
-<li><p><strong>Explica en 6 líneas:</strong></p>
+<li>Cambia <code>especificidad &lt;- 0.80</code> (prueba menos específica)
 <ul>
-<li>¿Por qué un test “90% preciso” puede generar más falsos que verdaderos?</li>
-<li>¿Qué factor importa más: sensibilidad, especificidad, o prevalencia?</li>
+<li>¿Cómo explota el número de Falsos Positivos?</li>
 </ul></li>
 </ol>
-<p><strong>Parte C: Aplicación Práctica</strong></p>
-<ol start="5" type="1">
-<li><strong>Diseña un protocolo</strong> de auditoría (1 página):
-<ul>
-<li>¿Qué compras auditar?</li>
-<li>¿En qué orden?</li>
-<li>¿Con qué criterios adicionales?</li>
-<li>Incluye 1 limitación</li>
-</ul></li>
-</ol>
+<p><strong>Ejercicio 2: Caso de fraude en programas sociales</strong></p>
+<p>Imagina un sistema de detección de fraude con: - Prevalencia de fraude: 0.5% (muy raro) - Sensibilidad del algoritmo: 85% - Especificidad del algoritmo: 92%</p>
+<p>Preguntas: 1. Si el sistema marca a alguien, ¿qué probabilidad hay de que sea fraude real? 2. ¿Conviene auditar a todos los marcados? 3. ¿Qué estrategia de dos etapas propondrías?</p>
+<p><strong>Ejercicio 3: Screening en educación</strong></p>
+<p>Screening para identificar niños con retraso del desarrollo: - Prevalencia: 5% - Sensibilidad de prueba inicial: 90% - Especificidad: 88%</p>
+<p>Preguntas: 1. Calcula el VPP 2. ¿Qué pasa si focalizas en escuelas de alta vulnerabilidad (prevalencia 15%)? 3. Diseña protocolo de dos etapas</p>
 <hr>
 </section>
-<section id="preguntas-de-discusión" class="level1">
-<h1>Preguntas de Discusión</h1>
+<section id="preguntas-de-reflexión" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-de-reflexión">Preguntas de reflexión</h2>
 <ol type="1">
-<li><strong>Falsos positivos vs falsos negativos:</strong>
+<li><strong>¿Por qué el VPP es tan bajo (9.2%) aunque la prueba sea 90% sensible?</strong>
 <ul>
-<li>¿Qué es peor: auditar inocentes o dejar pasar fraudes?</li>
-<li>¿Cambia tu respuesta según el contexto?</li>
+<li>Porque la tasa base es muy baja (1%)</li>
+<li>Los Falsos Positivos dominan numéricamente</li>
 </ul></li>
-<li><strong>Comunicación del riesgo:</strong>
+<li><strong>¿En qué contexto de política pública usarías tamizaje universal vs focalizado?</strong>
 <ul>
-<li>¿Cómo explicas “VPP = 30%” a un no-experto?</li>
-<li>¿Dirías “70% son falsos” o “solo 30% son reales”?</li>
+<li>Universal: cuando el costo de FP es bajo y el de FN es alto (ej: COVID)</li>
+<li>Focalizado: cuando procesar FP es costoso (ej: auditorías)</li>
 </ul></li>
-<li><strong>Dilema ético:</strong>
+<li><strong>Si tienes recursos limitados, ¿prefieres mejorar sensibilidad o especificidad?</strong>
 <ul>
-<li>¿Es justo marcar compras sabiendo que la mayoría son honestas?</li>
-<li>¿Cómo proteges reputaciones ante falsos positivos?</li>
+<li>Depende del contexto:
+<ul>
+<li>Enfermedades graves: prioriza sensibilidad (no perder casos)</li>
+<li>Recursos escasos: prioriza especificidad (evitar desperdicio en FP)</li>
 </ul></li>
-<li><strong>Mejora continua:</strong>
+</ul></li>
+<li><strong>¿Cómo comunicarías estos resultados al público?</strong>
 <ul>
-<li>¿Invertirías más en mejorar sensibilidad o especificidad?</li>
-<li>¿Por qué importa tanto la prevalencia?</li>
+<li>Usar frecuencias naturales: “De cada 100 positivos, solo 9 tienen cáncer”</li>
+<li>Evitar porcentajes anidados que confunden</li>
+<li>Mostrar tabla 2×2 con números concretos</li>
 </ul></li>
 </ol>
 <hr>
 </section>
-<section id="recursos-adicionales" class="level1">
-<h1>Recursos Adicionales</h1>
-<p><strong>Conceptos clave:</strong></p>
-<ul>
-<li><strong>Teorema de Bayes:</strong> P(A|B) = P(B|A) × P(A) / P(B)</li>
-<li><strong>Sensibilidad:</strong> Proporción de positivos correctamente identificados</li>
-<li><strong>Especificidad:</strong> Proporción de negativos correctamente identificados</li>
-<li><strong>VPP:</strong> Probabilidad de enfermedad dado resultado positivo</li>
-<li><strong>Prevalencia:</strong> Proporción de casos en la población</li>
-</ul>
-<p><strong>Aplicaciones:</strong></p>
-<ul>
-<li>🏥 Tests médicos (COVID, VIH, cáncer)</li>
-<li>🔍 Sistemas anticorrupción</li>
-<li>✈️ Detección de amenazas en aeropuertos</li>
-<li>📧 Filtros de spam</li>
-<li>🎯 Sistemas de recomendación</li>
-</ul>
-<p><strong>Para profundizar:</strong> - “Thinking, Fast and Slow” - Kahneman (sobre sesgos) - “The Signal and the Noise” - Nate Silver - “Base rate fallacy” en Wikipedia</p>
+<section id="conceptos-clave-para-recordar" class="level2">
+<h2 class="anchored" data-anchor-id="conceptos-clave-para-recordar">Conceptos clave para recordar</h2>
+<p><strong>1. Tasa base (prevalencia) importa tanto como la calidad de la prueba</strong> - Misma prueba → VPPs muy diferentes según población</p>
+<p><strong>2. No confundir sensibilidad con VPP</strong> - Sensibilidad: P(+ | caso) = calidad de la prueba - VPP: P(caso | +) = utilidad para tu decisión</p>
+<p><strong>3. Diseño de dos etapas puede resolver el problema</strong> - Etapa 1: sensible (captura casos) - Etapa 2: específica (filtra falsos positivos)</p>
+<p><strong>4. Comunicar con frecuencias naturales</strong> - “9 de cada 100 positivos tienen cáncer” - Es más claro que “VPP = 9.2%”</p>
+<p><strong>5. Decisión depende de los costos relativos</strong> - Costo de FP vs costo de FN - No hay respuesta única “correcta”</p>
 <hr>
-<p><strong>Última reflexión:</strong> Un test perfecto con población incorrecta genera basura. El contexto (prevalencia) importa tanto como la precisión.</p>
+</section>
+<section id="recursos-adicionales" class="level2">
+<h2 class="anchored" data-anchor-id="recursos-adicionales">Recursos adicionales</h2>
+<p><strong>Fórmula de Bayes (recordatorio):</strong></p>
+<p><span class="math display">\[\text{VPP} = P(\text{caso}|+) = \frac{P(+|\text{caso}) \cdot P(\text{caso})}{P(+)}\]</span></p>
+<p>Donde: <span class="math display">\[P(+) = P(+|\text{caso}) \cdot P(\text{caso}) + P(+|\text{sano}) \cdot P(\text{sano})\]</span></p>
+<p><strong>Para profundizar:</strong> - Gigerenzer, G. (2002). “Reckoning with Risk” - Spiegelhalter, D. (2019). “The Art of Statistics” - Kahneman, D. (2011). “Thinking, Fast and Slow” (Capítulo sobre tasa base)</p>
+<p><strong>Herramientas en línea:</strong> - https://www.thennt.com/ (comunicación de riesgo) - https://seeing-theory.brown.edu/bayesian-inference/ (visualizaciones)</p>
+<hr>
+</section>
+<section id="código-completo-para-copy-paste" class="level2">
+<h2 class="anchored" data-anchor-id="código-completo-para-copy-paste">Código completo para copy-paste</h2>
+<p>Si quieres todo el código de una sola vez para correr en R:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CÓDIGO COMPLETO - Simulación de Bayes</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>prevalencia <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sensibilidad <span class="ot">&lt;-</span> <span class="fl">0.90</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>especificidad <span class="ot">&lt;-</span> <span class="fl">0.91</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular población</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tiene_cancer <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, prevalencia)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular resultados de prueba</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>resultado_prueba <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>resultado_prueba[tiene_cancer <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">sum</span>(tiene_cancer), <span class="dv">1</span>, sensibilidad)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>resultado_prueba[tiene_cancer <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">sum</span>(<span class="dv">1</span> <span class="sc">-</span> tiene_cancer), <span class="dv">1</span>, <span class="dv">1</span> <span class="sc">-</span> especificidad)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla 2x2</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>TP <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>FP <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>FN <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>TN <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular VPP</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>VPP <span class="ot">&lt;-</span> TP <span class="sc">/</span> (TP <span class="sc">+</span> FP)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimir resultados</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tabla 2x2:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"          Test+   Test-</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Caso     "</span>, TP, <span class="st">"    "</span>, FN, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sano     "</span>, FP, <span class="st">"   "</span>, TN, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"VPP = "</span>, <span class="fu">round</span>(VPP <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<p>Este es el fin del ejercicio aplicado. Ahora entiendes por qué la tasa base es crítica y cómo diseñar sistemas de tamizaje efectivos en política pública.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -127,5 +127,14 @@
   },
   "notes/r_setup_guide_es.qmd": {
     "r_setup_guide_es.html": "6b926a7d"
+  },
+  "notes/ex03_montecarlo_integrated_v2.qmd": {
+    "ex03_montecarlo_integrated_v2.html": "fd246e14"
+  },
+  "notes/ex04_bayes_simulation.qmd": {
+    "ex04_bayes_simulation.html": "2e22a215"
+  },
+  "notes/ex03_montecarlo_simplified.qmd": {
+    "ex03_montecarlo_simplified.html": "40aab669"
   }
 }

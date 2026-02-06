@@ -1321,5 +1321,229 @@
     "title": "Sección 1: Introducción a R",
     "section": "Problemas de álgebra lineal",
     "text": "Problemas de álgebra lineal\nAlgunos rompecabezas clásicos de R-encuentra-álgebra-lineal para tu disfrute:\n\n\n\n\n\n\nProblema 3: Matriz identidad\n\n\n\nSea I₅ una matriz identidad de 5×5. Demuestra que I₅ es simétrica e idempotente usando funciones de R.\nPista: Usa diag(5) para crear una matriz identidad.\n\n\n\n\n\n\n\n\nProblema 4: Matriz idempotente\n\n\n\nGenera una matriz idempotente de 2×2 X, donde X no es la matriz identidad. Demuestra que X = XX.\nPista: Una matriz idempotente satisface X = X².\n\n\n\n\n\n\n\n\nProblema 5: Regresión lineal\n\n\n\nGenera dos variables aleatorias, x y e, de dimensión n = 100 tal que x, e ~ N(0, 1).\nGenera y de acuerdo a: y = x + e\nMuestra que regresar y sobre x usando lm() da estimaciones: β₀ ≈ 0 y β₁ ≈ 1.\nPista: Usa rnorm(100) para generar variables aleatorias normales.\n\n\n\n\n\n\n\n\nProblema 6: Valores propios y traza\n\n\n\nMuestra que si λ₁, λ₂, …, λ₅ son los valores propios de una matriz de 5×5 A, entonces:\ntr(A) = Σλᵢ (suma de valores propios)\nPista: Usa eigen() para encontrar valores propios y sum(diag()) para la traza."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html",
+    "href": "notes/ex03_montecarlo_integrated_v2.html",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "",
+    "text": "La Dirección de Programas Sociales debe presentar un presupuesto al Congreso para un programa de transferencias monetarias condicionadas. El problema: múltiples fuentes de incertidumbre:\n\n📦 Costo unitario por beneficiario (varía por logística, inflación)\n👥 Número de beneficiarios (demanda fluctuante)\n🚛 Costos logísticos (transporte, operación regional)\n💸 Tasa de deserción (beneficiarios que abandonan el programa)\n\nTu tarea: Usar simulación Monte Carlo para: - Estimar el presupuesto necesario con su rango de incertidumbre - Identificar el percentil 90 (para no quedarse corto) - Comunicar el riesgo presupuestario al Director\nRegla de oro: Planificar con el promedio es planificar para el fracaso. Necesitamos conocer la distribución completa."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#cómo-genera-r-números-aleatorios-con-diferentes-distribuciones",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#cómo-genera-r-números-aleatorios-con-diferentes-distribuciones",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿Cómo genera R números aleatorios con diferentes distribuciones?",
+    "text": "¿Cómo genera R números aleatorios con diferentes distribuciones?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n¿Por qué importa esto? - Entender que toda aleatoriedad es transformación matemática - Saber que podemos crear cualquier distribución a partir de U(0,1) - Reconocer que rnorm(), rlnorm() hacen esto automáticamente"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#simulaciones-son-suficientes",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#simulaciones-son-suficientes",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿10,000 simulaciones son suficientes?",
+    "text": "¿10,000 simulaciones son suficientes?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLección importante: Más simulaciones = mayor precisión, pero con rendimientos decrecientes."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#qué-variable-genera-más-incertidumbre",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#qué-variable-genera-más-incertidumbre",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿Qué variable genera más incertidumbre?",
+    "text": "¿Qué variable genera más incertidumbre?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#adivinar-o-medir-el-valor-de-los-datos-históricos",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#adivinar-o-medir-el-valor-de-los-datos-históricos",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿Adivinar o medir? El valor de los datos históricos",
+    "text": "¿Adivinar o medir? El valor de los datos históricos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n¿Qué tenemos? Datos históricos de 50 municipios que operaron el programa en 2023. Ahora vamos a ajustar distribuciones a estos datos."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#ajustando-distribuciones-con-el-paquete-fitdistrplus",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#ajustando-distribuciones-con-el-paquete-fitdistrplus",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "Ajustando distribuciones con el paquete fitdistrplus",
+    "text": "Ajustando distribuciones con el paquete fitdistrplus\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#validación-visual-qué-tan-bien-ajustan",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#validación-visual-qué-tan-bien-ajustan",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "Validación visual: ¿Qué tan bien ajustan?",
+    "text": "Validación visual: ¿Qué tan bien ajustan?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#re-simulación-con-parámetros-ajustados",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#re-simulación-con-parámetros-ajustados",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "Re-simulación con parámetros ajustados",
+    "text": "Re-simulación con parámetros ajustados\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#lecciones-aprendidas",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#lecciones-aprendidas",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "Lecciones aprendidas",
+    "text": "Lecciones aprendidas\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nConclusión clave: En este ejercicio, usar datos reales cambió la estimación del P90 en aproximadamente r sprintf(\"%+.1f%%\", dif_p90).\n¿Es mucho o poco? Depende de tu tolerancia al riesgo:\n\nSi presupuestas con P50 (mediana): La diferencia probablemente fue &lt;2%, casi despreciable\nSi presupuestas con P90 (conservador): La diferencia fue significativa y podría cambiar tu recomendación\nSi presupuestas con P95: La diferencia es aún mayor (los datos importan MUCHO)\n\nRegla práctica:\nPercentil más alto usado → Mayor importancia de datos reales\nCosto de quedarse corto → Mayor importancia de datos reales\nEn algunos contextos (hospitales, vacunación masiva), una diferencia del 5-10% en P90 puede ser la diferencia entre: - ✅ Tener presupuesto suficiente todo el año - ❌ Tener que pedir un suplemento al Congreso a mitad de año (costo político alto)\nEl valor real no está solo en los números, sino en la CONFIANZA que puedes tener en tu estimación cuando la defiendes ante tomadores de decisiones."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html",
+    "href": "notes/ex04_bayes_simulation.html",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Generar 10,000 casos simulados para entender cómo la tasa base (prevalencia) afecta el Valor Predictivo Positivo (VPP) de una prueba diagnóstica.\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n¿Qué estamos haciendo?\nDefinimos los parámetros clave de nuestro problema: - Prevalencia: Qué tan común es el cáncer en la población (1%) - Sensibilidad: Qué tan buena es la prueba detectando casos reales (90%) - Especificidad: Qué tan buena es la prueba descartando sanos (91%)\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n¿Qué hace este código?\nUsamos rbinom() para simular una moneda sesgada: - Probabilidad de “éxito” (tener cáncer) = 1% - Lanzamos la moneda 10,000 veces - Resultado: vector de 0s (sano) y 1s (enfermo)\nEsperamos aproximadamente 100 personas con cáncer (1% de 10,000).\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLógica del código:\nEste es el paso CRÍTICO donde aplicamos sensibilidad y especificidad:\n\nPara enfermos: La prueba da positivo con probabilidad = sensibilidad (90%)\nPara sanos: La prueba da positivo con probabilidad = 1 - especificidad (9%)\n\nEsperamos aproximadamente: - 90 verdaderos positivos (90% de ~100 enfermos) - 891 falsos positivos (9% de ~9,900 sanos) - Total de positivos ≈ 981\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nEntendiendo la tabla 2×2:\n                    Test +    Test -\nTiene cáncer        TP (~90)  FN (~10)\nNo tiene cáncer     FP (~891) TN (~9,009)\n\nTP (Verdadero +): La prueba acertó, detectó un caso real\nFP (Falso +): Alarma falsa, persona sana con resultado positivo\nFN (Falso -): La prueba falló, caso real no detectado\nTN (Verdadero -): Correctamente identificó a persona sana\n\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLa distinción crítica:\n\nSensibilidad (90%): De los enfermos, ¿cuántos detecta la prueba?\nVPP (~9%): De los positivos, ¿cuántos son realmente enfermos?\n\n¡NO SON LO MISMO! Confundirlos es el error más común.\nLa sensibilidad mide la calidad de la prueba.\nEl VPP mide su utilidad para TI cuando recibes un resultado positivo.\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación visual:\n\nRojo oscuro (VP): Casos correctamente detectados\nNaranja (FP): El “problema” - sanos alarmados falsamente\nRosa (FN): Casos perdidos (fallos de la prueba)\nVerde (VN): Sanos correctamente descartados\n\n¡Nota cómo el rectángulo naranja (FP) es mucho más grande que el rojo (VP)!\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLecciones del gráfico:\n\nCon prevalencia muy baja (1%), el VPP es terrible (~9%)\nA medida que aumenta la prevalencia, el VPP sube no linealmente\nCon prevalencia del 20%, el VPP sería ~68% (mucho mejor)\nLa tasa base importa TANTO como la calidad de la prueba\n\nImplicación para política pública:\nFocalizar el tamizaje en población de riesgo mejora drásticamente el VPP.\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nTabla de decisión:\n\n\n\n\n\n\n\n\nEstrategia\nVentaja\nDesventaja\n\n\n\n\nUniversal\nNo perdemos ningún caso\n90% de positivos son falsos\n\n\nFocalizada\nMejor VPP, menos desperdicio\nPodríamos perder casos fuera del grupo\n\n\nDos etapas\nBalance óptimo\nMás complejo de implementar\n\n\n\n\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nVentaja de dos etapas: - Capturamos casi todos los casos (alta sensibilidad en etapa 1) - Descartamos la mayoría de falsos positivos (alta especificidad en etapa 2) - VPP final es mucho más útil para decisiones\n\n\n\n\nEjercicio 1: Cambiar parámetros\nModifica el código del Paso 1 y vuelve a correr toda la simulación:\n\nCambia prevalencia &lt;- 0.10 (10% en lugar de 1%)\n\n¿Cómo cambia el VPP?\n\nCambia sensibilidad &lt;- 0.95 (mejor prueba)\n\n¿Vale la pena una prueba más cara pero más sensible?\n\nCambia especificidad &lt;- 0.80 (prueba menos específica)\n\n¿Cómo explota el número de Falsos Positivos?\n\n\nEjercicio 2: Caso de fraude en programas sociales\nImagina un sistema de detección de fraude con: - Prevalencia de fraude: 0.5% (muy raro) - Sensibilidad del algoritmo: 85% - Especificidad del algoritmo: 92%\nPreguntas: 1. Si el sistema marca a alguien, ¿qué probabilidad hay de que sea fraude real? 2. ¿Conviene auditar a todos los marcados? 3. ¿Qué estrategia de dos etapas propondrías?\nEjercicio 3: Screening en educación\nScreening para identificar niños con retraso del desarrollo: - Prevalencia: 5% - Sensibilidad de prueba inicial: 90% - Especificidad: 88%\nPreguntas: 1. Calcula el VPP 2. ¿Qué pasa si focalizas en escuelas de alta vulnerabilidad (prevalencia 15%)? 3. Diseña protocolo de dos etapas\n\n\n\n\n\n¿Por qué el VPP es tan bajo (9.2%) aunque la prueba sea 90% sensible?\n\nPorque la tasa base es muy baja (1%)\nLos Falsos Positivos dominan numéricamente\n\n¿En qué contexto de política pública usarías tamizaje universal vs focalizado?\n\nUniversal: cuando el costo de FP es bajo y el de FN es alto (ej: COVID)\nFocalizado: cuando procesar FP es costoso (ej: auditorías)\n\nSi tienes recursos limitados, ¿prefieres mejorar sensibilidad o especificidad?\n\nDepende del contexto:\n\nEnfermedades graves: prioriza sensibilidad (no perder casos)\nRecursos escasos: prioriza especificidad (evitar desperdicio en FP)\n\n\n¿Cómo comunicarías estos resultados al público?\n\nUsar frecuencias naturales: “De cada 100 positivos, solo 9 tienen cáncer”\nEvitar porcentajes anidados que confunden\nMostrar tabla 2×2 con números concretos\n\n\n\n\n\n\n1. Tasa base (prevalencia) importa tanto como la calidad de la prueba - Misma prueba → VPPs muy diferentes según población\n2. No confundir sensibilidad con VPP - Sensibilidad: P(+ | caso) = calidad de la prueba - VPP: P(caso | +) = utilidad para tu decisión\n3. Diseño de dos etapas puede resolver el problema - Etapa 1: sensible (captura casos) - Etapa 2: específica (filtra falsos positivos)\n4. Comunicar con frecuencias naturales - “9 de cada 100 positivos tienen cáncer” - Es más claro que “VPP = 9.2%”\n5. Decisión depende de los costos relativos - Costo de FP vs costo de FN - No hay respuesta única “correcta”\n\n\n\n\nFórmula de Bayes (recordatorio):\n\\[\\text{VPP} = P(\\text{caso}|+) = \\frac{P(+|\\text{caso}) \\cdot P(\\text{caso})}{P(+)}\\]\nDonde: \\[P(+) = P(+|\\text{caso}) \\cdot P(\\text{caso}) + P(+|\\text{sano}) \\cdot P(\\text{sano})\\]\nPara profundizar: - Gigerenzer, G. (2002). “Reckoning with Risk” - Spiegelhalter, D. (2019). “The Art of Statistics” - Kahneman, D. (2011). “Thinking, Fast and Slow” (Capítulo sobre tasa base)\nHerramientas en línea: - https://www.thennt.com/ (comunicación de riesgo) - https://seeing-theory.brown.edu/bayesian-inference/ (visualizaciones)\n\n\n\n\nSi quieres todo el código de una sola vez para correr en R:\n# CÓDIGO COMPLETO - Simulación de Bayes\nset.seed(2026)\n\n# Parámetros\nprevalencia &lt;- 0.01\nsensibilidad &lt;- 0.90\nespecificidad &lt;- 0.91\nn &lt;- 10000\n\n# Simular población\ntiene_cancer &lt;- rbinom(n, 1, prevalencia)\n\n# Simular resultados de prueba\nresultado_prueba &lt;- numeric(n)\nresultado_prueba[tiene_cancer == 1] &lt;- rbinom(sum(tiene_cancer), 1, sensibilidad)\nresultado_prueba[tiene_cancer == 0] &lt;- rbinom(sum(1 - tiene_cancer), 1, 1 - especificidad)\n\n# Tabla 2x2\nTP &lt;- sum(tiene_cancer == 1 & resultado_prueba == 1)\nFP &lt;- sum(tiene_cancer == 0 & resultado_prueba == 1)\nFN &lt;- sum(tiene_cancer == 1 & resultado_prueba == 0)\nTN &lt;- sum(tiene_cancer == 0 & resultado_prueba == 0)\n\n# Calcular VPP\nVPP &lt;- TP / (TP + FP)\n\n# Imprimir resultados\ncat(\"Tabla 2x2:\\n\")\ncat(\"          Test+   Test-\\n\")\ncat(\"Caso     \", TP, \"    \", FN, \"\\n\")\ncat(\"Sano     \", FP, \"   \", TN, \"\\n\\n\")\ncat(\"VPP = \", round(VPP * 100, 1), \"%\\n\")\n\nEste es el fin del ejercicio aplicado. Ahora entiendes por qué la tasa base es crítica y cómo diseñar sistemas de tamizaje efectivos en política pública."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#objetivo",
+    "href": "notes/ex04_bayes_simulation.html#objetivo",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Generar 10,000 casos simulados para entender cómo la tasa base (prevalencia) afecta el Valor Predictivo Positivo (VPP) de una prueba diagnóstica."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-1-definir-parámetros",
+    "href": "notes/ex04_bayes_simulation.html#paso-1-definir-parámetros",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\n¿Qué estamos haciendo?\nDefinimos los parámetros clave de nuestro problema: - Prevalencia: Qué tan común es el cáncer en la población (1%) - Sensibilidad: Qué tan buena es la prueba detectando casos reales (90%) - Especificidad: Qué tan buena es la prueba descartando sanos (91%)"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-2-simular-la-población",
+    "href": "notes/ex04_bayes_simulation.html#paso-2-simular-la-población",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\n¿Qué hace este código?\nUsamos rbinom() para simular una moneda sesgada: - Probabilidad de “éxito” (tener cáncer) = 1% - Lanzamos la moneda 10,000 veces - Resultado: vector de 0s (sano) y 1s (enfermo)\nEsperamos aproximadamente 100 personas con cáncer (1% de 10,000)."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-3-simular-resultados-de-la-prueba",
+    "href": "notes/ex04_bayes_simulation.html#paso-3-simular-resultados-de-la-prueba",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nLógica del código:\nEste es el paso CRÍTICO donde aplicamos sensibilidad y especificidad:\n\nPara enfermos: La prueba da positivo con probabilidad = sensibilidad (90%)\nPara sanos: La prueba da positivo con probabilidad = 1 - especificidad (9%)\n\nEsperamos aproximadamente: - 90 verdaderos positivos (90% de ~100 enfermos) - 891 falsos positivos (9% de ~9,900 sanos) - Total de positivos ≈ 981"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-4-construir-tabla-22",
+    "href": "notes/ex04_bayes_simulation.html#paso-4-construir-tabla-22",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nEntendiendo la tabla 2×2:\n                    Test +    Test -\nTiene cáncer        TP (~90)  FN (~10)\nNo tiene cáncer     FP (~891) TN (~9,009)\n\nTP (Verdadero +): La prueba acertó, detectó un caso real\nFP (Falso +): Alarma falsa, persona sana con resultado positivo\nFN (Falso -): La prueba falló, caso real no detectado\nTN (Verdadero -): Correctamente identificó a persona sana"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-5-calcular-métricas-diagnósticas",
+    "href": "notes/ex04_bayes_simulation.html#paso-5-calcular-métricas-diagnósticas",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nLa distinción crítica:\n\nSensibilidad (90%): De los enfermos, ¿cuántos detecta la prueba?\nVPP (~9%): De los positivos, ¿cuántos son realmente enfermos?\n\n¡NO SON LO MISMO! Confundirlos es el error más común.\nLa sensibilidad mide la calidad de la prueba.\nEl VPP mide su utilidad para TI cuando recibes un resultado positivo."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-6-visualización-de-la-tabla-22",
+    "href": "notes/ex04_bayes_simulation.html#paso-6-visualización-de-la-tabla-22",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación visual:\n\nRojo oscuro (VP): Casos correctamente detectados\nNaranja (FP): El “problema” - sanos alarmados falsamente\nRosa (FN): Casos perdidos (fallos de la prueba)\nVerde (VN): Sanos correctamente descartados\n\n¡Nota cómo el rectángulo naranja (FP) es mucho más grande que el rojo (VP)!"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-7-efecto-de-la-tasa-base-en-el-vpp",
+    "href": "notes/ex04_bayes_simulation.html#paso-7-efecto-de-la-tasa-base-en-el-vpp",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nLecciones del gráfico:\n\nCon prevalencia muy baja (1%), el VPP es terrible (~9%)\nA medida que aumenta la prevalencia, el VPP sube no linealmente\nCon prevalencia del 20%, el VPP sería ~68% (mucho mejor)\nLa tasa base importa TANTO como la calidad de la prueba\n\nImplicación para política pública:\nFocalizar el tamizaje en población de riesgo mejora drásticamente el VPP."
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-8-comparación-de-escenarios",
+    "href": "notes/ex04_bayes_simulation.html#paso-8-comparación-de-escenarios",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nTabla de decisión:\n\n\n\n\n\n\n\n\nEstrategia\nVentaja\nDesventaja\n\n\n\n\nUniversal\nNo perdemos ningún caso\n90% de positivos son falsos\n\n\nFocalizada\nMejor VPP, menos desperdicio\nPodríamos perder casos fuera del grupo\n\n\nDos etapas\nBalance óptimo\nMás complejo de implementar"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#paso-9-simulación-de-tamizaje-de-dos-etapas",
+    "href": "notes/ex04_bayes_simulation.html#paso-9-simulación-de-tamizaje-de-dos-etapas",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\nVentaja de dos etapas: - Capturamos casi todos los casos (alta sensibilidad en etapa 1) - Descartamos la mayoría de falsos positivos (alta especificidad en etapa 2) - VPP final es mucho más útil para decisiones"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#ejercicios-para-practicar",
+    "href": "notes/ex04_bayes_simulation.html#ejercicios-para-practicar",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Ejercicio 1: Cambiar parámetros\nModifica el código del Paso 1 y vuelve a correr toda la simulación:\n\nCambia prevalencia &lt;- 0.10 (10% en lugar de 1%)\n\n¿Cómo cambia el VPP?\n\nCambia sensibilidad &lt;- 0.95 (mejor prueba)\n\n¿Vale la pena una prueba más cara pero más sensible?\n\nCambia especificidad &lt;- 0.80 (prueba menos específica)\n\n¿Cómo explota el número de Falsos Positivos?\n\n\nEjercicio 2: Caso de fraude en programas sociales\nImagina un sistema de detección de fraude con: - Prevalencia de fraude: 0.5% (muy raro) - Sensibilidad del algoritmo: 85% - Especificidad del algoritmo: 92%\nPreguntas: 1. Si el sistema marca a alguien, ¿qué probabilidad hay de que sea fraude real? 2. ¿Conviene auditar a todos los marcados? 3. ¿Qué estrategia de dos etapas propondrías?\nEjercicio 3: Screening en educación\nScreening para identificar niños con retraso del desarrollo: - Prevalencia: 5% - Sensibilidad de prueba inicial: 90% - Especificidad: 88%\nPreguntas: 1. Calcula el VPP 2. ¿Qué pasa si focalizas en escuelas de alta vulnerabilidad (prevalencia 15%)? 3. Diseña protocolo de dos etapas"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#preguntas-de-reflexión",
+    "href": "notes/ex04_bayes_simulation.html#preguntas-de-reflexión",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "¿Por qué el VPP es tan bajo (9.2%) aunque la prueba sea 90% sensible?\n\nPorque la tasa base es muy baja (1%)\nLos Falsos Positivos dominan numéricamente\n\n¿En qué contexto de política pública usarías tamizaje universal vs focalizado?\n\nUniversal: cuando el costo de FP es bajo y el de FN es alto (ej: COVID)\nFocalizado: cuando procesar FP es costoso (ej: auditorías)\n\nSi tienes recursos limitados, ¿prefieres mejorar sensibilidad o especificidad?\n\nDepende del contexto:\n\nEnfermedades graves: prioriza sensibilidad (no perder casos)\nRecursos escasos: prioriza especificidad (evitar desperdicio en FP)\n\n\n¿Cómo comunicarías estos resultados al público?\n\nUsar frecuencias naturales: “De cada 100 positivos, solo 9 tienen cáncer”\nEvitar porcentajes anidados que confunden\nMostrar tabla 2×2 con números concretos"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#conceptos-clave-para-recordar",
+    "href": "notes/ex04_bayes_simulation.html#conceptos-clave-para-recordar",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "1. Tasa base (prevalencia) importa tanto como la calidad de la prueba - Misma prueba → VPPs muy diferentes según población\n2. No confundir sensibilidad con VPP - Sensibilidad: P(+ | caso) = calidad de la prueba - VPP: P(caso | +) = utilidad para tu decisión\n3. Diseño de dos etapas puede resolver el problema - Etapa 1: sensible (captura casos) - Etapa 2: específica (filtra falsos positivos)\n4. Comunicar con frecuencias naturales - “9 de cada 100 positivos tienen cáncer” - Es más claro que “VPP = 9.2%”\n5. Decisión depende de los costos relativos - Costo de FP vs costo de FN - No hay respuesta única “correcta”"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#recursos-adicionales",
+    "href": "notes/ex04_bayes_simulation.html#recursos-adicionales",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Fórmula de Bayes (recordatorio):\n\\[\\text{VPP} = P(\\text{caso}|+) = \\frac{P(+|\\text{caso}) \\cdot P(\\text{caso})}{P(+)}\\]\nDonde: \\[P(+) = P(+|\\text{caso}) \\cdot P(\\text{caso}) + P(+|\\text{sano}) \\cdot P(\\text{sano})\\]\nPara profundizar: - Gigerenzer, G. (2002). “Reckoning with Risk” - Spiegelhalter, D. (2019). “The Art of Statistics” - Kahneman, D. (2011). “Thinking, Fast and Slow” (Capítulo sobre tasa base)\nHerramientas en línea: - https://www.thennt.com/ (comunicación de riesgo) - https://seeing-theory.brown.edu/bayesian-inference/ (visualizaciones)"
+  },
+  {
+    "objectID": "notes/ex04_bayes_simulation.html#código-completo-para-copy-paste",
+    "href": "notes/ex04_bayes_simulation.html#código-completo-para-copy-paste",
+    "title": "Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes",
+    "section": "",
+    "text": "Si quieres todo el código de una sola vez para correr en R:\n# CÓDIGO COMPLETO - Simulación de Bayes\nset.seed(2026)\n\n# Parámetros\nprevalencia &lt;- 0.01\nsensibilidad &lt;- 0.90\nespecificidad &lt;- 0.91\nn &lt;- 10000\n\n# Simular población\ntiene_cancer &lt;- rbinom(n, 1, prevalencia)\n\n# Simular resultados de prueba\nresultado_prueba &lt;- numeric(n)\nresultado_prueba[tiene_cancer == 1] &lt;- rbinom(sum(tiene_cancer), 1, sensibilidad)\nresultado_prueba[tiene_cancer == 0] &lt;- rbinom(sum(1 - tiene_cancer), 1, 1 - especificidad)\n\n# Tabla 2x2\nTP &lt;- sum(tiene_cancer == 1 & resultado_prueba == 1)\nFP &lt;- sum(tiene_cancer == 0 & resultado_prueba == 1)\nFN &lt;- sum(tiene_cancer == 1 & resultado_prueba == 0)\nTN &lt;- sum(tiene_cancer == 0 & resultado_prueba == 0)\n\n# Calcular VPP\nVPP &lt;- TP / (TP + FP)\n\n# Imprimir resultados\ncat(\"Tabla 2x2:\\n\")\ncat(\"          Test+   Test-\\n\")\ncat(\"Caso     \", TP, \"    \", FN, \"\\n\")\ncat(\"Sano     \", FP, \"   \", TN, \"\\n\\n\")\ncat(\"VPP = \", round(VPP * 100, 1), \"%\\n\")\n\nEste es el fin del ejercicio aplicado. Ahora entiendes por qué la tasa base es crítica y cómo diseñar sistemas de tamizaje efectivos en política pública."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#interpretación-de-parámetros-costos-logísticos",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#interpretación-de-parámetros-costos-logísticos",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "INTERPRETACIÓN DE PARÁMETROS: COSTOS LOGÍSTICOS",
+    "text": "INTERPRETACIÓN DE PARÁMETROS: COSTOS LOGÍSTICOS\nUsamos distribución Gamma(shape = 8, rate = 1/5000) para el componente base.\n¿Cómo se traduce esto a dólares?\nPara una distribución Gamma:\n\nMedia = shape / rate = 8 / (1/5000) = 40,000 USD\nDesviación estándar = √shape / rate = √8 / (1/5000) ≈ 14,142 USD\n\n\nCOMPONENTE BASE: $40,000 ± $14,000\nRepresenta costos logísticos “típicos” con variación aleatoria local (clima, geografía, eficiencia administrativa)\n\n\nCOMPONENTE CORRELACIONADO: +$10,000 × (beneficiarios estandarizados)\nMás beneficiarios → proporcionalmente más rutas, vehículos, personal\nEjemplos:\n\nMunicipio pequeño (800 beneficiarios, -1 SD): -$10,000 ajuste\nMunicipio promedio (1000 beneficiarios): $0 ajuste\n\nMunicipio grande (1200 beneficiarios, +1 SD): +$10,000 ajuste\n\n\n\nPISO MÍNIMO: $15,000\nCostos fijos inevitables (coordinador, vehículo base)\n\n\nRESULTADO:\n\nCostos logísticos entre $25,000 y $70,000 según tamaño del municipio.\nEs solo álgebra para “calibrar” la distribución a dólares reales.\n\n\nPreguntas de reflexión (discutir en clase):\n\n¿Por qué usamos distribuciones diferentes para cada componente?\n¿Qué pasaría si usáramos Normal para todo?\n¿Por qué el costo unitario es Lognormal y no Normal?\n\nPista: ¿Puede ser negativo un costo?\n\n¿La truncación en 3,000 beneficiarios es realista? ¿Qué implica?\n¿Por qué es importante modelar la correlación entre beneficiarios y logística?"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_integrated_v2.html#para-la-discusión-en-clase",
+    "href": "notes/ex03_montecarlo_integrated_v2.html#para-la-discusión-en-clase",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "Para la discusión en clase:",
+    "text": "Para la discusión en clase:\nPREGUNTA PARA ESTUDIANTES:\n¿Por qué shape = 8 en lugar de, digamos, shape = 2?\nRespuesta: shape más alto → distribución más “normal” (menos sesgo)\n\nGamma(shape=2) → muy sesgada a la derecha, cola larga\nGamma(shape=8) → más simétrica, concentrada alrededor de la media\n\nElegimos shape=8 porque los costos logísticos NO tienen valores extremos gigantes (no es como ingresos donde hay multimillonarios). La mayoría de municipios tiene costos “cerca del promedio” con variación moderada.\n¿Por qué rate = 1/5000?\nPorque queremos media = $40,000:\nMedia = shape / rate\n40,000 = 8 / rate\nrate = 8 / 40,000 = 1/5000\nEs solo álgebra para “calibrar” la distribución a dólares reales.\nPreguntas de reflexión (discutir en clase):\n\n¿Por qué usamos distribuciones diferentes para cada componente?\n¿Qué pasaría si usáramos Normal para todo?\n¿Por qué el costo unitario es Lognormal y no Normal?\n\nPista: ¿Puede ser negativo un costo?\n\n¿La truncación en 3,000 beneficiarios es realista? ¿Qué implica?\n¿Por qué es importante modelar la correlación entre beneficiarios y logística?"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_simplified.html",
+    "href": "notes/ex03_montecarlo_simplified.html",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "",
+    "text": "La Dirección de Programas Sociales debe presentar un presupuesto al Congreso para un programa de transferencias monetarias condicionadas. El problema: múltiples fuentes de incertidumbre:\n\nCosto unitario por beneficiario (varía por logística, inflación)\nNúmero de beneficiarios (demanda fluctuante)\nCostos logísticos (transporte, operación regional)\nTasa de deserción (beneficiarios que abandonan el programa)\n\nTu tarea: Usar simulación Monte Carlo para: - Estimar el presupuesto necesario con su rango de incertidumbre - Identificar el percentil 90 (para no quedarse corto) - Comunicar el riesgo presupuestario al Director\nRegla de oro: Planificar con el promedio es planificar para el fracaso. Necesitamos conocer la distribución completa."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_simplified.html#interpretación-de-parámetros-costos-logísticos",
+    "href": "notes/ex03_montecarlo_simplified.html#interpretación-de-parámetros-costos-logísticos",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "INTERPRETACIÓN DE PARÁMETROS: COSTOS LOGÍSTICOS",
+    "text": "INTERPRETACIÓN DE PARÁMETROS: COSTOS LOGÍSTICOS\nUsamos distribución Gamma(shape = 8, rate = 1/5000) para el componente base.\n¿Cómo se traduce esto a dólares?\nPara una distribución Gamma:\n\nMedia = shape / rate = 8 / (1/5000) = 40,000 USD\nDesviación estándar = √shape / rate = √8 / (1/5000) ≈ 14,142 USD\n\n\nCOMPONENTE BASE: $40,000 ± $14,000\nRepresenta costos logísticos “típicos” con variación aleatoria local (clima, geografía, eficiencia administrativa)\n\n\nCOMPONENTE CORRELACIONADO: +$10,000 × (beneficiarios estandarizados)\nMás beneficiarios → proporcionalmente más rutas, vehículos, personal\nEjemplos:\n\nMunicipio pequeño (800 beneficiarios, -1 SD): -$10,000 ajuste\nMunicipio promedio (1000 beneficiarios): $0 ajuste\n\nMunicipio grande (1200 beneficiarios, +1 SD): +$10,000 ajuste\n\n\n\nPISO MÍNIMO: $15,000\nCostos fijos inevitables (coordinador, vehículo base)\n\n\nRESULTADO:\n\nCostos logísticos entre $25,000 y $70,000 según tamaño del municipio.\nEs solo álgebra para “calibrar” la distribución a dólares reales.\n\n\nPreguntas de reflexión (discutir en clase):\n\n¿Por qué usamos distribuciones diferentes para cada componente?\n¿Qué pasaría si usáramos Normal para todo?\n¿Por qué el costo unitario es Lognormal y no Normal?\n\nPista: ¿Puede ser negativo un costo?\n\n¿La truncación en 3,000 beneficiarios es realista? ¿Qué implica?\n¿Por qué es importante modelar la correlación entre beneficiarios y logística?"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_simplified.html#cómo-genera-r-números-aleatorios-con-diferentes-distribuciones",
+    "href": "notes/ex03_montecarlo_simplified.html#cómo-genera-r-números-aleatorios-con-diferentes-distribuciones",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿Cómo genera R números aleatorios con diferentes distribuciones?",
+    "text": "¿Cómo genera R números aleatorios con diferentes distribuciones?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n¿Por qué importa esto? - Entender que toda aleatoriedad es transformación matemática - Saber que podemos crear cualquier distribución a partir de U(0,1) - Reconocer que rnorm(), rlnorm() hacen esto automáticamente"
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_simplified.html#simulaciones-son-suficientes",
+    "href": "notes/ex03_montecarlo_simplified.html#simulaciones-son-suficientes",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿10,000 simulaciones son suficientes?",
+    "text": "¿10,000 simulaciones son suficientes?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLección importante: Más simulaciones = mayor precisión, pero con rendimientos decrecientes."
+  },
+  {
+    "objectID": "notes/ex03_montecarlo_simplified.html#qué-variable-genera-más-incertidumbre",
+    "href": "notes/ex03_montecarlo_simplified.html#qué-variable-genera-más-incertidumbre",
+    "title": "Sesión 3: Jugando a los Dados con el Presupuesto",
+    "section": "¿Qué variable genera más incertidumbre?",
+    "text": "¿Qué variable genera más incertidumbre?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
   }
 ]
