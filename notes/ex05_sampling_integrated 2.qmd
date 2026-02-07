@@ -1,0 +1,144 @@
+---
+title: "Sesión 5: El Arte del Muestreo"
+format: html
+filters:
+  - webr
+---
+
+# Caso: Encuesta de Aprobación Presidencial
+
+El **Instituto Electoral** debe estimar la aprobación presidencial para presupuestar campañas. La verdad poblacional es 52% de aprobación, pero solo podemos encuestar una muestra.
+
+**Preguntas:**
+- ¿Qué tan grande debe ser la muestra?
+- ¿Cuánto varía el resultado con muestras pequeñas vs grandes?
+- ¿Cuál es el margen de error esperado?
+
+```{webr-r}
+library(ggplot2)
+set.seed(2026)
+
+# VERDAD POBLACIONAL (desconocida en la realidad)
+aprobacion_real <- 0.52
+N_poblacion <- 50000000  # 50 millones de votantes
+
+cat("🗳️  PARÁMETROS POBLACIONALES\n")
+cat("════════════════════════════════\n")
+cat("Aprobación real:    ", aprobacion_real*100, "%\n")
+cat("Población total:    ", format(N_poblacion, big.mark=","), "\n\n")
+```
+
+---
+
+# Parte 1: Experimento con Diferentes Tamaños de Muestra
+
+```{webr-r}
+# Simular 1000 encuestas con diferentes tamaños
+n_simulaciones <- 1000
+tamanos_muestra <- c(30, 100, 300, 1000, 3000)
+
+resultados <- data.frame()
+
+for (n in tamanos_muestra) {
+  estimaciones <- replicate(n_simulaciones, {
+    muestra <- sample(c(0, 1), n, replace=TRUE, prob=c(1-aprobacion_real, aprobacion_real))
+    mean(muestra)
+  })
+  
+  temp_df <- data.frame(
+    n = n,
+    estimacion = estimaciones
+  )
+  resultados <- rbind(resultados, temp_df)
+}
+
+cat("📊 ESTADÍSTICAS POR TAMAÑO DE MUESTRA\n")
+cat("════════════════════════════════════════════════════════\n\n")
+
+for (n in tamanos_muestra) {
+  subset_data <- resultados$estimacion[resultados$n == n]
+  media <- mean(subset_data)
+  ee <- sd(subset_data)  # Error estándar empírico
+  
+  cat("n =", n, "\n")
+  cat("  Media de estimaciones:  ", round(media, 4), "\n")
+  cat("  Error Estándar:         ", round(ee, 4), "\n")
+  cat("  Rango (min-max):        ", round(min(subset_data), 3), "-", 
+      round(max(subset_data), 3), "\n\n")
+}
+```
+
+---
+
+# Parte 2: Visualización de la Convergencia
+
+```{webr-r}
+# Boxplot comparativo
+boxplot(estimacion ~ n, data=resultados,
+        col=rainbow(length(tamanos_muestra)),
+        main="Distribución de Estimaciones según Tamaño de Muestra",
+        xlab="Tamaño de muestra (n)",
+        ylab="Aprobación estimada",
+        ylim=c(0.35, 0.70))
+
+abline(h=aprobacion_real, col="red", lwd=3, lty=2)
+text(3, aprobacion_real+0.02, "Verdad = 52%", col="red", pos=3)
+
+# Histogramas superpuestos
+par(mfrow=c(2, 3))
+for (n in tamanos_muestra) {
+  subset_data <- resultados$estimacion[resultados$n == n]
+  hist(subset_data, 
+       breaks=30,
+       col=rgb(0.2, 0.4, 0.8, 0.6),
+       border="white",
+       main=paste("n =", n),
+       xlab="Aprobación estimada",
+       xlim=c(0.35, 0.70))
+  abline(v=aprobacion_real, col="red", lwd=2)
+  abline(v=mean(subset_data), col="blue", lwd=2, lty=2)
+}
+par(mfrow=c(1, 1))
+```
+
+---
+
+# Parte 3: Fórmula del Error Estándar
+
+```{webr-r}
+cat("\n📐 ERROR ESTÁNDAR TEÓRICO vs EMPÍRICO\n")
+cat("════════════════════════════════════════════════════════\n\n")
+
+for (n in tamanos_muestra) {
+  # Teórico: SE = sqrt(p*(1-p)/n)
+  se_teorico <- sqrt(aprobacion_real * (1-aprobacion_real) / n)
+  
+  # Empírico: DE de las 1000 simulaciones
+  se_empirico <- sd(resultados$estimacion[resultados$n == n])
+  
+  cat("n =", n, "\n")
+  cat("  SE teórico:   ", round(se_teorico, 5), "\n")
+  cat("  SE empírico:  ", round(se_empirico, 5), "\n")
+  cat("  Diferencia:   ", round(abs(se_teorico - se_empirico), 5), "\n\n")
+}
+
+cat("💡 INSIGHT: El error estándar disminuye con √n, no con n.\n")
+cat("   Para reducir el error a la mitad, necesitas 4× más gente.\n\n")
+```
+
+---
+
+# Ejercicio Individual
+
+1. **Simula** una encuesta con n=500 y calcula intervalo [estimación ± 2×SE]
+2. **Compara** costo-beneficio de n=1000 vs n=3000
+3. **Recomienda** tamaño de muestra para margen de error <3%
+
+---
+
+# Discusión
+
+- ¿Cuándo vale la pena una muestra grande?
+- ¿Sesgo vs varianza: qué es peor?
+- ¿Cómo afecta la no-respuesta?
+

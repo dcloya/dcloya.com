@@ -1,0 +1,650 @@
+---
+title: "Section 1: Getting Started with R"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    theme: cosmo
+    df-print: paged
+---
+
+# What You Will Need
+
+1. Working and up-to-date installations of **R** and **RStudio**
+2. Data files: `auto.csv` and `auto.dta` (download from course materials)
+3. An internet connection
+4. *Optional:* A healthy source of caffeine ☕
+
+# Summary
+
+In this section we will dive into R. We start by installing and loading useful packages (`dplyr`, `haven`, `readr`, and `pacman`). We then load datasets and begin summarizing and manipulating them. Finally, we'll make our first plots.
+
+---
+
+# Packages in R
+
+Open RStudio. Make sure you are running the most recent versions of R and RStudio.
+
+::: {.callout-important}
+## Check Your Versions
+- **R version**: 4.4.2 or newer
+- **RStudio version**: 2024.12.0 or newer
+:::
+
+While base R is helpful and powerful, R's true potential comes from combining the core installation with the many packages generated through open-source collaboration (see [CRAN's list of packages](https://cran.r-project.org/web/packages/available_packages_by_name.html)).
+
+## Installing Packages
+
+You can check which packages are currently installed using the function `installed.packages()`. Ready to run your first function? Type `installed.packages()` into the R console and hit return.
+
+::: {.callout-tip}
+## Alternative: Check Packages Tab
+You can also check the **Packages** tab inside RStudio. The checked boxes denote the packages that are currently loaded.
+:::
+
+Now, let's install a few packages that will prove useful this semester. We use the `install.packages()` function, giving it the name(s) of the package(s) you want to install.
+
+```{r}
+#| eval: false
+
+# Install the package named "dplyr"
+install.packages("dplyr")
+
+# Install the packages named "haven" and "readr"
+install.packages(c("haven", "readr"))
+```
+
+### Important Notes:
+
+0. **You need an internet connection.**
+1. The function name `install.packages()` is plural regardless of the number of packages.
+2. Each package's name is surrounded by **quotes** (*e.g.*, `"haven"`). These quotation marks tell R this is a character/string, not an object. Use **double quotes** for consistency.
+3. We can create a **vector** of packages using `c()`. Example: `c(1, 2, 3)` is a three-element vector. Similarly, `c("haven", "readr")` is a two-element vector of package names. **Vectors are a big deal in R.**
+4. The hashtag (`#`) creates **comments** in R.
+
+## Loading Packages
+
+To check that installations were successful, we'll load the packages using the `library()` function:
+
+```{r}
+#| eval: false
+
+library(dplyr)
+library(haven)
+library(readr)
+```
+
+::: {.callout-note}
+Notice we didn't need quotation marks around package names when loading (though it would still work with quotes).
+:::
+
+## Package Management with `pacman`
+
+Let's install another package: the `pacman` package (yes, like the game! 🎮).
+
+```{r}
+#| eval: false
+
+# Install the 'pacman' package
+install.packages("pacman")
+
+# Load it
+library(pacman)
+```
+
+The `pacman` package is very meta: it's a package to manage packages. You can use it to install, load, unload, and update your R packages.
+
+Rather than typing `library(...)` for every package, use `pacman`'s `p_load()` function:
+
+```{r}
+#| eval: false
+
+# Old way
+library(dplyr)
+library(haven)
+library(readr)
+
+# New way
+p_load(dplyr, haven, readr)
+```
+
+**Better yet:** If you try to load a package that isn't installed, `p_load()` will install it automatically! Let's install and load `ggplot2`:
+
+```{r}
+#| eval: false
+
+p_load(ggplot2)
+```
+
+Installed and loaded. *That's* service! ✨
+
+---
+
+# Loading Data
+
+Loading a dataset in R requires three things:
+
+1. The **path** of the data file (where it exists on your computer)
+2. The **name** of the data file  
+3. The proper **function** for the file type (*e.g.*, different functions for `.csv` vs `.dta` files)
+
+## File Paths and Navigation
+
+R wants file paths as **character vectors** (*i.e.*, the path surrounded by quotations). For example:
+
+```r
+"/Users/david/Dropbox/Teaching/MyClass"
+```
+
+### Changing and Checking Directories
+
+To change R's working directory, use `setwd()`:
+
+```{r}
+#| eval: false
+
+setwd("/Users/david/Dropbox/Teaching/MyClass")
+```
+
+To find R's current working directory:
+
+```{r}
+#| eval: false
+
+getwd()
+```
+
+::: {.callout-warning}
+## Windows Users
+When you copy paths from File Explorer, slashes may be backwards (`\`). Change them to forward slashes (`/`) or double them (`\\`).
+:::
+
+### Navigation Commands
+
+Similar to Linux/Unix:
+
+- `..` moves up one level
+- `~` returns to your home directory
+- You can use full paths or relative paths
+
+```{r}
+#| eval: false
+
+# Check current directory
+getwd()
+
+# Move up one level
+setwd("..")
+getwd()
+
+# Go home
+setwd("~")
+getwd()
+
+# Return to class folder
+setwd("Dropbox/Teaching/MyClass")
+```
+
+### Smart Path Management
+
+I prefer to store paths at the start of my script for easy updating:
+
+```{r}
+#| eval: false
+
+# Path to my class folder
+dir_class <- "/Users/david/Documents/MyClass/"
+
+# Path to section 1 folder (inside class folder)
+dir_section1 <- paste0(dir_class, "Section01/")
+```
+
+::: {.callout-tip}
+## `paste0()` vs `paste()`
+
+- `paste0()` pastes without spaces
+- `paste()` defaults to single space between elements
+
+```{r}
+#| eval: false
+
+# Default paste0()
+paste0(1, 2, 3)  # "123"
+
+# Default paste()
+paste(1, 2, 3)   # "1 2 3"
+
+# Custom separator
+paste(1, 2, 3, sep = "+")  # "1+2+3"
+```
+:::
+
+### RStudio Tab Completion
+
+RStudio assists with completing file paths—begin typing and press **Tab**. Super useful!
+
+## The `dir()` Function
+
+The `dir()` function shows contents of a folder:
+
+```{r}
+#| eval: false
+
+# Look inside my class folder
+dir(dir_class)
+
+# Look inside my section 1 folder
+dir(dir_section1)
+```
+
+This helps when you forget file names!
+
+## Functions to Load Files
+
+We'll mostly use:
+
+- **`readr`** package: for CSV, TSV, and delimited files
+- **`haven`** package: for Stata (`.dta`), SPSS, and SAS files
+- **Base R**: for R's own formats (`.rds`, `.rdata`)
+
+::: {.callout-tip}
+## Learn About Functions
+To learn more about a function:
+
+1. Press **Tab** after typing the function name (in RStudio)
+2. Type `?function_name` in console (*e.g.*, `?read_dta`)
+:::
+
+### Loading a Stata File
+
+Let's load `auto.dta` using `read_dta()` from the `haven` package:
+
+```{r}
+#| eval: false
+
+# Load the .dta file
+car_data <- read_dta(paste0(dir_section1, "auto.dta"))
+```
+
+::: {.callout-important}
+## The Assignment Operator `<-`
+The `<-` operator is central to R. It assigns the value(s) on the right to the name on the left. 
+
+When reading aloud, people say "gets": `car_data` **gets** the contents of `auto.dta`.
+:::
+
+To view the data, just type its name:
+
+```{r}
+#| eval: false
+
+car_data
+```
+
+### Loading a CSV File
+
+For a CSV file, use `read_csv()` from the `readr` package:
+
+```{r}
+#| eval: false
+
+# Load the .csv file
+car_data <- read_csv(paste0(dir_section1, "auto.csv"))
+
+# View it
+car_data
+```
+
+::: {.callout-note}
+## Relative Paths
+If you're already in the right directory, you don't need the full path:
+
+```{r}
+#| eval: false
+
+read_csv("Section01/auto.csv")
+```
+:::
+
+---
+
+# Playing with Data
+
+You now know how to navigate your computer and load data. Let's do something with those data!
+
+## Exploring the Data
+
+Print the data to the console:
+
+```{r}
+#| eval: false
+
+car_data
+```
+
+Notice several things:
+
+1. The dataset is a **tibble** (like a data frame with rules)
+2. Dimensions: 74 rows × 12 columns
+3. Column types: `<chr>` (character), `<dbl>` (double/numeric), `<int>` (integer)
+4. You get a snapshot of the first 10 rows
+
+### Getting Column Names
+
+```{r}
+#| eval: false
+
+names(car_data)
+```
+
+### Viewing First/Last Rows
+
+```{r}
+#| eval: false
+
+# First 6 rows
+head(car_data)
+
+# First 11 rows
+head(car_data, n = 11)
+
+# Last 7 rows
+tail(car_data, n = 7)
+```
+
+::: {.callout-tip}
+## RStudio Data Viewer
+Use `View(car_data)` or click the dataset in the Environment pane to open RStudio's data viewer.
+:::
+
+## Summarizing the Data
+
+Get a quick summary of your dataset:
+
+```{r}
+#| eval: false
+
+summary(car_data)
+```
+
+To summarize a **single variable**, use `$` to grab it:
+
+```{r}
+#| eval: false
+
+# Grab the price variable
+car_data$price
+
+# Summarize price
+summary(car_data$price)
+```
+
+::: {.callout-tip}
+## Accessing Variables
+`dataset$variable` is how you grab a specific column. RStudio's tab completion works here too!
+:::
+
+## Manipulating the Data
+
+The `dplyr` package offers helpful tools for data manipulation using **verbs** as actions.
+
+### `select()` - Choose Variables
+
+Keep only variables you care about:
+
+```{r}
+#| eval: false
+
+# Select desired variables
+car_sub <- select(car_data, price, mpg, weight, length)
+
+# View result
+car_sub
+```
+
+We now have 74 rows but only 4 columns!
+
+**Alternative:** Exclude variables with a minus sign:
+
+```{r}
+#| eval: false
+
+select(car_data, -price, -mpg, -weight, -length)
+```
+
+### `arrange()` - Sort Data
+
+Arrange data by one or more columns:
+
+```{r}
+#| eval: false
+
+# Arrange by price, then mpg
+arrange(car_sub, price, mpg)
+```
+
+::: {.callout-warning}
+## Assignment Required!
+If you view `car_sub` now, it's not arranged. You must **assign** the result to change the object:
+
+```{r}
+#| eval: false
+
+car_sub <- arrange(car_sub, price)
+```
+:::
+
+For **descending** order, use `desc()`:
+
+```{r}
+#| eval: false
+
+arrange(car_sub, desc(price), mpg)
+```
+
+### `summarize()` - Create Summaries
+
+Create specific summaries of your data:
+
+```{r}
+#| eval: false
+
+# Mean and SD of price
+summarize(car_sub, mean(price), sd(price))
+
+# With custom names
+summarize(car_sub, price_mean = mean(price), price_sd = sd(price))
+```
+
+For simple summaries, you could also just type:
+
+```{r}
+#| eval: false
+
+mean(car_sub$price)
+sd(car_sub$price)
+```
+
+## Plotting the Data
+
+R's default plot functions are simple but effective. We'll cover `ggplot2` later, but for now, let's make quick plots.
+
+### Histogram
+
+Create a histogram of miles per gallon:
+
+```{r}
+#| eval: false
+
+# Plain histogram
+hist(car_sub$mpg)
+```
+
+Make it prettier with labels and a median line:
+
+```{r}
+#| eval: false
+
+# The histogram
+hist(
+  x = car_sub$mpg,
+  main = "Distribution of Fuel Economy",
+  xlab = "MPG (miles per gallon)"
+)
+
+# Add blue line at median
+abline(v = median(car_sub$mpg), col = "blue", lwd = 3)
+```
+
+### Scatterplot
+
+Plot price vs. mileage:
+
+```{r}
+#| eval: false
+
+plot(
+  x = car_sub$mpg,
+  y = car_sub$price,
+  xlab = "Fuel Economy (MPG)",
+  ylab = "Price ($)"
+)
+```
+
+::: {.callout-tip}
+## Clear Code Style
+I recommend clearly defining function arguments. It helps keep things straight, as **order matters** when you're not naming arguments.
+:::
+
+---
+
+# Indexing
+
+Nearly everything in R is numerically indexed. You can access individual elements using **square brackets** `[]`.
+
+## Vector Indexing
+
+```{r}
+#| eval: false
+
+# Create a vector
+x <- c(3, 5, 7, 9)
+
+# Grab the second element
+x[2]  # Returns: 5
+
+# Grab second and third elements
+x[c(2, 3)]  # Returns: 5 7
+x[2:3]      # Same result
+
+# What does 2:3 do?
+2:3  # Creates sequence: 2 3
+```
+
+## Data Frame Indexing
+
+Data frames have **rows and columns**: `[row, column]`
+
+```{r}
+#| eval: false
+
+# Grab first row (all columns)
+car_sub[1, ]
+
+# Grab first column (all rows)
+car_sub[, 1]
+
+# Use column name as index
+car_sub[, "price"]
+```
+
+::: {.callout-note}
+## Row, Column Order
+Remember: **Rows before columns**. Leave blank to select all.
+- `[1, ]` = first row, all columns
+- `[, 2]` = all rows, second column
+- `[3, 4]` = third row, fourth column
+:::
+
+---
+
+# Fun Challenge
+
+::: {.callout-note icon="false"}
+## Try This
+1. What happens if you give `head()` or `tail()` a **negative** `n`?
+2. Can you replicate this behavior using indexing?
+3. Can you replicate `tail()` using only the `head()` function?
+:::
+
+---
+
+# Practice Problems
+
+Some classic R-meets-linear-algebra puzzles for your enjoyment:
+
+::: {.callout-tip icon="false"}
+## Problem 1: Identity Matrix
+Let **I**₅ be a 5×5 identity matrix. Demonstrate that **I**₅ is symmetric and idempotent using R functions.
+
+**Hint:** Use `diag(5)` to create an identity matrix.
+:::
+
+::: {.callout-tip icon="false"}
+## Problem 2: Idempotent Matrix
+Generate a 2×2 idempotent matrix **X**, where **X** is not the identity matrix. Demonstrate that **X** = **XX**.
+
+**Hint:** An idempotent matrix satisfies **X** = **X**².
+:::
+
+::: {.callout-tip icon="false"}
+## Problem 3: Linear Regression
+Generate two random variables, **x** and **e**, of dimension n = 100 such that **x**, **e** ~ N(0, 1).
+
+Generate **y** according to: y = x + e
+
+Show that regressing **y** on **x** using `lm()` gives estimates: β₀ ≈ 0 and β₁ ≈ 1.
+
+**Hint:** Use `rnorm(100)` to generate normal random variables.
+:::
+
+::: {.callout-tip icon="false"}
+## Problem 4: Eigenvalues and Trace
+Show that if λ₁, λ₂, ..., λ₅ are the eigenvalues of a 5×5 matrix **A**, then:
+
+tr(**A**) = Σλᵢ (sum of eigenvalues)
+
+**Hint:** Use `eigen()` to find eigenvalues and `sum(diag())` for the trace.
+:::
+
+---
+
+# Key Takeaways
+
+::: {.callout-important icon="true"}
+## Remember
+
+1. **Packages extend R's power** - Use `pacman::p_load()` for easy management
+2. **File paths are strings** - Use `paste0()` to build paths programmatically
+3. **Assignment is key** - Use `<-` to save results: `new_data <- old_data`
+4. **`dplyr` verbs** - `select()`, `arrange()`, `summarize()` for data manipulation
+5. **Indexing with `[row, column]`** - Essential for accessing data
+6. **Use `$` for columns** - `dataset$variable` grabs a specific variable
+:::
+
+---
+
+# Additional Resources
+
+- [R for Data Science](https://r4ds.hadley.nz/) - Comprehensive guide
+- [RStudio Cheatsheets](https://posit.co/resources/cheatsheets/) - Quick references
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r) - Q&A community
+- `?function_name` - Built-in R help
+
+---
+
+**Next:** Section 2 - Data Wrangling with dplyr

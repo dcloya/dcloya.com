@@ -1,0 +1,142 @@
+---
+title: "Sesión 10: Paradoja de Simpson"
+format: html
+filters:
+  - webr
+---
+
+# Caso: Presupuesto y Desempeño Escolar Revisitado
+
+Usaremos los datos de escuelas de la Sesión 2, pero ahora **controlando por tipo**.
+
+```{webr-r}
+set.seed(2026)
+n_urb <- 80
+n_rur <- 40
+
+# Urbanas: más presupuesto, mayor efecto base
+presup_urb <- rnorm(n_urb, mean=8, sd=2)
+puntaje_urb <- 55 + 2.5*presup_urb + rnorm(n_urb, 0, 8) + 5
+
+# Rurales: menor presupuesto, mayor retorno marginal
+presup_rur <- rnorm(n_rur, mean=5, sd=1.5)
+puntaje_rur <- 45 + 4*presup_rur + rnorm(n_rur, 0, 6)
+
+datos <- data.frame(
+  presupuesto = c(presup_urb, presup_rur),
+  puntaje = c(puntaje_urb, puntaje_rur),
+  tipo = c(rep("Urbana", n_urb), rep("Rural", n_rur))
+)
+```
+
+---
+
+# Parte 1: Regresión Simple (INGENUA)
+
+```{webr-r}
+# Modelo SIN controlar por tipo
+m1 <- lm(puntaje ~ presupuesto, data=datos)
+
+cat("📊 MODELO 1 (sin tipo de escuela)\n")
+cat("════════════════════════════════════════════════════\n")
+cat("Coeficiente presupuesto: ", round(coef(m1)[2], 3), "\n")
+cat("R²:                      ", round(summary(m1)$r.squared, 3), "\n\n")
+
+# Scatterplot
+plot(datos$presupuesto, datos$puntaje, 
+     pch=19, col=rgb(0,0,0,0.4),
+     main="Regresión Simple (Ignora Tipo)",
+     xlab="Presupuesto", ylab="Puntaje")
+abline(m1, col="red", lwd=3)
+```
+
+---
+
+# Parte 2: Regresión Múltiple (CONTROLANDO)
+
+```{webr-r}
+# Modelo controlando por tipo
+m2 <- lm(puntaje ~ presupuesto + tipo, data=datos)
+
+cat("\n📊 MODELO 2 (controlando por tipo)\n")
+cat("════════════════════════════════════════════════════\n")
+summary(m2)
+
+cat("\n💡 COMPARACIÓN DE COEFICIENTES\n")
+cat("════════════════════════════════════════════════════\n")
+cat("Modelo 1 (sin tipo):  β =", round(coef(m1)[2], 3), "\n")
+cat("Modelo 2 (con tipo):  β =", round(coef(m2)[2], 3), "\n")
+cat("Diferencia:                ", round(coef(m2)[2] - coef(m1)[2], 3), "\n\n")
+
+cat("⚠️  PARADOJA DE SIMPSON:\n")
+cat("   El coeficiente CAMBIÓ al controlar por tipo.\n")
+cat("   Esto indica que 'tipo' es una variable CONFUSORA.\n\n")
+```
+
+---
+
+# Parte 3: Visualización de Simpson
+
+```{webr-r}
+# Plot con colores por tipo
+plot(datos$presupuesto, datos$puntaje,
+     pch=19, col=ifelse(datos$tipo=="Urbana", "red", "blue"),
+     main="Paradoja de Simpson Visualizada",
+     xlab="Presupuesto", ylab="Puntaje")
+
+# Línea global (roja)
+abline(m1, col="gray", lwd=3, lty=2)
+
+# Líneas por tipo
+urbanas <- datos[datos$tipo=="Urbana",]
+rurales <- datos[datos$tipo=="Rural",]
+abline(lm(puntaje ~ presupuesto, data=urbanas), col="red", lwd=2)
+abline(lm(puntaje ~ presupuesto, data=rurales), col="blue", lwd=2)
+
+legend("bottomright",
+       legend=c("Urbanas", "Rurales", "Global (engañoso)"),
+       col=c("red", "blue", "gray"),
+       lty=c(1,1,2), lwd=c(2,2,3), bty="n")
+```
+
+---
+
+# Parte 4: Implicaciones para Política
+
+```{webr-r}
+cat("\n🎯 LECCIÓN PARA POLÍTICA PÚBLICA\n")
+cat("════════════════════════════════════════════════════\n\n")
+
+cat("MODELO INGENUO dice:\n")
+cat("  'Cada $1k de presupuesto → +", round(coef(m1)[2], 2), " puntos'\n")
+cat("  Pero ignora que escuelas urbanas:\n")
+cat("    • Tienen MÁS presupuesto\n")
+cat("    • Tienen ventaja estructural (infraestructura, maestros)\n\n")
+
+cat("MODELO CORRECTO dice:\n")
+cat("  Controlando por tipo, cada $1k → +", round(coef(m2)[2], 2), " puntos\n")
+cat("  Y escuelas rurales tienen desventaja de -", 
+    abs(round(coef(m2)[3], 2)), " puntos\n")
+cat("  (incluso con igual presupuesto)\n\n")
+
+cat("RECOMENDACIÓN:\n")
+cat("  No basta con igualar presupuestos.\n")
+cat("  Hay que compensar las desventajas estructurales.\n")
+```
+
+---
+
+# Ejercicio Individual
+
+1. **Simula** un caso donde la relación se INVIERTE al controlar
+2. **Identifica** 3 variables omitidas en este modelo
+3. **Propón** diseño de estudio que minimice confusión
+
+---
+
+# Discusión
+
+- ¿Cuándo sospechar de una variable confusora?
+- ¿Qué variables siempre debes controlar en educación?
+- ¿Experimento aleatorio vs regresión: pros/contras?
+

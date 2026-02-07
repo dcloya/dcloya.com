@@ -136,5 +136,62 @@
   },
   "notes/ex03_montecarlo_simplified.qmd": {
     "ex03_montecarlo_simplified.html": "40aab669"
+  },
+  "notes/r_setup_guide_es 2.qmd": {
+    "r_setup_guide_es 2.html": "f3f1cebd"
+  },
+  "notes/ex10_simpsons_integrated 2.qmd": {
+    "ex10_simpsons_integrated 2.html": "77e83761"
+  },
+  "notes/ex03_montecarlo_integrated_v2 2.qmd": {
+    "ex03_montecarlo_integrated_v2 2.html": "2ad6c865"
+  },
+  "notes/ex03_montecarlo_simplified_v2.qmd": {
+    "ex03_montecarlo_simplified_v2.html": "bf3a917c"
+  },
+  "notes/ex09_regression_integrated 2.qmd": {
+    "ex09_regression_integrated 2.html": "3652dd4f"
+  },
+  "notes/ex06_ci_integrated 2.qmd": {
+    "ex06_ci_integrated 2.html": "993d2ff6"
+  },
+  "notes/r_data_wrangling_es 2.qmd": {
+    "r_data_wrangling_es 2.html": "5e745ada"
+  },
+  "notes/r_getting_started_es 2.qmd": {
+    "r_getting_started_es 2.html": "20cdc98e"
+  },
+  "notes/README_EJERCICIOS 2.qmd": {
+    "README_EJERCICIOS 2.html": "ecb67177"
+  },
+  "notes/INSTRUCCIONES_USO 2.qmd": {
+    "INSTRUCCIONES_USO 2.html": "ec92d366"
+  },
+  "notes/ex04_bayes_simulation 2.qmd": {
+    "ex04_bayes_simulation 2.html": "e06f8b36"
+  },
+  "notes/ex03_montecarlo_integrated 2.qmd": {
+    "ex03_montecarlo_integrated 2.html": "6f5aaf08"
+  },
+  "notes/ex05_sampling_integrated 2.qmd": {
+    "ex05_sampling_integrated 2.html": "33ddac28"
+  },
+  "notes/ex07_ttest_integrated 2.qmd": {
+    "ex07_ttest_integrated 2.html": "4e4a5fdd"
+  },
+  "notes/ex08_pval_integrated 2.qmd": {
+    "ex08_pval_integrated 2.html": "bdddc366"
+  },
+  "notes/ex03_montecarlo_simplified 2.qmd": {
+    "ex03_montecarlo_simplified 2.html": "0df2da10"
+  },
+  "notes/ex04_bayes_integrated 2.qmd": {
+    "ex04_bayes_integrated 2.html": "a3487379"
+  },
+  "notes/ex02_visualization_integrated 2.qmd": {
+    "ex02_visualization_integrated 2.html": "03750741"
+  },
+  "notes/ex01_average_integrated 2.qmd": {
+    "ex01_average_integrated 2.html": "0188f2af"
   }
 }

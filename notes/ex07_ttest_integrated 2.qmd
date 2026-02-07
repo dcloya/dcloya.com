@@ -1,0 +1,129 @@
+---
+title: "Sesión 7: Prueba de Hipótesis"
+format: html
+filters:
+  - webr
+---
+
+# Caso: Método de Enseñanza Innovador
+
+Dos escuelas prueban métodos diferentes: **Método Tradicional** vs **Método Innovador** (aprendizaje activo). Se comparan puntajes en matemáticas.
+
+**Hipótesis Nula (H₀):** "No hay diferencia entre métodos" (presunción de inocencia)
+**Hipótesis Alternativa (H₁):** "El método innovador es mejor"
+
+```{webr-r}
+set.seed(2026)
+
+# Simular puntajes (0-100)
+n <- 60
+puntajes_tradicional <- rnorm(n, mean=68, sd=12)
+puntajes_innovador <- rnorm(n, mean=72, sd=11)
+
+datos <- data.frame(
+  puntaje = c(puntajes_tradicional, puntajes_innovador),
+  metodo = rep(c("Tradicional", "Innovador"), each=n)
+)
+
+# Prueba t
+resultado <- t.test(puntaje ~ metodo, data=datos)
+
+cat("📊 RESULTADO DE LA PRUEBA\n")
+cat("════════════════════════════════════════\n")
+cat("Diferencia observada: ", round(diff(resultado$estimate), 2), " puntos\n")
+cat("Estadístico t:        ", round(resultado$statistic, 3), "\n")
+cat("p-valor:              ", format.pval(resultado$p.value, digits=4), "\n")
+cat("IC 95%:               [", round(resultado$conf.int[1], 2), ", ",
+    round(resultado$conf.int[2], 2), "]\n\n")
+
+if (resultado$p.value < 0.05) {
+  cat("✅ DECISIÓN: Rechazamos H₀\n")
+  cat("   La evidencia sugiere que hay diferencia real.\n\n")
+} else {
+  cat("⚠️  DECISIÓN: No rechazamos H₀\n")
+  cat("   No hay evidencia suficiente de diferencia.\n\n")
+}
+```
+
+---
+
+# Parte 1: La Metáfora del Tribunal
+
+```{webr-r}
+cat("⚖️  ANALOGÍA LEGAL\n")
+cat("════════════════════════════════════════════════════════\n\n")
+cat("TRIBUNAL DE JUSTICIA          |  PRUEBA ESTADÍSTICA\n")
+cat("────────────────────────────────────────────────────────\n")
+cat("Presunción de inocencia       |  H₀ (no hay diferencia)\n")
+cat("Fiscal presenta evidencia     |  Diferencia observada\n")
+cat("'Más allá de duda razonable'  |  p-valor < 0.05\n")
+cat("Condenar inocente (Error I)   |  Rechazar H₀ verdadera\n")
+cat("Absolver culpable (Error II)  |  No rechazar H₀ falsa\n\n")
+```
+
+---
+
+# Parte 2: Visualización de los Grupos
+
+```{webr-r}
+par(mfrow=c(1,2))
+
+# Boxplot
+boxplot(puntaje ~ metodo, data=datos,
+        col=c("#FF6B6B", "#4ECDC4"),
+        main="Comparación de Métodos",
+        ylab="Puntaje")
+
+# Histogramas superpuestos
+hist(puntajes_tradicional, col=rgb(1,0.4,0.4,0.5), 
+     breaks=20, main="Distribuciones Superpuestas",
+     xlab="Puntaje", xlim=c(30, 110), ylim=c(0, 20))
+hist(puntajes_innovador, col=rgb(0.3,0.8,0.77,0.5), 
+     breaks=20, add=TRUE)
+legend("topright", 
+       legend=c("Tradicional", "Innovador"),
+       fill=c(rgb(1,0.4,0.4,0.5), rgb(0.3,0.8,0.77,0.5)),
+       bty="n")
+
+par(mfrow=c(1,1))
+```
+
+---
+
+# Parte 3: Errores Tipo I y II
+
+```{webr-r}
+cat("\n🚨 TIPOS DE ERROR\n")
+cat("════════════════════════════════════════════════════════\n\n")
+
+cat("ERROR TIPO I (Falso Positivo):\n")
+cat("  Rechazar H₀ cuando es verdadera\n")
+cat("  Probabilidad máxima: α = 0.05 (nivel de significancia)\n")
+cat("  Consecuencia: Implementar método inefectivo\n\n")
+
+cat("ERROR TIPO II (Falso Negativo):\n")
+cat("  No rechazar H₀ cuando es falsa\n")
+cat("  Probabilidad: β (depende de tamaño de efecto y muestra)\n")
+cat("  Consecuencia: Descartar método que SÍ funciona\n\n")
+
+cat("PODER = 1 - β\n")
+cat("  Probabilidad de detectar efecto real\n")
+cat("  Con n=60 y diferencia real de 4 puntos: Poder ≈ 50%\n\n")
+```
+
+---
+
+# Ejercicio Individual
+
+1. **Re-simula** con n=30 (muestra pequeña) - ¿Cambia conclusión?
+2. **Calcula** tamaño de muestra para Poder=80%
+3. **Escribe** recomendación considerando ambos tipos de error
+
+---
+
+# Discusión
+
+- ¿Qué error es peor: Tipo I o II?
+- ¿"No significativo" = "no hay efecto"?
+- ¿Cómo decides el nivel α?
+

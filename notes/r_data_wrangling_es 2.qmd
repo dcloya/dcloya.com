@@ -1,0 +1,804 @@
+---
+title: "Sección 2: Manipulación de datos con dplyr"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    theme: cosmo
+    df-print: paged
+execute:
+  warning: false
+  message: false
+---
+
+# Lo que necesitarás
+
+**Paquetes:**
+- `dplyr` - Manipulación de datos
+- `readr` - Lectura de archivos de datos
+- `haven` - Lectura de archivos de Stata/SPSS/SAS
+- `pacman` - Gestión de paquetes
+
+**Datos:** Descarga el archivo `auto.csv` o `auto.dta` de los materiales del curso.
+
+**Habilidades de la Sección 1:** Carga de paquetes, lectura de datos, operaciones básicas de R.
+
+---
+
+# Resumen
+
+En esta sección, profundizamos en la manipulación de datos usando el paquete `dplyr`. Cubriremos:
+
+- El **operador pipe** `%>%` para encadenar operaciones
+- **Verbos principales de dplyr**: `select()`, `filter()`, `mutate()`, `arrange()`, `summarize()`
+- **Operaciones de agrupación** con `group_by()`
+- **Unión de conjuntos de datos** con varias funciones de unión
+- **Manejo de datos faltantes** (valores `NA`)
+- **Reestructuración de datos** entre formatos ancho y largo
+
+---
+
+# Configuración
+
+```{r}
+#| eval: false
+
+# Cargar paquetes
+library(pacman)
+p_load(dplyr, readr, haven, tidyr)
+
+# Establecer directorio de trabajo (ajusta a tu ruta)
+setwd("~/Documents/MyClass/")
+
+# Cargar datos
+cars <- read_csv("auto.csv")
+
+# O si usas archivo de Stata:
+# cars <- read_dta("auto.dta")
+```
+
+---
+
+# El operador Pipe `%>%`
+
+El operador pipe `%>%` es una de las características más poderosas del R moderno. Te permite encadenar operaciones, haciendo tu código más legible y evitando objetos intermedios.
+
+## Cómo funcionan los pipes
+
+El pipe toma la salida de una expresión y la alimenta al **primer argumento** de la siguiente expresión:
+
+```{r}
+#| eval: false
+
+# Sin pipes (¡feo!)
+summary(select(cars, price, mpg, weight))
+
+# Con pipes (¡hermoso!)
+cars %>% 
+  select(price, mpg, weight) %>% 
+  summary()
+```
+
+::: {.callout-tip}
+## Leyendo pipes en voz alta
+Al leer código con pipes, di "luego" para cada `%>%`:
+
+"Toma cars, **luego** selecciona price, mpg, y weight, **luego** resume."
+:::
+
+## Guardando resultados
+
+Para guardar la salida final, asígnala como de costumbre:
+
+```{r}
+#| eval: false
+
+# Guardar el resultado
+car_summary <- cars %>% 
+  select(price, mpg, weight) %>% 
+  summary()
+```
+
+## Uso del marcador de posición `.`
+
+A veces necesitas especificar dónde deben ir los datos canalizados:
+
+```{r}
+#| eval: false
+
+# El punto especifica dónde colocar la entrada
+cars %>% 
+  select(price, mpg) %>% 
+  lm(price ~ mpg, data = .)
+```
+
+---
+
+# Verbos principales de dplyr
+
+El paquete `dplyr` se construye alrededor de verbos que describen lo que quieres hacer con tus datos.
+
+## `select()` - Elegir columnas
+
+Selecciona variables específicas (columnas) de tu conjunto de datos:
+
+```{r}
+#| eval: false
+
+# Seleccionar columnas específicas
+cars %>% 
+  select(make, price, mpg, weight)
+
+# Seleccionar un rango de columnas
+cars %>% 
+  select(make:mpg)
+
+# Seleccionar columnas que comienzan con "w"
+cars %>% 
+  select(starts_with("w"))
+
+# Seleccionar columnas que contienen "price"
+cars %>% 
+  select(contains("price"))
+
+# Excluir columnas con signo menos
+cars %>% 
+  select(-foreign, -rep78)
+```
+
+::: {.callout-note}
+## Funciones auxiliares para `select()`
+- `starts_with("abc")` - Columnas que comienzan con "abc"
+- `ends_with("xyz")` - Columnas que terminan con "xyz"
+- `contains("ijk")` - Columnas que contienen "ijk"
+- `matches("regex")` - Columnas que coinciden con una expresión regular
+- `num_range("x", 1:3)` - Columnas x1, x2, x3
+:::
+
+## `filter()` - Elegir filas
+
+Filtra filas basándose en condiciones lógicas:
+
+```{r}
+#| eval: false
+
+# Autos con mpg mayor a 25
+cars %>% 
+  filter(mpg > 25)
+
+# Solo autos extranjeros
+cars %>% 
+  filter(foreign == 1)
+
+# Autos caros Y eficientes en combustible
+cars %>% 
+  filter(price > 10000, mpg > 20)
+
+# Autos caros O eficientes en combustible
+cars %>% 
+  filter(price > 10000 | mpg > 20)
+
+# Autos que NO son extranjeros
+cars %>% 
+  filter(foreign != 1)
+# o
+cars %>% 
+  filter(!foreign)
+```
+
+::: {.callout-tip}
+## Operadores lógicos
+- `==` igual a
+- `!=` no igual a
+- `>` mayor que
+- `<` menor que
+- `>=` mayor o igual que
+- `<=` menor o igual que
+- `&` y
+- `|` o
+- `!` no
+- `%in%` en un conjunto
+:::
+
+### Filtrado con múltiples condiciones
+
+```{r}
+#| eval: false
+
+# Autos de marcas específicas
+cars %>% 
+  filter(make %in% c("Toyota", "Honda", "Mazda"))
+
+# Autos entre cierto rango de precio
+cars %>% 
+  filter(price >= 5000, price <= 10000)
+# o usa between()
+cars %>% 
+  filter(between(price, 5000, 10000))
+```
+
+## `mutate()` - Crear/modificar columnas
+
+Crea nuevas variables o modifica las existentes:
+
+```{r}
+#| eval: false
+
+# Crear nueva variable: precio por mpg
+cars %>% 
+  mutate(price_per_mpg = price / mpg)
+
+# Múltiples variables nuevas
+cars %>% 
+  mutate(
+    price_1000 = price / 1000,
+    weight_tons = weight / 2000,
+    efficiency = mpg * weight
+  )
+
+# Modificar variable existente
+cars %>% 
+  mutate(price = price / 1000)  # Convertir a miles
+
+# Usar variables recién creadas
+cars %>% 
+  mutate(
+    price_1000 = price / 1000,
+    log_price = log(price_1000)  # Usar price_1000 inmediatamente
+  )
+```
+
+::: {.callout-tip}
+## Funciones útiles con `mutate()`
+- Matemáticas: `+`, `-`, `*`, `/`, `^`, `log()`, `exp()`, `sqrt()`
+- Agregados: `mean()`, `median()`, `min()`, `max()`, `sum()`
+- Lógicas: `&`, `|`, `!`, `<`, `>`, `==`, `!=`
+- Ranking: `min_rank()`, `row_number()`, `dense_rank()`
+- Desplazamientos: `lead()`, `lag()`
+- Acumulativos: `cumsum()`, `cumprod()`, `cummin()`, `cummax()`
+:::
+
+## `arrange()` - Ordenar filas
+
+Ordena tus datos por una o más variables:
+
+```{r}
+#| eval: false
+
+# Ordenar por price (ascendente)
+cars %>% 
+  arrange(price)
+
+# Ordenar por price (descendente)
+cars %>% 
+  arrange(desc(price))
+
+# Ordenar por múltiples variables
+cars %>% 
+  arrange(foreign, desc(price))  # Foreign primero, luego price dentro
+```
+
+## `summarize()` - Agregar datos
+
+Crea estadísticas de resumen:
+
+```{r}
+#| eval: false
+
+# Resumen único
+cars %>% 
+  summarize(mean_price = mean(price))
+
+# Múltiples resúmenes
+cars %>% 
+  summarize(
+    n_cars = n(),
+    mean_price = mean(price),
+    sd_price = sd(price),
+    median_mpg = median(mpg),
+    min_weight = min(weight),
+    max_weight = max(weight)
+  )
+```
+
+::: {.callout-note}
+## Funciones de resumen comunes
+- `n()` - contar filas
+- `n_distinct()` - contar valores únicos
+- `mean()`, `median()` - tendencia central
+- `sd()`, `var()` - dispersión
+- `min()`, `max()` - rango
+- `first()`, `last()`, `nth()` - posición
+- `sum()` - total
+:::
+
+---
+
+# Operaciones agrupadas
+
+El verdadero poder de `dplyr` emerge cuando combinas verbos con `group_by()`.
+
+## `group_by()` - Agrupar datos
+
+Agrupa tus datos por una o más variables:
+
+```{r}
+#| eval: false
+
+# Agrupar por estado foreign
+cars %>% 
+  group_by(foreign)
+
+# Nada parece suceder... ¡pero está agrupado!
+```
+
+## Resumir por grupos
+
+```{r}
+#| eval: false
+
+# Comparar autos domésticos vs. extranjeros
+cars %>% 
+  group_by(foreign) %>% 
+  summarize(
+    n_cars = n(),
+    mean_price = mean(price),
+    mean_mpg = mean(mpg),
+    mean_weight = mean(weight)
+  )
+
+# Agrupar por múltiples variables
+cars %>% 
+  group_by(foreign, rep78) %>% 
+  summarize(
+    count = n(),
+    avg_price = mean(price, na.rm = TRUE)
+  )
+```
+
+## Mutar por grupos
+
+Crea variables que dependen de cálculos a nivel de grupo:
+
+```{r}
+#| eval: false
+
+# Precio relativo a la media del grupo
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(
+    mean_price = mean(price),
+    price_diff = price - mean_price
+  )
+
+# Ranking dentro de grupos
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(price_rank = min_rank(desc(price)))
+
+# Calcular percentiles dentro de grupos
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(price_pct = percent_rank(price))
+```
+
+## `ungroup()` - Eliminar agrupación
+
+Siempre desagrupa cuando termines con operaciones agrupadas:
+
+```{r}
+#| eval: false
+
+cars_grouped <- cars %>% 
+  group_by(foreign) %>% 
+  mutate(mean_price = mean(price))
+
+# Eliminar la agrupación
+cars_ungrouped <- cars_grouped %>% 
+  ungroup()
+```
+
+---
+
+# Manejo de datos faltantes
+
+Los valores faltantes (`NA`) requieren atención especial en R.
+
+## Entendiendo `NA`
+
+```{r}
+#| eval: false
+
+# Verificar si los valores son NA
+is.na(NA)  # TRUE
+is.na(5)   # FALSE
+
+# NA en operaciones
+2 + NA     # NA
+NA == 5    # NA
+NA == NA   # NA (!!)
+```
+
+::: {.callout-warning}
+## `NA` es contagioso
+Cualquier operación que involucre `NA` típicamente devuelve `NA`. Usa `na.rm = TRUE` en funciones como `mean()`, `sum()`, etc.
+:::
+
+## Filtrado de NAs
+
+```{r}
+#| eval: false
+
+# Mantener solo casos completos
+cars %>% 
+  filter(!is.na(rep78))
+
+# Eliminar filas con cualquier NA
+cars %>% 
+  na.omit()
+
+# Mantener filas con NA en columna específica
+cars %>% 
+  filter(is.na(rep78))
+```
+
+## Trabajando con NAs en resúmenes
+
+```{r}
+#| eval: false
+
+# Esto devuelve NA si algún valor es NA
+cars %>% 
+  summarize(mean_rep78 = mean(rep78))
+
+# Eliminar NAs al calcular
+cars %>% 
+  summarize(mean_rep78 = mean(rep78, na.rm = TRUE))
+
+# Contar NAs
+cars %>% 
+  summarize(
+    n_total = n(),
+    n_missing = sum(is.na(rep78)),
+    n_complete = sum(!is.na(rep78))
+  )
+```
+
+## Reemplazo de NAs
+
+```{r}
+#| eval: false
+
+# Reemplazar NA con un valor
+cars %>% 
+  mutate(rep78 = ifelse(is.na(rep78), 0, rep78))
+
+# Reemplazar NA con la media
+cars %>% 
+  mutate(rep78 = ifelse(is.na(rep78), mean(rep78, na.rm = TRUE), rep78))
+
+# Usando replace_na() de tidyr
+cars %>% 
+  mutate(rep78 = replace_na(rep78, 0))
+```
+
+---
+
+# Combinación de operaciones
+
+El poder de `dplyr` viene de combinar múltiples operaciones:
+
+## Ejemplo 1: Pipeline de datos
+
+```{r}
+#| eval: false
+
+# Análisis complejo en un pipeline
+cars %>% 
+  # Eliminar valores faltantes
+  filter(!is.na(rep78)) %>% 
+  # Mantener solo variables relevantes
+  select(make, price, mpg, weight, foreign) %>% 
+  # Crear nuevas variables
+  mutate(
+    price_1000 = price / 1000,
+    efficiency = mpg / weight * 1000
+  ) %>% 
+  # Agrupar por estado foreign
+  group_by(foreign) %>% 
+  # Calcular resúmenes
+  summarize(
+    n = n(),
+    mean_price = mean(price_1000),
+    mean_efficiency = mean(efficiency)
+  ) %>% 
+  # Ordenar resultados
+  arrange(desc(mean_efficiency))
+```
+
+## Ejemplo 2: Top N por grupo
+
+```{r}
+#| eval: false
+
+# Encontrar los 3 autos más caros por estado foreign
+cars %>% 
+  group_by(foreign) %>% 
+  arrange(desc(price)) %>% 
+  slice(1:3) %>% 
+  select(make, price, mpg, foreign)
+```
+
+## Ejemplo 3: Resúmenes condicionales
+
+```{r}
+#| eval: false
+
+# Comparar autos caros vs. baratos
+cars %>% 
+  mutate(price_category = ifelse(price > median(price), "Expensive", "Cheap")) %>% 
+  group_by(price_category) %>% 
+  summarize(
+    n = n(),
+    mean_mpg = mean(mpg),
+    mean_weight = mean(weight)
+  )
+```
+
+---
+
+# Unión de conjuntos de datos
+
+A menudo necesitas combinar datos de múltiples fuentes.
+
+## Tipos de uniones
+
+```{r}
+#| eval: false
+
+# Conjuntos de datos de ejemplo
+df1 <- data.frame(
+  id = c(1, 2, 3),
+  x = c("a", "b", "c")
+)
+
+df2 <- data.frame(
+  id = c(1, 2, 4),
+  y = c("A", "B", "D")
+)
+
+# Inner join - mantener solo filas coincidentes
+inner_join(df1, df2, by = "id")
+# Resultado: id 1, 2
+
+# Left join - mantener todas las filas de df1
+left_join(df1, df2, by = "id")
+# Resultado: id 1, 2, 3 (y es NA para id 3)
+
+# Right join - mantener todas las filas de df2
+right_join(df1, df2, by = "id")
+# Resultado: id 1, 2, 4 (x es NA para id 4)
+
+# Full join - mantener todas las filas de ambos
+full_join(df1, df2, by = "id")
+# Resultado: id 1, 2, 3, 4 (NAs donde no hay coincidencia)
+```
+
+::: {.callout-tip}
+## Eligiendo la unión correcta
+- **`inner_join()`** - Solo mantener observaciones coincidentes
+- **`left_join()`** - Mantener todo de la izquierda, coincidir de la derecha
+- **`right_join()`** - Mantener todo de la derecha, coincidir de la izquierda
+- **`full_join()`** - Mantener todo
+- **`semi_join()`** - Mantener observaciones de la izquierda que tienen coincidencia
+- **`anti_join()`** - Mantener observaciones de la izquierda que NO tienen coincidencia
+:::
+
+## Ejemplo práctico de unión
+
+```{r}
+#| eval: false
+
+# Conjunto de datos de precios de autos
+prices <- data.frame(
+  make = c("Toyota", "Honda", "Ford"),
+  msrp = c(25000, 27000, 22000)
+)
+
+# Agregar MSRP al conjunto de datos de autos
+cars %>% 
+  left_join(prices, by = "make") %>% 
+  select(make, price, msrp, mpg)
+```
+
+---
+
+# Reestructuración de datos
+
+A veces necesitas convertir entre formatos ancho y largo.
+
+## Formato ancho vs. largo
+
+**Formato ancho:**
+```
+student  math  science  history
+Alice    90    85       88
+Bob      75    92       80
+```
+
+**Formato largo:**
+```
+student  subject   score
+Alice    math      90
+Alice    science   85
+Alice    history   88
+Bob      math      75
+Bob      science   92
+Bob      history   80
+```
+
+## `pivot_longer()` - Ancho a largo
+
+```{r}
+#| eval: false
+
+# Ejemplo: reestructurar calificaciones de exámenes
+scores_wide <- data.frame(
+  student = c("Alice", "Bob"),
+  math = c(90, 75),
+  science = c(85, 92),
+  history = c(88, 80)
+)
+
+# Convertir a formato largo
+scores_long <- scores_wide %>% 
+  pivot_longer(
+    cols = math:history,           # Columnas a pivotar
+    names_to = "subject",           # Nombre para la nueva columna de "nombres"
+    values_to = "score"             # Nombre para la nueva columna de "valores"
+  )
+```
+
+## `pivot_wider()` - Largo a ancho
+
+```{r}
+#| eval: false
+
+# Convertir de vuelta a formato ancho
+scores_long %>% 
+  pivot_wider(
+    names_from = subject,           # Columna que contiene nuevos nombres de columna
+    values_from = score             # Columna que contiene valores
+  )
+```
+
+---
+
+# Mejores prácticas
+
+::: {.callout-important}
+## Directrices de estilo de código
+
+1. **Usa pipes** para crear cadenas legibles de operaciones
+2. **Una operación por línea** al usar pipes
+3. **Comenta tu código** para explicar *por qué*, no solo *qué*
+4. **Usa nombres de variables descriptivos**
+5. **Agrupa operaciones relacionadas** juntas
+6. **Siempre `ungroup()`** después de operaciones agrupadas
+7. **Maneja valores `NA` explícitamente**
+8. **Prueba en subconjuntos pequeños** antes de ejecutar en datos completos
+:::
+
+## Ejemplo de buen estilo
+
+```{r}
+#| eval: false
+
+# Analizar eficiencia de combustible por origen del auto
+fuel_analysis <- cars %>% 
+  # Eliminar observaciones incompletas
+  filter(!is.na(mpg), !is.na(weight)) %>% 
+  # Crear variables relevantes
+  mutate(
+    origin = ifelse(foreign == 1, "Foreign", "Domestic"),
+    efficiency_ratio = mpg / (weight / 1000)  # MPG por 1000 lbs
+  ) %>% 
+  # Agrupar por origen
+  group_by(origin) %>% 
+  # Calcular estadísticas de resumen
+  summarize(
+    n_cars = n(),
+    mean_mpg = mean(mpg),
+    mean_efficiency = mean(efficiency_ratio),
+    sd_efficiency = sd(efficiency_ratio)
+  ) %>% 
+  # Eliminar agrupación
+  ungroup() %>% 
+  # Ordenar por eficiencia
+  arrange(desc(mean_efficiency))
+
+# Ver resultados
+fuel_analysis
+```
+
+---
+
+# Ejercicios de práctica
+
+::: {.callout-note icon="false"}
+## Ejercicio 1: Manipulación básica
+Usando el conjunto de datos `cars`:
+
+1. Seleccionar solo autos con mpg > 20
+2. Mantener solo las variables: make, price, mpg, weight
+3. Crear una nueva variable `price_per_lb = price / weight`
+4. Ordenar por `price_per_lb` descendente
+5. Mostrar los 5 primeros
+
+**Bonus:** ¡Haz todo esto en un solo pipeline!
+:::
+
+::: {.callout-note icon="false"}
+## Ejercicio 2: Análisis agrupado
+Comparar autos domésticos vs. extranjeros:
+
+1. Agrupar por `foreign`
+2. Calcular media y mediana para: price, mpg, weight
+3. Contar el número de autos en cada grupo
+4. Calcular el coeficiente de variación (sd/mean) para price
+:::
+
+::: {.callout-note icon="false"}
+## Ejercicio 3: Pipeline complejo
+Crear un resumen que muestre:
+
+1. Para cada combinación de `foreign` y si `rep78 >= 4`
+2. Contar observaciones
+3. Precio promedio y mpg
+4. Solo mantener grupos con al menos 5 autos
+5. Ordenar por precio promedio
+:::
+
+::: {.callout-note icon="false"}
+## Ejercicio 4: Reestructuración de datos
+Crear un conjunto de datos con:
+
+1. Tres columnas: make, metric (price/mpg/weight), value
+2. Solo incluir autos donde make contiene "Toyota" o "Honda"
+3. Calcular el valor medio para cada métrica
+
+**Pista:** ¡Usa `pivot_longer()` y `filter()`!
+:::
+
+---
+
+# Puntos clave
+
+::: {.callout-important icon="true"}
+## Recuerda
+
+1. **Pipes `%>%`** hacen el código legible - ¡úsalos!
+2. **Seis verbos principales**: `select()`, `filter()`, `mutate()`, `arrange()`, `summarize()`, `group_by()`
+3. **Operaciones de grupo** desbloquean análisis poderosos
+4. **Valores `NA`** necesitan manejo especial con `na.rm = TRUE` o `is.na()`
+5. **Uniones** combinan conjuntos de datos - elige el tipo correcto
+6. **Reestructuración** convierte entre formatos ancho y largo
+7. **Encadena operaciones** para crear pipelines de datos legibles
+:::
+
+---
+
+# Recursos adicionales
+
+- [Hoja de referencia de dplyr](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
+- [R for Data Science - Transformación de datos](https://r4ds.hadley.nz/data-transform)
+- [Documentación de tidyr](https://tidyr.tidyverse.org/)
+- [Documentación de dplyr](https://dplyr.tidyverse.org/)
+
+---
+
+**Siguiente:** Sección 3 - Escritura de funciones y bucles

@@ -1,0 +1,801 @@
+---
+title: "Section 2: Data Wrangling with dplyr"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    theme: cosmo
+    df-print: paged
+execute:
+  warning: false
+  message: false
+---
+
+# What You Will Need
+
+**Packages:**
+- `dplyr` - Data manipulation
+- `readr` - Reading data files
+- `haven` - Reading Stata/SPSS/SAS files
+- `pacman` - Package management
+
+**Data:** Download the `auto.csv` or `auto.dta` file from course materials.
+
+**Skills from Section 1:** Loading packages, reading data, basic R operations.
+
+---
+
+# Summary
+
+In this section, we dive deep into data wrangling using the `dplyr` package. We'll cover:
+
+- The **pipe operator** `%>%` for chaining operations
+- **Core dplyr verbs**: `select()`, `filter()`, `mutate()`, `arrange()`, `summarize()`
+- **Grouping operations** with `group_by()`
+- **Joining datasets** with various join functions
+- **Handling missing data** (`NA` values)
+- **Reshaping data** between wide and long formats
+
+---
+
+# Setup
+
+```{r}
+#| eval: false
+
+# Load packages
+library(pacman)
+p_load(dplyr, readr, haven, tidyr)
+
+# Set working directory (adjust to your path)
+setwd("~/Documents/MyClass/")
+
+# Load data
+cars <- read_csv("auto.csv")
+
+# Or if using Stata file:
+# cars <- read_dta("auto.dta")
+```
+
+---
+
+# The Pipe Operator `%>%`
+
+The pipe operator `%>%` is one of the most powerful features in modern R. It allows you to chain operations together, making your code more readable and avoiding intermediate objects.
+
+## How Pipes Work
+
+The pipe takes the output from one expression and feeds it into the **first argument** of the next expression:
+
+```{r}
+#| eval: false
+
+# Without pipes (ugly!)
+summary(select(cars, price, mpg, weight))
+
+# With pipes (beautiful!)
+cars %>% 
+  select(price, mpg, weight) %>% 
+  summary()
+```
+
+::: {.callout-tip}
+## Reading Pipes Aloud
+When reading code with pipes, say "then" for each `%>%`:
+
+"Take cars, **then** select price, mpg, and weight, **then** summarize."
+:::
+
+## Saving Results
+
+To save the final output, assign it as usual:
+
+```{r}
+#| eval: false
+
+# Save the result
+car_summary <- cars %>% 
+  select(price, mpg, weight) %>% 
+  summary()
+```
+
+## Using the Dot `.` Placeholder
+
+Sometimes you need to specify where the piped data should go:
+
+```{r}
+#| eval: false
+
+# The dot specifies where to place the input
+cars %>% 
+  select(price, mpg) %>% 
+  lm(price ~ mpg, data = .)
+```
+
+---
+
+# Core dplyr Verbs
+
+The `dplyr` package is built around verbs that describe what you want to do with your data.
+
+## `select()` - Choose Columns
+
+Select specific variables (columns) from your dataset:
+
+```{r}
+#| eval: false
+
+# Select specific columns
+cars %>% 
+  select(make, price, mpg, weight)
+
+# Select a range of columns
+cars %>% 
+  select(make:mpg)
+
+# Select columns that start with "w"
+cars %>% 
+  select(starts_with("w"))
+
+# Select columns that contain "price"
+cars %>% 
+  select(contains("price"))
+
+# Exclude columns with minus sign
+cars %>% 
+  select(-foreign, -rep78)
+```
+
+::: {.callout-note}
+## Helper Functions for `select()`
+- `starts_with("abc")` - Columns starting with "abc"
+- `ends_with("xyz")` - Columns ending with "xyz"
+- `contains("ijk")` - Columns containing "ijk"
+- `matches("regex")` - Columns matching a regular expression
+- `num_range("x", 1:3)` - Columns x1, x2, x3
+:::
+
+## `filter()` - Choose Rows
+
+Filter rows based on logical conditions:
+
+```{r}
+#| eval: false
+
+# Cars with mpg greater than 25
+cars %>% 
+  filter(mpg > 25)
+
+# Foreign cars only
+cars %>% 
+  filter(foreign == 1)
+
+# Expensive AND fuel-efficient cars
+cars %>% 
+  filter(price > 10000, mpg > 20)
+
+# Expensive OR fuel-efficient cars
+cars %>% 
+  filter(price > 10000 | mpg > 20)
+
+# Cars that are NOT foreign
+cars %>% 
+  filter(foreign != 1)
+# or
+cars %>% 
+  filter(!foreign)
+```
+
+::: {.callout-tip}
+## Logical Operators
+- `==` equal to
+- `!=` not equal to
+- `>` greater than
+- `<` less than
+- `>=` greater than or equal to
+- `<=` less than or equal to
+- `&` and
+- `|` or
+- `!` not
+- `%in%` in a set
+:::
+
+### Filtering with Multiple Conditions
+
+```{r}
+#| eval: false
+
+# Cars from specific makes
+cars %>% 
+  filter(make %in% c("Toyota", "Honda", "Mazda"))
+
+# Cars between certain price range
+cars %>% 
+  filter(price >= 5000, price <= 10000)
+# or use between()
+cars %>% 
+  filter(between(price, 5000, 10000))
+```
+
+## `mutate()` - Create/Modify Columns
+
+Create new variables or modify existing ones:
+
+```{r}
+#| eval: false
+
+# Create new variable: price per mpg
+cars %>% 
+  mutate(price_per_mpg = price / mpg)
+
+# Multiple new variables
+cars %>% 
+  mutate(
+    price_1000 = price / 1000,
+    weight_tons = weight / 2000,
+    efficiency = mpg * weight
+  )
+
+# Modify existing variable
+cars %>% 
+  mutate(price = price / 1000)  # Convert to thousands
+
+# Use newly created variables
+cars %>% 
+  mutate(
+    price_1000 = price / 1000,
+    log_price = log(price_1000)  # Use price_1000 immediately
+  )
+```
+
+::: {.callout-tip}
+## Useful Functions with `mutate()`
+- Math: `+`, `-`, `*`, `/`, `^`, `log()`, `exp()`, `sqrt()`
+- Aggregates: `mean()`, `median()`, `min()`, `max()`, `sum()`
+- Logical: `&`, `|`, `!`, `<`, `>`, `==`, `!=`
+- Ranking: `min_rank()`, `row_number()`, `dense_rank()`
+- Offsets: `lead()`, `lag()`
+- Cumulative: `cumsum()`, `cumprod()`, `cummin()`, `cummax()`
+:::
+
+## `arrange()` - Sort Rows
+
+Sort your data by one or more variables:
+
+```{r}
+#| eval: false
+
+# Sort by price (ascending)
+cars %>% 
+  arrange(price)
+
+# Sort by price (descending)
+cars %>% 
+  arrange(desc(price))
+
+# Sort by multiple variables
+cars %>% 
+  arrange(foreign, desc(price))  # Foreign first, then price within
+```
+
+## `summarize()` - Aggregate Data
+
+Create summary statistics:
+
+```{r}
+#| eval: false
+
+# Single summary
+cars %>% 
+  summarize(mean_price = mean(price))
+
+# Multiple summaries
+cars %>% 
+  summarize(
+    n_cars = n(),
+    mean_price = mean(price),
+    sd_price = sd(price),
+    median_mpg = median(mpg),
+    min_weight = min(weight),
+    max_weight = max(weight)
+  )
+```
+
+::: {.callout-note}
+## Common Summary Functions
+- `n()` - count rows
+- `n_distinct()` - count unique values
+- `mean()`, `median()` - central tendency
+- `sd()`, `var()` - dispersion
+- `min()`, `max()` - range
+- `first()`, `last()`, `nth()` - position
+- `sum()` - total
+:::
+
+---
+
+# Grouped Operations
+
+The real power of `dplyr` emerges when you combine verbs with `group_by()`.
+
+## `group_by()` - Group Data
+
+Group your data by one or more variables:
+
+```{r}
+#| eval: false
+
+# Group by foreign status
+cars %>% 
+  group_by(foreign)
+
+# Nothing appears to happen... but it's grouped!
+```
+
+## Summarize by Groups
+
+```{r}
+#| eval: false
+
+# Compare domestic vs. foreign cars
+cars %>% 
+  group_by(foreign) %>% 
+  summarize(
+    n_cars = n(),
+    mean_price = mean(price),
+    mean_mpg = mean(mpg),
+    mean_weight = mean(weight)
+  )
+
+# Group by multiple variables
+cars %>% 
+  group_by(foreign, rep78) %>% 
+  summarize(
+    count = n(),
+    avg_price = mean(price, na.rm = TRUE)
+  )
+```
+
+## Mutate by Groups
+
+Create variables that depend on group-level calculations:
+
+```{r}
+#| eval: false
+
+# Price relative to group mean
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(
+    mean_price = mean(price),
+    price_diff = price - mean_price
+  )
+
+# Rank within groups
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(price_rank = min_rank(desc(price)))
+
+# Calculate percentiles within groups
+cars %>% 
+  group_by(foreign) %>% 
+  mutate(price_pct = percent_rank(price))
+```
+
+## `ungroup()` - Remove Grouping
+
+Always ungroup when you're done with grouped operations:
+
+```{r}
+#| eval: false
+
+cars_grouped <- cars %>% 
+  group_by(foreign) %>% 
+  mutate(mean_price = mean(price)) %>% 
+  ungroup()  # Important!
+```
+
+---
+
+# Handling Missing Data
+
+Missing values (`NA`) require special attention in R.
+
+## Understanding `NA`
+
+```{r}
+#| eval: false
+
+# Check if values are NA
+is.na(NA)  # TRUE
+is.na(5)   # FALSE
+
+# NA in operations
+2 + NA     # NA
+NA == 5    # NA
+NA == NA   # NA (!!)
+```
+
+::: {.callout-warning}
+## `NA` is Contagious
+Any operation involving `NA` typically returns `NA`. Use `na.rm = TRUE` in functions like `mean()`, `sum()`, etc.
+:::
+
+## Filtering NAs
+
+```{r}
+#| eval: false
+
+# Keep only complete cases
+cars %>% 
+  filter(!is.na(rep78))
+
+# Remove rows with any NA
+cars %>% 
+  na.omit()
+
+# Keep rows with NA in specific column
+cars %>% 
+  filter(is.na(rep78))
+```
+
+## Working with NAs in Summaries
+
+```{r}
+#| eval: false
+
+# This returns NA if any values are NA
+cars %>% 
+  summarize(mean_rep78 = mean(rep78))
+
+# Remove NAs when calculating
+cars %>% 
+  summarize(mean_rep78 = mean(rep78, na.rm = TRUE))
+
+# Count NAs
+cars %>% 
+  summarize(
+    n_total = n(),
+    n_missing = sum(is.na(rep78)),
+    n_complete = sum(!is.na(rep78))
+  )
+```
+
+## Replacing NAs
+
+```{r}
+#| eval: false
+
+# Replace NA with a value
+cars %>% 
+  mutate(rep78 = ifelse(is.na(rep78), 0, rep78))
+
+# Replace NA with mean
+cars %>% 
+  mutate(rep78 = ifelse(is.na(rep78), mean(rep78, na.rm = TRUE), rep78))
+
+# Using replace_na() from tidyr
+cars %>% 
+  mutate(rep78 = replace_na(rep78, 0))
+```
+
+---
+
+# Combining Operations
+
+The power of `dplyr` comes from combining multiple operations:
+
+## Example 1: Data Pipeline
+
+```{r}
+#| eval: false
+
+# Complex analysis in one pipeline
+cars %>% 
+  # Remove missing values
+  filter(!is.na(rep78)) %>% 
+  # Keep only relevant variables
+  select(make, price, mpg, weight, foreign) %>% 
+  # Create new variables
+  mutate(
+    price_1000 = price / 1000,
+    efficiency = mpg / weight * 1000
+  ) %>% 
+  # Group by foreign status
+  group_by(foreign) %>% 
+  # Calculate summaries
+  summarize(
+    n = n(),
+    mean_price = mean(price_1000),
+    mean_efficiency = mean(efficiency)
+  ) %>% 
+  # Sort results
+  arrange(desc(mean_efficiency))
+```
+
+## Example 2: Top N by Group
+
+```{r}
+#| eval: false
+
+# Find top 3 most expensive cars by foreign status
+cars %>% 
+  group_by(foreign) %>% 
+  arrange(desc(price)) %>% 
+  slice(1:3) %>% 
+  select(make, price, mpg, foreign)
+```
+
+## Example 3: Conditional Summaries
+
+```{r}
+#| eval: false
+
+# Compare expensive vs. cheap cars
+cars %>% 
+  mutate(price_category = ifelse(price > median(price), "Expensive", "Cheap")) %>% 
+  group_by(price_category) %>% 
+  summarize(
+    n = n(),
+    mean_mpg = mean(mpg),
+    mean_weight = mean(weight)
+  )
+```
+
+---
+
+# Joining Datasets
+
+Often you need to combine data from multiple sources.
+
+## Types of Joins
+
+```{r}
+#| eval: false
+
+# Example datasets
+df1 <- data.frame(
+  id = c(1, 2, 3),
+  x = c("a", "b", "c")
+)
+
+df2 <- data.frame(
+  id = c(1, 2, 4),
+  y = c("A", "B", "D")
+)
+
+# Inner join - keep only matching rows
+inner_join(df1, df2, by = "id")
+# Result: id 1, 2
+
+# Left join - keep all rows from df1
+left_join(df1, df2, by = "id")
+# Result: id 1, 2, 3 (y is NA for id 3)
+
+# Right join - keep all rows from df2
+right_join(df1, df2, by = "id")
+# Result: id 1, 2, 4 (x is NA for id 4)
+
+# Full join - keep all rows from both
+full_join(df1, df2, by = "id")
+# Result: id 1, 2, 3, 4 (NAs where no match)
+```
+
+::: {.callout-tip}
+## Choosing the Right Join
+- **`inner_join()`** - Only keep matching observations
+- **`left_join()`** - Keep all from left, match from right
+- **`right_join()`** - Keep all from right, match from left
+- **`full_join()`** - Keep everything
+- **`semi_join()`** - Keep left observations that have a match
+- **`anti_join()`** - Keep left observations that DON'T have a match
+:::
+
+## Practical Join Example
+
+```{r}
+#| eval: false
+
+# Car prices dataset
+prices <- data.frame(
+  make = c("Toyota", "Honda", "Ford"),
+  msrp = c(25000, 27000, 22000)
+)
+
+# Add MSRP to cars dataset
+cars %>% 
+  left_join(prices, by = "make") %>% 
+  select(make, price, msrp, mpg)
+```
+
+---
+
+# Reshaping Data
+
+Sometimes you need to convert between wide and long formats.
+
+## Wide vs. Long Format
+
+**Wide format:**
+```
+student  math  science  history
+Alice    90    85       88
+Bob      75    92       80
+```
+
+**Long format:**
+```
+student  subject   score
+Alice    math      90
+Alice    science   85
+Alice    history   88
+Bob      math      75
+Bob      science   92
+Bob      history   80
+```
+
+## `pivot_longer()` - Wide to Long
+
+```{r}
+#| eval: false
+
+# Example: reshape test scores
+scores_wide <- data.frame(
+  student = c("Alice", "Bob"),
+  math = c(90, 75),
+  science = c(85, 92),
+  history = c(88, 80)
+)
+
+# Convert to long format
+scores_long <- scores_wide %>% 
+  pivot_longer(
+    cols = math:history,           # Columns to pivot
+    names_to = "subject",           # Name for the new "name" column
+    values_to = "score"             # Name for the new "value" column
+  )
+```
+
+## `pivot_wider()` - Long to Wide
+
+```{r}
+#| eval: false
+
+# Convert back to wide format
+scores_long %>% 
+  pivot_wider(
+    names_from = subject,           # Column containing new column names
+    values_from = score             # Column containing values
+  )
+```
+
+---
+
+# Best Practices
+
+::: {.callout-important}
+## Code Style Guidelines
+
+1. **Use pipes** to create readable chains of operations
+2. **One operation per line** when using pipes
+3. **Comment your code** to explain *why*, not just *what*
+4. **Use descriptive variable names**
+5. **Group related operations** together
+6. **Always `ungroup()`** after grouped operations
+7. **Handle `NA` values explicitly**
+8. **Test on small subsets** before running on full data
+:::
+
+## Example of Good Style
+
+```{r}
+#| eval: false
+
+# Analyze fuel efficiency by car origin
+fuel_analysis <- cars %>% 
+  # Remove incomplete observations
+  filter(!is.na(mpg), !is.na(weight)) %>% 
+  # Create relevant variables
+  mutate(
+    origin = ifelse(foreign == 1, "Foreign", "Domestic"),
+    efficiency_ratio = mpg / (weight / 1000)  # MPG per 1000 lbs
+  ) %>% 
+  # Group by origin
+  group_by(origin) %>% 
+  # Calculate summary statistics
+  summarize(
+    n_cars = n(),
+    mean_mpg = mean(mpg),
+    mean_efficiency = mean(efficiency_ratio),
+    sd_efficiency = sd(efficiency_ratio)
+  ) %>% 
+  # Remove grouping
+  ungroup() %>% 
+  # Sort by efficiency
+  arrange(desc(mean_efficiency))
+
+# View results
+fuel_analysis
+```
+
+---
+
+# Practice Exercises
+
+::: {.callout-note icon="false"}
+## Exercise 1: Basic Wrangling
+Using the `cars` dataset:
+
+1. Select only cars with mpg > 20
+2. Keep only the variables: make, price, mpg, weight
+3. Create a new variable `price_per_lb = price / weight`
+4. Sort by `price_per_lb` descending
+5. Show the top 5
+
+**Bonus:** Do this all in one pipeline!
+:::
+
+::: {.callout-note icon="false"}
+## Exercise 2: Grouped Analysis
+Compare domestic vs. foreign cars:
+
+1. Group by `foreign`
+2. Calculate mean and median for: price, mpg, weight
+3. Count the number of cars in each group
+4. Calculate the coefficient of variation (sd/mean) for price
+:::
+
+::: {.callout-note icon="false"}
+## Exercise 3: Complex Pipeline
+Create a summary showing:
+
+1. For each combination of `foreign` and whether `rep78 >= 4`
+2. Count observations
+3. Average price and mpg
+4. Only keep groups with at least 5 cars
+5. Arrange by average price
+:::
+
+::: {.callout-note icon="false"}
+## Exercise 4: Data Reshaping
+Create a dataset with:
+
+1. Three columns: make, metric (price/mpg/weight), value
+2. Only include cars where make contains "Toyota" or "Honda"
+3. Calculate the mean value for each metric
+
+**Hint:** Use `pivot_longer()` and `filter()`!
+:::
+
+---
+
+# Key Takeaways
+
+::: {.callout-important icon="true"}
+## Remember
+
+1. **Pipes `%>%`** make code readable - use them!
+2. **Six core verbs**: `select()`, `filter()`, `mutate()`, `arrange()`, `summarize()`, `group_by()`
+3. **Group operations** unlock powerful analyses
+4. **`NA` values** need special handling with `na.rm = TRUE` or `is.na()`
+5. **Joins** combine datasets - choose the right type
+6. **Reshaping** converts between wide and long formats
+7. **Chain operations** to create readable data pipelines
+:::
+
+---
+
+# Additional Resources
+
+- [dplyr Cheat Sheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
+- [R for Data Science - Data Transformation](https://r4ds.hadley.nz/data-transform)
+- [tidyr Documentation](https://tidyr.tidyverse.org/)
+- [dplyr Documentation](https://dplyr.tidyverse.org/)
+
+---
+
+**Next:** Section 3 - Writing Functions and Loops

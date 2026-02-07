@@ -1,0 +1,455 @@
+---
+title: "Sesión 4: Probabilidad Condicional (Bayes para Política Pública)"
+format: html
+filters:
+  - webr
+---
+
+# Caso de Política Pública
+
+La **Contraloría Municipal** implementó un sistema de IA para detectar posibles irregularidades en compras públicas. El sistema tiene:
+- **Sensibilidad:** 90% (detecta 9 de cada 10 casos reales de corrupción)
+- **Especificidad:** 95% (solo 5% de casos honestos son marcados incorrectamente)
+
+Suena genial, ¿verdad? Pero... **solo el 5% de las compras tienen irregularidades reales**
+
+**Tu tarea:** Calcular:
+- Si el sistema marca una compra, ¿cuál es la probabilidad REAL de que sea fraudulenta?
+- ¿Cuántos falsos positivos generaremos?
+- ¿Vale la pena auditar todas las compras marcadas?
+
+**Paradoja de Bayes:** Un test "muy preciso" puede generar más falsos que verdaderos.
+
+---
+
+# Parte 1: Configuración y Conceptos
+
+```{webr-r}
+# Simulación de 10,000 compras públicas
+set.seed(2026)
+N <- 10000
+
+# Parámetros del sistema
+prevalencia <- 0.05    # 5% tienen irregularidades
+sensibilidad <- 0.90   # Detecta 90% de casos reales
+especificidad <- 0.95  # 95% de honestos pasan bien
+
+cat("📊 SISTEMA DE DETECCIÓN ANTICORRUPCIÓN\n")
+cat("═══════════════════════════════════════════════════════════\n")
+cat("Total de compras analizadas:  ", N, "\n")
+cat("Prevalencia real (corrupción): ", prevalencia*100, "%\n")
+cat("Sensibilidad (detecta fraude):  ", sensibilidad*100, "%\n")
+cat("Especificidad (evita falsos):  ", especificidad*100, "%\n\n")
+```
+
+---
+
+# Parte 2: Simulación de la Realidad
+
+```{webr-r}
+# PASO 1: Generar la realidad (quién es realmente corrupto)
+realidad <- sample(c("Honesto", "Fraude"), 
+                   N, 
+                   replace = TRUE, 
+                   prob = c(1-prevalencia, prevalencia))
+
+# Contar casos reales
+n_fraude_real <- sum(realidad == "Fraude")
+n_honesto_real <- sum(realidad == "Honesto")
+
+cat("REALIDAD (ground truth):\n")
+cat("  Compras con fraude REAL:  ", n_fraude_real, " (", 
+    round(100*n_fraude_real/N, 1), "%)\n")
+cat("  Compras honestas:         ", n_honesto_real, " (", 
+    round(100*n_honesto_real/N, 1), "%)\n\n")
+
+# PASO 2: Aplicar el test de IA
+# Si es fraude → 90% lo detecta
+# Si es honesto → 5% lo marca mal (falso positivo)
+
+resultado_test <- ifelse(
+  realidad == "Fraude",
+  sample(c("Marcado", "No Marcado"), N, replace=TRUE, 
+         prob = c(sensibilidad, 1-sensibilidad)),
+  sample(c("Marcado", "No Marcado"), N, replace=TRUE, 
+         prob = c(1-especificidad, especificidad))
+)
+
+# Crear tabla de confusión
+tabla <- table(realidad, resultado_test)
+
+cat("RESULTADO DEL TEST:\n")
+cat("  Compras MARCADAS por IA:  ", sum(resultado_test == "Marcado"), "\n")
+cat("  Compras NO marcadas:       ", sum(resultado_test == "No Marcado"), "\n\n")
+```
+
+---
+
+# Parte 3: Matriz de Confusión
+
+```{webr-r}
+cat("═══════════════════════════════════════════════════════════\n")
+cat("          MATRIZ DE CONFUSIÓN (Tabla 2x2)\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+print(tabla)
+
+# Calcular métricas clave
+TP <- sum(realidad == "Fraude" & resultado_test == "Marcado")      # Verdaderos Positivos
+FP <- sum(realidad == "Honesto" & resultado_test == "Marcado")     # Falsos Positivos
+TN <- sum(realidad == "Honesto" & resultado_test == "No Marcado")  # Verdaderos Negativos
+FN <- sum(realidad == "Fraude" & resultado_test == "No Marcado")   # Falsos Negativos
+
+cat("\n\nMÉTRICAS:\n")
+cat("─────────────────────────────────────────────────────────\n")
+cat("Verdaderos Positivos (TP): ", TP, " - Fraudes detectados correctamente\n")
+cat("Falsos Positivos (FP):     ", FP, " - Honestos marcados por error\n")
+cat("Verdaderos Negativos (TN): ", TN, " - Honestos correctamente libres\n")
+cat("Falsos Negativos (FN):     ", FN, " - Fraudes que escaparon\n\n")
+```
+
+---
+
+# Parte 4: El Valor Predictivo Positivo (VPP)
+
+**LA PREGUNTA CLAVE:** Si la IA marca una compra, ¿cuál es la probabilidad de que SEA REALMENTE fraudulenta?
+
+```{webr-r}
+# Valor Predictivo Positivo (Positive Predictive Value)
+VPP <- TP / (TP + FP)
+
+cat("═══════════════════════════════════════════════════════════\n")
+cat("  ⚡ VALOR PREDICTIVO POSITIVO (VPP)\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+cat("De las", (TP + FP), "compras MARCADAS por el sistema:\n\n")
+cat("  • Realmente fraudulentas (TP): ", TP, "\n")
+cat("  • Falsos positivos (FP):       ", FP, "\n\n")
+
+cat("VPP = TP / (TP + FP) = ", round(VPP, 3), "\n")
+cat("    = ", round(100*VPP, 1), "%\n\n")
+
+cat("🔍 INTERPRETACIÓN:\n")
+cat("   Solo el ", round(100*VPP, 1), "% de las compras marcadas son realmente fraude.\n")
+cat("   Es decir, ", round(100*(1-VPP), 1), "% son FALSOS POSITIVOS.\n\n")
+
+if (VPP < 0.5) {
+  cat("⚠️  ALERTA: MÁS DE LA MITAD de las marcas son falsas alarmas!\n")
+  cat("   Auditar todas las marcas sería ineficiente.\n\n")
+}
+
+# Costo operativo
+cat("💰 IMPLICACIÓN OPERATIVA:\n")
+cat("   Si auditas las", (TP + FP), "compras marcadas:\n")
+cat("   - Encontrarás", TP, "fraudes reales ✅\n")
+cat("   - Pero harás", FP, "auditorías innecesarias ❌\n\n")
+
+costo_auditoria <- 5000  # USD por auditoría
+costo_total <- (TP + FP) * costo_auditoria
+costo_util <- TP * costo_auditoria
+desperdicio <- FP * costo_auditoria
+
+cat("   Costo total:          $", format(costo_total, big.mark=","), "\n")
+cat("   Costo útil (fraudes): $", format(costo_util, big.mark=","), "\n")
+cat("   Desperdicio (FP):     $", format(desperdicio, big.mark=","), "\n\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 5: Fórmula de Bayes
+
+```{webr-r}
+cat("\n📐 FÓRMULA DE BAYES (Calculado analíticamente)\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# P(Fraude | Marcado) = P(Marcado | Fraude) × P(Fraude) / P(Marcado)
+
+# P(Marcado | Fraude) = Sensibilidad
+p_marcado_dado_fraude <- sensibilidad
+
+# P(Fraude) = Prevalencia
+p_fraude <- prevalencia
+
+# P(Marcado) = P(Marcado|Fraude)×P(Fraude) + P(Marcado|Honesto)×P(Honesto)
+p_marcado <- (sensibilidad * prevalencia) + ((1-especificidad) * (1-prevalencia))
+
+# Teorema de Bayes
+vpp_bayes <- (p_marcado_dado_fraude * p_fraude) / p_marcado
+
+cat("P(Fraude | Marcado) = [P(Marcado|Fraude) × P(Fraude)] / P(Marcado)\n\n")
+cat("                    = [", sensibilidad, " × ", prevalencia, "] / ", 
+    round(p_marcado, 4), "\n")
+cat("                    = ", round(vpp_bayes, 3), "\n")
+cat("                    = ", round(100*vpp_bayes, 1), "%\n\n")
+
+cat("✅ VERIFICACIÓN: VPP simulado vs. Bayes\n")
+cat("   Simulación: ", round(100*VPP, 2), "%\n")
+cat("   Bayes:      ", round(100*vpp_bayes, 2), "%\n")
+cat("   Diferencia: ", abs(round(100*(VPP - vpp_bayes), 2)), "% (error de muestreo)\n\n")
+```
+
+---
+
+# Parte 6: Análisis de Sensibilidad (Prevalencia)
+
+```{webr-r}
+cat("\n🔬 ANÁLISIS: ¿Cómo cambia VPP con diferentes prevalencias?\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+prevalencias <- c(0.01, 0.05, 0.10, 0.20, 0.50)
+
+for (prev in prevalencias) {
+  p_marcado_new <- (sensibilidad * prev) + ((1-especificidad) * (1-prev))
+  vpp_new <- (sensibilidad * prev) / p_marcado_new
+  
+  cat(sprintf("Prevalencia %3.0f%%: VPP = %5.1f%%", 
+              prev*100, vpp_new*100))
+  
+  if (prev == prevalencia) {
+    cat(" ← Escenario actual\n")
+  } else {
+    cat("\n")
+  }
+}
+
+cat("\n💡 INSIGHT:\n")
+cat("   Cuando la prevalencia es baja (fraude raro), incluso un test preciso\n")
+cat("   genera MUCHOS falsos positivos.\n")
+cat("   → El VPP depende MÁS de la prevalencia que de la precisión del test.\n\n")
+```
+
+---
+
+# Parte 7: Estrategias de Mejora
+
+```{webr-r}
+cat("\n🎯 ESTRATEGIAS PARA MEJORAR EL SISTEMA\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+# ESTRATEGIA A: Mejorar especificidad (95% → 98%)
+espec_mejorada <- 0.98
+p_marcado_a <- (sensibilidad * prevalencia) + ((1-espec_mejorada) * (1-prevalencia))
+vpp_a <- (sensibilidad * prevalencia) / p_marcado_a
+
+cat("A) MEJORAR ESPECIFICIDAD (reducir falsos positivos)\n")
+cat("   Especificidad: 95% → 98%\n")
+cat("   VPP nuevo:     ", round(100*vpp_a, 1), "% (antes: ", 
+    round(100*vpp_bayes, 1), "%)\n")
+cat("   Mejora:        +", round(100*(vpp_a - vpp_bayes), 1), " puntos porcentuales\n\n")
+
+# ESTRATEGIA B: Filtro de dos etapas (re-test los marcados)
+# Solo auditamos si ambos tests marcan
+prob_ambos_marcan_si_fraude <- sensibilidad^2
+prob_ambos_marcan_si_honesto <- (1-especificidad)^2
+
+p_doble_marcado <- (prob_ambos_marcan_si_fraude * prevalencia) + 
+                   (prob_ambos_marcan_si_honesto * (1-prevalencia))
+vpp_b <- (prob_ambos_marcan_si_fraude * prevalencia) / p_doble_marcado
+
+cat("B) SISTEMA DE DOS ETAPAS (re-test)\n")
+cat("   Solo auditar si AMBOS tests marcan\n")
+cat("   VPP nuevo:     ", round(100*vpp_b, 1), "%\n")
+cat("   Trade-off:     Detectamos menos fraudes (", 
+    round(100*prob_ambos_marcan_si_fraude, 1), "% vs ", 
+    round(100*sensibilidad, 1), "%)\n")
+cat("   Pero casi eliminamos falsos positivos\n\n")
+
+# ESTRATEGIA C: Focalización en alto riesgo
+# Solo aplicar IA a compras > $50k (donde prevalencia es 15%)
+prev_alto_riesgo <- 0.15
+p_marcado_c <- (sensibilidad * prev_alto_riesgo) + 
+               ((1-especificidad) * (1-prev_alto_riesgo))
+vpp_c <- (sensibilidad * prev_alto_riesgo) / p_marcado_c
+
+cat("C) FOCALIZACIÓN EN ALTO RIESGO\n")
+cat("   Solo analizar compras > $50k (prevalencia 15%)\n")
+cat("   VPP nuevo:     ", round(100*vpp_c, 1), "%\n")
+cat("   Beneficio:     Menos falsos positivos, más eficiente\n\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 8: Visualización del Problema
+
+```{webr-r}
+# Gráfico de barras apiladas mostrando composición de marcados
+marcados_df <- data.frame(
+  categoria = c("Verdaderos Positivos", "Falsos Positivos"),
+  cantidad = c(TP, FP),
+  porcentaje = c(100*VPP, 100*(1-VPP))
+)
+
+barplot(marcados_df$cantidad,
+        names.arg = marcados_df$categoria,
+        col = c("darkgreen", "red"),
+        main = paste0("Composición de las ", TP+FP, " Compras Marcadas"),
+        ylab = "Número de casos",
+        ylim = c(0, max(marcados_df$cantidad)*1.2))
+
+# Agregar porcentajes
+text(0.7, TP/2, paste0(round(100*VPP, 1), "%"), col="white", cex=1.5, font=2)
+text(1.9, FP/2, paste0(round(100*(1-VPP), 1), "%"), col="white", cex=1.5, font=2)
+
+# Leyenda explicativa
+legend("topright",
+       legend = c("TP: Fraude detectado correctamente",
+                  "FP: Honesto marcado por error"),
+       fill = c("darkgreen", "red"),
+       bty = "n")
+```
+
+---
+
+# Parte 9: Tabla de Decisión
+
+```{webr-r}
+cat("\n═══════════════════════════════════════════════════════════\n")
+cat("  TABLA DE DECISIÓN: ¿AUDITAR TODAS LAS MARCADAS?\n")
+cat("═══════════════════════════════════════════════════════════\n\n")
+
+cat("ESCENARIO ACTUAL:\n")
+cat("─────────────────────────────────────────────────────────\n")
+cat("Compras marcadas:         ", TP + FP, "\n")
+cat("Fraudes reales en marcas: ", TP, " (", round(100*VPP, 1), "%)\n")
+cat("Falsos positivos:         ", FP, " (", round(100*(1-VPP), 1), "%)\n\n")
+
+cat("COSTO POR ESTRATEGIA:\n")
+cat("─────────────────────────────────────────────────────────\n")
+
+# Opción 1: Auditar todas
+cat("1. AUDITAR TODAS las marcadas\n")
+cat("   Costo:        $", format((TP+FP)*costo_auditoria, big.mark=","), "\n")
+cat("   Fraudes:      ", TP, "\n")
+cat("   Eficiencia:   ", round(100*TP/(TP+FP), 1), "% (costo útil)\n\n")
+
+# Opción 2: Muestra aleatoria de marcadas
+muestra_pct <- 0.30
+cat("2. AUDITAR MUESTRA del 30% de marcadas\n")
+cat("   Costo:        $", format(round((TP+FP)*muestra_pct*costo_auditoria), big.mark=","), "\n")
+cat("   Fraudes:      ~", round(TP*muestra_pct), " (esperados)\n")
+cat("   Riesgo:       Perderse ", round(TP*(1-muestra_pct)), " fraudes\n\n")
+
+# Opción 3: Solo alto riesgo (>$100k)
+cat("3. SOLO compras > $100k marcadas (30% de marcadas)\n")
+cat("   Asumiendo que 70% de fraudes están en este grupo\n")
+cat("   Costo:        $", format(round((TP+FP)*0.30*costo_auditoria), big.mark=","), "\n")
+cat("   Fraudes:      ~", round(TP*0.70), " (70% del total)\n\n")
+
+cat("RECOMENDACIÓN:\n")
+cat("─────────────────────────────────────────────────────────\n")
+cat("Dado que VPP = ", round(100*VPP, 1), "%, NO es eficiente auditar todas.\n")
+cat("→ Implementar sistema de dos etapas (Estrategia B)\n")
+cat("→ O focalizar en compras de alto riesgo (Estrategia C)\n\n")
+
+cat("═══════════════════════════════════════════════════════════\n")
+```
+
+---
+
+# Parte 10: Comparación Visual de Estrategias
+
+```{webr-r}
+# Comparar VPP de diferentes estrategias
+estrategias <- c("Base", "Espec+", "Dos etapas", "Alto riesgo")
+vpps <- c(vpp_bayes, vpp_a, vpp_b, vpp_c) * 100
+
+barplot(vpps,
+        names.arg = estrategias,
+        col = c("gray", "lightblue", "lightgreen", "gold"),
+        main = "Comparación de Valor Predictivo Positivo (VPP)",
+        ylab = "VPP (%)",
+        ylim = c(0, 100),
+        las = 2)
+
+abline(h = 50, col = "red", lty = 2, lwd = 2)
+text(1, 55, "50% (umbral mínimo aceptable)", pos = 4, col = "red", cex = 0.8)
+
+# Agregar valores
+text(1:4, vpps + 5, paste0(round(vpps, 1), "%"), cex = 1.2, font = 2)
+```
+
+---
+
+# Ejercicio Individual (Entregable)
+
+**Parte A: Variación de Parámetros**
+
+1. **Re-simula** con prevalencia = 1% (fraude muy raro):
+   - Calcula el nuevo VPP
+   - ¿Cuántos falsos positivos genera?
+   - ¿Cambiaría tu recomendación?
+
+2. **Mejora de sensibilidad:** Cambia sensibilidad a 95% (mantén todo lo demás):
+   - ¿Mejora más el VPP que mejorar especificidad?
+   - Explica por qué
+
+**Parte B: Análisis Escrito**
+
+3. **Tabla comparativa** de las 4 estrategias:
+   | Estrategia | VPP | Costo | Fraudes detectados | Trade-off |
+   |------------|-----|-------|-------------------|-----------|
+
+4. **Explica en 6 líneas:**
+   - ¿Por qué un test "90% preciso" puede generar más falsos que verdaderos?
+   - ¿Qué factor importa más: sensibilidad, especificidad, o prevalencia?
+
+**Parte C: Aplicación Práctica**
+
+5. **Diseña un protocolo** de auditoría (1 página):
+   - ¿Qué compras auditar?
+   - ¿En qué orden?
+   - ¿Con qué criterios adicionales?
+   - Incluye 1 limitación
+
+---
+
+# Preguntas de Discusión
+
+1. **Falsos positivos vs falsos negativos:**
+   - ¿Qué es peor: auditar inocentes o dejar pasar fraudes?
+   - ¿Cambia tu respuesta según el contexto?
+
+2. **Comunicación del riesgo:**
+   - ¿Cómo explicas "VPP = 30%" a un no-experto?
+   - ¿Dirías "70% son falsos" o "solo 30% son reales"?
+
+3. **Dilema ético:**
+   - ¿Es justo marcar compras sabiendo que la mayoría son honestas?
+   - ¿Cómo proteges reputaciones ante falsos positivos?
+
+4. **Mejora continua:**
+   - ¿Invertirías más en mejorar sensibilidad o especificidad?
+   - ¿Por qué importa tanto la prevalencia?
+
+---
+
+# Recursos Adicionales
+
+**Conceptos clave:**
+
+- **Teorema de Bayes:** P(A|B) = P(B|A) × P(A) / P(B)
+- **Sensibilidad:** Proporción de positivos correctamente identificados
+- **Especificidad:** Proporción de negativos correctamente identificados
+- **VPP:** Probabilidad de enfermedad dado resultado positivo
+- **Prevalencia:** Proporción de casos en la población
+
+**Aplicaciones:**
+
+- 🏥 Tests médicos (COVID, VIH, cáncer)
+- 🔍 Sistemas anticorrupción
+- ✈️ Detección de amenazas en aeropuertos
+- 📧 Filtros de spam
+- 🎯 Sistemas de recomendación
+
+**Para profundizar:**
+- "Thinking, Fast and Slow" - Kahneman (sobre sesgos)
+- "The Signal and the Noise" - Nate Silver
+- "Base rate fallacy" en Wikipedia
+
+---
+
+**Última reflexión:** Un test perfecto con población incorrecta genera basura. El contexto (prevalencia) importa tanto como la precisión.

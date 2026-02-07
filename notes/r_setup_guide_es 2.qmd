@@ -1,0 +1,282 @@
+---
+title: "Sección 0: Configuración de R"
+author: "David Contreras-Loya"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    theme: cosmo
+---
+
+## Antes de comenzar
+
+Antes de nuestra primera sección, por favor asegúrate de tener instalaciones funcionales y actualizadas de **R** y **RStudio**. Los usaremos extensivamente en este curso, por lo que definitivamente vale la pena hacerlo bien.
+
+---
+
+## Instalación
+
+Si aún no tienes R y RStudio ejecutándose en tu computadora, entonces debes instalar ambos:
+
+### Paso 1: Instalar R
+
+Descarga e instala R desde el repositorio oficial de CRAN:
+
+- **Windows**: [Descargar R para Windows](https://cran.r-project.org/bin/windows/base/)
+- **macOS**: [Descargar R para macOS](https://cran.r-project.org/bin/macosx/)
+- **Linux**: [Descargar R para Linux](https://cran.r-project.org/bin/linux/)
+
+### Paso 2: Instalar RStudio
+
+Descarga e instala RStudio Desktop (versión gratuita):
+
+- **Todas las plataformas**: [Descargar RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+
+::: {.callout-note}
+**RStudio** es un IDE (Entorno de Desarrollo Integrado) súper útil para R—es muy útil tanto para aprender como para usar R.
+:::
+
+---
+
+## Actualización de instalaciones existentes
+
+Si ya tienes R y RStudio en tu computadora, entonces debes asegurarte de que estén **actualizados**:
+
+- **Versión actual de R**: 4.4.2 (2024-10-31) — *"Pile of Leaves"*
+  - Verifica tu versión escribiendo `version` en la consola de R
+  
+- **Versión actual de RStudio**: 2024.12.0 o más reciente
+  - Verifica mediante: *Help → About RStudio*
+
+::: {.callout-tip}
+## ¿Por qué actualizar?
+Las versiones más nuevas incluyen correcciones de errores, mejoras de rendimiento y nuevas características que hacen que tu experiencia de programación sea más fluida.
+:::
+
+---
+
+## Herramientas adicionales (recomendadas)
+
+### LaTeX
+
+Te recomendaría asegurarte de tener una instalación funcional de LaTeX para crear PDFs y composición tipográfica matemática:
+
+- **Opción fácil**: Instalar TinyTeX mediante R:
+  ```r
+  install.packages("tinytex")
+  tinytex::install_tinytex()
+  ```
+
+- **Instalación completa**: [Descargar MiKTeX (Windows)](https://miktex.org/) o [MacTeX (macOS)](https://www.tug.org/mactex/)
+
+- **Alternativa en línea**: [Overleaf](https://www.overleaf.com/) (sin necesidad de instalación, incluye tutoriales de LaTeX)
+
+### Pandoc
+
+Pandoc suele estar incluido con RStudio, pero puedes verificarlo ejecutando en R:
+
+```r
+rmarkdown::pandoc_version()
+```
+
+Si es necesario, descarga desde: [pandoc.org](https://pandoc.org/installing.html)
+
+---
+
+## ¿Funciona?
+
+Probemos tu instalación:
+
+1. **Abre RStudio**
+2. En la consola (panel inferior izquierdo), escribe:
+   ```r
+   1 + 1
+   ```
+3. Presiona **Enter**
+
+**Resultado esperado:**
+```r
+[1] 2
+```
+
+::: {.callout-important}
+Si obtienes `[1] 2`, ¡felicidades! Todo está funcionando correctamente. ✅
+
+Si no, intenta reinstalar R y RStudio, o pide ayuda.
+:::
+
+---
+
+## Recursos para aprender R
+
+He compilado un gran conjunto de recursos para R. Probablemente no los necesites todos ahora mismo, pero ten en cuenta que están ahí. Sin embargo, **los mejores recursos para aprender R son**:
+
+::: {.callout-tip icon="true"}
+## Tu kit de herramientas de aprendizaje
+
+1. **Google** (que probablemente te llevará a [StackOverflow](https://stackoverflow.com/))
+2. **Tiempo** (¡práctica, práctica, práctica!)
+3. **Tus compañeros de clase** (el aprendizaje colaborativo hace maravillas)
+4. **Yo** (horas de oficina, correo electrónico, Slack/Teams)
+:::
+
+### Recursos adicionales
+
+- [R for Data Science (2e)](https://r4ds.hadley.nz/) de Hadley Wickham & Garrett Grolemund
+- [Hojas de referencia de RStudio](https://www.rstudio.com/resources/cheatsheets/)
+- [Swirl](https://swirlstats.com/) - Tutoriales interactivos de R
+- [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) - Curso de introducción gratuito
+- [R-bloggers](https://www.r-bloggers.com/) - Publicaciones de blog de la comunidad
+
+---
+
+## Sugerencias básicas para el éxito
+
+### 1. Usa scripts de R, no solo la consola
+
+::: {.callout-warning}
+**Casi todo lo que hagas debe estar en un script de R**, en lugar de escribir directamente en la línea de comandos.
+:::
+
+**¿Por qué?**
+
+- Puedes volver a tu código más tarde
+- Puedes editar y mejorar tu trabajo
+- Necesitas entregar scripts de R para las tareas
+- ¡Es investigación reproducible!
+
+**Cómo crear un script:**
+
+- File → New File → R Script (o `Cmd/Ctrl + Shift + N`)
+
+### 2. Comenta tu código
+
+Los buenos comentarios hacen que tu código sea comprensible para otros (y para tu yo futuro):
+
+```r
+# Malo: Sin contexto
+x <- 5
+y <- x * 2
+
+# Bueno: Explicación clara
+price_per_unit <- 5           # Costo en dólares
+total_cost <- price_per_unit * 2  # Dos unidades compradas
+```
+
+### 3. Sé consistente con las convenciones de nombres
+
+Elige un estilo y mantente en él:
+
+```r
+# Camel Case (recomendado para variables)
+myVariableName <- 10
+calculateTotalCost <- function(x) { x * 2 }
+
+# Snake Case (también popular)
+my_variable_name <- 10
+calculate_total_cost <- function(x) { x * 2 }
+
+# ¡Elige UNO y sé consistente!
+```
+
+::: {.callout-note}
+**Evita:**
+- Comenzar nombres de variables con números: `2021data` ❌
+- Usar palabras reservadas: `if`, `for`, `function` ❌
+- Espacios en los nombres: `my variable` ❌
+:::
+
+### 4. Usa nombres de archivo descriptivos
+
+Sé inteligente al nombrar archivos y carpetas:
+
+**Nombres malos:**
+```
+cbn18319ddg890-7a.csv
+untitled1.R
+data.xlsx
+final_FINAL_v2_REALFINAL.R
+```
+
+**Nombres buenos:**
+```
+CensusCountyDemographics.csv
+01_DataCleaning.R
+HouseholdIncomeSurvey_2024.xlsx
+AnalyzeTaxReliefProgram.R
+```
+
+**Dos buenas convenciones de nombres:**
+
+1. **Camel Case**: `WhatAGreatFileName.csv`
+2. **Snake Case**: `what_a_great_file_name.csv`
+
+::: {.callout-tip}
+## Consejos profesionales
+- Agrega fechas en formato AAAA-MM-DD: `2024-01-15_Analysis.R`
+- Numera archivos para mostrar el orden: `01_Import.R`, `02_Clean.R`, `03_Analyze.R`
+- Usa prefijos descriptivos: `fig_`, `tab_`, `data_`
+:::
+
+### 5. Organiza tus archivos y usa rutas inteligentes
+
+Haz tu vida más fácil:
+
+**Organizando en carpetas:**
+```
+MyProject/
+  ├── Data/
+  │   ├── Raw/
+  │   └── Processed/
+  ├── Scripts/
+  ├── Output/
+  │   ├── Figures/
+  │   └── Tables/
+  └── README.md
+```
+
+**Usando `paste0()` o `paste()` para rutas de archivo:**
+
+```r
+# En lugar de escribir rutas completas cada vez:
+data <- read.csv("/Users/david/Documents/Project/Data/census.csv")
+
+# Usa paste0() para flexibilidad:
+project_path <- "/Users/david/Documents/Project"
+data_path <- paste0(project_path, "/Data/census.csv")
+data <- read.csv(data_path)
+
+# Aún mejor: usa rutas relativas con el paquete here
+library(here)
+data <- read.csv(here("Data", "census.csv"))
+```
+
+::: {.callout-note}
+Veremos más ejemplos de organización de archivos inteligente y gestión de rutas en la **Sección 1**.
+:::
+
+---
+
+## ¿Necesitas ayuda?
+
+Si encuentras algún problema durante la instalación o configuración:
+
+1. **Busca en Google** tu mensaje de error
+2. **Consulta StackOverflow** para problemas similares
+3. **Pregunta a tus compañeros** en nuestro foro/Slack del curso
+4. **Contáctame** durante las horas de oficina o por correo electrónico
+
+::: {.callout-important}
+## ¡No esperes hasta el último minuto!
+Configura tu entorno de R **antes** de que venza la primera tarea. Las dificultades técnicas son más fáciles de resolver cuando no estás bajo presión de tiempo.
+:::
+
+---
+
+## ¡Listo para programar!
+
+Una vez que todo esté configurado, ¡estás listo para comenzar a aprender R! Nos vemos en la Sección 1.
+
+*¡Feliz programación!* 🚀

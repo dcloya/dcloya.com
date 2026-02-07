@@ -1,0 +1,45 @@
+---
+title: "Estructura del Curso: Métodos Cuantitativos para Política Pública"
+format: html
+filters:
+  - webr
+---
+
+# Visión General del Curso
+
+Este curso está diseñado para desarrollar habilidades cuantitativas esenciales en estudiantes de política pública, sin requerir conocimientos previos de estadística o programación.
+
+## Filosofía Pedagógica
+
+Cada sesión sigue un enfoque de **aprendizaje activo**:
+
+1. **Caso Real** de política pública como ancla conceptual
+2. **Análisis Exploratorio** con datos simulados realistas
+3. **Visualización** para desarrollar intuición
+4. **Interpretación** orientada a decisiones
+5. **Comunicación** para audiencias no-técnicas
+6. **Reflexión** sobre limitaciones y sesgos
+
+---
+
+## Características Comunes en TODAS las Sesiones
+
+### ✅ Siempre se incluye:
+- Cálculo de **media, mediana, percentiles**
+- **Visualización** de distribuciones (histogramas, boxplots)
+- Medidas de **dispersión** (IQR, desviación estándar)
+- **Comparación de grupos**
+- **Tablas profesionales** para reportes ejecutivos
+- Sección de **limitaciones** del análisis
+
+### 💡 Habilidades Transversales:
+- Lectura crítica de evidencia
+- Comunicación para decisores
+- Honestidad sobre incertidumbre
+- Distinción entre correlación y causalidad
+
+---
+
+*Este curso fue diseñado con el objetivo de empoderar a decisores de política pública con herramientas cuantitativas rigurosas y honestas.*
+
+**Versión:** 1.0 | **Fecha:** Enero 2026

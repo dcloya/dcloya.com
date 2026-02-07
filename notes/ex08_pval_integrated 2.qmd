@@ -1,0 +1,129 @@
+---
+title: "Sesión 8: P-valor y Poder Estadístico"
+format: html
+filters:
+  - webr
+---
+
+# Caso: Programa Piloto con Muestra Pequeña
+
+Un programa piloto de empleabilidad tiene solo n=50 participantes. Hay mejora del 10% en tasa de empleo vs control, pero p=0.12 (no significativo).
+
+**¿Conclusión:** "El programa no funciona"? **¡FALSO!**
+
+```{webr-r}
+set.seed(2026)
+
+# Simulación del escenario
+n <- 50
+tasa_control <- 0.40
+tasa_tratamiento <- 0.50  # +10 puntos porcentuales
+
+empleados_control <- rbinom(1, n, tasa_control)
+empleados_trat <- rbinom(1, n, tasa_tratamiento)
+
+test <- prop.test(c(empleados_trat, empleados_control), c(n, n))
+
+cat("📊 RESULTADO DEL PILOTO (n=50 por grupo)\n")
+cat("════════════════════════════════════════════════════\n")
+cat("Tasa Control:       ", round(empleados_control/n, 3), "\n")
+cat("Tasa Tratamiento:   ", round(empleados_trat/n, 3), "\n")
+cat("Diferencia:         ", round((empleados_trat - empleados_control)/n, 3), "\n")
+cat("p-valor:            ", round(test$p.value, 3), "\n\n")
+
+if (test$p.value > 0.05) {
+  cat("⚠️  NO SIGNIFICATIVO (p > 0.05)\n")
+  cat("   Pero eso NO significa que el efecto no exista.\n")
+  cat("   El problema es PODER ESTADÍSTICO INSUFICIENTE.\n\n")
+}
+```
+
+---
+
+# Parte 1: Simulación de Poder
+
+```{webr-r}
+# Función para calcular poder empíricamente
+calcular_poder <- function(n, efecto, nsims=1000) {
+  rechazos <- 0
+  for (i in 1:nsims) {
+    control <- rbinom(n, 1, 0.40)
+    trat <- rbinom(n, 1, 0.40 + efecto)
+    test <- prop.test(c(sum(trat), sum(control)), c(n, n))
+    if (test$p.value < 0.05) rechazos <- rechazos + 1
+  }
+  return(rechazos / nsims)
+}
+
+# Calcular poder para diferentes tamaños
+tamanos <- seq(25, 300, by=25)
+poderes <- sapply(tamanos, function(n) calcular_poder(n, efecto=0.10, nsims=500))
+
+plot(tamanos, poderes, type="b", pch=19, col="blue", lwd=2,
+     main="Poder Estadístico vs Tamaño de Muestra",
+     xlab="n por grupo", ylab="Poder (1-β)",
+     ylim=c(0, 1))
+abline(h=0.80, col="red", lty=2, lwd=2)
+abline(v=175, col="red", lty=2, lwd=2)
+text(175, 0.85, "n≈175 para Poder=80%", pos=4, col="red")
+
+cat("\n💡 INSIGHT: Con n=50, el poder es solo ~", 
+    round(100*poderes[which(tamanos==50)], 0), "%\n")
+cat("   Necesitamos n≈175 para tener 80% de probabilidad de detectar\n")
+cat("   un efecto real de 10 puntos porcentuales.\n\n")
+```
+
+---
+
+# Parte 2: Significancia vs Relevancia Práctica
+
+```{webr-r}
+cat("\n⚠️  DISTINCIÓN CRUCIAL\n")
+cat("════════════════════════════════════════════════════════\n\n")
+
+cat("SIGNIFICANCIA ESTADÍSTICA (p < 0.05):\n")
+cat("  ¿La diferencia es distinguible del azar?\n")
+cat("  Depende de: tamaño de muestra y varianza\n\n")
+
+cat("RELEVANCIA PRÁCTICA:\n")
+cat("  ¿La diferencia importa en la vida real?\n")
+cat("  Un efecto pequeño puede ser significativo con n grande\n")
+cat("  Un efecto grande puede ser no-sig con n pequeño\n\n")
+
+# Ejemplo: efecto grande pero no significativo (n pequeño)
+n_peq <- 20
+grande_control <- rnorm(n_peq, mean=50, sd=15)
+grande_trat <- rnorm(n_peq, mean=60, sd=15)  # +10 puntos!
+test_peq <- t.test(grande_trat, grande_control)
+
+cat("EJEMPLO: n=20, diferencia real=10 puntos\n")
+cat("  p-valor: ", round(test_peq$p.value, 3), "\n")
+cat("  → Efecto GRANDE pero posiblemente no significativo\n\n")
+
+# Ejemplo: efecto pequeño pero significativo (n grande)
+n_grand <- 1000
+peq_control <- rnorm(n_grand, mean=50, sd=15)
+peq_trat <- rnorm(n_grand, mean=51.5, sd=15)  # +1.5 puntos
+test_grand <- t.test(peq_trat, peq_control)
+
+cat("EJEMPLO: n=1000, diferencia real=1.5 puntos\n")
+cat("  p-valor: ", round(test_grand$p.value, 4), "\n")
+cat("  → Efecto PEQUEÑO pero probablemente significativo\n\n")
+```
+
+---
+
+# Ejercicio Individual
+
+1. **Calcula** tamaño de muestra para detectar efecto de 5% con Poder=90%
+2. **Simula** 1000 experimentos con n=50 y efecto=0 - ¿Cuántos dan p<0.05? (debe ser ~5%)
+3. **Escribe** recomendación: ¿Expandir piloto o abandonar?
+
+---
+
+# Discusión
+
+- ¿"No significativo" = "no funciona"?
+- ¿Cuándo el tamaño de muestra es una limitación ética?
+- ¿P-valor vs tamaño de efecto: qué reportar?
+
