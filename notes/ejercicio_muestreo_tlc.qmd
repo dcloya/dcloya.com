@@ -1,0 +1,325 @@
+---
+title: "Ejercicio Aplicado: Muestreo y el Teorema del Límite Central"
+subtitle: "Programa Becas para Todos - Análisis de Asistencia Escolar"
+format: html
+filters:
+  - webr
+---
+
+# Contexto
+
+El programa **"Becas para Todos"** otorga transferencias condicionadas a familias de bajos recursos. La condición: sus hijos deben asistir al menos 85% de los días escolares.
+
+**Pregunta de política:** ¿Cuál es la tasa promedio de asistencia escolar en la población?
+
+**Desafío:** No podemos encuestar a las 2.5 millones de familias beneficiarias. Debemos usar una **muestra**.
+
+---
+
+# Parte 1: La Población Verdadera (Desconocida en la Realidad)
+
+```{webr-r}
+library(ggplot2)
+set.seed(2026)
+
+# POBLACIÓN VERDADERA (la queremos estimar, pero NO la conocemos)
+N_poblacion <- 100000  # 100,000 familias en nuestra simulación
+
+# Distribución ASIMÉTRICA de asistencia
+# Muchas familias con alta asistencia (cerca del 85% requerido)
+# Algunas con baja asistencia (incumplen condición)
+asistencia_poblacion <- c(
+  rbeta(70000, 18, 4) * 100,      # 70% familias: asistencia alta (sesgada derecha)
+  rbeta(20000, 8, 8) * 100,       # 20% familias: asistencia media
+  rbeta(10000, 3, 10) * 100       # 10% familias: asistencia baja
+)
+
+# Limitar a [0, 100] PRIMERO
+asistencia_poblacion <- pmax(pmin(asistencia_poblacion, 100), 0)
+
+# DESPUÉS ajustar para que la media sea exactamente 78%
+asistencia_poblacion <- asistencia_poblacion * (78 / mean(asistencia_poblacion))
+
+# Limitar de nuevo por si acaso
+asistencia_poblacion <- pmax(pmin(asistencia_poblacion, 100), 0)
+
+# Parámetro poblacional (DESCONOCIDO en la realidad)
+mu_real <- mean(asistencia_poblacion)
+sigma_real <- sd(asistencia_poblacion)
+
+cat("📊 PARÁMETROS POBLACIONALES (VERDAD)\n")
+cat("════════════════════════════════════════\n")
+cat("Media poblacional (μ):     ", round(mu_real, 2), "%\n")
+cat("Desviación estándar (σ):   ", round(sigma_real, 2), "%\n")
+cat("Población total (N):       ", format(N_poblacion, big.mark=",", scientific=FALSE), "\n\n")
+```
+
+---
+
+# Parte 2: Visualizar la Distribución Poblacional
+
+```{webr-r}
+# Histograma de la población
+hist(asistencia_poblacion, 
+     breaks = 50,
+     col = rgb(0.2, 0.4, 0.8, 0.6),
+     border = "white",
+     main = "Distribución de Asistencia Escolar en la POBLACIÓN",
+     xlab = "Asistencia escolar (%)",
+     ylab = "Frecuencia",
+     xlim = c(0, 100))
+
+# Línea de la media
+abline(v = mu_real, col = "red", lwd = 3, lty = 2)
+text(mu_real + 5, max(hist(asistencia_poblacion, plot=FALSE)$counts) * 0.9,
+     paste0("μ = ", round(mu_real, 1), "%"),
+     col = "red", pos = 4, cex = 1.2, font = 2)
+
+# Línea del requisito
+abline(v = 85, col = "darkgreen", lwd = 2, lty = 3)
+text(85, max(hist(asistencia_poblacion, plot=FALSE)$counts) * 0.7,
+     "Requisito: 85%",
+     col = "darkgreen", pos = 4, cex = 1, font = 2)
+
+# Leyenda
+legend("topleft",
+       legend = c("Media poblacional (μ)", "Requisito programa"),
+       col = c("red", "darkgreen"),
+       lty = c(2, 3),
+       lwd = c(3, 2),
+       bty = "n",
+       cex = 0.9)
+
+cat("⚠️  OBSERVA: La distribución es ASIMÉTRICA (no es normal)\n")
+cat("   Hay un pico cerca del 85% (requisito del programa)\n\n")
+```
+
+---
+
+# Parte 3: Tomar UNA Muestra
+
+```{webr-r}
+# Tomar una muestra de 500 familias
+n <- 500
+muestra_1 <- sample(asistencia_poblacion, n, replace = FALSE)
+
+x_bar_1 <- mean(muestra_1)
+se_1 <- sd(muestra_1) / sqrt(n)
+
+cat("📝 RESULTADOS DE UNA MUESTRA (n = 500)\n")
+cat("════════════════════════════════════════\n")
+cat("Media muestral (x̄):       ", round(x_bar_1, 2), "%\n")
+cat("Error estándar (SE):       ", round(se_1, 2), "%\n")
+cat("Diferencia con μ real:     ", round(x_bar_1 - mu_real, 2), "%\n\n")
+
+# Visualizar la muestra
+hist(muestra_1, 
+     breaks = 30,
+     col = rgb(1, 0.5, 0, 0.6),
+     border = "white",
+     main = "Distribución de UNA Muestra (n = 500)",
+     xlab = "Asistencia escolar (%)",
+     ylab = "Frecuencia")
+
+abline(v = x_bar_1, col = "blue", lwd = 3, lty = 2)
+text(x_bar_1 + 5, max(hist(muestra_1, plot=FALSE)$counts) * 0.9,
+     paste0("x̄ = ", round(x_bar_1, 1), "%"),
+     col = "blue", pos = 4, cex = 1.2, font = 2)
+
+abline(v = mu_real, col = "red", lwd = 2, lty = 3)
+
+# Leyenda
+legend("topleft",
+       legend = c("Media muestral (x̄)", "Verdad poblacional (μ)"),
+       col = c("blue", "red"),
+       lty = c(2, 3),
+       lwd = c(3, 2),
+       bty = "n",
+       cex = 0.9)
+```
+
+---
+
+# Parte 4: Teorema del Límite Central en Acción
+
+**Pregunta:** Si la población es asimétrica, ¿qué pasa con la distribución de $\bar{x}$?
+
+**Experimento:** Tomar 1000 muestras diferentes, calcular $\bar{x}$ en cada una.
+
+```{webr-r}
+# Teorema del Límite Central
+# Tomar MUCHAS muestras y calcular la media de cada una
+
+n_simulaciones <- 1000
+tamanos_muestra <- c(10, 30, 100, 500)
+
+# Crear data frame para almacenar resultados
+resultados_tlc <- data.frame()
+
+for (n in tamanos_muestra) {
+  medias_muestrales <- replicate(n_simulaciones, {
+    muestra <- sample(asistencia_poblacion, n, replace = TRUE)
+    mean(muestra)
+  })
+  
+  temp_df <- data.frame(
+    n = n,
+    x_bar = medias_muestrales
+  )
+  resultados_tlc <- rbind(resultados_tlc, temp_df)
+}
+
+cat("✅ Simulación completa: 1000 muestras por cada tamaño\n\n")
+```
+
+---
+
+# Parte 5: Visualización del Teorema del Límite Central
+
+```{webr-r}
+# Histogramas superpuestos mostrando TLC
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+for (n in tamanos_muestra) {
+  medias <- resultados_tlc$x_bar[resultados_tlc$n == n]
+  
+  hist(medias,
+       breaks = 40,
+       col = rgb(0.3, 0.7, 0.4, 0.6),
+       border = "white",
+       main = paste("Distribución de x̄ con n =", n),
+       xlab = "Media muestral (x̄)",
+       xlim = c(min(resultados_tlc$x_bar), max(resultados_tlc$x_bar)),
+       freq = FALSE)
+  
+  # Línea de la verdad
+  abline(v = mu_real, col = "red", lwd = 2, lty = 2)
+  
+  # Curva normal teórica
+  se_teorico <- sigma_real / sqrt(n)
+  curve(dnorm(x, mean = mu_real, sd = se_teorico),
+        add = TRUE, col = "blue", lwd = 2)
+  
+  # Estadísticas
+  text(min(resultados_tlc$x_bar) + 2, 
+       par("usr")[4] * 0.9,
+       paste0("SE teórico = ", round(se_teorico, 2)),
+       pos = 4, cex = 0.8, col = "blue")
+}
+
+par(mfrow = c(1, 1))
+
+cat("\n🎯 TEOREMA DEL LÍMITE CENTRAL:\n")
+cat("════════════════════════════════════════════════════════════\n")
+cat("Aunque la POBLACIÓN es asimétrica,\n")
+cat("la distribución de X̄ es NORMAL (curva azul)\n")
+cat("y se concentra más alrededor de μ cuando n aumenta.\n\n")
+```
+
+---
+
+# Parte 6: Comparación Visual del Error Estándar
+
+```{webr-r}
+# Boxplot comparativo
+boxplot(x_bar ~ n, data = resultados_tlc,
+        col = c("#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4"),
+        main = "Distribución de Medias Muestrales por Tamaño de Muestra",
+        xlab = "Tamaño de muestra (n)",
+        ylab = "Media muestral (x̄)",
+        outline = FALSE)
+
+abline(h = mu_real, col = "red", lwd = 3, lty = 2)
+text(2.5, mu_real + 0.5, 
+     paste0("Verdad μ = ", round(mu_real, 1), "%"),
+     col = "red", pos = 3, font = 2)
+
+# Agregar errores estándar teóricos
+for (i in 1:length(tamanos_muestra)) {
+  n <- tamanos_muestra[i]
+  se <- sigma_real / sqrt(n)
+  text(i, min(resultados_tlc$x_bar) + 1,
+       paste0("SE = ", round(se, 2)),
+       cex = 0.8, col = "blue", font = 2)
+}
+
+cat("\n📉 OBSERVA:\n")
+cat("════════════════════════════════════════════════════════════\n")
+cat("1. Con n pequeño (10): x̄ muy disperso\n")
+cat("2. Con n grande (500): x̄ muy concentrado alrededor de μ\n")
+cat("3. El SE disminuye con √n, no con n\n\n")
+```
+
+---
+
+# Parte 7: Verificación Numérica del Teorema
+
+```{webr-r}
+cat("\n📊 VERIFICACIÓN NUMÉRICA DEL TEOREMA DEL LÍMITE CENTRAL\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+for (n in tamanos_muestra) {
+  medias <- resultados_tlc$x_bar[resultados_tlc$n == n]
+  
+  # Teórico
+  se_teorico <- sigma_real / sqrt(n)
+  
+  # Empírico (de las 1000 simulaciones)
+  media_empirica <- mean(medias)
+  se_empirico <- sd(medias)
+  
+  cat("n =", n, "\n")
+  cat("  E(x̄) empírico:     ", format(round(media_empirica, 3), nsmall=3), 
+      "  (debería ≈", format(round(mu_real, 3), nsmall=3), ")\n")
+  cat("  SE teórico:        ", format(round(se_teorico, 3), nsmall=3), "\n")
+  cat("  SE empírico:       ", format(round(se_empirico, 3), nsmall=3), "\n")
+  cat("  Diferencia SE:     ", format(round(abs(se_teorico - se_empirico), 4), nsmall=4), "\n")
+  
+  # Test de normalidad (informal)
+  cat("  ¿Parece normal?    ")
+  if (n >= 30) {
+    cat("✅ Sí (n ≥ 30)\n\n")
+  } else {
+    cat("⚠️  n pequeño, aún no muy normal\n\n")
+  }
+}
+```
+
+---
+
+# Preguntas para Reflexionar
+
+1. **¿Por qué es importante el TLC?**  
+   Nos permite usar la distribución normal para hacer inferencia, aunque la población no sea normal.
+
+2. **¿Qué tan grande debe ser $n$?**  
+   Regla general: $n \geq 30$ es suficiente para que $\bar{x}$ sea aproximadamente normal, incluso si la población es muy asimétrica.
+
+3. **¿Qué pasa si tomo una muestra sesgada?**  
+   El TLC NO corrige sesgo. Solo reduce varianza. Una muestra mal diseñada de 10,000 familias es peor que una muestra bien diseñada de 500.
+
+4. **¿Cuántas familias debo encuestar?**  
+   Depende del margen de error aceptable. Con $n = 500$, el SE es ~0.8%. Con $n = 100$, el SE es ~1.8%.
+
+---
+
+# Ejercicio Individual
+
+Modifica el código anterior para:
+
+1. **Cambiar la distribución poblacional** a una exponencial (muy asimétrica)
+2. **Calcular el tamaño de muestra necesario** para $SE \leq 1\%$
+3. **Simular muestreo estratificado** (separar familias urbanas y rurales)
+
+---
+
+# Conclusión
+
+✅ **Teorema del Límite Central:** La distribución de $\bar{x}$ es normal, incluso si la población no lo es
+
+✅ **Error Estándar:** $SE = \sigma / \sqrt{n}$ disminuye con $\sqrt{n}$
+
+✅ **Implicación práctica:** Con $n$ suficientemente grande, podemos usar ICs y pruebas de hipótesis basadas en la normal
+
+⚠️ **Advertencia:** TLC NO corrige sesgo de selección
+

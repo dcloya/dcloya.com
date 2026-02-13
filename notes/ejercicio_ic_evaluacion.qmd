@@ -1,0 +1,527 @@
+---
+title: "Ejercicio Aplicado: Intervalos de Confianza"
+subtitle: "Programa Becas para Todos - ¿Funciona el programa?"
+format: html
+filters:
+  - webr
+---
+
+# Contexto
+
+El programa **"Becas para Todos"** lleva 2 años operando. Ahora queremos evaluar su impacto:
+
+**Pregunta de política:** ¿El programa aumentó la asistencia escolar?
+
+**Diseño de evaluación:**
+- **Grupo Tratamiento:** 500 familias que recibieron la beca
+- **Grupo Control:** 500 familias que NO recibieron la beca (lista de espera)
+
+**Objetivo:** Calcular intervalos de confianza para estimar el impacto del programa.
+
+---
+
+# Parte 1: Generación de Datos de la Evaluación
+
+```{webr-r}
+library(ggplot2)
+set.seed(2026)
+
+# PARÁMETROS POBLACIONALES (verdad desconocida)
+# Efecto real del programa: +10 puntos porcentuales de asistencia
+
+n_tratamiento <- 500
+n_control <- 500
+
+# Grupo CONTROL: asistencia promedio 72%, desviación estándar 18%
+asistencia_control <- rnorm(n_control, mean = 72, sd = 18)
+asistencia_control <- pmax(pmin(asistencia_control, 100), 0)  # Limitar a [0, 100]
+
+# Grupo TRATAMIENTO: asistencia promedio 82%, desviación estándar 15%
+# (menor variabilidad porque el programa estabiliza la asistencia)
+asistencia_tratamiento <- rnorm(n_tratamiento, mean = 82, sd = 15)
+asistencia_tratamiento <- pmax(pmin(asistencia_tratamiento, 100), 0)
+
+# Crear data frame
+datos <- data.frame(
+  grupo = rep(c("Control", "Tratamiento"), c(n_control, n_tratamiento)),
+  asistencia = c(asistencia_control, asistencia_tratamiento)
+)
+
+cat("📊 DATOS DE LA EVALUACIÓN\n")
+cat("════════════════════════════════════════\n")
+cat("Total de familias:      ", nrow(datos), "\n")
+cat("Grupo Control:          ", n_control, "\n")
+cat("Grupo Tratamiento:      ", n_tratamiento, "\n\n")
+```
+
+---
+
+# Parte 2: Estadísticas Descriptivas por Grupo
+
+```{webr-r}
+# Calcular estadísticas por grupo
+stats_control <- datos$asistencia[datos$grupo == "Control"]
+stats_tratamiento <- datos$asistencia[datos$grupo == "Tratamiento"]
+
+media_control <- mean(stats_control)
+media_tratamiento <- mean(stats_tratamiento)
+sd_control <- sd(stats_control)
+sd_tratamiento <- sd(stats_tratamiento)
+
+diferencia_observada <- media_tratamiento - media_control
+
+cat("📈 ESTADÍSTICAS DESCRIPTIVAS\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+cat("GRUPO CONTROL:\n")
+cat("  Media:              ", round(media_control, 2), "%\n")
+cat("  Desviación estándar:", round(sd_control, 2), "%\n")
+cat("  Rango:              ", round(min(stats_control), 1), "% -", 
+    round(max(stats_control), 1), "%\n\n")
+
+cat("GRUPO TRATAMIENTO:\n")
+cat("  Media:              ", round(media_tratamiento, 2), "%\n")
+cat("  Desviación estándar:", round(sd_tratamiento, 2), "%\n")
+cat("  Rango:              ", round(min(stats_tratamiento), 1), "% -", 
+    round(max(stats_tratamiento), 1), "%\n\n")
+
+cat("DIFERENCIA OBSERVADA:\n")
+cat("  Tratamiento - Control:", round(diferencia_observada, 2), 
+    "puntos porcentuales\n\n")
+```
+
+---
+
+# Parte 3: Visualización Inicial
+
+```{webr-r}
+# Boxplot comparativo
+boxplot(asistencia ~ grupo, data = datos,
+        col = c("#FF6B6B", "#4ECDC4"),
+        main = "Asistencia Escolar por Grupo",
+        ylab = "Asistencia (%)",
+        xlab = "Grupo",
+        ylim = c(0, 100))
+
+# Agregar medias
+points(c(1, 2), c(media_control, media_tratamiento),
+       pch = 18, cex = 2.5, col = "blue")
+
+legend("bottomright",
+       legend = c("Media"),
+       pch = 18, col = "blue", bty = "n")
+```
+
+---
+
+# Parte 4: Intervalo de Confianza para Cada Grupo
+
+```{webr-r}
+# Calcular IC 95% para cada grupo
+
+# GRUPO CONTROL
+se_control <- sd_control / sqrt(n_control)
+ic_control_lower <- media_control - 1.96 * se_control
+ic_control_upper <- media_control + 1.96 * se_control
+
+# GRUPO TRATAMIENTO
+se_tratamiento <- sd_tratamiento / sqrt(n_tratamiento)
+ic_trat_lower <- media_tratamiento - 1.96 * se_tratamiento
+ic_trat_upper <- media_tratamiento + 1.96 * se_tratamiento
+
+cat("\n📊 INTERVALOS DE CONFIANZA AL 95%\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+cat("GRUPO CONTROL:\n")
+cat("  Media:              ", round(media_control, 2), "%\n")
+cat("  Error Estándar:     ", round(se_control, 2), "%\n")
+cat("  IC 95%:             [", round(ic_control_lower, 2), "%, ", 
+    round(ic_control_upper, 2), "%]\n")
+cat("  Ancho del IC:       ", round(ic_control_upper - ic_control_lower, 2), "%\n\n")
+
+cat("GRUPO TRATAMIENTO:\n")
+cat("  Media:              ", round(media_tratamiento, 2), "%\n")
+cat("  Error Estándar:     ", round(se_tratamiento, 2), "%\n")
+cat("  IC 95%:             [", round(ic_trat_lower, 2), "%, ", 
+    round(ic_trat_upper, 2), "%]\n")
+cat("  Ancho del IC:       ", round(ic_trat_upper - ic_trat_lower, 2), "%\n\n")
+```
+
+---
+
+# Parte 5: IC para la Diferencia de Medias
+
+```{webr-r}
+# Intervalo de confianza para la DIFERENCIA
+
+# Error estándar de la diferencia
+se_diferencia <- sqrt((sd_control^2 / n_control) + (sd_tratamiento^2 / n_tratamiento))
+
+# IC 95% para la diferencia
+ic_dif_lower <- diferencia_observada - 1.96 * se_diferencia
+ic_dif_upper <- diferencia_observada + 1.96 * se_diferencia
+
+cat("\n🎯 INTERVALO DE CONFIANZA PARA LA DIFERENCIA\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+cat("Diferencia estimada:     ", round(diferencia_observada, 2), 
+    " puntos porcentuales\n")
+cat("Error estándar:          ", round(se_diferencia, 2), "%\n")
+cat("IC 95%:                  [", round(ic_dif_lower, 2), "%, ", 
+    round(ic_dif_upper, 2), "%]\n\n")
+
+cat("INTERPRETACIÓN:\n")
+cat("════════════════════════════════════════════════════════════\n")
+
+if (ic_dif_lower > 0) {
+  cat("✅ El intervalo NO incluye cero.\n")
+  cat("   Conclusión: El programa AUMENTA la asistencia escolar.\n")
+  cat("   Con 95% de confianza, el aumento está entre\n")
+  cat("   ", round(ic_dif_lower, 1), "% y ", round(ic_dif_upper, 1), 
+      "% puntos porcentuales.\n\n")
+} else if (ic_dif_upper < 0) {
+  cat("❌ El intervalo NO incluye cero (valores negativos).\n")
+  cat("   Conclusión: El programa REDUCE la asistencia (resultado adverso).\n\n")
+} else {
+  cat("⚠️  El intervalo INCLUYE cero.\n")
+  cat("   Conclusión: NO podemos descartar que la diferencia sea por azar.\n")
+  cat("   No hay evidencia suficiente de que el programa tenga efecto.\n\n")
+}
+
+cat("⚠️  ADVERTENCIA:\n")
+cat("   Diferencia estadísticamente significativa ≠ Causalidad\n")
+cat("   Podría haber variables confusoras (autoselección, etc.)\n\n")
+```
+
+---
+
+# Parte 6: Visualización del IC de la Diferencia
+
+```{webr-r}
+# Barplot con intervalos de confianza (barras de error)
+
+# Preparar datos
+medias <- c(media_control, media_tratamiento)
+nombres <- c("Control", "Tratamiento")
+errores <- c(
+  1.96 * sd_control / sqrt(n_control),
+  1.96 * sd_tratamiento / sqrt(n_tratamiento)
+)
+
+# Crear barplot
+bp <- barplot(medias,
+              names.arg = nombres,
+              col = c("#FF6B6B", "#4ECDC4"),
+              ylim = c(0, max(medias + errores) + 10),
+              ylab = "Asistencia Escolar (%)",
+              main = "Asistencia por Grupo con IC 95%\n(Las barras de error NO se traslapan)",
+              border = "white",
+              las = 1,
+              cex.names = 1.2,
+              cex.axis = 1.1,
+              cex.lab = 1.2)
+
+# Agregar barras de error (IC 95%)
+arrows(bp, medias - errores, 
+       bp, medias + errores,
+       angle = 90, code = 3, length = 0.15, lwd = 2.5, col = "black")
+
+# Agregar media como número grande encima de cada barra
+text(bp, medias + errores + 3,
+     paste0(round(medias, 1), "%"),
+     cex = 1.3, font = 2, col = "black")
+
+# Agregar IC como texto más pequeño debajo
+text(bp, medias + errores + 6,
+     paste0("[", round(medias - errores, 1), "%-", 
+            round(medias + errores, 1), "%]"),
+     cex = 0.9, col = "gray40")
+
+# Línea horizontal de referencia
+abline(h = 0, col = "gray50", lwd = 1)
+
+cat("\n🔍 OBSERVA:\n")
+cat("════════════════════════════════════════════════════════════\n")
+cat("Los intervalos de confianza NO se traslapan.\n")
+cat("Esto es evidencia visual de que la diferencia es significativa.\n\n")
+cat("Control:     ", round(media_control, 1), "% [", 
+    round(media_control - errores[1], 1), "%, ",
+    round(media_control + errores[1], 1), "%]\n")
+cat("Tratamiento: ", round(media_tratamiento, 1), "% [", 
+    round(media_tratamiento - errores[2], 1), "%, ",
+    round(media_tratamiento + errores[2], 1), "%]\n\n")
+```
+
+---
+
+# Parte 7: Comparación de ICs con Diferentes Niveles de Confianza
+
+```{webr-r}
+# Comparar IC 90%, 95%, 99%
+
+niveles_confianza <- c(90, 95, 99)
+z_valores <- c(1.645, 1.96, 2.576)
+
+cat("\n📊 COMPARACIÓN DE INTERVALOS DE CONFIANZA\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+resultados_ic <- data.frame()
+
+for (i in 1:length(niveles_confianza)) {
+  nivel <- niveles_confianza[i]
+  z <- z_valores[i]
+  
+  ic_lower <- diferencia_observada - z * se_diferencia
+  ic_upper <- diferencia_observada + z * se_diferencia
+  ancho <- ic_upper - ic_lower
+  
+  cat("IC al ", nivel, "%:\n", sep = "")
+  cat("  Intervalo:  [", round(ic_lower, 2), "%, ", round(ic_upper, 2), "%]\n")
+  cat("  Ancho:      ", round(ancho, 2), "%\n\n")
+  
+  resultados_ic <- rbind(resultados_ic, data.frame(
+    nivel = nivel,
+    lower = ic_lower,
+    upper = ic_upper,
+    ancho = ancho
+  ))
+}
+
+cat("🔍 OBSERVA:\n")
+cat("   Mayor confianza → Intervalo MÁS ANCHO\n")
+cat("   Para estar más seguro (99%), necesitas un rango más amplio\n\n")
+```
+
+---
+
+# Parte 8: Visualización de ICs con Diferentes Niveles
+
+```{webr-r}
+# Graficar los tres ICs
+plot(NULL, xlim = c(0.5, 3.5), ylim = c(min(resultados_ic$lower) - 1, 
+                                         max(resultados_ic$upper) + 1),
+     xlab = "Nivel de Confianza", ylab = "Diferencia en asistencia (%)",
+     main = "Intervalos de Confianza al 90%, 95% y 99%",
+     xaxt = "n")
+
+axis(1, at = 1:3, labels = c("90%", "95%", "99%"))
+
+# Dibujar intervalos
+for (i in 1:nrow(resultados_ic)) {
+  segments(i, resultados_ic$lower[i], i, resultados_ic$upper[i],
+           lwd = 5, col = c("#4ECDC4", "#45B7D1", "#96CEB4")[i])
+  points(i, diferencia_observada, pch = 19, cex = 2, col = "darkgreen")
+}
+
+# Línea del cero
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+text(2, -0.5, "Cero (sin efecto)", col = "red", font = 2)
+
+# Leyenda
+legend("topright",
+       legend = c("90% confianza", "95% confianza", "99% confianza"),
+       col = c("#4ECDC4", "#45B7D1", "#96CEB4"),
+       lwd = 5, bty = "n")
+```
+
+---
+
+# Parte 9: Simulación de 100 Intervalos de Confianza
+
+**Pregunta:** ¿Qué significa "95% de confianza"?
+
+**Experimento:** Simular 100 evaluaciones diferentes del programa.
+
+```{webr-r}
+# Simular 100 estudios diferentes
+n_simulaciones <- 100
+efecto_real <- 10  # El efecto verdadero del programa
+
+resultados_sim <- data.frame()
+captura_verdad <- 0
+
+for (i in 1:n_simulaciones) {
+  # Generar datos de un estudio
+  control_sim <- rnorm(500, mean = 72, sd = 18)
+  tratamiento_sim <- rnorm(500, mean = 82, sd = 15)
+  
+  # Calcular diferencia
+  dif_sim <- mean(tratamiento_sim) - mean(control_sim)
+  
+  # Calcular IC
+  se_sim <- sqrt((sd(control_sim)^2 / 500) + (sd(tratamiento_sim)^2 / 500))
+  ic_lower_sim <- dif_sim - 1.96 * se_sim
+  ic_upper_sim <- dif_sim + 1.96 * se_sim
+  
+  # ¿Captura el efecto real?
+  captura <- (ic_lower_sim <= efecto_real) & (efecto_real <= ic_upper_sim)
+  if (captura) captura_verdad <- captura_verdad + 1
+  
+  resultados_sim <- rbind(resultados_sim, data.frame(
+    sim = i,
+    diferencia = dif_sim,
+    ic_lower = ic_lower_sim,
+    ic_upper = ic_upper_sim,
+    captura = captura
+  ))
+}
+
+cat("De", n_simulaciones, "intervalos al 95% de confianza:\n")
+cat("  Capturan el efecto real:  ", captura_verdad, 
+    " (", round(100*captura_verdad/n_simulaciones, 1), "%)\n")
+cat("  No lo capturan:           ", n_simulaciones - captura_verdad, "\n\n")
+```
+
+---
+
+# Parte 10: Visualización de los 100 Intervalos
+
+```{webr-r}
+# Graficar los 100 intervalos
+plot(1:n_simulaciones, resultados_sim$diferencia,
+     ylim = range(c(resultados_sim$ic_lower, resultados_sim$ic_upper)),
+     pch = 19, cex = 0.5,
+     col = ifelse(resultados_sim$captura, "steelblue", "red"),
+     main = paste0("100 Intervalos de Confianza al 95%\n",
+                   captura_verdad, " capturan el efecto real (azul), ",
+                   n_simulaciones - captura_verdad, " no lo capturan (rojo)"),
+     xlab = "Número de simulación",
+     ylab = "Diferencia estimada (%)")
+
+# Dibujar intervalos
+for (i in 1:n_simulaciones) {
+  segments(i, resultados_sim$ic_lower[i], i, resultados_sim$ic_upper[i],
+           col = ifelse(resultados_sim$captura[i], "steelblue", "red"),
+           lwd = 1.5)
+}
+
+# Línea del efecto verdadero
+abline(h = efecto_real, col = "darkgreen", lwd = 3, lty = 2)
+text(50, efecto_real + 0.8, 
+     paste0("Efecto real = ", efecto_real, "%"),
+     col = "darkgreen", font = 2)
+
+legend("topright",
+       legend = c("Captura efecto real", "No captura"),
+       col = c("steelblue", "red"), pch = 19, bty = "n")
+```
+
+---
+
+# Parte 11: Análisis por Subgrupos (Urbano vs Rural)
+
+```{webr-r}
+# Agregar variable de zona (urbano/rural)
+set.seed(2026)
+datos$zona <- sample(c("Urbano", "Rural"), nrow(datos), 
+                     replace = TRUE, prob = c(0.6, 0.4))
+
+# ZONA URBANA: Programa funciona bien
+# Ajustar asistencia urbana (efecto positivo fuerte)
+datos$asistencia[datos$zona == "Urbano" & datos$grupo == "Control"] <- 
+  datos$asistencia[datos$zona == "Urbano" & datos$grupo == "Control"] * 0.95
+
+datos$asistencia[datos$zona == "Urbano" & datos$grupo == "Tratamiento"] <- 
+  datos$asistencia[datos$zona == "Urbano" & datos$grupo == "Tratamiento"] * 1.05
+
+# ZONA RURAL: Programa NO funciona (efecto cercano a cero)
+# Hacer que tratamiento y control sean similares en rural
+datos$asistencia[datos$zona == "Rural" & datos$grupo == "Control"] <- 
+  datos$asistencia[datos$zona == "Rural" & datos$grupo == "Control"] * 1.02
+
+datos$asistencia[datos$zona == "Rural" & datos$grupo == "Tratamiento"] <- 
+  datos$asistencia[datos$zona == "Rural" & datos$grupo == "Tratamiento"] * 0.95
+
+# Limitar a [0, 100]
+datos$asistencia <- pmax(pmin(datos$asistencia, 100), 0)
+
+# Calcular diferencias por zona
+cat("\n📊 ANÁLISIS POR SUBGRUPOS: URBANO VS RURAL\n")
+cat("════════════════════════════════════════════════════════════\n\n")
+
+for (zona_i in c("Urbano", "Rural")) {
+  datos_zona <- datos[datos$zona == zona_i, ]
+  
+  control_zona <- datos_zona$asistencia[datos_zona$grupo == "Control"]
+  trat_zona <- datos_zona$asistencia[datos_zona$grupo == "Tratamiento"]
+  
+  media_c <- mean(control_zona)
+  media_t <- mean(trat_zona)
+  dif <- media_t - media_c
+  
+  se_dif <- sqrt((sd(control_zona)^2 / length(control_zona)) + 
+                 (sd(trat_zona)^2 / length(trat_zona)))
+  
+  ic_lower <- dif - 1.96 * se_dif
+  ic_upper <- dif + 1.96 * se_dif
+  
+  cat("ZONA:", zona_i, "\n")
+  cat("  n Control:      ", length(control_zona), "\n")
+  cat("  n Tratamiento:  ", length(trat_zona), "\n")
+  cat("  Media Control:  ", round(media_c, 2), "%\n")
+  cat("  Media Trat.:    ", round(media_t, 2), "%\n")
+  cat("  Diferencia:     ", round(dif, 2), "%\n")
+  cat("  IC 95%:         [", round(ic_lower, 2), "%, ", 
+      round(ic_upper, 2), "%]\n")
+  
+  if (ic_lower > 0) {
+    cat("  Conclusión:     ✅ Efecto positivo significativo\n\n")
+  } else if (ic_upper < 0) {
+    cat("  Conclusión:     ❌ Efecto negativo\n\n")
+  } else {
+    cat("  Conclusión:     ⚠️  IC incluye cero → No hay evidencia clara de efecto\n\n")
+  }
+}
+
+cat("🎯 IMPLICACIÓN DE POLÍTICA:\n")
+cat("════════════════════════════════════════════════════════════\n")
+cat("El programa funciona en zonas URBANAS pero NO en RURALES.\n")
+cat("Posibles explicaciones:\n")
+cat("  • Acceso: Escuelas más lejanas en zonas rurales\n")
+cat("  • Infraestructura: Menor calidad educativa rural\n")
+cat("  • Economía: Mayor necesidad de trabajo infantil rural\n\n")
+cat("Recomendación: Adaptar el programa para zonas rurales con\n")
+cat("apoyos complementarios (transporte, útiles, etc.)\n\n")
+```
+
+---
+
+# Preguntas para Reflexionar
+
+1. **¿Qué significa que el IC no incluya cero?**  
+   Tenemos evidencia de que hay una diferencia real entre los grupos (con 95% de confianza).
+
+2. **¿Por qué el IC de 99% es más ancho que el de 90%?**  
+   Trade-off entre confianza y precisión. Para estar MÁS seguro, necesitas un intervalo MÁS amplio.
+
+3. **Si el IC de la diferencia es [4%, 8%], ¿cuál es el efecto mínimo plausible?**  
+   4% (límite inferior). Podemos decir con 95% de confianza que el efecto es AL MENOS 4%.
+
+4. **¿Diferencia significativa implica causalidad?**  
+   NO. Podría haber autoselección, variables confusoras, etc. Se necesita diseño experimental (aleatorización).
+
+---
+
+# Ejercicio Individual
+
+Modifica el código para:
+
+1. **Calcular el IC al 90%** para la diferencia de medias
+2. **Determinar el tamaño de muestra necesario** para tener un IC más estrecho (ancho ≤ 3%)
+3. **Analizar diferencias por género** (niñas vs niños)
+4. **Escribir un memo de 1 página** comunicando los resultados a tomadores de decisión
+
+---
+
+# Conclusión
+
+✅ **IC cuantifica incertidumbre:** No basta con la diferencia puntual
+
+✅ **Interpretación correcta:** "95% de intervalos contienen el efecto real"
+
+✅ **IC que no incluye cero:** Evidencia de diferencia estadísticamente significativa
+
+✅ **Mayor confianza = Intervalo más ancho:** Trade-off fundamental
+
+⚠️ **Significancia ≠ Causalidad:** Cuidado con variables confusoras
+

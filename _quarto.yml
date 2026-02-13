@@ -71,9 +71,9 @@ website:
           # Bloque 3: Muestreo e Inferencia I
           - text: "BLOQUE 3: Muestreo e Inferencia"
           - text: "S5: El Arte del Muestreo"
-            href: notes/ex05_sampling_integrated.qmd
+            href: notes/ejercicio_muestreo_tlc_1.qmd
           - text: "S6: Intervalos de Confianza"
-            href: notes/ex06_ci_integrated.qmd
+            href: notes/ejercicio_ic_evaluacion.qmd
           - text: "---"
           
           # Bloque 4: Pruebas de Hipotesis

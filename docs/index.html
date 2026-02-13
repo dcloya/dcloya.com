@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,13 +36,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -125,7 +126,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -167,6 +168,8 @@ E-mail: d.contreras [at] tec.mx">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -227,7 +230,7 @@ E-mail: d.contreras [at] tec.mx">
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="./notes/ex03_montecarlo_simplified.html">
+    <a class="dropdown-item" href="./notes/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
@@ -237,11 +240,11 @@ E-mail: d.contreras [at] tec.mx">
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="./notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="./notes/ejercicio_muestreo_tlc_1.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="./notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -352,12 +355,11 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
 </div>
   </div>
   <div class="about-contents"><div id="hero-heading">
-<p>David Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at <a href="https://egobiernoytp.tec.mx/es">Escuela de Gobierno y Transformación Pública</a>, and is affiliated with the <a href="https://tec.mx/en/research/institute-obesity-research">Institute for Obesity Research</a>. He co-leads <a href="https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud">Evidencia y Acción para la Equidad en Salud, EVIS</a>, a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.</p>
-<p>His research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as <a href="https://doi.org/10.1093/heapol/czw161">Health Policy and Planning</a>, <a href="https://doi.org/10.1016/j.socscimed.2024.117646">Social Science and Medicine</a>, the <a href="https://www.nber.org/papers/w28845">National Bureau of Economic Research</a> and the <a href="https://doi.org/10.3945/ajcn.114.092775">American Journal of Clinical Nutrition</a>, and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.</p>
-<p>His research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by <a href="https://voxdev.org/topic/education/how-skills-training-can-boost-entrepreneurship-and-job-creation-evidence-uganda">VoxDev</a> and <a href="https://mexicobusiness.news/health/news/building-value-based-healthcare-model-mexico">Mexico Business News</a>, and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.</p>
-<p>His work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including <a href="https://www.povertyactionlab.org/evaluation/evaluating-african-health-market-equity-ahme-initiative-kenya">African Health Markets for Equity</a> and <a href="https://policycommons.net/artifacts/3533984/cedil-research-project-paper-11/4335197/">Skills for Effective Entrepreneurship Development</a>, or the <a href="https://www.fundingawards.nihr.ac.uk/award/NIHR156915">Global Health Research Group on Violence Against Women and Violence Against Children</a> and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.</p>
-<p>He teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings.</p>
-<p>Previously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D.&nbsp;in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.</p>
+<p>I’m an applied economist, researcher, and educator working at the intersection of health, education, and social policy. Currently a Research Professor at <a href="https://egobiernoytp.tec.mx/es">Escuela de Gobierno y Transformación Pública</a> and affiliated with the <a href="https://tec.mx/en/research/institute-obesity-research">Institute for Obesity Research</a>, I co-lead <a href="https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud">Evidencia y Acción para la Equidad en Salud, EVIS</a>, a research center that translates empirical analysis into operational guidance for public sector decision-makers in Latin America.</p>
+<p>My research examines how social and territorial conditions shape health and human capital outcomes, and how policy can be designed to improve effectiveness and equity under real-world constraints—limited data, heterogeneous implementation capacity, institutional fragmentation. Core themes include empirical evaluation of public programs, chronic disease prevention and management, health system performance, and distributional outcomes across places and populations. Work has appeared in the <a href="https://doi.org/10.1186/s12939-025-02754-2">International Journal for Equity in Health</a>, <a href="https://doi.org/10.1093/heapol/czw161">Health Policy and Planning</a>, <a href="https://doi.org/10.1016/j.socscimed.2024.117646">Social Science and Medicine</a>, the <a href="https://www.nber.org/papers/w28845">National Bureau of Economic Research</a> and the <a href="https://doi.org/10.3945/ajcn.114.092775">American Journal of Clinical Nutrition</a>, alongside policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations. Research has been supported by the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philanthropic Fund, and featured by <a href="https://voxdev.org/topic/education/how-skills-training-can-boost-entrepreneurship-and-job-creation-evidence-uganda">VoxDev</a> and <a href="https://mexicobusiness.news/health/news/building-value-based-healthcare-model-mexico">Mexico Business News</a>.</p>
+<p>I collaborate with government counterparts, multilateral organizations, and civil society partners to strengthen data use and evaluation practice in programs related to cancer and diabetes care, digital health, and childhood violence. Recent projects include <a href="https://www.povertyactionlab.org/evaluation/evaluating-african-health-market-equity-ahme-initiative-kenya">African Health Markets for Equity</a> and <a href="https://policycommons.net/artifacts/3533984/cedil-research-project-paper-11/4335197/">Skills for Effective Entrepreneurship Development</a>, or the <a href="https://www.fundingawards.nihr.ac.uk/award/NIHR156915">Global Health Research Group on Violence Against Women and Violence Against Children</a>. I regularly advise local government teams on measurement strategy, identification, and communicating uncertainty for accountable decision-making.</p>
+<p>At Tec de Monterrey, I teach Quantitative Methods for Public Policy and Causal Inference at the graduate level, emphasizing statistical reasoning, uncertainty, and evidence communication for policy settings.</p>
+<p>Previously, I worked as a consultant for the World Bank Group and collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. I hold a Ph.D.&nbsp;in Health Policy from UC Berkeley, an MSc in Health Economics from Instituto Nacional de Salud Pública, and a BSc in Industrial Engineering from Tecnológico de Monterrey.</p>
 </div></div>
 </div>
 
@@ -416,13 +418,14 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
