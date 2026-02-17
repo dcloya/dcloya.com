@@ -6,7 +6,7 @@ subtitle: |
   Institute for Obesity Research \
   Tecnológico de Monterrey \
   E-mail: d.contreras [at] tec.mx
-description-meta: "Gang He is an energy scholar, researcher, and teacher. He is an Associate Professor at the Marxe School of Public and International Affairs, Baruch College, City University of New York. He studies and teaches energy systems, energy and climate policy, and clean energy transition."
+description-meta: "David Contreras-Loya is a public policy scholar, researcher, and teacher. He is a Research Professor at the School of Government and Public Transformation at Tecnológico de Monterrey, Mexico. He studies and teaches health economics, causal inference, and modern quantitative methods."
 image: "files/AGT_5639.PNG"
 page-navigation: false
 toc: false
