@@ -34,7 +34,7 @@ about:
       href: https://www.scopus.com/authid/detail.uri?authorId=55971186800
       target: _blank
     - text: "{{< ai google-scholar >}} Google Scholar"
-      href: https://scholar.google.com/citations?user=vf90AuEAAAAJ
+      href: https://scholar.google.com/citations?hl=en&user=axuzNJ0AAAAJ
       target: _blank
     - text: "{{< ai researchgate >}} Research Gate"
       href: https://www.researchgate.net/profile/David-Contreras-Loya-2

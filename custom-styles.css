@@ -1,50 +1,29 @@
 /*
- * Custom Styles for David Contreras-Loya
- * Academic website with editorial refinement
- * Aesthetic direction: Scholarly editorial with warm, grounded tones
+ * Clean Academic Styles for David Contreras-Loya
+ * Aesthetic direction: Modern minimalism with refined typography
  */
 
 /* ============================================
-   TYPOGRAPHY - Editorial sophistication
+   TYPOGRAPHY - Clean and professional
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  /* Primary Colors - Earthy academic palette */
-  --primary-dark: #1a1512;
-  --primary-brown: #5d4e37;
-  --primary-terracotta: #c85a3e;
-  --primary-sage: #7a8a77;
-  --primary-cream: #f5f1e8;
-  --primary-warm-white: #fdfbf7;
+  /* Monochrome palette */
+  --primary-black: #1a1a1a;
+  --primary-gray: #4a4a4a;
+  --light-gray: #e5e5e5;
+  --lighter-gray: #f8f8f8;
+  --white: #ffffff;
   
-  /* Accent Colors */
-  --accent-gold: #d4a574;
-  --accent-copper: #b87333;
-  --accent-deep-teal: #2d5959;
-  
-  /* Grays */
-  --gray-900: #2a2520;
-  --gray-800: #3d3530;
-  --gray-700: #534a42;
-  --gray-600: #6e6259;
-  --gray-400: #a89e95;
-  --gray-300: #cec7bf;
-  --gray-200: #e8e3db;
-  --gray-100: #f5f1e8;
+  /* Subtle accent */
+  --accent-blue: #2563eb;
+  --accent-blue-light: #3b82f6;
   
   /* Typography */
-  --font-serif: 'Crimson Pro', 'Georgia', serif;
-  --font-serif-alt: 'Source Serif 4', 'Georgia', serif;
-  --font-sans: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
-  
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 2rem;
-  --spacing-lg: 3rem;
-  --spacing-xl: 5rem;
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-serif: 'Libre Baskerville', 'Georgia', serif;
 }
 
 /* ============================================
@@ -52,231 +31,161 @@
    ============================================ */
 
 body {
-  font-family: var(--font-serif-alt);
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--gray-900);
-  background: var(--primary-warm-white);
-  font-feature-settings: "liga" 1, "kern" 1;
-  text-rendering: optimizeLegibility;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--primary-gray);
+  background: var(--white);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================
-   HEADER & NAVIGATION
+   HEADER & NAVIGATION - Minimal
    ============================================ */
 
 #quarto-header {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--gray-900) 100%);
-  border-bottom: 3px solid var(--accent-copper);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  backdrop-filter: blur(10px);
+  background: var(--white);
+  border-bottom: 1px solid var(--light-gray);
+  box-shadow: none;
 }
 
 .navbar-brand,
 .navbar-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 1.4rem;
-  letter-spacing: -0.02em;
-  color: var(--primary-cream) !important;
-  transition: color 0.3s ease;
-}
-
-.navbar-brand:hover,
-.navbar-title:hover {
-  color: var(--accent-gold) !important;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--primary-black) !important;
 }
 
 .navbar-nav .nav-link {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--gray-300) !important;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.navbar-nav .nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--accent-gold);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+  color: var(--primary-gray) !important;
+  transition: color 0.2s ease;
 }
 
 .navbar-nav .nav-link:hover {
-  color: var(--accent-gold) !important;
-}
-
-.navbar-nav .nav-link:hover::after {
-  width: 80%;
+  color: var(--accent-blue) !important;
 }
 
 .dropdown-menu {
-  background: var(--primary-dark);
-  border: 1px solid var(--accent-copper);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  padding: 0.75rem 0;
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .dropdown-item {
   font-family: var(--font-sans);
   font-size: 0.9rem;
-  color: var(--gray-300);
-  padding: 0.5rem 1.5rem;
+  color: var(--primary-gray);
   transition: all 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background: var(--gray-900);
-  color: var(--accent-gold);
-  padding-left: 2rem;
+  background: var(--lighter-gray);
+  color: var(--accent-blue);
 }
 
 .dropdown-header {
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 0.75rem;
-  color: var(--accent-copper);
-  letter-spacing: 0.1em;
+  color: var(--primary-black);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 0.75rem 1.5rem 0.25rem;
 }
 
 /* ============================================
-   HERO SECTION (About page)
+   HERO SECTION - Clean and spacious
    ============================================ */
 
 .quarto-about-trestles {
-  background: linear-gradient(135deg, var(--primary-cream) 0%, var(--primary-warm-white) 100%);
-  padding: var(--spacing-xl) 0;
-  position: relative;
-}
-
-.quarto-about-trestles::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-copper), transparent);
+  background: var(--white);
+  padding: 4rem 0;
 }
 
 .about-entity img {
-  border-radius: 12px;
-  box-shadow: 
-    0 10px 40px rgba(0,0,0,0.15),
-    0 0 0 1px rgba(200, 90, 62, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: grayscale(10%);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .about-entity img:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    0 20px 60px rgba(0,0,0,0.25),
-    0 0 0 1px var(--accent-copper);
-  filter: grayscale(0%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
 .quarto-title-block h1 {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 3.5rem;
-  line-height: 1.1;
-  color: var(--primary-dark);
-  letter-spacing: -0.03em;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.quarto-title-block h1::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 0;
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent-copper), var(--accent-gold));
-  border-radius: 2px;
+  font-size: 3rem;
+  line-height: 1.2;
+  color: var(--primary-black);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
 }
 
 .quarto-title-block .subtitle {
   font-family: var(--font-sans);
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: var(--gray-700);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--primary-gray);
   font-weight: 400;
-  margin-top: 2rem;
 }
 
 /* ============================================
-   SOCIAL LINKS
+   SOCIAL LINKS - Minimal pill design
    ============================================ */
 
 .about-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .about-link {
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--gray-700) !important;
+  color: var(--primary-gray) !important;
   text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border: 1.5px solid var(--gray-300);
-  border-radius: 6px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: white;
+  gap: 0.4rem;
+  background: var(--white);
 }
 
 .about-link:hover {
-  background: var(--primary-dark);
-  color: var(--accent-gold) !important;
-  border-color: var(--accent-copper);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(200, 90, 62, 0.2);
+  background: var(--primary-black);
+  color: var(--white) !important;
+  border-color: var(--primary-black);
+  transform: translateY(-1px);
 }
 
 .about-link i,
 .about-link .ai {
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
-}
-
-.about-link:hover i,
-.about-link:hover .ai {
-  transform: scale(1.15);
+  font-size: 1rem;
 }
 
 /* ============================================
-   MAIN CONTENT
+   MAIN CONTENT - Readable typography
    ============================================ */
 
 #hero-heading {
-  font-family: var(--font-serif-alt);
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: var(--gray-800);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--primary-gray);
   max-width: 75ch;
 }
 
@@ -284,77 +193,49 @@ body {
   margin-bottom: 1.5rem;
 }
 
-#hero-heading p:first-of-type::first-letter {
-  font-family: var(--font-serif);
-  font-size: 4.5rem;
-  font-weight: 700;
-  line-height: 0.8;
-  float: left;
-  margin: 0.1em 0.15em 0 0;
-  color: var(--accent-copper);
-}
-
 #hero-heading a {
-  color: var(--primary-terracotta);
+  color: var(--accent-blue);
   text-decoration: none;
-  border-bottom: 1.5px solid transparent;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
 }
 
 #hero-heading a:hover {
-  color: var(--accent-copper);
-  border-bottom-color: var(--accent-copper);
+  border-bottom-color: var(--accent-blue);
 }
 
 /* ============================================
-   FOOTER
+   FOOTER - Minimal
    ============================================ */
 
 .footer {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--gray-900) 100%);
-  border-top: 3px solid var(--accent-copper);
-  color: var(--gray-300);
-  padding: 3rem 0;
-  margin-top: 5rem;
+  background: var(--lighter-gray);
+  border-top: 1px solid var(--light-gray);
+  color: var(--primary-gray);
+  padding: 2.5rem 0;
+  margin-top: 4rem;
   font-family: var(--font-sans);
   font-size: 0.9rem;
 }
 
 .nav-footer a {
-  color: var(--gray-400);
+  color: var(--primary-gray);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .nav-footer a:hover {
-  color: var(--accent-gold);
+  color: var(--accent-blue);
 }
 
 .footer-items .nav-link i {
-  font-size: 1.3rem;
-  color: var(--gray-400);
-  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  color: var(--primary-gray);
+  transition: color 0.2s ease;
 }
 
 .footer-items .nav-link:hover i {
-  color: var(--accent-gold);
-  transform: translateY(-3px);
-}
-
-/* ============================================
-   CV LINK & TOP NAV ICONS
-   ============================================ */
-
-.navbar-nav .nav-item.compact .nav-link i {
-  font-size: 1.3rem;
-  color: var(--gray-300);
-  transition: all 0.3s ease;
-}
-
-.navbar-nav .nav-item.compact .nav-link:hover i {
-  color: var(--accent-gold);
-  transform: scale(1.15);
+  color: var(--accent-blue);
 }
 
 /* ============================================
@@ -390,82 +271,35 @@ body {
 }
 
 /* ============================================
-   ANIMATIONS
+   SUBTLE ANIMATIONS - Optional
    ============================================ */
 
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .about-entity,
 .quarto-title-block,
-#hero-heading p {
-  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-}
-
-.about-entity {
-  animation-delay: 0.1s;
-}
-
-.quarto-title-block {
-  animation-delay: 0.2s;
-}
-
-#hero-heading p:nth-child(1) {
-  animation-delay: 0.3s;
-}
-
-#hero-heading p:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-#hero-heading p:nth-child(3) {
-  animation-delay: 0.5s;
+#hero-heading {
+  animation: fadeIn 0.6s ease-out;
 }
 
 /* ============================================
-   ACCENT ELEMENTS
+   CLEAN ACCENTS
    ============================================ */
 
-/* Decorative line element */
-.quarto-about-trestles::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-copper), transparent);
+/* Subtle hover states for navbar icons */
+.navbar-nav .nav-item.compact .nav-link i {
+  font-size: 1.2rem;
+  color: var(--primary-gray);
+  transition: color 0.2s ease;
 }
 
-/* Reading progress indicator (optional enhancement) */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-copper), var(--accent-gold));
-  z-index: 9999;
-  width: 0%;
-  transition: width 0.1s ease;
-}
-
-/* Subtle texture overlay */
-.quarto-about-trestles::before {
-  background-image: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 2px,
-      rgba(200, 90, 62, 0.01) 2px,
-      rgba(200, 90, 62, 0.01) 4px
-    );
+.navbar-nav .nav-item.compact .nav-link:hover i {
+  color: var(--accent-blue);
 }
