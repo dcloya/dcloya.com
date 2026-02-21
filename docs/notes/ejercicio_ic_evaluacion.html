@@ -1634,18 +1634,19 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Ejercicio Aplicado: Intervalos de Confianza – David Contreras-Loya">
-<meta property="og:description" content="Programa Becas para Todos - ¿Funciona el programa?">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Ejercicio Aplicado: Intervalos de Confianza – David Contreras-Loya">
-<meta name="twitter:description" content="Programa Becas para Todos - ¿Funciona el programa?">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1790,29 +1791,7 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#contexto" id="toc-contexto" class="nav-link active" data-scroll-target="#contexto">Contexto</a></li>
-  <li><a href="#parte-1-generación-de-datos-de-la-evaluación" id="toc-parte-1-generación-de-datos-de-la-evaluación" class="nav-link" data-scroll-target="#parte-1-generación-de-datos-de-la-evaluación">Parte 1: Generación de Datos de la Evaluación</a></li>
-  <li><a href="#parte-2-estadísticas-descriptivas-por-grupo" id="toc-parte-2-estadísticas-descriptivas-por-grupo" class="nav-link" data-scroll-target="#parte-2-estadísticas-descriptivas-por-grupo">Parte 2: Estadísticas Descriptivas por Grupo</a></li>
-  <li><a href="#parte-3-visualización-inicial" id="toc-parte-3-visualización-inicial" class="nav-link" data-scroll-target="#parte-3-visualización-inicial">Parte 3: Visualización Inicial</a></li>
-  <li><a href="#parte-4-intervalo-de-confianza-para-cada-grupo" id="toc-parte-4-intervalo-de-confianza-para-cada-grupo" class="nav-link" data-scroll-target="#parte-4-intervalo-de-confianza-para-cada-grupo">Parte 4: Intervalo de Confianza para Cada Grupo</a></li>
-  <li><a href="#parte-5-ic-para-la-diferencia-de-medias" id="toc-parte-5-ic-para-la-diferencia-de-medias" class="nav-link" data-scroll-target="#parte-5-ic-para-la-diferencia-de-medias">Parte 5: IC para la Diferencia de Medias</a></li>
-  <li><a href="#parte-6-visualización-del-ic-de-la-diferencia" id="toc-parte-6-visualización-del-ic-de-la-diferencia" class="nav-link" data-scroll-target="#parte-6-visualización-del-ic-de-la-diferencia">Parte 6: Visualización del IC de la Diferencia</a></li>
-  <li><a href="#parte-7-comparación-de-ics-con-diferentes-niveles-de-confianza" id="toc-parte-7-comparación-de-ics-con-diferentes-niveles-de-confianza" class="nav-link" data-scroll-target="#parte-7-comparación-de-ics-con-diferentes-niveles-de-confianza">Parte 7: Comparación de ICs con Diferentes Niveles de Confianza</a></li>
-  <li><a href="#parte-8-visualización-de-ics-con-diferentes-niveles" id="toc-parte-8-visualización-de-ics-con-diferentes-niveles" class="nav-link" data-scroll-target="#parte-8-visualización-de-ics-con-diferentes-niveles">Parte 8: Visualización de ICs con Diferentes Niveles</a></li>
-  <li><a href="#parte-9-simulación-de-100-intervalos-de-confianza" id="toc-parte-9-simulación-de-100-intervalos-de-confianza" class="nav-link" data-scroll-target="#parte-9-simulación-de-100-intervalos-de-confianza">Parte 9: Simulación de 100 Intervalos de Confianza</a></li>
-  <li><a href="#parte-10-visualización-de-los-100-intervalos" id="toc-parte-10-visualización-de-los-100-intervalos" class="nav-link" data-scroll-target="#parte-10-visualización-de-los-100-intervalos">Parte 10: Visualización de los 100 Intervalos</a></li>
-  <li><a href="#parte-11-análisis-por-subgrupos-urbano-vs-rural" id="toc-parte-11-análisis-por-subgrupos-urbano-vs-rural" class="nav-link" data-scroll-target="#parte-11-análisis-por-subgrupos-urbano-vs-rural">Parte 11: Análisis por Subgrupos (Urbano vs Rural)</a></li>
-  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar">Preguntas para Reflexionar</a></li>
-  <li><a href="#ejercicio-individual" id="toc-ejercicio-individual" class="nav-link" data-scroll-target="#ejercicio-individual">Ejercicio Individual</a></li>
-  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión">Conclusión</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2306,7 +2285,7 @@ NO. Podría haber autoselección, variables confusoras, etc. Se necesita diseño
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

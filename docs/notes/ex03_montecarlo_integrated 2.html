@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,14 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -1633,24 +1634,27 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Sesión 3: Jugando a los Dados con el Presupuesto – David Contreras-Loya">
-<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Sesión 3: Jugando a los Dados con el Presupuesto – David Contreras-Loya">
-<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -1721,11 +1725,11 @@ globalThis.qwebrExecuteCode = async function (
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -1787,28 +1791,7 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#caso-de-política-pública" id="toc-caso-de-política-pública" class="nav-link active" data-scroll-target="#caso-de-política-pública">Caso de Política Pública</a></li>
-  <li><a href="#parte-1-concepto-de-simulación-monte-carlo" id="toc-parte-1-concepto-de-simulación-monte-carlo" class="nav-link" data-scroll-target="#parte-1-concepto-de-simulación-monte-carlo">Parte 1: Concepto de Simulación Monte Carlo</a></li>
-  <li><a href="#parte-2-componentes-del-modelo" id="toc-parte-2-componentes-del-modelo" class="nav-link" data-scroll-target="#parte-2-componentes-del-modelo">Parte 2: Componentes del Modelo</a></li>
-  <li><a href="#parte-3-cálculo-del-presupuesto-total" id="toc-parte-3-cálculo-del-presupuesto-total" class="nav-link" data-scroll-target="#parte-3-cálculo-del-presupuesto-total">Parte 3: Cálculo del Presupuesto Total</a></li>
-  <li><a href="#parte-4-visualización-de-la-distribución" id="toc-parte-4-visualización-de-la-distribución" class="nav-link" data-scroll-target="#parte-4-visualización-de-la-distribución">Parte 4: Visualización de la Distribución</a></li>
-  <li><a href="#parte-5-análisis-de-riesgo-presupuestario" id="toc-parte-5-análisis-de-riesgo-presupuestario" class="nav-link" data-scroll-target="#parte-5-análisis-de-riesgo-presupuestario">Parte 5: Análisis de Riesgo Presupuestario</a></li>
-  <li><a href="#parte-6-análisis-de-sensibilidad" id="toc-parte-6-análisis-de-sensibilidad" class="nav-link" data-scroll-target="#parte-6-análisis-de-sensibilidad">Parte 6: Análisis de Sensibilidad</a></li>
-  <li><a href="#parte-7-comparación-de-estrategias" id="toc-parte-7-comparación-de-estrategias" class="nav-link" data-scroll-target="#parte-7-comparación-de-estrategias">Parte 7: Comparación de Estrategias</a></li>
-  <li><a href="#parte-8-visualización-comparativa" id="toc-parte-8-visualización-comparativa" class="nav-link" data-scroll-target="#parte-8-visualización-comparativa">Parte 8: Visualización Comparativa</a></li>
-  <li><a href="#parte-9-tabla-de-decisión-para-el-director" id="toc-parte-9-tabla-de-decisión-para-el-director" class="nav-link" data-scroll-target="#parte-9-tabla-de-decisión-para-el-director">Parte 9: Tabla de Decisión para el Director</a></li>
-  <li><a href="#parte-10-simulación-de-escenarios-extremos" id="toc-parte-10-simulación-de-escenarios-extremos" class="nav-link" data-scroll-target="#parte-10-simulación-de-escenarios-extremos">Parte 10: Simulación de Escenarios Extremos</a></li>
-  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
-  <li><a href="#preguntas-de-discusión" id="toc-preguntas-de-discusión" class="nav-link" data-scroll-target="#preguntas-de-discusión">Preguntas de Discusión</a></li>
-  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos Adicionales</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2350,13 +2333,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -2371,7 +2355,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

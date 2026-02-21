@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,22 +116,27 @@ gtag('config', '', { 'anonymize_ip': true});
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Guía de Uso del Curso – David Contreras-Loya">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Guía de Uso del Curso – David Contreras-Loya">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -201,11 +207,11 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -267,97 +273,7 @@ gtag('config', '', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#para-estudiantes" id="toc-para-estudiantes" class="nav-link active" data-scroll-target="#para-estudiantes">Para Estudiantes</a>
-  <ul class="collapse">
-  <li><a href="#antes-de-clase" id="toc-antes-de-clase" class="nav-link" data-scroll-target="#antes-de-clase">Antes de Clase</a>
-  <ul class="collapse">
-  <li><a href="#configuración-inicial-solo-una-vez" id="toc-configuración-inicial-solo-una-vez" class="nav-link" data-scroll-target="#configuración-inicial-solo-una-vez">1. Configuración Inicial (Solo una vez)</a></li>
-  <li><a href="#preparación-para-cada-sesión-15-min" id="toc-preparación-para-cada-sesión-15-min" class="nav-link" data-scroll-target="#preparación-para-cada-sesión-15-min">2. Preparación para Cada Sesión (15 min)</a></li>
-  </ul></li>
-  <li><a href="#durante-clase" id="toc-durante-clase" class="nav-link" data-scroll-target="#durante-clase">Durante Clase</a>
-  <ul class="collapse">
-  <li><a href="#flujo-de-trabajo-recomendado" id="toc-flujo-de-trabajo-recomendado" class="nav-link" data-scroll-target="#flujo-de-trabajo-recomendado">Flujo de Trabajo Recomendado</a></li>
-  <li><a href="#tips-para-máximo-aprendizaje" id="toc-tips-para-máximo-aprendizaje" class="nav-link" data-scroll-target="#tips-para-máximo-aprendizaje">Tips para Máximo Aprendizaje</a></li>
-  </ul></li>
-  <li><a href="#después-de-clase" id="toc-después-de-clase" class="nav-link" data-scroll-target="#después-de-clase">Después de Clase</a>
-  <ul class="collapse">
-  <li><a href="#ejercicio-individual-entregable" id="toc-ejercicio-individual-entregable" class="nav-link" data-scroll-target="#ejercicio-individual-entregable">Ejercicio Individual (Entregable)</a></li>
-  <li><a href="#formatos-de-entrega-aceptados" id="toc-formatos-de-entrega-aceptados" class="nav-link" data-scroll-target="#formatos-de-entrega-aceptados">Formatos de Entrega Aceptados</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#para-instructores" id="toc-para-instructores" class="nav-link" data-scroll-target="#para-instructores">Para Instructores</a>
-  <ul class="collapse">
-  <li><a href="#preparación-de-clase" id="toc-preparación-de-clase" class="nav-link" data-scroll-target="#preparación-de-clase">Preparación de Clase</a>
-  <ul class="collapse">
-  <li><a href="#antes-de-la-sesión-30-min" id="toc-antes-de-la-sesión-30-min" class="nav-link" data-scroll-target="#antes-de-la-sesión-30-min">Antes de la Sesión (30 min)</a></li>
-  </ul></li>
-  <li><a href="#durante-clase-3-horas" id="toc-durante-clase-3-horas" class="nav-link" data-scroll-target="#durante-clase-3-horas">Durante Clase (3 horas)</a>
-  <ul class="collapse">
-  <li><a href="#estructura-recomendada" id="toc-estructura-recomendada" class="nav-link" data-scroll-target="#estructura-recomendada">Estructura Recomendada</a></li>
-  <li><a href="#técnicas-pedagógicas-efectivas" id="toc-técnicas-pedagógicas-efectivas" class="nav-link" data-scroll-target="#técnicas-pedagógicas-efectivas">Técnicas Pedagógicas Efectivas</a></li>
-  </ul></li>
-  <li><a href="#después-de-clase-1" id="toc-después-de-clase-1" class="nav-link" data-scroll-target="#después-de-clase-1">Después de Clase</a>
-  <ul class="collapse">
-  <li><a href="#revisión-de-ejercicios-2-3-horas" id="toc-revisión-de-ejercicios-2-3-horas" class="nav-link" data-scroll-target="#revisión-de-ejercicios-2-3-horas">Revisión de Ejercicios (2-3 horas)</a></li>
-  <li><a href="#compartir-mejores-prácticas" id="toc-compartir-mejores-prácticas" class="nav-link" data-scroll-target="#compartir-mejores-prácticas">Compartir Mejores Prácticas</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#solución-de-problemas-comunes" id="toc-solución-de-problemas-comunes" class="nav-link" data-scroll-target="#solución-de-problemas-comunes">Solución de Problemas Comunes</a>
-  <ul class="collapse">
-  <li><a href="#problemas-técnicos" id="toc-problemas-técnicos" class="nav-link" data-scroll-target="#problemas-técnicos">Problemas Técnicos</a>
-  <ul class="collapse">
-  <li><a href="#mi-código-no-corre" id="toc-mi-código-no-corre" class="nav-link" data-scroll-target="#mi-código-no-corre">“Mi código no corre”</a></li>
-  <li><a href="#error-object-x-not-found" id="toc-error-object-x-not-found" class="nav-link" data-scroll-target="#error-object-x-not-found">“Error: object ‘X’ not found”</a></li>
-  <li><a href="#gráfico-no-se-muestra" id="toc-gráfico-no-se-muestra" class="nav-link" data-scroll-target="#gráfico-no-se-muestra">“Gráfico no se muestra”</a></li>
-  <li><a href="#webr-no-carga" id="toc-webr-no-carga" class="nav-link" data-scroll-target="#webr-no-carga">“WebR no carga”</a></li>
-  </ul></li>
-  <li><a href="#problemas-conceptuales" id="toc-problemas-conceptuales" class="nav-link" data-scroll-target="#problemas-conceptuales">Problemas Conceptuales</a>
-  <ul class="collapse">
-  <li><a href="#no-entiendo-la-diferencia-entre-media-y-mediana" id="toc-no-entiendo-la-diferencia-entre-media-y-mediana" class="nav-link" data-scroll-target="#no-entiendo-la-diferencia-entre-media-y-mediana">“No entiendo la diferencia entre media y mediana”</a></li>
-  <li><a href="#qué-significa-p-0.05" id="toc-qué-significa-p-0.05" class="nav-link" data-scroll-target="#qué-significa-p-0.05">“¿Qué significa p &lt; 0.05?”</a></li>
-  <li><a href="#correlación-implica-causalidad" id="toc-correlación-implica-causalidad" class="nav-link" data-scroll-target="#correlación-implica-causalidad">“¿Correlación implica causalidad?”</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#adaptaciones-y-modificaciones" id="toc-adaptaciones-y-modificaciones" class="nav-link" data-scroll-target="#adaptaciones-y-modificaciones">Adaptaciones y Modificaciones</a>
-  <ul class="collapse">
-  <li><a href="#para-contexto-internacional" id="toc-para-contexto-internacional" class="nav-link" data-scroll-target="#para-contexto-internacional">Para Contexto Internacional</a>
-  <ul class="collapse">
-  <li><a href="#cambiar-casos-de-estudio" id="toc-cambiar-casos-de-estudio" class="nav-link" data-scroll-target="#cambiar-casos-de-estudio">Cambiar Casos de Estudio</a></li>
-  <li><a href="#traducir-a-otro-idioma" id="toc-traducir-a-otro-idioma" class="nav-link" data-scroll-target="#traducir-a-otro-idioma">Traducir a Otro Idioma</a></li>
-  </ul></li>
-  <li><a href="#para-diferentes-niveles" id="toc-para-diferentes-niveles" class="nav-link" data-scroll-target="#para-diferentes-niveles">Para Diferentes Niveles</a>
-  <ul class="collapse">
-  <li><a href="#simplificar-pregrado" id="toc-simplificar-pregrado" class="nav-link" data-scroll-target="#simplificar-pregrado">Simplificar (Pregrado)</a></li>
-  <li><a href="#profundizar-posgrado-avanzado" id="toc-profundizar-posgrado-avanzado" class="nav-link" data-scroll-target="#profundizar-posgrado-avanzado">Profundizar (Posgrado Avanzado)</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#recursos-de-apoyo" id="toc-recursos-de-apoyo" class="nav-link" data-scroll-target="#recursos-de-apoyo">Recursos de Apoyo</a>
-  <ul class="collapse">
-  <li><a href="#para-estudiantes-1" id="toc-para-estudiantes-1" class="nav-link" data-scroll-target="#para-estudiantes-1">Para Estudiantes</a>
-  <ul class="collapse">
-  <li><a href="#libros-gratis-online" id="toc-libros-gratis-online" class="nav-link" data-scroll-target="#libros-gratis-online">Libros Gratis Online</a></li>
-  <li><a href="#cursos-online" id="toc-cursos-online" class="nav-link" data-scroll-target="#cursos-online">Cursos Online</a></li>
-  <li><a href="#comunidades" id="toc-comunidades" class="nav-link" data-scroll-target="#comunidades">Comunidades</a></li>
-  </ul></li>
-  <li><a href="#para-instructores-1" id="toc-para-instructores-1" class="nav-link" data-scroll-target="#para-instructores-1">Para Instructores</a>
-  <ul class="collapse">
-  <li><a href="#materiales-adicionales" id="toc-materiales-adicionales" class="nav-link" data-scroll-target="#materiales-adicionales">Materiales Adicionales</a></li>
-  <li><a href="#herramientas" id="toc-herramientas" class="nav-link" data-scroll-target="#herramientas">Herramientas</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#contacto-y-soporte" id="toc-contacto-y-soporte" class="nav-link" data-scroll-target="#contacto-y-soporte">Contacto y Soporte</a>
-  <ul class="collapse">
-  <li><a href="#canales-de-comunicación" id="toc-canales-de-comunicación" class="nav-link" data-scroll-target="#canales-de-comunicación">Canales de Comunicación</a></li>
-  <li><a href="#contribuciones-bienvenidas" id="toc-contribuciones-bienvenidas" class="nav-link" data-scroll-target="#contribuciones-bienvenidas">Contribuciones Bienvenidas</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -436,7 +352,7 @@ gtag('config', '', { 'anonymize_ip': true});
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Consejos Prácticos
+<span class="screen-reader-only">Tip</span>Consejos Prácticos
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -447,11 +363,11 @@ Consejos Prácticos
 <li>Rompe el código a propósito para entender errores</li>
 </ul></li>
 <li><p><strong>Usa comentarios abundantemente:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MAL: sin contexto</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MAL: sin contexto</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># BIEN: explica qué y por qué</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ingreso_promedio <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso)  <span class="co"># Para comparar con mediana</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ingreso_promedio <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso)  <span class="co"># Para comparar con mediana</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Experimenta con visualizaciones:</strong></p>
 <ul>
 <li>Cambia colores, títulos, escalas</li>
@@ -503,7 +419,7 @@ Consejos Prácticos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Opciones para Entregar
+<span class="screen-reader-only">Note</span>Opciones para Entregar
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -577,7 +493,7 @@ Opciones para Entregar
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Estrategias Probadas
+<span class="screen-reader-only">Tip</span>Estrategias Probadas
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -668,19 +584,19 @@ Estrategias Probadas
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Checklist de Diagnóstico
+<span class="screen-reader-only">Warning</span>Checklist de Diagnóstico
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>✅ ¿Instalaste todos los paquetes necesarios?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>✅ ¿Estás en el directorio correcto?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()  <span class="co"># Ver directorio actual</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"ruta/a/tu/carpeta"</span>)  <span class="co"># Cambiar si necesario</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()  <span class="co"># Ver directorio actual</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"ruta/a/tu/carpeta"</span>)  <span class="co"># Cambiar si necesario</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>✅ ¿El archivo de datos está en la ubicación correcta?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()  <span class="co"># Ver qué archivos están disponibles</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()  <span class="co"># Ver qué archivos están disponibles</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>✅ ¿Copiaste el código exactamente?</p>
 <ul>
 <li>Revisa paréntesis, comas, comillas</li>
@@ -694,13 +610,13 @@ Checklist de Diagnóstico
 <h3 class="anchored" data-anchor-id="error-object-x-not-found">“Error: object ‘X’ not found”</h3>
 <p><strong>Causa:</strong> Variable no existe en el ambiente</p>
 <p><strong>Solución:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver qué objetos existen</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver qué objetos existen</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar si el objeto existe</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"nombre_variable"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-ejecutar código que crea la variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-ejecutar código que crea la variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="gráfico-no-se-muestra" class="level3">
 <h3 class="anchored" data-anchor-id="gráfico-no-se-muestra">“Gráfico no se muestra”</h3>
@@ -740,12 +656,12 @@ Checklist de Diagnóstico
 <section id="cambiar-casos-de-estudio" class="level3">
 <h3 class="anchored" data-anchor-id="cambiar-casos-de-estudio">Cambiar Casos de Estudio</h3>
 <p>Los ejercicios usan ejemplos genéricos que se pueden adaptar:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original: Subsidios municipales en México</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original: Subsidios municipales en México</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptar a: Housing benefits en UK</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambiar variables:</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ingreso_pc_usd → weekly_income_gbp</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>zona → <span class="fu">region</span> (London, Manchester, etc.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>zona → <span class="fu">region</span> (London, Manchester, etc.)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="traducir-a-otro-idioma" class="level3">
 <h3 class="anchored" data-anchor-id="traducir-a-otro-idioma">Traducir a Otro Idioma</h3>
@@ -905,13 +821,14 @@ Checklist de Diagnóstico
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -926,7 +843,7 @@ Checklist de Diagnóstico
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
-<meta name="dcterms.date" content="2026-02-06">
+<meta name="dcterms.date" content="2026-02-20">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <title>Sección 1: Introducción a R – David Contreras-Loya</title>
 <style>
@@ -66,14 +66,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -106,14 +107,15 @@ gtag('js', new Date());
 gtag('config', '', { 'anonymize_ip': true});
 </script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Sección 1: Introducción a R – David Contreras-Loya">
-<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Sección 1: Introducción a R – David Contreras-Loya">
-<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body class="nav-fixed quarto-light">
@@ -121,6 +123,8 @@ gtag('config', '', { 'anonymize_ip': true});
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -181,7 +185,7 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified.html">
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
@@ -191,11 +195,11 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -357,7 +361,7 @@ gtag('config', '', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 6, 2026</p>
+      <p class="date">February 20, 2026</p>
     </div>
   </div>
   
@@ -383,7 +387,7 @@ gtag('config', '', { 'anonymize_ip': true});
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Verifica tus versiones
+<span class="screen-reader-only">Important</span>Verifica tus versiones
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -404,7 +408,7 @@ Verifica tus versiones
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Alternativa: Verifica la pestaña Packages
+<span class="screen-reader-only">Tip</span>Alternativa: Verifica la pestaña Packages
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -413,11 +417,11 @@ Alternativa: Verifica la pestaña Packages
 </div>
 <p>Ahora, instalemos algunos paquetes que serán útiles este semestre. Usamos la función <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>, dándole el nombre(s) del paquete(s) que deseas instalar.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete llamado "dplyr"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete llamado "dplyr"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Instalar múltiples paquetes a la vez</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="notas-importantes" class="level3"><h3 class="anchored" data-anchor-id="notas-importantes">Notas importantes:</h3>
 <ol start="0" type="1">
@@ -430,8 +434,8 @@ Alternativa: Verifica la pestaña Packages
 </ol></section></section><section id="carga-de-paquetes" class="level2"><h2 class="anchored" data-anchor-id="carga-de-paquetes">Carga de paquetes</h2>
 <p>Para verificar que las instalaciones fueron exitosas, cargaremos los paquetes usando la función <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -450,26 +454,26 @@ Note
 </h2>
 <p>Instalemos otro paquete: el paquete <code>pacman</code> (¡sí, como el juego! 🎮).</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete 'pacman'</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Instalar el paquete 'pacman'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Cargarlo</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>El paquete <code>pacman</code> es muy meta: es un paquete para gestionar paquetes. Puedes usarlo para instalar, cargar, descargar y actualizar tus paquetes de R.</p>
 <p>En lugar de escribir <code><a href="https://rdrr.io/r/base/library.html">library(...)</a></code> para cada paquete, usa la función <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> de <code>pacman</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forma antigua</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forma antigua</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Forma nueva</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">dplyr</span>, <span class="va">ggplot2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">dplyr</span>, <span class="va">ggplot2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Aún mejor:</strong> Si intentas cargar un paquete que no está instalado, ¡<code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> lo instalará automáticamente!</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esto instalará y cargará tidyr si no está instalado</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esto instalará y cargará tidyr si no está instalado</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyr</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Instalado y cargado. ¡<em>Ese</em> es servicio! ✨</p>
 <hr></section></section><section id="carga-de-datos" class="level1"><h1>Carga de datos</h1>
@@ -480,8 +484,8 @@ Note
 <p>Una de las ventajas de R es que viene con varios datasets incorporados que podemos usar para practicar. El dataset <code>iris</code> es uno de ellos.</p>
 <p>Para cargar un dataset incorporado, usa la función <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar el dataset iris</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar el dataset iris</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -489,13 +493,13 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-¿Qué datasets están disponibles?
+<span class="screen-reader-only">Tip</span>¿Qué datasets están disponibles?
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Para ver todos los datasets incorporados en R, escribe:</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -505,21 +509,21 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-El operador de asignación <code>&lt;-</code>
+<span class="screen-reader-only">Important</span>El operador de asignación <code>&lt;-</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Aunque <code>iris</code> ya está disponible después de usar <code>data(iris)</code>, a menudo queremos crear una copia para trabajar con ella. El operador <code>&lt;-</code> es central en R. Asigna el(los) valor(es) de la derecha al nombre de la izquierda.</p>
 <p>Al leer en voz alta, la gente dice “obtiene”: <code>flores</code> <strong>obtiene</strong> el contenido de <code>iris</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear una copia del dataset</span></span>
-<span><span class="va">flores</span> <span class="op">&lt;-</span> <span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear una copia del dataset</span></span>
+<span><span class="va">flores</span> <span class="op">&lt;-</span> <span class="va">iris</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <p>Para ver los datos, simplemente escribe su nombre:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="funciones-para-cargar-archivos-externos" class="level2"><h2 class="anchored" data-anchor-id="funciones-para-cargar-archivos-externos">Funciones para cargar archivos externos</h2>
 <p>Cuando trabajes con tus propios datos, necesitarás cargar archivos desde tu computadora. Principalmente usarás:</p>
@@ -537,7 +541,7 @@ El operador de asignación <code>&lt;-</code>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Aprende sobre las funciones
+<span class="screen-reader-only">Tip</span>Aprende sobre las funciones
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -550,16 +554,16 @@ Aprende sobre las funciones
 </div>
 <section id="ejemplo-cargar-un-archivo-csv" class="level3"><h3 class="anchored" data-anchor-id="ejemplo-cargar-un-archivo-csv">Ejemplo: Cargar un archivo CSV</h3>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Si tuvieras un archivo CSV</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Si tuvieras un archivo CSV</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
-<span><span class="va">mis_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"ruta/a/mi_archivo.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">mis_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"ruta/a/mi_archivo.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section></section><section id="jugando-con-datos" class="level1"><h1>Jugando con datos</h1>
 <p>Ahora que tenemos el dataset <code>iris</code> cargado, ¡hagamos algo con esos datos!</p>
 <section id="exploración-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="exploración-de-los-datos">Exploración de los datos</h2>
 <p>Imprime los datos en la consola:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Nota varias cosas:</p>
 <ol type="1">
@@ -570,18 +574,18 @@ Aprende sobre las funciones
 </ol>
 <section id="obtener-nombres-de-columnas" class="level3"><h3 class="anchored" data-anchor-id="obtener-nombres-de-columnas">Obtener nombres de columnas</h3>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="ver-primerasúltimas-filas" class="level3"><h3 class="anchored" data-anchor-id="ver-primerasúltimas-filas">Ver primeras/últimas filas</h3>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Primeras 6 filas</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Primeras 6 filas</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Primeras 10 filas</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">iris</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Últimas 7 filas</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">iris</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">iris</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -589,7 +593,7 @@ Aprende sobre las funciones
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Visor de datos de RStudio
+<span class="screen-reader-only">Tip</span>Visor de datos de RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -598,19 +602,19 @@ Visor de datos de RStudio
 </div>
 </section><section id="estructura-del-dataset" class="level3"><h3 class="anchored" data-anchor-id="estructura-del-dataset">Estructura del dataset</h3>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ver estructura detallada</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ver estructura detallada</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Esto te mostrará: - El tipo de objeto (data.frame) - Número de observaciones y variables - Nombre y tipo de cada variable - Los primeros valores de cada variable</p>
 </section></section><section id="resumen-de-los-datos" class="level2"><h2 class="anchored" data-anchor-id="resumen-de-los-datos">Resumen de los datos</h2>
 <p>Obtén un resumen rápido de tu conjunto de datos:</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Esto te dará estadísticas descriptivas para cada variable: - Para variables numéricas: mínimo, 1er cuartil, mediana, media, 3er cuartil, máximo - Para factores: conteo de cada categoría</p>
 <p>Para resumir una <strong>variable única</strong>, usa <code>$</code> para tomarla:</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar la variable Sepal.Length</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar la variable Sepal.Length</span></span>
 <span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span></span>
 <span></span>
 <span><span class="co"># Resumir Sepal.Length</span></span>
@@ -621,7 +625,7 @@ Visor de datos de RStudio
 <span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>  <span class="co"># Mediana</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>      <span class="co"># Desviación estándar</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>     <span class="co"># Mínimo</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>     <span class="co"># Máximo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>     <span class="co"># Máximo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -629,7 +633,7 @@ Visor de datos de RStudio
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Acceso a variables
+<span class="screen-reader-only">Tip</span>Acceso a variables
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -642,30 +646,30 @@ Acceso a variables
 <code>select()</code> - Elegir variables</h3>
 <p>Mantén solo las variables que te interesan:</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar dplyr</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar dplyr</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Seleccionar solo mediciones del sépalo y especie</span></span>
 <span><span class="va">iris_sepalos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span>, <span class="va">Sepal.Width</span>, <span class="va">Species</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Ver resultado</span></span>
-<span><span class="va">iris_sepalos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">iris_sepalos</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>¡Ahora tenemos 150 filas pero solo 3 columnas!</p>
 <p><strong>Alternativa:</strong> Excluir variables con un signo menos:</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Todo excepto las mediciones de pétalos</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iris</span>, <span class="op">-</span><span class="va">Petal.Length</span>, <span class="op">-</span><span class="va">Petal.Width</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Todo excepto las mediciones de pétalos</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iris</span>, <span class="op">-</span><span class="va">Petal.Length</span>, <span class="op">-</span><span class="va">Petal.Width</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="arrange---ordenar-datos" class="level3"><h3 class="anchored" data-anchor-id="arrange---ordenar-datos">
 <code>arrange()</code> - Ordenar datos</h3>
 <p>Ordena los datos por una o más columnas:</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ordenar por longitud de sépalo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ordenar por longitud de sépalo</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Ordenar por especie, luego por longitud de sépalo</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -673,39 +677,39 @@ Acceso a variables
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-¡Se requiere asignación!
+<span class="screen-reader-only">Warning</span>¡Se requiere asignación!
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Si ves <code>iris</code> ahora, no está ordenado. Debes <strong>asignar</strong> el resultado para cambiar el objeto:</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris_ordenado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">iris_ordenado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <p>Para orden <strong>descendente</strong>, usa <code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Flores con sépalos más largos primero</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Flores con sépalos más largos primero</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="filter---filtrar-filas" class="level3"><h3 class="anchored" data-anchor-id="filter---filtrar-filas">
 <code>filter()</code> - Filtrar filas</h3>
 <p>Mantén solo las filas que cumplan ciertas condiciones:</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Solo flores setosa</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Solo flores setosa</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Flores con sépalos largos (&gt; 6 cm)</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Setosa con sépalos largos</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="summarize---crear-resúmenes" class="level3"><h3 class="anchored" data-anchor-id="summarize---crear-resúmenes">
 <code>summarize()</code> - Crear resúmenes</h3>
 <p>Crea resúmenes específicos de tus datos:</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Media y DE de longitud de sépalo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Media y DE de longitud de sépalo</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">iris</span>, </span>
 <span>          media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>, </span>
 <span>          de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span>
@@ -715,20 +719,20 @@ Acceso a variables
 <span>          n_flores <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>          media_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>,</span>
 <span>          media_petalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Petal.Length</span><span class="op">)</span>,</span>
-<span>          max_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          max_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="group_by---agrupar-datos" class="level3"><h3 class="anchored" data-anchor-id="group_by---agrupar-datos">
 <code>group_by()</code> - Agrupar datos</h3>
 <p>Combina <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> con <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> para análisis por grupos:</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estadísticas por especie</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estadísticas por especie</span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    media_sepalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span>,</span>
 <span>    media_petalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Petal.Length</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -736,7 +740,7 @@ Acceso a variables
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-El operador pipe <code>%&gt;%</code>
+<span class="screen-reader-only">Note</span>El operador pipe <code>%&gt;%</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -748,12 +752,12 @@ El operador pipe <code>%&gt;%</code>
 <section id="histograma" class="level3"><h3 class="anchored" data-anchor-id="histograma">Histograma</h3>
 <p>Crea un histograma de longitud de sépalo:</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Histograma simple</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Histograma simple</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Hazlo más bonito con etiquetas y una línea en la media:</p>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># El histograma</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># El histograma</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">"Distribución de longitud de sépalo"</span>,</span>
@@ -764,12 +768,12 @@ El operador pipe <code>%&gt;%</code>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Agregar línea roja en la media</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">3</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">3</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="gráfica-de-dispersión" class="level3"><h3 class="anchored" data-anchor-id="gráfica-de-dispersión">Gráfica de dispersión</h3>
 <p>Grafica la relación entre longitud de sépalo y longitud de pétalo:</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Sepal.Length</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
@@ -777,12 +781,12 @@ El operador pipe <code>%&gt;%</code>
 <span>  main <span class="op">=</span> <span class="st">"Relación entre sépalo y pétalo"</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">19</span>,        <span class="co"># Tipo de punto</span></span>
 <span>  col <span class="op">=</span> <span class="st">"blue"</span>     <span class="co"># Color</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="gráfica-por-grupos" class="level3"><h3 class="anchored" data-anchor-id="gráfica-por-grupos">Gráfica por grupos</h3>
 <p>Colorea los puntos según la especie:</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convertir especies a números para colores</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convertir especies a números para colores</span></span>
 <span><span class="va">colores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
@@ -799,17 +803,17 @@ El operador pipe <code>%&gt;%</code>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, </span>
 <span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span>,</span>
 <span>       col <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
-<span>       pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>       pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="boxplot" class="level3"><h3 class="anchored" data-anchor-id="boxplot">Boxplot</h3>
 <p>Compara distribuciones entre especies:</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Species</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Species</span>, </span>
 <span>        data <span class="op">=</span> <span class="va">iris</span>,</span>
 <span>        main <span class="op">=</span> <span class="st">"Longitud de sépalo por especie"</span>,</span>
 <span>        xlab <span class="op">=</span> <span class="st">"Especie"</span>,</span>
 <span>        ylab <span class="op">=</span> <span class="st">"Longitud de sépalo (cm)"</span>,</span>
-<span>        col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lightgreen"</span>, <span class="st">"lightblue"</span>, <span class="st">"lightpink"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>        col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lightgreen"</span>, <span class="st">"lightblue"</span>, <span class="st">"lightpink"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -817,7 +821,7 @@ El operador pipe <code>%&gt;%</code>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Estilo de código claro
+<span class="screen-reader-only">Tip</span>Estilo de código claro
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -828,7 +832,7 @@ Estilo de código claro
 <p>Casi todo en R está indexado numéricamente. Puedes acceder a elementos individuales usando <strong>corchetes</strong> <code>[]</code>.</p>
 <section id="indexación-de-vectores" class="level2"><h2 class="anchored" data-anchor-id="indexación-de-vectores">Indexación de vectores</h2>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear un vector</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear un vector</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">9</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Tomar el segundo elemento</span></span>
@@ -842,12 +846,12 @@ Estilo de código claro
 <span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>  <span class="co"># Crea secuencia: 2 3</span></span>
 <span></span>
 <span><span class="co"># ¿Y 1:10?</span></span>
-<span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>  <span class="co"># Crea secuencia de 1 a 10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>  <span class="co"># Crea secuencia de 1 a 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="indexación-de-data-frames" class="level2"><h2 class="anchored" data-anchor-id="indexación-de-data-frames">Indexación de data frames</h2>
 <p>Los data frames tienen <strong>filas y columnas</strong>: <code>[fila, columna]</code></p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar primera fila (todas las columnas)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tomar primera fila (todas las columnas)</span></span>
 <span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Tomar primera columna (todas las filas)</span></span>
@@ -860,7 +864,7 @@ Estilo de código claro
 <span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"Species"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Combinar: primeras 10 filas de setosa</span></span>
-<span><span class="va">iris</span><span class="op">[</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">iris</span><span class="op">[</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -868,7 +872,7 @@ Estilo de código claro
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Orden fila, columna
+<span class="screen-reader-only">Note</span>Orden fila, columna
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -882,7 +886,7 @@ Orden fila, columna
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Prueba esto
+<span class="screen-reader-only">Note</span>Prueba esto
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -902,7 +906,7 @@ Prueba esto
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 1: Análisis descriptivo
+<span class="screen-reader-only">Tip</span>Problema 1: Análisis descriptivo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -922,7 +926,7 @@ Problema 1: Análisis descriptivo
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 2: Manipulación de datos
+<span class="screen-reader-only">Tip</span>Problema 2: Manipulación de datos
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -943,7 +947,7 @@ Problema 2: Manipulación de datos
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 3: Matriz identidad
+<span class="screen-reader-only">Tip</span>Problema 3: Matriz identidad
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -957,7 +961,7 @@ Problema 3: Matriz identidad
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 4: Matriz idempotente
+<span class="screen-reader-only">Tip</span>Problema 4: Matriz idempotente
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -971,7 +975,7 @@ Problema 4: Matriz idempotente
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 5: Regresión lineal
+<span class="screen-reader-only">Tip</span>Problema 5: Regresión lineal
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -987,7 +991,7 @@ Problema 5: Regresión lineal
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problema 6: Valores propios y traza
+<span class="screen-reader-only">Tip</span>Problema 6: Valores propios y traza
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1003,7 +1007,7 @@ Problema 6: Valores propios y traza
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Recuerda
+<span class="screen-reader-only">Important</span>Recuerda
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1096,13 +1100,14 @@ Recuerda
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1168,7 +1173,7 @@ Recuerda
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1500,7 +1505,7 @@ Recuerda
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb32" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Sección 1: Introducción a R"</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "David Contreras-Loya"</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
@@ -2193,7 +2198,7 @@ Recuerda
 <span id="cb32-753"><a href="#cb32-753" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb32-754"><a href="#cb32-754" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-755"><a href="#cb32-755" aria-hidden="true" tabindex="-1"></a>**Siguiente:** Sección 2 - Manipulación de datos con dplyr</span>
-</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">

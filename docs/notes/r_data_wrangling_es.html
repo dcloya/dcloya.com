@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
-<meta name="dcterms.date" content="2026-02-06">
+<meta name="dcterms.date" content="2026-02-20">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 <title>Sección 2: Manipulación de datos con dplyr – David Contreras-Loya</title>
 <style>
@@ -66,14 +66,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -106,14 +107,15 @@ gtag('js', new Date());
 gtag('config', '', { 'anonymize_ip': true});
 </script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Sección 2: Manipulación de datos con dplyr – David Contreras-Loya">
-<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Sección 2: Manipulación de datos con dplyr – David Contreras-Loya">
-<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body class="nav-fixed quarto-light">
@@ -121,6 +123,8 @@ gtag('config', '', { 'anonymize_ip': true});
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -181,7 +185,7 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified.html">
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
@@ -191,11 +195,11 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -355,7 +359,7 @@ gtag('config', '', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 6, 2026</p>
+      <p class="date">February 20, 2026</p>
     </div>
   </div>
   
@@ -387,7 +391,7 @@ gtag('config', '', { 'anonymize_ip': true});
 </ul>
 <hr></section><section id="configuración" class="level1"><h1>Configuración</h1>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar paquetes</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cargar paquetes</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">dplyr</span>, <span class="va">readr</span>, <span class="va">haven</span>, <span class="va">tidyr</span><span class="op">)</span></span>
 <span></span>
@@ -398,7 +402,7 @@ gtag('config', '', { 'anonymize_ip': true});
 <span><span class="va">cars</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"auto.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># O si usas archivo de Stata:</span></span>
-<span><span class="co"># cars &lt;- read_dta("auto.dta")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># cars &lt;- read_dta("auto.dta")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section><section id="el-operador-pipe" class="level1"><h1>El operador Pipe <code>%&gt;%</code>
 </h1>
@@ -406,13 +410,13 @@ gtag('config', '', { 'anonymize_ip': true});
 <section id="cómo-funcionan-los-pipes" class="level2"><h2 class="anchored" data-anchor-id="cómo-funcionan-los-pipes">Cómo funcionan los pipes</h2>
 <p>El pipe toma la salida de una expresión y la alimenta al <strong>primer argumento</strong> de la siguiente expresión:</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Sin pipes (¡feo!)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Sin pipes (¡feo!)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">cars</span>, <span class="va">price</span>, <span class="va">mpg</span>, <span class="va">weight</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Con pipes (¡hermoso!)</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">price</span>, <span class="va">mpg</span>, <span class="va">weight</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -420,7 +424,7 @@ gtag('config', '', { 'anonymize_ip': true});
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Leyendo pipes en voz alta
+<span class="screen-reader-only">Tip</span>Leyendo pipes en voz alta
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -431,19 +435,19 @@ Leyendo pipes en voz alta
 </section><section id="guardando-resultados" class="level2"><h2 class="anchored" data-anchor-id="guardando-resultados">Guardando resultados</h2>
 <p>Para guardar la salida final, asígnala como de costumbre:</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Guardar el resultado</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Guardar el resultado</span></span>
 <span><span class="va">car_summary</span> <span class="op">&lt;-</span> <span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">price</span>, <span class="va">mpg</span>, <span class="va">weight</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="uso-del-marcador-de-posición-." class="level2"><h2 class="anchored" data-anchor-id="uso-del-marcador-de-posición-.">Uso del marcador de posición <code>.</code>
 </h2>
 <p>A veces necesitas especificar dónde deben ir los datos canalizados:</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># El punto especifica dónde colocar la entrada</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># El punto especifica dónde colocar la entrada</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">price</span>, <span class="va">mpg</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">price</span> <span class="op">~</span> <span class="va">mpg</span>, data <span class="op">=</span> <span class="va">.</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">price</span> <span class="op">~</span> <span class="va">mpg</span>, data <span class="op">=</span> <span class="va">.</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="verbos-principales-de-dplyr" class="level1"><h1>Verbos principales de dplyr</h1>
 <p>El paquete <code>dplyr</code> se construye alrededor de verbos que describen lo que quieres hacer con tus datos.</p>
@@ -451,7 +455,7 @@ Leyendo pipes en voz alta
 <code>select()</code> - Elegir columnas</h2>
 <p>Selecciona variables específicas (columnas) de tu conjunto de datos:</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Seleccionar columnas específicas</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Seleccionar columnas específicas</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">make</span>, <span class="va">price</span>, <span class="va">mpg</span>, <span class="va">weight</span><span class="op">)</span></span>
 <span></span>
@@ -469,7 +473,7 @@ Leyendo pipes en voz alta
 <span></span>
 <span><span class="co"># Excluir columnas con signo menos</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">foreign</span>, <span class="op">-</span><span class="va">rep78</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">foreign</span>, <span class="op">-</span><span class="va">rep78</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -477,7 +481,7 @@ Leyendo pipes en voz alta
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Funciones auxiliares para <code>select()</code>
+<span class="screen-reader-only">Note</span>Funciones auxiliares para <code>select()</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -499,7 +503,7 @@ Funciones auxiliares para <code>select()</code>
 <code>filter()</code> - Elegir filas</h2>
 <p>Filtra filas basándose en condiciones lógicas:</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Autos con mpg mayor a 25</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Autos con mpg mayor a 25</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">&gt;</span> <span class="fl">25</span><span class="op">)</span></span>
 <span></span>
@@ -520,7 +524,7 @@ Funciones auxiliares para <code>select()</code>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">foreign</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># o</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">foreign</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">foreign</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -528,7 +532,7 @@ Funciones auxiliares para <code>select()</code>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Operadores lógicos
+<span class="screen-reader-only">Tip</span>Operadores lógicos
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -558,7 +562,7 @@ Operadores lógicos
 </div>
 <section id="filtrado-con-múltiples-condiciones" class="level3"><h3 class="anchored" data-anchor-id="filtrado-con-múltiples-condiciones">Filtrado con múltiples condiciones</h3>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Autos de marcas específicas</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Autos de marcas específicas</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">make</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Toyota"</span>, <span class="st">"Honda"</span>, <span class="st">"Mazda"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -567,13 +571,13 @@ Operadores lógicos
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">price</span> <span class="op">&gt;=</span> <span class="fl">5000</span>, <span class="va">price</span> <span class="op">&lt;=</span> <span class="fl">10000</span><span class="op">)</span></span>
 <span><span class="co"># o usa between()</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">between</span><span class="op">(</span><span class="va">price</span>, <span class="fl">5000</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">between</span><span class="op">(</span><span class="va">price</span>, <span class="fl">5000</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section><section id="mutate---crearmodificar-columnas" class="level2"><h2 class="anchored" data-anchor-id="mutate---crearmodificar-columnas">
 <code>mutate()</code> - Crear/modificar columnas</h2>
 <p>Crea nuevas variables o modifica las existentes:</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear nueva variable: precio por mpg</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Crear nueva variable: precio por mpg</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>price_per_mpg <span class="op">=</span> <span class="va">price</span> <span class="op">/</span> <span class="va">mpg</span><span class="op">)</span></span>
 <span></span>
@@ -594,7 +598,7 @@ Operadores lógicos
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    price_1000 <span class="op">=</span> <span class="va">price</span> <span class="op">/</span> <span class="fl">1000</span>,</span>
 <span>    log_price <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">price_1000</span><span class="op">)</span>  <span class="co"># Usar price_1000 inmediatamente</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -602,7 +606,7 @@ Operadores lógicos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Funciones útiles con <code>mutate()</code>
+<span class="screen-reader-only">Tip</span>Funciones útiles con <code>mutate()</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -626,7 +630,7 @@ Funciones útiles con <code>mutate()</code>
 <code>arrange()</code> - Ordenar filas</h2>
 <p>Ordena tus datos por una o más variables:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ordenar por price (ascendente)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ordenar por price (ascendente)</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">price</span><span class="op">)</span></span>
 <span></span>
@@ -636,13 +640,13 @@ Funciones útiles con <code>mutate()</code>
 <span></span>
 <span><span class="co"># Ordenar por múltiples variables</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">foreign</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Foreign primero, luego price dentro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">foreign</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Foreign primero, luego price dentro</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="summarize---agregar-datos" class="level2"><h2 class="anchored" data-anchor-id="summarize---agregar-datos">
 <code>summarize()</code> - Agregar datos</h2>
 <p>Crea estadísticas de resumen:</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Resumen único</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Resumen único</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">summarize</span><span class="op">(</span>mean_price <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -655,7 +659,7 @@ Funciones útiles con <code>mutate()</code>
 <span>    median_mpg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>,</span>
 <span>    min_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>,</span>
 <span>    max_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -663,7 +667,7 @@ Funciones útiles con <code>mutate()</code>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Funciones de resumen comunes
+<span class="screen-reader-only">Note</span>Funciones de resumen comunes
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -691,15 +695,15 @@ Funciones de resumen comunes
 <code>group_by()</code> - Agrupar datos</h2>
 <p>Agrupa tus datos por una o más variables:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Agrupar por estado foreign</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Agrupar por estado foreign</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Nada parece suceder... ¡pero está agrupado!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># Nada parece suceder... ¡pero está agrupado!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="resumir-por-grupos" class="level2"><h2 class="anchored" data-anchor-id="resumir-por-grupos">Resumir por grupos</h2>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Comparar autos domésticos vs. extranjeros</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Comparar autos domésticos vs. extranjeros</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">summarize</span><span class="op">(</span></span>
@@ -715,12 +719,12 @@ Funciones de resumen comunes
 <span>  <span class="fu">summarize</span><span class="op">(</span></span>
 <span>    count <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    avg_price <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">price</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="mutar-por-grupos" class="level2"><h2 class="anchored" data-anchor-id="mutar-por-grupos">Mutar por grupos</h2>
 <p>Crea variables que dependen de cálculos a nivel de grupo:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Precio relativo a la media del grupo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Precio relativo a la media del grupo</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
@@ -736,33 +740,33 @@ Funciones de resumen comunes
 <span><span class="co"># Calcular percentiles dentro de grupos</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>price_pct <span class="op">=</span> <span class="fu">percent_rank</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">mutate</span><span class="op">(</span>price_pct <span class="op">=</span> <span class="fu">percent_rank</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="ungroup---eliminar-agrupación" class="level2"><h2 class="anchored" data-anchor-id="ungroup---eliminar-agrupación">
 <code>ungroup()</code> - Eliminar agrupación</h2>
 <p>Siempre desagrupa cuando termines con operaciones agrupadas:</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cars_grouped</span> <span class="op">&lt;-</span> <span class="va">cars</span> <span class="op">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cars_grouped</span> <span class="op">&lt;-</span> <span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>mean_price <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Eliminar la agrupación</span></span>
 <span><span class="va">cars_ungrouped</span> <span class="op">&lt;-</span> <span class="va">cars_grouped</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="manejo-de-datos-faltantes" class="level1"><h1>Manejo de datos faltantes</h1>
 <p>Los valores faltantes (<code>NA</code>) requieren atención especial en R.</p>
 <section id="entendiendo-na" class="level2"><h2 class="anchored" data-anchor-id="entendiendo-na">Entendiendo <code>NA</code>
 </h2>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Verificar si los valores son NA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Verificar si los valores son NA</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span>  <span class="co"># TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>   <span class="co"># FALSE</span></span>
 <span></span>
 <span><span class="co"># NA en operaciones</span></span>
 <span><span class="fl">2</span> <span class="op">+</span> <span class="cn">NA</span>     <span class="co"># NA</span></span>
 <span><span class="cn">NA</span> <span class="op">==</span> <span class="fl">5</span>    <span class="co"># NA</span></span>
-<span><span class="cn">NA</span> <span class="op">==</span> <span class="cn">NA</span>   <span class="co"># NA (!!)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="cn">NA</span> <span class="op">==</span> <span class="cn">NA</span>   <span class="co"># NA (!!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -770,7 +774,7 @@ Funciones de resumen comunes
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<code>NA</code> es contagioso
+<span class="screen-reader-only">Warning</span><code>NA</code> es contagioso
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -779,7 +783,7 @@ Funciones de resumen comunes
 </div>
 </section><section id="filtrado-de-nas" class="level2"><h2 class="anchored" data-anchor-id="filtrado-de-nas">Filtrado de NAs</h2>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Mantener solo casos completos</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Mantener solo casos completos</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -789,11 +793,11 @@ Funciones de resumen comunes
 <span></span>
 <span><span class="co"># Mantener filas con NA en columna específica</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="trabajando-con-nas-en-resúmenes" class="level2"><h2 class="anchored" data-anchor-id="trabajando-con-nas-en-resúmenes">Trabajando con NAs en resúmenes</h2>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esto devuelve NA si algún valor es NA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esto devuelve NA si algún valor es NA</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">summarize</span><span class="op">(</span>mean_rep78 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -807,11 +811,11 @@ Funciones de resumen comunes
 <span>    n_total <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    n_missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    n_complete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="reemplazo-de-nas" class="level2"><h2 class="anchored" data-anchor-id="reemplazo-de-nas">Reemplazo de NAs</h2>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reemplazar NA con un valor</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reemplazar NA con un valor</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>rep78 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">rep78</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -821,13 +825,13 @@ Funciones de resumen comunes
 <span></span>
 <span><span class="co"># Usando replace_na() de tidyr</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>rep78 <span class="op">=</span> <span class="fu">replace_na</span><span class="op">(</span><span class="va">rep78</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">mutate</span><span class="op">(</span>rep78 <span class="op">=</span> <span class="fu">replace_na</span><span class="op">(</span><span class="va">rep78</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="combinación-de-operaciones" class="level1"><h1>Combinación de operaciones</h1>
 <p>El poder de <code>dplyr</code> viene de combinar múltiples operaciones:</p>
 <section id="ejemplo-1-pipeline-de-datos" class="level2"><h2 class="anchored" data-anchor-id="ejemplo-1-pipeline-de-datos">Ejemplo 1: Pipeline de datos</h2>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Análisis complejo en un pipeline</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Análisis complejo en un pipeline</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># Eliminar valores faltantes</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rep78</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -847,20 +851,20 @@ Funciones de resumen comunes
 <span>    mean_efficiency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">efficiency</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># Ordenar resultados</span></span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">mean_efficiency</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">mean_efficiency</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="ejemplo-2-top-n-por-grupo" class="level2"><h2 class="anchored" data-anchor-id="ejemplo-2-top-n-por-grupo">Ejemplo 2: Top N por grupo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Encontrar los 3 autos más caros por estado foreign</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Encontrar los 3 autos más caros por estado foreign</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">foreign</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">make</span>, <span class="va">price</span>, <span class="va">mpg</span>, <span class="va">foreign</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">make</span>, <span class="va">price</span>, <span class="va">mpg</span>, <span class="va">foreign</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="ejemplo-3-resúmenes-condicionales" class="level2"><h2 class="anchored" data-anchor-id="ejemplo-3-resúmenes-condicionales">Ejemplo 3: Resúmenes condicionales</h2>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Comparar autos caros vs. baratos</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Comparar autos caros vs. baratos</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>price_category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">price</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span>, <span class="st">"Expensive"</span>, <span class="st">"Cheap"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">price_category</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -868,13 +872,13 @@ Funciones de resumen comunes
 <span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    mean_mpg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>,</span>
 <span>    mean_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="unión-de-conjuntos-de-datos" class="level1"><h1>Unión de conjuntos de datos</h1>
 <p>A menudo necesitas combinar datos de múltiples fuentes.</p>
 <section id="tipos-de-uniones" class="level2"><h2 class="anchored" data-anchor-id="tipos-de-uniones">Tipos de uniones</h2>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Conjuntos de datos de ejemplo</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Conjuntos de datos de ejemplo</span></span>
 <span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span>
@@ -899,7 +903,7 @@ Funciones de resumen comunes
 <span></span>
 <span><span class="co"># Full join - mantener todas las filas de ambos</span></span>
 <span><span class="fu">full_join</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
-<span><span class="co"># Resultado: id 1, 2, 3, 4 (NAs donde no hay coincidencia)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># Resultado: id 1, 2, 3, 4 (NAs donde no hay coincidencia)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -907,7 +911,7 @@ Funciones de resumen comunes
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Eligiendo la unión correcta
+<span class="screen-reader-only">Tip</span>Eligiendo la unión correcta
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -929,7 +933,7 @@ Eligiendo la unión correcta
 </div>
 </section><section id="ejemplo-práctico-de-unión" class="level2"><h2 class="anchored" data-anchor-id="ejemplo-práctico-de-unión">Ejemplo práctico de unión</h2>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Conjunto de datos de precios de autos</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Conjunto de datos de precios de autos</span></span>
 <span><span class="va">prices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  make <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Toyota"</span>, <span class="st">"Honda"</span>, <span class="st">"Ford"</span><span class="op">)</span>,</span>
 <span>  msrp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25000</span>, <span class="fl">27000</span>, <span class="fl">22000</span><span class="op">)</span></span>
@@ -938,7 +942,7 @@ Eligiendo la unión correcta
 <span><span class="co"># Agregar MSRP al conjunto de datos de autos</span></span>
 <span><span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">prices</span>, by <span class="op">=</span> <span class="st">"make"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">make</span>, <span class="va">price</span>, <span class="va">msrp</span>, <span class="va">mpg</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">make</span>, <span class="va">price</span>, <span class="va">msrp</span>, <span class="va">mpg</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="reestructuración-de-datos" class="level1"><h1>Reestructuración de datos</h1>
 <p>A veces necesitas convertir entre formatos ancho y largo.</p>
@@ -958,7 +962,7 @@ Bob      history   80</code></pre>
 </section><section id="pivot_longer---ancho-a-largo" class="level2"><h2 class="anchored" data-anchor-id="pivot_longer---ancho-a-largo">
 <code>pivot_longer()</code> - Ancho a largo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ejemplo: reestructurar calificaciones de exámenes</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ejemplo: reestructurar calificaciones de exámenes</span></span>
 <span><span class="va">scores_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  student <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alice"</span>, <span class="st">"Bob"</span><span class="op">)</span>,</span>
 <span>  math <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">75</span><span class="op">)</span>,</span>
@@ -972,17 +976,17 @@ Bob      history   80</code></pre>
 <span>    cols <span class="op">=</span> <span class="va">math</span><span class="op">:</span><span class="va">history</span>,           <span class="co"># Columnas a pivotar</span></span>
 <span>    names_to <span class="op">=</span> <span class="st">"subject"</span>,           <span class="co"># Nombre para la nueva columna de "nombres"</span></span>
 <span>    values_to <span class="op">=</span> <span class="st">"score"</span>             <span class="co"># Nombre para la nueva columna de "valores"</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="pivot_wider---largo-a-ancho" class="level2"><h2 class="anchored" data-anchor-id="pivot_wider---largo-a-ancho">
 <code>pivot_wider()</code> - Largo a ancho</h2>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convertir de vuelta a formato ancho</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convertir de vuelta a formato ancho</span></span>
 <span><span class="va">scores_long</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">pivot_wider</span><span class="op">(</span></span>
 <span>    names_from <span class="op">=</span> <span class="va">subject</span>,           <span class="co"># Columna que contiene nuevos nombres de columna</span></span>
 <span>    values_from <span class="op">=</span> <span class="va">score</span>             <span class="co"># Columna que contiene valores</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="mejores-prácticas" class="level1"><h1>Mejores prácticas</h1>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -991,7 +995,7 @@ Bob      history   80</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Directrices de estilo de código
+<span class="screen-reader-only">Important</span>Directrices de estilo de código
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1016,7 +1020,7 @@ Directrices de estilo de código
 </div>
 <section id="ejemplo-de-buen-estilo" class="level2"><h2 class="anchored" data-anchor-id="ejemplo-de-buen-estilo">Ejemplo de buen estilo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Analizar eficiencia de combustible por origen del auto</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Analizar eficiencia de combustible por origen del auto</span></span>
 <span><span class="va">fuel_analysis</span> <span class="op">&lt;-</span> <span class="va">cars</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># Eliminar observaciones incompletas</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -1040,7 +1044,7 @@ Directrices de estilo de código
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">mean_efficiency</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Ver resultados</span></span>
-<span><span class="va">fuel_analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">fuel_analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr></section></section><section id="ejercicios-de-práctica" class="level1"><h1>Ejercicios de práctica</h1>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -1049,7 +1053,7 @@ Directrices de estilo de código
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio 1: Manipulación básica
+<span class="screen-reader-only">Note</span>Ejercicio 1: Manipulación básica
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1071,7 +1075,7 @@ Ejercicio 1: Manipulación básica
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio 2: Análisis agrupado
+<span class="screen-reader-only">Note</span>Ejercicio 2: Análisis agrupado
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1091,7 +1095,7 @@ Ejercicio 2: Análisis agrupado
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio 3: Pipeline complejo
+<span class="screen-reader-only">Note</span>Ejercicio 3: Pipeline complejo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1112,7 +1116,7 @@ Ejercicio 3: Pipeline complejo
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio 4: Reestructuración de datos
+<span class="screen-reader-only">Note</span>Ejercicio 4: Reestructuración de datos
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1132,7 +1136,7 @@ Ejercicio 4: Reestructuración de datos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Recuerda
+<span class="screen-reader-only">Important</span>Recuerda
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1220,13 +1224,14 @@ Recuerda
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1292,7 +1297,7 @@ Recuerda
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1624,7 +1629,7 @@ Recuerda
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb29" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Sección 2: Manipulación de datos con dplyr"</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "David Contreras-Loya"</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
@@ -2428,7 +2433,7 @@ Recuerda
 <span id="cb29-854"><a href="#cb29-854" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb29-855"><a href="#cb29-855" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-856"><a href="#cb29-856" aria-hidden="true" tabindex="-1"></a>**Siguiente:** Sección 3 - Escritura de funciones y bucles</span>
-</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">

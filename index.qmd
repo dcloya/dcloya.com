@@ -10,8 +10,50 @@ description-meta: "David Contreras-Loya is a public policy scholar, researcher, 
 image: "files/AGT_5639.PNG"
 page-navigation: false
 toc: false
-#sidebar: false
 page-layout: full
+
+about:
+  id: hero-heading
+  template: trestles
+  image-width: 70%
+  links:
+    - text: "![](/files/simbolo-tec-black-small.png){width=20} TECprofile"
+      href: https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya
+      target: _blank     
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/david-contreras-loya-8550bb44
+      target: _blank
+    - text: "{{< ai orcid >}} ORCID"
+      href: https://orcid.org/0000-0002-4042-4372
+      target: _blank
+    - text: "{{< ai clarivate >}} Web of Science"
+      href: https://www.webofscience.com/wos/author/record/NWH-0285-2025
+      target: _blank
+    - text: "{{< ai scopus >}} Scopus"
+      href: https://www.scopus.com/authid/detail.uri?authorId=55971186800
+      target: _blank
+    - text: "{{< ai google-scholar >}} Google Scholar"
+      href: https://scholar.google.com/citations?user=vf90AuEAAAAJ
+      target: _blank
+    - text: "{{< ai researchgate >}} Research Gate"
+      href: https://www.researchgate.net/profile/David-Contreras-Loya-2
+      target: _blank
+
+listing:
+  - id: recent-posts
+    contents: 
+      - posts
+      - posts/post-links.yml
+    type: grid
+    max-items: 3
+    page-size: 3
+    fields: [image, date, title, subtitle]
+    max-description-length: 75
+    sort: 
+      - "date desc"
+      - "title asc"
+---
 
 ```{=html}
 <script type="application/ld+json">
@@ -94,69 +136,20 @@ page-layout: full
     "addressCountry": "MX"
   },
   "hasCredential": [
-  {
-    "@type": "EducationalOccupationalCredential",
-    "credentialCategory": "PhD",
-    "educationalLevel": "Doctorate",
-    "competencyRequired": "Health Policy",
-    "recognizedBy": {
-      "@type": "Organization",
-      "name": "University of California, Berkeley"
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "PhD",
+      "educationalLevel": "Doctorate",
+      "competencyRequired": "Health Policy",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "University of California, Berkeley"
+      }
     }
-  }
-]
+  ]
 }
 </script>
 ```
-
-about:
-  id: hero-heading
-  template: trestles
-  image-width: 70%
-  links:
-    - text: "![](/files/simbolo-tec-black-small.png){width=20} TECprofile"   # use image logo
-      href: https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya
-      target: _blank     
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/david-contreras-loya-8550bb44
-      target: _blank
-    - text: "{{< ai orcid >}} ORCID"   # use academic icons, "" are needed
-      href: https://orcid.org/0000-0002-4042-4372
-      target: _blank
-    - text: "{{< ai clarivate >}} Web of Science"
-      href: https://www.webofscience.com/wos/author/record/NWH-0285-2025
-      target: _blank
-    - text: "{{< ai scopus >}} Scopus"
-      href: https://www.scopus.com/authid/detail.uri?authorId=55971186800
-      target: _blank
-    - text: "{{< ai google-scholar >}} Google Scholar"
-      href: https://scholar.google.com/citations?user=axuzNJ0AAAAJ
-      target: _blank
-    - text: "{{< ai researchgate >}} Research Gate"
-      href: https://www.researchgate.net/profile/David-Contreras-Loya-2
-      target: _blank
-
-listing:
-  - id: recent-posts
-    contents: 
-      - posts
-      - posts/post-links.yml
-#    exclude:
-#      title: " "
-    type: grid
-    max-items: 3
-#    image-height: 150px
-    page-size: 3 #set same as max-times to remove the page number setting
-    fields: [image, date, title, subtitle]
-    max-description-length: 75
-    sort: 
-      - "date desc"
-      - "title asc"
-# include-in-header: 
-#  - file: files/includes/_mswebmaster.js
----
-
 
 :::{#hero-heading}
 I'm an applied economist, researcher, and educator working at the intersection of health, education, and social policy. Currently a Research Professor at [Escuela de Gobierno y Transformación Pública](https://egobiernoytp.tec.mx/es) and affiliated with the [Institute for Obesity Research](https://tec.mx/en/research/institute-obesity-research), I co-lead [Evidencia y Acción para la Equidad en Salud, EVIS](https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud), a research center that translates empirical analysis into operational guidance for public sector decision-makers in Latin America.

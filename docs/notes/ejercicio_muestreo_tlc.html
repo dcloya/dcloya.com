@@ -1663,18 +1663,19 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Ejercicio Aplicado: Muestreo y el Teorema del Límite Central – David Contreras-Loya">
-<meta property="og:description" content="Programa Becas para Todos - Análisis de Asistencia Escolar">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Ejercicio Aplicado: Muestreo y el Teorema del Límite Central – David Contreras-Loya">
-<meta name="twitter:description" content="Programa Becas para Todos - Análisis de Asistencia Escolar">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1753,7 +1754,7 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_tlc_1.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
@@ -1819,25 +1820,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#contexto" id="toc-contexto" class="nav-link active" data-scroll-target="#contexto">Contexto</a></li>
-  <li><a href="#parte-1-la-población-verdadera-desconocida-en-la-realidad" id="toc-parte-1-la-población-verdadera-desconocida-en-la-realidad" class="nav-link" data-scroll-target="#parte-1-la-población-verdadera-desconocida-en-la-realidad">Parte 1: La Población Verdadera (Desconocida en la Realidad)</a></li>
-  <li><a href="#parte-2-visualizar-la-distribución-poblacional" id="toc-parte-2-visualizar-la-distribución-poblacional" class="nav-link" data-scroll-target="#parte-2-visualizar-la-distribución-poblacional">Parte 2: Visualizar la Distribución Poblacional</a></li>
-  <li><a href="#parte-3-tomar-una-muestra" id="toc-parte-3-tomar-una-muestra" class="nav-link" data-scroll-target="#parte-3-tomar-una-muestra">Parte 3: Tomar UNA Muestra</a></li>
-  <li><a href="#parte-4-teorema-del-límite-central-en-acción" id="toc-parte-4-teorema-del-límite-central-en-acción" class="nav-link" data-scroll-target="#parte-4-teorema-del-límite-central-en-acción">Parte 4: Teorema del Límite Central en Acción</a></li>
-  <li><a href="#parte-5-visualización-del-teorema-del-límite-central" id="toc-parte-5-visualización-del-teorema-del-límite-central" class="nav-link" data-scroll-target="#parte-5-visualización-del-teorema-del-límite-central">Parte 5: Visualización del Teorema del Límite Central</a></li>
-  <li><a href="#parte-6-comparación-visual-del-error-estándar" id="toc-parte-6-comparación-visual-del-error-estándar" class="nav-link" data-scroll-target="#parte-6-comparación-visual-del-error-estándar">Parte 6: Comparación Visual del Error Estándar</a></li>
-  <li><a href="#parte-7-verificación-numérica-del-teorema" id="toc-parte-7-verificación-numérica-del-teorema" class="nav-link" data-scroll-target="#parte-7-verificación-numérica-del-teorema">Parte 7: Verificación Numérica del Teorema</a></li>
-  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar">Preguntas para Reflexionar</a></li>
-  <li><a href="#ejercicio-individual" id="toc-ejercicio-individual" class="nav-link" data-scroll-target="#ejercicio-individual">Ejercicio Individual</a></li>
-  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión">Conclusión</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2304,7 +2287,7 @@ Depende del margen de error aceptable. Con <span class="math inline">\(n = 500\)
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
