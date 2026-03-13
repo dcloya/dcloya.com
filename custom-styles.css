@@ -1,0 +1,307 @@
+/*
+ * Clean Academic Styles for David Contreras-Loya
+ * Aesthetic direction: Modern minimalism with refined typography
+ */
+
+/* ============================================
+   TYPOGRAPHY - Clean and professional
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  /* Monochrome palette */
+  --primary-black: #1a1a1a;
+  --primary-gray: #4a4a4a;
+  --light-gray: #e5e5e5;
+  --lighter-gray: #f8f8f8;
+  --white: #ffffff;
+  
+  /* Subtle accent */
+  --accent-blue: #2563eb;
+  --accent-blue-light: #3b82f6;
+  
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-serif: 'Libre Baskerville', 'Georgia', serif;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--primary-gray);
+  background: var(--white);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   HEADER & NAVIGATION - Minimal
+   ============================================ */
+
+#quarto-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--light-gray);
+  box-shadow: none;
+}
+
+.navbar-brand,
+.navbar-title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--primary-black) !important;
+}
+
+.navbar-nav .nav-link {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--primary-gray) !important;
+  transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--accent-blue) !important;
+}
+
+.dropdown-menu {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.dropdown-item {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--primary-gray);
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: var(--lighter-gray);
+  color: var(--accent-blue);
+}
+
+.dropdown-header {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--primary-black);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   HERO SECTION - Clean and spacious
+   ============================================ */
+
+.quarto-about-trestles {
+  background: var(--white);
+  padding: 4rem 0;
+}
+
+.about-entity img {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-entity img:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.quarto-title-block h1 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--primary-black);
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.quarto-title-block .subtitle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--primary-gray);
+  font-weight: 400;
+}
+
+/* ============================================
+   SOCIAL LINKS - Minimal pill design
+   ============================================ */
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.about-link {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary-gray) !important;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--white);
+}
+
+.about-link:hover {
+  background: var(--primary-black);
+  color: var(--white) !important;
+  border-color: var(--primary-black);
+  transform: translateY(-1px);
+}
+
+.about-link i,
+.about-link .ai {
+  font-size: 1rem;
+}
+
+/* ============================================
+   MAIN CONTENT - Readable typography
+   ============================================ */
+
+#hero-heading {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--primary-gray);
+  max-width: 75ch;
+}
+
+#hero-heading p {
+  margin-bottom: 1.5rem;
+}
+
+#hero-heading a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+#hero-heading a:hover {
+  border-bottom-color: var(--accent-blue);
+}
+
+/* ============================================
+   FOOTER - Minimal
+   ============================================ */
+
+.footer {
+  background: var(--lighter-gray);
+  border-top: 1px solid var(--light-gray);
+  color: var(--primary-gray);
+  padding: 2.5rem 0;
+  margin-top: 4rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.nav-footer a {
+  color: var(--primary-gray);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-footer a:hover {
+  color: var(--accent-blue);
+}
+
+.footer-items .nav-link i {
+  font-size: 1.2rem;
+  color: var(--primary-gray);
+  transition: color 0.2s ease;
+}
+
+.footer-items .nav-link:hover i {
+  color: var(--accent-blue);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 991px) {
+  .quarto-title-block h1 {
+    font-size: 2.5rem;
+  }
+  
+  #hero-heading {
+    font-size: 1rem;
+  }
+  
+  .about-entity img {
+    width: 60% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .quarto-title-block h1 {
+    font-size: 2rem;
+  }
+  
+  .about-links {
+    justify-content: center;
+  }
+  
+  body {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   SUBTLE ANIMATIONS - Optional
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.about-entity,
+.quarto-title-block,
+#hero-heading {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ============================================
+   CLEAN ACCENTS
+   ============================================ */
+
+/* Subtle hover states for navbar icons */
+.navbar-nav .nav-item.compact .nav-link i {
+  font-size: 1.2rem;
+  color: var(--primary-gray);
+  transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-item.compact .nav-link:hover i {
+  color: var(--accent-blue);
+}

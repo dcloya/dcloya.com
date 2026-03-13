@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
-<meta name="dcterms.date" content="2026-01-15">
+<meta name="dcterms.date" content="2026-03-13">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Section 0: Setting up R – David Contreras-Loya</title>
+<title>Sección 0: Configuración de R – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,14 +70,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -116,14 +117,15 @@ gtag('config', '', { 'anonymize_ip': true});
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Section 0: Setting up R – David Contreras-Loya">
-<meta property="og:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta property="og:image" content="https://quarto.org/quarto.png">
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="Section 0: Setting up R – David Contreras-Loya">
-<meta name="twitter:description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
-<meta name="twitter:image" content="https://quarto.org/quarto.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -134,6 +136,8 @@ gtag('config', '', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -156,21 +160,6 @@ gtag('config', '', { 'anonymize_ip': true});
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Research</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
-        <li>
-    <a class="dropdown-item" href="../publications.html">
- <span class="dropdown-text">List of Publications</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../ongoing.html">
- <span class="dropdown-text">Ongoing Research</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Teaching</span>
     </a>
@@ -183,61 +172,57 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide.html">
+    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/r_getting_started.html">
+    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
  <span class="dropdown-text">Primeros Pasos con R</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/r_data_wrangling.html">
+    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
  <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">SESIONES (10 SESIONES)</li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 1: Datos y Visualizacion</li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
     <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
- <span class="dropdown-text">S1: La Tirania del Promedio</span></a>
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 2: Incertidumbre y Riesgo</li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_integrated.html">
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_integrated.html">
+    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia I</li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipotesis</li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_ttest_integrated.html">
- <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notes/ex08_pval_integrated.html">
- <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+ <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 5: Asociacion y Causalidad</li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
     <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
  <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
@@ -251,7 +236,7 @@ gtag('config', '', { 'anonymize_ip': true});
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/nsf-biosketch.pdf"> 
+    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -290,34 +275,33 @@ gtag('config', '', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#before-we-begin" id="toc-before-we-begin" class="nav-link active" data-scroll-target="#before-we-begin">Before We Begin</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
+  <li><a href="#antes-de-comenzar" id="toc-antes-de-comenzar" class="nav-link active" data-scroll-target="#antes-de-comenzar">Antes de comenzar</a></li>
+  <li><a href="#instalación" id="toc-instalación" class="nav-link" data-scroll-target="#instalación">Instalación</a>
   <ul class="collapse">
-  <li><a href="#step-1-install-r" id="toc-step-1-install-r" class="nav-link" data-scroll-target="#step-1-install-r">Step 1: Install R</a></li>
-  <li><a href="#step-2-install-rstudio" id="toc-step-2-install-rstudio" class="nav-link" data-scroll-target="#step-2-install-rstudio">Step 2: Install RStudio</a></li>
+  <li><a href="#paso-1-instalar-r" id="toc-paso-1-instalar-r" class="nav-link" data-scroll-target="#paso-1-instalar-r">Paso 1: Instalar R</a></li>
+  <li><a href="#paso-2-instalar-rstudio" id="toc-paso-2-instalar-rstudio" class="nav-link" data-scroll-target="#paso-2-instalar-rstudio">Paso 2: Instalar RStudio</a></li>
   </ul></li>
-  <li><a href="#updating-existing-installations" id="toc-updating-existing-installations" class="nav-link" data-scroll-target="#updating-existing-installations">Updating Existing Installations</a></li>
-  <li><a href="#additional-tools-recommended" id="toc-additional-tools-recommended" class="nav-link" data-scroll-target="#additional-tools-recommended">Additional Tools (Recommended)</a>
+  <li><a href="#actualización-de-instalaciones-existentes" id="toc-actualización-de-instalaciones-existentes" class="nav-link" data-scroll-target="#actualización-de-instalaciones-existentes">Actualización de instalaciones existentes</a></li>
+  <li><a href="#herramientas-adicionales-recomendadas" id="toc-herramientas-adicionales-recomendadas" class="nav-link" data-scroll-target="#herramientas-adicionales-recomendadas">Herramientas adicionales (recomendadas)</a>
   <ul class="collapse">
   <li><a href="#latex" id="toc-latex" class="nav-link" data-scroll-target="#latex">LaTeX</a></li>
   <li><a href="#pandoc" id="toc-pandoc" class="nav-link" data-scroll-target="#pandoc">Pandoc</a></li>
   </ul></li>
-  <li><a href="#does-it-work" id="toc-does-it-work" class="nav-link" data-scroll-target="#does-it-work">Does It Work?</a></li>
-  <li><a href="#resources-for-learning-r" id="toc-resources-for-learning-r" class="nav-link" data-scroll-target="#resources-for-learning-r">Resources for Learning R</a>
+  <li><a href="#funciona" id="toc-funciona" class="nav-link" data-scroll-target="#funciona">¿Funciona?</a></li>
+  <li><a href="#recursos-para-aprender-r" id="toc-recursos-para-aprender-r" class="nav-link" data-scroll-target="#recursos-para-aprender-r">Recursos para aprender R</a>
   <ul class="collapse">
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  <li><a href="#recursos-adicionales" id="toc-recursos-adicionales" class="nav-link" data-scroll-target="#recursos-adicionales">Recursos adicionales</a></li>
   </ul></li>
-  <li><a href="#basic-suggestions-for-success" id="toc-basic-suggestions-for-success" class="nav-link" data-scroll-target="#basic-suggestions-for-success">Basic Suggestions for Success</a>
+  <li><a href="#sugerencias-básicas-para-el-éxito" id="toc-sugerencias-básicas-para-el-éxito" class="nav-link" data-scroll-target="#sugerencias-básicas-para-el-éxito">Sugerencias básicas para el éxito</a>
   <ul class="collapse">
-  <li><a href="#use-r-scripts-not-just-the-console" id="toc-use-r-scripts-not-just-the-console" class="nav-link" data-scroll-target="#use-r-scripts-not-just-the-console">1. Use R Scripts, Not Just the Console</a></li>
-  <li><a href="#comment-your-code" id="toc-comment-your-code" class="nav-link" data-scroll-target="#comment-your-code">2. Comment Your Code</a></li>
-  <li><a href="#be-consistent-with-naming-conventions" id="toc-be-consistent-with-naming-conventions" class="nav-link" data-scroll-target="#be-consistent-with-naming-conventions">3. Be Consistent with Naming Conventions</a></li>
-  <li><a href="#use-descriptive-file-names" id="toc-use-descriptive-file-names" class="nav-link" data-scroll-target="#use-descriptive-file-names">4. Use Descriptive File Names</a></li>
-  <li><a href="#organize-your-files-and-use-smart-paths" id="toc-organize-your-files-and-use-smart-paths" class="nav-link" data-scroll-target="#organize-your-files-and-use-smart-paths">5. Organize Your Files and Use Smart Paths</a></li>
+  <li><a href="#usa-scripts-de-r-no-solo-la-consola" id="toc-usa-scripts-de-r-no-solo-la-consola" class="nav-link" data-scroll-target="#usa-scripts-de-r-no-solo-la-consola">1. Usa scripts de R, no solo la consola</a></li>
+  <li><a href="#comenta-tu-código" id="toc-comenta-tu-código" class="nav-link" data-scroll-target="#comenta-tu-código">2. Comenta tu código</a></li>
+  <li><a href="#sé-consistente-con-las-convenciones-de-nombres" id="toc-sé-consistente-con-las-convenciones-de-nombres" class="nav-link" data-scroll-target="#sé-consistente-con-las-convenciones-de-nombres">3. Sé consistente con las convenciones de nombres</a></li>
+  <li><a href="#usa-nombres-de-archivo-descriptivos" id="toc-usa-nombres-de-archivo-descriptivos" class="nav-link" data-scroll-target="#usa-nombres-de-archivo-descriptivos">4. Usa nombres de archivo descriptivos</a></li>
+  <li><a href="#organiza-tus-archivos-y-usa-rutas-inteligentes" id="toc-organiza-tus-archivos-y-usa-rutas-inteligentes" class="nav-link" data-scroll-target="#organiza-tus-archivos-y-usa-rutas-inteligentes">5. Organiza tus archivos y usa rutas inteligentes</a></li>
   </ul></li>
-  <li><a href="#getting-started-checklist" id="toc-getting-started-checklist" class="nav-link" data-scroll-target="#getting-started-checklist">Getting Started Checklist</a></li>
-  <li><a href="#need-help" id="toc-need-help" class="nav-link" data-scroll-target="#need-help">Need Help?</a></li>
-  <li><a href="#ready-to-code" id="toc-ready-to-code" class="nav-link" data-scroll-target="#ready-to-code">Ready to Code!</a></li>
+  <li><a href="#necesitas-ayuda" id="toc-necesitas-ayuda" class="nav-link" data-scroll-target="#necesitas-ayuda">¿Necesitas ayuda?</a></li>
+  <li><a href="#listo-para-programar" id="toc-listo-para-programar" class="nav-link" data-scroll-target="#listo-para-programar">¡Listo para programar!</a></li>
   </ul>
 </nav>
     </div>
@@ -326,7 +310,7 @@ gtag('config', '', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Section 0: Setting up R</h1>
+<h1 class="title">Sección 0: Configuración de R</h1>
 </div>
 
 
@@ -343,7 +327,7 @@ gtag('config', '', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 15, 2026</p>
+      <p class="date">March 13, 2026</p>
     </div>
   </div>
   
@@ -355,28 +339,28 @@ gtag('config', '', { 'anonymize_ip': true});
 </header>
 
 
-<section id="before-we-begin" class="level2">
-<h2 class="anchored" data-anchor-id="before-we-begin">Before We Begin</h2>
-<p>Before our first section, please make sure you have working and up-to-date installations of <strong>R</strong> and <strong>RStudio</strong>. We will use both extensively in this course, so it is definitely worth doing right.</p>
+<section id="antes-de-comenzar" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-comenzar">Antes de comenzar</h2>
+<p>Antes de nuestra primera sección, por favor asegúrate de tener instalaciones funcionales y actualizadas de <strong>R</strong> y <strong>RStudio</strong>. Los usaremos extensivamente en este curso, por lo que definitivamente vale la pena hacerlo bien.</p>
 <hr>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>If you do not already have R and RStudio running on your computer, then you should install them both:</p>
-<section id="step-1-install-r" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-install-r">Step 1: Install R</h3>
-<p>Download and install R from the official CRAN repository:</p>
+<section id="instalación" class="level2">
+<h2 class="anchored" data-anchor-id="instalación">Instalación</h2>
+<p>Si aún no tienes R y RStudio ejecutándose en tu computadora, entonces debes instalar ambos:</p>
+<section id="paso-1-instalar-r" class="level3">
+<h3 class="anchored" data-anchor-id="paso-1-instalar-r">Paso 1: Instalar R</h3>
+<p>Descarga e instala R desde el repositorio oficial de CRAN:</p>
 <ul>
-<li><strong>Windows</strong>: <a href="https://cran.r-project.org/bin/windows/base/">Download R for Windows</a></li>
-<li><strong>macOS</strong>: <a href="https://cran.r-project.org/bin/macosx/">Download R for macOS</a></li>
-<li><strong>Linux</strong>: <a href="https://cran.r-project.org/bin/linux/">Download R for Linux</a></li>
+<li><strong>Windows</strong>: <a href="https://cran.r-project.org/bin/windows/base/">Descargar R para Windows</a></li>
+<li><strong>macOS</strong>: <a href="https://cran.r-project.org/bin/macosx/">Descargar R para macOS</a></li>
+<li><strong>Linux</strong>: <a href="https://cran.r-project.org/bin/linux/">Descargar R para Linux</a></li>
 </ul>
 </section>
-<section id="step-2-install-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-install-rstudio">Step 2: Install RStudio</h3>
-<p>Download and install RStudio Desktop (free version):</p>
+<section id="paso-2-instalar-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="paso-2-instalar-rstudio">Paso 2: Instalar RStudio</h3>
+<p>Descarga e instala RStudio Desktop (versión gratuita):</p>
 <ul>
-<li><strong>All platforms</strong>: <a href="https://posit.co/download/rstudio-desktop/">Download RStudio Desktop</a></li>
+<li><strong>Todas las plataformas</strong>: <a href="https://posit.co/download/rstudio-desktop/">Descargar RStudio Desktop</a></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -388,23 +372,23 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>RStudio</strong> is a super helpful IDE (Integrated Development Environment) for R—it’s very helpful for both learning and using R.</p>
+<p><strong>RStudio</strong> es un IDE (Entorno de Desarrollo Integrado) súper útil para R—es muy útil tanto para aprender como para usar R.</p>
 </div>
 </div>
 <hr>
 </section>
 </section>
-<section id="updating-existing-installations" class="level2">
-<h2 class="anchored" data-anchor-id="updating-existing-installations">Updating Existing Installations</h2>
-<p>If you already have R and RStudio on your computer, then you should make sure they are <strong>up to date</strong>:</p>
+<section id="actualización-de-instalaciones-existentes" class="level2">
+<h2 class="anchored" data-anchor-id="actualización-de-instalaciones-existentes">Actualización de instalaciones existentes</h2>
+<p>Si ya tienes R y RStudio en tu computadora, entonces debes asegurarte de que estén <strong>actualizados</strong>:</p>
 <ul>
-<li><strong>Current R version</strong>: 4.4.2 (2024-10-31) — <em>“Pile of Leaves”</em>
+<li><strong>Versión actual de R</strong>: 4.4.2 (2024-10-31) — <em>“Pile of Leaves”</em>
 <ul>
-<li>Check your version by typing <code>version</code> into the R console</li>
+<li>Verifica tu versión escribiendo <code>version</code> en la consola de R</li>
 </ul></li>
-<li><strong>Current RStudio version</strong>: 2024.12.0 or newer
+<li><strong>Versión actual de RStudio</strong>: 2024.12.0 o más reciente
 <ul>
-<li>Check via: <em>Help → About RStudio</em></li>
+<li>Verifica mediante: <em>Help → About RStudio</em></li>
 </ul></li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -413,47 +397,47 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Why update?
+<span class="screen-reader-only">Tip</span>¿Por qué actualizar?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Newer versions include bug fixes, performance improvements, and new features that make your coding experience smoother.</p>
+<p>Las versiones más nuevas incluyen correcciones de errores, mejoras de rendimiento y nuevas características que hacen que tu experiencia de programación sea más fluida.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="additional-tools-recommended" class="level2">
-<h2 class="anchored" data-anchor-id="additional-tools-recommended">Additional Tools (Recommended)</h2>
+<section id="herramientas-adicionales-recomendadas" class="level2">
+<h2 class="anchored" data-anchor-id="herramientas-adicionales-recomendadas">Herramientas adicionales (recomendadas)</h2>
 <section id="latex" class="level3">
 <h3 class="anchored" data-anchor-id="latex">LaTeX</h3>
-<p>I would recommend making sure you have a working installation of LaTeX for creating PDFs and mathematical typesetting:</p>
+<p>Te recomendaría asegurarte de tener una instalación funcional de LaTeX para crear PDFs y composición tipográfica matemática:</p>
 <ul>
-<li><p><strong>Easy option</strong>: Install TinyTeX via R:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Full installation</strong>: <a href="https://miktex.org/">Download MiKTeX (Windows)</a> or <a href="https://www.tug.org/mactex/">MacTeX (macOS)</a></p></li>
-<li><p><strong>Online alternative</strong>: <a href="https://www.overleaf.com/">Overleaf</a> (no installation needed, includes LaTeX tutorials)</p></li>
+<li><p><strong>Opción fácil</strong>: Instalar TinyTeX mediante R:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Instalación completa</strong>: <a href="https://miktex.org/">Descargar MiKTeX (Windows)</a> o <a href="https://www.tug.org/mactex/">MacTeX (macOS)</a></p></li>
+<li><p><strong>Alternativa en línea</strong>: <a href="https://www.overleaf.com/">Overleaf</a> (sin necesidad de instalación, incluye tutoriales de LaTeX)</p></li>
 </ul>
 </section>
 <section id="pandoc" class="level3">
 <h3 class="anchored" data-anchor-id="pandoc">Pandoc</h3>
-<p>Pandoc is usually included with RStudio, but you can verify by running in R:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">pandoc_version</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If needed, download from: <a href="https://pandoc.org/installing.html">pandoc.org</a></p>
+<p>Pandoc suele estar incluido con RStudio, pero puedes verificarlo ejecutando en R:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">pandoc_version</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si es necesario, descarga desde: <a href="https://pandoc.org/installing.html">pandoc.org</a></p>
 <hr>
 </section>
 </section>
-<section id="does-it-work" class="level2">
-<h2 class="anchored" data-anchor-id="does-it-work">Does It Work?</h2>
-<p>Let’s test your installation:</p>
+<section id="funciona" class="level2">
+<h2 class="anchored" data-anchor-id="funciona">¿Funciona?</h2>
+<p>Probemos tu instalación:</p>
 <ol type="1">
-<li><p><strong>Open RStudio</strong></p></li>
-<li><p>In the console (bottom-left panel), type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Press <strong>Enter</strong></p></li>
+<li><p><strong>Abre RStudio</strong></p></li>
+<li><p>En la consola (panel inferior izquierdo), escribe:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Presiona <strong>Enter</strong></p></li>
 </ol>
-<p><strong>Expected output:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Resultado esperado:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -464,49 +448,49 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you get <code>[1] 2</code>, congratulations! Everything is working correctly. ✅</p>
-<p>If not, try reinstalling R and RStudio, or ask for help.</p>
+<p>Si obtienes <code>[1] 2</code>, ¡felicidades! Todo está funcionando correctamente. ✅</p>
+<p>Si no, intenta reinstalar R y RStudio, o pide ayuda.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="resources-for-learning-r" class="level2">
-<h2 class="anchored" data-anchor-id="resources-for-learning-r">Resources for Learning R</h2>
-<p>I’ve compiled a large set of resources for R. You probably don’t need them all right now, but know they are there. However, <strong>the best resources for learning R are</strong>:</p>
+<section id="recursos-para-aprender-r" class="level2">
+<h2 class="anchored" data-anchor-id="recursos-para-aprender-r">Recursos para aprender R</h2>
+<p>He compilado un gran conjunto de recursos para R. Probablemente no los necesites todos ahora mismo, pero ten en cuenta que están ahí. Sin embargo, <strong>los mejores recursos para aprender R son</strong>:</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Your Learning Toolkit
+<span class="screen-reader-only">Tip</span>Tu kit de herramientas de aprendizaje
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>Google</strong> (which will probably lead you to <a href="https://stackoverflow.com/">StackOverflow</a>)</li>
-<li><strong>Time</strong> (practice, practice, practice!)</li>
-<li><strong>Your classmates</strong> (collaborative learning works wonders)</li>
-<li><strong>Me</strong> (office hours, email, Slack/Teams)</li>
+<li><strong>Google</strong> (que probablemente te llevará a <a href="https://stackoverflow.com/">StackOverflow</a>)</li>
+<li><strong>Tiempo</strong> (¡práctica, práctica, práctica!)</li>
+<li><strong>Tus compañeros de clase</strong> (el aprendizaje colaborativo hace maravillas)</li>
+<li><strong>Yo</strong> (horas de oficina, correo electrónico, Slack/Teams)</li>
 </ol>
 </div>
 </div>
-<section id="additional-resources" class="level3">
-<h3 class="anchored" data-anchor-id="additional-resources">Additional Resources</h3>
+<section id="recursos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="recursos-adicionales">Recursos adicionales</h3>
 <ul>
-<li><a href="https://r4ds.hadley.nz/">R for Data Science (2e)</a> by Hadley Wickham &amp; Garrett Grolemund</li>
-<li><a href="https://www.rstudio.com/resources/cheatsheets/">RStudio Cheatsheets</a></li>
-<li><a href="https://swirlstats.com/">Swirl</a> - Interactive R tutorials</li>
-<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp</a> - Free intro course</li>
-<li><a href="https://www.r-bloggers.com/">R-bloggers</a> - Community blog posts</li>
+<li><a href="https://r4ds.hadley.nz/">R for Data Science (2e)</a> de Hadley Wickham &amp; Garrett Grolemund</li>
+<li><a href="https://www.rstudio.com/resources/cheatsheets/">Hojas de referencia de RStudio</a></li>
+<li><a href="https://swirlstats.com/">Swirl</a> - Tutoriales interactivos de R</li>
+<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp</a> - Curso de introducción gratuito</li>
+<li><a href="https://www.r-bloggers.com/">R-bloggers</a> - Publicaciones de blog de la comunidad</li>
 </ul>
 <hr>
 </section>
 </section>
-<section id="basic-suggestions-for-success" class="level2">
-<h2 class="anchored" data-anchor-id="basic-suggestions-for-success">Basic Suggestions for Success</h2>
-<section id="use-r-scripts-not-just-the-console" class="level3">
-<h3 class="anchored" data-anchor-id="use-r-scripts-not-just-the-console">1. Use R Scripts, Not Just the Console</h3>
+<section id="sugerencias-básicas-para-el-éxito" class="level2">
+<h2 class="anchored" data-anchor-id="sugerencias-básicas-para-el-éxito">Sugerencias básicas para el éxito</h2>
+<section id="usa-scripts-de-r-no-solo-la-consola" class="level3">
+<h3 class="anchored" data-anchor-id="usa-scripts-de-r-no-solo-la-consola">1. Usa scripts de R, no solo la consola</h3>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -517,44 +501,44 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Nearly everything you do should be in an R script</strong>, as opposed to typing directly in the command line.</p>
+<p><strong>Casi todo lo que hagas debe estar en un script de R</strong>, en lugar de escribir directamente en la línea de comandos.</p>
 </div>
 </div>
-<p><strong>Why?</strong></p>
+<p><strong>¿Por qué?</strong></p>
 <ul>
-<li>You can return to your code later</li>
-<li>You can edit and improve your work</li>
-<li>You need to turn in R scripts for assignments</li>
-<li>It’s reproducible research!</li>
+<li>Puedes volver a tu código más tarde</li>
+<li>Puedes editar y mejorar tu trabajo</li>
+<li>Necesitas entregar scripts de R para las tareas</li>
+<li>¡Es investigación reproducible!</li>
 </ul>
-<p><strong>How to create a script:</strong></p>
+<p><strong>Cómo crear un script:</strong></p>
 <ul>
-<li>File → New File → R Script (or <code>Cmd/Ctrl + Shift + N</code>)</li>
+<li>File → New File → R Script (o <code>Cmd/Ctrl + Shift + N</code>)</li>
 </ul>
 </section>
-<section id="comment-your-code" class="level3">
-<h3 class="anchored" data-anchor-id="comment-your-code">2. Comment Your Code</h3>
-<p>Good comments make your code understandable to others (and your future self):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bad: No context</span></span>
+<section id="comenta-tu-código" class="level3">
+<h3 class="anchored" data-anchor-id="comenta-tu-código">2. Comenta tu código</h3>
+<p>Los buenos comentarios hacen que tu código sea comprensible para otros (y para tu yo futuro):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Malo: Sin contexto</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="dv">2</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Clear explanation</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>price_per_unit <span class="ot">&lt;-</span> <span class="dv">5</span>           <span class="co"># Cost in dollars</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>total_cost <span class="ot">&lt;-</span> price_per_unit <span class="sc">*</span> <span class="dv">2</span>  <span class="co"># Two units purchased</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Bueno: Explicación clara</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>price_per_unit <span class="ot">&lt;-</span> <span class="dv">5</span>           <span class="co"># Costo en dólares</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>total_cost <span class="ot">&lt;-</span> price_per_unit <span class="sc">*</span> <span class="dv">2</span>  <span class="co"># Dos unidades compradas</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="be-consistent-with-naming-conventions" class="level3">
-<h3 class="anchored" data-anchor-id="be-consistent-with-naming-conventions">3. Be Consistent with Naming Conventions</h3>
-<p>Pick a style and stick to it:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Camel Case (recommended for variables)</span></span>
+<section id="sé-consistente-con-las-convenciones-de-nombres" class="level3">
+<h3 class="anchored" data-anchor-id="sé-consistente-con-las-convenciones-de-nombres">3. Sé consistente con las convenciones de nombres</h3>
+<p>Elige un estilo y mantente en él:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Camel Case (recomendado para variables)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>myVariableName <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>calculateTotalCost <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { x <span class="sc">*</span> <span class="dv">2</span> }</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Snake Case (also popular)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Snake Case (también popular)</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>my_variable_name <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>calculate_total_cost <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { x <span class="sc">*</span> <span class="dv">2</span> }</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose ONE and be consistent!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ¡Elige UNO y sé consistente!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -565,24 +549,24 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Avoid:</strong> - Starting variable names with numbers: <code>2021data</code> ❌ - Using reserved words: <code>if</code>, <code>for</code>, <code>function</code> ❌ - Spaces in names: <code>my variable</code> ❌</p>
+<p><strong>Evita:</strong> - Comenzar nombres de variables con números: <code>2021data</code> ❌ - Usar palabras reservadas: <code>if</code>, <code>for</code>, <code>function</code> ❌ - Espacios en los nombres: <code>my variable</code> ❌</p>
 </div>
 </div>
 </section>
-<section id="use-descriptive-file-names" class="level3">
-<h3 class="anchored" data-anchor-id="use-descriptive-file-names">4. Use Descriptive File Names</h3>
-<p>Be smart when naming files and folders:</p>
-<p><strong>Bad names:</strong></p>
+<section id="usa-nombres-de-archivo-descriptivos" class="level3">
+<h3 class="anchored" data-anchor-id="usa-nombres-de-archivo-descriptivos">4. Usa nombres de archivo descriptivos</h3>
+<p>Sé inteligente al nombrar archivos y carpetas:</p>
+<p><strong>Nombres malos:</strong></p>
 <pre><code>cbn18319ddg890-7a.csv
 untitled1.R
 data.xlsx
 final_FINAL_v2_REALFINAL.R</code></pre>
-<p><strong>Good names:</strong></p>
+<p><strong>Nombres buenos:</strong></p>
 <pre><code>CensusCountyDemographics.csv
 01_DataCleaning.R
 HouseholdIncomeSurvey_2024.xlsx
 AnalyzeTaxReliefProgram.R</code></pre>
-<p><strong>Two good naming conventions:</strong></p>
+<p><strong>Dos buenas convenciones de nombres:</strong></p>
 <ol type="1">
 <li><strong>Camel Case</strong>: <code>WhatAGreatFileName.csv</code></li>
 <li><strong>Snake Case</strong>: <code>what_a_great_file_name.csv</code></li>
@@ -593,22 +577,22 @@ AnalyzeTaxReliefProgram.R</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Pro Tips
+<span class="screen-reader-only">Tip</span>Consejos profesionales
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Add dates in YYYY-MM-DD format: <code>2024-01-15_Analysis.R</code></li>
-<li>Number files to show order: <code>01_Import.R</code>, <code>02_Clean.R</code>, <code>03_Analyze.R</code></li>
-<li>Use descriptive prefixes: <code>fig_</code>, <code>tab_</code>, <code>data_</code></li>
+<li>Agrega fechas en formato AAAA-MM-DD: <code>2024-01-15_Analysis.R</code></li>
+<li>Numera archivos para mostrar el orden: <code>01_Import.R</code>, <code>02_Clean.R</code>, <code>03_Analyze.R</code></li>
+<li>Usa prefijos descriptivos: <code>fig_</code>, <code>tab_</code>, <code>data_</code></li>
 </ul>
 </div>
 </div>
 </section>
-<section id="organize-your-files-and-use-smart-paths" class="level3">
-<h3 class="anchored" data-anchor-id="organize-your-files-and-use-smart-paths">5. Organize Your Files and Use Smart Paths</h3>
-<p>Make your life easier by:</p>
-<p><strong>Organizing into folders:</strong></p>
+<section id="organiza-tus-archivos-y-usa-rutas-inteligentes" class="level3">
+<h3 class="anchored" data-anchor-id="organiza-tus-archivos-y-usa-rutas-inteligentes">5. Organiza tus archivos y usa rutas inteligentes</h3>
+<p>Haz tu vida más fácil:</p>
+<p><strong>Organizando en carpetas:</strong></p>
 <pre><code>MyProject/
   ├── Data/
   │   ├── Raw/
@@ -618,18 +602,18 @@ Pro Tips
   │   ├── Figures/
   │   └── Tables/
   └── README.md</code></pre>
-<p><strong>Using <code>paste0()</code> or <code>paste()</code> for file paths:</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of typing full paths every time:</span></span>
+<p><strong>Usando <code>paste0()</code> o <code>paste()</code> para rutas de archivo:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En lugar de escribir rutas completas cada vez:</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/david/Documents/Project/Data/census.csv"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use paste0() for flexibility:</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usa paste0() para flexibilidad:</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>project_path <span class="ot">&lt;-</span> <span class="st">"/Users/david/Documents/Project"</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(project_path, <span class="st">"/Data/census.csv"</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(data_path)</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Even better: use relative paths with here package</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Aún mejor: usa rutas relativas con el paquete here</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"census.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"census.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -640,34 +624,20 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We’ll see more examples of smart file organization and path management in <strong>Section 1</strong>.</p>
+<p>Veremos más ejemplos de organización de archivos inteligente y gestión de rutas en la <strong>Sección 1</strong>.</p>
 </div>
 </div>
 <hr>
 </section>
 </section>
-<section id="getting-started-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started-checklist">Getting Started Checklist</h2>
-<p>Before the first class, make sure you can check all these boxes:</p>
-<ul class="task-list">
-<li><label><input type="checkbox">R is installed and up to date</label></li>
-<li><label><input type="checkbox">RStudio is installed and up to date</label></li>
-<li><label><input type="checkbox">I can open RStudio successfully</label></li>
-<li><label><input type="checkbox">Typing <code>1 + 1</code> in the console returns <code>[1] 2</code></label></li>
-<li><label><input type="checkbox">I can create a new R script (File → New File → R Script)</label></li>
-<li><label><input type="checkbox">I’ve bookmarked some helpful R resources</label></li>
-<li><label><input type="checkbox">I understand basic file naming conventions</label></li>
-</ul>
-<hr>
-</section>
-<section id="need-help" class="level2">
-<h2 class="anchored" data-anchor-id="need-help">Need Help?</h2>
-<p>If you encounter any issues during installation or setup:</p>
+<section id="necesitas-ayuda" class="level2">
+<h2 class="anchored" data-anchor-id="necesitas-ayuda">¿Necesitas ayuda?</h2>
+<p>Si encuentras algún problema durante la instalación o configuración:</p>
 <ol type="1">
-<li><strong>Search Google</strong> with your error message</li>
-<li><strong>Check StackOverflow</strong> for similar problems</li>
-<li><strong>Ask classmates</strong> on our course forum/Slack</li>
-<li><strong>Contact me</strong> during office hours or via email</li>
+<li><strong>Busca en Google</strong> tu mensaje de error</li>
+<li><strong>Consulta StackOverflow</strong> para problemas similares</li>
+<li><strong>Pregunta a tus compañeros</strong> en nuestro foro/Slack del curso</li>
+<li><strong>Contáctame</strong> durante las horas de oficina o por correo electrónico</li>
 </ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -675,19 +645,19 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Don’t wait until the last minute!
+<span class="screen-reader-only">Important</span>¡No esperes hasta el último minuto!
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Set up your R environment <strong>before</strong> the first assignment is due. Technical difficulties are easier to resolve when you’re not under time pressure.</p>
+<p>Configura tu entorno de R <strong>antes</strong> de que venza la primera tarea. Las dificultades técnicas son más fáciles de resolver cuando no estás bajo presión de tiempo.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="ready-to-code" class="level2">
-<h2 class="anchored" data-anchor-id="ready-to-code">Ready to Code!</h2>
-<p>Once everything is set up, you’re ready to start learning R! See you in Section 1.</p>
-<p><em>Happy coding!</em> 🚀</p>
+<section id="listo-para-programar" class="level2">
+<h2 class="anchored" data-anchor-id="listo-para-programar">¡Listo para programar!</h2>
+<p>Una vez que todo esté configurado, ¡estás listo para comenzar a aprender R! Nos vemos en la Sección 1.</p>
+<p><em>¡Feliz programación!</em> 🚀</p>
 
 
 </section>
@@ -744,13 +714,14 @@ Don’t wait until the last minute!
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -765,7 +736,7 @@ Don’t wait until the last minute!
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

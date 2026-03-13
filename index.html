@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
-<meta name="description" content="Gang He is an energy scholar, researcher, and teacher. He is an Associate Professor at the Marxe School of Public and International Affairs, Baruch College, City University of New York. He studies and teaches energy systems, energy and climate policy, and clean energy transition.">
+<meta name="description" content="David Contreras-Loya is a public policy scholar, researcher, and teacher. He is a Research Professor at the School of Government and Public Transformation at Tecnológico de Monterrey, Mexico. He studies and teaches health economics, causal inference, and modern quantitative methods.">
 
 <title>David Contreras-Loya, PhD – David Contreras-Loya</title>
 <style>
@@ -36,13 +36,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f07a380226b71dccd824dee245407231.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -125,7 +126,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -141,22 +142,15 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="David Contreras-Loya, PhD – David Contreras-Loya">
-<meta property="og:description" content="Research Professor
-Escuela de Gobierno y Transformación Pública
-Institute for Obesity Research
-Tecnológico de Monterrey
-E-mail: d.contreras [at] tec.mx">
-<meta property="og:image" content="https://drganghe.github.io/quarto-academic-website-template/files/AGT_5639.PNG">
+<link rel="stylesheet" href="custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta property="og:site_name" content="David Contreras-Loya">
-<meta name="twitter:title" content="David Contreras-Loya, PhD – David Contreras-Loya">
-<meta name="twitter:description" content="Research Professor
-Escuela de Gobierno y Transformación Pública
-Institute for Obesity Research
-Tecnológico de Monterrey
-E-mail: d.contreras [at] tec.mx">
-<meta name="twitter:image" content="https://drganghe.github.io/quarto-academic-website-template/files/AGT_5639.PNG">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -167,6 +161,8 @@ E-mail: d.contreras [at] tec.mx">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -227,7 +223,7 @@ E-mail: d.contreras [at] tec.mx">
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="./notes/ex03_montecarlo_simplified.html">
+    <a class="dropdown-item" href="./notes/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
@@ -237,22 +233,18 @@ E-mail: d.contreras [at] tec.mx">
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="./notes/ex05_sampling_integrated.html">
+    <a class="dropdown-item" href="./notes/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notes/ex06_ci_integrated.html">
+    <a class="dropdown-item" href="./notes/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis</li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="./notes/ex07_ttest_integrated.html">
- <span class="dropdown-text">S7: Logica de la Prueba de Hipotesis</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./notes/ex08_pval_integrated.html">
- <span class="dropdown-text">S8: P-valor y Poder Estadistico</span></a>
+    <a class="dropdown-item" href="./notes/ex07_08_hipotesis_integrated_1.html">
+ <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
@@ -310,6 +302,99 @@ E-mail: d.contreras [at] tec.mx">
 
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "David Contreras-Loya",
+  "honorificSuffix": "PhD",
+  "jobTitle": "Research Professor",
+  "description": "Applied economist, researcher, and educator working at the intersection of health, education, and social policy",
+  "url": "https://dcloya.com",
+  "email": "d.contreras@tec.mx",
+  "image": "https://dcloya.com/files/AGT_5639.PNG",
+  "sameAs": [
+    "https://www.linkedin.com/in/david-contreras-loya-8550bb44",
+    "https://orcid.org/0000-0002-4042-4372",
+    "https://scholar.google.com/citations?user=vf90AuEAAAAJ",
+    "https://www.researchgate.net/profile/David-Contreras-Loya-2",
+    "https://www.scopus.com/authid/detail.uri?authorId=55971186800",
+    "https://www.webofscience.com/wos/author/record/NWH-0285-2025"
+  ],
+  "affiliation": [
+    {
+      "@type": "Organization",
+      "name": "Tecnológico de Monterrey",
+      "url": "https://tec.mx",
+      "sameAs": "https://en.wikipedia.org/wiki/Monterrey_Institute_of_Technology_and_Higher_Education"
+    },
+    {
+      "@type": "Organization",
+      "name": "Escuela de Gobierno y Transformación Pública",
+      "url": "https://egobiernoytp.tec.mx"
+    }
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Tecnológico de Monterrey"
+  },
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Berkeley",
+      "sameAs": "https://en.wikipedia.org/wiki/University_of_California,_Berkeley"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Instituto Nacional de Salud Pública",
+      "sameAs": "https://www.insp.mx"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Tecnológico de Monterrey"
+    }
+  ],
+  "knowsAbout": [
+    "Health Economics",
+    "Public Policy",
+    "Health Policy",
+    "Program Evaluation",
+    "Causal Inference",
+    "Quantitative Methods",
+    "Social Policy",
+    "Health Systems"
+  ],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Research Professor",
+    "occupationLocation": {
+      "@type": "City",
+      "name": "Mexico City",
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Mexico"
+      }
+    }
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Mexico City",
+    "addressCountry": "MX"
+  },
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "PhD",
+      "educationalLevel": "Doctorate",
+      "competencyRequired": "Health Policy",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "University of California, Berkeley"
+      }
+    }
+  ]
+}
+</script>
 <div class="quarto-about-trestles column-page">
   <div class="about-entity">
     <img src="files/AGT_5639.PNG" class="about-image
@@ -343,7 +428,7 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
   <a href="https://www.scopus.com/authid/detail.uri?authorId=55971186800" class="about-link" rel="" target="_blank">
      <span class="about-link-text"><i class="ai  ai-scopus" aria-label="scopus"></i> Scopus</span>
   </a>
-  <a href="https://scholar.google.com/citations?user=vf90AuEAAAAJ" class="about-link" rel="" target="_blank">
+  <a href="https://scholar.google.com/citations?hl=en&amp;user=axuzNJ0AAAAJ" class="about-link" rel="" target="_blank">
      <span class="about-link-text"><i class="ai  ai-google-scholar" aria-label="google-scholar"></i> Google Scholar</span>
   </a>
   <a href="https://www.researchgate.net/profile/David-Contreras-Loya-2" class="about-link" rel="" target="_blank">
@@ -352,12 +437,11 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
 </div>
   </div>
   <div class="about-contents"><div id="hero-heading">
-<p>David Contreras-Loya is an applied economist, researcher, and teacher whose work sits at the intersection of health, education, and social policy, with a sustained focus on quantitative methods and decision-relevant evidence. He is a Research Professor at <a href="https://egobiernoytp.tec.mx/es">Escuela de Gobierno y Transformación Pública</a>, and is affiliated with the <a href="https://tec.mx/en/research/institute-obesity-research">Institute for Obesity Research</a>. He co-leads <a href="https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud">Evidencia y Acción para la Equidad en Salud, EVIS</a>, a research center oriented to translating empirical analysis into operational guidance for public sector decision-makers in Latin America.</p>
-<p>His research examines how social and territorial conditions shape health and human capital outcomes—and how policy can be designed to improve effectiveness and equity under real-world constraints such as limited data, heterogeneous implementation capacity, and institutional fragmentation. A central theme of his work is the empirical evaluation of public programs and service delivery, including prevention and management of chronic disease, health system performance, and distributional outcomes across places and populations. His work has appeared in outlets such as <a href="https://doi.org/10.1093/heapol/czw161">Health Policy and Planning</a>, <a href="https://doi.org/10.1016/j.socscimed.2024.117646">Social Science and Medicine</a>, the <a href="https://www.nber.org/papers/w28845">National Bureau of Economic Research</a> and the <a href="https://doi.org/10.3945/ajcn.114.092775">American Journal of Clinical Nutrition</a>, and in policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations.</p>
-<p>His research has been supported by organizations including the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philantropic Fund. His work and commentary have been featured by <a href="https://voxdev.org/topic/education/how-skills-training-can-boost-entrepreneurship-and-job-creation-evidence-uganda">VoxDev</a> and <a href="https://mexicobusiness.news/health/news/building-value-based-healthcare-model-mexico">Mexico Business News</a>, and has been used in applied settings by public agencies and partners working on HIV and Diabetes care in Mexico and Sub-Saharan Africa.</p>
-<p>His work informs policy discussions and implementation processes in the region. He collaborates with government counterparts, multilateral organizations, and civil society partners to improve data use and evaluation practice in programs related to Cancer and Diabetes care, Digital health, and Childhood violence. He has contributed to policy design and evaluation projects in Mexico, Peru, Kenya, Nigeria, Rwanda, Uganda, including <a href="https://www.povertyactionlab.org/evaluation/evaluating-african-health-market-equity-ahme-initiative-kenya">African Health Markets for Equity</a> and <a href="https://policycommons.net/artifacts/3533984/cedil-research-project-paper-11/4335197/">Skills for Effective Entrepreneurship Development</a>, or the <a href="https://www.fundingawards.nihr.ac.uk/award/NIHR156915">Global Health Research Group on Violence Against Women and Violence Against Children</a> and regularly advises local government teams on measurement strategy, identification, and communicating uncertainty in ways that support accountable decision-making.</p>
-<p>He teaches Quantitative Methods for Public Policy and Causal Inference at the graduate level, with an emphasis on statistical reasoning, uncertainty, and evidence communication for policy settings.</p>
-<p>Previously, he worked as a consultant for the World Bank Group, and has collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. He received his Ph.D.&nbsp;in Health Policy from UC Berkeley, and holds a MSc in Health Economics from Instituto Nacional de Salud Pública and a BSc in Industrial Engineering from Tecnológico de Monterrey.</p>
+<p>I’m an applied economist, researcher, and educator working at the intersection of health, education, and social policy. Currently a Research Professor at <a href="https://egobiernoytp.tec.mx/es">Escuela de Gobierno y Transformación Pública</a> and affiliated with the <a href="https://tec.mx/en/research/institute-obesity-research">Institute for Obesity Research</a>, I co-lead <a href="https://egobiernoytp.tec.mx/es/investigacion/iniciativa-politica-publica-salud">Evidencia y Acción para la Equidad en Salud, EVIS</a>, a research center that translates empirical analysis into operational guidance for public sector decision-makers in Latin America.</p>
+<p>My research examines how social and territorial conditions shape health and human capital outcomes, and how policy can be designed to improve effectiveness and equity under real-world constraints—limited data, heterogeneous implementation capacity, institutional fragmentation. Core themes include empirical evaluation of public programs, chronic disease prevention and management, health system performance, and distributional outcomes across places and populations. Work has appeared in the <a href="https://doi.org/10.1186/s12939-025-02754-2">International Journal for Equity in Health</a>, <a href="https://doi.org/10.1093/heapol/czw161">Health Policy and Planning</a>, <a href="https://doi.org/10.1016/j.socscimed.2024.117646">Social Science and Medicine</a>, the <a href="https://www.nber.org/papers/w28845">National Bureau of Economic Research</a> and the <a href="https://doi.org/10.3945/ajcn.114.092775">American Journal of Clinical Nutrition</a>, alongside policy-facing formats including technical reports, evaluation briefs, and stakeholder presentations. Research has been supported by the National Institute for Health and Care Research, Centre of Excellence for Development Impact and Learning, and Wellspring Philanthropic Fund, and featured by <a href="https://voxdev.org/topic/education/how-skills-training-can-boost-entrepreneurship-and-job-creation-evidence-uganda">VoxDev</a> and <a href="https://mexicobusiness.news/health/news/building-value-based-healthcare-model-mexico">Mexico Business News</a>.</p>
+<p>I collaborate with government counterparts, multilateral organizations, and civil society partners to strengthen data use and evaluation practice in programs related to cancer and diabetes care, digital health, and childhood violence. Recent projects include <a href="https://www.povertyactionlab.org/evaluation/evaluating-african-health-market-equity-ahme-initiative-kenya">African Health Markets for Equity</a> and <a href="https://policycommons.net/artifacts/3533984/cedil-research-project-paper-11/4335197/">Skills for Effective Entrepreneurship Development</a>, or the <a href="https://www.fundingawards.nihr.ac.uk/award/NIHR156915">Global Health Research Group on Violence Against Women and Violence Against Children</a>. I regularly advise local government teams on measurement strategy, identification, and communicating uncertainty for accountable decision-making.</p>
+<p>At Tec de Monterrey, I teach Quantitative Methods for Public Policy and Causal Inference at the graduate level, emphasizing statistical reasoning, uncertainty, and evidence communication for policy settings.</p>
+<p>Previously, I worked as a consultant for the World Bank Group and collaborated with academic and policy teams across Mexico, the United States, Africa, and Latin America. I hold a Ph.D.&nbsp;in Health Policy from UC Berkeley, an MSc in Health Economics from Instituto Nacional de Salud Pública, and a BSc in Industrial Engineering from Tecnológico de Monterrey.</p>
 </div></div>
 </div>
 
@@ -416,13 +500,14 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -437,7 +522,7 @@ E-mail: d.contreras [at] tec.mx</p><p></p>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/drganghe\.github\.io\/quarto-academic-website-template");
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
