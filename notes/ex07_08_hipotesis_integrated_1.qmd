@@ -1,0 +1,903 @@
+---
+title: "Sesión 7–8: Prueba de Hipótesis, Valor p y Poder Estadístico"
+subtitle: "Caso: Programa Becas para Todos"
+format: html
+filters:
+  - webr
+---
+
+> **Contexto del caso.** El programa *Becas para Todos* asigna becas de apoyo educativo a estudiantes de secundaria en municipios con alta marginación. Queremos saber si las becas mejoran el rendimiento en matemáticas — y si podemos confiar en los resultados de nuestra evaluación.
+
+---
+
+# Parte 1: Visualizando los grupos
+
+Antes de hacer cualquier prueba, miremos los datos. Simulamos puntajes de matemáticas (escala 0–100) para el grupo de control y el grupo que recibió la beca.
+
+```{webr-r}
+# set.seed() fija la semilla del generador de números aleatorios.
+# Usar la misma semilla garantiza que todos obtendremos exactamente
+# los mismos "números aleatorios" — indispensable para reproducibilidad.
+set.seed(2026)
+
+# Parámetros poblacionales que nosotros conocemos porque simulamos.
+# En un estudio real estos serían desconocidos.
+n              <- 60   # alumnos por grupo
+mu_control     <- 62   # media poblacional del grupo sin beca
+mu_tratamiento <- 67   # media poblacional del grupo con beca  (Δ real = 5 pts)
+sigma          <- 12   # desviación estándar poblacional (igual en ambos grupos)
+
+# rnorm(n, mean, sd) genera n observaciones de una distribución Normal(mean, sd).
+# Cada llamada produce un vector de n números.
+puntajes_control     <- rnorm(n, mean = mu_control,     sd = sigma)
+puntajes_tratamiento <- rnorm(n, mean = mu_tratamiento, sd = sigma)
+
+# Apilamos los dos vectores en un data.frame para facilitar análisis posteriores.
+# c() concatena vectores; rep(..., each = n) repite cada etiqueta n veces consecutivas.
+datos <- data.frame(
+  puntaje = c(puntajes_control, puntajes_tratamiento),
+  grupo   = rep(c("Control", "Beca"), each = n)
+)
+
+cat("Resumen por grupo\n")
+cat("─────────────────────────────────────\n")
+# sprintf() formatea texto con especificadores: %.1f = número con 1 decimal
+cat(sprintf("Control    : media = %.1f  SD = %.1f\n",
+            mean(puntajes_control), sd(puntajes_control)))
+cat(sprintf("Beca       : media = %.1f  SD = %.1f\n",
+            mean(puntajes_tratamiento), sd(puntajes_tratamiento)))
+cat(sprintf("Diferencia : %.1f puntos\n",
+            mean(puntajes_tratamiento) - mean(puntajes_control)))
+```
+
+## Histogramas de los grupos
+
+```{webr-r}
+# par(mfrow = c(filas, columnas)) divide el área gráfica en una cuadrícula.
+# c(1, 2) = 1 fila, 2 columnas → dos paneles lado a lado.
+# mar = c(abajo, izquierda, arriba, derecha) ajusta los márgenes en líneas de texto.
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+
+# ══════════════════════════════════════════════════════════════════
+# PANEL IZQUIERDO: histogramas de los datos individuales
+# ══════════════════════════════════════════════════════════════════
+
+# rgb(rojo, verde, azul, alpha) define un color con transparencia.
+# Los valores van de 0 a 1. alpha = 0.55 → 55% opaco (semi-transparente),
+# lo que permite ver ambos histogramas donde se superponen.
+hist(puntajes_control,
+     col    = rgb(0.85, 0.32, 0.32, 0.55),  # rojo semi-transparente
+     breaks = 18,                             # número aproximado de barras
+     main   = "Distribución de puntajes",
+     xlab   = "Puntaje matemáticas",
+     xlim   = c(25, 105),   # forzamos el mismo rango en X para ambos histogramas
+     ylim   = c(0, 18))     # forzamos el mismo rango en Y
+
+# add = TRUE superpone el segundo histograma sobre el primero
+# en lugar de abrir una nueva figura.
+hist(puntajes_tratamiento,
+     col    = rgb(0.18, 0.62, 0.60, 0.55),  # verde-azul semi-transparente
+     breaks = 18,
+     add    = TRUE)   # ← clave: dibuja encima sin reemplazar el gráfico anterior
+
+legend("topright",
+       legend = c("Control", "Beca"),
+       fill   = c(rgb(0.85, 0.32, 0.32, 0.55),
+                  rgb(0.18, 0.62, 0.60, 0.55)),
+       bty    = "n",   # sin caja alrededor de la leyenda
+       cex    = 0.9)   # tamaño del texto (0.9 = 90% del default)
+
+# ══════════════════════════════════════════════════════════════════
+# PANEL DERECHO: distribuciones muestrales del promedio
+# ══════════════════════════════════════════════════════════════════
+
+# Por el Teorema Central del Límite, si repetimos el estudio muchas veces,
+# la distribución muestral de X̄ es aproximadamente Normal con:
+#   media = μ  (la media poblacional del grupo)
+#   sd    = σ / √n  (el "error estándar" o SE)
+# Este SE es MUCHO más angosto que σ: con n=60, SE ≈ 12/√60 ≈ 1.55
+se <- sigma / sqrt(n)   # error estándar del promedio
+
+# seq(desde, hasta, length.out = k) genera un vector de k valores
+# igualmente espaciados entre 'desde' y 'hasta'.
+# Este "grid" de valores de x nos sirve para evaluar la función de densidad
+# en muchos puntos y trazar una curva suave (como un eje continuo simulado).
+# El rango cubre ± 4 errores estándar alrededor de cada media para no cortar las colas.
+x_seq <- seq(mu_control - 4 * se,      # extremo izquierdo del eje x
+             mu_tratamiento + 4 * se,   # extremo derecho del eje x
+             length.out = 400)          # resolución: 400 puntos para una curva suave
+
+# dnorm(x, mean, sd) evalúa la DENSIDAD de la Normal en cada valor de x_seq.
+# La densidad es la "altura" de la campana en ese punto — no es una probabilidad.
+# Para obtener probabilidades necesitamos integrar dnorm (o usar pnorm).
+# type = "l" → línea continua; lwd = grosor de línea
+plot(x_seq,
+     dnorm(x_seq, mean = mu_control, sd = se),   # densidad del promedio del control
+     type = "l", lwd = 3,
+     col  = rgb(0.85, 0.32, 0.32, 0.9),
+     main = "Distribución muestral del promedio",
+     xlab = expression(bar(X)),   # expression() permite símbolos matemáticos: X̄
+     ylab = "Densidad",
+     ylim = c(0, 0.45))
+
+# lines() agrega una curva al gráfico ya existente (no abre uno nuevo).
+lines(x_seq,
+      dnorm(x_seq, mean = mu_tratamiento, sd = se),  # densidad del promedio de beca
+      lwd = 3,
+      col = rgb(0.18, 0.62, 0.60, 0.9))
+
+# ── Sombreado de la zona de traslape ─────────────────────────────
+# El traslape visual entre las dos campanas ilustra qué tan difícil es
+# distinguir una media de la otra solo con variabilidad muestral.
+
+# Nuevo grid centrado en la zona donde ambas campanas conviven.
+x_overlap <- seq(mu_control     - 3 * se,
+                 mu_tratamiento + 3 * se,
+                 length.out = 400)
+
+# pmin(vector_a, vector_b) devuelve el MÍNIMO elemento a elemento.
+# En cada punto x del grid, el traslape está limitado por la campana más baja:
+# si en x la curva de control es más baja, el traslape no puede exceder esa altura.
+dens_min <- pmin(
+  dnorm(x_overlap, mu_control,     se),   # altura de la campana control en x
+  dnorm(x_overlap, mu_tratamiento, se)    # altura de la campana beca en x
+)
+
+# polygon() dibuja un polígono relleno definido por sus vértices (x, y).
+# Trazamos: de izquierda a derecha por la curva (dens_min), luego
+# de derecha a izquierda por el piso (ceros), cerrando el polígono.
+# rev() invierte el orden del vector para hacer el trayecto de vuelta.
+polygon(
+  c(x_overlap, rev(x_overlap)),               # coordenadas X (ida y vuelta)
+  c(dens_min,  rep(0, length(x_overlap))),    # coordenadas Y (densidad y piso)
+  col    = rgb(0.6, 0.6, 0.6, 0.35),         # gris con alta transparencia
+  border = NA                                  # sin borde visible
+)
+
+# abline(v = valor) traza una línea vertical; lty = 2 → línea punteada
+abline(v = mu_control,     lty = 2, col = rgb(0.85, 0.32, 0.32, 0.8))
+abline(v = mu_tratamiento, lty = 2, col = rgb(0.18, 0.62, 0.60, 0.8))
+
+legend("topright",
+       legend = c("Control", "Beca", "Traslape"),
+       lty    = c(1, 1, NA),      # tipo de línea (NA = ninguna, solo símbolo)
+       pch    = c(NA, NA, 15),    # símbolo (15 = cuadrado relleno)
+       col    = c(rgb(0.85, 0.32, 0.32),
+                  rgb(0.18, 0.62, 0.60),
+                  rgb(0.6,  0.6,  0.6, 0.5)),
+       lwd    = 2, bty = "n", cex = 0.85)
+
+# Restaurar el layout de gráficos a un solo panel
+par(mfrow = c(1, 1))
+```
+
+> **¿Por qué dos paneles?** El panel izquierdo muestra la variación *dentro* de cada grupo: los 60 puntajes individuales de cada alumno. El panel derecho muestra la **distribución muestral del promedio**: si repitiéramos el estudio muchas veces con muestras de n = 60, ¿dónde caería X̄ cada vez? El error estándar (SE = σ/√n) es mucho más angosto que σ porque el promedio es mucho más estable que una observación individual. El traslape gris en el panel derecho visualiza cuán fácil o difícil es que las dos medias "se confundan" por azar — esa dificultad es exactamente lo que cuantifica el estadístico *t*.
+
+---
+
+# Parte 2: Las funciones de distribución en R — guía de referencia
+
+Antes de construir la prueba, conviene tener un mapa claro de las cuatro familias de funciones que R ofrece para cualquier distribución de probabilidad.
+
+## La familia `d / p / q / r`
+
+Para cada distribución (normal, *t*, chi-cuadrado, F, binomial…), R implementa cuatro funciones con prefijos consistentes:
+
+| Prefijo | Qué calcula | Ejemplo (Normal estándar) |
+|---------|-------------|--------------------------|
+| `d`     | **Densidad** — la "altura" de la campana en un punto *x* | `dnorm(0)` → 0.3989 |
+| `p`     | **Probabilidad acumulada** — P(X ≤ x) | `pnorm(1.96)` → 0.9750 |
+| `q`     | **Cuantil** — el valor *x* tal que P(X ≤ x) = p | `qnorm(0.975)` → 1.96 |
+| `r`     | **Simulación** — genera números aleatorios | `rnorm(10)` → 10 valores |
+
+Los sufijos de distribución más usados en inferencia: `norm` (normal), `t` (t de Student), `chisq` (chi-cuadrado), `f` (F de Fisher), `binom` (binomial).
+
+```{webr-r}
+# ══════════════════════════════════════════════════════════════════
+# dnorm(): densidad de la distribución normal
+# ══════════════════════════════════════════════════════════════════
+
+# La densidad NO es una probabilidad — es la "altura" de la curva.
+# Para obtener probabilidades necesitamos integrar (o usar pnorm).
+# Por default: Normal(0,1), i.e., mean=0, sd=1.
+
+cat("── dnorm(): altura de la campana en x ────────────────────\n")
+cat(sprintf("  dnorm(0)              = %.4f  (máximo, centro de la campana)\n", dnorm(0)))
+cat(sprintf("  dnorm(1.96)           = %.4f  (ya estamos en la cola)\n",        dnorm(1.96)))
+cat(sprintf("  dnorm(0, mean=5, sd=2)= %.4f  (otra distribución, en x=0)\n",   dnorm(0, mean=5, sd=2)))
+
+cat("\n")
+
+# ══════════════════════════════════════════════════════════════════
+# pnorm(): probabilidad acumulada P(X ≤ x)  [cola izquierda por default]
+# ══════════════════════════════════════════════════════════════════
+
+cat("── pnorm(): área acumulada hasta x ───────────────────────\n")
+# lower.tail = TRUE (default) → P(X ≤ q)
+cat(sprintf("  pnorm(0)              = %.4f  (50%% del área a la izquierda de 0)\n", pnorm(0)))
+cat(sprintf("  pnorm(1.645)          = %.4f  (umbral α=0.05 unilateral)\n",          pnorm(1.645)))
+cat(sprintf("  pnorm(1.96)           = %.4f  (umbral α=0.025 en cada cola)\n",       pnorm(1.96)))
+
+cat("\n")
+# lower.tail = FALSE → P(X > q)  [cola DERECHA]
+# Equivalente a 1 - pnorm(q), pero numéricamente más preciso en colas extremas.
+cat("  Con lower.tail = FALSE obtenemos P(X > q):\n")
+cat(sprintf("  pnorm(1.645, lower.tail=FALSE) = %.4f  (5%% en la cola derecha)\n",  pnorm(1.645, lower.tail=FALSE)))
+cat(sprintf("  pnorm(1.96,  lower.tail=FALSE) = %.4f  (2.5%% en la cola derecha)\n", pnorm(1.96,  lower.tail=FALSE)))
+
+cat("\n")
+# Prueba BILATERAL: P(|X| > z) = 2 × P(X > |z|)
+# Multiplicamos por 2 porque el efecto podría estar en cualquiera de las dos colas.
+# abs() garantiza que funcione aunque el estadístico sea negativo.
+z_ej <- 2.10
+cat(sprintf("  Bilateral: 2 * pnorm(%.2f, lower.tail=FALSE) = %.4f\n",
+            z_ej, 2 * pnorm(z_ej, lower.tail=FALSE)))
+```
+
+```{webr-r}
+# ══════════════════════════════════════════════════════════════════
+# pt(): distribución t de Student — para muestras pequeñas o moderadas
+# ══════════════════════════════════════════════════════════════════
+
+# La distribución t tiene colas más pesadas que la normal:
+# con pocos grados de libertad, los valores extremos son más probables.
+# A medida que df → ∞, la t converge a la Normal(0,1).
+# pt(q, df, lower.tail) es análogo a pnorm pero requiere especificar df.
+
+t_ej <- 2.10
+df_ej <- 20
+
+cat(sprintf("Con estadístico t = %.2f y df = %d\n\n", t_ej, df_ej))
+
+# Cola derecha: P(T > t)
+p_t_uni <- pt(t_ej, df = df_ej, lower.tail = FALSE)
+# Cola bilateral: P(|T| > t) — abs() para que funcione con t negativos
+p_t_bi  <- 2 * pt(abs(t_ej), df = df_ej, lower.tail = FALSE)
+
+# Comparamos con la aproximación normal
+p_z_uni <- pnorm(t_ej, lower.tail = FALSE)
+p_z_bi  <- 2 * pnorm(abs(t_ej), lower.tail = FALSE)
+
+cat("── Valor p unilateral ─────────────────────────────────────\n")
+cat(sprintf("  pt(%.2f, df=%d, lower.tail=FALSE) = %.4f\n", t_ej, df_ej, p_t_uni))
+cat(sprintf("  pnorm(%.2f, lower.tail=FALSE)     = %.4f  (aprox. normal)\n", t_ej, p_z_uni))
+cat(sprintf("  Diferencia pt - pnorm             = %.5f\n\n", p_t_uni - p_z_uni))
+
+cat("── Valor p bilateral ──────────────────────────────────────\n")
+cat(sprintf("  2*pt(%.2f, df=%d, lower.tail=FALSE)= %.4f\n", t_ej, df_ej, p_t_bi))
+cat(sprintf("  2*pnorm(%.2f, lower.tail=FALSE)    = %.4f  (aprox. normal)\n", t_ej, p_z_bi))
+cat(sprintf("  Diferencia                         = %.5f\n\n", p_t_bi - p_z_bi))
+
+cat("Con df pequeño, pt() da p-valores MAYORES que pnorm().\n")
+cat("Usar pnorm() cuando n es pequeño es anticonservador:\n")
+cat("subestima la incertidumbre y rechaza H₀ con más facilidad de la debida.\n")
+```
+
+```{webr-r}
+# ══════════════════════════════════════════════════════════════════
+# qnorm() y qt(): cuantiles — la operación INVERSA de pnorm / pt
+# ══════════════════════════════════════════════════════════════════
+
+# Si pnorm(1.96) = 0.975, entonces qnorm(0.975) = 1.96.
+# qnorm(p) responde: ¿qué valor z deja el p% del área a su izquierda?
+# Se usa principalmente para obtener valores críticos (umbrales de rechazo).
+
+cat("── qnorm(): valores críticos z ────────────────────────────\n")
+# Prueba unilateral α=0.05: rechazamos si z > qnorm(0.95)
+cat(sprintf("  qnorm(0.95)  = %.4f  (valor crítico α=0.05 unilateral)\n",  qnorm(0.95)))
+# Prueba bilateral α=0.05: rechazamos si |z| > qnorm(0.975)
+cat(sprintf("  qnorm(0.975) = %.4f  (valor crítico α=0.05 bilateral)\n",   qnorm(0.975)))
+cat(sprintf("  qnorm(0.995) = %.4f  (valor crítico α=0.01 bilateral)\n\n", qnorm(0.995)))
+
+# Equivalente con lower.tail = FALSE:
+# qnorm(alpha, lower.tail=FALSE) = qnorm(1 - alpha)
+cat(sprintf("  qnorm(0.05, lower.tail=FALSE) = %.4f  (idéntico a qnorm(0.95))\n\n",
+            qnorm(0.05, lower.tail = FALSE)))
+
+cat("── qt(): valores críticos t (dependen de df) ──────────────\n")
+cat("  df      qt(0.975, df)   [bilateral α=0.05]\n")
+cat("  ──────────────────────────────────────────\n")
+# A medida que df crece, qt() converge al 1.96 de la normal
+for (df in c(5, 10, 20, 30, 60, 120, Inf)) {
+  cat(sprintf("  %5g       %.4f\n", df, qt(0.975, df = df)))
+}
+cat("\nCon df → Inf, qt() converge a qnorm(0.975) = 1.9600.\n")
+```
+
+```{webr-r}
+# ══════════════════════════════════════════════════════════════════
+# Mapa visual: dnorm, pnorm y qnorm sobre la misma curva
+# ══════════════════════════════════════════════════════════════════
+
+# Construimos el eje x: 500 puntos igualmente espaciados de -4 a 4.
+# 500 puntos es suficiente para que la curva se vea perfectamente suave.
+x_grid <- seq(-4, 4, length.out = 500)
+
+# Evaluamos la densidad Normal(0,1) en cada punto del grid.
+# Esto da la "altura" de la campana en 500 posiciones distintas.
+y_dens <- dnorm(x_grid)   # un vector de 500 alturas
+
+# Dibujamos la campana
+plot(x_grid, y_dens,
+     type = "l", lwd = 2.5, col = "gray20",
+     main = "d / p / q — visualización en la Normal(0,1)",
+     xlab = "z", ylab = "Densidad",
+     bty  = "n")
+
+# ── Región sombreada: ilustra pnorm(1.0) ─────────────────────────
+# El área sombreada va de -4 hasta z=1.0: esa área = pnorm(1.0)
+x_izq <- seq(-4, 1.0, length.out = 300)    # subgrid solo hasta z=1
+# polygon necesita un circuito cerrado: arriba por la curva (dnorm),
+# abajo por el eje (ceros). rep(0, 300) crea un vector de 300 ceros.
+polygon(c(x_izq, rev(x_izq)),
+        c(dnorm(x_izq), rep(0, 300)),
+        col = rgb(0.2, 0.5, 0.8, 0.3), border = NA)
+
+# ── Línea vertical: ilustra qnorm(0.975) = 1.96 ──────────────────
+# Este es el valor crítico bilateral para α=0.05
+abline(v = qnorm(0.975), lty = 2, col = "firebrick", lwd = 2)
+
+# ── Punto: ilustra dnorm(0) en el máximo de la campana ───────────
+# pch = 19 → círculo sólido; cex = tamaño
+points(0, dnorm(0), pch = 19, col = "darkorange", cex = 1.5)
+
+# text() agrega una etiqueta de texto en las coordenadas (x, y)
+# adj controla la alineación horizontal: 0=izquierda, 0.5=centro, 1=derecha
+text(-1.5, 0.12,
+     sprintf("pnorm(1.0) = %.3f\n(área sombreada)", pnorm(1.0)),
+     col = rgb(0.2, 0.5, 0.8), cex = 0.85)
+text(2.6, 0.15,
+     sprintf("qnorm(0.975)\n= %.4f", qnorm(0.975)),
+     col = "firebrick", cex = 0.85)
+text(0.1, dnorm(0) - 0.04,
+     sprintf("dnorm(0) = %.4f", dnorm(0)),
+     col = "darkorange", cex = 0.85, adj = 0)
+
+cat("Recuerda la familia d/p/q/r:\n")
+cat("  dnorm(x)         → altura de la curva en x          (densidad)\n")
+cat("  pnorm(x)         → área acumulada P(X ≤ x)          (probabilidad)\n")
+cat("  qnorm(p)         → valor x tal que P(X ≤ x) = p     (cuantil / inversa)\n")
+cat("  rnorm(n)         → genera n valores aleatorios       (simulación)\n")
+cat("\n")
+cat("  dt / pt / qt / rt → lo mismo para la t de Student\n")
+```
+
+```{webr-r}
+# ══════════════════════════════════════════════════════════════════
+# RESUMEN EJECUTIVO: ¿cuándo usar cada función para un valor p?
+# ══════════════════════════════════════════════════════════════════
+
+cat("╔══════════════════════════════════════════════════════════════════╗\n")
+cat("║         OBTENER UN VALOR p DADO UN ESTADÍSTICO DE PRUEBA        ║\n")
+cat("╠══════════════════════════════════════════════════════════════════╣\n")
+cat("║                                                                  ║\n")
+cat("║  Tengo un estadístico z (o n ≥ 100, aproximo con normal):       ║\n")
+cat("║    Unilateral derecha  : pnorm(z, lower.tail = FALSE)           ║\n")
+cat("║    Unilateral izquierda: pnorm(z)                               ║\n")
+cat("║    Bilateral           : 2 * pnorm(abs(z), lower.tail = FALSE)  ║\n")
+cat("║                                                                  ║\n")
+cat("║  Tengo un estadístico t (n < 100, usar t de Student):           ║\n")
+cat("║    Unilateral derecha  : pt(t, df, lower.tail = FALSE)          ║\n")
+cat("║    Unilateral izquierda: pt(t, df)                              ║\n")
+cat("║    Bilateral           : 2 * pt(abs(t), df, lower.tail = FALSE) ║\n")
+cat("║                                                                  ║\n")
+cat("║  Quiero el VALOR CRÍTICO (umbral de rechazo de H₀):             ║\n")
+cat("║    Normal unilateral   : qnorm(1 - alpha)                       ║\n")
+cat("║    Normal bilateral    : qnorm(1 - alpha/2)                     ║\n")
+cat("║    t unilateral        : qt(1 - alpha, df)                      ║\n")
+cat("║    t bilateral         : qt(1 - alpha/2, df)                    ║\n")
+cat("║                                                                  ║\n")
+cat("║  Regla práctica de convergencia:                                 ║\n")
+cat("║    n ≥ 100  → pnorm() y qnorm() son suficientemente precisos    ║\n")
+cat("║    n <  100 → usa siempre pt() y qt()                           ║\n")
+cat("╚══════════════════════════════════════════════════════════════════╝\n")
+```
+
+---
+
+# Parte 3: Construyendo la prueba *t* paso a paso
+
+## Paso 1 — Planteamos las hipótesis
+
+$$H_0: \mu_{\text{beca}} - \mu_{\text{control}} = 0$$
+$$H_1: \mu_{\text{beca}} - \mu_{\text{control}} > 0 \quad \text{(prueba unilateral: esperamos mejora)}$$
+
+```{webr-r}
+cat("H₀: las becas no cambian el puntaje promedio\n")
+cat("H₁: las becas aumentan el puntaje promedio\n\n")
+cat("Nivel de significancia: α = 0.05\n")
+cat("  → Aceptamos un 5% de probabilidad de rechazar H₀\n")
+cat("    cuando en realidad es verdadera (error tipo I).\n")
+```
+
+## Paso 2 — Calculamos el estadístico *t* a mano
+
+El estadístico $t$ de Welch (que **no** asume varianzas iguales entre grupos) es:
+
+$$t = \frac{\bar{X}_{\text{beca}} - \bar{X}_{\text{control}}}{\sqrt{\dfrac{s_{\text{beca}}^2}{n_{\text{beca}}} + \dfrac{s_{\text{control}}^2}{n_{\text{control}}}}}$$
+
+El denominador es el **error estándar de la diferencia**: cuánta variabilidad esperamos en esa diferencia si repitiéramos el muestreo.
+
+```{webr-r}
+# mean() y sd() calculan la media y la desviación estándar MUESTRALES
+x_beca    <- mean(puntajes_tratamiento)
+x_control <- mean(puntajes_control)
+s_beca    <- sd(puntajes_tratamiento)
+s_control <- sd(puntajes_control)
+
+# Error estándar de la diferencia de medias (fórmula de Welch).
+# sqrt() = raíz cuadrada; ^2 = elevar al cuadrado.
+# Dividimos la varianza (s²) de cada grupo entre su n y sumamos.
+se_diff <- sqrt(s_beca^2 / n + s_control^2 / n)
+
+# El estadístico t es la diferencia observada medida en unidades de SE.
+# Un t grande (en valor absoluto) significa que la diferencia es
+# muy inusual bajo H₀ (donde esperaríamos t ≈ 0).
+t_stat <- (x_beca - x_control) / se_diff
+
+cat("─── Ingredientes ──────────────────────────────────\n")
+cat(sprintf("  Media beca    : %.3f\n", x_beca))
+cat(sprintf("  Media control : %.3f\n", x_control))
+cat(sprintf("  Diferencia    : %.3f puntos\n", x_beca - x_control))
+cat(sprintf("  SE diferencia : %.3f\n", se_diff))
+cat("───────────────────────────────────────────────────\n")
+cat(sprintf("  t calculado   : %.4f\n\n", t_stat))
+cat(sprintf("  La diferencia de %.2f pts equivale a %.2f errores\n",
+            x_beca - x_control, t_stat))
+cat("  estándar por encima de cero.\n")
+```
+
+## Paso 3 — Obtenemos el valor *p*
+
+```{webr-r}
+# Grados de libertad de Welch — fórmula de Satterthwaite.
+# "Penaliza" cuando las varianzas o tamaños muestrales difieren entre grupos.
+# El resultado es un número no entero, menor o igual que n1 + n2 - 2.
+nu_welch <- (s_beca^2/n + s_control^2/n)^2 /
+            ((s_beca^2/n)^2 / (n - 1) + (s_control^2/n)^2 / (n - 1))
+
+cat(sprintf("Grados de libertad de Welch: %.1f\n\n", nu_welch))
+
+# ── Valor p con distribución t (correcto para muestras finitas) ──
+# pt(q, df, lower.tail = FALSE) calcula P(T > q) bajo la t con 'df' gl.
+# Es el área de la COLA DERECHA: la probabilidad de observar
+# un t tan grande o mayor, ASUMIENDO que H₀ es verdadera.
+pval_t_uni <- pt(t_stat, df = nu_welch, lower.tail = FALSE)
+
+# Para prueba bilateral multiplicamos por 2 (ambas colas son igualmente extremas).
+# abs() garantiza que tomamos la cola correcta sin importar el signo de t.
+pval_t_bi  <- 2 * pt(abs(t_stat), df = nu_welch, lower.tail = FALSE)
+
+# ── Valor p con distribución normal (aproximación para n grande) ─
+# pnorm() asume que el estadístico sigue exactamente una Normal(0,1).
+# Con n ≥ 100 la aproximación es excelente; con n < 100 subestima el p-valor.
+pval_z_uni <- pnorm(t_stat, lower.tail = FALSE)
+pval_z_bi  <- 2 * pnorm(abs(t_stat), lower.tail = FALSE)
+
+cat("── pt(): distribución t de Student (recomendado) ──────────\n")
+cat(sprintf("  Unilateral: pt(%.3f, df=%.0f, lower.tail=FALSE) = %.4f\n",
+            t_stat, nu_welch, pval_t_uni))
+cat(sprintf("  Bilateral : 2*pt(|t|, df=%.0f, lower.tail=FALSE)= %.4f\n\n",
+            nu_welch, pval_t_bi))
+
+cat("── pnorm(): aproximación normal estándar ───────────────────\n")
+cat(sprintf("  Unilateral: pnorm(%.3f, lower.tail=FALSE) = %.4f\n",
+            t_stat, pval_z_uni))
+cat(sprintf("  Bilateral : 2*pnorm(|t|, lower.tail=FALSE)= %.4f\n\n",
+            pval_z_bi))
+
+cat("── Diferencia entre ambas aproximaciones ───────────────────\n")
+cat(sprintf("  Δ unilateral = %.5f\n", pval_t_uni - pval_z_uni))
+cat(sprintf("  Con n=%d por grupo la diferencia es pequeña.\n", n))
+cat("  Con n=10 sería mucho mayor — siempre usa pt() con n < 100.\n")
+```
+
+## Paso 4 — Verificamos con `t.test()`
+
+```{webr-r}
+# t.test() ejecuta internamente los tres pasos anteriores.
+# alternative = "greater" → prueba unilateral H₁: grupo1 > grupo2.
+# El primer argumento es el grupo que queremos probar que es "mayor".
+resultado <- t.test(puntajes_tratamiento, puntajes_control,
+                    alternative = "greater")
+
+cat("─── Verificación con t.test() ──────────────────────────────\n")
+# Los resultados se extraen con $ del objeto que devuelve t.test()
+cat(sprintf("  t            : %.4f  (coincide con nuestro cálculo: %.4f)\n",
+            resultado$statistic, t_stat))
+cat(sprintf("  gl (Welch)   : %.1f\n",  resultado$parameter))
+cat(sprintf("  p-valor      : %.4f\n",  resultado$p.value))
+cat(sprintf("  IC 95%%       : [%.2f, Inf]\n", resultado$conf.int[1]))
+cat("\n")
+
+if (resultado$p.value < 0.05) {
+  cat("✅ Rechazamos H₀ (p < 0.05)\n")
+  cat("   Hay evidencia de que las becas aumentan el puntaje en matemáticas.\n")
+} else {
+  cat("⚠️  No rechazamos H₀ (p ≥ 0.05)\n")
+  cat("   La evidencia no es suficiente para concluir que hay efecto.\n")
+}
+```
+
+## Visualizando el valor *p* en la distribución *t*
+
+```{webr-r}
+# Grid de x: cubre ± 4 unidades de la distribución t.
+# Con df moderados la t se parece mucho a la normal, pero tiene colas más pesadas.
+x_t <- seq(-4, 4, length.out = 500)
+
+# dt(x, df) evalúa la densidad de la t de Student en cada punto del grid.
+# Es el equivalente a dnorm() pero para la distribución t.
+plot(x_t, dt(x_t, df = nu_welch),
+     type = "l", lwd = 2.5, col = "gray20",
+     main = sprintf("Distribución t bajo H₀  (df = %.0f)  —  valor p unilateral",
+                    nu_welch),
+     xlab = "Estadístico t", ylab = "Densidad",
+     bty  = "n")
+
+# Sombreamos el área a la DERECHA del t observado.
+# Esa área ES el valor p: P(T > t_observado | H₀ verdadera).
+# Solo tomamos los puntos del grid que están a la derecha de t_stat.
+x_shade <- seq(t_stat, 4, length.out = 200)
+polygon(
+  c(x_shade, rev(x_shade)),
+  c(dt(x_shade, df = nu_welch), rep(0, 200)),  # dt() da la altura de la curva t
+  col    = rgb(0.85, 0.32, 0.32, 0.5),
+  border = NA
+)
+
+# Línea vertical en el t observado
+abline(v = t_stat, lty = 2, col = "firebrick", lwd = 2)
+
+# qt(0.95, df) devuelve el cuantil 95 de la t: el umbral de rechazo.
+# Si t_observado > valor_critico → rechazamos H₀ a α=0.05 unilateral.
+valor_critico <- qt(0.95, df = nu_welch)
+abline(v = valor_critico, lty = 3, col = "navy", lwd = 1.8)
+
+legend("topright",
+       legend = c(
+         sprintf("t observado = %.2f",           t_stat),
+         sprintf("valor crítico (α=0.05) = %.2f", valor_critico),
+         sprintf("p-valor = %.4f  (área roja)",   pval_t_uni)
+       ),
+       lty = c(2, 3, NA), pch = c(NA, NA, 15),
+       col = c("firebrick", "navy", rgb(0.85, 0.32, 0.32, 0.5)),
+       lwd = 2, bty = "n", cex = 0.85)
+```
+
+---
+
+# Parte 4: Valor *p*, poder y tamaño de muestra
+
+## Simulando el poder estadístico
+
+El **poder** (1 − β) es la probabilidad de rechazar $H_0$ cuando el efecto es **real**. Depende del tamaño de muestra, del tamaño del efecto y del nivel α.
+
+```{webr-r}
+# Función que estima el poder mediante simulación Monte Carlo.
+# Repite el experimento nsims veces y cuenta cuántas veces rechazamos H₀.
+calcular_poder <- function(n_por_grupo,   # alumnos por brazo
+                           delta,          # efecto real (diferencia de medias)
+                           sigma  = 12,   # desviación estándar (asumida igual)
+                           nsims  = 800,  # repeticiones del experimento simulado
+                           alpha  = 0.05) # nivel de significancia
+{
+  rechazos <- 0L   # contador de rechazos (sufijo L = tipo entero)
+
+  for (i in seq_len(nsims)) {
+    # Simulamos un nuevo experimento con el mismo diseño
+    ctrl <- rnorm(n_por_grupo, mean = 0,     sd = sigma)
+    trt  <- rnorm(n_por_grupo, mean = delta, sd = sigma)
+
+    # Prueba t unilateral y extraemos solo el p-valor con $p.value
+    p <- t.test(trt, ctrl, alternative = "greater")$p.value
+
+    # Contamos si rechazamos H₀ en esta simulación
+    if (p < alpha) rechazos <- rechazos + 1L
+  }
+
+  # Poder empírico = proporción de simulaciones donde rechazamos
+  return(rechazos / nsims)
+}
+
+# sapply(vector, funcion) aplica la función a cada elemento del vector
+# y devuelve un vector de resultados — equivalente a un bucle for simplificado.
+tamanos <- seq(20, 300, by = 20)
+poder_5 <- sapply(tamanos, calcular_poder, delta = 5)   # Δ = 5 puntos
+poder_3 <- sapply(tamanos, calcular_poder, delta = 3)   # Δ = 3 puntos
+
+plot(tamanos, poder_5, type = "b", pch = 19, lwd = 2, col = "steelblue",
+     main = "Poder estadístico vs tamaño de muestra",
+     xlab = "n por grupo", ylab = "Poder (1 − β)", ylim = c(0, 1), bty = "n")
+lines(tamanos, poder_3, type = "b", pch = 17, lwd = 2, col = "darkorange")
+abline(h = 0.80, lty = 2, col = "gray40")   # umbral convencional del 80%
+legend("bottomright",
+       legend = c("Δ = 5 pts", "Δ = 3 pts", "Poder = 80%"),
+       col    = c("steelblue", "darkorange", "gray40"),
+       lty    = c(1, 1, 2), pch = c(19, 17, NA), lwd = 2, bty = "n")
+```
+
+## Correlación intraclúster (ICC) y diseño por conglomerados
+
+En *Becas para Todos*, las becas **no se asignan alumno por alumno**: se asignan a **escuelas enteras**. Cuando la unidad de asignación es un grupo (escuela, comunidad, clínica), hablamos de un **diseño clusterizado**.
+
+Los alumnos de una misma escuela tienden a parecerse más entre sí que alumnos de distintas escuelas — comparten maestros, infraestructura y contexto socioeconómico. Esa similitud interna se mide con el **coeficiente de correlación intraclúster** (ICC, ρ):
+
+$$\text{ICC} = \frac{\sigma^2_{\text{entre clústeres}}}{\sigma^2_{\text{entre}} + \sigma^2_{\text{dentro}}}$$
+
+El **efecto de diseño** (*DEFF*) cuantifica cuánto se infla el tamaño de muestra requerido:
+
+$$\text{DEFF} = 1 + (m - 1) \cdot \rho$$
+
+donde $m$ = alumnos por escuela y $\rho$ = ICC.
+
+```{webr-r}
+# Función para calcular poder con diseño clusterizado.
+# Simula un modelo de efectos aleatorios de dos niveles:
+#   Nivel 1: alumnos (variabilidad dentro del clúster)
+#   Nivel 2: escuelas (variabilidad entre clústeres)
+poder_cluster <- function(n_clusters,   # número de escuelas por brazo
+                          m,            # alumnos por escuela
+                          icc,          # ICC: proporción de varianza entre clústeres
+                          delta,        # efecto real (diferencia de medias)
+                          sigma  = 12,  # sd total (se descompone según el ICC)
+                          nsims  = 600,
+                          alpha  = 0.05) {
+
+  # Descomponemos la varianza total usando el ICC:
+  #   σ²_total = σ²_entre + σ²_dentro
+  #   ICC = σ²_entre / σ²_total  →  σ_entre = sqrt(ICC) * sigma
+  sigma_entre  <- sqrt(icc) * sigma        # variabilidad entre escuelas
+  sigma_dentro <- sqrt(1 - icc) * sigma    # variabilidad dentro de cada escuela
+
+  rechazos <- 0L
+  for (i in seq_len(nsims)) {
+    # CONTROL: primero sorteamos el "efecto escuela" (intercepto aleatorio por clúster)
+    # rnorm(n_clusters, 0, sigma_entre) genera un desvío por escuela alrededor de 0
+    u_ctrl <- rnorm(n_clusters, mean = 0, sd = sigma_entre)
+
+    # Para cada escuela, generamos m alumnos alrededor del efecto de ESA escuela.
+    # lapply devuelve una LISTA (un elemento por escuela).
+    # unlist() la convierte en un vector plano de n_clusters * m elementos.
+    ctrl <- unlist(lapply(u_ctrl, function(u) rnorm(m, mean = u, sd = sigma_dentro)))
+
+    # TRATAMIENTO: igual que control, pero la media de cada escuela es delta más alta
+    u_trt <- rnorm(n_clusters, mean = delta, sd = sigma_entre)
+    trt   <- unlist(lapply(u_trt, function(u) rnorm(m, mean = u, sd = sigma_dentro)))
+
+    p <- t.test(trt, ctrl, alternative = "greater")$p.value
+    if (p < alpha) rechazos <- rechazos + 1L
+  }
+  rechazos / nsims
+}
+
+# ── Gráfica 1: poder vs N° clústeres, por distintos ICC ──────────
+icc_vals  <- c(0.00, 0.05, 0.15, 0.30)
+n_clust_v <- seq(5, 40, by = 5)   # clústeres por brazo
+m_fijo    <- 20                    # alumnos por escuela (constante)
+delta     <- 5
+
+colores <- c("gray50", "steelblue", "darkorange", "firebrick")
+
+# plot(NULL, ...) crea un lienzo en blanco con los ejes definidos;
+# luego añadimos las curvas con lines() en el bucle.
+plot(NULL, xlim = range(n_clust_v), ylim = c(0, 1),
+     main = sprintf("Poder vs N° clústeres  (m = %d alumnos/escuela, Δ = %d pts)",
+                    m_fijo, delta),
+     xlab = "Clústeres por brazo", ylab = "Poder (1 − β)", bty = "n")
+abline(h = 0.80, lty = 2, col = "gray70")
+
+for (j in seq_along(icc_vals)) {
+  # Para cada ICC calculamos el poder para cada tamaño de clúster
+  pod <- sapply(n_clust_v, function(nc)
+    poder_cluster(nc, m = m_fijo, icc = icc_vals[j], delta = delta))
+  lines(n_clust_v, pod, type = "b", pch = 19, lwd = 2, col = colores[j])
+}
+legend("bottomright", legend = paste0("ICC = ", icc_vals),
+       col = colores, lty = 1, lwd = 2, pch = 19, bty = "n")
+```
+
+```{webr-r}
+# ── Gráfica 2: con ICC alto, ¿conviene más clústeres o más alumnos? ──
+icc_alto <- 0.20
+m_vals   <- c(5, 10, 20, 40)   # distintos tamaños de clúster a comparar
+n_c_v    <- seq(5, 50, by = 5)
+
+plot(NULL, xlim = range(n_c_v), ylim = c(0, 1),
+     main = sprintf("ICC = %.2f: ¿más clústeres o más alumnos/clúster?", icc_alto),
+     xlab = "Clústeres por brazo", ylab = "Poder (1 − β)", bty = "n")
+abline(h = 0.80, lty = 2, col = "gray70")
+
+pal <- c("steelblue", "darkorange", "firebrick", "forestgreen")
+for (j in seq_along(m_vals)) {
+  pod <- sapply(n_c_v, function(nc)
+    poder_cluster(nc, m = m_vals[j], icc = icc_alto, delta = delta))
+  lines(n_c_v, pod, type = "b", pch = 19, lwd = 2, col = pal[j])
+}
+legend("bottomright", legend = paste0("m = ", m_vals, " alumnos/escuela"),
+       col = pal, lty = 1, lwd = 2, pch = 19, bty = "n")
+
+cat("\n💡 LECCIÓN CLAVE con ICC alto:\n")
+cat("   Cuando ρ es alto, duplicar el tamaño del clúster aporta poco poder.\n")
+cat("   La ganancia en poder viene de muestrear MÁS clústeres,\n")
+cat("   aunque cada uno tenga pocos alumnos.\n\n")
+cat("   Intuición: si todos los alumnos de una escuela son muy similares\n")
+cat("   (ICC alto), el alumno 21 casi no aporta información nueva.\n")
+cat("   En cambio, incorporar una escuela nueva sí añade información genuina.\n")
+```
+
+> **Regla práctica:** Con ICC ≥ 0.10, los diseños clusterizados requieren ajuste explícito. El DEFF con $m = 20$ y $\rho = 0.20$ es $1 + 19 \times 0.20 = 4.8$ — necesitas casi cinco veces más observaciones que en un diseño simple para el mismo poder.
+
+---
+
+# Parte 5: Relevancia práctica, significancia estadística y efecto mínimo detectable
+
+## El problema de confundir significancia con importancia
+
+```{webr-r}
+set.seed(42)
+
+# Escenario A: efecto GRANDE, muestra PEQUEÑA → posiblemente no significativo
+nA       <- 18
+grA_ctrl <- rnorm(nA, mean = 60, sd = 14)
+grA_trt  <- rnorm(nA, mean = 70, sd = 14)   # +10 puntos reales
+tA       <- t.test(grA_trt, grA_ctrl, alternative = "greater")
+
+# Escenario B: efecto TRIVIAL, muestra ENORME → muy significativo
+nB       <- 2000
+grB_ctrl <- rnorm(nB, mean = 60, sd = 14)
+grB_trt  <- rnorm(nB, mean = 61.2, sd = 14) # +1.2 puntos reales
+tB       <- t.test(grB_trt, grB_ctrl, alternative = "greater")
+
+cat("══════════════════════════════════════════════════════════════\n")
+cat(sprintf("  Escenario A: n = %d,   Δ real = 10 pts\n", nA))
+cat(sprintf("    t = %.3f   p = %.3f  → %s\n",
+            tA$statistic, tA$p.value,
+            ifelse(tA$p.value < 0.05, "✅ Significativo", "⚠️  No significativo")))
+cat(sprintf("  Escenario B: n = %d,  Δ real = 1.2 pts\n", nB))
+cat(sprintf("    t = %.3f   p = %.4f  → %s\n",
+            tB$statistic, tB$p.value,
+            ifelse(tB$p.value < 0.05, "✅ Significativo", "⚠️  No significativo")))
+cat("══════════════════════════════════════════════════════════════\n")
+cat("  LECCIÓN: Con n suficientemente grande, CUALQUIER diferencia\n")
+cat("  se vuelve estadísticamente significativa — aunque sea trivial.\n")
+cat("  Con n pequeño, un efecto grande puede pasar desapercibido.\n")
+cat("══════════════════════════════════════════════════════════════\n")
+```
+
+## El efecto mínimo detectable (MDE)
+
+El **MDE** (*Minimum Detectable Effect*) es la diferencia más pequeña que nuestro diseño puede detectar con probabilidad ≥ 80%, dado un α fijo. Se deriva de la condición de poder:
+
+$$\text{MDE} = (z_{1-\alpha} + z_{1-\beta}) \times SE \qquad \text{donde } SE = \sigma\sqrt{\tfrac{2}{n}}$$
+
+```{webr-r}
+# Función analítica para el MDE de una prueba t de dos muestras independientes
+mde_analitico <- function(n,              # alumnos por grupo
+                          sigma  = 12,   # sd poblacional
+                          alpha  = 0.05, # nivel de significancia
+                          poder  = 0.80) # poder objetivo
+{
+  # qnorm(1 - alpha) → z que deja alpha de probabilidad en la cola derecha.
+  # Para H₁ unilateral con α=0.05: qnorm(0.95) ≈ 1.645.
+  # Este es el "umbral de rechazo": t necesita superar este valor para p < α.
+  z_alpha <- qnorm(1 - alpha)
+
+  # qnorm(poder) → cuántas SEs adicionales necesitamos para que la distribución
+  # bajo H₁ tenga el 'poder'% de probabilidad de superar el umbral de rechazo.
+  # Con poder=0.80: qnorm(0.80) ≈ 0.842.
+  z_beta  <- qnorm(poder)
+
+  # SE de la diferencia de medias cuando los dos grupos tienen el mismo tamaño n
+  se      <- sigma * sqrt(2 / n)
+
+  # El MDE resulta de despejar Δ de la condición: Δ/SE = z_alpha + z_beta
+  mde     <- (z_alpha + z_beta) * se
+  return(mde)
+}
+
+tamanos_mde <- c(20, 40, 60, 100, 150, 200, 300, 500)
+# sapply aplica mde_analitico() a cada elemento del vector y devuelve un vector
+mde_vals    <- sapply(tamanos_mde, mde_analitico)
+
+cat("─────────────────────────────────────────────────────\n")
+cat("  n por grupo   MDE (pts)   MDE / media control (%)\n")
+cat("─────────────────────────────────────────────────────\n")
+for (i in seq_along(tamanos_mde)) {
+  cat(sprintf("  %5d         %5.2f       %5.1f%%\n",
+              tamanos_mde[i], mde_vals[i], 100 * mde_vals[i] / 62))
+}
+cat("─────────────────────────────────────────────────────\n")
+cat("  Supuestos: σ = 12, α = 0.05, poder = 80%, unilateral\n")
+
+plot(tamanos_mde, mde_vals, type = "b", pch = 19, lwd = 2, col = "steelblue",
+     main = "Efecto Mínimo Detectable vs Tamaño de Muestra\nBecas para Todos  (σ = 12, α = 0.05, poder = 80%)",
+     xlab = "n por grupo", ylab = "MDE (puntos de puntaje)", bty = "n")
+abline(h = 5, lty = 2, col = "firebrick",  lwd = 1.5)
+abline(h = 3, lty = 2, col = "darkorange", lwd = 1.5)
+legend("topright",
+       legend = c("MDE", "Umbral 5 pts (mín. relevante)", "Umbral 3 pts (ambicioso)"),
+       col    = c("steelblue", "firebrick", "darkorange"),
+       lty    = c(1, 2, 2), pch = c(19, NA, NA), lwd = 2, bty = "n")
+```
+
+```{webr-r}
+# which(condicion) devuelve los ÍNDICES donde la condición es TRUE.
+# [1] selecciona el primero: el n más pequeño que ya satisface la condición.
+n_necesario_5 <- tamanos_mde[which(mde_vals <= 5)[1]]
+n_necesario_3 <- tamanos_mde[which(mde_vals <= 3)[1]]
+
+cat(sprintf("  MDE ≤ 5 pts → n ≈ %d por grupo\n", n_necesario_5))
+cat(sprintf("  MDE ≤ 3 pts → n ≈ %d por grupo\n\n", n_necesario_3))
+
+cat("═══════════════════════════════════════════════════════\n")
+cat("  CÓMO USAR EL MDE EN LA PRÁCTICA\n")
+cat("═══════════════════════════════════════════════════════\n")
+cat("  ANTES de recolectar datos:\n")
+cat("   1. Define el efecto mínimo relevante para la política.\n")
+cat("   2. Calcula el MDE con el n disponible.\n")
+cat("   3. Si MDE > efecto relevante: el estudio está subpotenciado.\n\n")
+cat("  DESPUÉS de recolectar datos:\n")
+cat("   • p < 0.05                          → resultado significativo\n")
+cat("   • p > 0.05 y MDE > efecto relevante → falta poder (no evidencia)\n")
+cat("   • p > 0.05 y MDE < efecto relevante → evidencia de ausencia\n")
+cat("═══════════════════════════════════════════════════════\n")
+```
+
+## MDE en diseños clusterizados
+
+$$\text{MDE}_{\text{cluster}} = \text{MDE}_{\text{simple}} \times \sqrt{\text{DEFF}} = \text{MDE}_{\text{simple}} \times \sqrt{1 + (m-1)\rho}$$
+
+```{webr-r}
+icc_grid <- c(0, 0.05, 0.10, 0.20)
+m_grid   <- c(5, 10, 20, 30, 50)
+n_total  <- 120   # observaciones totales por brazo (presupuesto fijo)
+
+cat("MDE (puntos) según ICC y tamaño de clúster\n")
+cat(sprintf("n total por brazo = %d  |  σ = 12  |  α=0.05  |  poder=80%%\n\n", n_total))
+
+# Construimos el encabezado de la tabla dinámicamente con paste0()
+header <- sprintf("  %-8s", "ICC \\ m")
+for (m in m_grid) header <- paste0(header, sprintf("  m=%2d", m))
+cat(header, "\n")
+cat(strrep("─", nchar(header) + 2), "\n")   # strrep repite un string n veces
+
+for (rho in icc_grid) {
+  fila <- sprintf("  ICC=%.2f", rho)
+  for (m in m_grid) {
+    # DEFF: factor por el que se infla el n efectivo necesario por el clustering
+    deff       <- 1 + (m - 1) * rho
+    # n efectivo: las n_total observaciones "valen menos" en presencia de clustering
+    n_efectivo <- n_total / deff
+    # El MDE se calcula con el n efectivo ya deflactado por el DEFF
+    mde_cl     <- mde_analitico(n = n_efectivo)
+    fila       <- paste0(fila, sprintf("  %5.2f", mde_cl))
+  }
+  cat(fila, "\n")
+}
+cat(strrep("─", nchar(header) + 2), "\n")
+cat("  (MDE simple con n=120: ", round(mde_analitico(120), 2), " pts)\n")
+```
+
+> **Conclusión:** Si las escuelas tienen ICC = 0.20 y asignamos 30 alumnos por escuela (4 clústeres por brazo con $n_{\text{total}} = 120$), el MDE se infla considerablemente. Conviene **reducir el tamaño del clúster y aumentar el número de escuelas** para recuperar poder con el mismo presupuesto de observaciones.
+
+---
+
+# Ejercicios
+
+1. **Re-simula** los datos de Becas para Todos con `n <- 30`. ¿Cambia la conclusión? ¿Cambió más el valor *p* o el estadístico *t*?
+
+2. **Valor p a mano:** calcula `pt()` y `pnorm()` para un estadístico $t = 1.85$ con 58 grados de libertad, tanto unilateral como bilateral. ¿Cuándo divergen más las dos distribuciones?
+
+3. **ICC:** Supón que el ICC real en escuelas mexicanas de secundaria es 0.12 y que cada escuela tiene 25 alumnos. ¿Cuántas escuelas por brazo necesitas para tener 80% de poder y detectar un efecto de 4 puntos? Usa `mde_analitico()` con `n = n_total / deff`.
+
+4. **MDE y política:** Alguien te dice *"el programa no tuvo efecto significativo con n = 40 por grupo"*. Calcula el MDE para ese diseño. ¿Es ese resultado evidencia de ausencia de efecto o ausencia de evidencia?
+
+---
+
+# Discusión
+
+- ¿"No significativo" significa "no funciona"?
+- ¿Cuándo un resultado estadísticamente significativo **no debería** cambiar una política?
+- ¿Por qué un ICC alto obliga a preferir más clústeres pequeños sobre pocos clústeres grandes?
+- ¿Cómo presentarías el MDE en un informe para tomadores de decisión no estadísticos?

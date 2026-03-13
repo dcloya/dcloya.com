@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;David Contreras-Loya">
+<meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
+
+<title>Sesión 7–8: Prueba de Hipótesis, Valor p y Poder Estadístico – David Contreras-Loya</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id="></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '', { 'anonymize_ip': true});
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/editor/editor.main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+<style type="text/css">
+.monaco-editor pre {
+  background-color: unset !important;
+}
+
+.qwebr-editor-toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.qwebr-editor-toolbar-left-buttons, .qwebr-editor-toolbar-right-buttons {
+  display: flex;
+}
+
+.qwebr-non-interactive-loading-container.qwebr-cell-needs-evaluation, .qwebr-non-interactive-loading-container.qwebr-cell-evaluated {
+  justify-content: center;
+  display: flex;
+  background-color: rgba(250, 250, 250, 0.65);
+  border: 1px solid rgba(233, 236, 239, 0.65);
+  border-radius: 0.5rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.qwebr-r-project-logo {
+  color: #2767B0; /* R Project's blue color */
+}
+
+.qwebr-icon-status-spinner {
+  color: #7894c4;
+}
+
+.qwebr-icon-run-code {
+  color: #0d9c29
+}
+
+body.quarto-light .qwebr-output-code-stdout {
+  color: #111;
+}
+
+body.quarto-dark .qwebr-output-code-stdout {
+  color: #EEE;
+}
+
+.qwebr-output-code-stderr {
+  color: #db4133;
+}
+
+body.quarto-light .qwebr-editor {
+  border: 1px solid #EEEEEE;
+}
+
+body.quarto-light .qwebr-editor-toolbar {
+  background-color: #EEEEEE;
+  padding: 0.2rem 0.5rem;
+}
+
+body.quarto-dark .qwebr-editor {
+  border: 1px solid #111;
+}
+
+body.quarto-dark .qwebr-editor-toolbar {
+  background-color: #111;
+  padding: 0.2rem 0.5rem;
+}
+
+.qwebr-button {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.375rem 0.75rem;
+  font-size: .9rem;
+  border-radius: 0.25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+body.quarto-light .qwebr-button {
+  background-color: #EEEEEE;
+  color: #000;
+  border-color: #dee2e6;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+body.quarto-dark .qwebr-button {
+  background-color: #111;
+  color: #EEE;
+  border-color: #dee2e6;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+body.quarto-light .qwebr-button:hover {
+  color: #000;
+  background-color: #d9dce0;
+  border-color: #c8ccd0;
+}
+
+body.quarto-dark .qwebr-button:hover {
+  color: #d9dce0;
+  background-color: #323232;
+  border-color: #d9dce0;
+}
+
+.qwebr-button:disabled,.qwebr-button.disabled,fieldset:disabled .qwebr-button {
+  pointer-events: none;
+  opacity: .65
+}
+
+.qwebr-button-reset {
+  color: #696969; /*#4682b4;*/
+}
+
+.qwebr-button-copy {
+  color: #696969;
+}
+
+/* Style the code highlight lines */
+body.quarto-light .qwebr-editor-highlight-line {
+  background-color: lightblue;
+}
+
+body.quarto-dark .qwebr-editor-highlight-line {
+  background-color: darkblue;
+}
+
+/* Style the modal pop-up */
+
+/* The Modal (background) */
+.qwebr-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content */
+.qwebr-modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.qwebr-modal-content-code {
+  max-height: 50vh;
+  min-height: 5vh;
+  overflow: scroll;
+  border: 1px solid #888;
+}
+
+/* The Close Button */
+.qwebr-modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.qwebr-modal-close:hover,
+.qwebr-modal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.qwebr-download-btn {
+  margin-top: 10px;
+  text-decoration: none !important;
+}
+
+/* Styling to download image that is created */
+
+.qwebr-canvas-image {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+
+.qwebr-canvas-image-download-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+
+figure:hover .qwebr-canvas-image-download-btn {
+  display: block;
+}
+
+/* Custom styling for RevealJS Presentations*/
+
+/* Reset the style of the interactive area */
+.reveal div.qwebr-interactive-area {
+  display: block;
+  box-shadow: none;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Provide space to entries */
+.reveal div.qwebr-output-code-area pre div {
+  margin: 1px 2px 1px 10px;
+}
+
+/* Collapse the inside code tags to avoid extra space between line outputs */
+.reveal pre div code.qwebr-output-code-stdout, .reveal pre div code.qwebr-output-code-stderr {
+  padding: 0;
+  display: contents;
+}
+
+body.reveal.quarto-light pre div code.qwebr-output-code-stdout {
+  color: #111;
+}
+
+body.reveal.quarto-dark pre div code.qwebr-output-code-stdout {
+  color: #EEEEEE;
+}
+
+.reveal pre div code.qwebr-output-code-stderr {
+  color: #db4133;
+}
+
+
+/* Create a border around console and output (does not effect graphs) */
+body.reveal.quarto-light div.qwebr-console-area {
+  border: 1px solid #EEEEEE;
+  box-shadow: 2px 2px 10px #EEEEEE;
+}
+
+body.reveal.quarto-dark div.qwebr-console-area {
+  border: 1px solid #111;
+  box-shadow: 2px 2px 10px #111;
+}
+
+
+/* Cap output height and allow text to scroll */
+/* TODO: Is there a better way to fit contents/max it parallel to the monaco editor size? */
+.reveal div.qwebr-output-code-area pre {
+  max-height: 400px;
+  overflow: scroll;
+}
+
+iframe.qwebr-output-code-browse {
+  width: 100%;
+
+  /*
+    TODO: How to make the height automatic according to the widget size,
+    or respect the quarto code block options?
+  */
+  min-height: 500px;
+}
+
+</style>
+<script type="module">
+// Document level settings ----
+
+// Determine if we need to install R packages
+globalThis.qwebrInstallRPackagesList = [''];
+
+// Specify possible locations to search for the repository
+globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
+
+// Check to see if we have an empty array, if we do set to skip the installation.
+globalThis.qwebrSetupRPackages = !(qwebrInstallRPackagesList.indexOf("") !== -1);
+globalThis.qwebrAutoloadRPackages = true;
+
+// Display a startup message?
+globalThis.qwebrShowStartupMessage = true;
+globalThis.qwebrShowHeaderMessage = false;
+
+// Describe the webR settings that should be used
+globalThis.qwebrCustomizedWebROptions = {
+  "baseURL": "https://webr.r-wasm.org/v0.5.7/",
+  "serviceWorkerUrl": "",
+  "homedir": "/home/web_user", 
+  "channelType": "ChannelType.Automatic"
+};
+
+// Store cell data
+globalThis.qwebrCellDetails = [{"code":"# set.seed() fija la semilla del generador de números aleatorios.\n# Usar la misma semilla garantiza que todos obtendremos exactamente\n# los mismos \"números aleatorios\" — indispensable para reproducibilidad.\nset.seed(2026)\n\n# Parámetros poblacionales que nosotros conocemos porque simulamos.\n# En un estudio real estos serían desconocidos.\nn              <- 60   # alumnos por grupo\nmu_control     <- 62   # media poblacional del grupo sin beca\nmu_tratamiento <- 67   # media poblacional del grupo con beca  (Δ real = 5 pts)\nsigma          <- 12   # desviación estándar poblacional (igual en ambos grupos)\n\n# rnorm(n, mean, sd) genera n observaciones de una distribución Normal(mean, sd).\n# Cada llamada produce un vector de n números.\npuntajes_control     <- rnorm(n, mean = mu_control,     sd = sigma)\npuntajes_tratamiento <- rnorm(n, mean = mu_tratamiento, sd = sigma)\n\n# Apilamos los dos vectores en un data.frame para facilitar análisis posteriores.\n# c() concatena vectores; rep(..., each = n) repite cada etiqueta n veces consecutivas.\ndatos <- data.frame(\n  puntaje = c(puntajes_control, puntajes_tratamiento),\n  grupo   = rep(c(\"Control\", \"Beca\"), each = n)\n)\n\ncat(\"Resumen por grupo\\n\")\ncat(\"─────────────────────────────────────\\n\")\n# sprintf() formatea texto con especificadores: %.1f = número con 1 decimal\ncat(sprintf(\"Control    : media = %.1f  SD = %.1f\\n\",\n            mean(puntajes_control), sd(puntajes_control)))\ncat(sprintf(\"Beca       : media = %.1f  SD = %.1f\\n\",\n            mean(puntajes_tratamiento), sd(puntajes_tratamiento)))\ncat(sprintf(\"Diferencia : %.1f puntos\\n\",\n            mean(puntajes_tratamiento) - mean(puntajes_control)))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# par(mfrow = c(filas, columnas)) divide el área gráfica en una cuadrícula.\n# c(1, 2) = 1 fila, 2 columnas → dos paneles lado a lado.\n# mar = c(abajo, izquierda, arriba, derecha) ajusta los márgenes en líneas de texto.\npar(mfrow = c(1, 2), mar = c(4, 4, 3, 1))\n\n# ══════════════════════════════════════════════════════════════════\n# PANEL IZQUIERDO: histogramas de los datos individuales\n# ══════════════════════════════════════════════════════════════════\n\n# rgb(rojo, verde, azul, alpha) define un color con transparencia.\n# Los valores van de 0 a 1. alpha = 0.55 → 55% opaco (semi-transparente),\n# lo que permite ver ambos histogramas donde se superponen.\nhist(puntajes_control,\n     col    = rgb(0.85, 0.32, 0.32, 0.55),  # rojo semi-transparente\n     breaks = 18,                             # número aproximado de barras\n     main   = \"Distribución de puntajes\",\n     xlab   = \"Puntaje matemáticas\",\n     xlim   = c(25, 105),   # forzamos el mismo rango en X para ambos histogramas\n     ylim   = c(0, 18))     # forzamos el mismo rango en Y\n\n# add = TRUE superpone el segundo histograma sobre el primero\n# en lugar de abrir una nueva figura.\nhist(puntajes_tratamiento,\n     col    = rgb(0.18, 0.62, 0.60, 0.55),  # verde-azul semi-transparente\n     breaks = 18,\n     add    = TRUE)   # ← clave: dibuja encima sin reemplazar el gráfico anterior\n\nlegend(\"topright\",\n       legend = c(\"Control\", \"Beca\"),\n       fill   = c(rgb(0.85, 0.32, 0.32, 0.55),\n                  rgb(0.18, 0.62, 0.60, 0.55)),\n       bty    = \"n\",   # sin caja alrededor de la leyenda\n       cex    = 0.9)   # tamaño del texto (0.9 = 90% del default)\n\n# ══════════════════════════════════════════════════════════════════\n# PANEL DERECHO: distribuciones muestrales del promedio\n# ══════════════════════════════════════════════════════════════════\n\n# Por el Teorema Central del Límite, si repetimos el estudio muchas veces,\n# la distribución muestral de X̄ es aproximadamente Normal con:\n#   media = μ  (la media poblacional del grupo)\n#   sd    = σ / √n  (el \"error estándar\" o SE)\n# Este SE es MUCHO más angosto que σ: con n=60, SE ≈ 12/√60 ≈ 1.55\nse <- sigma / sqrt(n)   # error estándar del promedio\n\n# seq(desde, hasta, length.out = k) genera un vector de k valores\n# igualmente espaciados entre 'desde' y 'hasta'.\n# Este \"grid\" de valores de x nos sirve para evaluar la función de densidad\n# en muchos puntos y trazar una curva suave (como un eje continuo simulado).\n# El rango cubre ± 4 errores estándar alrededor de cada media para no cortar las colas.\nx_seq <- seq(mu_control - 4 * se,      # extremo izquierdo del eje x\n             mu_tratamiento + 4 * se,   # extremo derecho del eje x\n             length.out = 400)          # resolución: 400 puntos para una curva suave\n\n# dnorm(x, mean, sd) evalúa la DENSIDAD de la Normal en cada valor de x_seq.\n# La densidad es la \"altura\" de la campana en ese punto — no es una probabilidad.\n# Para obtener probabilidades necesitamos integrar dnorm (o usar pnorm).\n# type = \"l\" → línea continua; lwd = grosor de línea\nplot(x_seq,\n     dnorm(x_seq, mean = mu_control, sd = se),   # densidad del promedio del control\n     type = \"l\", lwd = 3,\n     col  = rgb(0.85, 0.32, 0.32, 0.9),\n     main = \"Distribución muestral del promedio\",\n     xlab = expression(bar(X)),   # expression() permite símbolos matemáticos: X̄\n     ylab = \"Densidad\",\n     ylim = c(0, 0.45))\n\n# lines() agrega una curva al gráfico ya existente (no abre uno nuevo).\nlines(x_seq,\n      dnorm(x_seq, mean = mu_tratamiento, sd = se),  # densidad del promedio de beca\n      lwd = 3,\n      col = rgb(0.18, 0.62, 0.60, 0.9))\n\n# ── Sombreado de la zona de traslape ─────────────────────────────\n# El traslape visual entre las dos campanas ilustra qué tan difícil es\n# distinguir una media de la otra solo con variabilidad muestral.\n\n# Nuevo grid centrado en la zona donde ambas campanas conviven.\nx_overlap <- seq(mu_control     - 3 * se,\n                 mu_tratamiento + 3 * se,\n                 length.out = 400)\n\n# pmin(vector_a, vector_b) devuelve el MÍNIMO elemento a elemento.\n# En cada punto x del grid, el traslape está limitado por la campana más baja:\n# si en x la curva de control es más baja, el traslape no puede exceder esa altura.\ndens_min <- pmin(\n  dnorm(x_overlap, mu_control,     se),   # altura de la campana control en x\n  dnorm(x_overlap, mu_tratamiento, se)    # altura de la campana beca en x\n)\n\n# polygon() dibuja un polígono relleno definido por sus vértices (x, y).\n# Trazamos: de izquierda a derecha por la curva (dens_min), luego\n# de derecha a izquierda por el piso (ceros), cerrando el polígono.\n# rev() invierte el orden del vector para hacer el trayecto de vuelta.\npolygon(\n  c(x_overlap, rev(x_overlap)),               # coordenadas X (ida y vuelta)\n  c(dens_min,  rep(0, length(x_overlap))),    # coordenadas Y (densidad y piso)\n  col    = rgb(0.6, 0.6, 0.6, 0.35),         # gris con alta transparencia\n  border = NA                                  # sin borde visible\n)\n\n# abline(v = valor) traza una línea vertical; lty = 2 → línea punteada\nabline(v = mu_control,     lty = 2, col = rgb(0.85, 0.32, 0.32, 0.8))\nabline(v = mu_tratamiento, lty = 2, col = rgb(0.18, 0.62, 0.60, 0.8))\n\nlegend(\"topright\",\n       legend = c(\"Control\", \"Beca\", \"Traslape\"),\n       lty    = c(1, 1, NA),      # tipo de línea (NA = ninguna, solo símbolo)\n       pch    = c(NA, NA, 15),    # símbolo (15 = cuadrado relleno)\n       col    = c(rgb(0.85, 0.32, 0.32),\n                  rgb(0.18, 0.62, 0.60),\n                  rgb(0.6,  0.6,  0.6, 0.5)),\n       lwd    = 2, bty = \"n\", cex = 0.85)\n\n# Restaurar el layout de gráficos a un solo panel\npar(mfrow = c(1, 1))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# dnorm(): densidad de la distribución normal\n# ══════════════════════════════════════════════════════════════════\n\n# La densidad NO es una probabilidad — es la \"altura\" de la curva.\n# Para obtener probabilidades necesitamos integrar (o usar pnorm).\n# Por default: Normal(0,1), i.e., mean=0, sd=1.\n\ncat(\"── dnorm(): altura de la campana en x ────────────────────\\n\")\ncat(sprintf(\"  dnorm(0)              = %.4f  (máximo, centro de la campana)\\n\", dnorm(0)))\ncat(sprintf(\"  dnorm(1.96)           = %.4f  (ya estamos en la cola)\\n\",        dnorm(1.96)))\ncat(sprintf(\"  dnorm(0, mean=5, sd=2)= %.4f  (otra distribución, en x=0)\\n\",   dnorm(0, mean=5, sd=2)))\n\ncat(\"\\n\")\n\n# ══════════════════════════════════════════════════════════════════\n# pnorm(): probabilidad acumulada P(X ≤ x)  [cola izquierda por default]\n# ══════════════════════════════════════════════════════════════════\n\ncat(\"── pnorm(): área acumulada hasta x ───────────────────────\\n\")\n# lower.tail = TRUE (default) → P(X ≤ q)\ncat(sprintf(\"  pnorm(0)              = %.4f  (50%% del área a la izquierda de 0)\\n\", pnorm(0)))\ncat(sprintf(\"  pnorm(1.645)          = %.4f  (umbral α=0.05 unilateral)\\n\",          pnorm(1.645)))\ncat(sprintf(\"  pnorm(1.96)           = %.4f  (umbral α=0.025 en cada cola)\\n\",       pnorm(1.96)))\n\ncat(\"\\n\")\n# lower.tail = FALSE → P(X > q)  [cola DERECHA]\n# Equivalente a 1 - pnorm(q), pero numéricamente más preciso en colas extremas.\ncat(\"  Con lower.tail = FALSE obtenemos P(X > q):\\n\")\ncat(sprintf(\"  pnorm(1.645, lower.tail=FALSE) = %.4f  (5%% en la cola derecha)\\n\",  pnorm(1.645, lower.tail=FALSE)))\ncat(sprintf(\"  pnorm(1.96,  lower.tail=FALSE) = %.4f  (2.5%% en la cola derecha)\\n\", pnorm(1.96,  lower.tail=FALSE)))\n\ncat(\"\\n\")\n# Prueba BILATERAL: P(|X| > z) = 2 × P(X > |z|)\n# Multiplicamos por 2 porque el efecto podría estar en cualquiera de las dos colas.\n# abs() garantiza que funcione aunque el estadístico sea negativo.\nz_ej <- 2.10\ncat(sprintf(\"  Bilateral: 2 * pnorm(%.2f, lower.tail=FALSE) = %.4f\\n\",\n            z_ej, 2 * pnorm(z_ej, lower.tail=FALSE)))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# pt(): distribución t de Student — para muestras pequeñas o moderadas\n# ══════════════════════════════════════════════════════════════════\n\n# La distribución t tiene colas más pesadas que la normal:\n# con pocos grados de libertad, los valores extremos son más probables.\n# A medida que df → ∞, la t converge a la Normal(0,1).\n# pt(q, df, lower.tail) es análogo a pnorm pero requiere especificar df.\n\nt_ej <- 2.10\ndf_ej <- 20\n\ncat(sprintf(\"Con estadístico t = %.2f y df = %d\\n\\n\", t_ej, df_ej))\n\n# Cola derecha: P(T > t)\np_t_uni <- pt(t_ej, df = df_ej, lower.tail = FALSE)\n# Cola bilateral: P(|T| > t) — abs() para que funcione con t negativos\np_t_bi  <- 2 * pt(abs(t_ej), df = df_ej, lower.tail = FALSE)\n\n# Comparamos con la aproximación normal\np_z_uni <- pnorm(t_ej, lower.tail = FALSE)\np_z_bi  <- 2 * pnorm(abs(t_ej), lower.tail = FALSE)\n\ncat(\"── Valor p unilateral ─────────────────────────────────────\\n\")\ncat(sprintf(\"  pt(%.2f, df=%d, lower.tail=FALSE) = %.4f\\n\", t_ej, df_ej, p_t_uni))\ncat(sprintf(\"  pnorm(%.2f, lower.tail=FALSE)     = %.4f  (aprox. normal)\\n\", t_ej, p_z_uni))\ncat(sprintf(\"  Diferencia pt - pnorm             = %.5f\\n\\n\", p_t_uni - p_z_uni))\n\ncat(\"── Valor p bilateral ──────────────────────────────────────\\n\")\ncat(sprintf(\"  2*pt(%.2f, df=%d, lower.tail=FALSE)= %.4f\\n\", t_ej, df_ej, p_t_bi))\ncat(sprintf(\"  2*pnorm(%.2f, lower.tail=FALSE)    = %.4f  (aprox. normal)\\n\", t_ej, p_z_bi))\ncat(sprintf(\"  Diferencia                         = %.5f\\n\\n\", p_t_bi - p_z_bi))\n\ncat(\"Con df pequeño, pt() da p-valores MAYORES que pnorm().\\n\")\ncat(\"Usar pnorm() cuando n es pequeño es anticonservador:\\n\")\ncat(\"subestima la incertidumbre y rechaza H₀ con más facilidad de la debida.\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# qnorm() y qt(): cuantiles — la operación INVERSA de pnorm / pt\n# ══════════════════════════════════════════════════════════════════\n\n# Si pnorm(1.96) = 0.975, entonces qnorm(0.975) = 1.96.\n# qnorm(p) responde: ¿qué valor z deja el p% del área a su izquierda?\n# Se usa principalmente para obtener valores críticos (umbrales de rechazo).\n\ncat(\"── qnorm(): valores críticos z ────────────────────────────\\n\")\n# Prueba unilateral α=0.05: rechazamos si z > qnorm(0.95)\ncat(sprintf(\"  qnorm(0.95)  = %.4f  (valor crítico α=0.05 unilateral)\\n\",  qnorm(0.95)))\n# Prueba bilateral α=0.05: rechazamos si |z| > qnorm(0.975)\ncat(sprintf(\"  qnorm(0.975) = %.4f  (valor crítico α=0.05 bilateral)\\n\",   qnorm(0.975)))\ncat(sprintf(\"  qnorm(0.995) = %.4f  (valor crítico α=0.01 bilateral)\\n\\n\", qnorm(0.995)))\n\n# Equivalente con lower.tail = FALSE:\n# qnorm(alpha, lower.tail=FALSE) = qnorm(1 - alpha)\ncat(sprintf(\"  qnorm(0.05, lower.tail=FALSE) = %.4f  (idéntico a qnorm(0.95))\\n\\n\",\n            qnorm(0.05, lower.tail = FALSE)))\n\ncat(\"── qt(): valores críticos t (dependen de df) ──────────────\\n\")\ncat(\"  df      qt(0.975, df)   [bilateral α=0.05]\\n\")\ncat(\"  ──────────────────────────────────────────\\n\")\n# A medida que df crece, qt() converge al 1.96 de la normal\nfor (df in c(5, 10, 20, 30, 60, 120, Inf)) {\n  cat(sprintf(\"  %5g       %.4f\\n\", df, qt(0.975, df = df)))\n}\ncat(\"\\nCon df → Inf, qt() converge a qnorm(0.975) = 1.9600.\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# Mapa visual: dnorm, pnorm y qnorm sobre la misma curva\n# ══════════════════════════════════════════════════════════════════\n\n# Construimos el eje x: 500 puntos igualmente espaciados de -4 a 4.\n# 500 puntos es suficiente para que la curva se vea perfectamente suave.\nx_grid <- seq(-4, 4, length.out = 500)\n\n# Evaluamos la densidad Normal(0,1) en cada punto del grid.\n# Esto da la \"altura\" de la campana en 500 posiciones distintas.\ny_dens <- dnorm(x_grid)   # un vector de 500 alturas\n\n# Dibujamos la campana\nplot(x_grid, y_dens,\n     type = \"l\", lwd = 2.5, col = \"gray20\",\n     main = \"d / p / q — visualización en la Normal(0,1)\",\n     xlab = \"z\", ylab = \"Densidad\",\n     bty  = \"n\")\n\n# ── Región sombreada: ilustra pnorm(1.0) ─────────────────────────\n# El área sombreada va de -4 hasta z=1.0: esa área = pnorm(1.0)\nx_izq <- seq(-4, 1.0, length.out = 300)    # subgrid solo hasta z=1\n# polygon necesita un circuito cerrado: arriba por la curva (dnorm),\n# abajo por el eje (ceros). rep(0, 300) crea un vector de 300 ceros.\npolygon(c(x_izq, rev(x_izq)),\n        c(dnorm(x_izq), rep(0, 300)),\n        col = rgb(0.2, 0.5, 0.8, 0.3), border = NA)\n\n# ── Línea vertical: ilustra qnorm(0.975) = 1.96 ──────────────────\n# Este es el valor crítico bilateral para α=0.05\nabline(v = qnorm(0.975), lty = 2, col = \"firebrick\", lwd = 2)\n\n# ── Punto: ilustra dnorm(0) en el máximo de la campana ───────────\n# pch = 19 → círculo sólido; cex = tamaño\npoints(0, dnorm(0), pch = 19, col = \"darkorange\", cex = 1.5)\n\n# text() agrega una etiqueta de texto en las coordenadas (x, y)\n# adj controla la alineación horizontal: 0=izquierda, 0.5=centro, 1=derecha\ntext(-1.5, 0.12,\n     sprintf(\"pnorm(1.0) = %.3f\\n(área sombreada)\", pnorm(1.0)),\n     col = rgb(0.2, 0.5, 0.8), cex = 0.85)\ntext(2.6, 0.15,\n     sprintf(\"qnorm(0.975)\\n= %.4f\", qnorm(0.975)),\n     col = \"firebrick\", cex = 0.85)\ntext(0.1, dnorm(0) - 0.04,\n     sprintf(\"dnorm(0) = %.4f\", dnorm(0)),\n     col = \"darkorange\", cex = 0.85, adj = 0)\n\ncat(\"Recuerda la familia d/p/q/r:\\n\")\ncat(\"  dnorm(x)         → altura de la curva en x          (densidad)\\n\")\ncat(\"  pnorm(x)         → área acumulada P(X ≤ x)          (probabilidad)\\n\")\ncat(\"  qnorm(p)         → valor x tal que P(X ≤ x) = p     (cuantil / inversa)\\n\")\ncat(\"  rnorm(n)         → genera n valores aleatorios       (simulación)\\n\")\ncat(\"\\n\")\ncat(\"  dt / pt / qt / rt → lo mismo para la t de Student\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# RESUMEN EJECUTIVO: ¿cuándo usar cada función para un valor p?\n# ══════════════════════════════════════════════════════════════════\n\ncat(\"╔══════════════════════════════════════════════════════════════════╗\\n\")\ncat(\"║         OBTENER UN VALOR p DADO UN ESTADÍSTICO DE PRUEBA        ║\\n\")\ncat(\"╠══════════════════════════════════════════════════════════════════╣\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Tengo un estadístico z (o n ≥ 100, aproximo con normal):       ║\\n\")\ncat(\"║    Unilateral derecha  : pnorm(z, lower.tail = FALSE)           ║\\n\")\ncat(\"║    Unilateral izquierda: pnorm(z)                               ║\\n\")\ncat(\"║    Bilateral           : 2 * pnorm(abs(z), lower.tail = FALSE)  ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Tengo un estadístico t (n < 100, usar t de Student):           ║\\n\")\ncat(\"║    Unilateral derecha  : pt(t, df, lower.tail = FALSE)          ║\\n\")\ncat(\"║    Unilateral izquierda: pt(t, df)                              ║\\n\")\ncat(\"║    Bilateral           : 2 * pt(abs(t), df, lower.tail = FALSE) ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Quiero el VALOR CRÍTICO (umbral de rechazo de H₀):             ║\\n\")\ncat(\"║    Normal unilateral   : qnorm(1 - alpha)                       ║\\n\")\ncat(\"║    Normal bilateral    : qnorm(1 - alpha/2)                     ║\\n\")\ncat(\"║    t unilateral        : qt(1 - alpha, df)                      ║\\n\")\ncat(\"║    t bilateral         : qt(1 - alpha/2, df)                    ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Regla práctica de convergencia:                                 ║\\n\")\ncat(\"║    n ≥ 100  → pnorm() y qnorm() son suficientemente precisos    ║\\n\")\ncat(\"║    n <  100 → usa siempre pt() y qt()                           ║\\n\")\ncat(\"╚══════════════════════════════════════════════════════════════════╝\\n\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"H₀: las becas no cambian el puntaje promedio\\n\")\ncat(\"H₁: las becas aumentan el puntaje promedio\\n\\n\")\ncat(\"Nivel de significancia: α = 0.05\\n\")\ncat(\"  → Aceptamos un 5% de probabilidad de rechazar H₀\\n\")\ncat(\"    cuando en realidad es verdadera (error tipo I).\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# mean() y sd() calculan la media y la desviación estándar MUESTRALES\nx_beca    <- mean(puntajes_tratamiento)\nx_control <- mean(puntajes_control)\ns_beca    <- sd(puntajes_tratamiento)\ns_control <- sd(puntajes_control)\n\n# Error estándar de la diferencia de medias (fórmula de Welch).\n# sqrt() = raíz cuadrada; ^2 = elevar al cuadrado.\n# Dividimos la varianza (s²) de cada grupo entre su n y sumamos.\nse_diff <- sqrt(s_beca^2 / n + s_control^2 / n)\n\n# El estadístico t es la diferencia observada medida en unidades de SE.\n# Un t grande (en valor absoluto) significa que la diferencia es\n# muy inusual bajo H₀ (donde esperaríamos t ≈ 0).\nt_stat <- (x_beca - x_control) / se_diff\n\ncat(\"─── Ingredientes ──────────────────────────────────\\n\")\ncat(sprintf(\"  Media beca    : %.3f\\n\", x_beca))\ncat(sprintf(\"  Media control : %.3f\\n\", x_control))\ncat(sprintf(\"  Diferencia    : %.3f puntos\\n\", x_beca - x_control))\ncat(sprintf(\"  SE diferencia : %.3f\\n\", se_diff))\ncat(\"───────────────────────────────────────────────────\\n\")\ncat(sprintf(\"  t calculado   : %.4f\\n\\n\", t_stat))\ncat(sprintf(\"  La diferencia de %.2f pts equivale a %.2f errores\\n\",\n            x_beca - x_control, t_stat))\ncat(\"  estándar por encima de cero.\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Grados de libertad de Welch — fórmula de Satterthwaite.\n# \"Penaliza\" cuando las varianzas o tamaños muestrales difieren entre grupos.\n# El resultado es un número no entero, menor o igual que n1 + n2 - 2.\nnu_welch <- (s_beca^2/n + s_control^2/n)^2 /\n            ((s_beca^2/n)^2 / (n - 1) + (s_control^2/n)^2 / (n - 1))\n\ncat(sprintf(\"Grados de libertad de Welch: %.1f\\n\\n\", nu_welch))\n\n# ── Valor p con distribución t (correcto para muestras finitas) ──\n# pt(q, df, lower.tail = FALSE) calcula P(T > q) bajo la t con 'df' gl.\n# Es el área de la COLA DERECHA: la probabilidad de observar\n# un t tan grande o mayor, ASUMIENDO que H₀ es verdadera.\npval_t_uni <- pt(t_stat, df = nu_welch, lower.tail = FALSE)\n\n# Para prueba bilateral multiplicamos por 2 (ambas colas son igualmente extremas).\n# abs() garantiza que tomamos la cola correcta sin importar el signo de t.\npval_t_bi  <- 2 * pt(abs(t_stat), df = nu_welch, lower.tail = FALSE)\n\n# ── Valor p con distribución normal (aproximación para n grande) ─\n# pnorm() asume que el estadístico sigue exactamente una Normal(0,1).\n# Con n ≥ 100 la aproximación es excelente; con n < 100 subestima el p-valor.\npval_z_uni <- pnorm(t_stat, lower.tail = FALSE)\npval_z_bi  <- 2 * pnorm(abs(t_stat), lower.tail = FALSE)\n\ncat(\"── pt(): distribución t de Student (recomendado) ──────────\\n\")\ncat(sprintf(\"  Unilateral: pt(%.3f, df=%.0f, lower.tail=FALSE) = %.4f\\n\",\n            t_stat, nu_welch, pval_t_uni))\ncat(sprintf(\"  Bilateral : 2*pt(|t|, df=%.0f, lower.tail=FALSE)= %.4f\\n\\n\",\n            nu_welch, pval_t_bi))\n\ncat(\"── pnorm(): aproximación normal estándar ───────────────────\\n\")\ncat(sprintf(\"  Unilateral: pnorm(%.3f, lower.tail=FALSE) = %.4f\\n\",\n            t_stat, pval_z_uni))\ncat(sprintf(\"  Bilateral : 2*pnorm(|t|, lower.tail=FALSE)= %.4f\\n\\n\",\n            pval_z_bi))\n\ncat(\"── Diferencia entre ambas aproximaciones ───────────────────\\n\")\ncat(sprintf(\"  Δ unilateral = %.5f\\n\", pval_t_uni - pval_z_uni))\ncat(sprintf(\"  Con n=%d por grupo la diferencia es pequeña.\\n\", n))\ncat(\"  Con n=10 sería mucho mayor — siempre usa pt() con n < 100.\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# t.test() ejecuta internamente los tres pasos anteriores.\n# alternative = \"greater\" → prueba unilateral H₁: grupo1 > grupo2.\n# El primer argumento es el grupo que queremos probar que es \"mayor\".\nresultado <- t.test(puntajes_tratamiento, puntajes_control,\n                    alternative = \"greater\")\n\ncat(\"─── Verificación con t.test() ──────────────────────────────\\n\")\n# Los resultados se extraen con $ del objeto que devuelve t.test()\ncat(sprintf(\"  t            : %.4f  (coincide con nuestro cálculo: %.4f)\\n\",\n            resultado$statistic, t_stat))\ncat(sprintf(\"  gl (Welch)   : %.1f\\n\",  resultado$parameter))\ncat(sprintf(\"  p-valor      : %.4f\\n\",  resultado$p.value))\ncat(sprintf(\"  IC 95%%       : [%.2f, Inf]\\n\", resultado$conf.int[1]))\ncat(\"\\n\")\n\nif (resultado$p.value < 0.05) {\n  cat(\"✅ Rechazamos H₀ (p < 0.05)\\n\")\n  cat(\"   Hay evidencia de que las becas aumentan el puntaje en matemáticas.\\n\")\n} else {\n  cat(\"⚠️  No rechazamos H₀ (p ≥ 0.05)\\n\")\n  cat(\"   La evidencia no es suficiente para concluir que hay efecto.\\n\")\n}","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Grid de x: cubre ± 4 unidades de la distribución t.\n# Con df moderados la t se parece mucho a la normal, pero tiene colas más pesadas.\nx_t <- seq(-4, 4, length.out = 500)\n\n# dt(x, df) evalúa la densidad de la t de Student en cada punto del grid.\n# Es el equivalente a dnorm() pero para la distribución t.\nplot(x_t, dt(x_t, df = nu_welch),\n     type = \"l\", lwd = 2.5, col = \"gray20\",\n     main = sprintf(\"Distribución t bajo H₀  (df = %.0f)  —  valor p unilateral\",\n                    nu_welch),\n     xlab = \"Estadístico t\", ylab = \"Densidad\",\n     bty  = \"n\")\n\n# Sombreamos el área a la DERECHA del t observado.\n# Esa área ES el valor p: P(T > t_observado | H₀ verdadera).\n# Solo tomamos los puntos del grid que están a la derecha de t_stat.\nx_shade <- seq(t_stat, 4, length.out = 200)\npolygon(\n  c(x_shade, rev(x_shade)),\n  c(dt(x_shade, df = nu_welch), rep(0, 200)),  # dt() da la altura de la curva t\n  col    = rgb(0.85, 0.32, 0.32, 0.5),\n  border = NA\n)\n\n# Línea vertical en el t observado\nabline(v = t_stat, lty = 2, col = \"firebrick\", lwd = 2)\n\n# qt(0.95, df) devuelve el cuantil 95 de la t: el umbral de rechazo.\n# Si t_observado > valor_critico → rechazamos H₀ a α=0.05 unilateral.\nvalor_critico <- qt(0.95, df = nu_welch)\nabline(v = valor_critico, lty = 3, col = \"navy\", lwd = 1.8)\n\nlegend(\"topright\",\n       legend = c(\n         sprintf(\"t observado = %.2f\",           t_stat),\n         sprintf(\"valor crítico (α=0.05) = %.2f\", valor_critico),\n         sprintf(\"p-valor = %.4f  (área roja)\",   pval_t_uni)\n       ),\n       lty = c(2, 3, NA), pch = c(NA, NA, 15),\n       col = c(\"firebrick\", \"navy\", rgb(0.85, 0.32, 0.32, 0.5)),\n       lwd = 2, bty = \"n\", cex = 0.85)","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función que estima el poder mediante simulación Monte Carlo.\n# Repite el experimento nsims veces y cuenta cuántas veces rechazamos H₀.\ncalcular_poder <- function(n_por_grupo,   # alumnos por brazo\n                           delta,          # efecto real (diferencia de medias)\n                           sigma  = 12,   # desviación estándar (asumida igual)\n                           nsims  = 800,  # repeticiones del experimento simulado\n                           alpha  = 0.05) # nivel de significancia\n{\n  rechazos <- 0L   # contador de rechazos (sufijo L = tipo entero)\n\n  for (i in seq_len(nsims)) {\n    # Simulamos un nuevo experimento con el mismo diseño\n    ctrl <- rnorm(n_por_grupo, mean = 0,     sd = sigma)\n    trt  <- rnorm(n_por_grupo, mean = delta, sd = sigma)\n\n    # Prueba t unilateral y extraemos solo el p-valor con $p.value\n    p <- t.test(trt, ctrl, alternative = \"greater\")$p.value\n\n    # Contamos si rechazamos H₀ en esta simulación\n    if (p < alpha) rechazos <- rechazos + 1L\n  }\n\n  # Poder empírico = proporción de simulaciones donde rechazamos\n  return(rechazos / nsims)\n}\n\n# sapply(vector, funcion) aplica la función a cada elemento del vector\n# y devuelve un vector de resultados — equivalente a un bucle for simplificado.\ntamanos <- seq(20, 300, by = 20)\npoder_5 <- sapply(tamanos, calcular_poder, delta = 5)   # Δ = 5 puntos\npoder_3 <- sapply(tamanos, calcular_poder, delta = 3)   # Δ = 3 puntos\n\nplot(tamanos, poder_5, type = \"b\", pch = 19, lwd = 2, col = \"steelblue\",\n     main = \"Poder estadístico vs tamaño de muestra\",\n     xlab = \"n por grupo\", ylab = \"Poder (1 − β)\", ylim = c(0, 1), bty = \"n\")\nlines(tamanos, poder_3, type = \"b\", pch = 17, lwd = 2, col = \"darkorange\")\nabline(h = 0.80, lty = 2, col = \"gray40\")   # umbral convencional del 80%\nlegend(\"bottomright\",\n       legend = c(\"Δ = 5 pts\", \"Δ = 3 pts\", \"Poder = 80%\"),\n       col    = c(\"steelblue\", \"darkorange\", \"gray40\"),\n       lty    = c(1, 1, 2), pch = c(19, 17, NA), lwd = 2, bty = \"n\")","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función para calcular poder con diseño clusterizado.\n# Simula un modelo de efectos aleatorios de dos niveles:\n#   Nivel 1: alumnos (variabilidad dentro del clúster)\n#   Nivel 2: escuelas (variabilidad entre clústeres)\npoder_cluster <- function(n_clusters,   # número de escuelas por brazo\n                          m,            # alumnos por escuela\n                          icc,          # ICC: proporción de varianza entre clústeres\n                          delta,        # efecto real (diferencia de medias)\n                          sigma  = 12,  # sd total (se descompone según el ICC)\n                          nsims  = 600,\n                          alpha  = 0.05) {\n\n  # Descomponemos la varianza total usando el ICC:\n  #   σ²_total = σ²_entre + σ²_dentro\n  #   ICC = σ²_entre / σ²_total  →  σ_entre = sqrt(ICC) * sigma\n  sigma_entre  <- sqrt(icc) * sigma        # variabilidad entre escuelas\n  sigma_dentro <- sqrt(1 - icc) * sigma    # variabilidad dentro de cada escuela\n\n  rechazos <- 0L\n  for (i in seq_len(nsims)) {\n    # CONTROL: primero sorteamos el \"efecto escuela\" (intercepto aleatorio por clúster)\n    # rnorm(n_clusters, 0, sigma_entre) genera un desvío por escuela alrededor de 0\n    u_ctrl <- rnorm(n_clusters, mean = 0, sd = sigma_entre)\n\n    # Para cada escuela, generamos m alumnos alrededor del efecto de ESA escuela.\n    # lapply devuelve una LISTA (un elemento por escuela).\n    # unlist() la convierte en un vector plano de n_clusters * m elementos.\n    ctrl <- unlist(lapply(u_ctrl, function(u) rnorm(m, mean = u, sd = sigma_dentro)))\n\n    # TRATAMIENTO: igual que control, pero la media de cada escuela es delta más alta\n    u_trt <- rnorm(n_clusters, mean = delta, sd = sigma_entre)\n    trt   <- unlist(lapply(u_trt, function(u) rnorm(m, mean = u, sd = sigma_dentro)))\n\n    p <- t.test(trt, ctrl, alternative = \"greater\")$p.value\n    if (p < alpha) rechazos <- rechazos + 1L\n  }\n  rechazos / nsims\n}\n\n# ── Gráfica 1: poder vs N° clústeres, por distintos ICC ──────────\nicc_vals  <- c(0.00, 0.05, 0.15, 0.30)\nn_clust_v <- seq(5, 40, by = 5)   # clústeres por brazo\nm_fijo    <- 20                    # alumnos por escuela (constante)\ndelta     <- 5\n\ncolores <- c(\"gray50\", \"steelblue\", \"darkorange\", \"firebrick\")\n\n# plot(NULL, ...) crea un lienzo en blanco con los ejes definidos;\n# luego añadimos las curvas con lines() en el bucle.\nplot(NULL, xlim = range(n_clust_v), ylim = c(0, 1),\n     main = sprintf(\"Poder vs N° clústeres  (m = %d alumnos/escuela, Δ = %d pts)\",\n                    m_fijo, delta),\n     xlab = \"Clústeres por brazo\", ylab = \"Poder (1 − β)\", bty = \"n\")\nabline(h = 0.80, lty = 2, col = \"gray70\")\n\nfor (j in seq_along(icc_vals)) {\n  # Para cada ICC calculamos el poder para cada tamaño de clúster\n  pod <- sapply(n_clust_v, function(nc)\n    poder_cluster(nc, m = m_fijo, icc = icc_vals[j], delta = delta))\n  lines(n_clust_v, pod, type = \"b\", pch = 19, lwd = 2, col = colores[j])\n}\nlegend(\"bottomright\", legend = paste0(\"ICC = \", icc_vals),\n       col = colores, lty = 1, lwd = 2, pch = 19, bty = \"n\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ── Gráfica 2: con ICC alto, ¿conviene más clústeres o más alumnos? ──\nicc_alto <- 0.20\nm_vals   <- c(5, 10, 20, 40)   # distintos tamaños de clúster a comparar\nn_c_v    <- seq(5, 50, by = 5)\n\nplot(NULL, xlim = range(n_c_v), ylim = c(0, 1),\n     main = sprintf(\"ICC = %.2f: ¿más clústeres o más alumnos/clúster?\", icc_alto),\n     xlab = \"Clústeres por brazo\", ylab = \"Poder (1 − β)\", bty = \"n\")\nabline(h = 0.80, lty = 2, col = \"gray70\")\n\npal <- c(\"steelblue\", \"darkorange\", \"firebrick\", \"forestgreen\")\nfor (j in seq_along(m_vals)) {\n  pod <- sapply(n_c_v, function(nc)\n    poder_cluster(nc, m = m_vals[j], icc = icc_alto, delta = delta))\n  lines(n_c_v, pod, type = \"b\", pch = 19, lwd = 2, col = pal[j])\n}\nlegend(\"bottomright\", legend = paste0(\"m = \", m_vals, \" alumnos/escuela\"),\n       col = pal, lty = 1, lwd = 2, pch = 19, bty = \"n\")\n\ncat(\"\\n💡 LECCIÓN CLAVE con ICC alto:\\n\")\ncat(\"   Cuando ρ es alto, duplicar el tamaño del clúster aporta poco poder.\\n\")\ncat(\"   La ganancia en poder viene de muestrear MÁS clústeres,\\n\")\ncat(\"   aunque cada uno tenga pocos alumnos.\\n\\n\")\ncat(\"   Intuición: si todos los alumnos de una escuela son muy similares\\n\")\ncat(\"   (ICC alto), el alumno 21 casi no aporta información nueva.\\n\")\ncat(\"   En cambio, incorporar una escuela nueva sí añade información genuina.\\n\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(42)\n\n# Escenario A: efecto GRANDE, muestra PEQUEÑA → posiblemente no significativo\nnA       <- 18\ngrA_ctrl <- rnorm(nA, mean = 60, sd = 14)\ngrA_trt  <- rnorm(nA, mean = 70, sd = 14)   # +10 puntos reales\ntA       <- t.test(grA_trt, grA_ctrl, alternative = \"greater\")\n\n# Escenario B: efecto TRIVIAL, muestra ENORME → muy significativo\nnB       <- 2000\ngrB_ctrl <- rnorm(nB, mean = 60, sd = 14)\ngrB_trt  <- rnorm(nB, mean = 61.2, sd = 14) # +1.2 puntos reales\ntB       <- t.test(grB_trt, grB_ctrl, alternative = \"greater\")\n\ncat(\"══════════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"  Escenario A: n = %d,   Δ real = 10 pts\\n\", nA))\ncat(sprintf(\"    t = %.3f   p = %.3f  → %s\\n\",\n            tA$statistic, tA$p.value,\n            ifelse(tA$p.value < 0.05, \"✅ Significativo\", \"⚠️  No significativo\")))\ncat(sprintf(\"  Escenario B: n = %d,  Δ real = 1.2 pts\\n\", nB))\ncat(sprintf(\"    t = %.3f   p = %.4f  → %s\\n\",\n            tB$statistic, tB$p.value,\n            ifelse(tB$p.value < 0.05, \"✅ Significativo\", \"⚠️  No significativo\")))\ncat(\"══════════════════════════════════════════════════════════════\\n\")\ncat(\"  LECCIÓN: Con n suficientemente grande, CUALQUIER diferencia\\n\")\ncat(\"  se vuelve estadísticamente significativa — aunque sea trivial.\\n\")\ncat(\"  Con n pequeño, un efecto grande puede pasar desapercibido.\\n\")\ncat(\"══════════════════════════════════════════════════════════════\\n\")","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función analítica para el MDE de una prueba t de dos muestras independientes\nmde_analitico <- function(n,              # alumnos por grupo\n                          sigma  = 12,   # sd poblacional\n                          alpha  = 0.05, # nivel de significancia\n                          poder  = 0.80) # poder objetivo\n{\n  # qnorm(1 - alpha) → z que deja alpha de probabilidad en la cola derecha.\n  # Para H₁ unilateral con α=0.05: qnorm(0.95) ≈ 1.645.\n  # Este es el \"umbral de rechazo\": t necesita superar este valor para p < α.\n  z_alpha <- qnorm(1 - alpha)\n\n  # qnorm(poder) → cuántas SEs adicionales necesitamos para que la distribución\n  # bajo H₁ tenga el 'poder'% de probabilidad de superar el umbral de rechazo.\n  # Con poder=0.80: qnorm(0.80) ≈ 0.842.\n  z_beta  <- qnorm(poder)\n\n  # SE de la diferencia de medias cuando los dos grupos tienen el mismo tamaño n\n  se      <- sigma * sqrt(2 / n)\n\n  # El MDE resulta de despejar Δ de la condición: Δ/SE = z_alpha + z_beta\n  mde     <- (z_alpha + z_beta) * se\n  return(mde)\n}\n\ntamanos_mde <- c(20, 40, 60, 100, 150, 200, 300, 500)\n# sapply aplica mde_analitico() a cada elemento del vector y devuelve un vector\nmde_vals    <- sapply(tamanos_mde, mde_analitico)\n\ncat(\"─────────────────────────────────────────────────────\\n\")\ncat(\"  n por grupo   MDE (pts)   MDE / media control (%)\\n\")\ncat(\"─────────────────────────────────────────────────────\\n\")\nfor (i in seq_along(tamanos_mde)) {\n  cat(sprintf(\"  %5d         %5.2f       %5.1f%%\\n\",\n              tamanos_mde[i], mde_vals[i], 100 * mde_vals[i] / 62))\n}\ncat(\"─────────────────────────────────────────────────────\\n\")\ncat(\"  Supuestos: σ = 12, α = 0.05, poder = 80%, unilateral\\n\")\n\nplot(tamanos_mde, mde_vals, type = \"b\", pch = 19, lwd = 2, col = \"steelblue\",\n     main = \"Efecto Mínimo Detectable vs Tamaño de Muestra\\nBecas para Todos  (σ = 12, α = 0.05, poder = 80%)\",\n     xlab = \"n por grupo\", ylab = \"MDE (puntos de puntaje)\", bty = \"n\")\nabline(h = 5, lty = 2, col = \"firebrick\",  lwd = 1.5)\nabline(h = 3, lty = 2, col = \"darkorange\", lwd = 1.5)\nlegend(\"topright\",\n       legend = c(\"MDE\", \"Umbral 5 pts (mín. relevante)\", \"Umbral 3 pts (ambicioso)\"),\n       col    = c(\"steelblue\", \"firebrick\", \"darkorange\"),\n       lty    = c(1, 2, 2), pch = c(19, NA, NA), lwd = 2, bty = \"n\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# which(condicion) devuelve los ÍNDICES donde la condición es TRUE.\n# [1] selecciona el primero: el n más pequeño que ya satisface la condición.\nn_necesario_5 <- tamanos_mde[which(mde_vals <= 5)[1]]\nn_necesario_3 <- tamanos_mde[which(mde_vals <= 3)[1]]\n\ncat(sprintf(\"  MDE ≤ 5 pts → n ≈ %d por grupo\\n\", n_necesario_5))\ncat(sprintf(\"  MDE ≤ 3 pts → n ≈ %d por grupo\\n\\n\", n_necesario_3))\n\ncat(\"═══════════════════════════════════════════════════════\\n\")\ncat(\"  CÓMO USAR EL MDE EN LA PRÁCTICA\\n\")\ncat(\"═══════════════════════════════════════════════════════\\n\")\ncat(\"  ANTES de recolectar datos:\\n\")\ncat(\"   1. Define el efecto mínimo relevante para la política.\\n\")\ncat(\"   2. Calcula el MDE con el n disponible.\\n\")\ncat(\"   3. Si MDE > efecto relevante: el estudio está subpotenciado.\\n\\n\")\ncat(\"  DESPUÉS de recolectar datos:\\n\")\ncat(\"   • p < 0.05                          → resultado significativo\\n\")\ncat(\"   • p > 0.05 y MDE > efecto relevante → falta poder (no evidencia)\\n\")\ncat(\"   • p > 0.05 y MDE < efecto relevante → evidencia de ausencia\\n\")\ncat(\"═══════════════════════════════════════════════════════\\n\")","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"icc_grid <- c(0, 0.05, 0.10, 0.20)\nm_grid   <- c(5, 10, 20, 30, 50)\nn_total  <- 120   # observaciones totales por brazo (presupuesto fijo)\n\ncat(\"MDE (puntos) según ICC y tamaño de clúster\\n\")\ncat(sprintf(\"n total por brazo = %d  |  σ = 12  |  α=0.05  |  poder=80%%\\n\\n\", n_total))\n\n# Construimos el encabezado de la tabla dinámicamente con paste0()\nheader <- sprintf(\"  %-8s\", \"ICC \\\\ m\")\nfor (m in m_grid) header <- paste0(header, sprintf(\"  m=%2d\", m))\ncat(header, \"\\n\")\ncat(strrep(\"─\", nchar(header) + 2), \"\\n\")   # strrep repite un string n veces\n\nfor (rho in icc_grid) {\n  fila <- sprintf(\"  ICC=%.2f\", rho)\n  for (m in m_grid) {\n    # DEFF: factor por el que se infla el n efectivo necesario por el clustering\n    deff       <- 1 + (m - 1) * rho\n    # n efectivo: las n_total observaciones \"valen menos\" en presencia de clustering\n    n_efectivo <- n_total / deff\n    # El MDE se calcula con el n efectivo ya deflactado por el DEFF\n    mde_cl     <- mde_analitico(n = n_efectivo)\n    fila       <- paste0(fila, sprintf(\"  %5.2f\", mde_cl))\n  }\n  cat(fila, \"\\n\")\n}\ncat(strrep(\"─\", nchar(header) + 2), \"\\n\")\ncat(\"  (MDE simple con n=120: \", round(mde_analitico(120), 2), \" pts)\\n\")","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+
+</script>
+<script type="module">
+// Declare startupMessageQWebR globally
+globalThis.qwebrStartupMessage = document.createElement("p");
+
+// Verify if OffScreenCanvas is supported
+globalThis.qwebrOffScreenCanvasSupport = function() {
+  return typeof OffscreenCanvas !== 'undefined'
+}
+
+// Function to set the button text
+globalThis.qwebrSetInteractiveButtonState = function(buttonText, enableCodeButton = true) {
+  document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+    btn.innerHTML = buttonText;
+    btn.disabled = !enableCodeButton;
+  });
+}
+
+// Function to update the status message in non-interactive cells
+globalThis.qwebrUpdateStatusMessage = function(message) {
+  document.querySelectorAll(".qwebr-status-text.qwebr-cell-needs-evaluation").forEach((elem) => {
+    elem.innerText = message;
+  });
+}
+
+// Function to update the status message
+globalThis.qwebrUpdateStatusHeader = function(message) {
+  qwebrStartupMessage.innerHTML = `
+    <i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i>
+    <span>${message}</span>`;
+}
+
+// Function to return true if element is found, false if not
+globalThis.qwebrCheckHTMLElementExists = function(selector) {
+  const element = document.querySelector(selector);
+  return !!element;
+}
+
+// Function that detects whether reveal.js slides are present
+globalThis.qwebrIsRevealJS = function() {
+  // If the '.reveal .slides' selector exists, RevealJS is likely present
+  return qwebrCheckHTMLElementExists('.reveal .slides');
+}
+
+// Initialize the Quarto sidebar element
+function qwebrSetupQuartoSidebar() {
+  var newSideBarDiv = document.createElement('div');
+  newSideBarDiv.id = 'quarto-margin-sidebar';
+  newSideBarDiv.className = 'sidebar margin-sidebar';
+  newSideBarDiv.style.top = '0px';
+  newSideBarDiv.style.maxHeight = 'calc(0px + 100vh)';
+
+  return newSideBarDiv;
+}
+
+// Position the sidebar in the document
+function qwebrPlaceQuartoSidebar() {
+  // Get the reference to the element with id 'quarto-document-content'
+  var referenceNode = document.getElementById('quarto-document-content');
+
+  // Create the new div element
+  var newSideBarDiv = qwebrSetupQuartoSidebar();
+
+  // Insert the new div before the 'quarto-document-content' element
+  referenceNode.parentNode.insertBefore(newSideBarDiv, referenceNode);
+}
+
+function qwebrPlaceMessageContents(content, html_location = "title-block-header", revealjs_location = "title-slide") {
+
+  // Get references to header elements
+  const headerHTML = document.getElementById(html_location);
+  const headerRevealJS = document.getElementById(revealjs_location);
+
+  // Determine where to insert the quartoTitleMeta element
+  if (headerHTML || headerRevealJS) {
+    // Append to the existing "title-block-header" element or "title-slide" div
+    (headerHTML || headerRevealJS).appendChild(content);
+  } else {
+    // If neither headerHTML nor headerRevealJS is found, insert after "webr-monaco-editor-init" script
+    const monacoScript = document.getElementById("qwebr-monaco-editor-init");
+    const header = document.createElement("header");
+    header.setAttribute("id", "title-block-header");
+    header.appendChild(content);
+    monacoScript.after(header);
+  }
+}
+
+
+
+function qwebrOffScreenCanvasSupportWarningMessage() {
+  
+  // Verify canvas is supported.
+  if(qwebrOffScreenCanvasSupport()) return;
+
+  // Create the main container div
+  var calloutContainer = document.createElement('div');
+  calloutContainer.classList.add('callout', 'callout-style-default', 'callout-warning', 'callout-titled');
+
+  // Create the header div
+  var headerDiv = document.createElement('div');
+  headerDiv.classList.add('callout-header', 'd-flex', 'align-content-center');
+
+  // Create the icon container div
+  var iconContainer = document.createElement('div');
+  iconContainer.classList.add('callout-icon-container');
+
+  // Create the icon element
+  var iconElement = document.createElement('i');
+  iconElement.classList.add('callout-icon');
+
+  // Append the icon element to the icon container
+  iconContainer.appendChild(iconElement);
+
+  // Create the title container div
+  var titleContainer = document.createElement('div');
+  titleContainer.classList.add('callout-title-container', 'flex-fill');
+  titleContainer.innerText = 'Warning: Web Browser Does Not Support Graphing!';
+
+  // Append the icon container and title container to the header div
+  headerDiv.appendChild(iconContainer);
+  headerDiv.appendChild(titleContainer);
+
+  // Create the body container div
+  var bodyContainer = document.createElement('div');
+  bodyContainer.classList.add('callout-body-container', 'callout-body');
+
+  // Create the paragraph element for the body content
+  var paragraphElement = document.createElement('p');
+  paragraphElement.innerHTML = 'This web browser does not have support for displaying graphs through the <code>quarto-webr</code> extension since it lacks an <code>OffScreenCanvas</code>. Please upgrade your web browser to one that supports <code>OffScreenCanvas</code>.';
+
+  // Append the paragraph element to the body container
+  bodyContainer.appendChild(paragraphElement);
+
+  // Append the header div and body container to the main container div
+  calloutContainer.appendChild(headerDiv);
+  calloutContainer.appendChild(bodyContainer);
+
+  // Append the main container div to the document depending on format
+  qwebrPlaceMessageContents(calloutContainer, "title-block-header"); 
+
+}
+
+
+// Function that attaches the document status message and diagnostics
+function displayStartupMessage(showStartupMessage, showHeaderMessage) {
+  if (!showStartupMessage) {
+    return;
+  }
+
+  // Create the outermost div element for metadata
+  const quartoTitleMeta = document.createElement("div");
+  quartoTitleMeta.classList.add("quarto-title-meta");
+
+  // Create the first inner div element
+  const firstInnerDiv = document.createElement("div");
+  firstInnerDiv.setAttribute("id", "qwebr-status-message-area");
+
+  // Create the second inner div element for "WebR Status" heading and contents
+  const secondInnerDiv = document.createElement("div");
+  secondInnerDiv.setAttribute("id", "qwebr-status-message-title");
+  secondInnerDiv.classList.add("quarto-title-meta-heading");
+  secondInnerDiv.innerText = "WebR Status";
+
+  // Create another inner div for contents
+  const secondInnerDivContents = document.createElement("div");
+  secondInnerDivContents.setAttribute("id", "qwebr-status-message-body");
+  secondInnerDivContents.classList.add("quarto-title-meta-contents");
+
+  // Describe the WebR state
+  qwebrStartupMessage.innerText = "🟡 Loading...";
+  qwebrStartupMessage.setAttribute("id", "qwebr-status-message-text");
+  // Add `aria-live` to auto-announce the startup status to screen readers
+  qwebrStartupMessage.setAttribute("aria-live", "assertive");
+
+  // Append the startup message to the contents
+  secondInnerDivContents.appendChild(qwebrStartupMessage);
+
+  // Add a status indicator for COOP and COEP Headers if needed
+  if (showHeaderMessage) {
+    const crossOriginMessage = document.createElement("p");
+    crossOriginMessage.innerText = `${crossOriginIsolated ? '🟢' : '🟡'} COOP & COEP Headers`;
+    crossOriginMessage.setAttribute("id", "qwebr-coop-coep-header");
+    secondInnerDivContents.appendChild(crossOriginMessage);
+  }
+
+  // Combine the inner divs and contents
+  firstInnerDiv.appendChild(secondInnerDiv);
+  firstInnerDiv.appendChild(secondInnerDivContents);
+  quartoTitleMeta.appendChild(firstInnerDiv);
+
+  // Place message on webpage
+  qwebrPlaceMessageContents(quartoTitleMeta); 
+}
+
+function qwebrAddCommandHistoryModal() {
+  // Create the modal div
+  var modalDiv = document.createElement('div');
+  modalDiv.id = 'qwebr-history-modal';
+  modalDiv.className = 'qwebr-modal';
+
+  // Create the modal content div
+  var modalContentDiv = document.createElement('div');
+  modalContentDiv.className = 'qwebr-modal-content';
+
+  // Create the span for closing the modal
+  var closeSpan = document.createElement('span');
+  closeSpan.id = 'qwebr-command-history-close-btn';
+  closeSpan.className = 'qwebr-modal-close';
+  closeSpan.innerHTML = '&times;';
+
+  // Create the h1 element for the modal
+  var modalH1 = document.createElement('h1');
+  modalH1.textContent = 'R History Command Contents';
+
+  // Create an anchor element for downloading the Rhistory file 
+  var downloadLink = document.createElement('a');
+  downloadLink.href = '#';
+  downloadLink.id = 'qwebr-download-history-btn';
+  downloadLink.className = 'qwebr-download-btn';
+
+  // Create an 'i' element for the icon
+  var icon = document.createElement('i');
+  icon.className = 'bi bi-file-code';
+
+  // Append the icon to the anchor element
+  downloadLink.appendChild(icon);
+
+  // Add the text 'Download R History' to the anchor element
+  downloadLink.appendChild(document.createTextNode(' Download R History File'));
+
+  // Create the pre for command history contents
+  var commandContentsPre = document.createElement('pre');
+  commandContentsPre.id = 'qwebr-command-history-contents';
+  commandContentsPre.className = 'qwebr-modal-content-code';
+
+  // Append the close span, h1, and history contents pre to the modal content div
+  modalContentDiv.appendChild(closeSpan);
+  modalContentDiv.appendChild(modalH1);
+  modalContentDiv.appendChild(downloadLink);
+  modalContentDiv.appendChild(commandContentsPre);
+
+  // Append the modal content div to the modal div
+  modalDiv.appendChild(modalContentDiv);
+
+  // Append the modal div to the body
+  document.body.appendChild(modalDiv);
+}
+
+function qwebrRegisterRevealJSCommandHistoryModal() {
+  // Select the <ul> element inside the <div> with data-panel="Custom0"
+  let ulElement = document.querySelector('div[data-panel="Custom0"] > ul.slide-menu-items');
+
+  // Find the last <li> element with class slide-tool-item
+  let lastItem = ulElement.querySelector('li.slide-tool-item:last-child');
+
+  // Calculate the next data-item value
+  let nextItemValue = 0;
+  if (lastItem) {
+      nextItemValue = parseInt(lastItem.dataset.item) + 1;
+  }
+
+  // Create a new <li> element
+  let newListItem = document.createElement('li');
+  newListItem.className = 'slide-tool-item';
+  newListItem.dataset.item = nextItemValue.toString(); // Set the next available data-item value
+
+  // Create the <a> element inside the <li>
+  let newLink = document.createElement('a');
+  newLink.href = '#';
+  newLink.id = 'qwebrRHistoryButton'; // Set the ID for the new link
+  
+  // Create the <kbd> element inside the <a>
+  let newKbd = document.createElement('kbd');
+  newKbd.textContent = ' '; // Set to empty as we are not registering a keyboard shortcut
+
+  // Create text node for the link text
+  let newText = document.createTextNode(' View R History');
+
+  // Append <kbd> and text node to <a>
+  newLink.appendChild(newKbd);
+  newLink.appendChild(newText);
+
+  // Append <a> to <li>
+  newListItem.appendChild(newLink);
+
+  // Append <li> to <ul>
+  ulElement.appendChild(newListItem);
+}
+
+// Handle setting up the R history modal
+function qwebrCodeLinks() {
+
+  if (qwebrIsRevealJS()) {
+    qwebrRegisterRevealJSCommandHistoryModal();
+    return;
+  }
+
+  // Create the container div
+  var containerDiv = document.createElement('div');
+  containerDiv.className = 'quarto-code-links';
+
+  // Create the h2 element
+  var h2 = document.createElement('h2');
+  h2.textContent = 'webR Code Links';
+
+  // Create the ul element
+  var ul = document.createElement('ul');
+
+  // Create the li element
+  var li = document.createElement('li');
+
+  // Create the a_history_btn element
+  var a_history_btn = document.createElement('a');
+  a_history_btn.href = 'javascript:void(0)';
+  a_history_btn.setAttribute('id', 'qwebrRHistoryButton');
+
+  // Create the i_history_btn element
+  var i_history_btn = document.createElement('i');
+  i_history_btn.className = 'bi bi-file-code';
+
+  // Create the text node for the link text
+  var text_history_btn = document.createTextNode('View R History');
+
+  // Append the icon element and link text to the a element
+  a_history_btn.appendChild(i_history_btn);
+  a_history_btn.appendChild(text_history_btn);
+
+  // Append the a element to the li element
+  li.appendChild(a_history_btn);
+
+  // Append the li element to the ul element
+  ul.appendChild(li);
+
+  // Append the h2 and ul elements to the container div
+  containerDiv.appendChild(h2);
+  containerDiv.appendChild(ul);
+
+  // Append the container div to the element with the ID 'quarto-margin-sidebar'
+  var sidebar = document.getElementById('quarto-margin-sidebar');
+    
+  // If the sidebar element is not found, create it
+  if(!sidebar) {
+    qwebrPlaceQuartoSidebar();
+  }
+  
+  // Re-select the sidebar element (if it was just created)
+  sidebar = document.getElementById('quarto-margin-sidebar');   
+
+
+  // If the sidebar element exists, append the container div to it
+  if(sidebar) {
+    // Append the container div to the sidebar
+    sidebar.appendChild(containerDiv);
+    // Force the sidebar to be clickable by removing the 'zindex-bottom' class
+    // added in pre-release: https://github.com/quarto-dev/quarto-cli/commit/f0c53a1ffcaa1de4eccbf07803b096898248adcc
+    sidebar.className = 'sidebar margin-sidebar';
+  } else {
+    // Get a debugger ...
+    console.warn('Element with ID "quarto-margin-sidebar" not found.');
+  }
+}
+
+// Call the function to append the code links for qwebR into the right sidebar
+qwebrCodeLinks();
+
+// Add the command history modal
+qwebrAddCommandHistoryModal();
+
+displayStartupMessage(qwebrShowStartupMessage, qwebrShowHeaderMessage);
+qwebrOffScreenCanvasSupportWarningMessage();
+</script>
+<script type="module">
+// Define a global storage and retrieval solution ----
+
+// Store commands executed in R
+globalThis.qwebrRCommandHistory = [];
+
+// Function to retrieve the command history
+globalThis.qwebrFormatRHistory = function() {
+   return qwebrRCommandHistory.join("\n\n");
+}
+
+// Retrieve HTML Elements ----
+
+// Get the command modal
+const command_history_modal = document.getElementById("qwebr-history-modal");
+
+// Get the button that opens the command modal
+const command_history_btn = document.getElementById("qwebrRHistoryButton");
+
+// Get the <span> element that closes the command modal
+const command_history_close_span = document.getElementById("qwebr-command-history-close-btn");
+
+// Get the download button for r history information
+const command_history_download_btn = document.getElementById("qwebr-download-history-btn");
+
+// Plug in command history into modal/download button ----
+
+// Function to populate the modal with command history
+function populateCommandHistoryModal() {
+    document.getElementById("qwebr-command-history-contents").innerHTML = qwebrFormatRHistory() || "No commands have been executed yet.";
+}
+
+// Function to format the current date and time to
+// a string with the format YYYY-MM-DD-HH-MM-SS
+function formatDateTime() {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
+}
+
+
+// Function to convert document title with datetime to a safe filename
+function safeFileName() {
+    // Get the current page title
+    let pageTitle = document.title;
+
+    // Combine the current page title with the current date and time
+    let pageNameWithDateTime = `Rhistory-${pageTitle}-${formatDateTime()}`;
+
+    // Replace unsafe characters with safe alternatives
+    let safeFilename = pageNameWithDateTime.replace(/[\\/:\*\?! "<>\|]/g, '-');
+
+    return safeFilename;
+}
+
+
+// Function to download list contents as text file
+function downloadRHistory() {
+    // Get the current page title + datetime and use it as the filename
+    const filename = `${safeFileName()}.R`;
+
+    // Get the text contents of the R History list
+    const text = qwebrFormatRHistory();
+
+    // Create a new Blob object with the text contents
+    const blob = new Blob([text], { type: 'text/plain' });
+  
+    // Create a new anchor element for the download
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+
+    // Append the anchor to the body, click it, and remove it
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+// Register event handlers ----
+
+// When the user clicks the View R History button, open the command modal
+command_history_btn.onclick = function() {
+    populateCommandHistoryModal();
+    command_history_modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the command modal
+command_history_close_span.onclick = function() {
+    command_history_modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the command modal, close it
+window.onclick = function(event) {
+    if (event.target == command_history_modal) {
+        command_history_modal.style.display = "none";
+    }
+}
+
+// Add an onclick event listener to the download button so that
+// the user can download the R history as a text file
+command_history_download_btn.onclick = function() {
+    downloadRHistory();
+};
+</script>
+<script type="module">
+// Supported Evaluation Types for Context
+globalThis.EvalTypes = Object.freeze({
+  Interactive: 'interactive',
+  Setup: 'setup',
+  Output: 'output',
+});
+
+// Function that obtains the font size for a given element 
+globalThis.qwebrCurrentFontSizeOnElement = function(element, cssProperty = 'font-size') {
+
+  const currentFontSize = parseFloat(
+    window
+    .getComputedStyle(element)
+    .getPropertyValue(cssProperty)
+  );
+  
+  return currentFontSize;
+}
+
+// Function to determine font scaling
+globalThis.qwebrScaledFontSize = function(div, qwebrOptions) {
+  // Determine if we should compute font-size using RevealJS's `--r-main-font-size` 
+  // or if we can directly use the document's `font-size`.
+  const cssProperty = document.body.classList.contains('reveal') ? 
+    "--r-main-font-size" : "font-size";
+  
+  // Get the current font size on the div element
+  const elementFontSize = qwebrCurrentFontSizeOnElement(div, cssProperty);
+
+  // Determine the scaled font size value
+  const scaledFontSize = ((qwebrOptions['editor-font-scale'] ?? 1) * elementFontSize) ?? 17.5;
+
+  return scaledFontSize;
+}
+
+
+// Function that dispatches the creation request
+globalThis.qwebrCreateHTMLElement = function (
+  cellData
+) {
+
+  // Extract key components
+  const evalType = cellData.options.context;
+  const qwebrCounter = cellData.id;
+
+  // We make an assumption that insertion points are defined by the Lua filter as:
+  // qwebr-insertion-location-{qwebrCounter} 
+  const elementLocator = document.getElementById(`qwebr-insertion-location-${qwebrCounter}`);
+
+  // Figure out the routine to use to insert the element.
+  let qwebrElement;
+  switch ( evalType ) {
+    case EvalTypes.Interactive:
+      qwebrElement = qwebrCreateInteractiveElement(qwebrCounter, cellData.options);
+      break;
+    case EvalTypes.Output: 
+      qwebrElement = qwebrCreateNonInteractiveOutputElement(qwebrCounter, cellData.options);
+      break;
+    case EvalTypes.Setup: 
+      qwebrElement = qwebrCreateNonInteractiveSetupElement(qwebrCounter, cellData.options);
+      break;
+    default: 
+      qwebrElement = document.createElement('div');
+      qwebrElement.textContent = 'Error creating `quarto-webr` element';
+  }
+
+  // Insert the dynamically generated object at the document location.
+  elementLocator.appendChild(qwebrElement);
+};
+
+// Function that setups the interactive element creation
+globalThis.qwebrCreateInteractiveElement = function (qwebrCounter, qwebrOptions) {
+
+  // Create main div element
+  var mainDiv = document.createElement('div');
+  mainDiv.id = 'qwebr-interactive-area-' + qwebrCounter;
+  mainDiv.className = `qwebr-interactive-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
+
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
+
+  // Create toolbar div
+  var toolbarDiv = document.createElement('div');
+  toolbarDiv.className = 'qwebr-editor-toolbar';
+  toolbarDiv.id = 'qwebr-editor-toolbar-' + qwebrCounter;
+
+  // Create a div to hold the left buttons
+  var leftButtonsDiv = document.createElement('div');
+  leftButtonsDiv.className = 'qwebr-editor-toolbar-left-buttons';
+
+  // Create a div to hold the right buttons
+  var rightButtonsDiv = document.createElement('div');
+  rightButtonsDiv.className = 'qwebr-editor-toolbar-right-buttons';
+
+  // Create Run Code button
+  var runCodeButton = document.createElement('button');
+  runCodeButton.className = 'btn btn-default qwebr-button qwebr-button-run';
+  runCodeButton.disabled = true;
+  runCodeButton.type = 'button';
+  runCodeButton.id = 'qwebr-button-run-' + qwebrCounter;
+  runCodeButton.textContent = '🟡 Loading webR...';
+  runCodeButton.title = `Run code (Shift + Enter)`;
+
+  // Append buttons to the leftButtonsDiv
+  leftButtonsDiv.appendChild(runCodeButton);
+
+  // Create Reset button
+  var resetButton = document.createElement('button');
+  resetButton.className = 'btn btn-light btn-xs qwebr-button qwebr-button-reset';
+  resetButton.type = 'button';
+  resetButton.id = 'qwebr-button-reset-' + qwebrCounter;
+  resetButton.title = 'Start over';
+  resetButton.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
+
+  // Create Copy button
+  var copyButton = document.createElement('button');
+  copyButton.className = 'btn btn-light btn-xs qwebr-button qwebr-button-copy';
+  copyButton.type = 'button';
+  copyButton.id = 'qwebr-button-copy-' + qwebrCounter;
+  copyButton.title = 'Copy code';
+  copyButton.innerHTML = '<i class="fa-regular fa-copy"></i>';
+
+  // Append buttons to the rightButtonsDiv
+  rightButtonsDiv.appendChild(resetButton);
+  rightButtonsDiv.appendChild(copyButton);
+
+  // Create console area div
+  var consoleAreaDiv = document.createElement('div');
+  consoleAreaDiv.id = 'qwebr-console-area-' + qwebrCounter;
+  consoleAreaDiv.className = 'qwebr-console-area';
+
+  // Create editor div
+  var editorDiv = document.createElement('div');
+  editorDiv.id = 'qwebr-editor-' + qwebrCounter;
+  editorDiv.className = 'qwebr-editor';
+
+  // Create output code area div
+  var outputCodeAreaDiv = document.createElement('div');
+  outputCodeAreaDiv.id = 'qwebr-output-code-area-' + qwebrCounter;
+  outputCodeAreaDiv.className = 'qwebr-output-code-area';
+  outputCodeAreaDiv.setAttribute('aria-live', 'assertive');
+
+  // Create pre element inside output code area
+  var preElement = document.createElement('pre');
+  preElement.style.visibility = 'hidden';
+  outputCodeAreaDiv.appendChild(preElement);
+
+  // Create output graph area div
+  var outputGraphAreaDiv = document.createElement('div');
+  outputGraphAreaDiv.id = 'qwebr-output-graph-area-' + qwebrCounter;
+  outputGraphAreaDiv.className = 'qwebr-output-graph-area';
+
+  // Append buttons to the toolbar
+  toolbarDiv.appendChild(leftButtonsDiv);
+  toolbarDiv.appendChild(rightButtonsDiv);
+
+  // Append all elements to the main div
+  mainDiv.appendChild(toolbarDiv);
+  consoleAreaDiv.appendChild(editorDiv);
+  consoleAreaDiv.appendChild(outputCodeAreaDiv);
+  mainDiv.appendChild(consoleAreaDiv);
+  mainDiv.appendChild(outputGraphAreaDiv);
+
+  return mainDiv;
+}
+
+// Function that adds output structure for non-interactive output
+globalThis.qwebrCreateNonInteractiveOutputElement = function(qwebrCounter, qwebrOptions) {
+  // Create main div element
+  var mainDiv = document.createElement('div');
+  mainDiv.id = 'qwebr-noninteractive-area-' + qwebrCounter;
+  mainDiv.className = `qwebr-noninteractive-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
+  
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
+  
+  // Create a status container div
+  var statusContainer = createLoadingContainer(qwebrCounter);
+
+  // Create output code area div
+  var outputCodeAreaDiv = document.createElement('div');
+  outputCodeAreaDiv.id = 'qwebr-output-code-area-' + qwebrCounter;
+  outputCodeAreaDiv.className = 'qwebr-output-code-area';
+  outputCodeAreaDiv.setAttribute('aria-live', 'assertive');
+
+  // Create pre element inside output code area
+  var preElement = document.createElement('pre');
+  preElement.style.visibility = 'hidden';
+  outputCodeAreaDiv.appendChild(preElement);
+
+  // Create output graph area div
+  var outputGraphAreaDiv = document.createElement('div');
+  outputGraphAreaDiv.id = 'qwebr-output-graph-area-' + qwebrCounter;
+  outputGraphAreaDiv.className = 'qwebr-output-graph-area';
+
+  // Append all elements to the main div
+  mainDiv.appendChild(statusContainer);
+  mainDiv.appendChild(outputCodeAreaDiv);
+  mainDiv.appendChild(outputGraphAreaDiv);
+
+  return mainDiv;
+};
+
+// Function that adds a stub in the page to indicate a setup cell was used.
+globalThis.qwebrCreateNonInteractiveSetupElement = function(qwebrCounter, qwebrOptions) {
+  // Create main div element
+  var mainDiv = document.createElement('div');
+  mainDiv.id = `qwebr-noninteractive-setup-area-${qwebrCounter}`;
+  mainDiv.className = `qwebr-noninteractive-setup-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
+
+
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
+
+  // Create a status container div
+  var statusContainer = createLoadingContainer(qwebrCounter);
+
+  // Append status onto the main div
+  mainDiv.appendChild(statusContainer);
+
+  return mainDiv;
+}
+
+
+// Function to create loading container with specified ID
+globalThis.createLoadingContainer = function(qwebrCounter) {
+
+  // Create a status container
+  const container = document.createElement('div');
+  container.id = `qwebr-non-interactive-loading-container-${qwebrCounter}`;
+  container.className = 'qwebr-non-interactive-loading-container qwebr-cell-needs-evaluation';
+
+  // Create an R project logo to indicate its a code space
+  const rProjectIcon = document.createElement('i');
+  rProjectIcon.className = 'fa-brands fa-r-project fa-3x qwebr-r-project-logo';
+
+  // Setup a loading icon from font awesome
+  const spinnerIcon = document.createElement('i');
+  spinnerIcon.className = 'fa-solid fa-spinner fa-spin fa-1x qwebr-icon-status-spinner';
+
+  // Add a section for status text
+  const statusText = document.createElement('p');
+  statusText.id = `qwebr-status-text-${qwebrCounter}`;
+  statusText.className = `qwebr-status-text qwebr-cell-needs-evaluation`;
+  statusText.innerText = 'Loading webR...';
+
+  // Incorporate an inner container
+  const innerContainer = document.createElement('div');
+
+  // Append elements to the inner container
+  innerContainer.appendChild(spinnerIcon);
+  innerContainer.appendChild(statusText);
+
+  // Append elements to the main container
+  container.appendChild(rProjectIcon);
+  container.appendChild(innerContainer);
+
+  return container;
+}
+</script>
+<script type="module">
+// Function to install a single package
+async function qwebrInstallRPackage(packageName) {
+  await mainWebR.evalRVoid(`webr::install('${packageName}');`);
+}
+
+// Function to load a single package
+async function qwebrLoadRPackage(packageName) {
+  await mainWebR.evalRVoid(`require('${packageName}', quietly = TRUE)`);
+}
+
+// Generic function to process R packages
+async function qwebrProcessRPackagesWithStatus(packages, processType, displayStatusMessageUpdate = true) {
+  // Switch between contexts
+  const messagePrefix = processType === 'install' ? 'Installing' : 'Loading';
+
+  // Modify button state
+  qwebrSetInteractiveButtonState(`🟡 ${messagePrefix} package ...`, false);
+
+  // Iterate over packages
+  for (let i = 0; i < packages.length; i++) {
+    const activePackage = packages[i];
+    const formattedMessage = `${messagePrefix} package ${i + 1} out of ${packages.length}: ${activePackage}`;
+
+    // Display the update in header
+    if (displayStatusMessageUpdate) {
+      qwebrUpdateStatusHeader(formattedMessage);
+    }
+
+    // Display the update in non-active areas
+    qwebrUpdateStatusMessage(formattedMessage);
+
+    // Run package installation
+    if (processType === 'install') {
+      await qwebrInstallRPackage(activePackage);
+    } else {
+      await qwebrLoadRPackage(activePackage);
+    }
+  }
+
+  // Clean slate
+  if (processType === 'load') {
+    await mainWebR.flush();
+  }
+}
+
+// Start a timer
+const initializeWebRTimerStart = performance.now();
+
+// Encase with a dynamic import statement
+globalThis.qwebrInstance = import(qwebrCustomizedWebROptions.baseURL + "webr.mjs").then(
+  async ({ WebR, ChannelType }) => {
+    // Populate WebR options with defaults or new values based on `webr` meta
+    globalThis.mainWebR = new WebR(qwebrCustomizedWebROptions);
+
+    // Initialization WebR
+    await mainWebR.init();
+
+    // Setup a shelter
+    globalThis.mainWebRCodeShelter = await new mainWebR.Shelter();
+
+    // Setup a pager to allow processing help documentation
+    await mainWebR.evalRVoid('webr::pager_install()');
+
+    // Setup a viewer to allow processing htmlwidgets.
+    // This might not be available in old webr version
+    await mainWebR.evalRVoid('try({ webr::viewer_install() })');
+
+    // Override the existing install.packages() to use webr::install()
+    await mainWebR.evalRVoid('webr::shim_install()');
+
+    // Specify the repositories to pull from
+    // Note: webR does not use the `repos` option, but instead uses `webr_pkg_repos`
+    // inside of `install()`. However, other R functions still pull from `repos`.
+    await mainWebR.evalRVoid(`
+      options(
+        webr_pkg_repos = c(${qwebrPackageRepoURLS.map(repoURL => `'${repoURL}'`).join(',')}),
+        repos = c(${qwebrPackageRepoURLS.map(repoURL => `'${repoURL}'`).join(',')})
+      )
+    `);
+
+    // Check to see if any packages need to be installed
+    if (qwebrSetupRPackages) {
+      // Obtain only a unique list of packages
+      const uniqueRPackageList = Array.from(new Set(qwebrInstallRPackagesList));
+
+      // Install R packages one at a time (either silently or with a status update)
+      await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'install', qwebrShowStartupMessage);
+
+      if (qwebrAutoloadRPackages) {
+        // Load R packages one at a time (either silently or with a status update)
+        await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'load', qwebrShowStartupMessage);
+      }
+    }
+  }
+);
+
+// Stop timer
+const initializeWebRTimerEnd = performance.now();
+
+</script>
+<script type="module">
+// Function to verify a given JavaScript Object is empty
+globalThis.qwebrIsObjectEmpty = function (arr) {
+    return Object.keys(arr).length === 0;
+}
+
+// Global version of the Escape HTML function that converts HTML
+// characters to their HTML entities.
+globalThis.qwebrEscapeHTMLCharacters = function(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+};
+
+// Passthrough results
+globalThis.qwebrIdentity = function(x) {
+    return x;
+};
+
+// Append a comment
+globalThis.qwebrPrefixComment = function(x, comment) {
+    return `${comment}${x}`;
+};
+
+// Function to store the code in the history
+globalThis.qwebrLogCodeToHistory = function(codeToRun, options) {
+    qwebrRCommandHistory.push(
+        `# Ran code in ${options.label} at ${new Date().toLocaleString()} ----\n${codeToRun}`
+    );
+};
+
+// Function to attach a download button onto the canvas
+// allowing the user to download the image.
+function qwebrImageCanvasDownloadButton(canvas, canvasContainer) {
+
+    // Create the download button
+    const downloadButton = document.createElement('button');
+    downloadButton.className = 'qwebr-canvas-image-download-btn';
+    downloadButton.textContent = 'Download Image';
+    canvasContainer.appendChild(downloadButton);
+
+    // Trigger a download of the image when the button is clicked
+    downloadButton.addEventListener('click', function() {
+        const image = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'qwebr-canvas-image.png';
+        link.click();
+    });
+}
+
+
+// Function to parse the pager results
+globalThis.qwebrParseTypePager = async function (msg) {
+
+    // Split out the event data
+    const { path, title, deleteFile } = msg.data;
+
+    // Process the pager data by reading the information from disk
+    const paged_data = await mainWebR.FS.readFile(path).then((data) => {
+        // Obtain the file content
+        let content = new TextDecoder().decode(data);
+
+        // Remove excessive backspace characters until none remain
+        while(content.match(/.[\b]/)){
+            content = content.replace(/.[\b]/g, '');
+        }
+
+        // Returned cleaned data
+        return content;
+    });
+
+    // Unlink file if needed
+    if (deleteFile) {
+        await mainWebR.FS.unlink(path);
+    }
+
+    // Return extracted data with spaces
+    return paged_data;
+};
+
+
+// Function to parse the browse results
+globalThis.qwebrParseTypeBrowse = async function (msg) {
+
+    // msg.type === "browse"
+    const path = msg.data.url;
+
+    // Process the browse data by reading the information from disk
+    const browse_data = await mainWebR.FS.readFile(path).then((data) => {
+        // Obtain the file content
+        let content = new TextDecoder().decode(data);
+
+        return content;
+    });
+
+    // Return extracted data as-is
+    return browse_data;
+};
+
+// Function to run the code using webR and parse the output
+globalThis.qwebrComputeEngine = async function(
+    codeToRun,
+    elements,
+    options) {
+
+    // Call into the R compute engine that persists within the document scope.
+    // To be prepared for all scenarios, the following happens:
+    // 1. We setup a canvas device to write to by making a namespace call into the {webr} package
+    // 2. We use values inside of the options array to set the figure size.
+    // 3. We capture the output stream information (STDOUT and STERR)
+    // 4. We disable the current device's image creation.
+    // 5. Piece-wise parse the results into the different output areas
+
+    // Create a pager variable for help/file contents
+    let pager = [];
+
+    // Handle how output is processed
+    let showMarkup = options.results === "markup" && options.output !== "asis";
+    let processOutput;
+
+    if (showMarkup) {
+        processOutput = qwebrEscapeHTMLCharacters;
+    } else {
+        processOutput = qwebrIdentity;
+    }
+
+    // ----
+    // Convert from Inches to Pixels by using DPI (dots per inch)
+    // for bitmap devices (dpi * inches = pixels)
+    let fig_width = options["fig-width"] * options["dpi"];
+    let fig_height = options["fig-height"] * options["dpi"];
+
+    // Initialize webR
+    await mainWebR.init();
+
+    // Configure capture output
+    let captureOutputOptions = {
+        withAutoprint: true,
+        captureStreams: true,
+        captureConditions: false,
+        // env: webR.objs.emptyEnv, // maintain a global environment for webR v0.2.0
+    };
+
+    // Determine if the browser supports OffScreen
+    if (qwebrOffScreenCanvasSupport()) {
+        // Mirror default options of webr::canvas()
+        // with changes to figure height and width.
+        captureOutputOptions.captureGraphics = {
+            width: fig_width,
+            height: fig_height,
+            bg: "white", // default: transparent
+            pointsize: 12,
+            capture: true
+        };
+    }  else {
+        // Disable generating graphics
+        captureOutputOptions.captureGraphics = false;
+    }
+
+    // Store the code to run in history
+    qwebrLogCodeToHistory(codeToRun, options);
+
+    // Setup a webR canvas by making a namespace call into the {webr} package
+    // Evaluate the R code
+    // Remove the active canvas silently
+    const result = await mainWebRCodeShelter.captureR(
+        `${codeToRun}`,
+        captureOutputOptions
+    );
+
+    // -----
+
+    // Start attempting to parse the result data
+    processResultOutput:try {
+
+        // Avoid running through output processing
+        if (options.results === "hide" || options.output === "false") {
+            break processResultOutput;
+        }
+
+        // Merge output streams of STDOUT and STDErr (messages and errors are combined.)
+        // Require both `warning` and `message` to be true to display `STDErr`.
+        const out = result.output
+        .filter(
+            evt => evt.type === "stdout" ||
+            ( evt.type === "stderr" && (options.warning === "true" && options.message === "true"))
+        )
+        .map((evt, index) => {
+            const className = `qwebr-output-code-${evt.type}`;
+            const outputResult = qwebrPrefixComment(processOutput(evt.data), options.comment);
+            return `<code id="${className}-editor-${elements.id}-result-${index + 1}" class="${className}">${outputResult}</code>`;
+        })
+        .join("\n");
+
+
+        // Clean the state
+        // We're now able to process pager events.
+        // As a result, we cannot maintain a true 1-to-1 output order
+        // without individually feeding each line
+        const msgs = await mainWebR.flush();
+
+        // Use `map` to process the filtered "pager" events asynchronously
+        const pager = [];
+        const browse = [];
+
+        await Promise.all(
+            msgs.map(
+                async (msg) => {
+
+                    const msgType = msg.type || "unknown";
+
+                    switch(msgType) {
+                        case 'pager':
+                            const pager_data = await qwebrParseTypePager(msg);
+                            pager.push(pager_data);
+                            break;
+                        case 'browse':
+                            const browse_data = await qwebrParseTypeBrowse(msg);
+                            browse.push(browse_data);
+                            break;
+                    }
+                    return;
+                }
+            )
+        );
+
+        // Nullify the output area of content
+        elements.outputCodeDiv.innerHTML = "";
+        elements.outputGraphDiv.innerHTML = "";
+
+        // Design an output object for messages
+        const pre = document.createElement("pre");
+        if (/\S/.test(out)) {
+            // Display results as HTML elements to retain output styling
+            const div = document.createElement("div");
+            div.innerHTML = out;
+
+            // Calculate a scaled font-size value
+            const scaledFontSize = qwebrScaledFontSize(
+                elements.outputCodeDiv, options);
+
+            // Override output code cell size
+            pre.style.fontSize = `${scaledFontSize}px`;
+            pre.appendChild(div);
+        } else {
+            // If nothing is present, hide the element.
+            pre.style.visibility = "hidden";
+        }
+
+        elements.outputCodeDiv.appendChild(pre);
+
+        // Determine if we have graphs to display
+        if (result.images.length > 0) {
+
+            // Create figure element
+            const figureElement = document.createElement("figure");
+            figureElement.className = "qwebr-canvas-image";
+
+            // Place each rendered graphic onto a canvas element
+            result.images.forEach((img) => {
+
+                // Construct canvas for object
+                const canvas = document.createElement("canvas");
+
+                // Add an image download button
+                qwebrImageCanvasDownloadButton(canvas, figureElement);
+
+                // Set canvas size to image
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Apply output truncations
+                canvas.style.width = options["out-width"] ? options["out-width"] : `${fig_width}px`;
+                if (options["out-height"]) {
+                    canvas.style.height = options["out-height"];
+                }
+
+                // Apply styling
+                canvas.style.display = "block";
+                canvas.style.margin = "auto";
+
+                // Draw image onto Canvas
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                // Append canvas to figure output area
+                figureElement.appendChild(canvas);
+
+            });
+
+            if (options['fig-cap']) {
+                // Create figcaption element
+                const figcaptionElement = document.createElement('figcaption');
+                figcaptionElement.innerText = options['fig-cap'];
+                // Append figcaption to figure
+                figureElement.appendChild(figcaptionElement);
+            }
+
+            elements.outputGraphDiv.appendChild(figureElement);
+
+        }
+
+        // Display the pager data
+        if (pager.length > 0) {
+            // Use the `pre` element to preserve whitespace.
+            pager.forEach((paged_data, index) => {
+                const pre_pager = document.createElement("pre");
+                pre_pager.innerText = paged_data;
+                pre_pager.classList.add("qwebr-output-code-pager");
+                pre_pager.setAttribute("id", `qwebr-output-code-pager-editor-${elements.id}-result-${index + 1}`);
+                elements.outputCodeDiv.appendChild(pre_pager);
+            });
+        }
+
+        // Display the browse data
+        if (browse.length > 0) {
+            // Use the `pre` element to preserve whitespace.
+            browse.forEach((browse_data, index) => {
+                const iframe_browse = document.createElement('iframe');
+                iframe_browse.classList.add("qwebr-output-code-browse");
+                iframe_browse.setAttribute("id", `qwebr-output-code-browse-editor-${elements.id}-result-${index + 1}`);
+                iframe_browse.style.width = "100%";
+                iframe_browse.style.minHeight = "500px";
+                elements.outputCodeDiv.appendChild(iframe_browse);
+
+                iframe_browse.contentWindow.document.open();
+                iframe_browse.contentWindow.document.write(browse_data);
+                iframe_browse.contentWindow.document.close();
+            });
+        }
+    } finally {
+        // Clean up the remaining code
+        mainWebRCodeShelter.purge();
+    }
+};
+
+// Function to execute the code (accepts code as an argument)
+globalThis.qwebrExecuteCode = async function (
+    codeToRun,
+    id,
+    options = {}) {
+
+    // If options are not passed, we fall back on the bare minimum to handle the computation
+    if (qwebrIsObjectEmpty(options)) {
+        options = {
+            "context": "interactive",
+            "fig-width": 7, "fig-height": 5,
+            "out-width": "700px", "out-height": "",
+            "dpi": 72,
+            "results": "markup",
+            "warning": "true", "message": "true",
+        };
+    }
+
+    // Next, we access the compute areas values
+    const elements = {
+        runButton: document.getElementById(`qwebr-button-run-${id}`),
+        outputCodeDiv: document.getElementById(`qwebr-output-code-area-${id}`),
+        outputGraphDiv: document.getElementById(`qwebr-output-graph-area-${id}`),
+        id: id,
+    }
+
+    // Disallowing execution of other code cells
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+        btn.disabled = true;
+    });
+
+    if (options.context == EvalTypes.Interactive) {
+        // Emphasize the active code cell
+        elements.runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i> <span>Run Code</span>';
+    }
+
+    // Evaluate the code and parse the output into the document
+    await qwebrComputeEngine(codeToRun, elements, options);
+
+    // Switch to allowing execution of code
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+        btn.disabled = false;
+    });
+
+    if (options.context == EvalTypes.Interactive) {
+        // Revert to the initial code cell state
+        elements.runButton.innerHTML = '<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>';
+    }
+}
+
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom-styles.css">
+<meta property="og:title" content="David Contreras-Loya, PhD">
+<meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta property="og:site_name" content="David Contreras-Loya">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="David Contreras-Loya, PhD">
+<meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">David Contreras-Loya</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../contact.html">
+ <span class="dropdown-text">Contact</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">INTRODUCCION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+ <span class="dropdown-text">Estructura y Objetivos</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">CONFIGURACION</li>
+        <li>
+    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+ <span class="dropdown-text">Como Instalar R y RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
+ <span class="dropdown-text">Primeros Pasos con R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
+ <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Sesiones de clase (10)</li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+ <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+ <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+ <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+ <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+ <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+ <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+ <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
+        <li>
+    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
+ <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
+ <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
+<script type="module" id="qwebr-monaco-editor-init">
+
+  // Configure the Monaco Editor's loader
+  require.config({
+    paths: {
+      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs'
+    }
+  });
+</script>
+<script type="module">
+// Function to update Monaco Editors when body class changes
+function updateMonacoEditorsOnBodyClassChange() {
+    // Select the body element
+    const body = document.querySelector('body');
+
+    // Options for the observer (which mutations to observe)
+    const observerOptions = {
+        attributes: true,  // Observe changes to attributes
+        attributeFilter: ['class'] // Only observe changes to the 'class' attribute
+    };
+
+    // Callback function to execute when mutations are observed
+    const bodyClassChangeCallback = function(mutationsList, observer) {
+        for(let mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                // Class attribute has changed
+                // Update all Monaco Editors on the page
+                updateMonacoEditorTheme();
+            }
+        }
+    };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(bodyClassChangeCallback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(body, observerOptions);
+}
+
+// Function to update all instances of Monaco Editors on the page
+function updateMonacoEditorTheme() {
+    // Determine what VS Theme to use
+    const vsThemeToUse = document.body.classList.contains("quarto-dark") ? 'vs-dark' : 'vs' ;
+
+    // Iterate through all initialized Monaco Editors
+    qwebrEditorInstances.forEach( function(editorInstance) { 
+        editorInstance.updateOptions({ theme: vsThemeToUse }); 
+    });
+}
+
+// Call the function to start observing changes to body class
+updateMonacoEditorsOnBodyClassChange();
+</script>
+<script type="module">
+// Global array to store Monaco Editor instances
+globalThis.qwebrEditorInstances = [];
+
+function isValidCodeLineNumbers(stringCodeLineNumbers) {
+  // Regular expression to match valid input strings
+  const regex = /^(\d+(-\d+)?)(,\d+(-\d+)?)*$/;
+  return regex.test(stringCodeLineNumbers);
+}
+
+// Function that builds and registers a Monaco Editor instance    
+globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
+
+  const initialCode = cellData.code;
+  const qwebrCounter = cellData.id;
+  const qwebrOptions = cellData.options;
+
+  // Retrieve the previously created document elements
+  let runButton = document.getElementById(`qwebr-button-run-${qwebrCounter}`);
+  let resetButton = document.getElementById(`qwebr-button-reset-${qwebrCounter}`);
+  let copyButton = document.getElementById(`qwebr-button-copy-${qwebrCounter}`);
+  let editorDiv = document.getElementById(`qwebr-editor-${qwebrCounter}`);
+
+  // Load the Monaco Editor and create an instance
+  let editor;
+  require(['vs/editor/editor.main'], function () {
+    editor = monaco.editor.create(editorDiv, {
+      value: initialCode,
+      language: 'r',
+      theme: 'vs-light',
+      automaticLayout: true,           // Works wonderfully with RevealJS
+      scrollBeyondLastLine: false,
+      minimap: {
+        enabled: false
+      },
+      fontSize: qwebrScaledFontSize(editorDiv, qwebrOptions),         
+      renderLineHighlight: "none",      // Disable current line highlighting
+      hideCursorInOverviewRuler: true,  // Remove cursor indictor in right hand side scroll bar
+      readOnly: qwebrOptions['read-only'] ?? false,
+      quickSuggestions: qwebrOptions['editor-quick-suggestions'] ?? false,
+      wordWrap: (qwebrOptions['editor-word-wrap'] == 'true' ? "on" : "off")
+    });
+
+    // Store the official counter ID to be used in keyboard shortcuts
+    editor.__qwebrCounter = qwebrCounter;
+
+    // Store the official div container ID
+    editor.__qwebrEditorId = `qwebr-editor-${qwebrCounter}`;
+
+    // Store the initial code value and options
+    editor.__qwebrinitialCode = initialCode;
+    editor.__qwebrOptions = qwebrOptions;
+
+    // Set at the model level the preferred end of line (EOL) character to LF.
+    // This prevent `\r\n` from being given to the webR engine if the user is on Windows.
+    // See details in: https://github.com/coatless/quarto-webr/issues/94
+    // Associated error text: 
+    // Error: <text>:1:7 unexpected input
+
+    // Retrieve the underlying model
+    const model = editor.getModel();
+    // Set EOL for the model
+    model.setEOL(monaco.editor.EndOfLineSequence.LF);
+    
+    // Dynamically modify the height of the editor window if new lines are added.
+    let ignoreEvent = false;
+    const updateHeight = () => {
+      // Increment editor height by 2 to prevent vertical scroll bar from appearing
+      const contentHeight = editor.getContentHeight() + 2;
+
+      // Retrieve editor-max-height option
+      const maxEditorHeight = qwebrOptions['editor-max-height'];
+
+      // If editor-max-height is missing, allow infinite growth. Otherwise, threshold.
+      const editorHeight = !maxEditorHeight ?  contentHeight : Math.min(contentHeight, maxEditorHeight);
+
+      // We're avoiding a width change
+      //editorDiv.style.width = `${width}px`;
+      editorDiv.style.height = `${editorHeight}px`;
+      try {
+        ignoreEvent = true;
+
+        // The key to resizing is this call
+        editor.layout();
+      } finally {
+        ignoreEvent = false;
+      }
+    };
+
+    // Function to generate decorations to highlight lines
+    // in the editor based on input string.
+    function decoratorHighlightLines(codeLineNumbers) {
+      // Store the lines to be lighlight
+      let linesToHighlight = [];
+      
+      // Parse the codeLineNumbers string to get the line numbers to highlight
+      // First, split the string by commas
+      codeLineNumbers.split(',').forEach(part => {
+        // Check if we have a range of lines
+        if (part.includes('-')) {
+            // Handle range of lines (e.g., "6-8")
+            const [start, end] = part.split('-').map(Number);
+            for (let i = start; i <= end; i++) {
+                linesToHighlight.push(i);
+            }
+        } else {
+            // Handle single line (e.g., "7")
+            linesToHighlight.push(Number(part));
+        }
+      });
+  
+      // Create monaco decorations for the lines to highlight
+      const decorations = linesToHighlight.map(lineNumber => ({
+          range: new monaco.Range(lineNumber, 1, lineNumber, 1),
+          options: {
+              isWholeLine: true,
+              className: 'qwebr-editor-highlight-line'
+          }
+      }));
+  
+      // Return decorations to be applied to the editor
+      return decorations;
+    }
+
+    // Ensure that the editor-code-line-numbers option is set and valid
+    // then apply styling
+    if (qwebrOptions['editor-code-line-numbers']) {
+      // Remove all whitespace from the string
+      const codeLineNumbers = qwebrOptions['editor-code-line-numbers'].replace(/\s/g,'');
+      // Check if the string is valid for line numbers, e.g., "1,3-5,7"
+      if (isValidCodeLineNumbers(codeLineNumbers)) {
+        // Apply the decorations to the editor
+        editor.createDecorationsCollection(decoratorHighlightLines(codeLineNumbers));
+      } else {
+        // Warn the user that the input is invalid
+        console.warn(`Invalid "editor-code-line-numbers" value in code cell ${qwebrOptions['label']}: ${codeLineNumbers}`);
+      }
+    }
+
+    // Helper function to check if selected text is empty
+    function isEmptyCodeText(selectedCodeText) {
+      return (selectedCodeText === null || selectedCodeText === undefined || selectedCodeText === "");
+    }
+
+    // Registry of keyboard shortcuts that should be re-added to each editor window
+    // when focus changes.
+    const addWebRKeyboardShortCutCommands = () => {
+      // Add a keydown event listener for Shift+Enter to run all code in cell
+      editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+
+        // Retrieve all text inside the editor
+        qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter, editor.__qwebrOptions);
+      });
+
+      // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+
+        // Get the selected text from the editor
+        const selectedText = editor.getModel().getValueInRange(editor.getSelection());
+        // Check if no code is selected
+        if (isEmptyCodeText(selectedText)) {
+          // Obtain the current cursor position
+          let currentPosition = editor.getPosition();
+          // Retrieve the current line content
+          let currentLine = editor.getModel().getLineContent(currentPosition.lineNumber);
+
+          // Propose a new position to move the cursor to
+          let newPosition = new monaco.Position(currentPosition.lineNumber + 1, 1);
+
+          // Check if the new position is beyond the last line of the editor
+          if (newPosition.lineNumber > editor.getModel().getLineCount()) {
+            // Add a new line at the end of the editor
+            editor.executeEdits("addNewLine", [{
+            range: new monaco.Range(newPosition.lineNumber, 1, newPosition.lineNumber, 1),
+            text: "\n", 
+            forceMoveMarkers: true,
+            }]);
+          }
+          
+          // Run the entire line of code.
+          qwebrExecuteCode(currentLine, editor.__qwebrCounter, editor.__qwebrOptions);
+
+          // Move cursor to new position
+          editor.setPosition(newPosition);
+        } else {
+          // Code to run when Ctrl+Enter is pressed with selected code
+          qwebrExecuteCode(selectedText, editor.__qwebrCounter, editor.__qwebrOptions);
+        }
+      });
+    }
+
+    // Register an on focus event handler for when a code cell is selected to update
+    // what keyboard shortcut commands should work.
+    // This is a workaround to fix a regression that happened with multiple
+    // editor windows since Monaco 0.32.0 
+    // https://github.com/microsoft/monaco-editor/issues/2947
+    editor.onDidFocusEditorText(addWebRKeyboardShortCutCommands);
+
+    // Register an on change event for when new code is added to the editor window
+    editor.onDidContentSizeChange(updateHeight);
+
+    // Manually re-update height to account for the content we inserted into the call
+    updateHeight();
+
+    // Store the editor instance in the global dictionary
+    qwebrEditorInstances[editor.__qwebrCounter] = editor;
+
+  });
+
+  // Add a click event listener to the run button
+  runButton.onclick = function () {
+    qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter, editor.__qwebrOptions);
+  };
+
+  // Add a click event listener to the reset button
+  copyButton.onclick = function () {
+    // Retrieve current code data
+    const data = editor.getValue();
+    
+    // Write code data onto the clipboard.
+    navigator.clipboard.writeText(data || "");
+  };
+  
+  // Add a click event listener to the copy button
+  resetButton.onclick = function () {
+    editor.setValue(editor.__qwebrinitialCode);
+  };
+  
+}
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sesión 7–8: Prueba de Hipótesis, Valor p y Poder Estadístico</h1>
+<p class="subtitle lead">Caso: Programa Becas para Todos</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Contexto del caso.</strong> El programa <em>Becas para Todos</em> asigna becas de apoyo educativo a estudiantes de secundaria en municipios con alta marginación. Queremos saber si las becas mejoran el rendimiento en matemáticas — y si podemos confiar en los resultados de nuestra evaluación.</p>
+</blockquote>
+<hr>
+<section id="parte-1-visualizando-los-grupos" class="level1">
+<h1>Parte 1: Visualizando los grupos</h1>
+<p>Antes de hacer cualquier prueba, miremos los datos. Simulamos puntajes de matemáticas (escala 0–100) para el grupo de control y el grupo que recibió la beca.</p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="histogramas-de-los-grupos" class="level2">
+<h2 class="anchored" data-anchor-id="histogramas-de-los-grupos">Histogramas de los grupos</h2>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<blockquote class="blockquote">
+<p><strong>¿Por qué dos paneles?</strong> El panel izquierdo muestra la variación <em>dentro</em> de cada grupo: los 60 puntajes individuales de cada alumno. El panel derecho muestra la <strong>distribución muestral del promedio</strong>: si repitiéramos el estudio muchas veces con muestras de n = 60, ¿dónde caería X̄ cada vez? El error estándar (SE = σ/√n) es mucho más angosto que σ porque el promedio es mucho más estable que una observación individual. El traslape gris en el panel derecho visualiza cuán fácil o difícil es que las dos medias “se confundan” por azar — esa dificultad es exactamente lo que cuantifica el estadístico <em>t</em>.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="parte-2-las-funciones-de-distribución-en-r-guía-de-referencia" class="level1">
+<h1>Parte 2: Las funciones de distribución en R — guía de referencia</h1>
+<p>Antes de construir la prueba, conviene tener un mapa claro de las cuatro familias de funciones que R ofrece para cualquier distribución de probabilidad.</p>
+<section id="la-familia-d-p-q-r" class="level2">
+<h2 class="anchored" data-anchor-id="la-familia-d-p-q-r">La familia <code>d / p / q / r</code></h2>
+<p>Para cada distribución (normal, <em>t</em>, chi-cuadrado, F, binomial…), R implementa cuatro funciones con prefijos consistentes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 27%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prefijo</th>
+<th>Qué calcula</th>
+<th>Ejemplo (Normal estándar)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d</code></td>
+<td><strong>Densidad</strong> — la “altura” de la campana en un punto <em>x</em></td>
+<td><code>dnorm(0)</code> → 0.3989</td>
+</tr>
+<tr class="even">
+<td><code>p</code></td>
+<td><strong>Probabilidad acumulada</strong> — P(X ≤ x)</td>
+<td><code>pnorm(1.96)</code> → 0.9750</td>
+</tr>
+<tr class="odd">
+<td><code>q</code></td>
+<td><strong>Cuantil</strong> — el valor <em>x</em> tal que P(X ≤ x) = p</td>
+<td><code>qnorm(0.975)</code> → 1.96</td>
+</tr>
+<tr class="even">
+<td><code>r</code></td>
+<td><strong>Simulación</strong> — genera números aleatorios</td>
+<td><code>rnorm(10)</code> → 10 valores</td>
+</tr>
+</tbody>
+</table>
+<p>Los sufijos de distribución más usados en inferencia: <code>norm</code> (normal), <code>t</code> (t de Student), <code>chisq</code> (chi-cuadrado), <code>f</code> (F de Fisher), <code>binom</code> (binomial).</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+</section>
+<section id="parte-3-construyendo-la-prueba-t-paso-a-paso" class="level1">
+<h1>Parte 3: Construyendo la prueba <em>t</em> paso a paso</h1>
+<section id="paso-1-planteamos-las-hipótesis" class="level2">
+<h2 class="anchored" data-anchor-id="paso-1-planteamos-las-hipótesis">Paso 1 — Planteamos las hipótesis</h2>
+<p><span class="math display">\[H_0: \mu_{\text{beca}} - \mu_{\text{control}} = 0\]</span> <span class="math display">\[H_1: \mu_{\text{beca}} - \mu_{\text{control}} &gt; 0 \quad \text{(prueba unilateral: esperamos mejora)}\]</span></p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="paso-2-calculamos-el-estadístico-t-a-mano" class="level2">
+<h2 class="anchored" data-anchor-id="paso-2-calculamos-el-estadístico-t-a-mano">Paso 2 — Calculamos el estadístico <em>t</em> a mano</h2>
+<p>El estadístico <span class="math inline">\(t\)</span> de Welch (que <strong>no</strong> asume varianzas iguales entre grupos) es:</p>
+<p><span class="math display">\[t = \frac{\bar{X}_{\text{beca}} - \bar{X}_{\text{control}}}{\sqrt{\dfrac{s_{\text{beca}}^2}{n_{\text{beca}}} + \dfrac{s_{\text{control}}^2}{n_{\text{control}}}}}\]</span></p>
+<p>El denominador es el <strong>error estándar de la diferencia</strong>: cuánta variabilidad esperamos en esa diferencia si repitiéramos el muestreo.</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="paso-3-obtenemos-el-valor-p" class="level2">
+<h2 class="anchored" data-anchor-id="paso-3-obtenemos-el-valor-p">Paso 3 — Obtenemos el valor <em>p</em></h2>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="paso-4-verificamos-con-t.test" class="level2">
+<h2 class="anchored" data-anchor-id="paso-4-verificamos-con-t.test">Paso 4 — Verificamos con <code>t.test()</code></h2>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="visualizando-el-valor-p-en-la-distribución-t" class="level2">
+<h2 class="anchored" data-anchor-id="visualizando-el-valor-p-en-la-distribución-t">Visualizando el valor <em>p</em> en la distribución <em>t</em></h2>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+</section>
+<section id="parte-4-valor-p-poder-y-tamaño-de-muestra" class="level1">
+<h1>Parte 4: Valor <em>p</em>, poder y tamaño de muestra</h1>
+<section id="simulando-el-poder-estadístico" class="level2">
+<h2 class="anchored" data-anchor-id="simulando-el-poder-estadístico">Simulando el poder estadístico</h2>
+<p>El <strong>poder</strong> (1 − β) es la probabilidad de rechazar <span class="math inline">\(H_0\)</span> cuando el efecto es <strong>real</strong>. Depende del tamaño de muestra, del tamaño del efecto y del nivel α.</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="correlación-intraclúster-icc-y-diseño-por-conglomerados" class="level2">
+<h2 class="anchored" data-anchor-id="correlación-intraclúster-icc-y-diseño-por-conglomerados">Correlación intraclúster (ICC) y diseño por conglomerados</h2>
+<p>En <em>Becas para Todos</em>, las becas <strong>no se asignan alumno por alumno</strong>: se asignan a <strong>escuelas enteras</strong>. Cuando la unidad de asignación es un grupo (escuela, comunidad, clínica), hablamos de un <strong>diseño clusterizado</strong>.</p>
+<p>Los alumnos de una misma escuela tienden a parecerse más entre sí que alumnos de distintas escuelas — comparten maestros, infraestructura y contexto socioeconómico. Esa similitud interna se mide con el <strong>coeficiente de correlación intraclúster</strong> (ICC, ρ):</p>
+<p><span class="math display">\[\text{ICC} = \frac{\sigma^2_{\text{entre clústeres}}}{\sigma^2_{\text{entre}} + \sigma^2_{\text{dentro}}}\]</span></p>
+<p>El <strong>efecto de diseño</strong> (<em>DEFF</em>) cuantifica cuánto se infla el tamaño de muestra requerido:</p>
+<p><span class="math display">\[\text{DEFF} = 1 + (m - 1) \cdot \rho\]</span></p>
+<p>donde <span class="math inline">\(m\)</span> = alumnos por escuela y <span class="math inline">\(\rho\)</span> = ICC.</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<blockquote class="blockquote">
+<p><strong>Regla práctica:</strong> Con ICC ≥ 0.10, los diseños clusterizados requieren ajuste explícito. El DEFF con <span class="math inline">\(m = 20\)</span> y <span class="math inline">\(\rho = 0.20\)</span> es <span class="math inline">\(1 + 19 \times 0.20 = 4.8\)</span> — necesitas casi cinco veces más observaciones que en un diseño simple para el mismo poder.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="parte-5-relevancia-práctica-significancia-estadística-y-efecto-mínimo-detectable" class="level1">
+<h1>Parte 5: Relevancia práctica, significancia estadística y efecto mínimo detectable</h1>
+<section id="el-problema-de-confundir-significancia-con-importancia" class="level2">
+<h2 class="anchored" data-anchor-id="el-problema-de-confundir-significancia-con-importancia">El problema de confundir significancia con importancia</h2>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="el-efecto-mínimo-detectable-mde" class="level2">
+<h2 class="anchored" data-anchor-id="el-efecto-mínimo-detectable-mde">El efecto mínimo detectable (MDE)</h2>
+<p>El <strong>MDE</strong> (<em>Minimum Detectable Effect</em>) es la diferencia más pequeña que nuestro diseño puede detectar con probabilidad ≥ 80%, dado un α fijo. Se deriva de la condición de poder:</p>
+<p><span class="math display">\[\text{MDE} = (z_{1-\alpha} + z_{1-\beta}) \times SE \qquad \text{donde } SE = \sigma\sqrt{\tfrac{2}{n}}\]</span></p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="mde-en-diseños-clusterizados" class="level2">
+<h2 class="anchored" data-anchor-id="mde-en-diseños-clusterizados">MDE en diseños clusterizados</h2>
+<p><span class="math display">\[\text{MDE}_{\text{cluster}} = \text{MDE}_{\text{simple}} \times \sqrt{\text{DEFF}} = \text{MDE}_{\text{simple}} \times \sqrt{1 + (m-1)\rho}\]</span></p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<blockquote class="blockquote">
+<p><strong>Conclusión:</strong> Si las escuelas tienen ICC = 0.20 y asignamos 30 alumnos por escuela (4 clústeres por brazo con <span class="math inline">\(n_{\text{total}} = 120\)</span>), el MDE se infla considerablemente. Conviene <strong>reducir el tamaño del clúster y aumentar el número de escuelas</strong> para recuperar poder con el mismo presupuesto de observaciones.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="ejercicios" class="level1">
+<h1>Ejercicios</h1>
+<ol type="1">
+<li><p><strong>Re-simula</strong> los datos de Becas para Todos con <code>n &lt;- 30</code>. ¿Cambia la conclusión? ¿Cambió más el valor <em>p</em> o el estadístico <em>t</em>?</p></li>
+<li><p><strong>Valor p a mano:</strong> calcula <code>pt()</code> y <code>pnorm()</code> para un estadístico <span class="math inline">\(t = 1.85\)</span> con 58 grados de libertad, tanto unilateral como bilateral. ¿Cuándo divergen más las dos distribuciones?</p></li>
+<li><p><strong>ICC:</strong> Supón que el ICC real en escuelas mexicanas de secundaria es 0.12 y que cada escuela tiene 25 alumnos. ¿Cuántas escuelas por brazo necesitas para tener 80% de poder y detectar un efecto de 4 puntos? Usa <code>mde_analitico()</code> con <code>n = n_total / deff</code>.</p></li>
+<li><p><strong>MDE y política:</strong> Alguien te dice <em>“el programa no tuvo efecto significativo con n = 40 por grupo”</em>. Calcula el MDE para ese diseño. ¿Es ese resultado evidencia de ausencia de efecto o ausencia de evidencia?</p></li>
+</ol>
+<hr>
+</section>
+<section id="discusión" class="level1">
+<h1>Discusión</h1>
+<ul>
+<li>¿“No significativo” significa “no funciona”?</li>
+<li>¿Cuándo un resultado estadísticamente significativo <strong>no debería</strong> cambiar una política?</li>
+<li>¿Por qué un ICC alto obliga a preferir más clústeres pequeños sobre pocos clústeres grandes?</li>
+<li>¿Cómo presentarías el MDE en un informe para tomadores de decisión no estadísticos?</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/dcloya\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<a href="https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya">David Contreras-Loya</a> ©
+<script>document.write(new Date().getFullYear())</script>
+</div>   
+    <div class="nav-footer-center">
+<p>Built on <a href="https://github.com/drganghe/quarto-academic-website-template">Quarto Academic Website Template</a></p>
+</div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dcloya" target="_blank">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" target="_blank">
+      <i class="bi bi-mortarboard" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/david-contreras-loya-8550bb44" target="_blank">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+<script type="module">
+// Handle cell initialization initialization
+qwebrCellDetails.map(
+  (entry) => {
+    // Handle the creation of the element
+    qwebrCreateHTMLElement(entry);
+    // In the event of interactive, initialize the monaco editor
+    if (entry.options.context == EvalTypes.Interactive) {
+      qwebrCreateMonacoEditorInstance(entry);
+    }
+  }
+);
+
+// Identify non-interactive cells (in order)
+const filteredEntries = qwebrCellDetails.filter(entry => {
+  const contextOption = entry.options && entry.options.context;
+  return ['output', 'setup'].includes(contextOption) || (contextOption == "interactive" && entry.options && entry.options.autorun === 'true');
+});
+
+// Condition non-interactive cells to only be run after webR finishes its initialization.
+qwebrInstance.then(
+  async () => {
+    const nHiddenCells = filteredEntries.length;
+    var currentHiddenCell = 0;
+
+
+    // Modify button state
+    qwebrSetInteractiveButtonState(`🟡 Running hidden code cells ...`, false);
+
+    // Begin processing non-interactive sections
+    // Due to the iteration policy, we must use a for() loop.
+    // Otherwise, we would need to switch to using reduce with an empty
+    // starting promise
+    for (const entry of filteredEntries) {
+
+      // Determine cell being examined
+      currentHiddenCell = currentHiddenCell + 1;
+      const formattedMessage = `Evaluating hidden cell ${currentHiddenCell} out of ${nHiddenCells}`;
+
+      // Update the document status header
+      if (qwebrShowStartupMessage) {
+        qwebrUpdateStatusHeader(formattedMessage);
+      }
+
+      // Display the update in non-active areas
+      qwebrUpdateStatusMessage(formattedMessage);
+
+      // Extract details on the active cell
+      const evalType = entry.options.context;
+      const cellCode = entry.code;
+      const qwebrCounter = entry.id;
+
+      if (['output', 'setup'].includes(evalType)) {
+        // Disable further global status updates
+        const activeContainer = document.getElementById(`qwebr-non-interactive-loading-container-${qwebrCounter}`);
+        activeContainer.classList.remove('qwebr-cell-needs-evaluation');
+        activeContainer.classList.add('qwebr-cell-evaluated');
+
+        // Update status on the code cell
+        const activeStatus = document.getElementById(`qwebr-status-text-${qwebrCounter}`);
+        activeStatus.innerText = " Evaluating hidden code cell...";
+        activeStatus.classList.remove('qwebr-cell-needs-evaluation');
+        activeStatus.classList.add('qwebr-cell-evaluated');
+      }
+
+      switch (evalType) {
+        case 'interactive':
+          // TODO: Make this more standardized.
+          // At the moment, we're overriding the interactive status update by pretending its
+          // output-like. 
+          const tempOptions = entry.options;
+          tempOptions["context"] = "output"
+          // Run the code in a non-interactive state that is geared to displaying output
+          await qwebrExecuteCode(`${cellCode}`, qwebrCounter, tempOptions);
+          break;
+        case 'output':
+          // Run the code in a non-interactive state that is geared to displaying output
+          await qwebrExecuteCode(`${cellCode}`, qwebrCounter, entry.options);
+          break;
+        case 'setup':
+          const activeDiv = document.getElementById(`qwebr-noninteractive-setup-area-${qwebrCounter}`);
+
+          // Store code in history
+          qwebrLogCodeToHistory(cellCode, entry.options);
+
+          // Run the code in a non-interactive state with all output thrown away
+          await mainWebR.evalRVoid(`${cellCode}`);
+          break;
+        default: 
+          break; 
+      }
+
+      if (['output', 'setup'].includes(evalType)) {
+        // Disable further global status updates
+        const activeContainer = document.getElementById(`qwebr-non-interactive-loading-container-${qwebrCounter}`);
+        // Disable visibility
+        activeContainer.style.visibility = 'hidden';
+        activeContainer.style.display = 'none';
+      }
+    }
+  }
+).then(
+  () => {
+    // Release document status as ready
+
+    if (qwebrShowStartupMessage) {
+      qwebrStartupMessage.innerText = "🟢 Ready!"
+    }
+  
+    qwebrSetInteractiveButtonState(
+      `<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>`, 
+      true
+    );  
+  }
+);
+</script>
+
+
+
+
+</body></html>

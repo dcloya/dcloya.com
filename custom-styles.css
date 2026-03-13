@@ -123,11 +123,13 @@ body {
 .quarto-title-block h1 {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 2rem;
+  line-height: 1.1;
   color: var(--primary-black);
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
 }
 
 .quarto-title-block .subtitle {

@@ -89,11 +89,9 @@ website:
           - text: "---"
           
           # Bloque 4: Pruebas de Hipotesis
-          - text: "BLOQUE 4: Pruebas de Hipótesis"
-          - text: "S7: Logica de la Prueba de Hipotesis"
-            href: notes/ex07_ttest_integrated.qmd
-          - text: "S8: P-valor y Poder Estadistico"
-            href: notes/ex08_pval_integrated.qmd
+          - text: "BLOQUE 4: Pruebas de Hipótesis y p-valor"
+          - text: "S7-8: Ejercicio integrado pruebas de hipótesis"
+            href: notes/ex07_08_hipotesis_integrated_1.qmd
           - text: "---"
           
           # Bloque 5: Asociacion y Causalidad
