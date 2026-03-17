@@ -8,7 +8,7 @@ filters:
 
 ## Instrucciones generales
 
--   **Trabajo individual.** Tiempo estimado: 90 minutos.
+-   **Trabajo individual.** Tiempo estimado: 120 minutos.
 -   Ejecuta cada bloque de código **en orden** con el botón ▶ Run Code.
 -   Algunos bloques requieren que **modifiques un valor** antes de ejecutar. Estas instrucciones están marcadas con 🔧.
 -   Cuando veas **(→ Canvas Pregunta X)**, registra tu respuesta en Canvas.
