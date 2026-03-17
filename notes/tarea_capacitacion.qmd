@@ -1,0 +1,948 @@
+---
+title: "Tarea 5: Poder Estadístico y Diseño por Conglomerados"
+subtitle: "Métodos Cuantitativos para Políticas Públicas — Primavera 2026"
+format: html
+filters:
+  - webr
+---
+
+## Instrucciones generales
+
+-   **Trabajo individual.** Tiempo estimado: 90 minutos.
+-   Ejecuta cada bloque de código **en orden** con el botón ▶ Run Code.
+-   Algunos bloques requieren que **modifiques un valor** antes de ejecutar. Estas instrucciones están marcadas con 🔧.
+-   Cuando veas **(→ Canvas Pregunta X)**, registra tu respuesta en Canvas.
+
+------------------------------------------------------------------------
+
+## Contexto
+
+El Ministerio de Trabajo de El Salvador planea implementar **EmpleoJoven**, un programa de capacitación laboral dirigido a jóvenes de 18 a 29 años (curso intensivo de 12 semanas en habilidades técnicas y socioemocionales). Antes de lanzar el programa a escala nacional, el equipo de evaluación necesita **diseñar la evaluación de impacto**: ¿cuántas personas reclutar? ¿Cómo asignar el tratamiento?
+
+Un estudio previo sugiere que el efecto esperado del programa es de **$40 USD mensuales** en el salario de los participantes.
+
+Tu trabajo es ayudar al equipo a tomar estas decisiones usando conceptos de **poder estadístico** y **aleatorización por conglomerados**.
+
+------------------------------------------------------------------------
+
+# BLOQUE A: El piloto y sus limitaciones
+
+## Parte 1: Datos del piloto
+
+Se realizó un piloto pequeño en el municipio de Soyapango con 200 jóvenes (100 tratamiento, 100 control).
+
+```{webr-r}
+# Fijar semilla para reproducibilidad
+set.seed(2026)
+
+# Datos del piloto: 100 control, 100 tratamiento
+n_piloto <- 200
+grupo <- rep(c("Tratamiento", "Control"), each = 100)
+
+# Salario mensual post-programa (en USD)
+# Usamos distribución Gamma (sesgada a la derecha, como salarios reales)
+# Parámetros: media ≈ 350, sd ≈ 120
+forma  <- (350 / 120)^2     # shape ≈ 8.51
+escala <- 120^2 / 350       # scale ≈ 41.1
+
+salario_base <- rgamma(n_piloto, shape = forma, scale = escala)
+# Efecto real del tratamiento: $40
+salario <- salario_base + 40 * (grupo == "Tratamiento")
+salario <- round(salario, 2)
+
+# Crear base de datos
+piloto <- data.frame(
+  id = 1:n_piloto,
+  grupo = grupo,
+  salario_usd = salario
+)
+
+# Primeras filas
+head(piloto)
+cat("\nMínimo salario: $", min(piloto$salario_usd), " USD (no hay negativos)\n", sep = "")
+```
+
+### La distribución de los salarios
+
+Los salarios no siguen una distribución normal — están **sesgados a la derecha** (unos pocos jóvenes ganan mucho más que el resto). Esto es típico de variables de ingreso.
+
+```{webr-r}
+# Histograma de salarios por grupo
+par(mfrow = c(1, 2))
+
+hist(piloto$salario_usd[piloto$grupo == "Control"], 
+     breaks = 15, col = "steelblue", border = "white",
+     main = "Control", xlab = "Salario (USD)", ylab = "Frecuencia",
+     xlim = range(piloto$salario_usd))
+abline(v = mean(piloto$salario_usd[piloto$grupo == "Control"]), 
+       col = "red", lwd = 2, lty = 2)
+
+hist(piloto$salario_usd[piloto$grupo == "Tratamiento"], 
+     breaks = 15, col = "coral", border = "white",
+     main = "Tratamiento", xlab = "Salario (USD)", ylab = "Frecuencia",
+     xlim = range(piloto$salario_usd))
+abline(v = mean(piloto$salario_usd[piloto$grupo == "Tratamiento"]), 
+       col = "red", lwd = 2, lty = 2)
+
+par(mfrow = c(1, 1))
+cat("Línea roja punteada = media de cada grupo\n")
+cat("Nota: la distribución es asimétrica (sesgada a la derecha).\n")
+```
+
+**(→ Canvas Pregunta 1):** Observa los histogramas. La distribución de los salarios individuales es:
+
+a)  Simétrica (forma de campana)
+b)  Sesgada a la derecha (cola larga hacia salarios altos)
+c)  Sesgada a la izquierda
+d)  Uniforme
+
+### El Teorema del Límite Central en acción
+
+Aunque los salarios individuales **no** son normales, el **Teorema del Límite Central** nos dice que la distribución de las *medias muestrales* sí se aproxima a una normal. Verifiquemos esto con una simulación.
+
+```{webr-r}
+# Simulamos 2,000 muestras de tamaño 100 de la distribución Gamma
+set.seed(42)
+medias_muestrales <- replicate(2000, mean(rgamma(100, shape = forma, scale = escala)))
+
+par(mfrow = c(1, 2))
+
+# Panel izquierdo: una muestra individual (no normal)
+hist(rgamma(500, shape = forma, scale = escala), breaks = 30, 
+     col = "steelblue", border = "white",
+     main = "Salarios individuales\n(una muestra, n=500)", 
+     xlab = "Salario (USD)", ylab = "Frecuencia")
+
+# Panel derecho: distribución de medias muestrales (aprox. normal)
+hist(medias_muestrales, breaks = 30, 
+     col = "coral", border = "white",
+     main = "Medias muestrales\n(2,000 muestras, n=100 c/u)", 
+     xlab = "Media del salario (USD)", ylab = "Frecuencia")
+
+par(mfrow = c(1, 1))
+cat("Izquierda: distribución de salarios individuales → sesgada\n")
+cat("Derecha:   distribución de promedios muestrales  → ¡aproximadamente normal!\n")
+cat("\nEsto es el Teorema del Límite Central.\n")
+```
+
+**(→ Canvas Pregunta 2):** ¿Qué nos permite el Teorema del Límite Central en este contexto?
+
+a)  Garantiza que los salarios individuales sean normales
+b)  Permite usar la prueba t (que asume normalidad de las medias) aunque los salarios individuales sean sesgados, porque con n=100 la media muestral se distribuye aproximadamente normal
+c)  Solo funciona si los datos originales son simétricos
+d)  Requiere que el tamaño de muestra sea mayor a 1,000
+
+```{webr-r}
+# Salario promedio por grupo
+promedios <- tapply(piloto$salario_usd, piloto$grupo, mean)
+cat("Salario promedio por grupo:\n")
+cat("  Control:      $", round(promedios["Control"], 2), " USD\n", sep = "")
+cat("  Tratamiento:  $", round(promedios["Tratamiento"], 2), " USD\n", sep = "")
+cat("  Diferencia:   $", round(promedios["Tratamiento"] - promedios["Control"], 2), " USD\n", sep = "")
+```
+
+**(→ Canvas Pregunta 3):** ¿Cuál es la diferencia de medias (Tratamiento − Control), redondeada al dólar?
+
+```{webr-r}
+# Prueba t de dos muestras independientes
+resultado_t <- t.test(salario_usd ~ grupo, data = piloto)
+
+cat("=== Prueba t de diferencia de medias ===\n\n")
+cat("Estadístico t: ", round(resultado_t$statistic, 3), "\n")
+cat("P-value:       ", round(resultado_t$p.value, 4), "\n")
+cat("IC 95%:        [", round(resultado_t$conf.int[1], 2), ", ",
+    round(resultado_t$conf.int[2], 2), "]\n", sep = "")
+
+if (resultado_t$p.value < 0.05) {
+  cat("\nConclusión: Se RECHAZA H0 al 5% de significancia.\n")
+} else {
+  cat("\nConclusión: NO se rechaza H0 al 5% de significancia.\n")
+}
+```
+
+**(→ Canvas Pregunta 4):** ¿Cuál es el p-value? Selecciona el rango correcto.
+
+a)  Menor a 0.01
+b)  Entre 0.01 y 0.05
+c)  Entre 0.05 y 0.10
+d)  Mayor a 0.10
+
+### De la prueba t al valor p con `pt`
+
+La función `t.test()` nos dio el estadístico t y el p-value directamente. Pero, ¿de dónde sale ese p-value? El valor p se calcula a partir de la **distribución acumulada** del estadístico de prueba. Bajo $H_0$, el estadístico t sigue una distribución $t$ de Student con ciertos grados de libertad. La función `pt()` nos da la probabilidad acumulada de esa distribución.
+
+Recuerda: para una prueba **bilateral** (dos colas), el p-value es $2 \times P(t > |t_{obs}|) = 2 \times (1 - F_t(|t_{obs}|))$, donde $F_t$ es la CDF de la distribución $t$.
+
+```{webr-r}
+# Calcular el p-value manualmente usando pt
+# Recuperar el estadístico t y los grados de libertad
+t_obs <- resultado_t$statistic
+gl    <- resultado_t$parameter   # grados de libertad (Welch)
+
+cat("=== Cálculo manual del p-value ===\n\n")
+cat("Estadístico t observado:  ", round(t_obs, 3), "\n")
+cat("Valor absoluto |t|:       ", round(abs(t_obs), 3), "\n")
+cat("Grados de libertad:       ", round(gl, 1), "\n\n")
+
+# Probabilidad de observar un valor TAN extremo o más bajo la H0
+# Paso 1: probabilidad en la cola derecha usando pt()
+prob_cola_derecha <- 1 - pt(abs(t_obs), df = gl)
+cat("P(t > |t_obs|) = 1 - pt(", round(abs(t_obs), 3), ", df = ", 
+    round(gl, 1), ") = ", round(prob_cola_derecha, 5), "\n", sep = "")
+
+# Paso 2: multiplicar por 2 (prueba bilateral, dos colas)
+pvalue_manual <- 2 * prob_cola_derecha
+cat("P-value (dos colas) = 2 ×", round(prob_cola_derecha, 5), "=", 
+    round(pvalue_manual, 4), "\n\n")
+
+# Comparar con el p-value de t.test()
+cat("P-value de t.test():   ", round(resultado_t$p.value, 4), "\n")
+cat("P-value con pt():      ", round(pvalue_manual, 4), "\n")
+cat("¡Son idénticos! Ambos usan la distribución t de Student.\n")
+```
+
+**(→ Canvas Pregunta 5):** En la fórmula `2 * (1 - pt(abs(t), df))`, ¿por qué multiplicamos por 2?
+
+a)  Porque siempre se multiplica por 2 en estadística
+b)  Porque es una prueba bilateral: el efecto podría ser positivo o negativo, y debemos considerar ambas colas
+c)  Porque hay dos grupos (tratamiento y control)
+d)  Porque la distribución t tiene dos mitades
+
+**(→ Canvas Pregunta 6):** Si el estadístico t fuera $t = -1.5$ con $df = 198$, ¿cuál sería el p-value aproximado? Usa la lógica: `2 * (1 - pt(1.5, df = 198))`.
+
+```{webr-r}
+# 🔧 Calcula el p-value para t = -1.5 con df = 198
+t_hipotetico <- -1.5
+gl_hipotetico <- 198
+pvalue_hip <- 2 * (1 - pt(abs(t_hipotetico), df = gl_hipotetico))
+cat("Con t =", t_hipotetico, "y df =", gl_hipotetico, ":\n")
+cat("  P-value = 2 × (1 - pt(", abs(t_hipotetico), ", df = ", 
+    gl_hipotetico, ")) = ", round(pvalue_hip, 4), "\n\n", sep = "")
+
+if (pvalue_hip < 0.05) {
+  cat("→ Se rechaza H0 al 5%.\n")
+} else {
+  cat("→ NO se rechaza H0 al 5%.\n")
+}
+```
+
+a)  Aproximadamente 0.14 — NO se rechaza $H_0$
+b)  Aproximadamente 0.07 — NO se rechaza $H_0$
+c)  Aproximadamente 0.03 — Sí se rechaza $H_0$
+d)  Aproximadamente 0.01 — Sí se rechaza $H_0$
+
+------------------------------------------------------------------------
+
+## Parte 2: ¿Por qué importa el poder estadístico?
+
+El **poder estadístico** es la probabilidad de detectar un efecto cuando este realmente existe:
+
+$$\text{Poder} = P(\text{rechazar } H_0 \mid H_0 \text{ es falsa}) = 1 - \beta$$
+
+Un estudio con bajo poder puede **no encontrar** un efecto real — no porque el programa no funcione, sino porque el estudio no fue diseñado para detectarlo.
+
+**(→ Canvas Pregunta 7):** Si un estudio tiene poder de 60%, ¿qué significa?
+
+a)  El programa funciona 60% de las veces
+b)  Hay 60% de probabilidad de que $H_0$ sea falsa
+c)  Si el efecto existe, hay 60% de probabilidad de detectarlo (rechazar $H_0$)
+d)  El 60% de los participantes se benefician
+
+**(→ Canvas Pregunta 8):** Un error de Tipo II ocurre cuando:
+
+a)  Rechazamos $H_0$ cuando es verdadera (falso positivo)
+b)  No rechazamos $H_0$ cuando es falsa (falso negativo)
+c)  El p-value es exactamente 0.05
+d)  El intervalo de confianza incluye el cero por error de cálculo
+
+------------------------------------------------------------------------
+
+# BLOQUE B: Efecto Mínimo Detectable (MDE)
+
+## Parte 3: La fórmula del MDE
+
+El **Efecto Mínimo Detectable** es el efecto más pequeño que un diseño puede detectar con cierto nivel de poder. Para un experimento con dos grupos iguales:
+
+$$MDE = (z_{\alpha/2} + z_{\beta}) \times \sigma \times \sqrt{\frac{4}{N}}$$
+
+donde $z_{\alpha/2} = 1.96$ (para $\alpha = 0.05$) y $z_{\beta} = 0.84$ (para poder = 80%).
+
+Los ingredientes son: el nivel de significancia ($\alpha$), el poder deseado ($1-\beta$), la variabilidad del outcome ($\sigma$) y el tamaño de muestra ($N$).
+
+```{webr-r}
+# Valores críticos estándar
+z_alpha <- 1.96   # alfa = 0.05, dos colas
+z_beta  <- 0.84   # poder = 80%
+
+# Desviación estándar del salario en el piloto
+sigma <- sd(piloto$salario_usd)
+
+cat("Desviación estándar del salario en el piloto: $",
+    round(sigma, 2), " USD\n", sep = "")
+```
+
+**(→ Canvas Pregunta 9):** ¿Cuál es la desviación estándar del salario en el piloto? (al dólar)
+
+```{webr-r}
+# MDE para el piloto (N = 200)
+MDE_piloto <- (z_alpha + z_beta) * sigma * sqrt(4 / 200)
+
+cat("MDE del piloto (N = 200): $", round(MDE_piloto, 2), " USD\n", sep = "")
+cat("Efecto esperado del programa: $40 USD\n")
+cat("\n→ ¿El MDE es mayor o menor que el efecto esperado?\n")
+```
+
+**(→ Canvas Pregunta 10):** ¿Cuál es el MDE del piloto? (al dólar)
+
+**(→ Canvas Pregunta 11):** El efecto esperado es $40 USD. Comparando con el MDE:
+
+a)  El MDE es menor que $40: el piloto sí podía detectar el efecto
+b)  El MDE es mayor que $40: el piloto NO podía detectar un efecto de esa magnitud
+
+------------------------------------------------------------------------
+
+## Parte 4: MDE y tamaño de muestra
+
+```{webr-r}
+# MDE para diferentes tamaños de muestra
+N_opciones <- c(200, 300, 500, 1000, 2000, 4000)
+MDE_valores <- (z_alpha + z_beta) * sigma * sqrt(4 / N_opciones)
+
+cat("=== MDE para distintos tamaños de muestra ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+
+for (i in 1:length(N_opciones)) {
+  cat("  N =", sprintf("%5d", N_opciones[i]),
+      "  →  MDE = $", sprintf("%5.1f", MDE_valores[i]),
+      " USD\n", sep = "")
+}
+```
+
+**(→ Canvas Pregunta 12):** ¿Cuál es el N mínimo (de las opciones) para que el MDE sea menor a $40?
+
+a)  200
+b)  500
+c)  1,000
+d)  2,000
+
+**(→ Canvas Pregunta 13):** Observa: cuando N pasa de 500 a 2,000 (se cuadruplica), el MDE:
+
+a)  Se reduce a la cuarta parte
+b)  Se reduce a la mitad
+c)  Se reduce, pero menos que a la mitad
+d)  No cambia
+
+**(→ Canvas Pregunta 14):** Esto ocurre porque en la fórmula del MDE, $N$ aparece dentro de una raíz cuadrada. Para reducir el MDE a la mitad, necesitamos multiplicar $N$ por:
+
+a)  2
+b)  4
+c)  8
+d)  10
+
+------------------------------------------------------------------------
+
+## Parte 5: ¿Qué pasa si reducimos la variabilidad?
+
+El equipo propone medir el **salario base** antes del programa y usarlo como variable de control. Esto reduciría la varianza residual del outcome. ¿Cuánto ayudaría?
+
+```{webr-r}
+# MDE con N = 1,000 para distintos niveles de variabilidad
+sigma_opciones <- c(120, 100, 80, 60)
+
+cat("=== MDE con N = 1,000 para distintos niveles de sigma ===\n\n")
+
+for (s in sigma_opciones) {
+  mde <- (z_alpha + z_beta) * s * sqrt(4 / 1000)
+  cat("  sigma = $", sprintf("%3d", s),
+      "  →  MDE = $", sprintf("%5.1f", mde),
+      " USD\n", sep = "")
+}
+```
+
+**(→ Canvas Pregunta 15):** Si la desviación estándar se reduce de $120 a $80 (controlando por salario previo), ¿cuál es el nuevo MDE con N = 1,000? (al dólar)
+
+**(→ Canvas Pregunta 16):** Reducir $\sigma$ de $120 a $80 tiene un efecto sobre el MDE equivalente a:
+
+a)  Reducir la variabilidad es irrelevante; solo importa el tamaño de muestra
+b)  Es como multiplicar el tamaño de muestra, porque $\sigma$ entra linealmente en la fórmula
+c)  Solo ayuda si el efecto del programa también cambia
+
+🔧 **Instrucción:** En el siguiente bloque, modifica el valor de `sigma_nuevo` para encontrar la desviación estándar **máxima** que permitiría detectar un efecto de $40 con solo N = 500. Prueba distintos valores hasta que el MDE quede justo por debajo de $40.
+
+```{webr-r}
+# =============================================
+# 🔧 MODIFICA AQUÍ: cambia sigma_nuevo
+# =============================================
+sigma_nuevo <- 120   # <-- prueba diferentes valores
+
+MDE_nuevo <- (z_alpha + z_beta) * sigma_nuevo * sqrt(4 / 500)
+
+cat("Con sigma = $", sigma_nuevo, " y N = 500:\n", sep = "")
+cat("  MDE = $", round(MDE_nuevo, 1), " USD\n", sep = "")
+cat("  Efecto esperado: $40 USD\n")
+cat("  ¿El MDE es menor que el efecto esperado? ", 
+    ifelse(MDE_nuevo < 40, "Sí", "No"), "\n", sep = "")
+```
+
+**(→ Canvas Pregunta 17):** ¿Cuál es (aproximadamente) la $\sigma$ máxima para detectar un efecto de $40 con N = 500?
+
+a)  Alrededor de $80
+b)  Alrededor de $160
+c)  Alrededor de $240
+d)  Alrededor de $320
+
+------------------------------------------------------------------------
+
+# BLOQUE C: Aleatorización por conglomerados
+
+## Parte 6: ¿Por qué conglomerados?
+
+EmpleoJoven se ofrecerá a través de **casas comunales municipales**. Por razones logísticas, todos los jóvenes de un mismo municipio reciben (o no) la capacitación. Esto se llama **aleatorización por conglomerados** (*cluster randomization*).
+
+El problema: las personas dentro del mismo municipio tienden a parecerse (misma zona geográfica, condiciones económicas similares). Esto reduce la información independiente que aporta cada observación adicional dentro del mismo conglomerado.
+
+**(→ Canvas Pregunta 18):** ¿Cuál es la razón principal para aleatorizar por conglomerados?
+
+a)  Es estadísticamente más eficiente
+b)  Razones logísticas: el programa se implementa por municipio, no por persona
+c)  Produce estimaciones más precisas
+d)  Permite usar muestras más pequeñas
+
+------------------------------------------------------------------------
+
+## Parte 7: Correlación Intraconglomerado (ICC)
+
+El **ICC** ($\rho$) mide qué tan parecidas son las personas dentro del mismo conglomerado.
+
+-   $\rho = 0$: no se parecen más que cualesquiera dos personas al azar
+-   $\rho = 1$: todos en el conglomerado son idénticos
+
+Simulemos datos con estructura de conglomerados para estimar el ICC.
+
+```{webr-r}
+# Simular 30 municipios, 40 jóvenes por municipio
+set.seed(2026)
+
+n_municipios <- 30
+m <- 40                            # jóvenes por municipio
+N_total <- n_municipios * m        # 1,200 total
+
+# Cada municipio tiene un "efecto" propio (economía local, acceso)
+efecto_municipio <- rnorm(n_municipios, mean = 0, sd = 50)
+
+# Construir datos
+municipio_id <- rep(1:n_municipios, each = m)
+efecto_m     <- rep(efecto_municipio, each = m)
+
+# Salarios individuales con distribución Gamma (sesgada, sin negativos)
+salario_indiv <- rgamma(N_total, shape = forma, scale = escala)
+
+# Salario = salario individual + efecto del municipio
+salario_cluster <- round(salario_indiv + efecto_m, 2)
+
+datos_cl <- data.frame(
+  municipio = municipio_id,
+  salario_usd = salario_cluster
+)
+
+cat("Datos simulados: ", N_total, " jóvenes en ", n_municipios, " municipios\n", sep = "")
+head(datos_cl, 10)
+```
+
+### Calcular el ICC
+
+```{webr-r}
+# ANOVA para descomponer la varianza
+anova_res <- aov(salario_usd ~ factor(municipio), data = datos_cl)
+tabla <- summary(anova_res)[[1]]
+
+# Cuadrados medios
+CM_entre  <- tabla$"Mean Sq"[1]   # entre municipios
+CM_dentro <- tabla$"Mean Sq"[2]   # dentro de municipios
+
+# Fórmula del ICC
+ICC <- (CM_entre - CM_dentro) / (CM_entre + (m - 1) * CM_dentro)
+
+cat("=== Estimación del ICC ===\n\n")
+cat("Cuadrado medio entre municipios:  ", round(CM_entre, 2), "\n")
+cat("Cuadrado medio dentro de municipios: ", round(CM_dentro, 2), "\n")
+cat("\nICC (rho) = ", round(ICC, 3), "\n", sep = "")
+```
+
+**(→ Canvas Pregunta 19):** ¿Cuál es el ICC estimado? (a 3 decimales)
+
+**(→ Canvas Pregunta 20):** Este valor indica que:
+
+a)  La mayoría de la variación se explica por diferencias entre municipios
+b)  Una proporción modesta se debe al municipio; la mayor parte es individual
+c)  No existe ninguna similitud entre jóvenes del mismo municipio
+
+------------------------------------------------------------------------
+
+## Parte 8: Efecto de Diseño (DEFF) y N efectivo
+
+El **efecto de diseño** cuantifica cuánto se "infla" la varianza al usar conglomerados:
+
+$$DEFF = 1 + (m - 1) \times \rho$$
+
+El **tamaño de muestra efectivo** es: $N_{ef} = N / DEFF$
+
+```{webr-r}
+# Guardar el ICC
+rho <- round(ICC, 3)
+
+# DEFF con m = 40
+DEFF <- 1 + (m - 1) * rho
+
+cat("=== Efecto de Diseño ===\n\n")
+cat("ICC (rho):  ", rho, "\n")
+cat("Jóvenes por municipio (m):  ", m, "\n")
+cat("DEFF = 1 + (", m, " - 1) x ", rho, " = ", round(DEFF, 2), "\n\n", sep = "")
+
+# N efectivo
+N_efectivo <- N_total / DEFF
+cat("N total:     ", N_total, "\n")
+cat("N efectivo:  ", round(N_efectivo, 0), "\n\n")
+cat("→ Las ", N_total, " observaciones en conglomerados equivalen a\n",
+    "  ", round(N_efectivo, 0), " observaciones independientes.\n", sep = "")
+```
+
+**(→ Canvas Pregunta 21):** ¿Cuál es el DEFF con $m = 40$? (a 2 decimales)
+
+**(→ Canvas Pregunta 22):** Nuestras 1,200 observaciones en conglomerados equivalen a ______ observaciones independientes.
+
+------------------------------------------------------------------------
+
+## Parte 9: MDE con y sin conglomerados
+
+```{webr-r}
+# MDE individual (N = 1,200)
+MDE_individual <- (z_alpha + z_beta) * sigma * sqrt(4 / N_total)
+
+# MDE con conglomerados
+MDE_cluster <- (z_alpha + z_beta) * sigma * sqrt(4 / N_efectivo)
+
+cat("=== Comparación: MDE individual vs. conglomerados ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat("                    Individual   Conglomerados\n")
+cat("N total:         ", sprintf("%8d", N_total), sprintf("%14d", N_total), "\n")
+cat("N efectivo:      ", sprintf("%8d", N_total), sprintf("%14d", round(N_efectivo, 0)), "\n")
+cat("MDE (USD):       ", sprintf("%8.1f", MDE_individual), sprintf("%14.1f", MDE_cluster), "\n")
+```
+
+**(→ Canvas Pregunta 23):** El MDE con conglomerados es:
+
+a)  Mayor que con aleatorización individual (más difícil detectar efectos)
+b)  Menor (más fácil detectar efectos)
+
+------------------------------------------------------------------------
+
+# BLOQUE D: Explorando el diseño
+
+## Parte 10: Modificar el tamaño del conglomerado
+
+¿Qué pasa si cada municipio tuviera menos jóvenes? Mantenemos $N = 1{,}200$ y el mismo ICC.
+
+```{webr-r}
+# Tabla: variar m manteniendo N = 1,200
+m_opciones <- c(10, 20, 40, 60, 120)
+
+cat("=== Variar jóvenes por municipio (N fijo = 1,200) ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat(" m   Municipios  DEFF   N_ef   MDE\n")
+cat("---  ----------  -----  -----  ------\n")
+
+for (mi in m_opciones) {
+  di <- 1 + (mi - 1) * rho
+  nei <- N_total / di
+  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)
+  cat(sprintf("%3d  %10d  %5.2f  %5d  $%5.1f\n",
+      mi, N_total / mi, di, round(nei), mdei))
+}
+```
+
+**(→ Canvas Pregunta 24):** ¿Con qué configuración el MDE es más bajo?
+
+a)  10 jóvenes en 120 municipios
+b)  20 jóvenes en 60 municipios
+c)  40 jóvenes en 30 municipios
+d)  120 jóvenes en 10 municipios
+
+🔧 **Instrucción:** En el siguiente bloque, cambia `m_elegido` de `40` a `10`. Ejecuta y compara el DEFF y MDE con los de la Parte 8.
+
+```{webr-r}
+# =============================================
+# 🔧 MODIFICA AQUÍ: cambia m_elegido
+# =============================================
+m_elegido <- 40   # <-- cámbialo a 10
+
+# Recalcular
+DEFF_nuevo <- 1 + (m_elegido - 1) * rho
+N_ef_nuevo <- N_total / DEFF_nuevo
+MDE_nuevo  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_nuevo)
+
+cat("=== Diseño con m = ", m_elegido, " ===\n\n", sep = "")
+cat("Jóvenes por municipio (m):  ", m_elegido, "\n")
+cat("Número de municipios (J):   ", N_total / m_elegido, "\n")
+cat("DEFF:                       ", round(DEFF_nuevo, 2), "\n")
+cat("N efectivo:                 ", round(N_ef_nuevo, 0), "\n")
+cat("MDE:                        $", round(MDE_nuevo, 1), " USD\n", sep = "")
+```
+
+**(→ Canvas Pregunta 25):** Cuando cambias $m$ de 40 a 10 (manteniendo $N = 1{,}200$), ¿qué pasa con el DEFF?
+
+a)  Baja (se acerca a 1)
+b)  Sube
+c)  No cambia
+
+**(→ Canvas Pregunta 26):** ¿Y qué pasa con el MDE?
+
+a)  Baja (mejora el poder)
+b)  Sube (empeora el poder)
+c)  No cambia
+
+------------------------------------------------------------------------
+
+## Parte 11: Más conglomerados (aumentar J)
+
+Otra opción: en vez de redistribuir los 1,200 jóvenes, **reclutar más municipios** y por lo tanto más jóvenes en total.
+
+```{webr-r}
+# Variar el número de municipios (manteniendo m = 40 fijo)
+J_opciones <- c(30, 50, 80)
+
+cat("=== Variar número de municipios (m fijo = 40) ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat("  J     N     DEFF   N_ef   MDE\n")
+cat("----  -----  -----  -----  ------\n")
+
+for (ji in J_opciones) {
+  ni <- ji * 40
+  di <- 1 + (40 - 1) * rho
+  nei <- ni / di
+  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)
+  cat(sprintf("%4d  %5d  %5.2f  %5d  $%5.1f\n",
+      ji, ni, di, round(nei), mdei))
+}
+```
+
+**(→ Canvas Pregunta 27):** ¿Cuántos municipios se necesitan (con $m = 40$) para que el MDE sea menor a $40?
+
+a)  30 municipios (N = 1,200)
+b)  50 municipios (N = 2,000)
+c)  80 municipios (N = 3,200)
+d)  Ninguno de los anteriores
+
+**(→ Canvas Pregunta 28):** Observa que el DEFF **no cambia** cuando aumentamos $J$. ¿Por qué?
+
+a)  Porque el DEFF solo depende de $m$ y $\rho$, no de cuántos conglomerados haya
+b)  Porque $J$ y $m$ siempre se compensan
+c)  Porque el DEFF es una constante universal
+d)  Porque el ICC cambia al agregar más municipios
+
+------------------------------------------------------------------------
+
+## Parte 12: ¿Qué pasa si el ICC es diferente?
+
+En la práctica, el ICC depende del contexto. En municipios urbanos homogéneos podría ser alto; en municipios diversos podría ser bajo.
+
+```{webr-r}
+# Sensibilidad al ICC (con m = 40, N = 1,200)
+rho_opciones <- c(0.01, 0.05, 0.10, 0.20)
+
+cat("=== Sensibilidad al ICC (m = 40, N = 1,200) ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat("  ICC   DEFF   N_ef   MDE\n")
+cat("-----  -----  -----  ------\n")
+
+for (ri in rho_opciones) {
+  di <- 1 + (40 - 1) * ri
+  nei <- 1200 / di
+  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)
+  cat(sprintf("%5.2f  %5.2f  %5d  $%5.1f\n",
+      ri, di, round(nei), mdei))
+}
+```
+
+**(→ Canvas Pregunta 29):** Cuando el ICC pasa de 0.01 a 0.20 (con $m = 40$, $N = 1{,}200$), el MDE aproximadamente:
+
+a)  Aumenta ligeramente (menos de 50%)
+b)  Más que se duplica
+c)  No cambia mucho
+d)  Se reduce
+
+**(→ Canvas Pregunta 30):** ¿Con cuál ICC el diseño de 1,200 personas podría detectar un efecto de $40?
+
+a)  $\rho = 0.01$
+b)  $\rho = 0.05$
+c)  $\rho = 0.10$
+d)  $\rho = 0.20$
+
+🔧 **Instrucción:** En el siguiente bloque, modifica `rho_prueba` para que valga `0.01` y luego `0.20`. Compara los dos resultados.
+
+```{webr-r}
+# =============================================
+# 🔧 MODIFICA AQUÍ: cambia rho_prueba
+# Primero usa 0.01, anota el resultado.
+# Luego cámbialo a 0.20 y ejecuta de nuevo.
+# =============================================
+rho_prueba <- 0.01   # <-- cambia a 0.20 después
+
+DEFF_prueba <- 1 + (40 - 1) * rho_prueba
+N_ef_prueba <- 1200 / DEFF_prueba
+MDE_prueba  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_prueba)
+
+cat("=== Con ICC = ", rho_prueba, " ===\n\n", sep = "")
+cat("DEFF:        ", round(DEFF_prueba, 2), "\n")
+cat("N efectivo:  ", round(N_ef_prueba, 0), "\n")
+cat("MDE:         $", round(MDE_prueba, 1), " USD\n", sep = "")
+```
+
+**(→ Canvas Pregunta 31):** ¿Cuántas observaciones efectivas se pierden al pasar de $\rho = 0.01$ a $\rho = 0.20$? (resta los dos N efectivos)
+
+------------------------------------------------------------------------
+
+# BLOQUE E: Restricción presupuestal
+
+## Parte 13: El costo importa
+
+En la realidad, reclutar más municipios tiene un costo. Supongamos:
+
+-   **Costo fijo por municipio:** $400 USD (logística, instalación, coordinador local)
+-   **Costo variable por joven:** $16 USD (materiales, seguimiento)
+-   **Presupuesto total:** $40,000 USD
+
+El costo total es: $\text{Costo} = J \times (400 + 16 \times m)$
+
+Esto limita cuántos municipios ($J$) y jóvenes por municipio ($m$) podemos tener.
+
+```{webr-r}
+# Diseño óptimo con restricción de presupuesto
+presupuesto <- 40000
+costo_fijo  <- 400    # por municipio
+costo_var   <- 16     # por joven
+
+m_opciones_pres <- c(10, 20, 30, 40, 50)
+
+cat("=== Diseño óptimo con presupuesto de $40,000 USD ===\n")
+cat("(Costo: $400/municipio + $16/joven)\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat("  m    J      N     Costo     DEFF   N_ef   MDE\n")
+cat("----  ---  -----  --------  -----  -----  ------\n")
+
+for (mi in m_opciones_pres) {
+  ji <- floor(presupuesto / (costo_fijo + costo_var * mi))
+  ni <- ji * mi
+  costo <- ji * (costo_fijo + costo_var * mi)
+  di <- 1 + (mi - 1) * rho
+  nei <- ni / di
+  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)
+  cat(sprintf("%4d  %3d  %5d  $%7s  %5.2f  %5d  $%5.1f\n",
+      mi, ji, ni, format(costo, big.mark = ","), di, round(nei), mdei))
+}
+```
+
+**(→ Canvas Pregunta 32):** Observa la columna N: ¿siempre conviene tener conglomerados más grandes porque así el N total es mayor?
+
+a)  Sí, un N total mayor siempre significa mejor poder
+b)  No, porque aunque N suba, el DEFF también sube y puede anular la ganancia
+
+**(→ Canvas Pregunta 33):** Según la tabla, ¿cuál valor de $m$ produce el MDE más bajo?
+
+a)  $m = 10$
+b)  $m = 20$
+c)  $m = 30$
+d)  $m = 40$
+e)  $m = 50$
+
+**(→ Canvas Pregunta 34):** ¿Por qué el MDE **no** sigue bajando cuando $m$ aumenta de 30 a 50?
+
+a)  El N total deja de crecer
+b)  El DEFF crece más rápido de lo que crece $N$, así que $N_{ef}$ empieza a bajar
+c)  La fórmula del MDE deja de funcionar con conglomerados grandes
+d)  El presupuesto se agota antes
+
+------------------------------------------------------------------------
+
+# BLOQUE F: Decisiones de diseño
+
+## Parte 14: Comparación de diseños
+
+El equipo tiene presupuesto para 1,200 jóvenes y considera dos opciones.
+
+```{webr-r}
+# Diseño A: aleatorización individual (N = 1,200)
+MDE_A <- (z_alpha + z_beta) * sigma * sqrt(4 / 1200)
+
+# Diseño B: conglomerados, 20 jóvenes por municipio, 60 municipios
+m_B    <- 20
+DEFF_B <- 1 + (m_B - 1) * rho
+N_ef_B <- 1200 / DEFF_B
+MDE_B  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_B)
+
+cat("=== Comparación de diseños (N = 1,200) ===\n")
+cat("(Efecto esperado: $40 USD)\n\n")
+cat("                        Diseño A         Diseño B\n")
+cat("                       Individual    Conglomerados\n")
+cat("                                      (m=20, J=60)\n")
+cat("---------------------------------------------------\n")
+cat("DEFF:              ", sprintf("%8.2f", 1.00), sprintf("%14.2f", DEFF_B), "\n")
+cat("N efectivo:        ", sprintf("%8d", 1200), sprintf("%14d", round(N_ef_B, 0)), "\n")
+cat("MDE (USD):         ", sprintf("%7.1f", MDE_A), sprintf("%14.1f", MDE_B), "\n")
+```
+
+**(→ Canvas Pregunta 35):** ¿Cuál diseño puede detectar un efecto de $40?
+
+a)  Solo el Diseño A
+b)  Solo el Diseño B
+c)  Ambos
+d)  Ninguno
+
+**(→ Canvas Pregunta 36):** Si el Diseño A es mejor estadísticamente, ¿por qué el equipo podría aun así elegir el Diseño B?
+
+a)  Porque el Diseño B es más barato
+b)  Porque la implementación del programa requiere que todos en un municipio reciban o no la capacitación
+c)  Porque los conglomerados eliminan el sesgo de selección
+d)  Porque el Diseño A requiere más municipios
+
+------------------------------------------------------------------------
+
+## Parte 15: Mejora el Diseño B
+
+El equipo necesita usar conglomerados. ¿Cómo mejorar el diseño para que pueda detectar el efecto de $40?
+
+🔧 **Instrucción:** El siguiente bloque es un "simulador de diseño". Modifica **los tres valores marcados** para intentar que el MDE baje de $40. Puedes:
+
+-   Reducir $m$ (menos jóvenes por municipio, más municipios)
+-   Aumentar $J$ (más municipios)
+-   Reducir $\sigma$ (controlar por salario base, etc.)
+
+Experimenta con distintas combinaciones.
+
+```{webr-r}
+# =============================================
+# 🔧 MODIFICA ESTOS TRES VALORES:
+# =============================================
+mi_m     <- 40     # jóvenes por municipio (prueba: 15, 20, 30)
+mi_J     <- 30     # número de municipios  (prueba: 50, 60, 80)
+mi_sigma <- 120    # desv. estándar        (prueba: 96, 80)
+
+# --- No modifiques debajo de esta línea ---
+
+mi_N    <- mi_m * mi_J
+mi_DEFF <- 1 + (mi_m - 1) * rho
+mi_N_ef <- mi_N / mi_DEFF
+mi_MDE  <- (z_alpha + z_beta) * mi_sigma * sqrt(4 / mi_N_ef)
+
+cat("=== Tu diseño ===\n\n")
+cat("Jóvenes por municipio (m):   ", mi_m, "\n")
+cat("Número de municipios (J):    ", mi_J, "\n")
+cat("Desviación estándar (sigma): $", mi_sigma, "\n\n", sep = "")
+cat("N total:     ", mi_N, "\n")
+cat("DEFF:        ", round(mi_DEFF, 2), "\n")
+cat("N efectivo:  ", round(mi_N_ef, 0), "\n")
+cat("MDE:         $", round(mi_MDE, 1), " USD\n\n", sep = "")
+
+cat("¿El MDE es menor que el efecto esperado ($40)? ", 
+    ifelse(mi_MDE < 40, "Sí", "No"), "\n", sep = "")
+if (mi_MDE >= 40) {
+  cat("Intenta: reducir m, aumentar J, o reducir sigma.\n")
+}
+```
+
+**(→ Canvas Pregunta 37):** Reporta UNA combinación de $m$, $J$ y $\sigma$ que logre un MDE menor a $40. ¿Cuáles valores usaste?
+
+a)  $m = 15$, $J = 80$, $\sigma = 120$
+b)  $m = 15$, $J = 80$, $\sigma = 96$
+c)  $m = 40$, $J = 30$, $\sigma = 120$
+d)  $m = 40$, $J = 30$, $\sigma = 80$
+
+**(→ Canvas Pregunta 38):** De las tres "palancas" ($m$, $J$, $\sigma$), ¿cuál tiene el efecto más grande sobre el MDE?
+
+a)  Reducir $m$ (conglomerados más pequeños)
+b)  Aumentar $J$ (más conglomerados)
+c)  Reducir $\sigma$ (menos variabilidad)
+d)  Las tres tienen el mismo efecto
+
+------------------------------------------------------------------------
+
+## Parte 16: El diseño final
+
+Después de analizar costos, logística y poder estadístico, el equipo propone el siguiente diseño:
+
+-   60 municipios ($J = 60$)
+-   20 jóvenes por municipio ($m = 20$)
+-   Medición de salario base para reducir varianza ($\sigma \approx 96$)
+
+```{webr-r}
+# Diseño final propuesto
+J_final     <- 60
+m_final     <- 20
+sigma_final <- 96
+
+N_final    <- J_final * m_final
+DEFF_final <- 1 + (m_final - 1) * rho
+N_ef_final <- N_final / DEFF_final
+MDE_final  <- (z_alpha + z_beta) * sigma_final * sqrt(4 / N_ef_final)
+
+cat("=== Diseño final propuesto ===\n\n")
+cat("Municipios (J):       ", J_final, "\n")
+cat("Jóvenes/municipio (m):", m_final, "\n")
+cat("Sigma:                $", sigma_final, "\n\n", sep = "")
+cat("N total:     ", N_final, "\n")
+cat("DEFF:        ", round(DEFF_final, 2), "\n")
+cat("N efectivo:  ", round(N_ef_final, 0), "\n")
+cat("MDE:         $", round(MDE_final, 1), " USD\n\n", sep = "")
+cat("¿El MDE es menor que el efecto esperado ($40)? ", 
+    ifelse(MDE_final < 40, "Sí", "No"), "\n", sep = "")
+```
+
+**(→ Canvas Pregunta 39):** ¿Este diseño final puede detectar un efecto de $40?
+
+a)  Sí
+b)  No
+
+------------------------------------------------------------------------
+
+# BLOQUE G: Reflexión
+
+**(→ Canvas Pregunta 40):** ¿Cuál de las siguientes afirmaciones es **correcta**?
+
+a)  Si un estudio no rechaza $H_0$, eso prueba que el programa no funciona
+b)  Si un estudio no rechaza $H_0$ pero tenía bajo poder, no podemos concluir si el programa funciona o no
+c)  El poder estadístico solo importa si usamos conglomerados
+d)  Un p-value alto siempre significa que el efecto es cero
+
+**(→ Canvas Pregunta 41):** ¿Por qué es importante calcular el poder **antes** de iniciar el estudio?
+
+a)  Para cumplir un requisito administrativo del gobierno
+b)  Para saber si el diseño tiene capacidad de detectar el efecto esperado y, si no, ajustar el diseño a tiempo
+c)  Porque después del estudio ya no se puede calcular
+d)  Para garantizar que el programa funcione
+
+**(→ Canvas Pregunta 42):** Los conglomerados reducen el poder porque:
+
+a)  Las personas en el mismo grupo se parecen, así que cada nueva observación aporta menos información independiente
+b)  Los municipios son de mala calidad
+c)  La fórmula del MDE tiene un error cuando se usan conglomerados
+d)  El ICC siempre es mayor a 0.50
+
+**(→ Canvas Pregunta 43):** ¿Cuál es la principal estrategia para compensar la pérdida de poder por conglomerados?
+
+a)  Aumentar el número de conglomerados (más municipios)
+b)  Aumentar el tamaño de cada conglomerado (más personas por municipio)
+c)  Usar un nivel de significancia de $\alpha = 0.50$
+d)  No hacer la evaluación
+
+**(→ Canvas Pregunta 44):** ¿Cuál afirmación resume mejor la lección de esta tarea?
+
+a)  Los conglomerados siempre son peores; nunca deben usarse
+b)  Solo importa tener un p-value menor a 0.05; el diseño es secundario
+c)  El poder depende de $N$, $\sigma$, el efecto esperado y la estructura del diseño; un buen evaluador ajusta estos elementos antes de iniciar el estudio
+d)  Un cálculo de poder es innecesario si el programa tiene buena teoría de cambio
+
+------------------------------------------------------------------------
+
+## Fin de la tarea
+
+Verifica que hayas registrado tus **44 respuestas** en Canvas. ¡Éxito!

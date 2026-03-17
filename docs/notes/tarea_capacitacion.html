@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 2: Visualización como Evidencia – David Contreras-Loya</title>
+<title>Tarea 5: Poder Estadístico y Diseño por Conglomerados – David Contreras-Loya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -379,7 +379,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# Simulación de datos educativos\nset.seed(2026)\nn_urbano <- 80\nn_rural <- 40\n\n# Escuelas URBANAS: mayor presupuesto pero más variabilidad\npresup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD\n# Efecto del presupuesto + ruido + efecto fijo urbano\npuntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5\n\n# Escuelas RURALES: menor presupuesto, mayor efecto marginal\npresup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)\n# Efecto más fuerte del presupuesto en contexto rural\npuntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)\n\n# Crear base de datos\nescuelas <- data.frame(\n  id_escuela = 1:(n_urbano + n_rural),\n  presupuesto_anual_kusd = c(presup_urbano, presup_rural),\n  puntaje_prueba = c(puntaje_urbano, puntaje_rural),\n  tipo = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Asegurar que puntajes estén en rango válido\nescuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))\n\n# Vista previa\nhead(escuelas, 10)\ncat(\"\\n📚 Total de escuelas:\", nrow(escuelas), \"\\n\")\ncat(\"   - Urbanas:\", n_urbano, \"\\n\")\ncat(\"   - Rurales:\", n_rural, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Función para calcular estadísticas completas\nresumen_estadistico <- function(x) {\n  c(\n    n = length(x),\n    Media = mean(x),\n    Mediana = median(x),\n    DE = sd(x),\n    Min = min(x),\n    P25 = quantile(x, 0.25),\n    P75 = quantile(x, 0.75),\n    Max = max(x),\n    IQR = IQR(x)\n  )\n}\n\ncat(\"\\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)\n\ncat(\"\\n\\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)\n\n# Tabla comparativa lado a lado\ncat(\"\\n\\n📋 COMPARACIÓN DIRECTA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-25s %12s %12s %12s\\n\", \"Variable\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"───────────────────────────────────────────────────────────\\n\")\n\n# Puntaje promedio\npunt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\npunt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje promedio\", \n            punt_urb, punt_rur, punt_urb - punt_rur))\n\n# Puntaje mediano\nmed_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\nmed_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje mediano\", \n            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))\n\n# Presupuesto promedio\npres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"])\npres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Presupuesto (kUSD)\", \n            pres_urb, pres_rur, pres_urb - pres_rur))\n\n# Dispersión (IQR)\niqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\niqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"IQR Puntaje\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot básico pero informativo\nboxplot(puntaje_prueba ~ tipo, \n        data = escuelas,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Distribución de Puntajes por Tipo de Escuela\",\n        ylab = \"Puntaje en Prueba Estandarizada (0-100)\",\n        xlab = \"Tipo de Escuela\",\n        border = \"gray30\",\n        notch = FALSE,\n        horizontal = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 1.2)\n\n# Agregar línea de referencia: puntaje mínimo aceptable\nabline(h = 60, col = \"orange\", lwd = 2, lty = 2)\ntext(1.5, 62, \"Meta mínima: 60 puntos\", pos = 4, col = \"orange\", cex = 0.9)\n\n# Agregar la media como punto\npoints(c(1, 2), c(punt_urb, punt_rur), \n       pch = 18, col = \"blue\", cex = 2.5)\nlegend(\"bottomright\", \n       legend = c(\"Mediana (línea)\", \"Media (rombo)\"),\n       pch = c(NA, 18),\n       lty = c(1, NA),\n       col = c(\"black\", \"blue\"),\n       bty = \"n\")\n\n# Anotar elementos del boxplot\nmtext(\"Línea central = MEDIANA (hogar típico)\", \n      side = 3, line = -2, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Caja = IQR (50% central de escuelas)\", \n      side = 3, line = -3, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Puntos rojos = Outliers (casos extremos)\", \n      side = 3, line = -4, at = 1, cex = 0.75, col = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Identificar escuelas por cuartil de desempeño\nescuelas$cuartil <- cut(escuelas$puntaje_prueba,\n                        breaks = quantile(escuelas$puntaje_prueba, \n                                         probs = c(0, 0.25, 0.5, 0.75, 1)),\n                        labels = c(\"Q1 (bajo)\", \"Q2\", \"Q3\", \"Q4 (alto)\"),\n                        include.lowest = TRUE)\n\n# Tabla de distribución por cuartil y tipo\ncat(\"\\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ntabla <- table(escuelas$tipo, escuelas$cuartil)\nprint(tabla)\n\ncat(\"\\nProporción por tipo:\\n\")\nprint(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)\n\n# Identificar escuelas con bajo desempeño (bottom 25%)\nescuelas_bajo_desempeno <- escuelas[escuelas$cuartil == \"Q1 (bajo)\", ]\ncat(\"\\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(escuelas_bajo_desempeno), \"escuelas\\n\")\ncat(\"Urbanas:\", sum(escuelas_bajo_desempeno$tipo == \"Urbana\"), \"\\n\")\ncat(\"Rurales:\", sum(escuelas_bajo_desempeno$tipo == \"Rural\"), \"\\n\")\ncat(\"\\nPresupuesto promedio en este grupo: $\", \n    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), \"k USD\\n\")\ncat(\"Puntaje promedio: \", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), \"\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Scatterplot con diferenciación por tipo\nplot(escuelas$presupuesto_anual_kusd, \n     escuelas$puntaje_prueba,\n     pch = ifelse(escuelas$tipo == \"Urbana\", 19, 17),\n     col = ifelse(escuelas$tipo == \"Urbana\", \"#FF6B6B\", \"#4ECDC4\"),\n     cex = 1.3,\n     main = \"Relación Presupuesto-Desempeño por Tipo de Escuela\",\n     xlab = \"Presupuesto Anual por Estudiante (miles USD)\",\n     ylab = \"Puntaje en Prueba Estandarizada\",\n     xlim = c(0, 14),\n     ylim = c(0, 100))\n\n# Líneas de tendencia por grupo\nurbanas <- escuelas[escuelas$tipo == \"Urbana\", ]\nrurales <- escuelas[escuelas$tipo == \"Rural\", ]\n\nmodelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)\nmodelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)\n\nabline(modelo_urb, col = \"#FF6B6B\", lwd = 3)\nabline(modelo_rur, col = \"#4ECDC4\", lwd = 3)\n\n# Línea de meta mínima\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\n# Leyenda\nlegend(\"bottomright\",\n       legend = c(\"Urbana\", \"Rural\", \"Meta (60 pts)\"),\n       pch = c(19, 17, NA),\n       lty = c(1, 1, 2),\n       col = c(\"#FF6B6B\", \"#4ECDC4\", \"orange\"),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Identificar outliers interesantes (alto presupuesto, bajo desempeño)\nbajo_desempeno_alto_presup <- escuelas[\n  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, \n]\n\nif (nrow(bajo_desempeno_alto_presup) > 0) {\n  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n         bajo_desempeno_alto_presup$puntaje_prueba,\n         pch = 1, col = \"red\", cex = 3, lwd = 2)\n  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n       bajo_desempeno_alto_presup$puntaje_prueba,\n       \"Problema\\nde gestión?\",\n       pos = 4, col = \"red\", cex = 0.8)\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Pendiente para escuelas urbanas\nslope_urb <- coef(modelo_urb)[2]\ncat(\"ESCUELAS URBANAS:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_urb, 2), \"puntos\\n\\n\")\n\n# Pendiente para escuelas rurales\nslope_rur <- coef(modelo_rur)[2]\ncat(\"ESCUELAS RURALES:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_rur, 2), \"puntos\\n\\n\")\n\n# Comparación\ndiferencia_slopes <- slope_rur - slope_urb\ncat(\"DIFERENCIA:\\n\")\ncat(\"  Las escuelas rurales tienen un retorno\", \n    round(abs(diferencia_slopes), 2), \"puntos\")\nif (diferencia_slopes > 0) {\n  cat(\" MAYOR por cada $1k USD\\n\")\n  cat(\"  → Invertir en rurales puede ser más eficiente\\n\")\n} else {\n  cat(\" MENOR por cada $1k USD\\n\")\n}\n\n# R² (qué tan bien explica el presupuesto el desempeño)\nr2_urb <- summary(modelo_urb)$r.squared\nr2_rur <- summary(modelo_rur)$r.squared\n\ncat(\"\\n📊 PODER EXPLICATIVO (R²):\\n\")\ncat(\"  Urbanas: El presupuesto explica el\", round(100 * r2_urb, 1), \n    \"% de la variación en puntajes\\n\")\ncat(\"  Rurales: El presupuesto explica el\", round(100 * r2_rur, 1), \n    \"% de la variación en puntajes\\n\\n\")\n\nif (r2_urb < 0.5) {\n  cat(\"⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\\n\")\n  cat(\"   Otros factores son importantes (calidad docente, infraestructura, contexto)\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histogramas superpuestos para comparar distribuciones\npar(mfrow = c(1, 2))\n\n# Urbanas\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"],\n     breaks = 15,\n     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Urbanas\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_urb, col = \"darkred\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"]), \n       col = \"darkred\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkred\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\n# Rurales\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"],\n     breaks = 12,\n     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Rurales\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_rur, col = \"darkblue\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"]), \n       col = \"darkblue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkblue\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\npar(mfrow = c(1, 1))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear categorías de desempeño\nescuelas$categoria_desempeno <- cut(\n  escuelas$puntaje_prueba,\n  breaks = c(0, 50, 70, 85, 100),\n  labels = c(\"Crítico\", \"Bajo\", \"Aceptable\", \"Destacado\"),\n  include.lowest = TRUE\n)\n\ncat(\"\\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Tabla cruzada\ntabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)\nprint(tabla_desempeno)\n\ncat(\"\\n\\nPorcentaje dentro de cada tipo:\\n\")\nprint(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))\n\n# Escuelas en situación crítica\ncriticas <- escuelas[escuelas$categoria_desempeno == \"Crítico\", ]\ncat(\"\\n\\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(criticas), \"escuelas\\n\\n\")\n\nif (nrow(criticas) > 0) {\n  cat(\"Detalle de escuelas críticas:\\n\")\n  print(criticas[, c(\"id_escuela\", \"tipo\", \"puntaje_prueba\", \n                     \"presupuesto_anual_kusd\")])\n  \n  cat(\"\\n  Presupuesto promedio de escuelas críticas: $\",\n      round(mean(criticas$presupuesto_anual_kusd), 2), \"k USD\\n\")\n  cat(\"  ¿Es el presupuesto el problema o hay otros factores?\\n\")\n}","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparemos dos formas de graficar la MISMA información\n\npar(mfrow = c(1, 2))\n\n# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(50, 80),  # NO empieza en 0\n        main = \"¿Enorme diferencia?\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 2, round(punt_urb, 1))\ntext(1.9, punt_rur + 2, round(punt_rur, 1))\n\n# GRÁFICO 2: Eje Y correcto (empieza en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(0, 100),  # Empieza en 0\n        main = \"Diferencia en contexto\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 5, round(punt_urb, 1))\ntext(1.9, punt_rur + 5, round(punt_rur, 1))\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\npar(mfrow = c(1, 1))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\\n\")\ncat(\"  Para: Secretario de Educación\\n\")\ncat(\"  Fecha:\", format(Sys.Date(), \"%d-%m-%Y\"), \"\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. HALLAZGO PRINCIPAL\\n\\n\")\ncat(\"   Las escuelas urbanas tienen en promedio\", round(pres_urb - pres_rur, 1),\n    \"k USD más de presupuesto\\n\")\ncat(\"   pero solo\", round(punt_urb - punt_rur, 1), \n    \"puntos más de desempeño.\\n\\n\")\ncat(\"   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\\n\")\ncat(\"     (\", round(slope_rur, 2), \" vs \", round(slope_urb, 2), \n    \" puntos por kUSD)\\n\\n\")\n\ncat(\"2. ESCUELAS EN RIESGO\\n\\n\")\ncat(\"   •\", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), \n    \"escuelas están por debajo de la meta mínima (60 puntos)\\n\")\ncat(\"   • De estas,\", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == \"Rural\"),\n    \"son rurales\\n\")\ncat(\"   • El\", round(100 * nrow(criticas)/nrow(escuelas), 1),\n    \"% está en situación CRÍTICA (< 50 puntos)\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\\n\")\ncat(\"   • IQR Urbanas:\", round(iqr_urb, 1), \"puntos\\n\")\ncat(\"   • IQR Rurales:\", round(iqr_rur, 1), \"puntos\\n\")\ncat(\"   → Mayor dispersión en\", \n    ifelse(iqr_urb > iqr_rur, \"urbanas\", \"rurales\"), \"\\n\\n\")\n\ncat(\"4. RECOMENDACIONES BASADAS EN EVIDENCIA\\n\\n\")\ncat(\"   a) Priorizar inversión en escuelas rurales de bajo desempeño\\n\")\ncat(\"      (mayor retorno marginal del presupuesto)\\n\\n\")\ncat(\"   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\\n\")\ncat(\"      (posible problema de gestión, no recursos)\\n\\n\")\ncat(\"   c) No usar solo presupuesto como palanca - el R² es\", \n    round(r2_urb, 2), \"\\n\")\ncat(\"      Considerar: capacitación docente, infraestructura, contexto\\n\\n\")\n\ncat(\"5. LIMITACIONES\\n\\n\")\ncat(\"   • Correlación NO implica causalidad\\n\")\ncat(\"   • No controlamos por: nivel socioeconómico, experiencia docente,\\n\")\ncat(\"     infraestructura, tamaño de clase\\n\")\ncat(\"   • Puntaje de prueba es solo un indicador de calidad educativa\\n\")\ncat(\"   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Fijar semilla para reproducibilidad\nset.seed(2026)\n\n# Datos del piloto: 100 control, 100 tratamiento\nn_piloto <- 200\ngrupo <- rep(c(\"Tratamiento\", \"Control\"), each = 100)\n\n# Salario mensual post-programa (en USD)\n# Usamos distribución Gamma (sesgada a la derecha, como salarios reales)\n# Parámetros: media ≈ 350, sd ≈ 120\nforma  <- (350 / 120)^2     # shape ≈ 8.51\nescala <- 120^2 / 350       # scale ≈ 41.1\n\nsalario_base <- rgamma(n_piloto, shape = forma, scale = escala)\n# Efecto real del tratamiento: $40\nsalario <- salario_base + 40 * (grupo == \"Tratamiento\")\nsalario <- round(salario, 2)\n\n# Crear base de datos\npiloto <- data.frame(\n  id = 1:n_piloto,\n  grupo = grupo,\n  salario_usd = salario\n)\n\n# Primeras filas\nhead(piloto)\ncat(\"\\nMínimo salario: $\", min(piloto$salario_usd), \" USD (no hay negativos)\\n\", sep = \"\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histograma de salarios por grupo\npar(mfrow = c(1, 2))\n\nhist(piloto$salario_usd[piloto$grupo == \"Control\"], \n     breaks = 15, col = \"steelblue\", border = \"white\",\n     main = \"Control\", xlab = \"Salario (USD)\", ylab = \"Frecuencia\",\n     xlim = range(piloto$salario_usd))\nabline(v = mean(piloto$salario_usd[piloto$grupo == \"Control\"]), \n       col = \"red\", lwd = 2, lty = 2)\n\nhist(piloto$salario_usd[piloto$grupo == \"Tratamiento\"], \n     breaks = 15, col = \"coral\", border = \"white\",\n     main = \"Tratamiento\", xlab = \"Salario (USD)\", ylab = \"Frecuencia\",\n     xlim = range(piloto$salario_usd))\nabline(v = mean(piloto$salario_usd[piloto$grupo == \"Tratamiento\"]), \n       col = \"red\", lwd = 2, lty = 2)\n\npar(mfrow = c(1, 1))\ncat(\"Línea roja punteada = media de cada grupo\\n\")\ncat(\"Nota: la distribución es asimétrica (sesgada a la derecha).\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simulamos 2,000 muestras de tamaño 100 de la distribución Gamma\nset.seed(42)\nmedias_muestrales <- replicate(2000, mean(rgamma(100, shape = forma, scale = escala)))\n\npar(mfrow = c(1, 2))\n\n# Panel izquierdo: una muestra individual (no normal)\nhist(rgamma(500, shape = forma, scale = escala), breaks = 30, \n     col = \"steelblue\", border = \"white\",\n     main = \"Salarios individuales\\n(una muestra, n=500)\", \n     xlab = \"Salario (USD)\", ylab = \"Frecuencia\")\n\n# Panel derecho: distribución de medias muestrales (aprox. normal)\nhist(medias_muestrales, breaks = 30, \n     col = \"coral\", border = \"white\",\n     main = \"Medias muestrales\\n(2,000 muestras, n=100 c/u)\", \n     xlab = \"Media del salario (USD)\", ylab = \"Frecuencia\")\n\npar(mfrow = c(1, 1))\ncat(\"Izquierda: distribución de salarios individuales → sesgada\\n\")\ncat(\"Derecha:   distribución de promedios muestrales  → ¡aproximadamente normal!\\n\")\ncat(\"\\nEsto es el Teorema del Límite Central.\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Salario promedio por grupo\npromedios <- tapply(piloto$salario_usd, piloto$grupo, mean)\ncat(\"Salario promedio por grupo:\\n\")\ncat(\"  Control:      $\", round(promedios[\"Control\"], 2), \" USD\\n\", sep = \"\")\ncat(\"  Tratamiento:  $\", round(promedios[\"Tratamiento\"], 2), \" USD\\n\", sep = \"\")\ncat(\"  Diferencia:   $\", round(promedios[\"Tratamiento\"] - promedios[\"Control\"], 2), \" USD\\n\", sep = \"\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prueba t de dos muestras independientes\nresultado_t <- t.test(salario_usd ~ grupo, data = piloto)\n\ncat(\"=== Prueba t de diferencia de medias ===\\n\\n\")\ncat(\"Estadístico t: \", round(resultado_t$statistic, 3), \"\\n\")\ncat(\"P-value:       \", round(resultado_t$p.value, 4), \"\\n\")\ncat(\"IC 95%:        [\", round(resultado_t$conf.int[1], 2), \", \",\n    round(resultado_t$conf.int[2], 2), \"]\\n\", sep = \"\")\n\nif (resultado_t$p.value < 0.05) {\n  cat(\"\\nConclusión: Se RECHAZA H0 al 5% de significancia.\\n\")\n} else {\n  cat(\"\\nConclusión: NO se rechaza H0 al 5% de significancia.\\n\")\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular el p-value manualmente usando pt\n# Recuperar el estadístico t y los grados de libertad\nt_obs <- resultado_t$statistic\ngl    <- resultado_t$parameter   # grados de libertad (Welch)\n\ncat(\"=== Cálculo manual del p-value ===\\n\\n\")\ncat(\"Estadístico t observado:  \", round(t_obs, 3), \"\\n\")\ncat(\"Valor absoluto |t|:       \", round(abs(t_obs), 3), \"\\n\")\ncat(\"Grados de libertad:       \", round(gl, 1), \"\\n\\n\")\n\n# Probabilidad de observar un valor TAN extremo o más bajo la H0\n# Paso 1: probabilidad en la cola derecha usando pt()\nprob_cola_derecha <- 1 - pt(abs(t_obs), df = gl)\ncat(\"P(t > |t_obs|) = 1 - pt(\", round(abs(t_obs), 3), \", df = \", \n    round(gl, 1), \") = \", round(prob_cola_derecha, 5), \"\\n\", sep = \"\")\n\n# Paso 2: multiplicar por 2 (prueba bilateral, dos colas)\npvalue_manual <- 2 * prob_cola_derecha\ncat(\"P-value (dos colas) = 2 ×\", round(prob_cola_derecha, 5), \"=\", \n    round(pvalue_manual, 4), \"\\n\\n\")\n\n# Comparar con el p-value de t.test()\ncat(\"P-value de t.test():   \", round(resultado_t$p.value, 4), \"\\n\")\ncat(\"P-value con pt():      \", round(pvalue_manual, 4), \"\\n\")\ncat(\"¡Son idénticos! Ambos usan la distribución t de Student.\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# 🔧 Calcula el p-value para t = -1.5 con df = 198\nt_hipotetico <- -1.5\ngl_hipotetico <- 198\npvalue_hip <- 2 * (1 - pt(abs(t_hipotetico), df = gl_hipotetico))\ncat(\"Con t =\", t_hipotetico, \"y df =\", gl_hipotetico, \":\\n\")\ncat(\"  P-value = 2 × (1 - pt(\", abs(t_hipotetico), \", df = \", \n    gl_hipotetico, \")) = \", round(pvalue_hip, 4), \"\\n\\n\", sep = \"\")\n\nif (pvalue_hip < 0.05) {\n  cat(\"→ Se rechaza H0 al 5%.\\n\")\n} else {\n  cat(\"→ NO se rechaza H0 al 5%.\\n\")\n}","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Valores críticos estándar\nz_alpha <- 1.96   # alfa = 0.05, dos colas\nz_beta  <- 0.84   # poder = 80%\n\n# Desviación estándar del salario en el piloto\nsigma <- sd(piloto$salario_usd)\n\ncat(\"Desviación estándar del salario en el piloto: $\",\n    round(sigma, 2), \" USD\\n\", sep = \"\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# MDE para el piloto (N = 200)\nMDE_piloto <- (z_alpha + z_beta) * sigma * sqrt(4 / 200)\n\ncat(\"MDE del piloto (N = 200): $\", round(MDE_piloto, 2), \" USD\\n\", sep = \"\")\ncat(\"Efecto esperado del programa: $40 USD\\n\")\ncat(\"\\n→ ¿El MDE es mayor o menor que el efecto esperado?\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# MDE para diferentes tamaños de muestra\nN_opciones <- c(200, 300, 500, 1000, 2000, 4000)\nMDE_valores <- (z_alpha + z_beta) * sigma * sqrt(4 / N_opciones)\n\ncat(\"=== MDE para distintos tamaños de muestra ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\n\nfor (i in 1:length(N_opciones)) {\n  cat(\"  N =\", sprintf(\"%5d\", N_opciones[i]),\n      \"  →  MDE = $\", sprintf(\"%5.1f\", MDE_valores[i]),\n      \" USD\\n\", sep = \"\")\n}","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# MDE con N = 1,000 para distintos niveles de variabilidad\nsigma_opciones <- c(120, 100, 80, 60)\n\ncat(\"=== MDE con N = 1,000 para distintos niveles de sigma ===\\n\\n\")\n\nfor (s in sigma_opciones) {\n  mde <- (z_alpha + z_beta) * s * sqrt(4 / 1000)\n  cat(\"  sigma = $\", sprintf(\"%3d\", s),\n      \"  →  MDE = $\", sprintf(\"%5.1f\", mde),\n      \" USD\\n\", sep = \"\")\n}","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# =============================================\n# 🔧 MODIFICA AQUÍ: cambia sigma_nuevo\n# =============================================\nsigma_nuevo <- 120   # <-- prueba diferentes valores\n\nMDE_nuevo <- (z_alpha + z_beta) * sigma_nuevo * sqrt(4 / 500)\n\ncat(\"Con sigma = $\", sigma_nuevo, \" y N = 500:\\n\", sep = \"\")\ncat(\"  MDE = $\", round(MDE_nuevo, 1), \" USD\\n\", sep = \"\")\ncat(\"  Efecto esperado: $40 USD\\n\")\ncat(\"  ¿El MDE es menor que el efecto esperado? \", \n    ifelse(MDE_nuevo < 40, \"Sí\", \"No\"), \"\\n\", sep = \"\")","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 30 municipios, 40 jóvenes por municipio\nset.seed(2026)\n\nn_municipios <- 30\nm <- 40                            # jóvenes por municipio\nN_total <- n_municipios * m        # 1,200 total\n\n# Cada municipio tiene un \"efecto\" propio (economía local, acceso)\nefecto_municipio <- rnorm(n_municipios, mean = 0, sd = 50)\n\n# Construir datos\nmunicipio_id <- rep(1:n_municipios, each = m)\nefecto_m     <- rep(efecto_municipio, each = m)\n\n# Salarios individuales con distribución Gamma (sesgada, sin negativos)\nsalario_indiv <- rgamma(N_total, shape = forma, scale = escala)\n\n# Salario = salario individual + efecto del municipio\nsalario_cluster <- round(salario_indiv + efecto_m, 2)\n\ndatos_cl <- data.frame(\n  municipio = municipio_id,\n  salario_usd = salario_cluster\n)\n\ncat(\"Datos simulados: \", N_total, \" jóvenes en \", n_municipios, \" municipios\\n\", sep = \"\")\nhead(datos_cl, 10)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ANOVA para descomponer la varianza\nanova_res <- aov(salario_usd ~ factor(municipio), data = datos_cl)\ntabla <- summary(anova_res)[[1]]\n\n# Cuadrados medios\nCM_entre  <- tabla$\"Mean Sq\"[1]   # entre municipios\nCM_dentro <- tabla$\"Mean Sq\"[2]   # dentro de municipios\n\n# Fórmula del ICC\nICC <- (CM_entre - CM_dentro) / (CM_entre + (m - 1) * CM_dentro)\n\ncat(\"=== Estimación del ICC ===\\n\\n\")\ncat(\"Cuadrado medio entre municipios:  \", round(CM_entre, 2), \"\\n\")\ncat(\"Cuadrado medio dentro de municipios: \", round(CM_dentro, 2), \"\\n\")\ncat(\"\\nICC (rho) = \", round(ICC, 3), \"\\n\", sep = \"\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Guardar el ICC\nrho <- round(ICC, 3)\n\n# DEFF con m = 40\nDEFF <- 1 + (m - 1) * rho\n\ncat(\"=== Efecto de Diseño ===\\n\\n\")\ncat(\"ICC (rho):  \", rho, \"\\n\")\ncat(\"Jóvenes por municipio (m):  \", m, \"\\n\")\ncat(\"DEFF = 1 + (\", m, \" - 1) x \", rho, \" = \", round(DEFF, 2), \"\\n\\n\", sep = \"\")\n\n# N efectivo\nN_efectivo <- N_total / DEFF\ncat(\"N total:     \", N_total, \"\\n\")\ncat(\"N efectivo:  \", round(N_efectivo, 0), \"\\n\\n\")\ncat(\"→ Las \", N_total, \" observaciones en conglomerados equivalen a\\n\",\n    \"  \", round(N_efectivo, 0), \" observaciones independientes.\\n\", sep = \"\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# MDE individual (N = 1,200)\nMDE_individual <- (z_alpha + z_beta) * sigma * sqrt(4 / N_total)\n\n# MDE con conglomerados\nMDE_cluster <- (z_alpha + z_beta) * sigma * sqrt(4 / N_efectivo)\n\ncat(\"=== Comparación: MDE individual vs. conglomerados ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\"                    Individual   Conglomerados\\n\")\ncat(\"N total:         \", sprintf(\"%8d\", N_total), sprintf(\"%14d\", N_total), \"\\n\")\ncat(\"N efectivo:      \", sprintf(\"%8d\", N_total), sprintf(\"%14d\", round(N_efectivo, 0)), \"\\n\")\ncat(\"MDE (USD):       \", sprintf(\"%8.1f\", MDE_individual), sprintf(\"%14.1f\", MDE_cluster), \"\\n\")","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tabla: variar m manteniendo N = 1,200\nm_opciones <- c(10, 20, 40, 60, 120)\n\ncat(\"=== Variar jóvenes por municipio (N fijo = 1,200) ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\" m   Municipios  DEFF   N_ef   MDE\\n\")\ncat(\"---  ----------  -----  -----  ------\\n\")\n\nfor (mi in m_opciones) {\n  di <- 1 + (mi - 1) * rho\n  nei <- N_total / di\n  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)\n  cat(sprintf(\"%3d  %10d  %5.2f  %5d  $%5.1f\\n\",\n      mi, N_total / mi, di, round(nei), mdei))\n}","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# =============================================\n# 🔧 MODIFICA AQUÍ: cambia m_elegido\n# =============================================\nm_elegido <- 40   # <-- cámbialo a 10\n\n# Recalcular\nDEFF_nuevo <- 1 + (m_elegido - 1) * rho\nN_ef_nuevo <- N_total / DEFF_nuevo\nMDE_nuevo  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_nuevo)\n\ncat(\"=== Diseño con m = \", m_elegido, \" ===\\n\\n\", sep = \"\")\ncat(\"Jóvenes por municipio (m):  \", m_elegido, \"\\n\")\ncat(\"Número de municipios (J):   \", N_total / m_elegido, \"\\n\")\ncat(\"DEFF:                       \", round(DEFF_nuevo, 2), \"\\n\")\ncat(\"N efectivo:                 \", round(N_ef_nuevo, 0), \"\\n\")\ncat(\"MDE:                        $\", round(MDE_nuevo, 1), \" USD\\n\", sep = \"\")","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Variar el número de municipios (manteniendo m = 40 fijo)\nJ_opciones <- c(30, 50, 80)\n\ncat(\"=== Variar número de municipios (m fijo = 40) ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\"  J     N     DEFF   N_ef   MDE\\n\")\ncat(\"----  -----  -----  -----  ------\\n\")\n\nfor (ji in J_opciones) {\n  ni <- ji * 40\n  di <- 1 + (40 - 1) * rho\n  nei <- ni / di\n  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)\n  cat(sprintf(\"%4d  %5d  %5.2f  %5d  $%5.1f\\n\",\n      ji, ni, di, round(nei), mdei))\n}","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Sensibilidad al ICC (con m = 40, N = 1,200)\nrho_opciones <- c(0.01, 0.05, 0.10, 0.20)\n\ncat(\"=== Sensibilidad al ICC (m = 40, N = 1,200) ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\"  ICC   DEFF   N_ef   MDE\\n\")\ncat(\"-----  -----  -----  ------\\n\")\n\nfor (ri in rho_opciones) {\n  di <- 1 + (40 - 1) * ri\n  nei <- 1200 / di\n  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)\n  cat(sprintf(\"%5.2f  %5.2f  %5d  $%5.1f\\n\",\n      ri, di, round(nei), mdei))\n}","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# =============================================\n# 🔧 MODIFICA AQUÍ: cambia rho_prueba\n# Primero usa 0.01, anota el resultado.\n# Luego cámbialo a 0.20 y ejecuta de nuevo.\n# =============================================\nrho_prueba <- 0.01   # <-- cambia a 0.20 después\n\nDEFF_prueba <- 1 + (40 - 1) * rho_prueba\nN_ef_prueba <- 1200 / DEFF_prueba\nMDE_prueba  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_prueba)\n\ncat(\"=== Con ICC = \", rho_prueba, \" ===\\n\\n\", sep = \"\")\ncat(\"DEFF:        \", round(DEFF_prueba, 2), \"\\n\")\ncat(\"N efectivo:  \", round(N_ef_prueba, 0), \"\\n\")\ncat(\"MDE:         $\", round(MDE_prueba, 1), \" USD\\n\", sep = \"\")","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Diseño óptimo con restricción de presupuesto\npresupuesto <- 40000\ncosto_fijo  <- 400    # por municipio\ncosto_var   <- 16     # por joven\n\nm_opciones_pres <- c(10, 20, 30, 40, 50)\n\ncat(\"=== Diseño óptimo con presupuesto de $40,000 USD ===\\n\")\ncat(\"(Costo: $400/municipio + $16/joven)\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\"  m    J      N     Costo     DEFF   N_ef   MDE\\n\")\ncat(\"----  ---  -----  --------  -----  -----  ------\\n\")\n\nfor (mi in m_opciones_pres) {\n  ji <- floor(presupuesto / (costo_fijo + costo_var * mi))\n  ni <- ji * mi\n  costo <- ji * (costo_fijo + costo_var * mi)\n  di <- 1 + (mi - 1) * rho\n  nei <- ni / di\n  mdei <- (z_alpha + z_beta) * sigma * sqrt(4 / nei)\n  cat(sprintf(\"%4d  %3d  %5d  $%7s  %5.2f  %5d  $%5.1f\\n\",\n      mi, ji, ni, format(costo, big.mark = \",\"), di, round(nei), mdei))\n}","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Diseño A: aleatorización individual (N = 1,200)\nMDE_A <- (z_alpha + z_beta) * sigma * sqrt(4 / 1200)\n\n# Diseño B: conglomerados, 20 jóvenes por municipio, 60 municipios\nm_B    <- 20\nDEFF_B <- 1 + (m_B - 1) * rho\nN_ef_B <- 1200 / DEFF_B\nMDE_B  <- (z_alpha + z_beta) * sigma * sqrt(4 / N_ef_B)\n\ncat(\"=== Comparación de diseños (N = 1,200) ===\\n\")\ncat(\"(Efecto esperado: $40 USD)\\n\\n\")\ncat(\"                        Diseño A         Diseño B\\n\")\ncat(\"                       Individual    Conglomerados\\n\")\ncat(\"                                      (m=20, J=60)\\n\")\ncat(\"---------------------------------------------------\\n\")\ncat(\"DEFF:              \", sprintf(\"%8.2f\", 1.00), sprintf(\"%14.2f\", DEFF_B), \"\\n\")\ncat(\"N efectivo:        \", sprintf(\"%8d\", 1200), sprintf(\"%14d\", round(N_ef_B, 0)), \"\\n\")\ncat(\"MDE (USD):         \", sprintf(\"%7.1f\", MDE_A), sprintf(\"%14.1f\", MDE_B), \"\\n\")","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# =============================================\n# 🔧 MODIFICA ESTOS TRES VALORES:\n# =============================================\nmi_m     <- 40     # jóvenes por municipio (prueba: 15, 20, 30)\nmi_J     <- 30     # número de municipios  (prueba: 50, 60, 80)\nmi_sigma <- 120    # desv. estándar        (prueba: 96, 80)\n\n# --- No modifiques debajo de esta línea ---\n\nmi_N    <- mi_m * mi_J\nmi_DEFF <- 1 + (mi_m - 1) * rho\nmi_N_ef <- mi_N / mi_DEFF\nmi_MDE  <- (z_alpha + z_beta) * mi_sigma * sqrt(4 / mi_N_ef)\n\ncat(\"=== Tu diseño ===\\n\\n\")\ncat(\"Jóvenes por municipio (m):   \", mi_m, \"\\n\")\ncat(\"Número de municipios (J):    \", mi_J, \"\\n\")\ncat(\"Desviación estándar (sigma): $\", mi_sigma, \"\\n\\n\", sep = \"\")\ncat(\"N total:     \", mi_N, \"\\n\")\ncat(\"DEFF:        \", round(mi_DEFF, 2), \"\\n\")\ncat(\"N efectivo:  \", round(mi_N_ef, 0), \"\\n\")\ncat(\"MDE:         $\", round(mi_MDE, 1), \" USD\\n\\n\", sep = \"\")\n\ncat(\"¿El MDE es menor que el efecto esperado ($40)? \", \n    ifelse(mi_MDE < 40, \"Sí\", \"No\"), \"\\n\", sep = \"\")\nif (mi_MDE >= 40) {\n  cat(\"Intenta: reducir m, aumentar J, o reducir sigma.\\n\")\n}","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Diseño final propuesto\nJ_final     <- 60\nm_final     <- 20\nsigma_final <- 96\n\nN_final    <- J_final * m_final\nDEFF_final <- 1 + (m_final - 1) * rho\nN_ef_final <- N_final / DEFF_final\nMDE_final  <- (z_alpha + z_beta) * sigma_final * sqrt(4 / N_ef_final)\n\ncat(\"=== Diseño final propuesto ===\\n\\n\")\ncat(\"Municipios (J):       \", J_final, \"\\n\")\ncat(\"Jóvenes/municipio (m):\", m_final, \"\\n\")\ncat(\"Sigma:                $\", sigma_final, \"\\n\\n\", sep = \"\")\ncat(\"N total:     \", N_final, \"\\n\")\ncat(\"DEFF:        \", round(DEFF_final, 2), \"\\n\")\ncat(\"N efectivo:  \", round(N_ef_final, 0), \"\\n\")\ncat(\"MDE:         $\", round(MDE_final, 1), \" USD\\n\\n\", sep = \"\")\ncat(\"¿El MDE es menor que el efecto esperado ($40)? \", \n    ifelse(MDE_final < 40, \"Sí\", \"No\"), \"\\n\", sep = \"\")","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1633,6 +1633,35 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
@@ -1701,6 +1730,11 @@ globalThis.qwebrExecuteCode = async function (
  <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Tareas</li>
+        <li>
+    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+ <span class="dropdown-text">Tareas integradora</span></a>
+  </li>  
         <li class="dropdown-header">Sesiones de clase (10)</li>
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
@@ -2077,7 +2111,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 2: Visualización como Evidencia</h1>
+<h1 class="title">Tarea 5: Poder Estadístico y Diseño por Conglomerados</h1>
+<p class="subtitle lead">Métodos Cuantitativos para Políticas Públicas — Primavera 2026</p>
 </div>
 
 
@@ -2094,185 +2129,478 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="caso-de-política-pública" class="level1">
-<h1>Caso de Política Pública</h1>
-<p>El <strong>Secretario de Educación</strong> debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)</p>
-<p><strong>Tu tarea:</strong> Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?</p>
-<p><strong>Regla de oro:</strong> Un gráfico en política pública no es decoración; es un argumento basado en evidencia.</p>
+<section id="instrucciones-generales" class="level2">
+<h2 class="anchored" data-anchor-id="instrucciones-generales">Instrucciones generales</h2>
+<ul>
+<li><strong>Trabajo individual.</strong> Tiempo estimado: 90 minutos.</li>
+<li>Ejecuta cada bloque de código <strong>en orden</strong> con el botón ▶ Run Code.</li>
+<li>Algunos bloques requieren que <strong>modifiques un valor</strong> antes de ejecutar. Estas instrucciones están marcadas con 🔧.</li>
+<li>Cuando veas <strong>(→ Canvas Pregunta X)</strong>, registra tu respuesta en Canvas.</li>
+</ul>
 <hr>
 </section>
-<section id="parte-1-simulación-y-carga-de-datos" class="level1">
-<h1>Parte 1: Simulación y Carga de Datos</h1>
+<section id="contexto" class="level2">
+<h2 class="anchored" data-anchor-id="contexto">Contexto</h2>
+<p>El Ministerio de Trabajo de El Salvador planea implementar <strong>EmpleoJoven</strong>, un programa de capacitación laboral dirigido a jóvenes de 18 a 29 años (curso intensivo de 12 semanas en habilidades técnicas y socioemocionales). Antes de lanzar el programa a escala nacional, el equipo de evaluación necesita <strong>diseñar la evaluación de impacto</strong>: ¿cuántas personas reclutar? ¿Cómo asignar el tratamiento?</p>
+<p>Un estudio previo sugiere que el efecto esperado del programa es de <strong>$40 USD mensuales</strong> en el salario de los participantes.</p>
+<p>Tu trabajo es ayudar al equipo a tomar estas decisiones usando conceptos de <strong>poder estadístico</strong> y <strong>aleatorización por conglomerados</strong>.</p>
+<hr>
+</section>
+<section id="bloque-a-el-piloto-y-sus-limitaciones" class="level1">
+<h1>BLOQUE A: El piloto y sus limitaciones</h1>
+<section id="parte-1-datos-del-piloto" class="level2">
+<h2 class="anchored" data-anchor-id="parte-1-datos-del-piloto">Parte 1: Datos del piloto</h2>
+<p>Se realizó un piloto pequeño en el municipio de Soyapango con 200 jóvenes (100 tratamiento, 100 control).</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="parte-2-estadísticas-descriptivas-por-tipo" class="level1">
-<h1>Parte 2: Estadísticas Descriptivas por Tipo</h1>
+<section id="la-distribución-de-los-salarios" class="level3">
+<h3 class="anchored" data-anchor-id="la-distribución-de-los-salarios">La distribución de los salarios</h3>
+<p>Los salarios no siguen una distribución normal — están <strong>sesgados a la derecha</strong> (unos pocos jóvenes ganan mucho más que el resto). Esto es típico de variables de ingreso.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de reflexión:</strong> ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?</p>
-<hr>
+<p><strong>(→ Canvas Pregunta 1):</strong> Observa los histogramas. La distribución de los salarios individuales es:</p>
+<ol type="a">
+<li>Simétrica (forma de campana)</li>
+<li>Sesgada a la derecha (cola larga hacia salarios altos)</li>
+<li>Sesgada a la izquierda</li>
+<li>Uniforme</li>
+</ol>
 </section>
-<section id="parte-3-visualización-esencial---el-boxplot" class="level1">
-<h1>Parte 3: Visualización Esencial - El Boxplot</h1>
-<p><strong>¿Por qué boxplot?</strong> Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente</p>
+<section id="el-teorema-del-límite-central-en-acción" class="level3">
+<h3 class="anchored" data-anchor-id="el-teorema-del-límite-central-en-acción">El Teorema del Límite Central en acción</h3>
+<p>Aunque los salarios individuales <strong>no</strong> son normales, el <strong>Teorema del Límite Central</strong> nos dice que la distribución de las <em>medias muestrales</em> sí se aproxima a una normal. Verifiquemos esto con una simulación.</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Interpreta el boxplot:</strong> 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?</p>
-<hr>
-</section>
-<section id="parte-4-análisis-de-dispersión-y-desigualdad" class="level1">
-<h1>Parte 4: Análisis de Dispersión y Desigualdad</h1>
+<p><strong>(→ Canvas Pregunta 2):</strong> ¿Qué nos permite el Teorema del Límite Central en este contexto?</p>
+<ol type="a">
+<li>Garantiza que los salarios individuales sean normales</li>
+<li>Permite usar la prueba t (que asume normalidad de las medias) aunque los salarios individuales sean sesgados, porque con n=100 la media muestral se distribuye aproximadamente normal</li>
+<li>Solo funciona si los datos originales son simétricos</li>
+<li>Requiere que el tamaño de muestra sea mayor a 1,000</li>
+</ol>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="parte-5-scatterplot---relación-presupuesto-desempeño" class="level1">
-<h1>Parte 5: Scatterplot - Relación Presupuesto-Desempeño</h1>
+<p><strong>(→ Canvas Pregunta 3):</strong> ¿Cuál es la diferencia de medias (Tratamiento − Control), redondeada al dólar?</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Análisis del scatterplot:</strong> 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)</p>
-<hr>
+<p><strong>(→ Canvas Pregunta 4):</strong> ¿Cuál es el p-value? Selecciona el rango correcto.</p>
+<ol type="a">
+<li>Menor a 0.01</li>
+<li>Entre 0.01 y 0.05</li>
+<li>Entre 0.05 y 0.10</li>
+<li>Mayor a 0.10</li>
+</ol>
 </section>
-<section id="parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="level1">
-<h1>Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</h1>
+<section id="de-la-prueba-t-al-valor-p-con-pt" class="level3">
+<h3 class="anchored" data-anchor-id="de-la-prueba-t-al-valor-p-con-pt">De la prueba t al valor p con <code>pt</code></h3>
+<p>La función <code>t.test()</code> nos dio el estadístico t y el p-value directamente. Pero, ¿de dónde sale ese p-value? El valor p se calcula a partir de la <strong>distribución acumulada</strong> del estadístico de prueba. Bajo <span class="math inline">\(H_0\)</span>, el estadístico t sigue una distribución <span class="math inline">\(t\)</span> de Student con ciertos grados de libertad. La función <code>pt()</code> nos da la probabilidad acumulada de esa distribución.</p>
+<p>Recuerda: para una prueba <strong>bilateral</strong> (dos colas), el p-value es <span class="math inline">\(2 \times P(t &gt; |t_{obs}|) = 2 \times (1 - F_t(|t_{obs}|))\)</span>, donde <span class="math inline">\(F_t\)</span> es la CDF de la distribución <span class="math inline">\(t\)</span>.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Importante:</strong> Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto <em>cause</em> mejor desempeño.</p>
-<hr>
-</section>
-<section id="parte-7-histograma-de-presupuesto" class="level1">
-<h1>Parte 7: Histograma de Presupuesto</h1>
+<p><strong>(→ Canvas Pregunta 5):</strong> En la fórmula <code>2 * (1 - pt(abs(t), df))</code>, ¿por qué multiplicamos por 2?</p>
+<ol type="a">
+<li>Porque siempre se multiplica por 2 en estadística</li>
+<li>Porque es una prueba bilateral: el efecto podría ser positivo o negativo, y debemos considerar ambas colas</li>
+<li>Porque hay dos grupos (tratamiento y control)</li>
+<li>Porque la distribución t tiene dos mitades</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 6):</strong> Si el estadístico t fuera <span class="math inline">\(t = -1.5\)</span> con <span class="math inline">\(df = 198\)</span>, ¿cuál sería el p-value aproximado? Usa la lógica: <code>2 * (1 - pt(1.5, df = 198))</code>.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta:</strong> ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?</p>
+<ol type="a">
+<li>Aproximadamente 0.14 — NO se rechaza <span class="math inline">\(H_0\)</span></li>
+<li>Aproximadamente 0.07 — NO se rechaza <span class="math inline">\(H_0\)</span></li>
+<li>Aproximadamente 0.03 — Sí se rechaza <span class="math inline">\(H_0\)</span></li>
+<li>Aproximadamente 0.01 — Sí se rechaza <span class="math inline">\(H_0\)</span></li>
+</ol>
 <hr>
 </section>
-<section id="parte-8-tabla-de-rendición-de-cuentas" class="level1">
-<h1>Parte 8: Tabla de Rendición de Cuentas</h1>
+</section>
+<section id="parte-2-por-qué-importa-el-poder-estadístico" class="level2">
+<h2 class="anchored" data-anchor-id="parte-2-por-qué-importa-el-poder-estadístico">Parte 2: ¿Por qué importa el poder estadístico?</h2>
+<p>El <strong>poder estadístico</strong> es la probabilidad de detectar un efecto cuando este realmente existe:</p>
+<p><span class="math display">\[\text{Poder} = P(\text{rechazar } H_0 \mid H_0 \text{ es falsa}) = 1 - \beta\]</span></p>
+<p>Un estudio con bajo poder puede <strong>no encontrar</strong> un efecto real — no porque el programa no funcione, sino porque el estudio no fue diseñado para detectarlo.</p>
+<p><strong>(→ Canvas Pregunta 7):</strong> Si un estudio tiene poder de 60%, ¿qué significa?</p>
+<ol type="a">
+<li>El programa funciona 60% de las veces</li>
+<li>Hay 60% de probabilidad de que <span class="math inline">\(H_0\)</span> sea falsa</li>
+<li>Si el efecto existe, hay 60% de probabilidad de detectarlo (rechazar <span class="math inline">\(H_0\)</span>)</li>
+<li>El 60% de los participantes se benefician</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 8):</strong> Un error de Tipo II ocurre cuando:</p>
+<ol type="a">
+<li>Rechazamos <span class="math inline">\(H_0\)</span> cuando es verdadera (falso positivo)</li>
+<li>No rechazamos <span class="math inline">\(H_0\)</span> cuando es falsa (falso negativo)</li>
+<li>El p-value es exactamente 0.05</li>
+<li>El intervalo de confianza incluye el cero por error de cálculo</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="bloque-b-efecto-mínimo-detectable-mde" class="level1">
+<h1>BLOQUE B: Efecto Mínimo Detectable (MDE)</h1>
+<section id="parte-3-la-fórmula-del-mde" class="level2">
+<h2 class="anchored" data-anchor-id="parte-3-la-fórmula-del-mde">Parte 3: La fórmula del MDE</h2>
+<p>El <strong>Efecto Mínimo Detectable</strong> es el efecto más pequeño que un diseño puede detectar con cierto nivel de poder. Para un experimento con dos grupos iguales:</p>
+<p><span class="math display">\[MDE = (z_{\alpha/2} + z_{\beta}) \times \sigma \times \sqrt{\frac{4}{N}}\]</span></p>
+<p>donde <span class="math inline">\(z_{\alpha/2} = 1.96\)</span> (para <span class="math inline">\(\alpha = 0.05\)</span>) y <span class="math inline">\(z_{\beta} = 0.84\)</span> (para poder = 80%).</p>
+<p>Los ingredientes son: el nivel de significancia (<span class="math inline">\(\alpha\)</span>), el poder deseado (<span class="math inline">\(1-\beta\)</span>), la variabilidad del outcome (<span class="math inline">\(\sigma\)</span>) y el tamaño de muestra (<span class="math inline">\(N\)</span>).</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="parte-9-auditoría-de-gráficos-engañosos" class="level1">
-<h1>Parte 9: Auditoría de Gráficos Engañosos</h1>
-<p><strong>Ejercicio de lectura crítica:</strong> Imagina que ves este titular en un reporte:</p>
-<blockquote class="blockquote">
-<p>“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”</p>
-</blockquote>
+<p><strong>(→ Canvas Pregunta 9):</strong> ¿Cuál es la desviación estándar del salario en el piloto? (al dólar)</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta crítica:</strong> - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?</p>
-<p><strong>Reglas de auditoría de gráficos:</strong> 1. ✅ <strong>Eje Y empieza en 0</strong> (para barras) 2. ✅ <strong>Denominador claro</strong> (¿por estudiante? ¿por escuela?) 3. ✅ <strong>Población y periodo especificados</strong> 4. ✅ <strong>Muestra dispersión</strong> (no solo promedios) 5. ✅ <strong>Declara limitaciones</strong></p>
+<p><strong>(→ Canvas Pregunta 10):</strong> ¿Cuál es el MDE del piloto? (al dólar)</p>
+<p><strong>(→ Canvas Pregunta 11):</strong> El efecto esperado es $40 USD. Comparando con el MDE:</p>
+<ol type="a">
+<li>El MDE es menor que $40: el piloto sí podía detectar el efecto</li>
+<li>El MDE es mayor que $40: el piloto NO podía detectar un efecto de esa magnitud</li>
+</ol>
 <hr>
 </section>
-<section id="parte-10-memo-ejecutivo-con-visualización" class="level1">
-<h1>Parte 10: Memo Ejecutivo con Visualización</h1>
+<section id="parte-4-mde-y-tamaño-de-muestra" class="level2">
+<h2 class="anchored" data-anchor-id="parte-4-mde-y-tamaño-de-muestra">Parte 4: MDE y tamaño de muestra</h2>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="ejercicio-individual-entregable" class="level1">
-<h1>Ejercicio Individual (Entregable)</h1>
-<p><strong>Parte A: Crear Visualizaciones</strong></p>
-<ol type="1">
-<li><strong>Boxplot comparativo:</strong>
-<ul>
-<li>Grafica presupuesto_anual_kusd ~ tipo</li>
-<li>Incluye título-conclusión (máximo 18 palabras)</li>
-<li>Identifica outliers y explica qué pueden representar</li>
-</ul></li>
-<li><strong>Scatterplot con segmentación:</strong>
-<ul>
-<li>Eje X: presupuesto, Eje Y: puntaje</li>
-<li>Colorea puntos por tipo</li>
-<li>Agrega líneas de tendencia</li>
-<li>Marca escuelas con puntaje &lt; 50 (círculos rojos)</li>
-</ul></li>
+<p><strong>(→ Canvas Pregunta 12):</strong> ¿Cuál es el N mínimo (de las opciones) para que el MDE sea menor a $40?</p>
+<ol type="a">
+<li>200</li>
+<li>500</li>
+<li>1,000</li>
+<li>2,000</li>
 </ol>
-<p><strong>Parte B: Análisis Escrito</strong></p>
-<ol start="3" type="1">
-<li><strong>Tabla de análisis:</strong> Crea una tabla con 3 columnas:
-<ul>
-<li>Tipo de gráfico (Histograma, Boxplot, Scatterplot)</li>
-<li>Pregunta que responde mejor</li>
-<li>Limitación principal</li>
-</ul></li>
-<li><strong>Ejercicio de lectura crítica:</strong> Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
-<ul>
-<li>¿Cumple las 5 reglas de auditoría?</li>
-<li>¿Hay algo engañoso en la presentación?</li>
-<li>¿Qué mejorarías?</li>
-</ul></li>
+<p><strong>(→ Canvas Pregunta 13):</strong> Observa: cuando N pasa de 500 a 2,000 (se cuadruplica), el MDE:</p>
+<ol type="a">
+<li>Se reduce a la cuarta parte</li>
+<li>Se reduce a la mitad</li>
+<li>Se reduce, pero menos que a la mitad</li>
+<li>No cambia</li>
 </ol>
-<p><strong>Parte C: Recomendación Estratégica</strong></p>
-<ol start="5" type="1">
-<li><strong>Escribe 6 líneas respondiendo:</strong>
-<ul>
-<li>Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?</li>
-<li>¿Usas criterio de presupuesto, desempeño, tipo, o combinación?</li>
-<li>Incluye 1 limitación de tu propuesta</li>
-</ul></li>
+<p><strong>(→ Canvas Pregunta 14):</strong> Esto ocurre porque en la fórmula del MDE, <span class="math inline">\(N\)</span> aparece dentro de una raíz cuadrada. Para reducir el MDE a la mitad, necesitamos multiplicar <span class="math inline">\(N\)</span> por:</p>
+<ol type="a">
+<li>2</li>
+<li>4</li>
+<li>8</li>
+<li>10</li>
 </ol>
 <hr>
 </section>
-<section id="preguntas-de-discusión" class="level1">
-<h1>Preguntas de Discusión</h1>
-<ol type="1">
-<li><strong>La Trampa del Promedio Revisitada:</strong>
-<ul>
-<li>¿Por qué un gráfico de solo promedios puede ser engañoso?</li>
-<li>¿Qué se pierde cuando no mostramos dispersión?</li>
-</ul></li>
-<li><strong>Escalas Visuales:</strong>
-<ul>
-<li>¿Cuándo es legítimo NO empezar el eje Y en cero?</li>
-<li>¿Qué riesgos tiene manipular las escalas?</li>
-</ul></li>
-<li><strong>Denominadores:</strong>
-<ul>
-<li>¿Deberíamos graficar presupuesto total o por estudiante?</li>
-<li>¿Puntaje promedio de escuela o distribución completa?</li>
-</ul></li>
-<li><strong>Outliers:</strong>
-<ul>
-<li>¿Los outliers son errores o información valiosa?</li>
-<li>¿Cuándo deberías investigar un outlier vs.&nbsp;eliminarlo?</li>
-</ul></li>
+<section id="parte-5-qué-pasa-si-reducimos-la-variabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="parte-5-qué-pasa-si-reducimos-la-variabilidad">Parte 5: ¿Qué pasa si reducimos la variabilidad?</h2>
+<p>El equipo propone medir el <strong>salario base</strong> antes del programa y usarlo como variable de control. Esto reduciría la varianza residual del outcome. ¿Cuánto ayudaría?</p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 15):</strong> Si la desviación estándar se reduce de $120 a $80 (controlando por salario previo), ¿cuál es el nuevo MDE con N = 1,000? (al dólar)</p>
+<p><strong>(→ Canvas Pregunta 16):</strong> Reducir <span class="math inline">\(\sigma\)</span> de $120 a $80 tiene un efecto sobre el MDE equivalente a:</p>
+<ol type="a">
+<li>Reducir la variabilidad es irrelevante; solo importa el tamaño de muestra</li>
+<li>Es como multiplicar el tamaño de muestra, porque <span class="math inline">\(\sigma\)</span> entra linealmente en la fórmula</li>
+<li>Solo ayuda si el efecto del programa también cambia</li>
+</ol>
+<p>🔧 <strong>Instrucción:</strong> En el siguiente bloque, modifica el valor de <code>sigma_nuevo</code> para encontrar la desviación estándar <strong>máxima</strong> que permitiría detectar un efecto de $40 con solo N = 500. Prueba distintos valores hasta que el MDE quede justo por debajo de $40.</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 17):</strong> ¿Cuál es (aproximadamente) la <span class="math inline">\(\sigma\)</span> máxima para detectar un efecto de $40 con N = 500?</p>
+<ol type="a">
+<li>Alrededor de $80</li>
+<li>Alrededor de $160</li>
+<li>Alrededor de $240</li>
+<li>Alrededor de $320</li>
 </ol>
 <hr>
 </section>
-<section id="recursos-adicionales" class="level1">
-<h1>Recursos Adicionales</h1>
-<p><strong>Principios de visualización efectiva:</strong></p>
-<ol type="1">
-<li><strong>Claridad sobre estética:</strong> El gráfico debe comunicar, no impresionar</li>
-<li><strong>Honestidad visual:</strong> Escalas apropiadas, contexto completo</li>
-<li><strong>Dispersión importa:</strong> No solo promedios</li>
-<li><strong>Comparaciones justas:</strong> Mismo denominador, misma escala</li>
-<li><strong>Contexto siempre:</strong> Población, periodo, fuente, limitaciones</li>
+</section>
+<section id="bloque-c-aleatorización-por-conglomerados" class="level1">
+<h1>BLOQUE C: Aleatorización por conglomerados</h1>
+<section id="parte-6-por-qué-conglomerados" class="level2">
+<h2 class="anchored" data-anchor-id="parte-6-por-qué-conglomerados">Parte 6: ¿Por qué conglomerados?</h2>
+<p>EmpleoJoven se ofrecerá a través de <strong>casas comunales municipales</strong>. Por razones logísticas, todos los jóvenes de un mismo municipio reciben (o no) la capacitación. Esto se llama <strong>aleatorización por conglomerados</strong> (<em>cluster randomization</em>).</p>
+<p>El problema: las personas dentro del mismo municipio tienden a parecerse (misma zona geográfica, condiciones económicas similares). Esto reduce la información independiente que aporta cada observación adicional dentro del mismo conglomerado.</p>
+<p><strong>(→ Canvas Pregunta 18):</strong> ¿Cuál es la razón principal para aleatorizar por conglomerados?</p>
+<ol type="a">
+<li>Es estadísticamente más eficiente</li>
+<li>Razones logísticas: el programa se implementa por municipio, no por persona</li>
+<li>Produce estimaciones más precisas</li>
+<li>Permite usar muestras más pequeñas</li>
 </ol>
-<p><strong>Tipos de gráficos y cuándo usarlos:</strong></p>
+<hr>
+</section>
+<section id="parte-7-correlación-intraconglomerado-icc" class="level2">
+<h2 class="anchored" data-anchor-id="parte-7-correlación-intraconglomerado-icc">Parte 7: Correlación Intraconglomerado (ICC)</h2>
+<p>El <strong>ICC</strong> (<span class="math inline">\(\rho\)</span>) mide qué tan parecidas son las personas dentro del mismo conglomerado.</p>
 <ul>
-<li><strong>Histograma:</strong> Ver forma de distribución (asimetría, modas)</li>
-<li><strong>Boxplot:</strong> Comparar grupos, detectar outliers</li>
-<li><strong>Scatterplot:</strong> Explorar relaciones entre dos variables</li>
-<li><strong>Barras:</strong> Comparar cantidades (¡eje Y en 0!)</li>
-<li><strong>Líneas:</strong> Mostrar tendencias en el tiempo</li>
+<li><span class="math inline">\(\rho = 0\)</span>: no se parecen más que cualesquiera dos personas al azar</li>
+<li><span class="math inline">\(\rho = 1\)</span>: todos en el conglomerado son idénticos</li>
 </ul>
-<p><strong>Errores comunes a evitar:</strong></p>
-<ul>
-<li>❌ Solo mostrar promedios sin dispersión</li>
-<li>❌ Manipular escalas para exagerar diferencias</li>
-<li>❌ No declarar denominador</li>
-<li>❌ Graficar sin pregunta clara en mente</li>
-<li>❌ Usar 3D, colores excesivos, “chart junk”</li>
-</ul>
+<p>Simulemos datos con estructura de conglomerados para estimar el ICC.</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="calcular-el-icc" class="level3">
+<h3 class="anchored" data-anchor-id="calcular-el-icc">Calcular el ICC</h3>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 19):</strong> ¿Cuál es el ICC estimado? (a 3 decimales)</p>
+<p><strong>(→ Canvas Pregunta 20):</strong> Este valor indica que:</p>
+<ol type="a">
+<li>La mayoría de la variación se explica por diferencias entre municipios</li>
+<li>Una proporción modesta se debe al municipio; la mayor parte es individual</li>
+<li>No existe ninguna similitud entre jóvenes del mismo municipio</li>
+</ol>
 <hr>
-<p><strong>Última reflexión:</strong> Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?</p>
+</section>
+</section>
+<section id="parte-8-efecto-de-diseño-deff-y-n-efectivo" class="level2">
+<h2 class="anchored" data-anchor-id="parte-8-efecto-de-diseño-deff-y-n-efectivo">Parte 8: Efecto de Diseño (DEFF) y N efectivo</h2>
+<p>El <strong>efecto de diseño</strong> cuantifica cuánto se “infla” la varianza al usar conglomerados:</p>
+<p><span class="math display">\[DEFF = 1 + (m - 1) \times \rho\]</span></p>
+<p>El <strong>tamaño de muestra efectivo</strong> es: <span class="math inline">\(N_{ef} = N / DEFF\)</span></p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 21):</strong> ¿Cuál es el DEFF con <span class="math inline">\(m = 40\)</span>? (a 2 decimales)</p>
+<p><strong>(→ Canvas Pregunta 22):</strong> Nuestras 1,200 observaciones en conglomerados equivalen a ______ observaciones independientes.</p>
+<hr>
+</section>
+<section id="parte-9-mde-con-y-sin-conglomerados" class="level2">
+<h2 class="anchored" data-anchor-id="parte-9-mde-con-y-sin-conglomerados">Parte 9: MDE con y sin conglomerados</h2>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 23):</strong> El MDE con conglomerados es:</p>
+<ol type="a">
+<li>Mayor que con aleatorización individual (más difícil detectar efectos)</li>
+<li>Menor (más fácil detectar efectos)</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="bloque-d-explorando-el-diseño" class="level1">
+<h1>BLOQUE D: Explorando el diseño</h1>
+<section id="parte-10-modificar-el-tamaño-del-conglomerado" class="level2">
+<h2 class="anchored" data-anchor-id="parte-10-modificar-el-tamaño-del-conglomerado">Parte 10: Modificar el tamaño del conglomerado</h2>
+<p>¿Qué pasa si cada municipio tuviera menos jóvenes? Mantenemos <span class="math inline">\(N = 1{,}200\)</span> y el mismo ICC.</p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 24):</strong> ¿Con qué configuración el MDE es más bajo?</p>
+<ol type="a">
+<li>10 jóvenes en 120 municipios</li>
+<li>20 jóvenes en 60 municipios</li>
+<li>40 jóvenes en 30 municipios</li>
+<li>120 jóvenes en 10 municipios</li>
+</ol>
+<p>🔧 <strong>Instrucción:</strong> En el siguiente bloque, cambia <code>m_elegido</code> de <code>40</code> a <code>10</code>. Ejecuta y compara el DEFF y MDE con los de la Parte 8.</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 25):</strong> Cuando cambias <span class="math inline">\(m\)</span> de 40 a 10 (manteniendo <span class="math inline">\(N = 1{,}200\)</span>), ¿qué pasa con el DEFF?</p>
+<ol type="a">
+<li>Baja (se acerca a 1)</li>
+<li>Sube</li>
+<li>No cambia</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 26):</strong> ¿Y qué pasa con el MDE?</p>
+<ol type="a">
+<li>Baja (mejora el poder)</li>
+<li>Sube (empeora el poder)</li>
+<li>No cambia</li>
+</ol>
+<hr>
+</section>
+<section id="parte-11-más-conglomerados-aumentar-j" class="level2">
+<h2 class="anchored" data-anchor-id="parte-11-más-conglomerados-aumentar-j">Parte 11: Más conglomerados (aumentar J)</h2>
+<p>Otra opción: en vez de redistribuir los 1,200 jóvenes, <strong>reclutar más municipios</strong> y por lo tanto más jóvenes en total.</p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 27):</strong> ¿Cuántos municipios se necesitan (con <span class="math inline">\(m = 40\)</span>) para que el MDE sea menor a $40?</p>
+<ol type="a">
+<li>30 municipios (N = 1,200)</li>
+<li>50 municipios (N = 2,000)</li>
+<li>80 municipios (N = 3,200)</li>
+<li>Ninguno de los anteriores</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 28):</strong> Observa que el DEFF <strong>no cambia</strong> cuando aumentamos <span class="math inline">\(J\)</span>. ¿Por qué?</p>
+<ol type="a">
+<li>Porque el DEFF solo depende de <span class="math inline">\(m\)</span> y <span class="math inline">\(\rho\)</span>, no de cuántos conglomerados haya</li>
+<li>Porque <span class="math inline">\(J\)</span> y <span class="math inline">\(m\)</span> siempre se compensan</li>
+<li>Porque el DEFF es una constante universal</li>
+<li>Porque el ICC cambia al agregar más municipios</li>
+</ol>
+<hr>
+</section>
+<section id="parte-12-qué-pasa-si-el-icc-es-diferente" class="level2">
+<h2 class="anchored" data-anchor-id="parte-12-qué-pasa-si-el-icc-es-diferente">Parte 12: ¿Qué pasa si el ICC es diferente?</h2>
+<p>En la práctica, el ICC depende del contexto. En municipios urbanos homogéneos podría ser alto; en municipios diversos podría ser bajo.</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 29):</strong> Cuando el ICC pasa de 0.01 a 0.20 (con <span class="math inline">\(m = 40\)</span>, <span class="math inline">\(N = 1{,}200\)</span>), el MDE aproximadamente:</p>
+<ol type="a">
+<li>Aumenta ligeramente (menos de 50%)</li>
+<li>Más que se duplica</li>
+<li>No cambia mucho</li>
+<li>Se reduce</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 30):</strong> ¿Con cuál ICC el diseño de 1,200 personas podría detectar un efecto de $40?</p>
+<ol type="a">
+<li><span class="math inline">\(\rho = 0.01\)</span></li>
+<li><span class="math inline">\(\rho = 0.05\)</span></li>
+<li><span class="math inline">\(\rho = 0.10\)</span></li>
+<li><span class="math inline">\(\rho = 0.20\)</span></li>
+</ol>
+<p>🔧 <strong>Instrucción:</strong> En el siguiente bloque, modifica <code>rho_prueba</code> para que valga <code>0.01</code> y luego <code>0.20</code>. Compara los dos resultados.</p>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 31):</strong> ¿Cuántas observaciones efectivas se pierden al pasar de <span class="math inline">\(\rho = 0.01\)</span> a <span class="math inline">\(\rho = 0.20\)</span>? (resta los dos N efectivos)</p>
+<hr>
+</section>
+</section>
+<section id="bloque-e-restricción-presupuestal" class="level1">
+<h1>BLOQUE E: Restricción presupuestal</h1>
+<section id="parte-13-el-costo-importa" class="level2">
+<h2 class="anchored" data-anchor-id="parte-13-el-costo-importa">Parte 13: El costo importa</h2>
+<p>En la realidad, reclutar más municipios tiene un costo. Supongamos:</p>
+<ul>
+<li><strong>Costo fijo por municipio:</strong> $400 USD (logística, instalación, coordinador local)</li>
+<li><strong>Costo variable por joven:</strong> $16 USD (materiales, seguimiento)</li>
+<li><strong>Presupuesto total:</strong> $40,000 USD</li>
+</ul>
+<p>El costo total es: <span class="math inline">\(\text{Costo} = J \times (400 + 16 \times m)\)</span></p>
+<p>Esto limita cuántos municipios (<span class="math inline">\(J\)</span>) y jóvenes por municipio (<span class="math inline">\(m\)</span>) podemos tener.</p>
+<div id="qwebr-insertion-location-22"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 32):</strong> Observa la columna N: ¿siempre conviene tener conglomerados más grandes porque así el N total es mayor?</p>
+<ol type="a">
+<li>Sí, un N total mayor siempre significa mejor poder</li>
+<li>No, porque aunque N suba, el DEFF también sube y puede anular la ganancia</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 33):</strong> Según la tabla, ¿cuál valor de <span class="math inline">\(m\)</span> produce el MDE más bajo?</p>
+<ol type="a">
+<li><span class="math inline">\(m = 10\)</span></li>
+<li><span class="math inline">\(m = 20\)</span></li>
+<li><span class="math inline">\(m = 30\)</span></li>
+<li><span class="math inline">\(m = 40\)</span></li>
+<li><span class="math inline">\(m = 50\)</span></li>
+</ol>
+<p><strong>(→ Canvas Pregunta 34):</strong> ¿Por qué el MDE <strong>no</strong> sigue bajando cuando <span class="math inline">\(m\)</span> aumenta de 30 a 50?</p>
+<ol type="a">
+<li>El N total deja de crecer</li>
+<li>El DEFF crece más rápido de lo que crece <span class="math inline">\(N\)</span>, así que <span class="math inline">\(N_{ef}\)</span> empieza a bajar</li>
+<li>La fórmula del MDE deja de funcionar con conglomerados grandes</li>
+<li>El presupuesto se agota antes</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="bloque-f-decisiones-de-diseño" class="level1">
+<h1>BLOQUE F: Decisiones de diseño</h1>
+<section id="parte-14-comparación-de-diseños" class="level2">
+<h2 class="anchored" data-anchor-id="parte-14-comparación-de-diseños">Parte 14: Comparación de diseños</h2>
+<p>El equipo tiene presupuesto para 1,200 jóvenes y considera dos opciones.</p>
+<div id="qwebr-insertion-location-23"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 35):</strong> ¿Cuál diseño puede detectar un efecto de $40?</p>
+<ol type="a">
+<li>Solo el Diseño A</li>
+<li>Solo el Diseño B</li>
+<li>Ambos</li>
+<li>Ninguno</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 36):</strong> Si el Diseño A es mejor estadísticamente, ¿por qué el equipo podría aun así elegir el Diseño B?</p>
+<ol type="a">
+<li>Porque el Diseño B es más barato</li>
+<li>Porque la implementación del programa requiere que todos en un municipio reciban o no la capacitación</li>
+<li>Porque los conglomerados eliminan el sesgo de selección</li>
+<li>Porque el Diseño A requiere más municipios</li>
+</ol>
+<hr>
+</section>
+<section id="parte-15-mejora-el-diseño-b" class="level2">
+<h2 class="anchored" data-anchor-id="parte-15-mejora-el-diseño-b">Parte 15: Mejora el Diseño B</h2>
+<p>El equipo necesita usar conglomerados. ¿Cómo mejorar el diseño para que pueda detectar el efecto de $40?</p>
+<p>🔧 <strong>Instrucción:</strong> El siguiente bloque es un “simulador de diseño”. Modifica <strong>los tres valores marcados</strong> para intentar que el MDE baje de $40. Puedes:</p>
+<ul>
+<li>Reducir <span class="math inline">\(m\)</span> (menos jóvenes por municipio, más municipios)</li>
+<li>Aumentar <span class="math inline">\(J\)</span> (más municipios)</li>
+<li>Reducir <span class="math inline">\(\sigma\)</span> (controlar por salario base, etc.)</li>
+</ul>
+<p>Experimenta con distintas combinaciones.</p>
+<div id="qwebr-insertion-location-24"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 37):</strong> Reporta UNA combinación de <span class="math inline">\(m\)</span>, <span class="math inline">\(J\)</span> y <span class="math inline">\(\sigma\)</span> que logre un MDE menor a $40. ¿Cuáles valores usaste?</p>
+<ol type="a">
+<li><span class="math inline">\(m = 15\)</span>, <span class="math inline">\(J = 80\)</span>, <span class="math inline">\(\sigma = 120\)</span></li>
+<li><span class="math inline">\(m = 15\)</span>, <span class="math inline">\(J = 80\)</span>, <span class="math inline">\(\sigma = 96\)</span></li>
+<li><span class="math inline">\(m = 40\)</span>, <span class="math inline">\(J = 30\)</span>, <span class="math inline">\(\sigma = 120\)</span></li>
+<li><span class="math inline">\(m = 40\)</span>, <span class="math inline">\(J = 30\)</span>, <span class="math inline">\(\sigma = 80\)</span></li>
+</ol>
+<p><strong>(→ Canvas Pregunta 38):</strong> De las tres “palancas” (<span class="math inline">\(m\)</span>, <span class="math inline">\(J\)</span>, <span class="math inline">\(\sigma\)</span>), ¿cuál tiene el efecto más grande sobre el MDE?</p>
+<ol type="a">
+<li>Reducir <span class="math inline">\(m\)</span> (conglomerados más pequeños)</li>
+<li>Aumentar <span class="math inline">\(J\)</span> (más conglomerados)</li>
+<li>Reducir <span class="math inline">\(\sigma\)</span> (menos variabilidad)</li>
+<li>Las tres tienen el mismo efecto</li>
+</ol>
+<hr>
+</section>
+<section id="parte-16-el-diseño-final" class="level2">
+<h2 class="anchored" data-anchor-id="parte-16-el-diseño-final">Parte 16: El diseño final</h2>
+<p>Después de analizar costos, logística y poder estadístico, el equipo propone el siguiente diseño:</p>
+<ul>
+<li>60 municipios (<span class="math inline">\(J = 60\)</span>)</li>
+<li>20 jóvenes por municipio (<span class="math inline">\(m = 20\)</span>)</li>
+<li>Medición de salario base para reducir varianza (<span class="math inline">\(\sigma \approx 96\)</span>)</li>
+</ul>
+<div id="qwebr-insertion-location-25"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>(→ Canvas Pregunta 39):</strong> ¿Este diseño final puede detectar un efecto de $40?</p>
+<ol type="a">
+<li>Sí</li>
+<li>No</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="bloque-g-reflexión" class="level1">
+<h1>BLOQUE G: Reflexión</h1>
+<p><strong>(→ Canvas Pregunta 40):</strong> ¿Cuál de las siguientes afirmaciones es <strong>correcta</strong>?</p>
+<ol type="a">
+<li>Si un estudio no rechaza <span class="math inline">\(H_0\)</span>, eso prueba que el programa no funciona</li>
+<li>Si un estudio no rechaza <span class="math inline">\(H_0\)</span> pero tenía bajo poder, no podemos concluir si el programa funciona o no</li>
+<li>El poder estadístico solo importa si usamos conglomerados</li>
+<li>Un p-value alto siempre significa que el efecto es cero</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 41):</strong> ¿Por qué es importante calcular el poder <strong>antes</strong> de iniciar el estudio?</p>
+<ol type="a">
+<li>Para cumplir un requisito administrativo del gobierno</li>
+<li>Para saber si el diseño tiene capacidad de detectar el efecto esperado y, si no, ajustar el diseño a tiempo</li>
+<li>Porque después del estudio ya no se puede calcular</li>
+<li>Para garantizar que el programa funcione</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 42):</strong> Los conglomerados reducen el poder porque:</p>
+<ol type="a">
+<li>Las personas en el mismo grupo se parecen, así que cada nueva observación aporta menos información independiente</li>
+<li>Los municipios son de mala calidad</li>
+<li>La fórmula del MDE tiene un error cuando se usan conglomerados</li>
+<li>El ICC siempre es mayor a 0.50</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 43):</strong> ¿Cuál es la principal estrategia para compensar la pérdida de poder por conglomerados?</p>
+<ol type="a">
+<li>Aumentar el número de conglomerados (más municipios)</li>
+<li>Aumentar el tamaño de cada conglomerado (más personas por municipio)</li>
+<li>Usar un nivel de significancia de <span class="math inline">\(\alpha = 0.50\)</span></li>
+<li>No hacer la evaluación</li>
+</ol>
+<p><strong>(→ Canvas Pregunta 44):</strong> ¿Cuál afirmación resume mejor la lección de esta tarea?</p>
+<ol type="a">
+<li>Los conglomerados siempre son peores; nunca deben usarse</li>
+<li>Solo importa tener un p-value menor a 0.05; el diseño es secundario</li>
+<li>El poder depende de <span class="math inline">\(N\)</span>, <span class="math inline">\(\sigma\)</span>, el efecto esperado y la estructura del diseño; un buen evaluador ajusta estos elementos antes de iniciar el estudio</li>
+<li>Un cálculo de poder es innecesario si el programa tiene buena teoría de cambio</li>
+</ol>
+<hr>
+<section id="fin-de-la-tarea" class="level2">
+<h2 class="anchored" data-anchor-id="fin-de-la-tarea">Fin de la tarea</h2>
+<p>Verifica que hayas registrado tus <strong>44 respuestas</strong> en Canvas. ¡Éxito!</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

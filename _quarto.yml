@@ -60,6 +60,11 @@ website:
             href: notes/r_data_wrangling_es.qmd
           - text: "---"
           
+          # Tarea integradora
+          - text: "Tareas"
+          - text: "Tareas integradora"
+            href: notes/tarea_capacitacion.qmd
+          
           # SESIONES DE CLASE
           - text: "Sesiones de clase (10)"
           - text: "---"
@@ -100,7 +105,7 @@ website:
             href: notes/ex09_regression_integrated.qmd
           - text: "S10: Paradoja de Simpson"
             href: notes/ex10_simpsons_integrated.qmd
-
+          
     right: 
       - text: CV
         href: files/Contreras_D_academic_CV_2026.pdf
