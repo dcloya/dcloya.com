@@ -101,10 +101,8 @@ website:
           
           # Bloque 5: Asociacion y Causalidad
           - text: "BLOQUE 5: Asociación y Causalidad"
-          - text: "S9: Correlacion y Regresion Simple"
-            href: notes/ex09_regression_integrated.qmd
-          - text: "S10: Paradoja de Simpson"
-            href: notes/ex10_simpsons_integrated.qmd
+          - text: "S9-10: Retornos a la educación"
+            href: notes/ejercicio_regresion_causalidad.qmd
           
     right: 
       - text: CV

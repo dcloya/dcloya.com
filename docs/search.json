@@ -599,14 +599,14 @@
     "href": "notes/tarea_capacitacion.html",
     "title": "Tarea 5: Poder Estadístico y Diseño por Conglomerados",
     "section": "",
-    "text": "Trabajo individual. Tiempo estimado: 90 minutos.\nEjecuta cada bloque de código en orden con el botón ▶ Run Code.\nAlgunos bloques requieren que modifiques un valor antes de ejecutar. Estas instrucciones están marcadas con 🔧.\nCuando veas (→ Canvas Pregunta X), registra tu respuesta en Canvas."
+    "text": "Trabajo individual. Tiempo estimado: 120 minutos.\nEjecuta cada bloque de código en orden con el botón ▶ Run Code.\nAlgunos bloques requieren que modifiques un valor antes de ejecutar. Estas instrucciones están marcadas con 🔧.\nCuando veas (→ Canvas Pregunta X), registra tu respuesta en Canvas."
   },
   {
     "objectID": "notes/tarea_capacitacion.html#instrucciones-generales",
     "href": "notes/tarea_capacitacion.html#instrucciones-generales",
     "title": "Tarea 5: Poder Estadístico y Diseño por Conglomerados",
     "section": "",
-    "text": "Trabajo individual. Tiempo estimado: 90 minutos.\nEjecuta cada bloque de código en orden con el botón ▶ Run Code.\nAlgunos bloques requieren que modifiques un valor antes de ejecutar. Estas instrucciones están marcadas con 🔧.\nCuando veas (→ Canvas Pregunta X), registra tu respuesta en Canvas."
+    "text": "Trabajo individual. Tiempo estimado: 120 minutos.\nEjecuta cada bloque de código en orden con el botón ▶ Run Code.\nAlgunos bloques requieren que modifiques un valor antes de ejecutar. Estas instrucciones están marcadas con 🔧.\nCuando veas (→ Canvas Pregunta X), registra tu respuesta en Canvas."
   },
   {
     "objectID": "notes/tarea_capacitacion.html#contexto",
@@ -1118,5 +1118,103 @@
     "title": "Ejercicio Aplicado: Muestreo y el Teorema del Límite Central",
     "section": "",
     "text": "Contexto\nEl programa “Becas para Todos” otorga transferencias condicionadas a familias de bajos recursos. La condición: sus hijos deben asistir al menos 85% de los días escolares.\nPregunta de política: ¿Cuál es la tasa promedio de asistencia escolar en la población?\nDesafío: No podemos encuestar a las 2.5 millones de familias beneficiarias. Debemos usar una muestra.\n\n\n\nParte 1: La Población Verdadera (Desconocida en la Realidad)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 2: Visualizar la Distribución Poblacional\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 3: Tomar UNA Muestra\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 4: Teorema del Límite Central en Acción\nPregunta: Si la población es asimétrica, ¿qué pasa con la distribución de \\(\\bar{x}\\)?\nExperimento: Tomar 1000 muestras diferentes, calcular \\(\\bar{x}\\) en cada una.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 5: Visualización del Teorema del Límite Central\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 6: Comparación Visual del Error Estándar\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nParte 7: Verificación Numérica del Teorema\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nPreguntas para Reflexionar\n\n¿Por qué es importante el TLC?\nNos permite usar la distribución normal para hacer inferencia, aunque la población no sea normal.\n¿Qué tan grande debe ser \\(n\\)?\nRegla general: \\(n \\geq 30\\) es suficiente para que \\(\\bar{x}\\) sea aproximadamente normal, incluso si la población es muy asimétrica.\n¿Qué pasa si tomo una muestra sesgada?\nEl TLC NO corrige sesgo. Solo reduce varianza. Una muestra mal diseñada de 10,000 familias es peor que una muestra bien diseñada de 500.\n¿Cuántas familias debo encuestar?\nDepende del margen de error aceptable. Con \\(n = 500\\), el SE es ~0.8%. Con \\(n = 100\\), el SE es ~1.8%.\n\n\n\n\nEjercicio Individual\nModifica el código anterior para:\n\nCambiar la distribución poblacional a una exponencial (muy asimétrica)\nCalcular el tamaño de muestra necesario para \\(SE \\leq 1\\%\\)\nSimular muestreo estratificado (separar familias urbanas y rurales)\n\n\n\n\nConclusión\n✅ Teorema del Límite Central: La distribución de \\(\\bar{x}\\) es normal, incluso si la población no lo es\n✅ Error Estándar: \\(SE = \\sigma / \\sqrt{n}\\) disminuye con \\(\\sqrt{n}\\)\n✅ Implicación práctica: Con \\(n\\) suficientemente grande, podemos usar ICs y pruebas de hipótesis basadas en la normal\n⚠️ Advertencia: TLC NO corrige sesgo de selección"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html",
+    "href": "notes/ejercicio_regresion_causalidad.html",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "",
+    "text": "En este ejercicio exploraremos una pregunta fundamental de política pública: ¿Vale la pena invertir en educación?\nEspecíficamente, investigaremos:\n\n¿Cuánto aumenta el salario por cada año adicional de educación?\n¿La relación es lineal o hay retornos decrecientes?\n¿Existen brechas salariales por género?\n¿La correlación entre educación y salario es causal, o está confundida por habilidad no observable?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#introducción",
+    "href": "notes/ejercicio_regresion_causalidad.html#introducción",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "",
+    "text": "En este ejercicio exploraremos una pregunta fundamental de política pública: ¿Vale la pena invertir en educación?\nEspecíficamente, investigaremos:\n\n¿Cuánto aumenta el salario por cada año adicional de educación?\n¿La relación es lineal o hay retornos decrecientes?\n¿Existen brechas salariales por género?\n¿La correlación entre educación y salario es causal, o está confundida por habilidad no observable?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-1-generando-datos-realistas",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-1-generando-datos-realistas",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 1: Generando Datos Realistas",
+    "text": "Parte 1: Generando Datos Realistas\nVamos a simular datos de 1,000 trabajadores salvadoreños con las siguientes características:\n\nAños de educación: 0 a 18 años (primaria incompleta hasta posgrado)\nSexo: Mujer (0) u Hombre (1)\nHabilidad cognitiva: Variable NO OBSERVABLE (como IQ, motivación, redes)\nSalario mensual: En dólares estadounidenses\n\nImportante: En la vida real, NO observamos la habilidad. Este es el “problema de variables omitidas”.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de reflexión: ¿Qué observamos en los datos? ¿Qué NO observamos en la realidad?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-2-regresión-simple---brecha-salarial-por-género",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-2-regresión-simple---brecha-salarial-por-género",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 2: Regresión Simple - Brecha Salarial por Género",
+    "text": "Parte 2: Regresión Simple - Brecha Salarial por Género\nPregunta: ¿Los hombres ganan más que las mujeres?\n\nEnfoque 1: Diferencia de Medias (Prueba t)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nEnfoque 2: Regresión Lineal\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación:\n\nIntercepto (\\(\\beta_0\\)): Salario promedio de las mujeres (sexo = 0)\nCoeficiente de sexo (\\(\\beta_1\\)): Diferencia entre hombres y mujeres\n\nPregunta: Compara el coeficiente de sexo con la diferencia de medias. ¿Son iguales?\nConexión con la clase: Diferencia de medias = Regresión con variable dummy ✅"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-3-retornos-a-la-educación-modelo-lineal",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-3-retornos-a-la-educación-modelo-lineal",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 3: Retornos a la Educación (Modelo Lineal)",
+    "text": "Parte 3: Retornos a la Educación (Modelo Lineal)\nPregunta: ¿Cuánto aumenta el salario por cada año adicional de educación?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación:\n\nIntercepto: Salario esperado con cero años de educación\nPendiente: Por cada año adicional de educación, el salario aumenta en $___ dólares en promedio\nR²: El modelo explica **___% ** de la variación en salarios\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nVisualización: Diagrama de Dispersión + Línea de Regresión\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta de reflexión: ¿La relación parece perfectamente lineal? ¿O hay indicios de que los retornos disminuyen en educación alta?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-4-retornos-decrecientes---modelo-cuadrático",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-4-retornos-decrecientes---modelo-cuadrático",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 4: Retornos Decrecientes - Modelo Cuadrático",
+    "text": "Parte 4: Retornos Decrecientes - Modelo Cuadrático\nEn economía, los retornos marginales decrecientes son comunes: los primeros años de educación tienen mayor impacto que los últimos.\nModelo: \\(\\text{Salario} = \\beta_0 + \\beta_1 \\cdot \\text{Educación} + \\beta_2 \\cdot \\text{Educación}^2 + \\varepsilon\\)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación:\n\nSi \\(\\beta_2 &lt; 0\\): Los retornos a educación son decrecientes\nSi \\(\\beta_2 &gt; 0\\): Los retornos a educación son crecientes\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nVisualización: Línea Curva vs Línea Recta\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPregunta: ¿Cuál modelo se ajusta mejor a los datos?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-5-agregando-sexo-al-modelo",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-5-agregando-sexo-al-modelo",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 5: Agregando Sexo al Modelo",
+    "text": "Parte 5: Agregando Sexo al Modelo\n¿Qué pasa si controlamos por género?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación:\n\nEl coeficiente de sexo es la brecha salarial de género, controlando por educación\nAhora comparamos hombres y mujeres con el mismo nivel de educación\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nObservación clave: Cada variable adicional aumenta el R² (el modelo explica más variación)\n\nVisualización: Líneas Separadas por Sexo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-6-el-modelo-verdadero---agregando-habilidad",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-6-el-modelo-verdadero---agregando-habilidad",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 6: El Modelo “Verdadero” - Agregando Habilidad",
+    "text": "Parte 6: El Modelo “Verdadero” - Agregando Habilidad\nEn la realidad, no observamos habilidad. Pero aquí podemos simular lo que pasaría si la pudiéramos medir.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nObservación importante:\n\nCompara el coeficiente de educacion en modelo4 (sin habilidad) vs modelo5 (con habilidad)\n¿El efecto de educación cambia cuando controlamos por habilidad?\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nConclusión: Habilidad explica una parte importante de la variación en salarios que antes atribuíamos a educación."
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-7-sesgo-de-variable-omitida---el-problema-causal",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-7-sesgo-de-variable-omitida---el-problema-causal",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 7: Sesgo de Variable Omitida - El Problema Causal",
+    "text": "Parte 7: Sesgo de Variable Omitida - El Problema Causal\nPregunta central: Si omitimos habilidad (como ocurre en la realidad), ¿nuestras estimaciones están sesgadas?\n\nPredicciones con y sin Habilidad\nVamos a predecir el salario de una persona con: - 12 años de educación (bachillerato completo) - Sexo: Hombre - Habilidad: 1 desviación estándar arriba del promedio\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nComparación Gráfica del Sesgo\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nInterpretación:\n\nLa línea ROJA (sin habilidad) está por ENCIMA de la azul\nEsto significa que sobrestimamos el efecto de la educación cuando omitimos habilidad\n¿Por qué? Porque personas con mayor habilidad:\n\nEligen estudiar más (habilidad → educación)\nGanan más salario (habilidad → salario)\nCreamos una correlación espuria entre educación y salario"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#parte-8-visualización-final---efecto-por-nivel-de-habilidad",
+    "href": "notes/ejercicio_regresion_causalidad.html#parte-8-visualización-final---efecto-por-nivel-de-habilidad",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Parte 8: Visualización Final - Efecto por Nivel de Habilidad",
+    "text": "Parte 8: Visualización Final - Efecto por Nivel de Habilidad\n¿Cómo cambian las predicciones para personas con diferente habilidad?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nObservación: Personas con mayor habilidad tienen salarios más altos en todos los niveles de educación."
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#síntesis-lecciones-de-política-pública",
+    "href": "notes/ejercicio_regresion_causalidad.html#síntesis-lecciones-de-política-pública",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Síntesis: Lecciones de Política Pública",
+    "text": "Síntesis: Lecciones de Política Pública\n\n1. Correlación ≠ Causalidad\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nEsta correlación incluye: - Efecto causal de educación → salario - Efecto confusor de habilidad → educación Y habilidad → salario\n\n\n2. El Problema de Variables Omitidas\nSi omitimos habilidad: - SOBRESTIMAMOS el efecto de la educación - Las becas educativas parecen más efectivas de lo que realmente son - Mala asignación de recursos públicos\n\n\n3. ¿Qué Podemos Hacer en la Práctica?\nYa que no podemos medir habilidad, necesitamos diseños de investigación que eliminen el sesgo:\nOpción A: Experimento Aleatorio (RCT) - Asignar becas al azar - Comparar becados vs no becados - La aleatorización elimina el sesgo de habilidad\nOpción B: Quasi-experimental (RD) - Becas para estudiantes con promedio ≥ 8.0 - Comparar estudiantes con 7.9 vs 8.1 - Son casi idénticos, excepto que unos reciben beca\nOpción C: Variables Instrumentales - Encontrar algo que afecta educación pero NO salario directamente - Ejemplo: Distancia a la escuela más cercana\n\n\n4. Tabla Resumen de Modelos\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nObservación: R² aumenta con cada variable, pero solo el modelo 5 es insesgado."
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#preguntas-de-reflexión-final",
+    "href": "notes/ejercicio_regresion_causalidad.html#preguntas-de-reflexión-final",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Preguntas de Reflexión Final",
+    "text": "Preguntas de Reflexión Final\n\n¿Por qué el coeficiente de educación es más BAJO en el modelo 5 que en el modelo 4?\nPista: Piensa en el sesgo de variable omitida.\nSi eres tomador de decisiones y solo tienes datos de educación y salario (sin habilidad), ¿qué harías?\nOpciones:\n\n\nConfiar en la regresión simple\n\n\nDiseñar un experimento aleatorio\n\n\nBuscar un diseño quasi-experimental\n\n\nNo invertir en becas\n\n\n¿La brecha salarial de género es “justa” después de controlar por educación y habilidad?\nEsto requiere un juicio normativo, no solo estadístico.\nSi un estudio observacional reporta que cada año de educación aumenta el salario en $50, ¿es este el efecto CAUSAL?\n¿Qué variables omitidas podrían estar sesgando esta estimación?"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#conexión-con-el-curso",
+    "href": "notes/ejercicio_regresion_causalidad.html#conexión-con-el-curso",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Conexión con el Curso",
+    "text": "Conexión con el Curso\nEn este ejercicio integramos:\n✅ Regresión lineal: Cuantificar relaciones entre variables\n✅ Variables dummy: Diferencia de medias = Regresión\n✅ Modelos no lineales: Educación²\n✅ R²: Bondad de ajuste\n✅ Causalidad: Diferencia entre correlación y causalidad\n✅ Sesgo de variable omitida: El problema fundamental\n✅ Diseños de evaluación: RCT, RD, IV como soluciones"
+  },
+  {
+    "objectID": "notes/ejercicio_regresion_causalidad.html#para-profundizar",
+    "href": "notes/ejercicio_regresion_causalidad.html#para-profundizar",
+    "title": "Regresión y Causalidad: Retornos a la Educación",
+    "section": "Para Profundizar",
+    "text": "Para Profundizar\n📚 Lecturas recomendadas: - Card, David (1999). “The Causal Effect of Education on Earnings” - Angrist & Pischke (2009). “Mostly Harmless Econometrics”\n\nFin del ejercicio\nRecuerda: Los datos son simulados, pero el problema es real. En política pública, distinguir correlación de causalidad puede significar la diferencia entre programas efectivos y desperdicio de recursos."
   }
 ]

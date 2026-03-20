@@ -1,0 +1,543 @@
+---
+title: "Regresión y Causalidad: Retornos a la Educación"
+subtitle: "Programa Becas para Todos - El Salvador"
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    theme: cosmo
+    df-print: paged
+filters:
+  - webr
+webr:
+  packages: ['ggplot2', 'dplyr']
+---
+
+## Introducción
+
+En este ejercicio exploraremos una pregunta fundamental de política pública: **¿Vale la pena invertir en educación?**
+
+Específicamente, investigaremos:
+
+1. ¿Cuánto aumenta el salario por cada año adicional de educación?
+2. ¿La relación es lineal o hay retornos decrecientes?
+3. ¿Existen brechas salariales por género?
+4. **¿La correlación entre educación y salario es causal, o está confundida por habilidad no observable?**
+
+---
+
+## Parte 1: Generando Datos Realistas
+
+Vamos a simular datos de 1,000 trabajadores salvadoreños con las siguientes características:
+
+- **Años de educación**: 0 a 18 años (primaria incompleta hasta posgrado)
+- **Sexo**: Mujer (0) u Hombre (1)
+- **Habilidad cognitiva**: Variable NO OBSERVABLE (como IQ, motivación, redes)
+- **Salario mensual**: En dólares estadounidenses
+
+**Importante**: En la vida real, NO observamos la habilidad. Este es el "problema de variables omitidas".
+
+```{webr-r}
+# Fijar semilla para reproducibilidad
+set.seed(2026)
+
+# Número de observaciones
+n <- 1000
+
+# 1. Sexo: 50% mujeres, 50% hombres
+sexo <- rbinom(n, 1, 0.5)
+
+# 2. Habilidad NO OBSERVABLE (media=0, sd=1)
+habilidad <- rnorm(n, mean = 0, sd = 1)
+
+# 3. Años de educación (depende de habilidad)
+# Personas con mayor habilidad tienden a estudiar más
+educacion_base <- rpois(n, lambda = 9)
+educacion <- pmin(18, pmax(0, educacion_base + round(1.5 * habilidad)))
+
+# 4. Salario mensual (función de educación, sexo, habilidad + ruido)
+# Usamos log-salario para evitar valores negativos
+log_salario <- 5.5 +                          # Intercepto (≈$245 base)
+               0.08 * educacion +              # Retorno lineal a educación
+               -0.002 * educacion^2 +          # Retornos decrecientes
+               0.15 * sexo +                   # Brecha de género (hombres ganan 15% más)
+               0.12 * habilidad +              # Efecto de habilidad
+               rnorm(n, 0, 0.25)               # Ruido aleatorio
+
+salario <- exp(log_salario)
+
+# Crear data frame
+datos <- data.frame(
+  id = 1:n,
+  salario = round(salario, 2),
+  educacion = educacion,
+  sexo = sexo,
+  sexo_etiqueta = ifelse(sexo == 1, "Hombre", "Mujer"),
+  habilidad = round(habilidad, 2)
+)
+
+# Mostrar primeras observaciones
+head(datos, 10)
+```
+
+**Pregunta de reflexión**: ¿Qué observamos en los datos? ¿Qué NO observamos en la realidad?
+
+---
+
+## Parte 2: Regresión Simple - Brecha Salarial por Género
+
+**Pregunta**: ¿Los hombres ganan más que las mujeres?
+
+### Enfoque 1: Diferencia de Medias (Prueba t)
+
+```{webr-r}
+# Calcular medias por grupo
+media_mujeres <- mean(datos$salario[datos$sexo == 0])
+media_hombres <- mean(datos$salario[datos$sexo == 1])
+
+cat("Salario promedio MUJERES: $", round(media_mujeres, 2), "\n")
+cat("Salario promedio HOMBRES: $", round(media_hombres, 2), "\n")
+cat("Diferencia (Hombres - Mujeres): $", round(media_hombres - media_mujeres, 2), "\n\n")
+
+# Prueba t
+resultado_t <- t.test(salario ~ sexo, data = datos)
+print(resultado_t)
+```
+
+### Enfoque 2: Regresión Lineal
+
+```{webr-r}
+# Regresión: salario ~ sexo
+modelo1 <- lm(salario ~ sexo, data = datos)
+summary(modelo1)
+```
+
+**Interpretación**:
+
+- **Intercepto** ($\beta_0$): Salario promedio de las **mujeres** (sexo = 0)
+- **Coeficiente de sexo** ($\beta_1$): Diferencia entre hombres y mujeres
+
+**Pregunta**: Compara el coeficiente de `sexo` con la diferencia de medias. ¿Son iguales?
+
+**Conexión con la clase**: Diferencia de medias = Regresión con variable dummy ✅
+
+---
+
+## Parte 3: Retornos a la Educación (Modelo Lineal)
+
+**Pregunta**: ¿Cuánto aumenta el salario por cada año adicional de educación?
+
+```{webr-r}
+# Regresión: salario ~ educacion
+modelo2 <- lm(salario ~ educacion, data = datos)
+summary(modelo2)
+```
+
+**Interpretación**:
+
+- **Intercepto**: Salario esperado con **cero** años de educación
+- **Pendiente**: Por cada año adicional de educación, el salario aumenta en **$___ dólares** en promedio
+- **R²**: El modelo explica **___% ** de la variación en salarios
+
+```{webr-r}
+# Extraer R²
+r2 <- summary(modelo2)$r.squared
+cat("R² =", round(r2, 4), "\n")
+cat("Interpretación: La educación explica", round(r2 * 100, 2), "% de la variación en salarios\n")
+```
+
+### Visualización: Diagrama de Dispersión + Línea de Regresión
+
+```{webr-r}
+library(ggplot2)
+
+ggplot(datos, aes(x = educacion, y = salario)) +
+  geom_point(alpha = 0.4, color = "steelblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red", linewidth = 1.2) +
+  labs(
+    title = "Relación entre Educación y Salario",
+    subtitle = "Modelo lineal simple",
+    x = "Años de educación",
+    y = "Salario mensual ($)",
+    caption = "Nota: Banda gris = Intervalo de confianza 95%"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+**Pregunta de reflexión**: ¿La relación parece perfectamente lineal? ¿O hay indicios de que los retornos disminuyen en educación alta?
+
+---
+
+## Parte 4: Retornos Decrecientes - Modelo Cuadrático
+
+En economía, los **retornos marginales decrecientes** son comunes: los primeros años de educación tienen mayor impacto que los últimos.
+
+Modelo: $\text{Salario} = \beta_0 + \beta_1 \cdot \text{Educación} + \beta_2 \cdot \text{Educación}^2 + \varepsilon$
+
+```{webr-r}
+# Regresión con término cuadrático
+modelo3 <- lm(salario ~ educacion + I(educacion^2), data = datos)
+summary(modelo3)
+```
+
+**Interpretación**:
+
+- Si $\beta_2 < 0$: Los retornos a educación son **decrecientes**
+- Si $\beta_2 > 0$: Los retornos a educación son **crecientes**
+
+```{webr-r}
+# Comparar R² entre modelos
+r2_lineal <- summary(modelo2)$r.squared
+r2_cuadratico <- summary(modelo3)$r.squared
+
+cat("R² modelo lineal:", round(r2_lineal, 4), "\n")
+cat("R² modelo cuadrático:", round(r2_cuadratico, 4), "\n")
+cat("Mejora en R²:", round(r2_cuadratico - r2_lineal, 4), "\n")
+```
+
+### Visualización: Línea Curva vs Línea Recta
+
+```{webr-r}
+# Crear predicciones para ambos modelos
+datos$pred_lineal <- predict(modelo2)
+datos$pred_cuadratico <- predict(modelo3)
+
+ggplot(datos, aes(x = educacion, y = salario)) +
+  geom_point(alpha = 0.3, color = "gray50") +
+  geom_line(aes(y = pred_lineal, color = "Lineal"), linewidth = 1.2) +
+  geom_line(aes(y = pred_cuadratico, color = "Cuadrático"), linewidth = 1.2) +
+  scale_color_manual(values = c("Lineal" = "blue", "Cuadrático" = "red")) +
+  labs(
+    title = "Comparación: Modelo Lineal vs Cuadrático",
+    x = "Años de educación",
+    y = "Salario mensual ($)",
+    color = "Modelo"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+```
+
+**Pregunta**: ¿Cuál modelo se ajusta mejor a los datos?
+
+---
+
+## Parte 5: Agregando Sexo al Modelo
+
+¿Qué pasa si controlamos por género?
+
+```{webr-r}
+# Modelo: salario ~ educacion + educacion² + sexo
+modelo4 <- lm(salario ~ educacion + I(educacion^2) + sexo, data = datos)
+summary(modelo4)
+```
+
+**Interpretación**:
+
+- El coeficiente de `sexo` es la **brecha salarial de género**, controlando por educación
+- Ahora comparamos hombres y mujeres **con el mismo nivel de educación**
+
+```{webr-r}
+# Comparar R² de todos los modelos
+cat("R² modelo 2 (solo educación lineal):", round(summary(modelo2)$r.squared, 4), "\n")
+cat("R² modelo 3 (educación cuadrática):", round(summary(modelo3)$r.squared, 4), "\n")
+cat("R² modelo 4 (+ sexo):", round(summary(modelo4)$r.squared, 4), "\n")
+```
+
+**Observación clave**: Cada variable adicional **aumenta el R²** (el modelo explica más variación)
+
+### Visualización: Líneas Separadas por Sexo
+
+```{webr-r}
+ggplot(datos, aes(x = educacion, y = salario, color = sexo_etiqueta)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = c("Mujer" = "#E74C3C", "Hombre" = "#3498DB")) +
+  labs(
+    title = "Retornos a la Educación por Género",
+    subtitle = "Modelo cuadrático",
+    x = "Años de educación",
+    y = "Salario mensual ($)",
+    color = "Sexo"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+```
+
+---
+
+## Parte 6: El Modelo "Verdadero" - Agregando Habilidad
+
+En la realidad, **no observamos habilidad**. Pero aquí podemos simular lo que pasaría si la pudiéramos medir.
+
+```{webr-r}
+# Modelo COMPLETO: incluye habilidad (normalmente NO observable)
+modelo5 <- lm(salario ~ educacion + I(educacion^2) + sexo + habilidad, data = datos)
+summary(modelo5)
+```
+
+**Observación importante**:
+
+- Compara el coeficiente de `educacion` en **modelo4** (sin habilidad) vs **modelo5** (con habilidad)
+- ¿El efecto de educación cambia cuando controlamos por habilidad?
+
+```{webr-r}
+# Tabla comparativa de coeficientes
+coef_modelo4 <- coef(modelo4)
+coef_modelo5 <- coef(modelo5)
+
+comparacion <- data.frame(
+  Variable = c("Intercepto", "Educación", "Educación²", "Sexo", "Habilidad"),
+  Sin_Habilidad = c(coef_modelo4, NA),
+  Con_Habilidad = c(coef_modelo5)
+)
+
+print(comparacion)
+```
+
+```{webr-r}
+# Comparar R²
+cat("R² SIN habilidad (modelo 4):", round(summary(modelo4)$r.squared, 4), "\n")
+cat("R² CON habilidad (modelo 5):", round(summary(modelo5)$r.squared, 4), "\n")
+cat("\nIncremento en R²:", round(summary(modelo5)$r.squared - summary(modelo4)$r.squared, 4), "\n")
+```
+
+**Conclusión**: Habilidad explica una parte importante de la variación en salarios que antes atribuíamos a educación.
+
+---
+
+## Parte 7: Sesgo de Variable Omitida - El Problema Causal
+
+**Pregunta central**: Si omitimos habilidad (como ocurre en la realidad), ¿nuestras estimaciones están sesgadas?
+
+### Predicciones con y sin Habilidad
+
+Vamos a predecir el salario de una persona con:
+- 12 años de educación (bachillerato completo)
+- Sexo: Hombre
+- Habilidad: 1 desviación estándar arriba del promedio
+
+```{webr-r}
+# Crear observación hipotética
+persona_nueva <- data.frame(
+  educacion = 12,
+  sexo = 1,
+  habilidad = 1.0
+)
+
+# Predicción SIN controlar por habilidad (modelo 4)
+pred_sin_habilidad <- predict(modelo4, newdata = persona_nueva)
+
+# Predicción CON habilidad (modelo 5)
+pred_con_habilidad <- predict(modelo5, newdata = persona_nueva)
+
+cat("Predicción SIN controlar habilidad: $", round(pred_sin_habilidad, 2), "\n")
+cat("Predicción CON controlar habilidad: $", round(pred_con_habilidad, 2), "\n")
+cat("Diferencia (SESGO): $", round(pred_sin_habilidad - pred_con_habilidad, 2), "\n")
+```
+
+### Comparación Gráfica del Sesgo
+
+```{webr-r}
+# Crear grid de predicciones
+grid <- expand.grid(
+  educacion = 0:18,
+  sexo = c(0, 1),
+  habilidad = c(-1, 0, 1)  # Baja, promedio, alta
+)
+
+# Predicciones de ambos modelos
+grid$pred_sin_hab <- predict(modelo4, newdata = grid)
+grid$pred_con_hab <- predict(modelo5, newdata = grid)
+
+# Etiquetar niveles
+grid$habilidad_label <- factor(
+  grid$habilidad,
+  levels = c(-1, 0, 1),
+  labels = c("Baja", "Promedio", "Alta")
+)
+
+# Gráfico para hombres con habilidad promedio
+datos_plot <- subset(grid, sexo == 1 & habilidad == 0)
+
+ggplot(datos_plot, aes(x = educacion)) +
+  geom_line(aes(y = pred_sin_hab, color = "Sin controlar habilidad"), 
+            linewidth = 1.5, linetype = "dashed") +
+  geom_line(aes(y = pred_con_hab, color = "Controlando habilidad"), 
+            linewidth = 1.5) +
+  scale_color_manual(
+    values = c("Sin controlar habilidad" = "red", 
+               "Controlando habilidad" = "blue")
+  ) +
+  labs(
+    title = "Sesgo de Variable Omitida: Habilidad",
+    subtitle = "Hombres con habilidad promedio",
+    x = "Años de educación",
+    y = "Salario predicho ($)",
+    color = "Modelo",
+    caption = "Línea roja SOBRESTIMA el efecto de educación"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+```
+
+**Interpretación**:
+
+- La línea **ROJA** (sin habilidad) está por **ENCIMA** de la azul
+- Esto significa que **sobrestimamos** el efecto de la educación cuando omitimos habilidad
+- ¿Por qué? Porque personas con mayor habilidad:
+  1. Eligen estudiar más (habilidad → educación)
+  2. Ganan más salario (habilidad → salario)
+  3. Creamos una **correlación espuria** entre educación y salario
+
+---
+
+## Parte 8: Visualización Final - Efecto por Nivel de Habilidad
+
+¿Cómo cambian las predicciones para personas con diferente habilidad?
+
+```{webr-r}
+# Gráfico para hombres con diferentes niveles de habilidad
+datos_plot_completo <- subset(grid, sexo == 1)
+
+ggplot(datos_plot_completo, aes(x = educacion, y = pred_con_hab, 
+                                 color = habilidad_label)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_manual(
+    values = c("Baja" = "#E74C3C", "Promedio" = "#95A5A6", "Alta" = "#27AE60")
+  ) +
+  labs(
+    title = "Retornos a la Educación según Nivel de Habilidad",
+    subtitle = "Hombres - Modelo que controla por habilidad",
+    x = "Años de educación",
+    y = "Salario predicho ($)",
+    color = "Habilidad"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+```
+
+**Observación**: Personas con mayor habilidad tienen salarios más altos **en todos** los niveles de educación.
+
+---
+
+## Síntesis: Lecciones de Política Pública
+
+### 1. Correlación ≠ Causalidad
+
+```{webr-r}
+# Correlación simple entre educación y salario
+cor_simple <- cor(datos$educacion, datos$salario)
+cat("Correlación educación-salario:", round(cor_simple, 3), "\n")
+```
+
+Esta correlación incluye:
+- Efecto **causal** de educación → salario
+- Efecto **confusor** de habilidad → educación Y habilidad → salario
+
+### 2. El Problema de Variables Omitidas
+
+Si omitimos habilidad:
+- **SOBRESTIMAMOS** el efecto de la educación
+- Las becas educativas parecen más efectivas de lo que realmente son
+- Mala asignación de recursos públicos
+
+### 3. ¿Qué Podemos Hacer en la Práctica?
+
+Ya que no podemos medir habilidad, necesitamos diseños de investigación que eliminen el sesgo:
+
+**Opción A: Experimento Aleatorio (RCT)**
+- Asignar becas al azar
+- Comparar becados vs no becados
+- La aleatorización elimina el sesgo de habilidad
+
+**Opción B: Quasi-experimental (RD)**
+- Becas para estudiantes con promedio ≥ 8.0
+- Comparar estudiantes con 7.9 vs 8.1
+- Son casi idénticos, excepto que unos reciben beca
+
+**Opción C: Variables Instrumentales**
+- Encontrar algo que afecta educación pero NO salario directamente
+- Ejemplo: Distancia a la escuela más cercana
+
+### 4. Tabla Resumen de Modelos
+
+```{webr-r}
+# Crear tabla resumen
+modelos <- list(
+  "M1: Sexo" = modelo1,
+  "M2: Educación" = modelo2,
+  "M3: Educación²" = modelo3,
+  "M4: Edu² + Sexo" = modelo4,
+  "M5: Edu² + Sexo + Habilidad" = modelo5
+)
+
+resumen <- data.frame(
+  Modelo = names(modelos),
+  R_cuadrado = sapply(modelos, function(m) round(summary(m)$r.squared, 4)),
+  Variables = c(1, 1, 2, 3, 4)
+)
+
+print(resumen)
+```
+
+**Observación**: R² aumenta con cada variable, pero **solo el modelo 5 es insesgado**.
+
+---
+
+## Preguntas de Reflexión Final
+
+1. **¿Por qué el coeficiente de educación es más BAJO en el modelo 5 que en el modelo 4?**
+   
+   Pista: Piensa en el sesgo de variable omitida.
+
+2. **Si eres tomador de decisiones y solo tienes datos de educación y salario (sin habilidad), ¿qué harías?**
+   
+   Opciones:
+   - (a) Confiar en la regresión simple
+   - (b) Diseñar un experimento aleatorio
+   - (c) Buscar un diseño quasi-experimental
+   - (d) No invertir en becas
+
+3. **¿La brecha salarial de género es "justa" después de controlar por educación y habilidad?**
+   
+   Esto requiere un juicio normativo, no solo estadístico.
+
+4. **Si un estudio observacional reporta que cada año de educación aumenta el salario en $50, ¿es este el efecto CAUSAL?**
+   
+   ¿Qué variables omitidas podrían estar sesgando esta estimación?
+
+---
+
+## Conexión con el Curso
+
+En este ejercicio integramos:
+
+✅ **Regresión lineal**: Cuantificar relaciones entre variables
+
+✅ **Variables dummy**: Diferencia de medias = Regresión
+
+✅ **Modelos no lineales**: Educación²
+
+✅ **R²**: Bondad de ajuste
+
+✅ **Causalidad**: Diferencia entre correlación y causalidad
+
+✅ **Sesgo de variable omitida**: El problema fundamental
+
+✅ **Diseños de evaluación**: RCT, RD, IV como soluciones
+
+---
+
+## Para Profundizar
+
+📚 **Lecturas recomendadas**:
+- Card, David (1999). "The Causal Effect of Education on Earnings"
+- Angrist & Pischke (2009). "Mostly Harmless Econometrics"
+
+---
+
+**Fin del ejercicio** 
+
+*Recuerda: Los datos son simulados, pero el problema es real. En política pública, distinguir correlación de causalidad puede significar la diferencia entre programas efectivos y desperdicio de recursos.*
