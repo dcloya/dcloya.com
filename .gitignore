@@ -9,3 +9,5 @@
 # Quarto output
 /docs/
 /.quarto/
+
+**/*.quarto_ipynb

@@ -305,3 +305,15 @@ body {
 .navbar-nav .nav-item.compact .nav-link:hover i {
   color: var(--accent-blue);
 }
+
+/* Ícono específico del TEC */
+img.tec-icon {
+  max-width: 20px !important;
+  max-height: 20px !important;
+  width: 20px !important;
+  height: auto !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 6px !important;
+  object-fit: contain !important;
+}
