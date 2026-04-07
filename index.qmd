@@ -17,7 +17,7 @@ about:
   template: trestles
   image-width: 70%
   links:
-    - text: "![](/files/simbolo-tec-black-small.png){width=20} TECprofile"
+    - text: "![](/files/simbolo-tec-black-small.png) TECprofile"
       href: https://egobiernoytp.tec.mx/es/sobre-egob/facultad-investigadores/perfil-asociados/david-contreras-loya
       target: _blank     
     - icon: linkedin

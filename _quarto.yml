@@ -60,11 +60,6 @@ website:
             href: notes/r_data_wrangling_es.qmd
           - text: "---"
           
-          # Tarea integradora
-          - text: "Tareas"
-          - text: "Tareas integradora"
-            href: notes/tarea_capacitacion.qmd
-          
           # SESIONES DE CLASE
           - text: "Sesiones de clase (10)"
           - text: "---"
@@ -103,6 +98,11 @@ website:
           - text: "BLOQUE 5: Asociación y Causalidad"
           - text: "S9-10: Retornos a la educación"
             href: notes/ejercicio_regresion_causalidad.qmd
+            
+          # Tarea integradora
+          - text: "Tareas"
+          - text: "Tarea integradora"
+            href: notes/tarea_capacitacion.qmd
           
     right: 
       - text: CV
