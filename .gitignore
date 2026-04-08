@@ -7,7 +7,7 @@
 .Ruserdata
 
 # Quarto output
-/docs/
+_site/
 /.quarto/
 
 **/*.quarto_ipynb
