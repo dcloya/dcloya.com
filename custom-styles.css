@@ -305,3 +305,27 @@ body {
 .navbar-nav .nav-item.compact .nav-link:hover i {
   color: var(--accent-blue);
 }
+
+/* ============================================
+   FIX: Icon sizes in about links
+   ============================================ */
+
+/* Ensure all icons (including images) in about links are uniform size */
+.about-links .about-link img {
+  max-width: 20px !important;
+  max-height: 20px !important;
+  width: auto !important;
+  height: auto !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 0.4rem !important;
+  object-fit: contain !important;
+}
+
+/* On mobile, keep icons slightly smaller */
+@media (max-width: 768px) {
+  .about-links .about-link img {
+    max-width: 18px !important;
+    max-height: 18px !important;
+  }
+}
