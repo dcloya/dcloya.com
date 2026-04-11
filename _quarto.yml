@@ -4,6 +4,9 @@ project:
   resources:
     - custom-styles.css
 
+execute:
+  freeze: auto
+
 filters:
   - webr
 
@@ -20,14 +23,14 @@ website:
   open-graph:
     title: "David Contreras-Loya, PhD"
     description: "Applied economist, researcher, and educator working at the intersection of health, education, and social policy"
-    image: https://dcloya.com/files/AGT_5639.PNG
+    image: https://dcloya.com/files/AGT_5639.png
     locale: en_US
     site-name: "David Contreras-Loya"
-    
+
   twitter-card:
     title: "David Contreras-Loya, PhD"
     description: "Research Professor at Tecnológico de Monterrey specializing in health economics and public policy"
-    image: https://dcloya.com/files/AGT_5639.PNG
+    image: https://dcloya.com/files/AGT_5639.png
     card-style: summary_large_image
   
   # Search configuration
@@ -41,7 +44,9 @@ website:
       - text: About
         menu:
           - text: Contact
-            href: contact.qmd            
+            href: contact.qmd
+          - text: CV
+            href: cv.qmd
       
       # --- TEACHING SECTION (REORGANIZED) ---
       - text: Teaching
@@ -139,10 +144,8 @@ website:
   draft-mode: unlinked
   
   google-analytics:
-    tracking-id: ""  
-    anonymize-ip: true 
-
-bibliography: references.bib
+    tracking-id: "G-CRLS583RW9"
+    anonymize-ip: true
 
 format:
   html:

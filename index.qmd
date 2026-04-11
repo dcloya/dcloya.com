@@ -37,19 +37,6 @@ about:
       href: https://www.researchgate.net/profile/David-Contreras-Loya-2
       target: _blank
 
-listing:
-  - id: recent-posts
-    contents: 
-      - posts
-      - posts/post-links.yml
-    type: grid
-    max-items: 3
-    page-size: 3
-    fields: [image, date, title, subtitle]
-    max-description-length: 75
-    sort: 
-      - "date desc"
-      - "title asc"
 ---
 
 ```{=html}
@@ -67,7 +54,7 @@ listing:
   "sameAs": [
     "https://www.linkedin.com/in/david-contreras-loya-8550bb44",
     "https://orcid.org/0000-0002-4042-4372",
-    "https://scholar.google.com/citations?user=vf90AuEAAAAJ",
+    "https://scholar.google.com/citations?user=axuzNJ0AAAAJ",
     "https://www.researchgate.net/profile/David-Contreras-Loya-2",
     "https://www.scopus.com/authid/detail.uri?authorId=55971186800",
     "https://www.webofscience.com/wos/author/record/NWH-0285-2025"

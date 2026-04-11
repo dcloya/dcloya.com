@@ -329,3 +329,42 @@ body {
     max-height: 18px !important;
   }
 }
+
+/* ============================================
+   ALTMETRIC & DIMENSIONS BADGES
+   ============================================ */
+
+/* Inline block for altmetric badges, keeps badges on the same line */
+span.__dimensions_badge_embed__, div.altmetric-embed {
+  display: inline-block;
+}
+
+/* ============================================
+   WEBR CODE BLOCKS
+   ============================================ */
+
+/* Reduce code editor size */
+.webr-editor {
+  font-size: 0.8em !important;
+  line-height: 1.4;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Reduce output size */
+.webr-output {
+  font-size: 0.85em !important;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Make console text smaller */
+.webr-console {
+  font-size: 0.8em !important;
+}
+
+/* Adjust button sizes */
+.webr-run-button {
+  font-size: 0.9em;
+  padding: 0.3rem 0.6rem;
+}

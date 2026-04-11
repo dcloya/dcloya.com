@@ -2,5 +2,5 @@
 title: "CV"
 ---
 
-**Current CV (PDF):**  
-- Dropbox: </Users/dcloya/Dropbox/vitae/Contreras_D_academic_CV.pdf/>
+**Current CV (PDF):**
+[Download CV](files/Contreras_D_academic_CV_2026.pdf)
