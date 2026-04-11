@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 2: Visualización como Evidencia – David Contreras-Loya</title>
+<title>Regresión y Causalidad: Retornos a la Educación – David Contreras-Loya</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-eac63afcf1e3327b8589317cc3df48f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,14 +71,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CRLS583RW9"></script>
 
 <script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '', { 'anonymize_ip': true});
+gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/editor/editor.main.css">
@@ -357,7 +359,7 @@ iframe.qwebr-output-code-browse {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = [''];
+globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -379,7 +381,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# Simulación de datos educativos\nset.seed(2026)\nn_urbano <- 80\nn_rural <- 40\n\n# Escuelas URBANAS: mayor presupuesto pero más variabilidad\npresup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD\n# Efecto del presupuesto + ruido + efecto fijo urbano\npuntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5\n\n# Escuelas RURALES: menor presupuesto, mayor efecto marginal\npresup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)\n# Efecto más fuerte del presupuesto en contexto rural\npuntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)\n\n# Crear base de datos\nescuelas <- data.frame(\n  id_escuela = 1:(n_urbano + n_rural),\n  presupuesto_anual_kusd = c(presup_urbano, presup_rural),\n  puntaje_prueba = c(puntaje_urbano, puntaje_rural),\n  tipo = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Asegurar que puntajes estén en rango válido\nescuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))\n\n# Vista previa\nhead(escuelas, 10)\ncat(\"\\n📚 Total de escuelas:\", nrow(escuelas), \"\\n\")\ncat(\"   - Urbanas:\", n_urbano, \"\\n\")\ncat(\"   - Rurales:\", n_rural, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Función para calcular estadísticas completas\nresumen_estadistico <- function(x) {\n  c(\n    n = length(x),\n    Media = mean(x),\n    Mediana = median(x),\n    DE = sd(x),\n    Min = min(x),\n    P25 = quantile(x, 0.25),\n    P75 = quantile(x, 0.75),\n    Max = max(x),\n    IQR = IQR(x)\n  )\n}\n\ncat(\"\\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)\n\ncat(\"\\n\\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)\n\n# Tabla comparativa lado a lado\ncat(\"\\n\\n📋 COMPARACIÓN DIRECTA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-25s %12s %12s %12s\\n\", \"Variable\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"───────────────────────────────────────────────────────────\\n\")\n\n# Puntaje promedio\npunt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\npunt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje promedio\", \n            punt_urb, punt_rur, punt_urb - punt_rur))\n\n# Puntaje mediano\nmed_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\nmed_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje mediano\", \n            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))\n\n# Presupuesto promedio\npres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"])\npres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Presupuesto (kUSD)\", \n            pres_urb, pres_rur, pres_urb - pres_rur))\n\n# Dispersión (IQR)\niqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\niqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"IQR Puntaje\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot básico pero informativo\nboxplot(puntaje_prueba ~ tipo, \n        data = escuelas,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Distribución de Puntajes por Tipo de Escuela\",\n        ylab = \"Puntaje en Prueba Estandarizada (0-100)\",\n        xlab = \"Tipo de Escuela\",\n        border = \"gray30\",\n        notch = FALSE,\n        horizontal = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 1.2)\n\n# Agregar línea de referencia: puntaje mínimo aceptable\nabline(h = 60, col = \"orange\", lwd = 2, lty = 2)\ntext(1.5, 62, \"Meta mínima: 60 puntos\", pos = 4, col = \"orange\", cex = 0.9)\n\n# Agregar la media como punto\npoints(c(1, 2), c(punt_urb, punt_rur), \n       pch = 18, col = \"blue\", cex = 2.5)\nlegend(\"bottomright\", \n       legend = c(\"Mediana (línea)\", \"Media (rombo)\"),\n       pch = c(NA, 18),\n       lty = c(1, NA),\n       col = c(\"black\", \"blue\"),\n       bty = \"n\")\n\n# Anotar elementos del boxplot\nmtext(\"Línea central = MEDIANA (hogar típico)\", \n      side = 3, line = -2, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Caja = IQR (50% central de escuelas)\", \n      side = 3, line = -3, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Puntos rojos = Outliers (casos extremos)\", \n      side = 3, line = -4, at = 1, cex = 0.75, col = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Identificar escuelas por cuartil de desempeño\nescuelas$cuartil <- cut(escuelas$puntaje_prueba,\n                        breaks = quantile(escuelas$puntaje_prueba, \n                                         probs = c(0, 0.25, 0.5, 0.75, 1)),\n                        labels = c(\"Q1 (bajo)\", \"Q2\", \"Q3\", \"Q4 (alto)\"),\n                        include.lowest = TRUE)\n\n# Tabla de distribución por cuartil y tipo\ncat(\"\\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ntabla <- table(escuelas$tipo, escuelas$cuartil)\nprint(tabla)\n\ncat(\"\\nProporción por tipo:\\n\")\nprint(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)\n\n# Identificar escuelas con bajo desempeño (bottom 25%)\nescuelas_bajo_desempeno <- escuelas[escuelas$cuartil == \"Q1 (bajo)\", ]\ncat(\"\\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(escuelas_bajo_desempeno), \"escuelas\\n\")\ncat(\"Urbanas:\", sum(escuelas_bajo_desempeno$tipo == \"Urbana\"), \"\\n\")\ncat(\"Rurales:\", sum(escuelas_bajo_desempeno$tipo == \"Rural\"), \"\\n\")\ncat(\"\\nPresupuesto promedio en este grupo: $\", \n    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), \"k USD\\n\")\ncat(\"Puntaje promedio: \", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), \"\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Scatterplot con diferenciación por tipo\nplot(escuelas$presupuesto_anual_kusd, \n     escuelas$puntaje_prueba,\n     pch = ifelse(escuelas$tipo == \"Urbana\", 19, 17),\n     col = ifelse(escuelas$tipo == \"Urbana\", \"#FF6B6B\", \"#4ECDC4\"),\n     cex = 1.3,\n     main = \"Relación Presupuesto-Desempeño por Tipo de Escuela\",\n     xlab = \"Presupuesto Anual por Estudiante (miles USD)\",\n     ylab = \"Puntaje en Prueba Estandarizada\",\n     xlim = c(0, 14),\n     ylim = c(0, 100))\n\n# Líneas de tendencia por grupo\nurbanas <- escuelas[escuelas$tipo == \"Urbana\", ]\nrurales <- escuelas[escuelas$tipo == \"Rural\", ]\n\nmodelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)\nmodelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)\n\nabline(modelo_urb, col = \"#FF6B6B\", lwd = 3)\nabline(modelo_rur, col = \"#4ECDC4\", lwd = 3)\n\n# Línea de meta mínima\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\n# Leyenda\nlegend(\"bottomright\",\n       legend = c(\"Urbana\", \"Rural\", \"Meta (60 pts)\"),\n       pch = c(19, 17, NA),\n       lty = c(1, 1, 2),\n       col = c(\"#FF6B6B\", \"#4ECDC4\", \"orange\"),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Identificar outliers interesantes (alto presupuesto, bajo desempeño)\nbajo_desempeno_alto_presup <- escuelas[\n  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, \n]\n\nif (nrow(bajo_desempeno_alto_presup) > 0) {\n  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n         bajo_desempeno_alto_presup$puntaje_prueba,\n         pch = 1, col = \"red\", cex = 3, lwd = 2)\n  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n       bajo_desempeno_alto_presup$puntaje_prueba,\n       \"Problema\\nde gestión?\",\n       pos = 4, col = \"red\", cex = 0.8)\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Pendiente para escuelas urbanas\nslope_urb <- coef(modelo_urb)[2]\ncat(\"ESCUELAS URBANAS:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_urb, 2), \"puntos\\n\\n\")\n\n# Pendiente para escuelas rurales\nslope_rur <- coef(modelo_rur)[2]\ncat(\"ESCUELAS RURALES:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_rur, 2), \"puntos\\n\\n\")\n\n# Comparación\ndiferencia_slopes <- slope_rur - slope_urb\ncat(\"DIFERENCIA:\\n\")\ncat(\"  Las escuelas rurales tienen un retorno\", \n    round(abs(diferencia_slopes), 2), \"puntos\")\nif (diferencia_slopes > 0) {\n  cat(\" MAYOR por cada $1k USD\\n\")\n  cat(\"  → Invertir en rurales puede ser más eficiente\\n\")\n} else {\n  cat(\" MENOR por cada $1k USD\\n\")\n}\n\n# R² (qué tan bien explica el presupuesto el desempeño)\nr2_urb <- summary(modelo_urb)$r.squared\nr2_rur <- summary(modelo_rur)$r.squared\n\ncat(\"\\n📊 PODER EXPLICATIVO (R²):\\n\")\ncat(\"  Urbanas: El presupuesto explica el\", round(100 * r2_urb, 1), \n    \"% de la variación en puntajes\\n\")\ncat(\"  Rurales: El presupuesto explica el\", round(100 * r2_rur, 1), \n    \"% de la variación en puntajes\\n\\n\")\n\nif (r2_urb < 0.5) {\n  cat(\"⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\\n\")\n  cat(\"   Otros factores son importantes (calidad docente, infraestructura, contexto)\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histogramas superpuestos para comparar distribuciones\npar(mfrow = c(1, 2))\n\n# Urbanas\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"],\n     breaks = 15,\n     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Urbanas\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_urb, col = \"darkred\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"]), \n       col = \"darkred\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkred\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\n# Rurales\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"],\n     breaks = 12,\n     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Rurales\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_rur, col = \"darkblue\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"]), \n       col = \"darkblue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkblue\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\npar(mfrow = c(1, 1))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear categorías de desempeño\nescuelas$categoria_desempeno <- cut(\n  escuelas$puntaje_prueba,\n  breaks = c(0, 50, 70, 85, 100),\n  labels = c(\"Crítico\", \"Bajo\", \"Aceptable\", \"Destacado\"),\n  include.lowest = TRUE\n)\n\ncat(\"\\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Tabla cruzada\ntabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)\nprint(tabla_desempeno)\n\ncat(\"\\n\\nPorcentaje dentro de cada tipo:\\n\")\nprint(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))\n\n# Escuelas en situación crítica\ncriticas <- escuelas[escuelas$categoria_desempeno == \"Crítico\", ]\ncat(\"\\n\\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(criticas), \"escuelas\\n\\n\")\n\nif (nrow(criticas) > 0) {\n  cat(\"Detalle de escuelas críticas:\\n\")\n  print(criticas[, c(\"id_escuela\", \"tipo\", \"puntaje_prueba\", \n                     \"presupuesto_anual_kusd\")])\n  \n  cat(\"\\n  Presupuesto promedio de escuelas críticas: $\",\n      round(mean(criticas$presupuesto_anual_kusd), 2), \"k USD\\n\")\n  cat(\"  ¿Es el presupuesto el problema o hay otros factores?\\n\")\n}","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparemos dos formas de graficar la MISMA información\n\npar(mfrow = c(1, 2))\n\n# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(50, 80),  # NO empieza en 0\n        main = \"¿Enorme diferencia?\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 2, round(punt_urb, 1))\ntext(1.9, punt_rur + 2, round(punt_rur, 1))\n\n# GRÁFICO 2: Eje Y correcto (empieza en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(0, 100),  # Empieza en 0\n        main = \"Diferencia en contexto\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 5, round(punt_urb, 1))\ntext(1.9, punt_rur + 5, round(punt_rur, 1))\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\npar(mfrow = c(1, 1))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\\n\")\ncat(\"  Para: Secretario de Educación\\n\")\ncat(\"  Fecha:\", format(Sys.Date(), \"%d-%m-%Y\"), \"\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. HALLAZGO PRINCIPAL\\n\\n\")\ncat(\"   Las escuelas urbanas tienen en promedio\", round(pres_urb - pres_rur, 1),\n    \"k USD más de presupuesto\\n\")\ncat(\"   pero solo\", round(punt_urb - punt_rur, 1), \n    \"puntos más de desempeño.\\n\\n\")\ncat(\"   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\\n\")\ncat(\"     (\", round(slope_rur, 2), \" vs \", round(slope_urb, 2), \n    \" puntos por kUSD)\\n\\n\")\n\ncat(\"2. ESCUELAS EN RIESGO\\n\\n\")\ncat(\"   •\", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), \n    \"escuelas están por debajo de la meta mínima (60 puntos)\\n\")\ncat(\"   • De estas,\", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == \"Rural\"),\n    \"son rurales\\n\")\ncat(\"   • El\", round(100 * nrow(criticas)/nrow(escuelas), 1),\n    \"% está en situación CRÍTICA (< 50 puntos)\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\\n\")\ncat(\"   • IQR Urbanas:\", round(iqr_urb, 1), \"puntos\\n\")\ncat(\"   • IQR Rurales:\", round(iqr_rur, 1), \"puntos\\n\")\ncat(\"   → Mayor dispersión en\", \n    ifelse(iqr_urb > iqr_rur, \"urbanas\", \"rurales\"), \"\\n\\n\")\n\ncat(\"4. RECOMENDACIONES BASADAS EN EVIDENCIA\\n\\n\")\ncat(\"   a) Priorizar inversión en escuelas rurales de bajo desempeño\\n\")\ncat(\"      (mayor retorno marginal del presupuesto)\\n\\n\")\ncat(\"   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\\n\")\ncat(\"      (posible problema de gestión, no recursos)\\n\\n\")\ncat(\"   c) No usar solo presupuesto como palanca - el R² es\", \n    round(r2_urb, 2), \"\\n\")\ncat(\"      Considerar: capacitación docente, infraestructura, contexto\\n\\n\")\n\ncat(\"5. LIMITACIONES\\n\\n\")\ncat(\"   • Correlación NO implica causalidad\\n\")\ncat(\"   • No controlamos por: nivel socioeconómico, experiencia docente,\\n\")\ncat(\"     infraestructura, tamaño de clase\\n\")\ncat(\"   • Puntaje de prueba es solo un indicador de calidad educativa\\n\")\ncat(\"   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Fijar semilla para reproducibilidad\nset.seed(2026)\n\n# Número de observaciones\nn <- 1000\n\n# 1. Sexo: 50% mujeres, 50% hombres\nsexo <- rbinom(n, 1, 0.5)\n\n# 2. Habilidad NO OBSERVABLE (media=0, sd=1)\nhabilidad <- rnorm(n, mean = 0, sd = 1)\n\n# 3. Años de educación (depende de habilidad)\n# Personas con mayor habilidad tienden a estudiar más\neducacion_base <- rpois(n, lambda = 9)\neducacion <- pmin(18, pmax(0, educacion_base + round(1.5 * habilidad)))\n\n# 4. Salario mensual (función de educación, sexo, habilidad + ruido)\n# Usamos log-salario para evitar valores negativos\nlog_salario <- 5.5 +                          # Intercepto (≈$245 base)\n               0.08 * educacion +              # Retorno lineal a educación\n               -0.002 * educacion^2 +          # Retornos decrecientes\n               0.15 * sexo +                   # Brecha de género (hombres ganan 15% más)\n               0.12 * habilidad +              # Efecto de habilidad\n               rnorm(n, 0, 0.25)               # Ruido aleatorio\n\nsalario <- exp(log_salario)\n\n# Crear data frame\ndatos <- data.frame(\n  id = 1:n,\n  salario = round(salario, 2),\n  educacion = educacion,\n  sexo = sexo,\n  sexo_etiqueta = ifelse(sexo == 1, \"Hombre\", \"Mujer\"),\n  habilidad = round(habilidad, 2)\n)\n\n# Mostrar primeras observaciones\nhead(datos, 10)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular medias por grupo\nmedia_mujeres <- mean(datos$salario[datos$sexo == 0])\nmedia_hombres <- mean(datos$salario[datos$sexo == 1])\n\ncat(\"Salario promedio MUJERES: $\", round(media_mujeres, 2), \"\\n\")\ncat(\"Salario promedio HOMBRES: $\", round(media_hombres, 2), \"\\n\")\ncat(\"Diferencia (Hombres - Mujeres): $\", round(media_hombres - media_mujeres, 2), \"\\n\\n\")\n\n# Prueba t\nresultado_t <- t.test(salario ~ sexo, data = datos)\nprint(resultado_t)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Regresión: salario ~ sexo\nmodelo1 <- lm(salario ~ sexo, data = datos)\nsummary(modelo1)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Regresión: salario ~ educacion\nmodelo2 <- lm(salario ~ educacion, data = datos)\nsummary(modelo2)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Extraer R²\nr2 <- summary(modelo2)$r.squared\ncat(\"R² =\", round(r2, 4), \"\\n\")\ncat(\"Interpretación: La educación explica\", round(r2 * 100, 2), \"% de la variación en salarios\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(datos, aes(x = educacion, y = salario)) +\n  geom_point(alpha = 0.4, color = \"steelblue\") +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"red\", linewidth = 1.2) +\n  labs(\n    title = \"Relación entre Educación y Salario\",\n    subtitle = \"Modelo lineal simple\",\n    x = \"Años de educación\",\n    y = \"Salario mensual ($)\",\n    caption = \"Nota: Banda gris = Intervalo de confianza 95%\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(plot.title = element_text(face = \"bold\"))","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Regresión con término cuadrático\nmodelo3 <- lm(salario ~ educacion + I(educacion^2), data = datos)\nsummary(modelo3)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar R² entre modelos\nr2_lineal <- summary(modelo2)$r.squared\nr2_cuadratico <- summary(modelo3)$r.squared\n\ncat(\"R² modelo lineal:\", round(r2_lineal, 4), \"\\n\")\ncat(\"R² modelo cuadrático:\", round(r2_cuadratico, 4), \"\\n\")\ncat(\"Mejora en R²:\", round(r2_cuadratico - r2_lineal, 4), \"\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear predicciones para ambos modelos\ndatos$pred_lineal <- predict(modelo2)\ndatos$pred_cuadratico <- predict(modelo3)\n\nggplot(datos, aes(x = educacion, y = salario)) +\n  geom_point(alpha = 0.3, color = \"gray50\") +\n  geom_line(aes(y = pred_lineal, color = \"Lineal\"), linewidth = 1.2) +\n  geom_line(aes(y = pred_cuadratico, color = \"Cuadrático\"), linewidth = 1.2) +\n  scale_color_manual(values = c(\"Lineal\" = \"blue\", \"Cuadrático\" = \"red\")) +\n  labs(\n    title = \"Comparación: Modelo Lineal vs Cuadrático\",\n    x = \"Años de educación\",\n    y = \"Salario mensual ($)\",\n    color = \"Modelo\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"top\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Modelo: salario ~ educacion + educacion² + sexo\nmodelo4 <- lm(salario ~ educacion + I(educacion^2) + sexo, data = datos)\nsummary(modelo4)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar R² de todos los modelos\ncat(\"R² modelo 2 (solo educación lineal):\", round(summary(modelo2)$r.squared, 4), \"\\n\")\ncat(\"R² modelo 3 (educación cuadrática):\", round(summary(modelo3)$r.squared, 4), \"\\n\")\ncat(\"R² modelo 4 (+ sexo):\", round(summary(modelo4)$r.squared, 4), \"\\n\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(datos, aes(x = educacion, y = salario, color = sexo_etiqueta)) +\n  geom_point(alpha = 0.3) +\n  geom_smooth(method = \"lm\", formula = y ~ x + I(x^2), se = FALSE, linewidth = 1.2) +\n  scale_color_manual(values = c(\"Mujer\" = \"#E74C3C\", \"Hombre\" = \"#3498DB\")) +\n  labs(\n    title = \"Retornos a la Educación por Género\",\n    subtitle = \"Modelo cuadrático\",\n    x = \"Años de educación\",\n    y = \"Salario mensual ($)\",\n    color = \"Sexo\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"top\")","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Modelo COMPLETO: incluye habilidad (normalmente NO observable)\nmodelo5 <- lm(salario ~ educacion + I(educacion^2) + sexo + habilidad, data = datos)\nsummary(modelo5)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tabla comparativa de coeficientes\ncoef_modelo4 <- coef(modelo4)\ncoef_modelo5 <- coef(modelo5)\n\ncomparacion <- data.frame(\n  Variable = c(\"Intercepto\", \"Educación\", \"Educación²\", \"Sexo\", \"Habilidad\"),\n  Sin_Habilidad = c(coef_modelo4, NA),\n  Con_Habilidad = c(coef_modelo5)\n)\n\nprint(comparacion)","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar R²\ncat(\"R² SIN habilidad (modelo 4):\", round(summary(modelo4)$r.squared, 4), \"\\n\")\ncat(\"R² CON habilidad (modelo 5):\", round(summary(modelo5)$r.squared, 4), \"\\n\")\ncat(\"\\nIncremento en R²:\", round(summary(modelo5)$r.squared - summary(modelo4)$r.squared, 4), \"\\n\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear observación hipotética\npersona_nueva <- data.frame(\n  educacion = 12,\n  sexo = 1,\n  habilidad = 1.0\n)\n\n# Predicción SIN controlar por habilidad (modelo 4)\npred_sin_habilidad <- predict(modelo4, newdata = persona_nueva)\n\n# Predicción CON habilidad (modelo 5)\npred_con_habilidad <- predict(modelo5, newdata = persona_nueva)\n\ncat(\"Predicción SIN controlar habilidad: $\", round(pred_sin_habilidad, 2), \"\\n\")\ncat(\"Predicción CON controlar habilidad: $\", round(pred_con_habilidad, 2), \"\\n\")\ncat(\"Diferencia (SESGO): $\", round(pred_sin_habilidad - pred_con_habilidad, 2), \"\\n\")","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear grid de predicciones\ngrid <- expand.grid(\n  educacion = 0:18,\n  sexo = c(0, 1),\n  habilidad = c(-1, 0, 1)  # Baja, promedio, alta\n)\n\n# Predicciones de ambos modelos\ngrid$pred_sin_hab <- predict(modelo4, newdata = grid)\ngrid$pred_con_hab <- predict(modelo5, newdata = grid)\n\n# Etiquetar niveles\ngrid$habilidad_label <- factor(\n  grid$habilidad,\n  levels = c(-1, 0, 1),\n  labels = c(\"Baja\", \"Promedio\", \"Alta\")\n)\n\n# Gráfico para hombres con habilidad promedio\ndatos_plot <- subset(grid, sexo == 1 & habilidad == 0)\n\nggplot(datos_plot, aes(x = educacion)) +\n  geom_line(aes(y = pred_sin_hab, color = \"Sin controlar habilidad\"), \n            linewidth = 1.5, linetype = \"dashed\") +\n  geom_line(aes(y = pred_con_hab, color = \"Controlando habilidad\"), \n            linewidth = 1.5) +\n  scale_color_manual(\n    values = c(\"Sin controlar habilidad\" = \"red\", \n               \"Controlando habilidad\" = \"blue\")\n  ) +\n  labs(\n    title = \"Sesgo de Variable Omitida: Habilidad\",\n    subtitle = \"Hombres con habilidad promedio\",\n    x = \"Años de educación\",\n    y = \"Salario predicho ($)\",\n    color = \"Modelo\",\n    caption = \"Línea roja SOBRESTIMA el efecto de educación\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"top\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Gráfico para hombres con diferentes niveles de habilidad\ndatos_plot_completo <- subset(grid, sexo == 1)\n\nggplot(datos_plot_completo, aes(x = educacion, y = pred_con_hab, \n                                 color = habilidad_label)) +\n  geom_line(linewidth = 1.5) +\n  scale_color_manual(\n    values = c(\"Baja\" = \"#E74C3C\", \"Promedio\" = \"#95A5A6\", \"Alta\" = \"#27AE60\")\n  ) +\n  labs(\n    title = \"Retornos a la Educación según Nivel de Habilidad\",\n    subtitle = \"Hombres - Modelo que controla por habilidad\",\n    x = \"Años de educación\",\n    y = \"Salario predicho ($)\",\n    color = \"Habilidad\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"top\")","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Correlación simple entre educación y salario\ncor_simple <- cor(datos$educacion, datos$salario)\ncat(\"Correlación educación-salario:\", round(cor_simple, 3), \"\\n\")","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear tabla resumen\nmodelos <- list(\n  \"M1: Sexo\" = modelo1,\n  \"M2: Educación\" = modelo2,\n  \"M3: Educación²\" = modelo3,\n  \"M4: Edu² + Sexo\" = modelo4,\n  \"M5: Edu² + Sexo + Habilidad\" = modelo5\n)\n\nresumen <- data.frame(\n  Modelo = names(modelos),\n  R_cuadrado = sapply(modelos, function(m) round(summary(m)$r.squared, 4)),\n  Variables = c(1, 1, 2, 3, 4)\n)\n\nprint(resumen)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1633,28 +1635,55 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
-<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
 <meta property="og:site_name" content="David Contreras-Loya">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="David Contreras-Loya, PhD">
 <meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
-<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -1674,6 +1703,10 @@ globalThis.qwebrExecuteCode = async function (
     <a class="dropdown-item" href="../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../cv.html">
+ <span class="dropdown-text">CV</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -1691,14 +1724,6 @@ globalThis.qwebrExecuteCode = async function (
         <li>
     <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
- <span class="dropdown-text">Primeros Pasos con R</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
- <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Sesiones de clase (10)</li>
@@ -1741,12 +1766,13 @@ globalThis.qwebrExecuteCode = async function (
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
- <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+ <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
+        <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
- <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+ <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
   </li>
@@ -1787,7 +1813,50 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#parte-1-generando-datos-realistas" id="toc-parte-1-generando-datos-realistas" class="nav-link" data-scroll-target="#parte-1-generando-datos-realistas">Parte 1: Generando Datos Realistas</a></li>
+  <li><a href="#parte-2-regresión-simple---brecha-salarial-por-género" id="toc-parte-2-regresión-simple---brecha-salarial-por-género" class="nav-link" data-scroll-target="#parte-2-regresión-simple---brecha-salarial-por-género">Parte 2: Regresión Simple - Brecha Salarial por Género</a>
+  <ul class="collapse">
+  <li><a href="#enfoque-1-diferencia-de-medias-prueba-t" id="toc-enfoque-1-diferencia-de-medias-prueba-t" class="nav-link" data-scroll-target="#enfoque-1-diferencia-de-medias-prueba-t">Enfoque 1: Diferencia de Medias (Prueba t)</a></li>
+  <li><a href="#enfoque-2-regresión-lineal" id="toc-enfoque-2-regresión-lineal" class="nav-link" data-scroll-target="#enfoque-2-regresión-lineal">Enfoque 2: Regresión Lineal</a></li>
+  </ul></li>
+  <li><a href="#parte-3-retornos-a-la-educación-modelo-lineal" id="toc-parte-3-retornos-a-la-educación-modelo-lineal" class="nav-link" data-scroll-target="#parte-3-retornos-a-la-educación-modelo-lineal">Parte 3: Retornos a la Educación (Modelo Lineal)</a>
+  <ul class="collapse">
+  <li><a href="#visualización-diagrama-de-dispersión-línea-de-regresión" id="toc-visualización-diagrama-de-dispersión-línea-de-regresión" class="nav-link" data-scroll-target="#visualización-diagrama-de-dispersión-línea-de-regresión">Visualización: Diagrama de Dispersión + Línea de Regresión</a></li>
+  </ul></li>
+  <li><a href="#parte-4-retornos-decrecientes---modelo-cuadrático" id="toc-parte-4-retornos-decrecientes---modelo-cuadrático" class="nav-link" data-scroll-target="#parte-4-retornos-decrecientes---modelo-cuadrático">Parte 4: Retornos Decrecientes - Modelo Cuadrático</a>
+  <ul class="collapse">
+  <li><a href="#visualización-línea-curva-vs-línea-recta" id="toc-visualización-línea-curva-vs-línea-recta" class="nav-link" data-scroll-target="#visualización-línea-curva-vs-línea-recta">Visualización: Línea Curva vs Línea Recta</a></li>
+  </ul></li>
+  <li><a href="#parte-5-agregando-sexo-al-modelo" id="toc-parte-5-agregando-sexo-al-modelo" class="nav-link" data-scroll-target="#parte-5-agregando-sexo-al-modelo">Parte 5: Agregando Sexo al Modelo</a>
+  <ul class="collapse">
+  <li><a href="#visualización-líneas-separadas-por-sexo" id="toc-visualización-líneas-separadas-por-sexo" class="nav-link" data-scroll-target="#visualización-líneas-separadas-por-sexo">Visualización: Líneas Separadas por Sexo</a></li>
+  </ul></li>
+  <li><a href="#parte-6-el-modelo-verdadero---agregando-habilidad" id="toc-parte-6-el-modelo-verdadero---agregando-habilidad" class="nav-link" data-scroll-target="#parte-6-el-modelo-verdadero---agregando-habilidad">Parte 6: El Modelo “Verdadero” - Agregando Habilidad</a></li>
+  <li><a href="#parte-7-sesgo-de-variable-omitida---el-problema-causal" id="toc-parte-7-sesgo-de-variable-omitida---el-problema-causal" class="nav-link" data-scroll-target="#parte-7-sesgo-de-variable-omitida---el-problema-causal">Parte 7: Sesgo de Variable Omitida - El Problema Causal</a>
+  <ul class="collapse">
+  <li><a href="#predicciones-con-y-sin-habilidad" id="toc-predicciones-con-y-sin-habilidad" class="nav-link" data-scroll-target="#predicciones-con-y-sin-habilidad">Predicciones con y sin Habilidad</a></li>
+  <li><a href="#comparación-gráfica-del-sesgo" id="toc-comparación-gráfica-del-sesgo" class="nav-link" data-scroll-target="#comparación-gráfica-del-sesgo">Comparación Gráfica del Sesgo</a></li>
+  </ul></li>
+  <li><a href="#parte-8-visualización-final---efecto-por-nivel-de-habilidad" id="toc-parte-8-visualización-final---efecto-por-nivel-de-habilidad" class="nav-link" data-scroll-target="#parte-8-visualización-final---efecto-por-nivel-de-habilidad">Parte 8: Visualización Final - Efecto por Nivel de Habilidad</a></li>
+  <li><a href="#síntesis-lecciones-de-política-pública" id="toc-síntesis-lecciones-de-política-pública" class="nav-link" data-scroll-target="#síntesis-lecciones-de-política-pública">Síntesis: Lecciones de Política Pública</a>
+  <ul class="collapse">
+  <li><a href="#correlación-causalidad" id="toc-correlación-causalidad" class="nav-link" data-scroll-target="#correlación-causalidad">1. Correlación ≠ Causalidad</a></li>
+  <li><a href="#el-problema-de-variables-omitidas" id="toc-el-problema-de-variables-omitidas" class="nav-link" data-scroll-target="#el-problema-de-variables-omitidas">2. El Problema de Variables Omitidas</a></li>
+  <li><a href="#qué-podemos-hacer-en-la-práctica" id="toc-qué-podemos-hacer-en-la-práctica" class="nav-link" data-scroll-target="#qué-podemos-hacer-en-la-práctica">3. ¿Qué Podemos Hacer en la Práctica?</a></li>
+  <li><a href="#tabla-resumen-de-modelos" id="toc-tabla-resumen-de-modelos" class="nav-link" data-scroll-target="#tabla-resumen-de-modelos">4. Tabla Resumen de Modelos</a></li>
+  </ul></li>
+  <li><a href="#preguntas-de-reflexión-final" id="toc-preguntas-de-reflexión-final" class="nav-link" data-scroll-target="#preguntas-de-reflexión-final">Preguntas de Reflexión Final</a></li>
+  <li><a href="#conexión-con-el-curso" id="toc-conexión-con-el-curso" class="nav-link" data-scroll-target="#conexión-con-el-curso">Conexión con el Curso</a></li>
+  <li><a href="#para-profundizar" id="toc-para-profundizar" class="nav-link" data-scroll-target="#para-profundizar">Para Profundizar</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2077,7 +2146,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 2: Visualización como Evidencia</h1>
+<h1 class="title">Regresión y Causalidad: Retornos a la Educación</h1>
+<p class="subtitle lead">Programa Becas para Todos - El Salvador</p>
 </div>
 
 
@@ -2094,183 +2164,242 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="caso-de-política-pública" class="level1">
-<h1>Caso de Política Pública</h1>
-<p>El <strong>Secretario de Educación</strong> debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)</p>
-<p><strong>Tu tarea:</strong> Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?</p>
-<p><strong>Regla de oro:</strong> Un gráfico en política pública no es decoración; es un argumento basado en evidencia.</p>
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>En este ejercicio exploraremos una pregunta fundamental de política pública: <strong>¿Vale la pena invertir en educación?</strong></p>
+<p>Específicamente, investigaremos:</p>
+<ol type="1">
+<li>¿Cuánto aumenta el salario por cada año adicional de educación?</li>
+<li>¿La relación es lineal o hay retornos decrecientes?</li>
+<li>¿Existen brechas salariales por género?</li>
+<li><strong>¿La correlación entre educación y salario es causal, o está confundida por habilidad no observable?</strong></li>
+</ol>
 <hr>
 </section>
-<section id="parte-1-simulación-y-carga-de-datos" class="level1">
-<h1>Parte 1: Simulación y Carga de Datos</h1>
+<section id="parte-1-generando-datos-realistas" class="level2">
+<h2 class="anchored" data-anchor-id="parte-1-generando-datos-realistas">Parte 1: Generando Datos Realistas</h2>
+<p>Vamos a simular datos de 1,000 trabajadores salvadoreños con las siguientes características:</p>
+<ul>
+<li><strong>Años de educación</strong>: 0 a 18 años (primaria incompleta hasta posgrado)</li>
+<li><strong>Sexo</strong>: Mujer (0) u Hombre (1)</li>
+<li><strong>Habilidad cognitiva</strong>: Variable NO OBSERVABLE (como IQ, motivación, redes)</li>
+<li><strong>Salario mensual</strong>: En dólares estadounidenses</li>
+</ul>
+<p><strong>Importante</strong>: En la vida real, NO observamos la habilidad. Este es el “problema de variables omitidas”.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta de reflexión</strong>: ¿Qué observamos en los datos? ¿Qué NO observamos en la realidad?</p>
 <hr>
 </section>
-<section id="parte-2-estadísticas-descriptivas-por-tipo" class="level1">
-<h1>Parte 2: Estadísticas Descriptivas por Tipo</h1>
+<section id="parte-2-regresión-simple---brecha-salarial-por-género" class="level2">
+<h2 class="anchored" data-anchor-id="parte-2-regresión-simple---brecha-salarial-por-género">Parte 2: Regresión Simple - Brecha Salarial por Género</h2>
+<p><strong>Pregunta</strong>: ¿Los hombres ganan más que las mujeres?</p>
+<section id="enfoque-1-diferencia-de-medias-prueba-t" class="level3">
+<h3 class="anchored" data-anchor-id="enfoque-1-diferencia-de-medias-prueba-t">Enfoque 1: Diferencia de Medias (Prueba t)</h3>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de reflexión:</strong> ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?</p>
-<hr>
 </section>
-<section id="parte-3-visualización-esencial---el-boxplot" class="level1">
-<h1>Parte 3: Visualización Esencial - El Boxplot</h1>
-<p><strong>¿Por qué boxplot?</strong> Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente</p>
+<section id="enfoque-2-regresión-lineal" class="level3">
+<h3 class="anchored" data-anchor-id="enfoque-2-regresión-lineal">Enfoque 2: Regresión Lineal</h3>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Interpreta el boxplot:</strong> 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?</p>
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li><strong>Intercepto</strong> (<span class="math inline">\(\beta_0\)</span>): Salario promedio de las <strong>mujeres</strong> (sexo = 0)</li>
+<li><strong>Coeficiente de sexo</strong> (<span class="math inline">\(\beta_1\)</span>): Diferencia entre hombres y mujeres</li>
+</ul>
+<p><strong>Pregunta</strong>: Compara el coeficiente de <code>sexo</code> con la diferencia de medias. ¿Son iguales?</p>
+<p><strong>Conexión con la clase</strong>: Diferencia de medias = Regresión con variable dummy ✅</p>
 <hr>
 </section>
-<section id="parte-4-análisis-de-dispersión-y-desigualdad" class="level1">
-<h1>Parte 4: Análisis de Dispersión y Desigualdad</h1>
+</section>
+<section id="parte-3-retornos-a-la-educación-modelo-lineal" class="level2">
+<h2 class="anchored" data-anchor-id="parte-3-retornos-a-la-educación-modelo-lineal">Parte 3: Retornos a la Educación (Modelo Lineal)</h2>
+<p><strong>Pregunta</strong>: ¿Cuánto aumenta el salario por cada año adicional de educación?</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="parte-5-scatterplot---relación-presupuesto-desempeño" class="level1">
-<h1>Parte 5: Scatterplot - Relación Presupuesto-Desempeño</h1>
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li><strong>Intercepto</strong>: Salario esperado con <strong>cero</strong> años de educación</li>
+<li><strong>Pendiente</strong>: Por cada año adicional de educación, el salario aumenta en <strong>$___ dólares</strong> en promedio</li>
+<li><strong>R²</strong>: El modelo explica **___% ** de la variación en salarios</li>
+</ul>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Análisis del scatterplot:</strong> 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)</p>
-<hr>
-</section>
-<section id="parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="level1">
-<h1>Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</h1>
+<section id="visualización-diagrama-de-dispersión-línea-de-regresión" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-diagrama-de-dispersión-línea-de-regresión">Visualización: Diagrama de Dispersión + Línea de Regresión</h3>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Importante:</strong> Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto <em>cause</em> mejor desempeño.</p>
+<p><strong>Pregunta de reflexión</strong>: ¿La relación parece perfectamente lineal? ¿O hay indicios de que los retornos disminuyen en educación alta?</p>
 <hr>
 </section>
-<section id="parte-7-histograma-de-presupuesto" class="level1">
-<h1>Parte 7: Histograma de Presupuesto</h1>
+</section>
+<section id="parte-4-retornos-decrecientes---modelo-cuadrático" class="level2">
+<h2 class="anchored" data-anchor-id="parte-4-retornos-decrecientes---modelo-cuadrático">Parte 4: Retornos Decrecientes - Modelo Cuadrático</h2>
+<p>En economía, los <strong>retornos marginales decrecientes</strong> son comunes: los primeros años de educación tienen mayor impacto que los últimos.</p>
+<p>Modelo: <span class="math inline">\(\text{Salario} = \beta_0 + \beta_1 \cdot \text{Educación} + \beta_2 \cdot \text{Educación}^2 + \varepsilon\)</span></p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta:</strong> ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?</p>
-<hr>
-</section>
-<section id="parte-8-tabla-de-rendición-de-cuentas" class="level1">
-<h1>Parte 8: Tabla de Rendición de Cuentas</h1>
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li>Si <span class="math inline">\(\beta_2 &lt; 0\)</span>: Los retornos a educación son <strong>decrecientes</strong></li>
+<li>Si <span class="math inline">\(\beta_2 &gt; 0\)</span>: Los retornos a educación son <strong>crecientes</strong></li>
+</ul>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
-</section>
-<section id="parte-9-auditoría-de-gráficos-engañosos" class="level1">
-<h1>Parte 9: Auditoría de Gráficos Engañosos</h1>
-<p><strong>Ejercicio de lectura crítica:</strong> Imagina que ves este titular en un reporte:</p>
-<blockquote class="blockquote">
-<p>“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”</p>
-</blockquote>
+<section id="visualización-línea-curva-vs-línea-recta" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-línea-curva-vs-línea-recta">Visualización: Línea Curva vs Línea Recta</h3>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta crítica:</strong> - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?</p>
-<p><strong>Reglas de auditoría de gráficos:</strong> 1. ✅ <strong>Eje Y empieza en 0</strong> (para barras) 2. ✅ <strong>Denominador claro</strong> (¿por estudiante? ¿por escuela?) 3. ✅ <strong>Población y periodo especificados</strong> 4. ✅ <strong>Muestra dispersión</strong> (no solo promedios) 5. ✅ <strong>Declara limitaciones</strong></p>
+<p><strong>Pregunta</strong>: ¿Cuál modelo se ajusta mejor a los datos?</p>
 <hr>
 </section>
-<section id="parte-10-memo-ejecutivo-con-visualización" class="level1">
-<h1>Parte 10: Memo Ejecutivo con Visualización</h1>
+</section>
+<section id="parte-5-agregando-sexo-al-modelo" class="level2">
+<h2 class="anchored" data-anchor-id="parte-5-agregando-sexo-al-modelo">Parte 5: Agregando Sexo al Modelo</h2>
+<p>¿Qué pasa si controlamos por género?</p>
 <div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li>El coeficiente de <code>sexo</code> es la <strong>brecha salarial de género</strong>, controlando por educación</li>
+<li>Ahora comparamos hombres y mujeres <strong>con el mismo nivel de educación</strong></li>
+</ul>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Observación clave</strong>: Cada variable adicional <strong>aumenta el R²</strong> (el modelo explica más variación)</p>
+<section id="visualización-líneas-separadas-por-sexo" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-líneas-separadas-por-sexo">Visualización: Líneas Separadas por Sexo</h3>
+<div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-<section id="ejercicio-individual-entregable" class="level1">
-<h1>Ejercicio Individual (Entregable)</h1>
-<p><strong>Parte A: Crear Visualizaciones</strong></p>
+</section>
+<section id="parte-6-el-modelo-verdadero---agregando-habilidad" class="level2">
+<h2 class="anchored" data-anchor-id="parte-6-el-modelo-verdadero---agregando-habilidad">Parte 6: El Modelo “Verdadero” - Agregando Habilidad</h2>
+<p>En la realidad, <strong>no observamos habilidad</strong>. Pero aquí podemos simular lo que pasaría si la pudiéramos medir.</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Observación importante</strong>:</p>
+<ul>
+<li>Compara el coeficiente de <code>educacion</code> en <strong>modelo4</strong> (sin habilidad) vs <strong>modelo5</strong> (con habilidad)</li>
+<li>¿El efecto de educación cambia cuando controlamos por habilidad?</li>
+</ul>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Conclusión</strong>: Habilidad explica una parte importante de la variación en salarios que antes atribuíamos a educación.</p>
+<hr>
+</section>
+<section id="parte-7-sesgo-de-variable-omitida---el-problema-causal" class="level2">
+<h2 class="anchored" data-anchor-id="parte-7-sesgo-de-variable-omitida---el-problema-causal">Parte 7: Sesgo de Variable Omitida - El Problema Causal</h2>
+<p><strong>Pregunta central</strong>: Si omitimos habilidad (como ocurre en la realidad), ¿nuestras estimaciones están sesgadas?</p>
+<section id="predicciones-con-y-sin-habilidad" class="level3">
+<h3 class="anchored" data-anchor-id="predicciones-con-y-sin-habilidad">Predicciones con y sin Habilidad</h3>
+<p>Vamos a predecir el salario de una persona con: - 12 años de educación (bachillerato completo) - Sexo: Hombre - Habilidad: 1 desviación estándar arriba del promedio</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="comparación-gráfica-del-sesgo" class="level3">
+<h3 class="anchored" data-anchor-id="comparación-gráfica-del-sesgo">Comparación Gráfica del Sesgo</h3>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li>La línea <strong>ROJA</strong> (sin habilidad) está por <strong>ENCIMA</strong> de la azul</li>
+<li>Esto significa que <strong>sobrestimamos</strong> el efecto de la educación cuando omitimos habilidad</li>
+<li>¿Por qué? Porque personas con mayor habilidad:
 <ol type="1">
-<li><strong>Boxplot comparativo:</strong>
+<li>Eligen estudiar más (habilidad → educación)</li>
+<li>Ganan más salario (habilidad → salario)</li>
+<li>Creamos una <strong>correlación espuria</strong> entre educación y salario</li>
+</ol></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="parte-8-visualización-final---efecto-por-nivel-de-habilidad" class="level2">
+<h2 class="anchored" data-anchor-id="parte-8-visualización-final---efecto-por-nivel-de-habilidad">Parte 8: Visualización Final - Efecto por Nivel de Habilidad</h2>
+<p>¿Cómo cambian las predicciones para personas con diferente habilidad?</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Observación</strong>: Personas con mayor habilidad tienen salarios más altos <strong>en todos</strong> los niveles de educación.</p>
+<hr>
+</section>
+<section id="síntesis-lecciones-de-política-pública" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis-lecciones-de-política-pública">Síntesis: Lecciones de Política Pública</h2>
+<section id="correlación-causalidad" class="level3">
+<h3 class="anchored" data-anchor-id="correlación-causalidad">1. Correlación ≠ Causalidad</h3>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Esta correlación incluye: - Efecto <strong>causal</strong> de educación → salario - Efecto <strong>confusor</strong> de habilidad → educación Y habilidad → salario</p>
+</section>
+<section id="el-problema-de-variables-omitidas" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-de-variables-omitidas">2. El Problema de Variables Omitidas</h3>
+<p>Si omitimos habilidad: - <strong>SOBRESTIMAMOS</strong> el efecto de la educación - Las becas educativas parecen más efectivas de lo que realmente son - Mala asignación de recursos públicos</p>
+</section>
+<section id="qué-podemos-hacer-en-la-práctica" class="level3">
+<h3 class="anchored" data-anchor-id="qué-podemos-hacer-en-la-práctica">3. ¿Qué Podemos Hacer en la Práctica?</h3>
+<p>Ya que no podemos medir habilidad, necesitamos diseños de investigación que eliminen el sesgo:</p>
+<p><strong>Opción A: Experimento Aleatorio (RCT)</strong> - Asignar becas al azar - Comparar becados vs no becados - La aleatorización elimina el sesgo de habilidad</p>
+<p><strong>Opción B: Quasi-experimental (RD)</strong> - Becas para estudiantes con promedio ≥ 8.0 - Comparar estudiantes con 7.9 vs 8.1 - Son casi idénticos, excepto que unos reciben beca</p>
+<p><strong>Opción C: Variables Instrumentales</strong> - Encontrar algo que afecta educación pero NO salario directamente - Ejemplo: Distancia a la escuela más cercana</p>
+</section>
+<section id="tabla-resumen-de-modelos" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-de-modelos">4. Tabla Resumen de Modelos</h3>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Observación</strong>: R² aumenta con cada variable, pero <strong>solo el modelo 5 es insesgado</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="preguntas-de-reflexión-final" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-de-reflexión-final">Preguntas de Reflexión Final</h2>
+<ol type="1">
+<li><p><strong>¿Por qué el coeficiente de educación es más BAJO en el modelo 5 que en el modelo 4?</strong></p>
+<p>Pista: Piensa en el sesgo de variable omitida.</p></li>
+<li><p><strong>Si eres tomador de decisiones y solo tienes datos de educación y salario (sin habilidad), ¿qué harías?</strong></p>
+<p>Opciones:</p>
 <ul>
-<li>Grafica presupuesto_anual_kusd ~ tipo</li>
-<li>Incluye título-conclusión (máximo 18 palabras)</li>
-<li>Identifica outliers y explica qué pueden representar</li>
+<li><ol type="a">
+<li>Confiar en la regresión simple</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Diseñar un experimento aleatorio</li>
+</ol></li>
+<li><ol start="3" type="a">
+<li>Buscar un diseño quasi-experimental</li>
+</ol></li>
+<li><ol start="4" type="a">
+<li>No invertir en becas</li>
+</ol></li>
 </ul></li>
-<li><strong>Scatterplot con segmentación:</strong>
-<ul>
-<li>Eje X: presupuesto, Eje Y: puntaje</li>
-<li>Colorea puntos por tipo</li>
-<li>Agrega líneas de tendencia</li>
-<li>Marca escuelas con puntaje &lt; 50 (círculos rojos)</li>
-</ul></li>
-</ol>
-<p><strong>Parte B: Análisis Escrito</strong></p>
-<ol start="3" type="1">
-<li><strong>Tabla de análisis:</strong> Crea una tabla con 3 columnas:
-<ul>
-<li>Tipo de gráfico (Histograma, Boxplot, Scatterplot)</li>
-<li>Pregunta que responde mejor</li>
-<li>Limitación principal</li>
-</ul></li>
-<li><strong>Ejercicio de lectura crítica:</strong> Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
-<ul>
-<li>¿Cumple las 5 reglas de auditoría?</li>
-<li>¿Hay algo engañoso en la presentación?</li>
-<li>¿Qué mejorarías?</li>
-</ul></li>
-</ol>
-<p><strong>Parte C: Recomendación Estratégica</strong></p>
-<ol start="5" type="1">
-<li><strong>Escribe 6 líneas respondiendo:</strong>
-<ul>
-<li>Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?</li>
-<li>¿Usas criterio de presupuesto, desempeño, tipo, o combinación?</li>
-<li>Incluye 1 limitación de tu propuesta</li>
-</ul></li>
+<li><p><strong>¿La brecha salarial de género es “justa” después de controlar por educación y habilidad?</strong></p>
+<p>Esto requiere un juicio normativo, no solo estadístico.</p></li>
+<li><p><strong>Si un estudio observacional reporta que cada año de educación aumenta el salario en $50, ¿es este el efecto CAUSAL?</strong></p>
+<p>¿Qué variables omitidas podrían estar sesgando esta estimación?</p></li>
 </ol>
 <hr>
 </section>
-<section id="preguntas-de-discusión" class="level1">
-<h1>Preguntas de Discusión</h1>
-<ol type="1">
-<li><strong>La Trampa del Promedio Revisitada:</strong>
-<ul>
-<li>¿Por qué un gráfico de solo promedios puede ser engañoso?</li>
-<li>¿Qué se pierde cuando no mostramos dispersión?</li>
-</ul></li>
-<li><strong>Escalas Visuales:</strong>
-<ul>
-<li>¿Cuándo es legítimo NO empezar el eje Y en cero?</li>
-<li>¿Qué riesgos tiene manipular las escalas?</li>
-</ul></li>
-<li><strong>Denominadores:</strong>
-<ul>
-<li>¿Deberíamos graficar presupuesto total o por estudiante?</li>
-<li>¿Puntaje promedio de escuela o distribución completa?</li>
-</ul></li>
-<li><strong>Outliers:</strong>
-<ul>
-<li>¿Los outliers son errores o información valiosa?</li>
-<li>¿Cuándo deberías investigar un outlier vs.&nbsp;eliminarlo?</li>
-</ul></li>
-</ol>
+<section id="conexión-con-el-curso" class="level2">
+<h2 class="anchored" data-anchor-id="conexión-con-el-curso">Conexión con el Curso</h2>
+<p>En este ejercicio integramos:</p>
+<p>✅ <strong>Regresión lineal</strong>: Cuantificar relaciones entre variables</p>
+<p>✅ <strong>Variables dummy</strong>: Diferencia de medias = Regresión</p>
+<p>✅ <strong>Modelos no lineales</strong>: Educación²</p>
+<p>✅ <strong>R²</strong>: Bondad de ajuste</p>
+<p>✅ <strong>Causalidad</strong>: Diferencia entre correlación y causalidad</p>
+<p>✅ <strong>Sesgo de variable omitida</strong>: El problema fundamental</p>
+<p>✅ <strong>Diseños de evaluación</strong>: RCT, RD, IV como soluciones</p>
 <hr>
 </section>
-<section id="recursos-adicionales" class="level1">
-<h1>Recursos Adicionales</h1>
-<p><strong>Principios de visualización efectiva:</strong></p>
-<ol type="1">
-<li><strong>Claridad sobre estética:</strong> El gráfico debe comunicar, no impresionar</li>
-<li><strong>Honestidad visual:</strong> Escalas apropiadas, contexto completo</li>
-<li><strong>Dispersión importa:</strong> No solo promedios</li>
-<li><strong>Comparaciones justas:</strong> Mismo denominador, misma escala</li>
-<li><strong>Contexto siempre:</strong> Población, periodo, fuente, limitaciones</li>
-</ol>
-<p><strong>Tipos de gráficos y cuándo usarlos:</strong></p>
-<ul>
-<li><strong>Histograma:</strong> Ver forma de distribución (asimetría, modas)</li>
-<li><strong>Boxplot:</strong> Comparar grupos, detectar outliers</li>
-<li><strong>Scatterplot:</strong> Explorar relaciones entre dos variables</li>
-<li><strong>Barras:</strong> Comparar cantidades (¡eje Y en 0!)</li>
-<li><strong>Líneas:</strong> Mostrar tendencias en el tiempo</li>
-</ul>
-<p><strong>Errores comunes a evitar:</strong></p>
-<ul>
-<li>❌ Solo mostrar promedios sin dispersión</li>
-<li>❌ Manipular escalas para exagerar diferencias</li>
-<li>❌ No declarar denominador</li>
-<li>❌ Graficar sin pregunta clara en mente</li>
-<li>❌ Usar 3D, colores excesivos, “chart junk”</li>
-</ul>
+<section id="para-profundizar" class="level2">
+<h2 class="anchored" data-anchor-id="para-profundizar">Para Profundizar</h2>
+<p>📚 <strong>Lecturas recomendadas</strong>: - Card, David (1999). “The Causal Effect of Education on Earnings” - Angrist &amp; Pischke (2009). “Mostly Harmless Econometrics”</p>
 <hr>
-<p><strong>Última reflexión:</strong> Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?</p>
+<p><strong>Fin del ejercicio</strong></p>
+<p><em>Recuerda: Los datos son simulados, pero el problema es real. En política pública, distinguir correlación de causalidad puede significar la diferencia entre programas efectivos y desperdicio de recursos.</em></p>
 
 
 </section>

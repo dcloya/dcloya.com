@@ -2,16 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
-<meta name="dcterms.date" content="2026-03-13">
+<meta name="dcterms.date" content="2026-04-11">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
 <title>Sección 0: Configuración de R – David Contreras-Loya</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-3e8f12d1b5c8d04d32925f9f9ead600c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-eac63afcf1e3327b8589317cc3df48f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,14 +107,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CRLS583RW9"></script>
 
 <script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '', { 'anonymize_ip': true});
+gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
@@ -120,12 +122,12 @@ gtag('config', '', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
-<meta property="og:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
 <meta property="og:site_name" content="David Contreras-Loya">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="David Contreras-Loya, PhD">
 <meta name="twitter:description" content="Research Professor at Tecnológico de Monterrey specializing in health economics and public policy">
-<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.PNG">
+<meta name="twitter:image" content="https://dcloya.com/files/AGT_5639.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -136,8 +138,6 @@ gtag('config', '', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
@@ -157,6 +157,10 @@ gtag('config', '', { 'anonymize_ip': true});
     <a class="dropdown-item" href="../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../cv.html">
+ <span class="dropdown-text">CV</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -174,14 +178,6 @@ gtag('config', '', { 'anonymize_ip': true});
         <li>
     <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notes/r_getting_started_es.html">
- <span class="dropdown-text">Primeros Pasos con R</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notes/r_data_wrangling_es.html">
- <span class="dropdown-text">Manejo de Datos con dplyr</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Sesiones de clase (10)</li>
@@ -224,12 +220,13 @@ gtag('config', '', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex09_regression_integrated.html">
- <span class="dropdown-text">S9: Correlacion y Regresion Simple</span></a>
+    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+ <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
+        <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex10_simpsons_integrated.html">
- <span class="dropdown-text">S10: Paradoja de Simpson</span></a>
+    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+ <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
   </li>
@@ -327,7 +324,7 @@ gtag('config', '', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 13, 2026</p>
+      <p class="date">April 11, 2026</p>
     </div>
   </div>
   
