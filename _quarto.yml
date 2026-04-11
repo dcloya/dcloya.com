@@ -61,10 +61,6 @@ website:
           - text: "CONFIGURACION"
           - text: "Como Instalar R y RStudio"
             href: notes/r_setup_guide_es.qmd
-          - text: "Primeros Pasos con R"
-            href: notes/r_getting_started_es.qmd
-          - text: "Manejo de Datos con dplyr"
-            href: notes/r_data_wrangling_es.qmd
           - text: "---"
           
           # SESIONES DE CLASE
