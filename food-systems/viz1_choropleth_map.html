@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  .viz-container {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    max-width: 880px;
+    margin: 0 auto;
+    color: #1a1a2e;
+  }
+  .viz-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+  }
+  .viz-subtitle {
+    font-size: 14px;
+    color: #555;
+    margin: 0 0 18px 0;
+    line-height: 1.4;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .controls button {
+    font-family: inherit;
+    font-size: 12px;
+    padding: 6px 14px;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 20px;
+    background: #fff;
+    color: #444;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .controls button:hover {
+    border-color: #888;
+    background: #f5f5f5;
+  }
+  .controls button.active {
+    background: #1a1a2e;
+    color: #fff;
+    border-color: #1a1a2e;
+  }
+  .tile {
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .tile:hover {
+    opacity: 0.85;
+    stroke: #1a1a2e;
+    stroke-width: 2.5px;
+  }
+  .tile-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    fill: #fff;
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  .tile-value {
+    font-size: 8px;
+    font-weight: 400;
+    fill: rgba(255,255,255,0.9);
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .legend-gradient {
+    height: 10px;
+    flex: 1;
+    border-radius: 5px;
+  }
+  .legend-label {
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+  }
+  .tooltip-box {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(26,26,46,0.95);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 220px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 10;
+  }
+  .tooltip-box .tt-state {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .tooltip-box .tt-marg {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 6px;
+  }
+  .footnote {
+    font-size: 11px;
+    color: #888;
+    margin-top: 16px;
+    line-height: 1.5;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="viz-container">
+  <p class="viz-title">Mapa de indicadores del sistema alimentario por entidad federativa</p>
+  <p class="viz-subtitle">Cada celda representa un estado de México. Selecciona un indicador para explorar la variación geográfica.</p>
+
+  <div class="controls" id="controls"></div>
+  <div id="chart" style="position:relative;"></div>
+  <div class="legend-bar">
+    <span class="legend-label" id="legend-lo"></span>
+    <div class="legend-gradient" id="legend-grad"></div>
+    <span class="legend-label" id="legend-hi"></span>
+  </div>
+  <div class="tooltip-box" id="tooltip"></div>
+  <p class="footnote" id="footnote"></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function() {
+
+const tileGrid = {"Baja California":[0,0],"Sonora":[0,2],"Chihuahua":[0,4],"Coahuila":[1,5],"Nuevo León":[1,6],"Tamaulipas":[2,7],"Baja California Sur":[1,0],"Sinaloa":[1,3],"Durango":[1,4],"Zacatecas":[2,5],"San Luis Potosí":[2,6],"Nayarit":[2,3],"Aguascalientes":[3,4],"Jalisco":[3,3],"Guanajuato":[3,5],"Querétaro":[3,6],"Hidalgo":[3,7],"Colima":[4,2],"Michoacán":[4,3],"México":[4,5],"Ciudad de México":[4,6],"Tlaxcala":[4,7],"Morelos":[5,5],"Puebla":[5,6],"Veracruz":[5,7],"Guerrero":[5,3],"Oaxaca":[6,5],"Tabasco":[5,8],"Chiapas":[6,7],"Campeche":[5,9],"Yucatán":[4,9],"Quintana Roo":[4,10]};
+
+const data = [{"estado": "Aguascalientes", "codigo": 1, "marginacion": "Muy bajo", "inseg_moderada_22": 7.67, "inseg_severa_22": 7.49, "obesidad_22": 36.1, "frutas_verduras_22": 26.5, "limit_consumo_22": 1.14, "diabetes_24": 10.7, "hipertension_24": 22.2, "inseg_total_24": 15.0, "beb_azuc_nna_18": 0.8956, "desnutricion_18": 0.1081, "frutverd_nna_18": 0.5978}, {"estado": "Baja California", "codigo": 2, "marginacion": "Bajo", "inseg_moderada_22": 5.64, "inseg_severa_22": 3.19, "obesidad_22": 45.5, "frutas_verduras_22": 33.9, "limit_consumo_22": 1.4, "diabetes_24": 9.8, "hipertension_24": 22.7, "inseg_total_24": 12.4, "beb_azuc_nna_18": 0.7039, "desnutricion_18": 0.1404, "frutverd_nna_18": 0.4238}, {"estado": "Baja California Sur", "codigo": 3, "marginacion": "Bajo", "inseg_moderada_22": 7.91, "inseg_severa_22": 5.76, "obesidad_22": 47.4, "frutas_verduras_22": 40.4, "limit_consumo_22": 1.29, "diabetes_24": 10.8, "hipertension_24": 20.0, "inseg_total_24": 19.4, "beb_azuc_nna_18": 0.8999, "desnutricion_18": 0.0804, "frutverd_nna_18": 0.543}, {"estado": "Campeche", "codigo": 4, "marginacion": "Alto", "inseg_moderada_22": 10.49, "inseg_severa_22": 9.55, "obesidad_22": 50.8, "frutas_verduras_22": 12.8, "limit_consumo_22": 3.79, "diabetes_24": 16.3, "hipertension_24": 19.4, "inseg_total_24": 27.4, "beb_azuc_nna_18": 0.9617, "desnutricion_18": 0.0761, "frutverd_nna_18": 0.4034}, {"estado": "Coahuila", "codigo": 5, "marginacion": "Muy bajo", "inseg_moderada_22": 7.16, "inseg_severa_22": 5.42, "obesidad_22": 44.0, "frutas_verduras_22": 28.8, "limit_consumo_22": 0.9, "diabetes_24": 10.7, "hipertension_24": 19.1, "inseg_total_24": 12.1, "beb_azuc_nna_18": 0.8728, "desnutricion_18": 0.0204, "frutverd_nna_18": 0.4518}, {"estado": "Colima", "codigo": 6, "marginacion": "Bajo", "inseg_moderada_22": 8.42, "inseg_severa_22": 4.84, "obesidad_22": 41.1, "frutas_verduras_22": 28.6, "limit_consumo_22": 1.13, "diabetes_24": 9.3, "hipertension_24": 13.6, "inseg_total_24": 17.5, "beb_azuc_nna_18": 0.8744, "desnutricion_18": 0.1438, "frutverd_nna_18": 0.5633}, {"estado": "Chiapas", "codigo": 7, "marginacion": "Muy alto", "inseg_moderada_22": 11.98, "inseg_severa_22": 5.24, "obesidad_22": 37.6, "frutas_verduras_22": 10.6, "limit_consumo_22": 4.75, "diabetes_24": 9.4, "hipertension_24": 14.0, "inseg_total_24": 31.1, "beb_azuc_nna_18": 0.949, "desnutricion_18": 0.2173, "frutverd_nna_18": 0.5158}, {"estado": "Chihuahua", "codigo": 8, "marginacion": "Medio", "inseg_moderada_22": 4.93, "inseg_severa_22": 4.41, "obesidad_22": 43.3, "frutas_verduras_22": 30.0, "limit_consumo_22": 0.63, "diabetes_24": 11.2, "hipertension_24": 23.6, "inseg_total_24": 13.8, "beb_azuc_nna_18": 0.8477, "desnutricion_18": 0.1057, "frutverd_nna_18": 0.4725}, {"estado": "Ciudad de México", "codigo": 9, "marginacion": "Muy bajo", "inseg_moderada_22": 6.08, "inseg_severa_22": 3.63, "obesidad_22": 33.5, "frutas_verduras_22": 35.9, "limit_consumo_22": 2.61, "diabetes_24": 11.6, "hipertension_24": 22.5, "inseg_total_24": 16.7, "beb_azuc_nna_18": 0.9175, "desnutricion_18": 0.021, "frutverd_nna_18": 0.6076}, {"estado": "Durango", "codigo": 10, "marginacion": "Alto", "inseg_moderada_22": 10.75, "inseg_severa_22": 9.03, "obesidad_22": 39.2, "frutas_verduras_22": 25.2, "limit_consumo_22": 0.96, "diabetes_24": 15.9, "hipertension_24": 23.5, "inseg_total_24": 16.5, "beb_azuc_nna_18": 0.9117, "desnutricion_18": 0.0513, "frutverd_nna_18": 0.4955}, {"estado": "Guanajuato", "codigo": 11, "marginacion": "Medio", "inseg_moderada_22": 10.36, "inseg_severa_22": 6.87, "obesidad_22": 32.9, "frutas_verduras_22": 23.0, "limit_consumo_22": 1.77, "diabetes_24": 10.7, "hipertension_24": 19.5, "inseg_total_24": 19.5, "beb_azuc_nna_18": 0.8806, "desnutricion_18": 0.158, "frutverd_nna_18": 0.5156}, {"estado": "Guerrero", "codigo": 12, "marginacion": "Muy alto", "inseg_moderada_22": 17.54, "inseg_severa_22": 10.91, "obesidad_22": 32.3, "frutas_verduras_22": 11.4, "limit_consumo_22": 6.32, "diabetes_24": 9.7, "hipertension_24": 15.5, "inseg_total_24": 27.6, "beb_azuc_nna_18": 0.8178, "desnutricion_18": 0.1801, "frutverd_nna_18": 0.4015}, {"estado": "Hidalgo", "codigo": 13, "marginacion": "Alto", "inseg_moderada_22": 8.28, "inseg_severa_22": 6.89, "obesidad_22": 29.5, "frutas_verduras_22": 25.4, "limit_consumo_22": 6.88, "diabetes_24": 10.1, "hipertension_24": 14.9, "inseg_total_24": 22.9, "beb_azuc_nna_18": 0.8738, "desnutricion_18": 0.171, "frutverd_nna_18": 0.5076}, {"estado": "Jalisco", "codigo": 14, "marginacion": "Bajo", "inseg_moderada_22": 8.91, "inseg_severa_22": 4.31, "obesidad_22": 35.6, "frutas_verduras_22": 26.1, "limit_consumo_22": 1.25, "diabetes_24": 10.9, "hipertension_24": 13.3, "inseg_total_24": 19.0, "beb_azuc_nna_18": 0.9083, "desnutricion_18": 0.0915, "frutverd_nna_18": 0.5959}, {"estado": "México", "codigo": 15, "marginacion": "Bajo", "inseg_moderada_22": 10.8, "inseg_severa_22": 6.19, "obesidad_22": 34.3, "frutas_verduras_22": 25.0, "limit_consumo_22": 6.04, "diabetes_24": 9.6, "hipertension_24": 19.2, "inseg_total_24": 24.5, "beb_azuc_nna_18": 0.8892, "desnutricion_18": 0.2079, "frutverd_nna_18": 0.4606}, {"estado": "Michoacán", "codigo": 16, "marginacion": "Alto", "inseg_moderada_22": 11.72, "inseg_severa_22": 9.22, "obesidad_22": 36.6, "frutas_verduras_22": 23.7, "limit_consumo_22": 4.33, "diabetes_24": 10.7, "hipertension_24": 16.7, "inseg_total_24": 22.8, "beb_azuc_nna_18": 0.932, "desnutricion_18": 0.0919, "frutverd_nna_18": 0.6399}, {"estado": "Morelos", "codigo": 17, "marginacion": "Medio", "inseg_moderada_22": 11.0, "inseg_severa_22": 6.64, "obesidad_22": 34.9, "frutas_verduras_22": 24.5, "limit_consumo_22": 1.95, "diabetes_24": 12.3, "hipertension_24": 18.4, "inseg_total_24": 21.6, "beb_azuc_nna_18": 0.8873, "desnutricion_18": 0.1651, "frutverd_nna_18": 0.577}, {"estado": "Nayarit", "codigo": 18, "marginacion": "Alto", "inseg_moderada_22": 9.35, "inseg_severa_22": 7.28, "obesidad_22": 36.5, "frutas_verduras_22": 23.9, "limit_consumo_22": 0.85, "diabetes_24": 10.7, "hipertension_24": 17.9, "inseg_total_24": 19.6, "beb_azuc_nna_18": 0.9074, "desnutricion_18": 0.0541, "frutverd_nna_18": 0.5669}, {"estado": "Nuevo León", "codigo": 19, "marginacion": "Muy bajo", "inseg_moderada_22": 6.72, "inseg_severa_22": 4.23, "obesidad_22": 41.2, "frutas_verduras_22": 31.1, "limit_consumo_22": 1.09, "diabetes_24": 11.7, "hipertension_24": 17.2, "inseg_total_24": 13.1, "beb_azuc_nna_18": 0.8691, "desnutricion_18": 0.1264, "frutverd_nna_18": 0.4583}, {"estado": "Oaxaca", "codigo": 20, "marginacion": "Muy alto", "inseg_moderada_22": 15.18, "inseg_severa_22": 7.92, "obesidad_22": 32.7, "frutas_verduras_22": 14.3, "limit_consumo_22": 8.52, "diabetes_24": 11.6, "hipertension_24": 14.9, "inseg_total_24": 26.9, "beb_azuc_nna_18": 0.8838, "desnutricion_18": 0.2215, "frutverd_nna_18": 0.4423}, {"estado": "Puebla", "codigo": 21, "marginacion": "Alto", "inseg_moderada_22": 12.44, "inseg_severa_22": 6.69, "obesidad_22": 30.2, "frutas_verduras_22": 18.6, "limit_consumo_22": 5.81, "diabetes_24": 10.5, "hipertension_24": 13.6, "inseg_total_24": 26.0, "beb_azuc_nna_18": 0.8479, "desnutricion_18": 0.2511, "frutverd_nna_18": 0.4018}, {"estado": "Querétaro", "codigo": 22, "marginacion": "Bajo", "inseg_moderada_22": 7.41, "inseg_severa_22": 3.96, "obesidad_22": 40.7, "frutas_verduras_22": 31.6, "limit_consumo_22": 2.54, "diabetes_24": 10.8, "hipertension_24": 18.5, "inseg_total_24": 17.2, "beb_azuc_nna_18": 0.8911, "desnutricion_18": 0.1085, "frutverd_nna_18": 0.5156}, {"estado": "Quintana Roo", "codigo": 23, "marginacion": "Medio", "inseg_moderada_22": 7.97, "inseg_severa_22": 4.72, "obesidad_22": 36.3, "frutas_verduras_22": 18.4, "limit_consumo_22": 3.28, "diabetes_24": 8.8, "hipertension_24": 16.3, "inseg_total_24": 21.7, "beb_azuc_nna_18": 0.963, "desnutricion_18": 0.1347, "frutverd_nna_18": 0.3463}, {"estado": "San Luis Potosí", "codigo": 24, "marginacion": "Medio", "inseg_moderada_22": 7.7, "inseg_severa_22": 5.49, "obesidad_22": 28.1, "frutas_verduras_22": 19.3, "limit_consumo_22": 1.47, "diabetes_24": 10.7, "hipertension_24": 15.9, "inseg_total_24": 17.7, "beb_azuc_nna_18": 0.9367, "desnutricion_18": 0.1256, "frutverd_nna_18": 0.4452}, {"estado": "Sinaloa", "codigo": 25, "marginacion": "Medio", "inseg_moderada_22": 9.47, "inseg_severa_22": 7.64, "obesidad_22": 36.6, "frutas_verduras_22": 28.7, "limit_consumo_22": 0.37, "diabetes_24": 9.4, "hipertension_24": 22.7, "inseg_total_24": 20.1, "beb_azuc_nna_18": 0.8068, "desnutricion_18": 0.0501, "frutverd_nna_18": 0.4936}, {"estado": "Sonora", "codigo": 26, "marginacion": "Bajo", "inseg_moderada_22": 10.43, "inseg_severa_22": 8.8, "obesidad_22": 45.2, "frutas_verduras_22": 33.9, "limit_consumo_22": 1.15, "diabetes_24": 11.0, "hipertension_24": 20.8, "inseg_total_24": 22.8, "beb_azuc_nna_18": 0.8659, "desnutricion_18": 0.0896, "frutverd_nna_18": 0.5046}, {"estado": "Tabasco", "codigo": 27, "marginacion": "Alto", "inseg_moderada_22": 16.51, "inseg_severa_22": 17.87, "obesidad_22": 44.7, "frutas_verduras_22": 9.9, "limit_consumo_22": 10.42, "diabetes_24": 13.4, "hipertension_24": 23.2, "inseg_total_24": 32.1, "beb_azuc_nna_18": 0.9703, "desnutricion_18": 0.102, "frutverd_nna_18": 0.2337}, {"estado": "Tamaulipas", "codigo": 28, "marginacion": "Bajo", "inseg_moderada_22": 7.44, "inseg_severa_22": 4.72, "obesidad_22": 49.1, "frutas_verduras_22": 22.2, "limit_consumo_22": 0.8, "diabetes_24": 10.9, "hipertension_24": 17.8, "inseg_total_24": 18.3, "beb_azuc_nna_18": 0.8348, "desnutricion_18": 0.1084, "frutverd_nna_18": 0.5472}, {"estado": "Tlaxcala", "codigo": 29, "marginacion": "Medio", "inseg_moderada_22": 10.38, "inseg_severa_22": 8.36, "obesidad_22": 30.1, "frutas_verduras_22": 25.7, "limit_consumo_22": 8.62, "diabetes_24": 10.0, "hipertension_24": 15.0, "inseg_total_24": 25.8, "beb_azuc_nna_18": 0.8909, "desnutricion_18": 0.1642, "frutverd_nna_18": 0.601}, {"estado": "Veracruz", "codigo": 30, "marginacion": "Alto", "inseg_moderada_22": 12.06, "inseg_severa_22": 7.79, "obesidad_22": 35.8, "frutas_verduras_22": 14.3, "limit_consumo_22": 3.06, "diabetes_24": 12.6, "hipertension_24": 18.7, "inseg_total_24": 26.3, "beb_azuc_nna_18": 0.8839, "desnutricion_18": 0.1474, "frutverd_nna_18": 0.3684}, {"estado": "Yucatán", "codigo": 31, "marginacion": "Alto", "inseg_moderada_22": 9.38, "inseg_severa_22": 4.19, "obesidad_22": 45.8, "frutas_verduras_22": 16.1, "limit_consumo_22": 2.67, "diabetes_24": 9.7, "hipertension_24": 16.1, "inseg_total_24": 20.6, "beb_azuc_nna_18": 0.9416, "desnutricion_18": 0.2291, "frutverd_nna_18": 0.5716}, {"estado": "Zacatecas", "codigo": 32, "marginacion": "Medio", "inseg_moderada_22": 8.26, "inseg_severa_22": 7.47, "obesidad_22": 34.4, "frutas_verduras_22": 23.2, "limit_consumo_22": 1.63, "diabetes_24": 11.1, "hipertension_24": 19.9, "inseg_total_24": 18.7, "beb_azuc_nna_18": 0.8711, "desnutricion_18": 0.1515, "frutverd_nna_18": 0.5597}, {"estado": "Nacional", "codigo": 0, "marginacion": null, "inseg_moderada_22": 9.88, "inseg_severa_22": 6.35, "obesidad_22": 36.9, "frutas_verduras_22": 23.8, "limit_consumo_22": 3.46, "diabetes_24": 11.6, "hipertension_24": 18.3, "inseg_total_24": 21.2, "beb_azuc_nna_18": 0.8844, "desnutricion_18": 0.142, "frutverd_nna_18": 0.4871}];
+
+const indicators = [
+  {key: "inseg_total_24", label: "Inseguridad alimentaria", unit: "%", year: "2024", source: "ENSANUT Continua 2020–2024", desc: "Hogares con inseguridad alimentaria moderada y severa", palette: "OrRd", invert: false},
+  {key: "obesidad_22", label: "Obesidad", unit: "%", year: "2022", source: "ENSANUT 2022", desc: "Tasa de obesidad en adultos", palette: "YlOrRd", invert: false},
+  {key: "diabetes_24", label: "Diabetes", unit: "%", year: "2024", source: "ENSANUT Continua 2020–2024", desc: "Prevalencia de diabetes en adultos de 15 años y más", palette: "Reds", invert: false},
+  {key: "frutas_verduras_22", label: "Consumo de frutas y verduras", unit: "%", year: "2022", source: "ENSANUT 2022", desc: "Consumo diario de frutas y verduras en adultos", palette: "Greens", invert: true},
+  {key: "desnutricion_18", label: "Desnutrición crónica infantil", unit: "prop.", year: "2018", source: "ENSANUT 2018", desc: "Desnutrición crónica en niños y niñas menores de 5 años", palette: "PuRd", invert: false},
+];
+
+const abbrev = {"Aguascalientes":"AGS","Baja California":"BC","Baja California Sur":"BCS","Campeche":"CAM","Coahuila":"COA","Colima":"COL","Chiapas":"CHS","Chihuahua":"CHI","Ciudad de México":"CDMX","Durango":"DGO","Guanajuato":"GTO","Guerrero":"GRO","Hidalgo":"HGO","Jalisco":"JAL","México":"MEX","Michoacán":"MICH","Morelos":"MOR","Nayarit":"NAY","Nuevo León":"NL","Oaxaca":"OAX","Puebla":"PUE","Querétaro":"QRO","Quintana Roo":"QROO","San Luis Potosí":"SLP","Sinaloa":"SIN","Sonora":"SON","Tabasco":"TAB","Tamaulipas":"TAM","Tlaxcala":"TLX","Veracruz":"VER","Yucatán":"YUC","Zacatecas":"ZAC"};
+
+const margin = {top: 0, right: 10, bottom: 0, left: 10};
+const tileSize = 68;
+const tileGap = 3;
+const maxCol = Math.max(...Object.values(tileGrid).map(d => d[1]));
+const maxRow = Math.max(...Object.values(tileGrid).map(d => d[0]));
+const width = (maxCol + 1) * (tileSize + tileGap) + margin.left + margin.right;
+const height = (maxRow + 1) * (tileSize + tileGap) + margin.top + margin.bottom;
+
+const svg = d3.select("#chart")
+  .append("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%")
+  .style("max-width", width + "px");
+
+const tooltip = d3.select("#tooltip");
+
+const dataMap = {};
+data.forEach(d => { if(d.estado !== "Nacional") dataMap[d.estado] = d; });
+
+const tiles = svg.selectAll(".tile-g")
+  .data(Object.entries(tileGrid))
+  .enter().append("g")
+  .attr("class","tile-g")
+  .attr("transform", d => {
+    const [row, col] = d[1];
+    return `translate(${margin.left + col * (tileSize+tileGap)}, ${margin.top + row * (tileSize+tileGap)})`;
+  });
+
+tiles.append("rect")
+  .attr("class","tile")
+  .attr("width", tileSize)
+  .attr("height", tileSize)
+  .attr("rx", 6)
+  .attr("ry", 6)
+  .attr("stroke", "#fff")
+  .attr("stroke-width", 1.5);
+
+tiles.append("text")
+  .attr("class","tile-label")
+  .attr("x", tileSize/2)
+  .attr("y", tileSize/2 - 6)
+  .text(d => abbrev[d[0]] || d[0].slice(0,3).toUpperCase());
+
+tiles.append("text")
+  .attr("class","tile-value")
+  .attr("x", tileSize/2)
+  .attr("y", tileSize/2 + 9);
+
+// Controls
+const ctrlDiv = d3.select("#controls");
+indicators.forEach((ind, i) => {
+  ctrlDiv.append("button")
+    .text(ind.label)
+    .attr("data-idx", i)
+    .classed("active", i === 0)
+    .on("click", function() {
+      ctrlDiv.selectAll("button").classed("active", false);
+      d3.select(this).classed("active", true);
+      update(i);
+    });
+});
+
+function update(idx) {
+  const ind = indicators[idx];
+  const vals = Object.values(dataMap).map(d => d[ind.key]).filter(v => v != null);
+  const ext = d3.extent(vals);
+
+  const schemes = {
+    "OrRd": d3.interpolateOrRd,
+    "YlOrRd": d3.interpolateYlOrRd,
+    "Reds": d3.interpolateReds,
+    "Greens": d3.interpolateGreens,
+    "PuRd": d3.interpolatePuRd,
+  };
+  const interp = schemes[ind.palette] || d3.interpolateOrRd;
+  const colorScale = d3.scaleSequential()
+    .domain(ind.invert ? [ext[1], ext[0]] : ext)
+    .interpolator(interp);
+
+  tiles.select("rect")
+    .transition().duration(400)
+    .attr("fill", d => {
+      const v = dataMap[d[0]] ? dataMap[d[0]][ind.key] : null;
+      return v != null ? colorScale(v) : "#e0e0e0";
+    });
+
+  tiles.select(".tile-value")
+    .text(d => {
+      const v = dataMap[d[0]] ? dataMap[d[0]][ind.key] : null;
+      if (v == null) return "—";
+      return ind.key === "desnutricion_18" ? (v*100).toFixed(1)+"%" : v.toFixed(1)+"%";
+    });
+
+  // Legend
+  const gradStops = d3.range(0, 1.01, 0.02).map(t => {
+    const v = ext[0] + t * (ext[1] - ext[0]);
+    return colorScale(v);
+  });
+  d3.select("#legend-grad").style("background", `linear-gradient(to right, ${gradStops.join(",")})`);
+
+  const fmt = ind.key === "desnutricion_18" ? v => (v*100).toFixed(0)+"%" : v => v.toFixed(0)+"%";
+  d3.select("#legend-lo").text(fmt(ext[0]));
+  d3.select("#legend-hi").text(fmt(ext[1]));
+
+  // Footnote
+  d3.select("#footnote").html(
+    `<strong>${ind.desc}</strong> (${ind.year}). Fuente: ${ind.source}. ` +
+    `Grado de marginación: CONAPO (2020). Datos a nivel de entidad federativa (n=32).`
+  );
+
+  // Tooltip
+  tiles.on("mouseenter", function(event, d) {
+    const dd = dataMap[d[0]];
+    if(!dd) return;
+    const v = dd[ind.key];
+    const vFmt = v == null ? "Sin dato" : (ind.key === "desnutricion_18" ? (v*100).toFixed(1)+"%" : v.toFixed(1)+"%");
+    tooltip.html(
+      `<div class="tt-state">${d[0]}</div>` +
+      `<div class="tt-marg">Marginación: ${dd.marginacion || "—"}</div>` +
+      `${ind.label}: <strong>${vFmt}</strong>`
+    ).style("opacity", 1);
+  })
+  .on("mousemove", function(event) {
+    const container = document.getElementById("chart").getBoundingClientRect();
+    tooltip
+      .style("left", (event.clientX - container.left + 14) + "px")
+      .style("top", (event.clientY - container.top - 10) + "px");
+  })
+  .on("mouseleave", () => tooltip.style("opacity", 0));
+}
+
+update(0);
+
+})();
+</script>
+</body>
+</html>

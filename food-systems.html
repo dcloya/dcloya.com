@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Contact – David Contreras-Loya</title>
+<title>Sistemas Alimentarios en México – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -95,7 +95,7 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -239,21 +239,27 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Contact</h1>
+<h1 class="title">Sistemas Alimentarios en México</h1>
+<p class="subtitle lead">Visualizaciones interactivas de indicadores a nivel estatal</p>
+</div>
+
+<div>
+  <div class="description">
+    Exploración de relaciones entre inseguridad alimentaria, marginación, empleo agropecuario y resultados de salud en las 32 entidades federativas de México.
+  </div>
 </div>
 
 
-
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -265,10 +271,60 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </header>
 
 
-<p><strong>Email</strong>: d.contreras [at] tec.mx<br>
-<strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/david-contreras-loya-8550bb44/" class="uri">https://www.linkedin.com/in/david-contreras-loya-8550bb44/</a><br>
-<strong>Google Scholar</strong>: <a href="https://scholar.google.es/citations?user=axuzNJ0AAAAJ" class="uri">https://scholar.google.es/citations?user=axuzNJ0AAAAJ</a></p>
-<p><strong>Mailing address</strong> Av. Revolución 756, Nonoalco, Benito Juárez, 03700 Ciudad de México, CDMX</p>
+<style>
+  .viz-frame {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+  }
+  .viz-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .viz-section h2 {
+    font-size: 1.1rem;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    border: none;
+  }
+  .viz-narrative {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    max-width: 680px;
+  }
+</style>
+
+<div class="viz-section">
+
+<h2 class="anchored">Panorama geográfico</h2>
+<p class="viz-narrative">
+  El norte y el centro de México presentan mejores indicadores de seguridad alimentaria y consumo de frutas y verduras, mientras que los estados del sur —particularmente Guerrero, Oaxaca y Chiapas— concentran las cifras más críticas. Selecciona un indicador para explorar el contraste.
+</p>
+<iframe class="viz-frame" src="food-systems/viz1_choropleth_map.html" height="620" loading="lazy"></iframe>
+
+<h2 class="anchored">La paradoja agrícola</h2>
+<p class="viz-narrative">
+  Existe una correlación positiva fuerte (r&nbsp;=&nbsp;0.72) entre el porcentaje de empleo en el sector agropecuario y la inseguridad alimentaria moderada. Los estados que más producen alimentos son, paradójicamente, los que menos acceden a ellos. El grado de marginación actúa como variable mediadora clave.
+</p>
+<iframe class="viz-frame" src="food-systems/viz2_scatter_paradox.html" height="620" loading="lazy"></iframe>
+
+<h2 class="anchored">El gradiente de la marginación</h2>
+<p class="viz-narrative">
+  Al agrupar los 32 estados por grado de marginación (CONAPO 2020), la inseguridad alimentaria se duplica de los estados con marginación "muy baja" a los de marginación "muy alta", y el consumo de frutas y verduras cae a la mitad. Sin embargo, la obesidad y la diabetes no siguen este mismo gradiente —son problemas transversales que afectan a todo el país.
+</p>
+<iframe class="viz-frame" src="food-systems/viz3_slope_marginacion.html" height="540" loading="lazy"></iframe>
+
+</div>
 
 
 
