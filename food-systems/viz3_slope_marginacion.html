@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  .viz-container {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    max-width: 880px;
+    margin: 0 auto;
+    color: #1a1a2e;
+  }
+  .viz-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+  }
+  .viz-subtitle {
+    font-size: 14px;
+    color: #555;
+    margin: 0 0 22px 0;
+    line-height: 1.5;
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    fill: #333;
+  }
+  .panel-unit {
+    font-size: 10.5px;
+    fill: #888;
+    font-weight: 400;
+  }
+  .tick text {
+    font-size: 10px;
+    fill: #888;
+  }
+  .tick line {
+    stroke: #eee;
+  }
+  .domain {
+    display: none;
+  }
+  .jitter-dot {
+    opacity: 0.45;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .jitter-dot:hover {
+    opacity: 1;
+    r: 5;
+  }
+  .mean-line {
+    stroke-width: 2.5;
+    fill: none;
+    opacity: 0.9;
+  }
+  .mean-dot {
+    stroke: #fff;
+    stroke-width: 2;
+  }
+  .marg-label {
+    font-size: 9.5px;
+    fill: #666;
+    text-anchor: middle;
+    font-weight: 500;
+  }
+  .tooltip-box {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(26,26,46,0.95);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 220px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 10;
+  }
+  .footnote {
+    font-size: 11px;
+    color: #888;
+    margin-top: 10px;
+    line-height: 1.5;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+  }
+  .direction-tag {
+    font-size: 9px;
+    font-weight: 600;
+    fill: #fff;
+    text-anchor: middle;
+  }
+</style>
+</head>
+<body>
+<div class="viz-container">
+  <p class="viz-title">El gradiente de la marginación en el sistema alimentario</p>
+  <p class="viz-subtitle">Conforme aumenta el grado de marginación estatal, la inseguridad alimentaria se duplica y el consumo de frutas y verduras cae a la mitad. Cada punto es un estado; la línea conecta los promedios por nivel.</p>
+
+  <div id="chart" style="position:relative;"></div>
+  <div class="tooltip-box" id="tooltip"></div>
+  <p class="footnote">
+    <strong>Inseguridad alimentaria:</strong> CONEVAL/ENIGH 2022 (moderada) y ENSANUT 2024 (total).
+    <strong>Frutas y verduras:</strong> ENSANUT 2022, consumo diario en adultos.
+    <strong>Desnutrición crónica:</strong> ENSANUT 2018, menores de 5 años.
+    <strong>Diabetes:</strong> ENSANUT 2024, adultos de 15 años y más.
+    <strong>Marginación:</strong> CONAPO 2020. n=32 entidades federativas.
+  </p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function() {
+
+const data = [{"estado": "Aguascalientes", "marginacion": "Muy bajo", "marg_num": 1, "inseg_mod": 7.67, "inseg_sev": 7.49, "obesidad": 36.1, "frutas_verduras": 26.5, "diabetes": 10.7, "hipertension": 22.2, "inseg_total": 15.0, "desnutricion": 0.1081, "beb_azucaradas": 0.8956}, {"estado": "Baja California", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 5.64, "inseg_sev": 3.19, "obesidad": 45.5, "frutas_verduras": 33.9, "diabetes": 9.8, "hipertension": 22.7, "inseg_total": 12.4, "desnutricion": 0.1404, "beb_azucaradas": 0.7039}, {"estado": "Baja California Sur", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 7.91, "inseg_sev": 5.76, "obesidad": 47.4, "frutas_verduras": 40.4, "diabetes": 10.8, "hipertension": 20.0, "inseg_total": 19.4, "desnutricion": 0.0804, "beb_azucaradas": 0.8999}, {"estado": "Campeche", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 10.49, "inseg_sev": 9.55, "obesidad": 50.8, "frutas_verduras": 12.8, "diabetes": 16.3, "hipertension": 19.4, "inseg_total": 27.4, "desnutricion": 0.0761, "beb_azucaradas": 0.9617}, {"estado": "Coahuila", "marginacion": "Muy bajo", "marg_num": 1, "inseg_mod": 7.16, "inseg_sev": 5.42, "obesidad": 44.0, "frutas_verduras": 28.8, "diabetes": 10.7, "hipertension": 19.1, "inseg_total": 12.1, "desnutricion": 0.0204, "beb_azucaradas": 0.8728}, {"estado": "Colima", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 8.42, "inseg_sev": 4.84, "obesidad": 41.1, "frutas_verduras": 28.6, "diabetes": 9.3, "hipertension": 13.6, "inseg_total": 17.5, "desnutricion": 0.1438, "beb_azucaradas": 0.8744}, {"estado": "Chiapas", "marginacion": "Muy alto", "marg_num": 5, "inseg_mod": 11.98, "inseg_sev": 5.24, "obesidad": 37.6, "frutas_verduras": 10.6, "diabetes": 9.4, "hipertension": 14.0, "inseg_total": 31.1, "desnutricion": 0.2173, "beb_azucaradas": 0.949}, {"estado": "Chihuahua", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 4.93, "inseg_sev": 4.41, "obesidad": 43.3, "frutas_verduras": 30.0, "diabetes": 11.2, "hipertension": 23.6, "inseg_total": 13.8, "desnutricion": 0.1057, "beb_azucaradas": 0.8477}, {"estado": "Ciudad de México", "marginacion": "Muy bajo", "marg_num": 1, "inseg_mod": 6.08, "inseg_sev": 3.63, "obesidad": 33.5, "frutas_verduras": 35.9, "diabetes": 11.6, "hipertension": 22.5, "inseg_total": 16.7, "desnutricion": 0.021, "beb_azucaradas": 0.9175}, {"estado": "Durango", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 10.75, "inseg_sev": 9.03, "obesidad": 39.2, "frutas_verduras": 25.2, "diabetes": 15.9, "hipertension": 23.5, "inseg_total": 16.5, "desnutricion": 0.0513, "beb_azucaradas": 0.9117}, {"estado": "Guanajuato", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 10.36, "inseg_sev": 6.87, "obesidad": 32.9, "frutas_verduras": 23.0, "diabetes": 10.7, "hipertension": 19.5, "inseg_total": 19.5, "desnutricion": 0.158, "beb_azucaradas": 0.8806}, {"estado": "Guerrero", "marginacion": "Muy alto", "marg_num": 5, "inseg_mod": 17.54, "inseg_sev": 10.91, "obesidad": 32.3, "frutas_verduras": 11.4, "diabetes": 9.7, "hipertension": 15.5, "inseg_total": 27.6, "desnutricion": 0.1801, "beb_azucaradas": 0.8178}, {"estado": "Hidalgo", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 8.28, "inseg_sev": 6.89, "obesidad": 29.5, "frutas_verduras": 25.4, "diabetes": 10.1, "hipertension": 14.9, "inseg_total": 22.9, "desnutricion": 0.171, "beb_azucaradas": 0.8738}, {"estado": "Jalisco", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 8.91, "inseg_sev": 4.31, "obesidad": 35.6, "frutas_verduras": 26.1, "diabetes": 10.9, "hipertension": 13.3, "inseg_total": 19.0, "desnutricion": 0.0915, "beb_azucaradas": 0.9083}, {"estado": "México", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 10.8, "inseg_sev": 6.19, "obesidad": 34.3, "frutas_verduras": 25.0, "diabetes": 9.6, "hipertension": 19.2, "inseg_total": 24.5, "desnutricion": 0.2079, "beb_azucaradas": 0.8892}, {"estado": "Michoacán", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 11.72, "inseg_sev": 9.22, "obesidad": 36.6, "frutas_verduras": 23.7, "diabetes": 10.7, "hipertension": 16.7, "inseg_total": 22.8, "desnutricion": 0.0919, "beb_azucaradas": 0.932}, {"estado": "Morelos", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 11.0, "inseg_sev": 6.64, "obesidad": 34.9, "frutas_verduras": 24.5, "diabetes": 12.3, "hipertension": 18.4, "inseg_total": 21.6, "desnutricion": 0.1651, "beb_azucaradas": 0.8873}, {"estado": "Nayarit", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 9.35, "inseg_sev": 7.28, "obesidad": 36.5, "frutas_verduras": 23.9, "diabetes": 10.7, "hipertension": 17.9, "inseg_total": 19.6, "desnutricion": 0.0541, "beb_azucaradas": 0.9074}, {"estado": "Nuevo León", "marginacion": "Muy bajo", "marg_num": 1, "inseg_mod": 6.72, "inseg_sev": 4.23, "obesidad": 41.2, "frutas_verduras": 31.1, "diabetes": 11.7, "hipertension": 17.2, "inseg_total": 13.1, "desnutricion": 0.1264, "beb_azucaradas": 0.8691}, {"estado": "Oaxaca", "marginacion": "Muy alto", "marg_num": 5, "inseg_mod": 15.18, "inseg_sev": 7.92, "obesidad": 32.7, "frutas_verduras": 14.3, "diabetes": 11.6, "hipertension": 14.9, "inseg_total": 26.9, "desnutricion": 0.2215, "beb_azucaradas": 0.8838}, {"estado": "Puebla", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 12.44, "inseg_sev": 6.69, "obesidad": 30.2, "frutas_verduras": 18.6, "diabetes": 10.5, "hipertension": 13.6, "inseg_total": 26.0, "desnutricion": 0.2511, "beb_azucaradas": 0.8479}, {"estado": "Querétaro", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 7.41, "inseg_sev": 3.96, "obesidad": 40.7, "frutas_verduras": 31.6, "diabetes": 10.8, "hipertension": 18.5, "inseg_total": 17.2, "desnutricion": 0.1085, "beb_azucaradas": 0.8911}, {"estado": "Quintana Roo", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 7.97, "inseg_sev": 4.72, "obesidad": 36.3, "frutas_verduras": 18.4, "diabetes": 8.8, "hipertension": 16.3, "inseg_total": 21.7, "desnutricion": 0.1347, "beb_azucaradas": 0.963}, {"estado": "San Luis Potosí", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 7.7, "inseg_sev": 5.49, "obesidad": 28.1, "frutas_verduras": 19.3, "diabetes": 10.7, "hipertension": 15.9, "inseg_total": 17.7, "desnutricion": 0.1256, "beb_azucaradas": 0.9367}, {"estado": "Sinaloa", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 9.47, "inseg_sev": 7.64, "obesidad": 36.6, "frutas_verduras": 28.7, "diabetes": 9.4, "hipertension": 22.7, "inseg_total": 20.1, "desnutricion": 0.0501, "beb_azucaradas": 0.8068}, {"estado": "Sonora", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 10.43, "inseg_sev": 8.8, "obesidad": 45.2, "frutas_verduras": 33.9, "diabetes": 11.0, "hipertension": 20.8, "inseg_total": 22.8, "desnutricion": 0.0896, "beb_azucaradas": 0.8659}, {"estado": "Tabasco", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 16.51, "inseg_sev": 17.87, "obesidad": 44.7, "frutas_verduras": 9.9, "diabetes": 13.4, "hipertension": 23.2, "inseg_total": 32.1, "desnutricion": 0.102, "beb_azucaradas": 0.9703}, {"estado": "Tamaulipas", "marginacion": "Bajo", "marg_num": 2, "inseg_mod": 7.44, "inseg_sev": 4.72, "obesidad": 49.1, "frutas_verduras": 22.2, "diabetes": 10.9, "hipertension": 17.8, "inseg_total": 18.3, "desnutricion": 0.1084, "beb_azucaradas": 0.8348}, {"estado": "Tlaxcala", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 10.38, "inseg_sev": 8.36, "obesidad": 30.1, "frutas_verduras": 25.7, "diabetes": 10.0, "hipertension": 15.0, "inseg_total": 25.8, "desnutricion": 0.1642, "beb_azucaradas": 0.8909}, {"estado": "Veracruz", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 12.06, "inseg_sev": 7.79, "obesidad": 35.8, "frutas_verduras": 14.3, "diabetes": 12.6, "hipertension": 18.7, "inseg_total": 26.3, "desnutricion": 0.1474, "beb_azucaradas": 0.8839}, {"estado": "Yucatán", "marginacion": "Alto", "marg_num": 4, "inseg_mod": 9.38, "inseg_sev": 4.19, "obesidad": 45.8, "frutas_verduras": 16.1, "diabetes": 9.7, "hipertension": 16.1, "inseg_total": 20.6, "desnutricion": 0.2291, "beb_azucaradas": 0.9416}, {"estado": "Zacatecas", "marginacion": "Medio", "marg_num": 3, "inseg_mod": 8.26, "inseg_sev": 7.47, "obesidad": 34.4, "frutas_verduras": 23.2, "diabetes": 11.1, "hipertension": 19.9, "inseg_total": 18.7, "desnutricion": 0.1515, "beb_azucaradas": 0.8711}];
+
+const margOrder = ["Muy bajo","Bajo","Medio","Alto","Muy alto"];
+const margColors = {
+  "Muy bajo": "#2d7d9a",
+  "Bajo": "#45a67f",
+  "Medio": "#e8b84b",
+  "Alto": "#e07b4c",
+  "Muy alto": "#c0392b"
+};
+
+const panels = [
+  {key: "inseg_total", label: "Inseguridad alimentaria total", unit: "%", year: "2024", color: "#c0392b", transform: v=>v, format: v=>v.toFixed(1)+"%", direction: "peor"},
+  {key: "inseg_mod", label: "Inseg. alimentaria moderada", unit: "%", year: "2022", color: "#e07b4c", transform: v=>v, format: v=>v.toFixed(1)+"%", direction: "peor"},
+  {key: "frutas_verduras", label: "Consumo frutas y verduras", unit: "%", year: "2022", color: "#27ae60", transform: v=>v, format: v=>v.toFixed(1)+"%", direction: "peor"},
+  {key: "desnutricion", label: "Desnutrición crónica infantil", unit: "%", year: "2018", color: "#8e44ad", transform: v=>v*100, format: v=>(v*100).toFixed(1)+"%", direction: "peor"},
+  {key: "diabetes", label: "Diabetes en adultos", unit: "%", year: "2024", color: "#2c3e50", transform: v=>v, format: v=>v.toFixed(1)+"%", direction: "sin tendencia clara"},
+  {key: "obesidad", label: "Obesidad en adultos", unit: "%", year: "2022", color: "#d4a017", transform: v=>v, format: v=>v.toFixed(1)+"%", direction: "sin tendencia clara"},
+];
+
+const nPanels = panels.length;
+const cols = 3;
+const rows = Math.ceil(nPanels / cols);
+const panelW = 260;
+const panelH = 220;
+const panelPad = {top: 36, right: 16, bottom: 36, left: 42};
+const gapX = 20;
+const gapY = 16;
+const totalW = cols * panelW + (cols-1) * gapX;
+const totalH = rows * panelH + (rows-1) * gapY;
+
+const svg = d3.select("#chart")
+  .append("svg")
+  .attr("viewBox", `0 0 ${totalW} ${totalH}`)
+  .attr("width", "100%")
+  .style("max-width", totalW + "px");
+
+const tooltip = d3.select("#tooltip");
+
+const abbrev = {"Aguascalientes":"AGS","Baja California":"BC","Baja California Sur":"BCS","Campeche":"CAM","Coahuila":"COA","Colima":"COL","Chiapas":"CHS","Chihuahua":"CHI","Ciudad de México":"CDMX","Durango":"DGO","Guanajuato":"GTO","Guerrero":"GRO","Hidalgo":"HGO","Jalisco":"JAL","México":"MEX","Michoacán":"MICH","Morelos":"MOR","Nayarit":"NAY","Nuevo León":"NL","Oaxaca":"OAX","Puebla":"PUE","Querétaro":"QRO","Quintana Roo":"QROO","San Luis Potosí":"SLP","Sinaloa":"SIN","Sonora":"SON","Tabasco":"TAB","Tamaulipas":"TAM","Tlaxcala":"TLX","Veracruz":"VER","Yucatán":"YUC","Zacatecas":"ZAC"};
+
+panels.forEach((panel, idx) => {
+  const col = idx % cols;
+  const row = Math.floor(idx / cols);
+  const ox = col * (panelW + gapX);
+  const oy = row * (panelH + gapY);
+  const iw = panelW - panelPad.left - panelPad.right;
+  const ih = panelH - panelPad.top - panelPad.bottom;
+
+  const g = svg.append("g").attr("transform", `translate(${ox},${oy})`);
+
+  // Background
+  g.append("rect")
+    .attr("width", panelW).attr("height", panelH)
+    .attr("rx", 8).attr("fill", "#fafafa").attr("stroke", "#eee");
+
+  const pg = g.append("g").attr("transform", `translate(${panelPad.left},${panelPad.top})`);
+
+  // Title
+  g.append("text").attr("class","panel-title")
+    .attr("x", panelPad.left).attr("y", 18)
+    .text(panel.label);
+  g.append("text").attr("class","panel-unit")
+    .attr("x", panelPad.left).attr("y", 30)
+    .text(`(${panel.unit}, ${panel.year})`);
+
+  // Data for this panel
+  const panelData = data.filter(d => d[panel.key] != null);
+  const vals = panelData.map(d => panel.transform(d[panel.key]));
+
+  const x = d3.scalePoint()
+    .domain(margOrder)
+    .range([0, iw])
+    .padding(0.3);
+
+  const yExt = d3.extent(vals);
+  const yPad = (yExt[1] - yExt[0]) * 0.12;
+  const y = d3.scaleLinear()
+    .domain([Math.max(0, yExt[0] - yPad), yExt[1] + yPad])
+    .range([ih, 0]);
+
+  // Y axis
+  pg.append("g")
+    .call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(d => d % 1 === 0 ? d : d.toFixed(1)))
+    .call(g => g.selectAll(".tick line").attr("stroke","#f0f0f0"));
+
+  // X axis labels
+  margOrder.forEach(m => {
+    pg.append("text").attr("class","marg-label")
+      .attr("x", x(m)).attr("y", ih + 16)
+      .text(m.replace("Muy ","M."));
+  });
+
+  // Jitter dots
+  const jitter = d3.randomNormal(0, 4);
+  pg.selectAll(".jitter-dot")
+    .data(panelData)
+    .enter().append("circle")
+    .attr("class","jitter-dot")
+    .attr("cx", d => x(d.marginacion) + jitter())
+    .attr("cy", d => y(panel.transform(d[panel.key])))
+    .attr("r", 3.5)
+    .attr("fill", d => margColors[d.marginacion])
+    .on("mouseenter", function(event, d) {
+      d3.select(this).attr("opacity",1).attr("r",5);
+      tooltip.html(
+        `<strong>${d.estado}</strong><br>` +
+        `${panel.label}: ${panel.format(d[panel.key])}<br>` +
+        `Marginación: ${d.marginacion}`
+      ).style("opacity",1);
+    })
+    .on("mousemove", function(event) {
+      const box = document.getElementById("chart").getBoundingClientRect();
+      tooltip.style("left",(event.clientX-box.left+12)+"px").style("top",(event.clientY-box.top-10)+"px");
+    })
+    .on("mouseleave", function() {
+      d3.select(this).attr("opacity",0.45).attr("r",3.5);
+      tooltip.style("opacity",0);
+    });
+
+  // Mean line
+  const means = margOrder.map(m => {
+    const vs = panelData.filter(d => d.marginacion === m).map(d => panel.transform(d[panel.key]));
+    return {marg: m, mean: vs.length > 0 ? d3.mean(vs) : null};
+  }).filter(d => d.mean != null);
+
+  const line = d3.line()
+    .x(d => x(d.marg))
+    .y(d => y(d.mean))
+    .curve(d3.curveMonotoneX);
+
+  pg.append("path")
+    .datum(means)
+    .attr("class","mean-line")
+    .attr("d", line)
+    .attr("stroke", panel.color);
+
+  means.forEach(d => {
+    pg.append("circle")
+      .attr("class","mean-dot")
+      .attr("cx", x(d.marg))
+      .attr("cy", y(d.mean))
+      .attr("r", 5)
+      .attr("fill", panel.color);
+  });
+
+  // Direction arrow/tag
+  if (means.length >= 2) {
+    const first = means[0].mean;
+    const last = means[means.length-1].mean;
+    const pctChange = ((last - first) / first * 100).toFixed(0);
+    const sign = pctChange > 0 ? "+" : "";
+    const arrowColor = panel.key === "frutas_verduras" ? "#c0392b" : (Math.abs(pctChange) > 20 ? "#c0392b" : "#888");
+    pg.append("text")
+      .attr("x", iw - 2)
+      .attr("y", -4)
+      .attr("text-anchor","end")
+      .attr("font-size","10px")
+      .attr("font-weight","600")
+      .attr("fill", arrowColor)
+      .text(sign + pctChange + "%");
+  }
+});
+
+})();
+</script>
+</body>
+</html>

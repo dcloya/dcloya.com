@@ -3,6 +3,7 @@ project:
   output-dir: _site
   resources:
     - custom-styles.css
+    - food-systems/*.html
 
 execute:
   freeze: auto
@@ -47,6 +48,10 @@ website:
             href: contact.qmd
           - text: CV
             href: cv.qmd
+      - text: Research
+        menu:
+          - text: Food systems
+            href: food-systems.qmd
       
       # --- TEACHING SECTION (REORGANIZED) ---
       - text: Teaching
