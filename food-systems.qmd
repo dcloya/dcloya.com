@@ -60,5 +60,17 @@ toc: false
 </p>
 <iframe class="viz-frame" src="food-systems/viz3_slope_marginacion.html" height="540" loading="lazy"></iframe>
 
+<h2>Agua bajo presión, hambre en la superficie</h2>
+<p class="viz-narrative">
+  Contraintuitivamente, los estados con mayor estrés hídrico (Sonora, Baja California, Chihuahua) tienen menor inseguridad alimentaria (r&nbsp;=&nbsp;−0.48). Son estados del norte con agricultura tecnificada y de riego, mayor desarrollo económico y menor marginación. El tamaño de cada burbuja indica el volumen de agua concesionada para uso agropecuario.
+</p>
+<iframe class="viz-frame" src="food-systems/viz4_water_pressure.html" height="640" loading="lazy"></iframe>
+
+<h2>¿Quién sube y quién baja?</h2>
+<p class="viz-narrative">
+  El ranking estatal de inseguridad alimentaria moderada cambió dramáticamente entre 2016 y 2022. Hidalgo mejoró 16 posiciones y Tamaulipas 14, mientras que Puebla, Durango y Veracruz empeoraron significativamente. Pasa el cursor sobre cualquier línea para seguir la trayectoria de un estado.
+</p>
+<iframe class="viz-frame" src="food-systems/viz5_bump_chart.html" height="800" loading="lazy"></iframe>
+
 </div>
 ```
