@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  .viz-container {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    max-width: 820px;
+    margin: 0 auto;
+    color: #1a1a2e;
+  }
+  .viz-title { font-size: 22px; font-weight: 700; margin: 0 0 4px 0; line-height: 1.2; }
+  .viz-subtitle { font-size: 14px; color: #555; margin: 0 0 20px 0; line-height: 1.5; }
+  .axis-label { font-size: 12px; fill: #666; font-weight: 500; }
+  .tick text { font-size: 11px; fill: #888; }
+  .tick line { stroke: #eee; }
+  .domain { stroke: #ddd; }
+  .dot { cursor: pointer; transition: r 0.15s, opacity 0.15s; }
+  .dot-label { font-size: 9px; fill: #555; pointer-events: none; font-weight: 500; }
+  .trend-line { fill: none; stroke: #888; stroke-width: 1.5; stroke-dasharray: 5,4; opacity: 0.6; }
+  .quadrant-label { font-size: 10px; fill: #aaa; font-weight: 600; font-style: italic; text-anchor: middle; }
+  .quadrant-line { stroke: #ddd; stroke-width: 1; stroke-dasharray: 3,3; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #555; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .tooltip-box {
+    position: absolute; pointer-events: none; background: rgba(26,26,46,0.95); color: #fff;
+    padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.6;
+    max-width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.15s; z-index: 10;
+  }
+  .tooltip-box strong { font-weight: 700; }
+  .footnote { font-size: 11px; color: #888; margin-top: 8px; line-height: 1.5; border-top: 1px solid #e0e0e0; padding-top: 10px; }
+  .size-legend { display: flex; align-items: center; gap: 12px; margin-left: 20px; }
+  .size-legend-label { font-size: 11px; color: #888; }
+</style>
+</head>
+<body>
+<div class="viz-container">
+  <p class="viz-title">Agua bajo presión, hambre en la superficie</p>
+  <p class="viz-subtitle">Los estados con mayor estrés hídrico tienden a tener menor inseguridad alimentaria — son los estados más desarrollados del norte, con agricultura tecnificada e irrigada. El tamaño de cada burbuja refleja el volumen de agua concesionada para uso agropecuario.</p>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:center;">
+    <div class="legend-row" id="legend"></div>
+    <div class="size-legend">
+      <svg width="70" height="26"><circle cx="10" cy="13" r="4" fill="#ccc" stroke="#aaa"/><circle cx="35" cy="13" r="8" fill="#ccc" stroke="#aaa"/><circle cx="62" cy="13" r="12" fill="#ccc" stroke="#aaa"/></svg>
+      <span class="size-legend-label">Agua concesionada (hm³)</span>
+    </div>
+  </div>
+  <div id="chart" style="position:relative;"></div>
+  <div class="tooltip-box" id="tooltip"></div>
+  <p class="footnote">
+    <strong>Grado de presión sobre los recursos hídricos:</strong> volumen total de agua concesionada / agua renovable × 100. CONAGUA, 2022.
+    <strong>Inseguridad alimentaria moderada:</strong> CONEVAL/ENIGH 2022.
+    <strong>Agua concesionada agropecuaria:</strong> CONAGUA, 2022 (hm³).
+    <strong>Marginación:</strong> CONAPO 2020. n=32 entidades federativas.
+  </p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function() {
+
+const data = [{"estado": "Aguascalientes", "presion_hidrica": 118.1, "inseg_moderada": 7.67, "inseg_severa": 7.49, "inseg_leve": 12.62, "agua_agro": 485.6, "frutas_verduras": 26.5, "sector_agro": 4.5, "marginacion": "Muy bajo"}, {"estado": "Baja California", "presion_hidrica": 114.8, "inseg_moderada": 5.64, "inseg_severa": 3.19, "inseg_leve": 8.04, "agua_agro": 2572.8, "frutas_verduras": 33.9, "sector_agro": 2.9, "marginacion": "Bajo"}, {"estado": "Baja California Sur", "presion_hidrica": 34.1, "inseg_moderada": 7.91, "inseg_severa": 5.76, "inseg_leve": 11.87, "agua_agro": 345.8, "frutas_verduras": 40.4, "sector_agro": 5.3, "marginacion": "Bajo"}, {"estado": "Campeche", "presion_hidrica": 31.1, "inseg_moderada": 10.49, "inseg_severa": 9.55, "inseg_leve": 16.55, "agua_agro": 1637.7, "frutas_verduras": 12.8, "sector_agro": 19.3, "marginacion": "Alto"}, {"estado": "Coahuila", "presion_hidrica": 58.0, "inseg_moderada": 7.16, "inseg_severa": 5.42, "inseg_leve": 11.94, "agua_agro": 1626.7, "frutas_verduras": 28.8, "sector_agro": 3.2, "marginacion": "Muy bajo"}, {"estado": "Colima", "presion_hidrica": 81.0, "inseg_moderada": 8.42, "inseg_severa": 4.84, "inseg_leve": 12.27, "agua_agro": 1639.9, "frutas_verduras": 28.6, "sector_agro": 12.6, "marginacion": "Bajo"}, {"estado": "Chiapas", "presion_hidrica": 1.7, "inseg_moderada": 11.98, "inseg_severa": 5.24, "inseg_leve": 26.38, "agua_agro": 1565.1, "frutas_verduras": 10.6, "sector_agro": 36.7, "marginacion": "Muy alto"}, {"estado": "Chihuahua", "presion_hidrica": 45.6, "inseg_moderada": 4.93, "inseg_severa": 4.41, "inseg_leve": 10.52, "agua_agro": 4897.4, "frutas_verduras": 30.0, "sector_agro": 9.0, "marginacion": "Medio"}, {"estado": "Ciudad de México", "presion_hidrica": 93.1, "inseg_moderada": 6.08, "inseg_severa": 3.63, "inseg_leve": 13.29, "agua_agro": 1.1, "frutas_verduras": 35.9, "sector_agro": 0.6, "marginacion": "Muy bajo"}, {"estado": "Durango", "presion_hidrica": 12.6, "inseg_moderada": 10.75, "inseg_severa": 9.03, "inseg_leve": 18.19, "agua_agro": 1407.7, "frutas_verduras": 25.2, "sector_agro": 16.1, "marginacion": "Alto"}, {"estado": "Guanajuato", "presion_hidrica": 105.3, "inseg_moderada": 10.36, "inseg_severa": 6.87, "inseg_leve": 17.06, "agua_agro": 3445.1, "frutas_verduras": 23.0, "sector_agro": 10.8, "marginacion": "Medio"}, {"estado": "Guerrero", "presion_hidrica": 20.9, "inseg_moderada": 17.54, "inseg_severa": 10.91, "inseg_leve": 25.82, "agua_agro": 979.5, "frutas_verduras": 11.4, "sector_agro": 36.3, "marginacion": "Muy alto"}, {"estado": "Hidalgo", "presion_hidrica": 31.9, "inseg_moderada": 8.28, "inseg_severa": 6.89, "inseg_leve": 20.61, "agua_agro": 2135.9, "frutas_verduras": 25.4, "sector_agro": 15.0, "marginacion": "Alto"}, {"estado": "Jalisco", "presion_hidrica": 31.1, "inseg_moderada": 8.91, "inseg_severa": 4.31, "inseg_leve": 14.68, "agua_agro": 3767.3, "frutas_verduras": 26.1, "sector_agro": 10.6, "marginacion": "Bajo"}, {"estado": "México", "presion_hidrica": 68.5, "inseg_moderada": 10.8, "inseg_severa": 6.19, "inseg_leve": 19.07, "agua_agro": 1159.4, "frutas_verduras": 25.0, "sector_agro": 5.0, "marginacion": "Bajo"}, {"estado": "Michoacán", "presion_hidrica": 43.6, "inseg_moderada": 11.72, "inseg_severa": 9.22, "inseg_leve": 19.07, "agua_agro": 4919.3, "frutas_verduras": 23.7, "sector_agro": 22.3, "marginacion": "Alto"}, {"estado": "Morelos", "presion_hidrica": 71.4, "inseg_moderada": 11.0, "inseg_severa": 6.64, "inseg_leve": 19.91, "agua_agro": 1007.9, "frutas_verduras": 24.5, "sector_agro": 10.3, "marginacion": "Medio"}, {"estado": "Nayarit", "presion_hidrica": 20.1, "inseg_moderada": 9.35, "inseg_severa": 7.28, "inseg_leve": 13.02, "agua_agro": 1130.6, "frutas_verduras": 23.9, "sector_agro": 17.5, "marginacion": "Alto"}, {"estado": "Nuevo León", "presion_hidrica": 44.9, "inseg_moderada": 6.72, "inseg_severa": 4.23, "inseg_leve": 11.35, "agua_agro": 1391.2, "frutas_verduras": 31.1, "sector_agro": 2.8, "marginacion": "Muy bajo"}, {"estado": "Oaxaca", "presion_hidrica": 2.6, "inseg_moderada": 15.18, "inseg_severa": 7.92, "inseg_leve": 26.4, "agua_agro": 1162.9, "frutas_verduras": 14.3, "sector_agro": 31.9, "marginacion": "Muy alto"}, {"estado": "Puebla", "presion_hidrica": 21.6, "inseg_moderada": 12.44, "inseg_severa": 6.69, "inseg_leve": 23.25, "agua_agro": 1629.4, "frutas_verduras": 18.6, "sector_agro": 17.8, "marginacion": "Alto"}, {"estado": "Querétaro", "presion_hidrica": 51.3, "inseg_moderada": 7.41, "inseg_severa": 3.96, "inseg_leve": 14.55, "agua_agro": 641.5, "frutas_verduras": 31.6, "sector_agro": 6.0, "marginacion": "Bajo"}, {"estado": "Quintana Roo", "presion_hidrica": 70.8, "inseg_moderada": 7.97, "inseg_severa": 4.72, "inseg_leve": 17.26, "agua_agro": 373.2, "frutas_verduras": 18.4, "sector_agro": 5.1, "marginacion": "Medio"}, {"estado": "San Luis Potosí", "presion_hidrica": 19.9, "inseg_moderada": 7.7, "inseg_severa": 5.49, "inseg_leve": 17.2, "agua_agro": 1561.2, "frutas_verduras": 19.3, "sector_agro": 13.4, "marginacion": "Medio"}, {"estado": "Sinaloa", "presion_hidrica": 95.9, "inseg_moderada": 9.47, "inseg_severa": 7.64, "inseg_leve": 16.17, "agua_agro": 8969.0, "frutas_verduras": 28.7, "sector_agro": 12.1, "marginacion": "Medio"}, {"estado": "Sonora", "presion_hidrica": 98.3, "inseg_moderada": 10.43, "inseg_severa": 8.8, "inseg_leve": 15.67, "agua_agro": 6421.7, "frutas_verduras": 33.9, "sector_agro": 8.9, "marginacion": "Bajo"}, {"estado": "Tabasco", "presion_hidrica": 1.9, "inseg_moderada": 16.51, "inseg_severa": 17.87, "inseg_leve": 18.01, "agua_agro": 334.3, "frutas_verduras": 9.9, "sector_agro": 14.8, "marginacion": "Alto"}, {"estado": "Tamaulipas", "presion_hidrica": 46.7, "inseg_moderada": 7.44, "inseg_severa": 4.72, "inseg_leve": 14.29, "agua_agro": 3758.1, "frutas_verduras": 22.2, "sector_agro": 5.0, "marginacion": "Bajo"}, {"estado": "Tlaxcala", "presion_hidrica": 32.3, "inseg_moderada": 10.38, "inseg_severa": 8.36, "inseg_leve": 21.89, "agua_agro": 168.4, "frutas_verduras": 25.7, "sector_agro": 10.4, "marginacion": "Medio"}, {"estado": "Veracruz", "presion_hidrica": 10.2, "inseg_moderada": 12.06, "inseg_severa": 7.79, "inseg_leve": 22.93, "agua_agro": 3816.4, "frutas_verduras": 14.3, "sector_agro": 23.5, "marginacion": "Alto"}, {"estado": "Yucatán", "presion_hidrica": 11.2, "inseg_moderada": 9.38, "inseg_severa": 4.19, "inseg_leve": 17.85, "agua_agro": 2101.1, "frutas_verduras": 16.1, "sector_agro": 8.6, "marginacion": "Alto"}, {"estado": "Zacatecas", "presion_hidrica": 41.8, "inseg_moderada": 8.26, "inseg_severa": 7.47, "inseg_leve": 16.29, "agua_agro": 1462.8, "frutas_verduras": 23.2, "sector_agro": 23.6, "marginacion": "Medio"}];
+
+const margColors = {"Muy bajo":"#2d7d9a","Bajo":"#45a67f","Medio":"#e8b84b","Alto":"#e07b4c","Muy alto":"#c0392b"};
+const margOrder = ["Muy bajo","Bajo","Medio","Alto","Muy alto"];
+
+const abbrev = {"Aguascalientes":"AGS","Baja California":"BC","Baja California Sur":"BCS","Campeche":"CAM","Coahuila":"COA","Colima":"COL","Chiapas":"CHS","Chihuahua":"CHI","Ciudad de México":"CDMX","Durango":"DGO","Guanajuato":"GTO","Guerrero":"GRO","Hidalgo":"HGO","Jalisco":"JAL","México":"MEX","Michoacán":"MICH","Morelos":"MOR","Nayarit":"NAY","Nuevo León":"NL","Oaxaca":"OAX","Puebla":"PUE","Querétaro":"QRO","Quintana Roo":"QROO","San Luis Potosí":"SLP","Sinaloa":"SIN","Sonora":"SON","Tabasco":"TAB","Tamaulipas":"TAM","Tlaxcala":"TLX","Veracruz":"VER","Yucatán":"YUC","Zacatecas":"ZAC"};
+
+// Legend
+const legend = d3.select("#legend");
+margOrder.forEach(m => {
+  const item = legend.append("div").attr("class","legend-item");
+  item.append("div").attr("class","legend-dot").style("background", margColors[m]);
+  item.append("span").text(m);
+});
+
+const margin = {top: 24, right: 40, bottom: 56, left: 58};
+const width = 760, height = 500;
+const iw = width - margin.left - margin.right;
+const ih = height - margin.top - margin.bottom;
+
+const svg = d3.select("#chart").append("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width","100%").style("max-width", width+"px");
+
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+const x = d3.scaleLinear().domain([0, 130]).range([0, iw]);
+const y = d3.scaleLinear().domain([0, d3.max(data, d=>d.inseg_moderada)*1.1]).range([ih, 0]);
+
+const rScale = d3.scaleSqrt()
+  .domain([0, d3.max(data, d => d.agua_agro || 0)])
+  .range([4, 28]);
+
+// Gridlines
+g.append("g").attr("transform",`translate(0,${ih})`)
+  .call(d3.axisBottom(x).ticks(8).tickSize(-ih).tickFormat(d=>d+"%"))
+  .call(g=>g.selectAll(".tick line").attr("stroke","#f0f0f0"))
+  .call(g=>g.select(".domain").attr("stroke","#ddd"));
+
+g.append("g")
+  .call(d3.axisLeft(y).ticks(8).tickSize(-iw).tickFormat(d=>d+"%"))
+  .call(g=>g.selectAll(".tick line").attr("stroke","#f0f0f0"))
+  .call(g=>g.select(".domain").attr("stroke","#ddd"));
+
+// Axis labels
+svg.append("text").attr("class","axis-label")
+  .attr("x", margin.left+iw/2).attr("y", height-6).attr("text-anchor","middle")
+  .text("Grado de presión sobre los recursos hídricos (%)");
+
+svg.append("text").attr("class","axis-label")
+  .attr("transform","rotate(-90)")
+  .attr("x",-(margin.top+ih/2)).attr("y",14).attr("text-anchor","middle")
+  .text("Inseguridad alimentaria moderada (%)");
+
+// Quadrant lines at medians
+const medX = d3.median(data, d=>d.presion_hidrica);
+const medY = d3.median(data, d=>d.inseg_moderada);
+
+g.append("line").attr("class","quadrant-line")
+  .attr("x1",x(medX)).attr("x2",x(medX)).attr("y1",0).attr("y2",ih);
+g.append("line").attr("class","quadrant-line")
+  .attr("x1",0).attr("x2",iw).attr("y1",y(medY)).attr("y2",y(medY));
+
+// Quadrant labels
+g.append("text").attr("class","quadrant-label")
+  .attr("x", x(medX/2)).attr("y", y(medY) - ih*0.15)
+  .text("Baja presión hídrica");
+g.append("text").attr("class","quadrant-label")
+  .attr("x", x(medX/2)).attr("y", y(medY) - ih*0.15 + 16)
+  .text("+ inseguridad alimentaria");
+
+g.append("text").attr("class","quadrant-label")
+  .attr("x", x(medX + (130-medX)/2)).attr("y", y(medY) + ih*0.22)
+  .text("Alta presión hídrica");
+g.append("text").attr("class","quadrant-label")
+  .attr("x", x(medX + (130-medX)/2)).attr("y", y(medY) + ih*0.22 + 16)
+  .text("− inseguridad alimentaria");
+
+// Trend line
+const xVals = data.map(d=>d.presion_hidrica), yVals = data.map(d=>d.inseg_moderada);
+const n = xVals.length;
+const sumX=d3.sum(xVals), sumY=d3.sum(yVals);
+const sumXY=d3.sum(xVals.map((xi,i)=>xi*yVals[i]));
+const sumX2=d3.sum(xVals.map(xi=>xi*xi));
+const slope=(n*sumXY-sumX*sumY)/(n*sumX2-sumX*sumX);
+const intercept=(sumY-slope*sumX)/n;
+const xr=d3.extent(xVals);
+g.append("line").attr("class","trend-line")
+  .attr("x1",x(xr[0])).attr("y1",y(intercept+slope*xr[0]))
+  .attr("x2",x(xr[1])).attr("y2",y(intercept+slope*xr[1]));
+
+// Bubbles (sorted so small ones are on top)
+const sorted = [...data].sort((a,b) => (b.agua_agro||0)-(a.agua_agro||0));
+const tooltip = d3.select("#tooltip");
+
+const dots = g.selectAll(".dot")
+  .data(sorted).enter().append("circle").attr("class","dot")
+  .attr("cx", d=>x(d.presion_hidrica))
+  .attr("cy", d=>y(d.inseg_moderada))
+  .attr("r", d=> rScale(d.agua_agro || 0))
+  .attr("fill", d=> margColors[d.marginacion]||"#999")
+  .attr("stroke","#fff").attr("stroke-width",1.5)
+  .attr("opacity", 0.8);
+
+// Labels for notable states
+const labelStates = ["Sonora","Baja California","Chihuahua","Chiapas","Guerrero","Oaxaca","Sinaloa","Ciudad de México","Tabasco","Nuevo León","Guanajuato","Tamaulipas"];
+g.selectAll(".dot-label")
+  .data(sorted.filter(d=>labelStates.includes(d.estado)))
+  .enter().append("text").attr("class","dot-label")
+  .attr("x", d=>x(d.presion_hidrica) + rScale(d.agua_agro||0) + 4)
+  .attr("y", d=>y(d.inseg_moderada) + 3)
+  .text(d=>abbrev[d.estado]||d.estado);
+
+// Tooltip
+dots.on("mouseenter", function(event,d) {
+  d3.select(this).attr("opacity",1);
+  tooltip.html(
+    `<strong>${d.estado}</strong><br>`+
+    `Marginación: ${d.marginacion||"—"}<br>`+
+    `Presión hídrica: ${d.presion_hidrica.toFixed(1)}%<br>`+
+    `Inseg. moderada: ${d.inseg_moderada.toFixed(1)}%<br>`+
+    `Agua concesionada: ${d.agua_agro ? d.agua_agro.toLocaleString()+" hm³" : "—"}<br>`+
+    `Empleo agropecuario: ${d.sector_agro ? d.sector_agro.toFixed(1)+"%" : "—"}<br>`+
+    `Frutas y verduras: ${d.frutas_verduras ? d.frutas_verduras.toFixed(0)+"%" : "—"}`
+  ).style("opacity",1);
+})
+.on("mousemove", function(event) {
+  const box = document.getElementById("chart").getBoundingClientRect();
+  tooltip.style("left",(event.clientX-box.left+14)+"px").style("top",(event.clientY-box.top-10)+"px");
+})
+.on("mouseleave", function() {
+  d3.select(this).attr("opacity",0.8);
+  tooltip.style("opacity",0);
+});
+
+})();
+</script>
+</body>
+</html>
