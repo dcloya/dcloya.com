@@ -1,0 +1,895 @@
+---
+title: "Identificación Parcial: Del Piloto a la Política"
+subtitle: "Ciclo de Políticas Públicas II, Trimestre Abr-Jun 2026"
+lang: es
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: false
+    theme: cosmo
+    highlight-style: github
+    df-print: kable
+    fig-width: 8
+    fig-height: 5
+engine: knitr
+filters:
+  - webr
+webr:
+  packages:
+    - ggplot2
+    - dplyr
+    - tidyr
+    - patchwork
+    - ggridges
+---
+
+```{webr-r}
+#| label: setup
+#| message: false
+#| warning: false
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(patchwork)
+library(ggridges)
+
+# Paleta institucional TEC
+c_dark   <- "#003366"
+c_med    <- "#1A5299"
+c_light  <- "#6A9FCC"
+c_vlight <- "#C6D9F0"
+c_pt     <- "#E8622A"   # naranja: estimador puntual / naive
+c_rojo   <- "#B40000"
+c_texto  <- "#333333"
+
+tema <- theme_minimal(base_size = 12) +
+  theme(
+    plot.title    = element_text(face = "bold", color = c_dark),
+    plot.subtitle = element_text(color = c_texto, size = 10),
+    plot.caption  = element_text(color = "gray50", size = 9),
+    panel.grid.minor = element_blank()
+  )
+```
+
+## Introducción
+
+Este ejercicio acompaña la sesión *Del piloto a la política: retos de escalar
+intervenciones basadas en evidencia*. Trabajamos con dos ejemplos aplicados y
+luego exploramos seis formas distintas de comunicar la misma incertidumbre
+visualmente.
+
+**Lo que aprenderás a hacer:**
+
+1. Calcular cotas de Manski (Manski, 1990) para tasas con datos faltantes.
+2. Simular sesgo de selección y aplicar identificación parcial por capas
+   (sin supuestos → MRT → MRT + MTS).
+3. Elegir la visualización más apropiada según la audiencia.
+
+**Fuentes principales:**
+
+- Manski, C.F. (1990). *Nonparametric Bounds on Treatment Effects.* AER, 80(3).
+- Manski, C.F. (2011). *Policy Analysis with Incredible Certitude.* WP-10-07, IPR Northwestern.
+- Mullahy, J. et al. (2021). *Embracing Uncertainty.* Am J Prev Med, 61(2): e103–e108.
+
+---
+
+## Ejercicio 1: Tasas de vacunación y el problema MAR {#sec-vac}
+
+### El problema de fondo
+
+En 2017, la Encuesta Nacional de Inmunización (NIS) de los CDC reportó una tasa
+de cobertura de la vacuna triple viral (MMR) del **92 %** en niños de 19–35 meses.
+El problema: solo el **26.1 %** de los hogares seleccionados respondió la encuesta.
+
+El CDC publicó el 92 % como si fuera la tasa poblacional. Eso requiere asumir
+que el 73.9 % no entrevistado está vacunado **exactamente** al mismo ritmo que
+los entrevistados — un supuesto llamado MAR (*Missing at Random*, Faltante
+Completamente al Azar). MAR es fuerte e injustificado aquí: es razonable
+suponer que los hogares más difíciles de contactar también tienen menor acceso
+a servicios de salud.
+
+La identificación parcial no exige ese supuesto. En cambio, pregunta:
+*¿qué rango de tasas poblacionales es consistente con lo que observamos?*
+
+### 1.1 Parámetros observados
+
+```{webr-r}
+#| label: vac-params
+r_obs   <- 0.261   # tasa de respuesta de la encuesta
+p_r_obs <- 0.920   # tasa MMR observada entre respondentes
+
+cat(sprintf("Tasa de respuesta:           %5.1f %%\n", r_obs   * 100))
+cat(sprintf("Tasa MMR (respondentes):     %5.1f %%\n", p_r_obs * 100))
+cat(sprintf("CDC reporta (puntual, MAR):  %5.1f %%\n", p_r_obs * 100))
+```
+
+### 1.2 Cotas sin supuestos adicionales
+
+La lógica es simple: no sabemos nada sobre los no respondentes, así que
+consideramos los dos extremos. Si **ninguno** de los 73.9 % no entrevistados
+estuviera vacunado, la tasa real sería mínima; si **todos** lo estuvieran, sería
+máxima.
+
+$$
+\hat\theta_L = r \cdot \hat p_r + (1-r) \cdot 0 = r \cdot \hat p_r
+$$
+$$
+\hat\theta_U = r \cdot \hat p_r + (1-r) \cdot 1 = r \cdot \hat p_r + (1-r)
+$$
+
+```{webr-r}
+#| label: vac-cotas-sin-sup
+cota_l_vac <- r_obs * p_r_obs               # caso más pesimista
+cota_u_vac <- r_obs * p_r_obs + (1 - r_obs) # caso más optimista
+
+cat(sprintf("Cota inferior (0%% no-resp. vacunados):   %5.1f %%\n",
+            cota_l_vac * 100))
+cat(sprintf("Cota superior (100%% no-resp. vacunados): %5.1f %%\n",
+            cota_u_vac * 100))
+cat(sprintf("Intervalo identificado: [%.1f%%, %.1f%%]\n",
+            cota_l_vac * 100, cota_u_vac * 100))
+```
+
+**¿Qué nos dicen estas cotas?**
+
+El intervalo [24.0 %, 97.9 %] es muy amplio, pero eso *no es un fracaso del
+análisis*: es información genuina sobre el estado del problema de datos.
+El 92 % reportado por el CDC cae cerca del extremo superior del intervalo —
+eso quiere decir que el CDC implícitamente asumió el escenario más optimista
+posible.
+
+Si la tasa real estuviera cerca del 24 %, la cobertura estaría **muy por debajo**
+del umbral de inmunidad de rebaño para sarampión (≈ 95 %), lo que representa un
+riesgo de salud pública significativo.
+
+### 1.3 Supuesto MTS: estrechar las cotas con una restricción creíble
+
+El supuesto de Selección Monótona (MTS) postula que los no respondentes tienen
+una tasa de vacunación **igual o menor** a la de los respondentes. Esto es
+plausible: quienes no contestan la encuesta suelen tener menor acceso a
+servicios de salud. MTS no requiere saber exactamente cuál es su tasa — solo
+que no es *mayor* que la de quienes sí respondieron.
+
+Bajo MTS: la cota superior se reduce a $\hat p_r = 92.0\,\%$, eliminando
+los escenarios en que los no respondentes tienen cobertura superior a los
+respondentes.
+
+```{webr-r}
+#| label: vac-mts
+cota_l_mts <- cota_l_vac   # MTS no cambia la cota inferior
+cota_u_mts <- p_r_obs      # bajo MTS, el máximo posible es la tasa de respondentes
+
+cat(sprintf("Bajo MTS — cota inferior: %5.1f %%\n", cota_l_mts * 100))
+cat(sprintf("Bajo MTS — cota superior: %5.1f %%\n", cota_u_mts * 100))
+cat(sprintf("Intervalo bajo MTS: [%.1f%%, %.1f%%]\n",
+            cota_l_mts * 100, cota_u_mts * 100))
+cat(sprintf("Reducción en amplitud: %.1f puntos porcentuales\n",
+            (cota_u_vac - cota_u_mts) * 100))
+```
+
+El intervalo [24.0 %, 92.0 %] bajo MTS sigue siendo amplio — pero es
+defendible. Nótese que el CDC reporta exactamente la cota superior del
+intervalo MTS, lo que equivale a asumir el caso más favorable dentro de
+un supuesto ya razonablemente optimista.
+
+### 1.4 Análisis de sensibilidad: ¿cómo dependen las cotas de la tasa de respuesta?
+
+Hasta ahora usamos $r = 26.1\,\%$. Pero ¿qué pasaría si la tasa de respuesta
+fuera mayor? Este análisis muestra cómo las cotas cambian en función de $r$,
+manteniendo fija la tasa observada entre respondentes.
+
+```{webr-r}
+#| label: fig-vac-sensibilidad
+#| fig-cap: "Las cotas se estrechan conforme sube la tasa de respuesta. La línea roja punteada marca el 92 % (MAR). La línea azul punteada marca la NIS 2017."
+
+grid_r <- seq(0.05, 0.99, by = 0.01)
+
+bounds_vac <- tibble(
+  tasa_r  = grid_r,
+  cota_l  = grid_r * p_r_obs,
+  cota_u  = grid_r * p_r_obs + (1 - grid_r),
+  puntual = p_r_obs
+)
+
+ggplot(bounds_vac, aes(x = tasa_r * 100)) +
+  geom_ribbon(aes(ymin = cota_l * 100, ymax = cota_u * 100),
+              fill = c_vlight, alpha = 0.9) +
+  geom_line(aes(y = cota_l * 100), color = c_dark, linewidth = 1) +
+  geom_line(aes(y = cota_u * 100), color = c_dark, linewidth = 1) +
+  geom_hline(yintercept = p_r_obs * 100,
+             linetype = "dashed", color = c_rojo, linewidth = 0.9) +
+  geom_vline(xintercept = r_obs * 100,
+             linetype = "dotted", color = c_med, linewidth = 1) +
+  annotate("text", x = r_obs * 100 + 2, y = 40,
+           label = paste0("NIS 2017\n(r = ", round(r_obs * 100, 1), " %)"),
+           hjust = 0, size = 3.2, color = c_med) +
+  annotate("text", x = 65, y = p_r_obs * 100 + 2.5,
+           label = "Estimador puntual MAR = 92 %",
+           color = c_rojo, hjust = 0, size = 3.2) +
+  annotate("segment",
+           x = r_obs * 100, xend = r_obs * 100,
+           y = cota_l_vac * 100, yend = cota_u_vac * 100,
+           color = c_pt, linewidth = 2, alpha = 0.8) +
+  annotate("text", x = r_obs * 100 + 2,
+           y = (cota_l_vac + cota_u_vac) / 2 * 100,
+           label = sprintf("[%.0f %%, %.0f %%]",
+                           cota_l_vac * 100, cota_u_vac * 100),
+           hjust = 0, size = 3.2, color = c_pt) +
+  scale_x_continuous(limits = c(5, 99), breaks = seq(10, 90, 10),
+                     labels = function(x) paste0(x, " %")) +
+  scale_y_continuous(limits = c(0, 105), breaks = seq(0, 100, 10),
+                     labels = function(x) paste0(x, " %")) +
+  labs(title = "Cotas de tasa de vacunación MMR según tasa de respuesta",
+       subtitle = "Región sombreada = intervalo sin supuestos. Segmento naranja = intervalo en NIS 2017.",
+       x = "Tasa de respuesta de la encuesta",
+       y = "Tasa de vacunación poblacional",
+       caption = "Datos: CDC/NIS 2017. Mullahy et al. (2021).") +
+  tema
+```
+
+**Cómo leer esta gráfica:**
+
+- La **región sombreada** es el intervalo de identificación: para cada nivel de
+  tasa de respuesta (eje horizontal), el rango de tasas poblacionales
+  consistentes con los datos va desde la línea inferior hasta la superior.
+- Conforme la tasa de respuesta se acerca al 100 %, el intervalo colapsa al
+  punto en el estimador MAR (línea punteada roja) — que es exactamente cuando
+  MAR deja de ser cuestionable.
+- El **segmento naranja** muestra el intervalo real de la NIS 2017 (r = 26.1 %).
+  Su amplitud revela que la declaración del CDC de "92 % de cobertura" es una
+  elección de supuesto, no un hecho medido.
+- **La solución no es más encuestas con la misma tasa de respuesta**, sino
+  mejores datos: seguimiento a no respondentes, vinculación con registros
+  administrativos.
+
+---
+
+## Ejercicio 2: Capacitación laboral y sesgo de selección {#sec-job}
+
+### El problema causal
+
+Queremos saber si un programa de capacitación laboral *causa* un aumento en
+salarios. El Efecto Promedio del Tratamiento (ATE) es:
+
+$$
+\text{ATE} = E[Y(1) - Y(0)]
+$$
+
+donde $Y(1)$ es el salario que tendría la persona *con* el programa y $Y(0)$
+el salario *sin* él. El problema: nunca observamos ambos para la misma persona.
+
+Si comparamos ingenuamente los salarios de quienes participaron contra quienes
+no participaron, obtenemos un **estimador naive** que mezcla el efecto causal
+con diferencias preexistentes entre grupos. Ese sesgo de selección puede ser
+positivo (los más capaces se inscriben) o negativo (los más desesperados
+buscan el programa).
+
+### 2.1 Simulando datos con sesgo conocido
+
+La ventaja de simular es que **conocemos la verdad**: sabemos exactamente
+cuánto vale el ATE verdadero y podemos verificar si las cotas lo contienen.
+En datos reales nunca tenemos ese lujo.
+
+```{webr-r}
+#| label: sim-datos
+set.seed(2026)
+n <- 3000
+
+# Confusor: habilidad no observada (afecta salario Y participación)
+habilidad <- rnorm(n, mean = 0, sd = 1)
+
+# Instrumento potencial: distancia al centro de capacitación (km)
+distancia <- runif(n, min = 0, max = 60)
+
+# Participación: aumenta con habilidad, disminuye con distancia
+prob_D <- plogis(0.6 * habilidad - 0.04 * distancia + 0.2)
+D      <- rbinom(n, 1, prob_D)
+
+# Resultados potenciales (miles de MXN/mes)
+ate_sim <- 2.5                                      # efecto verdadero
+Y0 <- 10 + 3 * habilidad + rnorm(n, sd = 2)        # salario sin programa
+Y1 <- Y0 + ate_sim + rnorm(n, sd = 1)              # salario con programa
+
+Y <- D * Y1 + (1 - D) * Y0                         # salario observado
+
+datos <- tibble(D, Y, Y0, Y1, habilidad, distancia)
+
+cat(sprintf("n = %d observaciones\n", n))
+cat(sprintf("Participantes (D=1): %.1f %%\n", mean(D) * 100))
+cat(sprintf("ATE simulado (verdadero): +%.2f mil MXN/mes\n\n", ate_sim))
+
+# Verificamos que la selección sea positiva
+cat("Habilidad promedio por grupo:\n")
+cat(sprintf("  Participantes:     %.3f\n", mean(habilidad[D == 1])))
+cat(sprintf("  No participantes:  %.3f\n", mean(habilidad[D == 0])))
+cat("→ Los participantes tienen mayor habilidad promedio: selección positiva.\n")
+```
+
+La simulación genera selección positiva: los más hábiles tienen mayor
+probabilidad de inscribirse. Esto hará que el estimador naive sobreestime el
+efecto del programa.
+
+### 2.2 El sesgo del estimador naive
+
+```{webr-r}
+#| label: sesgo-naive
+y1_bar <- mean(Y[D == 1])   # E[Y | D=1]: salario promedio de participantes
+y0_bar <- mean(Y[D == 0])   # E[Y | D=0]: salario promedio de no participantes
+p_trat <- mean(D)
+
+ate_verdadero  <- mean(Y1 - Y0)   # solo posible porque simulamos
+efecto_naive   <- y1_bar - y0_bar
+sesgo_seleccion <- efecto_naive - ate_verdadero
+
+cat(sprintf("ATE verdadero (simulado):        +%.3f mil MXN\n", ate_verdadero))
+cat(sprintf("Estimador naive (dif. de medias): +%.3f mil MXN\n", efecto_naive))
+cat(sprintf("Sesgo de selección:               +%.3f mil MXN\n\n", sesgo_seleccion))
+cat(sprintf("El naive sobreestima en %.1f %% del ATE verdadero.\n",
+            sesgo_seleccion / ate_verdadero * 100))
+```
+
+El sesgo proviene de que los participantes habrían ganado más *de todos modos*
+gracias a su mayor habilidad. La diferencia simple de medias confunde "el
+efecto del programa" con "diferencias preexistentes en habilidad".
+
+### 2.3 Cotas de Manski sin supuestos adicionales
+
+Con el soporte acotado de $Y \in [y_L, y_U]$ y sin ningún supuesto sobre el
+mecanismo de selección, las cotas de Manski son:
+
+$$
+\hat\theta_L = (\bar Y_1 - y_U)\,p + (y_L - \bar Y_0)\,(1-p)
+$$
+$$
+\hat\theta_U = (\bar Y_1 - y_L)\,p + (y_U - \bar Y_0)\,(1-p)
+$$
+
+Estas cotas son las más amplias posibles — no asumen nada. Por eso en datos
+observacionales *sin aleatorización*, el intervalo suele cruzar el cero.
+
+```{webr-r}
+#| label: cotas-sin-sup
+y_L <- min(Y)  # soporte mínimo observado
+y_U <- max(Y)  # soporte máximo observado
+
+cota_l_0 <- (y1_bar - y_U) * p_trat + (y_L - y0_bar) * (1 - p_trat)
+cota_u_0 <- (y1_bar - y_L) * p_trat + (y_U - y0_bar) * (1 - p_trat)
+
+cat(sprintf("Soporte observado: [%.1f, %.1f] mil MXN\n", y_L, y_U))
+cat(sprintf("Cota inferior (sin supuestos): %+.2f mil MXN\n", cota_l_0))
+cat(sprintf("Cota superior (sin supuestos): %+.2f mil MXN\n", cota_u_0))
+cat(sprintf("Amplitud del intervalo: %.2f mil MXN\n\n", cota_u_0 - cota_l_0))
+cat(sprintf("¿Cruza el cero? %s\n",
+            ifelse(cota_l_0 < 0 & cota_u_0 > 0,
+                   "Sí → con datos observacionales y sin supuestos,",
+                   "No")))
+if (cota_l_0 < 0 & cota_u_0 > 0)
+  cat("  no podemos afirmar que el efecto es positivo.\n")
+```
+
+Que el intervalo cruce el cero no significa que el programa no funcione —
+significa que los datos observacionales, por sí solos y sin restricciones
+adicionales, son compatibles con efectos positivos *y* negativos.
+
+### 2.4 Capa 1 — MRT: Respuesta Monótona al Tratamiento
+
+El supuesto MRT dice que el programa no puede *reducir* salarios:
+$Y_i(1) \geq Y_i(0)$ para todos los individuos. Si el programa enseña
+habilidades productivas y la participación es voluntaria, esto es creíble.
+
+Bajo MRT, la cota inferior queda acotada desde abajo por cero:
+
+$$
+\hat\theta_L^{\text{MRT}} = \max\left(0,\; \hat\theta_L^{\text{sin sup.}}\right)
+$$
+
+```{webr-r}
+#| label: cotas-mrt
+cota_l_mrt <- max(0, cota_l_0)   # MRT: efecto no puede ser negativo
+cota_u_mrt <- cota_u_0            # MRT no afecta la cota superior
+
+cat(sprintf("Con MRT — cota inferior: %+.2f mil MXN\n", cota_l_mrt))
+cat(sprintf("Con MRT — cota superior: %+.2f mil MXN\n", cota_u_mrt))
+cat(sprintf("Amplitud bajo MRT: %.2f mil MXN\n\n", cota_u_mrt - cota_l_mrt))
+cat("→ MRT identifica el signo: el efecto es no negativo.\n")
+cat("  Aún no sabemos la magnitud.\n")
+```
+
+### 2.5 Capa 2 — MRT + MTS
+
+El supuesto MTS agrega que los participantes tienen *mayor potencial salarial*
+que los no participantes, aun sin el programa:
+$E[Y(d)|D=1] \geq E[Y(d)|D=0]$ para $d \in \{0,1\}$.
+
+Esto captura la selección positiva que observamos en los datos simulados.
+Bajo MRT + MTS, la cota superior se estrecha:
+
+$$
+\hat\theta_U^{\text{MRT+MTS}} = \bar Y_1 \cdot p + y_U \cdot (1-p) - \bar Y_0
+$$
+
+```{webr-r}
+#| label: cotas-mrt-mts
+cota_l_mrt_mts <- cota_l_mrt   # MTS no mejora la cota inferior bajo MRT
+cota_u_mrt_mts <- y1_bar * p_trat + y_U * (1 - p_trat) - y0_bar
+
+cat(sprintf("Con MRT+MTS — cota inferior: %+.2f mil MXN\n", cota_l_mrt_mts))
+cat(sprintf("Con MRT+MTS — cota superior: %+.2f mil MXN\n", cota_u_mrt_mts))
+cat(sprintf("Amplitud bajo MRT+MTS: %.2f mil MXN\n\n", cota_u_mrt_mts - cota_l_mrt_mts))
+cat(sprintf("¿El ATE verdadero (%.2f) está contenido? %s\n",
+            ate_verdadero,
+            ifelse(ate_verdadero >= cota_l_mrt_mts & ate_verdadero <= cota_u_mrt_mts,
+                   "Sí ✓", "No ✗")))
+```
+
+Las cotas contienen el ATE verdadero, como deberían. Eso es la verificación
+de que el método funciona correctamente en la simulación.
+
+### 2.6 Tabla resumen por capas
+
+```{webr-r}
+#| label: tabla-capas
+data.frame(
+  Supuesto      = c("Sin supuestos", "MRT", "MRT + MTS"),
+  Cota_inferior = round(c(cota_l_0, cota_l_mrt, cota_l_mrt_mts), 2),
+  Cota_superior = round(c(cota_u_0, cota_u_mrt, cota_u_mrt_mts), 2),
+  Amplitud      = round(c(cota_u_0 - cota_l_0,
+                          cota_u_mrt - cota_l_mrt,
+                          cota_u_mrt_mts - cota_l_mrt_mts), 2),
+  Signo_ident   = c("No", "≥ 0", "≥ 0"),
+  ATE_contenido = c(
+    ifelse(ate_verdadero >= cota_l_0        & ate_verdadero <= cota_u_0,        "✓", "✗"),
+    ifelse(ate_verdadero >= cota_l_mrt      & ate_verdadero <= cota_u_mrt,      "✓", "✗"),
+    ifelse(ate_verdadero >= cota_l_mrt_mts  & ate_verdadero <= cota_u_mrt_mts,  "✓", "✗")
+  )
+)
+```
+
+Cada fila añade un supuesto más restrictivo y a cambio obtiene un intervalo
+más estrecho. El decisor elige hasta qué capa llegar según qué supuestos
+considera defensibles en su contexto.
+
+### 2.7 Gráfica del análisis por capas
+
+```{webr-r}
+#| label: fig-capas
+#| fig-height: 4.5
+#| fig-cap: "Cada barra es un intervalo bajo un conjunto de supuestos. El rombo rojo es el ATE verdadero (solo observable porque simulamos). La línea punteada roja es el estimador naive."
+
+resultados <- tibble(
+  supuesto = factor(
+    c("Sin supuestos", "MRT", "MRT + MTS", "ATE verdadero"),
+    levels = c("Sin supuestos", "MRT", "MRT + MTS", "ATE verdadero")
+  ),
+  lb       = c(cota_l_0, cota_l_mrt, cota_l_mrt_mts, ate_verdadero),
+  ub       = c(cota_u_0, cota_u_mrt, cota_u_mrt_mts, ate_verdadero),
+  es_punto = c(FALSE, FALSE, FALSE, TRUE)
+)
+
+ggplot(resultados, aes(y = supuesto)) +
+  geom_linerange(
+    data  = filter(resultados, !es_punto),
+    aes(xmin = lb, xmax = ub, color = supuesto),
+    linewidth = 5, alpha = 0.65
+  ) +
+  geom_point(
+    data  = filter(resultados, !es_punto),
+    aes(x = lb, color = supuesto), size = 3
+  ) +
+  geom_point(
+    data  = filter(resultados, !es_punto),
+    aes(x = ub, color = supuesto), size = 3
+  ) +
+  geom_point(
+    data  = filter(resultados, es_punto),
+    aes(x = lb), color = c_rojo, size = 5, shape = 18
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray50", linewidth = 0.8) +
+  geom_vline(xintercept = efecto_naive, linetype = "dotted",
+             color = c_pt, linewidth = 1.1) +
+  geom_text(
+    data  = filter(resultados, !es_punto),
+    aes(x = lb, label = sprintf("%+.1f", lb)),
+    vjust = -0.8, size = 3, color = c_texto
+  ) +
+  geom_text(
+    data  = filter(resultados, !es_punto),
+    aes(x = ub, label = sprintf("%+.1f", ub)),
+    vjust = -0.8, size = 3, color = c_texto
+  ) +
+  annotate("text", x = efecto_naive + 0.3, y = 0.6,
+           label = paste0("Naive: +", round(efecto_naive, 2)),
+           color = c_pt, hjust = 0, size = 3.2) +
+  scale_color_manual(values = c(
+    "Sin supuestos" = "#001F4D",
+    "MRT"           = c_med,
+    "MRT + MTS"     = c_light,
+    "ATE verdadero" = c_rojo
+  )) +
+  labs(
+    title    = "Análisis por capas: efecto del programa de capacitación sobre salarios",
+    subtitle = paste0(
+      "Naive (+", round(efecto_naive, 2),
+      " mil MXN) sobreestima el ATE verdadero (+", round(ate_verdadero, 2),
+      " mil MXN) por selección positiva."
+    ),
+    x = "Efecto sobre salario (miles de MXN/mes)", y = NULL,
+    caption = "MRT = Respuesta Monótona al Tratamiento  |  MTS = Selección Monótona al Tratamiento\nManski (1990, 2011). Datos simulados, set.seed(2026)."
+  ) +
+  tema + theme(legend.position = "none")
+```
+
+**Cómo leer esta gráfica:**
+
+- Cada fila es un conjunto de supuestos; la longitud de la barra es la
+  amplitud del intervalo.
+- **Sin supuestos**: el intervalo cruza el cero — no podemos decir ni si el
+  efecto es positivo o negativo.
+- **MRT**: la cota inferior sube a cero, identificando el signo pero no la
+  magnitud.
+- **MRT + MTS**: el intervalo se estrecha significativamente. Sabemos que el
+  efecto es no-negativo, pero la magnitud sigue siendo incierta.
+- El **rombo rojo** (ATE verdadero = +2.5) cae dentro de todos los intervalos
+  — confirmación de que el método es válido.
+- La **línea punteada naranja** (naive = +3.98) está por encima del ATE
+  verdadero: la diferencia simple de medias sobreestima el efecto.
+
+---
+
+## Ejercicio 3: Seis formas de comunicar la misma incertidumbre {#sec-multi}
+
+### Motivación
+
+La identificación parcial produce un intervalo. Pero *cómo presentamos* ese
+intervalo importa tanto como su amplitud. Esta sección replica el enfoque
+visual de Mullahy et al. (2021) aplicado a cuatro estados de México, mostrando
+seis codificaciones visuales de la misma información.
+
+### 3.1 Datos: cuatro evaluaciones del programa de capacitación
+
+Los datos representan el resultado de aplicar el análisis del Ejercicio 2 a
+cuatro contextos estatales con diferente contexto institucional. La métrica
+es la **diferencia en ingreso laboral estandarizado** (escala comparable entre
+estados).
+
+```{webr-r}
+#| label: datos-estados
+estados_df <- tibble(
+  estado = factor(
+    c("CDMX", "Jalisco", "Oaxaca", "Chiapas"),
+    levels = rev(c("CDMX", "Jalisco", "Oaxaca", "Chiapas"))
+  ),
+  pt     = c( 0.18,  0.04, -0.09, -0.23),  # estimador naive
+  lb_sin = c(-0.06, -0.20, -0.32, -0.50),  # cota inf. sin supuestos
+  ub_sin = c( 0.36,  0.26,  0.20,  0.10),  # cota sup. sin supuestos
+  lb_mts = c( 0.04, -0.08, -0.18, -0.36),  # cota inf. con MTS
+  ub_mts = c( 0.28,  0.17,  0.10,  0.05),  # cota sup. con MTS
+  se     = c( 0.04,  0.04,  0.04,  0.05)   # error estándar aprox.
+)
+
+estados_df
+```
+
+Los cuatro estados representan un gradiente de resultados:
+
+- **CDMX**: el intervalo MTS excluye el cero → el efecto es probablemente positivo.
+- **Jalisco**: intervalo cerca de cero, alta incertidumbre.
+- **Oaxaca**: el intervalo cruza el cero → el efecto es ambiguo.
+- **Chiapas**: el intervalo MTS sugiere efecto negativo → revisar el diseño antes de escalar.
+
+### 3.2 Distribuciones bootstrap: ¿por qué y para qué?
+
+El bootstrap simula la **incertidumbre de muestreo** alrededor del estimador
+naive. La idea es: si hubiéramos tomado una muestra distinta de la misma
+población, ¿qué tan diferentes serían nuestros resultados?
+
+Simular muchas muestras "como si" nos da una distribución del estimador. Esta
+distribución (paneles e y f) muestra cuánta variabilidad esperamos — incluso
+antes de considerar la incertidumbre de identificación (los bounds).
+
+> **Distinción clave:** el bootstrap captura incertidumbre *estadística*
+> (resuelta con más datos del mismo tipo). Las cotas capturan incertidumbre
+> de *identificación* (resuelta solo con mejores datos o supuestos adicionales).
+> Son dos fuentes distintas de incertidumbre y nunca deben confundirse.
+
+```{webr-r}
+#| label: bootstrap
+set.seed(2026)
+n_boot <- 4000
+
+boot_df <- estados_df |>
+  rowwise() |>
+  mutate(vals = list(rnorm(n_boot, mean = pt, sd = se * 1.6))) |>
+  unnest(vals) |>
+  rename(boot_val = vals)
+
+cat(sprintf("Bootstrap: %d muestras por estado\n", n_boot))
+cat(sprintf("Total de filas en boot_df: %d\n", nrow(boot_df)))
+```
+
+### 3.3 Construcción de los seis paneles
+
+Definimos los parámetros comunes de escala y tema:
+
+```{webr-r}
+#| label: config-paneles
+xlim  <- c(-0.65, 0.45)
+xbrks <- c(-0.6, -0.4, -0.2, 0, 0.2, 0.4)
+
+tema_p <- theme_minimal(base_size = 10) +
+  theme(
+    axis.title.y       = element_blank(),
+    axis.text.y        = element_text(size = 9, color = "gray15"),
+    axis.title.x       = element_text(size = 8, color = "gray45"),
+    panel.grid.major.y = element_line(color = "gray93"),
+    panel.grid.major.x = element_line(color = "gray93"),
+    panel.grid.minor   = element_blank(),
+    plot.title         = element_text(size = 10, face = "bold",
+                                      color = c_dark,
+                                      margin = margin(b = 2)),
+    plot.margin        = margin(6, 8, 6, 8)
+  )
+```
+
+**Panel a — Dos capas: intervalo amplio (sin supuestos) + intervalo estrecho (MTS)**
+
+La capa exterior (azul claro) muestra el rango sin restricciones; la interior
+(azul oscuro) muestra lo que ganamos con MTS. El punto naranja es el estimador
+naive.
+
+```{webr-r}
+#| label: panel-a
+pa <- ggplot(estados_df, aes(y = estado)) +
+  geom_linerange(aes(xmin = lb_sin, xmax = ub_sin),
+                 color = c_vlight, linewidth = 5.5) +
+  geom_linerange(aes(xmin = lb_sin,         xmax = lb_sin + 0.008),
+                 color = c_light, linewidth = 2.2) +
+  geom_linerange(aes(xmin = ub_sin - 0.008, xmax = ub_sin),
+                 color = c_light, linewidth = 2.2) +
+  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),
+                 color = c_dark, linewidth = 5.5, alpha = 0.85) +
+  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),
+                 color = c_med, linewidth = 2.2) +
+  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),
+                 color = c_med, linewidth = 2.2) +
+  geom_point(aes(x = pt), color = c_pt, size = 3.2) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  labs(title = "a — Dos capas de cotas",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+pa
+```
+
+**Panel b — Incertidumbre de muestreo sobre las cotas MTS**
+
+La capa exterior ahora es el intervalo de confianza del 95 % *sobre las propias
+cotas* (incertidumbre estadística), y la interior son las cotas puntuales.
+
+```{webr-r}
+#| label: panel-b
+estados_b <- estados_df |>
+  mutate(lb_lo = lb_mts - 1.96 * se,
+         ub_hi = ub_mts + 1.96 * se)
+
+pb <- ggplot(estados_b, aes(y = estado)) +
+  geom_linerange(aes(xmin = lb_lo, xmax = ub_hi),
+                 color = c_vlight, linewidth = 5.5) +
+  geom_linerange(aes(xmin = lb_lo,         xmax = lb_lo + 0.008),
+                 color = c_light, linewidth = 2.2) +
+  geom_linerange(aes(xmin = ub_hi - 0.008, xmax = ub_hi),
+                 color = c_light, linewidth = 2.2) +
+  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),
+                 color = c_dark, linewidth = 5.5, alpha = 0.85) +
+  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),
+                 color = c_med, linewidth = 2.2) +
+  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),
+                 color = c_med, linewidth = 2.2) +
+  geom_point(aes(x = pt), color = c_pt, size = 3.2) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  labs(title = "b — IC 95 % sobre las cotas MTS",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+pb
+```
+
+**Paneles c y d — Barras de error clásicas**
+
+La forma más común en la literatura. El panel c tiene ticks en ambos extremos
+(convencional); el d solo en el extremo superior, útil cuando la cota inferior
+es menos informativa o tiene mayor incertidumbre.
+
+```{webr-r}
+#| label: paneles-cd
+pc <- ggplot(estados_df, aes(y = estado)) +
+  geom_errorbar(aes(xmin = lb_mts, xmax = ub_mts),
+                color = c_dark, linewidth = 0.85, width = 0.38) +
+  geom_point(aes(x = pt), color = c_pt, size = 3.5) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  labs(title = "c — Barras de error (ticks en ambos extremos)",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+
+pd <- ggplot(estados_df, aes(y = estado)) +
+  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),
+                 color = c_dark, linewidth = 0.85) +
+  geom_errorbar(aes(xmin = ub_mts, xmax = ub_mts),
+                color = c_dark, linewidth = 0.85, width = 0.38) +
+  geom_point(aes(x = pt), color = c_pt, size = 3.5) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  labs(title = "d — Barras de error (tick solo en extremo sup.)",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+pc
+pd
+```
+
+**Panel e — Gradiente de opacidad**
+
+La opacidad de cada píxel es proporcional a la densidad gaussiana centrada
+en el estimador naive. Transmite la idea de que el punto central es más
+probable y la incertidumbre se difumina hacia los extremos.
+
+```{webr-r}
+#| label: panel-e
+n_seg <- 150
+
+grad_df <- estados_df |>
+  mutate(estado_n = as.numeric(estado)) |>
+  rowwise() |>
+  mutate(
+    x_seq = list(seq(lb_sin, ub_sin, length.out = n_seg)),
+    dens  = list(dnorm(seq(lb_sin, ub_sin, length.out = n_seg),
+                       mean = pt,
+                       sd   = (ub_sin - lb_sin) / 5)),
+    w     = (ub_sin - lb_sin) / n_seg
+  ) |>
+  unnest(c(x_seq, dens)) |>
+  group_by(estado) |>
+  mutate(alpha_n = dens / max(dens))
+
+tick_df <- estados_df |> mutate(estado_n = as.numeric(estado))
+
+pe <- ggplot() +
+  geom_rect(data = grad_df,
+            aes(xmin  = x_seq - w / 2, xmax = x_seq + w / 2,
+                ymin  = estado_n - 0.29, ymax = estado_n + 0.29,
+                alpha = alpha_n),
+            fill = c_dark) +
+  geom_rect(data = tick_df,
+            aes(xmin = pt - 0.004, xmax = pt + 0.004,
+                ymin = estado_n - 0.29, ymax = estado_n + 0.29),
+            fill = c_pt) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  scale_y_continuous(breaks = 1:4, labels = levels(estados_df$estado)) +
+  scale_alpha_continuous(range = c(0.02, 1), guide = "none") +
+  labs(title = "e — Gradiente de opacidad",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+
+pe
+```
+
+**Panel f — Distribuciones bootstrap completas (ridgeline)**
+
+Muestra la distribución muestral del estimador para cada estado. La barra
+naranja marca el estimador naive. Este panel es el que más información
+transmite pero también el que más requiere alfabetización estadística de la
+audiencia.
+
+```{webr-r}
+#| label: panel-f
+pf <- ggplot(boot_df, aes(x = boot_val, y = estado)) +
+  geom_density_ridges(
+    fill = c_vlight, color = c_dark,
+    alpha = 0.88, scale = 0.9,
+    bandwidth = 0.028, rel_min_height = 0.015
+  ) +
+  geom_segment(
+    data = estados_df,
+    aes(x = pt, xend = pt,
+        y    = as.numeric(estado),
+        yend = as.numeric(estado) + 0.82),
+    color = c_pt, linewidth = 2.5,
+    inherit.aes = FALSE
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "gray55", linewidth = 0.45) +
+  scale_x_continuous(limits = xlim, breaks = xbrks) +
+  labs(title = "f — Distribuciones bootstrap (ridgeline)",
+       x = "diferencia en ingreso estandarizado") +
+  tema_p
+
+pf
+```
+
+### 3.4 La figura completa
+
+```{webr-r}
+#| label: fig-multipanel
+#| fig-height: 11
+#| fig-cap: "Seis codificaciones visuales de la misma incertidumbre. La información de fondo es idéntica en los seis paneles; lo que cambia es cómo se presenta."
+
+fig_multi <- (pa | pb) / (pc | pd) / (pe | pf) +
+  plot_annotation(
+    title    = "Seis formas de comunicar incertidumbre en identificación parcial",
+    subtitle = paste0(
+      "Programa de capacitación laboral — cuatro estados de México\n",
+      "Exterior (claro) = sin supuestos  |  Interior (oscuro) = MRT + MTS  |",
+      "  \u25cf = estimador naive"
+    ),
+    caption  = "Adaptado de Mullahy et al. (2021, Am J Prev Med). Cotas: Manski (1990, 2011). Datos simulados.",
+    theme = theme(
+      plot.title    = element_text(face = "bold", color = c_dark, size = 12.5),
+      plot.subtitle = element_text(color = "gray35", size = 8.8),
+      plot.caption  = element_text(color = "gray55", size = 8)
+    )
+  )
+
+fig_multi
+```
+
+**Cuándo usar cada panel:**
+
+| Panel | Ideal para | Requiere en la audiencia |
+|-------|-----------|--------------------------|
+| **a** | Comunicar la ganancia de añadir MTS vs. no asumir nada | Familiaridad con cotas |
+| **b** | Mostrar que las propias cotas tienen incertidumbre estadística | Estadística básica |
+| **c** | Publicaciones técnicas, comparaciones múltiples | Lectura de CI |
+| **d** | Cuando la cota inferior es poco informativa o abierta | Lectura de CI |
+| **e** | Presentaciones a decisores: sugiere "probabilidad" sin asumirla | Ninguno especial |
+| **f** | Comunicar distribución completa, análisis bayesiano | Mayor alfabetización |
+
+---
+
+## Conclusiones y lecciones aprendidas {#sec-concl}
+
+### Lo que aprendimos en los tres ejercicios
+
+**Ejercicio 1 (vacunación):** El supuesto MAR transforma una tasa de respuesta
+del 26 % en una declaración de cobertura del 92 % con falsa precisión. El
+intervalo [24 %, 97.9 %] no es un fracaso del análisis — es evidencia de que
+el problema de datos no puede ocultarse detrás de un supuesto conveniente.
+La solución es invertir en mejores datos, no en supuestos más fuertes.
+
+**Ejercicio 2 (capacitación):** El estimador naive sobreestima el ATE en
+aproximadamente 1.5 mil MXN por selección positiva. Sin supuestos adicionales,
+los datos observacionales son compatibles con efectos positivos *y* negativos.
+Cada supuesto adicional (MRT, MTS) estrecha el intervalo a cambio de una
+restricción que debemos defender sustantivamente.
+
+**Ejercicio 3 (visualización):** La misma incertidumbre puede comunicarse de
+seis formas distintas. La elección depende de la audiencia, no de cuál presenta
+los resultados de manera más favorable. Suprimir la incertidumbre para facilitar
+la comunicación es un error ético, no solo metodológico.
+
+### Tres reglas para llevar al trabajo
+
+1. **Reporta siempre el intervalo, no solo el punto.** Si solo tienes el punto,
+   pregunta qué supuesto lo genera y si ese supuesto es defendible.
+
+2. **Distingue incertidumbre estadística de incertidumbre de identificación.**
+   La primera se resuelve con más datos del mismo tipo. La segunda requiere
+   mejores datos o supuestos adicionales.
+
+3. **Haz explícito el análisis por capas.** Muestra qué conclusiones se siguen
+   de qué supuestos. El tomador de decisiones elige la capa; el analista
+   documenta honestamente qué supone cada una.
+
+---
+
+*Material de apoyo para la sesión "Del piloto a la política: retos de escalar
+intervenciones basadas en evidencia". MPP — Escuela de Gobierno y
+Transformación Pública.*

@@ -56,6 +56,11 @@ website:
       # --- TEACHING SECTION (REORGANIZED) ---
       - text: Teaching
         menu:
+          # Partial identification
+          - text: "Identificación parcial"
+          - text: "Ejercicio: Manski bounds"
+            href: notes/ejercicio_bounds.qmd
+          - text: "---"
           # INTRODUCCION AL CURSO
           - text: "INTRODUCCION"
           - text: "Estructura y Objetivos"
