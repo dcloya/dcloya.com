@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.37">
@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 1: La Tiranía del Promedio – David Contreras-Loya</title>
+<title>Identificación Parcial: Del Piloto a la Política – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -41,10 +41,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0738f995509bbf78c0069026a1c1bd45.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-594151e316c2de578e12f3bfa980945d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -58,17 +58,17 @@ ul.task-list li input[type="checkbox"] {
     "s"
   ],
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CRLS583RW9"></script>
@@ -359,7 +359,7 @@ iframe.qwebr-output-code-browse {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = [''];
+globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'tidyr', 'patchwork', 'ggridges'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -381,7 +381,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# Cargar librerías\nlibrary(ggplot2)\n\n# Simulación de datos municipales (5000 hogares)\nset.seed(2026)\nn_urbano <- 3000\nn_rural <- 2000\n\n# Zona urbana: distribución log-normal (cola larga)\n# Hay algunos hogares de clase media-alta que inflan el promedio\ningreso_urbano <- rlnorm(n_urbano, meanlog = 5.8, sdlog = 0.65)\n\n# Zona rural: distribución más concentrada pero con menor ingreso\ningreso_rural <- rlnorm(n_rural, meanlog = 5.3, sdlog = 0.50)\n\n# Crear dataframe\ndatos <- data.frame(\n  ingreso_pc_usd = c(ingreso_urbano, ingreso_rural),\n  zona = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Vista previa de los datos\nhead(datos, 10)\ncat(\"\\n📊 Total de hogares en la base:\", nrow(datos), \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Calculemos el promedio que reporta el informe técnico\npromedio_general <- mean(datos$ingreso_pc_usd)\ncat(\"💰 Ingreso promedio general: $\", round(promedio_general, 2), \"USD/mes\\n\\n\")\n\n# Pero... ¿qué nos dice la MEDIANA?\nmediana_general <- median(datos$ingreso_pc_usd)\ncat(\"📍 Ingreso mediano (hogar típico): $\", round(mediana_general, 2), \"USD/mes\\n\\n\")\n\n# Diferencia entre media y mediana\ndiferencia <- promedio_general - mediana_general\ncat(\"⚠️  Diferencia (media - mediana): $\", round(diferencia, 2), \"USD\\n\")\ncat(\"    Esto representa un\", round(100 * diferencia/mediana_general, 1), \"% más\\n\\n\")\n\n# ¿Qué significa esta diferencia?\nif (diferencia > 50) {\n  cat(\"🔴 ALERTA: La distribución es ASIMÉTRICA (cola larga a la derecha).\\n\")\n  cat(\"   El promedio está inflado por hogares de altos ingresos.\\n\")\n  cat(\"   La mediana es una mejor medida del hogar 'típico'.\\n\")\n}","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Percentiles clave para política pública\npercentiles <- quantile(datos$ingreso_pc_usd, \n                        probs = c(0.10, 0.25, 0.50, 0.75, 0.90))\n\ncat(\"📊 DISTRIBUCIÓN DE INGRESOS (Percentiles)\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"P10 (10% más pobre):     $\", round(percentiles[1], 2), \"\\n\")\ncat(\"P25 (cuartil inferior):  $\", round(percentiles[2], 2), \"\\n\")\ncat(\"P50 (mediana):           $\", round(percentiles[3], 2), \"\\n\")\ncat(\"P75 (cuartil superior):  $\", round(percentiles[4], 2), \"\\n\")\ncat(\"P90 (10% más rico):      $\", round(percentiles[5], 2), \"\\n\\n\")\n\n# Rango intercuartil (IQR): donde vive el 50% central\niqr <- IQR(datos$ingreso_pc_usd)\ncat(\"📏 Rango Intercuartil (IQR): $\", round(iqr, 2), \"\\n\")\ncat(\"   (Distancia entre P25 y P75)\\n\\n\")\n\n# Desviación estándar (dispersión)\ndesv_std <- sd(datos$ingreso_pc_usd)\ncat(\"📈 Desviación Estándar: $\", round(desv_std, 2), \"\\n\")\ncat(\"   (Qué tanto se alejan los datos del promedio)\\n\\n\")\n\n# Coeficiente de variación (dispersión relativa)\ncv <- 100 * desv_std / promedio_general\ncat(\"🎯 Coeficiente de Variación:\", round(cv, 1), \"%\\n\")\ncat(\"   (> 30% indica alta heterogeneidad)\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tabla comparativa completa\ncat(\"\\n📋 TABLA COMPARATIVA: INGRESO POR ZONA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-20s %12s %12s %12s\\n\", \"Estadística\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"────────────────────────────────────────────────────────────\\n\")\n\n# Media\nmedia_urb <- mean(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmedia_rur <- mean(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Media\", \n            media_urb, media_rur, media_urb - media_rur))\n\n# Mediana\nmed_urb <- median(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmed_rur <- median(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Mediana\", \n            med_urb, med_rur, med_urb - med_rur))\n\n# P10\np10_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.10)\np10_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.10)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P10 (más pobre)\", \n            p10_urb, p10_rur, p10_urb - p10_rur))\n\n# P90\np90_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.90)\np90_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.90)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P90 (más rico)\", \n            p90_urb, p90_rur, p90_urb - p90_rur))\n\n# IQR\niqr_urb <- IQR(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\niqr_rur <- IQR(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"IQR (dispersión)\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"════════════════════════════════════════════════════════════\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histograma general con líneas de referencia\nhist(datos$ingreso_pc_usd, \n     breaks = 40, \n     col = \"steelblue\", \n     border = \"white\",\n     main = \"Distribución de Ingresos Per Cápita\",\n     xlab = \"Ingreso mensual (USD)\",\n     ylab = \"Frecuencia de hogares\",\n     xlim = c(0, 1500))\n\n# Línea vertical: media (promedio)\nabline(v = promedio_general, col = \"red\", lwd = 3, lty = 1)\n# Línea vertical: mediana\nabline(v = mediana_general, col = \"darkgreen\", lwd = 3, lty = 2)\n# Línea vertical: umbral de elegibilidad propuesto\nabline(v = 250, col = \"orange\", lwd = 2, lty = 3)\n\n# Leyenda\nlegend(\"topright\", \n       legend = c(\"Media ($420)\", \"Mediana\", \"Umbral ($250)\"),\n       col = c(\"red\", \"darkgreen\", \"orange\"),\n       lty = c(1, 2, 3),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Agregar texto explicativo\ntext(900, max(hist(datos$ingreso_pc_usd, plot=F, breaks=40)$counts) * 0.8,\n     \"Cola larga →\\nAlgunos hogares\\nde altos ingresos\\ninflan el promedio\",\n     pos = 4, col = \"red\", cex = 0.9)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot lado a lado\nboxplot(ingreso_pc_usd ~ zona, \n        data = datos,\n        col = c(\"coral\", \"lightgreen\"),\n        main = \"Comparación de Ingresos: Urbano vs Rural\",\n        ylab = \"Ingreso per cápita (USD/mes)\",\n        xlab = \"Zona\",\n        horizontal = FALSE,\n        notch = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 0.5)\n\n# Línea de referencia: umbral de elegibilidad\nabline(h = 250, col = \"blue\", lwd = 2, lty = 2)\n\n# Agregar anotaciones sobre los elementos del boxplot\nmtext(\"Línea central = Mediana\", side = 3, line = -2, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Caja = IQR (50% central)\", side = 3, line = -3, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Bigotes = Rango esperado\", side = 3, line = -4, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Puntos = Outliers\", side = 3, line = -5, at = 1, cex = 0.8, col = \"red\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ¿Cuántos hogares califican con el umbral de $250?\numbral <- 250\nelegibles <- sum(datos$ingreso_pc_usd < umbral)\npct_elegibles <- 100 * elegibles / nrow(datos)\n\ncat(\"\\n🎯 ANÁLISIS DE ELEGIBILIDAD\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Umbral propuesto:    $\", umbral, \"USD/mes\\n\\n\")\ncat(\"Hogares elegibles:   \", elegibles, \"\\n\")\ncat(\"Porcentaje total:    \", round(pct_elegibles, 1), \"%\\n\\n\")\n\n# Por zona\nelegibles_urb <- sum(datos$ingreso_pc_usd[datos$zona == \"Urbana\"] < umbral)\nelegibles_rur <- sum(datos$ingreso_pc_usd[datos$zona == \"Rural\"] < umbral)\n\npct_urb <- 100 * elegibles_urb / n_urbano\npct_rur <- 100 * elegibles_rur / n_rural\n\ncat(\"Zona Urbana:         \", elegibles_urb, \" hogares (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"Zona Rural:          \", elegibles_rur, \" hogares (\", round(pct_rur, 1), \"%)\\n\\n\")\n\n# Comparación con diferentes umbrales\numbrales <- c(200, 250, 300, p10_urb, med_rur)\nnombres_umbrales <- c(\"$200 (restrictivo)\", \"$250 (propuesto)\", \"$300 (amplio)\", \n                      \"P10 urbano\", \"Mediana rural\")\n\ncat(\"📊 SENSIBILIDAD DEL UMBRAL\\n\")\ncat(\"════════════════════════════════════════\\n\")\nfor (i in 1:length(umbrales)) {\n  n_elegibles <- sum(datos$ingreso_pc_usd < umbrales[i])\n  pct <- 100 * n_elegibles / nrow(datos)\n  cat(sprintf(\"%-20s: %4d hogares (%5.1f%%)\\n\", \n              nombres_umbrales[i], n_elegibles, pct))\n}","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear tabla profesional para presentar al Secretario\ncat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  RESUMEN EJECUTIVO: DISTRIBUCIÓN DE INGRESOS MUNICIPAL\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. PANORAMA GENERAL\\n\")\ncat(\"   • Total de hogares:              5,000\\n\")\ncat(\"   • Ingreso promedio:              $\", round(promedio_general, 2), \" USD/mes\\n\")\ncat(\"   • Ingreso MEDIANO (típico):      $\", round(mediana_general, 2), \" USD/mes\\n\")\ncat(\"   • Diferencia media-mediana:      +\", round(diferencia, 2), \" USD (\", \n    round(100*diferencia/mediana_general, 1), \"%)\\n\\n\")\n\ncat(\"2. ANÁLISIS POR PERCENTILES\\n\")\ncat(\"   • 10% más pobre (P10):           < $\", round(percentiles[1], 2), \"\\n\")\ncat(\"   • 25% inferior (P25):            < $\", round(percentiles[2], 2), \"\\n\")\ncat(\"   • 50% inferior (Mediana):        < $\", round(percentiles[3], 2), \"\\n\")\ncat(\"   • 25% superior (P75):            > $\", round(percentiles[4], 2), \"\\n\")\ncat(\"   • 10% más rico (P90):            > $\", round(percentiles[5], 2), \"\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\")\ncat(\"   • Rango intercuartil (IQR):      $\", round(iqr, 2), \"\\n\")\ncat(\"   • Desviación estándar:           $\", round(desv_std, 2), \"\\n\")\ncat(\"   • Coeficiente de variación:      \", round(cv, 1), \"%\\n\\n\")\n\ncat(\"4. COMPARACIÓN URBANO-RURAL\\n\")\ncat(\"   • Mediana urbana:                $\", round(med_urb, 2), \"\\n\")\ncat(\"   • Mediana rural:                 $\", round(med_rur, 2), \"\\n\")\ncat(\"   • Brecha:                        $\", round(med_urb - med_rur, 2), \"\\n\\n\")\n\ncat(\"5. ELEGIBILIDAD (Umbral $250)\\n\")\ncat(\"   • Hogares elegibles TOTAL:       \", elegibles, \" (\", round(pct_elegibles, 1), \"%)\\n\")\ncat(\"   • Elegibles zona urbana:         \", elegibles_urb, \" (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"   • Elegibles zona rural:          \", elegibles_rur, \" (\", round(pct_rur, 1), \"%)\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n💡 RECOMENDACIÓN PARA EL SECRETARIO\\n\")\ncat(\"════════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"📌 HALLAZGO PRINCIPAL:\\n\")\ncat(\"El ingreso promedio de $420 USD/mes NO representa al hogar típico.\\n\")\ncat(\"La distribución es altamente asimétrica con cola larga a la derecha.\\n\")\ncat(\"El hogar mediano gana $\", round(mediana_general, 2), \" USD/mes, \", \n    round(100 * diferencia/promedio_general, 1), \"% menos que el promedio.\\n\\n\")\n\ncat(\"🎯 IMPLICACIONES PARA POLÍTICA:\\n\")\ncat(\"1. Usar el PROMEDIO como referencia subestimaría la vulnerabilidad.\\n\")\ncat(\"2. Con umbral de $250, se cubre al \", round(pct_elegibles, 1), \"% de hogares.\\n\")\ncat(\"3. Existe desigualdad significativa entre zonas (CV = \", round(cv, 1), \"%).\\n\\n\")\n\ncat(\"✅ RECOMENDACIONES:\\n\")\ncat(\"1. Considerar umbrales diferenciados por zona:\\n\")\ncat(\"   - Zona urbana: P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Urbana\"], 0.25), 2), \"\\n\")\ncat(\"   - Zona rural:  P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Rural\"], 0.25), 2), \"\\n\\n\")\n\ncat(\"2. Focalizar en el P10-P25 para maximizar impacto en pobreza extrema.\\n\\n\")\n\ncat(\"3. Monitorear la cola superior (P90+) para posibles exclusiones.\\n\\n\")\n\ncat(\"⚠️  LIMITACIONES:\\n\")\ncat(\"• Estos datos NO incluyen ingresos informales (probable subestimación)\\n\")\ncat(\"• No considera composición del hogar (per cápita vs hogar total)\\n\")\ncat(\"• La muestra puede tener sesgo de selección si hay no-respuesta diferencial\\n\")\ncat(\"• No captura variabilidad temporal (ingreso en un solo mes)\\n\\n\")\n\ncat(\"════════════════════════════════════════════════════════════════\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(patchwork)\nlibrary(ggridges)\n\n# Paleta institucional TEC\nc_dark   <- \"#003366\"\nc_med    <- \"#1A5299\"\nc_light  <- \"#6A9FCC\"\nc_vlight <- \"#C6D9F0\"\nc_pt     <- \"#E8622A\"   # naranja: estimador puntual / naive\nc_rojo   <- \"#B40000\"\nc_texto  <- \"#333333\"\n\ntema <- theme_minimal(base_size = 12) +\n  theme(\n    plot.title    = element_text(face = \"bold\", color = c_dark),\n    plot.subtitle = element_text(color = c_texto, size = 10),\n    plot.caption  = element_text(color = \"gray50\", size = 9),\n    panel.grid.minor = element_blank()\n  )","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"setup","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"r_obs   <- 0.261   # tasa de respuesta de la encuesta\np_r_obs <- 0.920   # tasa MMR observada entre respondentes\n\ncat(sprintf(\"Tasa de respuesta:           %5.1f %%\\n\", r_obs   * 100))\ncat(sprintf(\"Tasa MMR (respondentes):     %5.1f %%\\n\", p_r_obs * 100))\ncat(sprintf(\"CDC reporta (puntual, MAR):  %5.1f %%\\n\", p_r_obs * 100))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-params","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_vac <- r_obs * p_r_obs               # caso más pesimista\ncota_u_vac <- r_obs * p_r_obs + (1 - r_obs) # caso más optimista\n\ncat(sprintf(\"Cota inferior (0%% no-resp. vacunados):   %5.1f %%\\n\",\n            cota_l_vac * 100))\ncat(sprintf(\"Cota superior (100%% no-resp. vacunados): %5.1f %%\\n\",\n            cota_u_vac * 100))\ncat(sprintf(\"Intervalo identificado: [%.1f%%, %.1f%%]\\n\",\n            cota_l_vac * 100, cota_u_vac * 100))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-cotas-sin-sup","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mts <- cota_l_vac   # MTS no cambia la cota inferior\ncota_u_mts <- p_r_obs      # bajo MTS, el máximo posible es la tasa de respondentes\n\ncat(sprintf(\"Bajo MTS — cota inferior: %5.1f %%\\n\", cota_l_mts * 100))\ncat(sprintf(\"Bajo MTS — cota superior: %5.1f %%\\n\", cota_u_mts * 100))\ncat(sprintf(\"Intervalo bajo MTS: [%.1f%%, %.1f%%]\\n\",\n            cota_l_mts * 100, cota_u_mts * 100))\ncat(sprintf(\"Reducción en amplitud: %.1f puntos porcentuales\\n\",\n            (cota_u_vac - cota_u_mts) * 100))","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-mts","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"grid_r <- seq(0.05, 0.99, by = 0.01)\n\nbounds_vac <- tibble(\n  tasa_r  = grid_r,\n  cota_l  = grid_r * p_r_obs,\n  cota_u  = grid_r * p_r_obs + (1 - grid_r),\n  puntual = p_r_obs\n)\n\nggplot(bounds_vac, aes(x = tasa_r * 100)) +\n  geom_ribbon(aes(ymin = cota_l * 100, ymax = cota_u * 100),\n              fill = c_vlight, alpha = 0.9) +\n  geom_line(aes(y = cota_l * 100), color = c_dark, linewidth = 1) +\n  geom_line(aes(y = cota_u * 100), color = c_dark, linewidth = 1) +\n  geom_hline(yintercept = p_r_obs * 100,\n             linetype = \"dashed\", color = c_rojo, linewidth = 0.9) +\n  geom_vline(xintercept = r_obs * 100,\n             linetype = \"dotted\", color = c_med, linewidth = 1) +\n  annotate(\"text\", x = r_obs * 100 + 2, y = 40,\n           label = paste0(\"NIS 2017\\n(r = \", round(r_obs * 100, 1), \" %)\"),\n           hjust = 0, size = 3.2, color = c_med) +\n  annotate(\"text\", x = 65, y = p_r_obs * 100 + 2.5,\n           label = \"Estimador puntual MAR = 92 %\",\n           color = c_rojo, hjust = 0, size = 3.2) +\n  annotate(\"segment\",\n           x = r_obs * 100, xend = r_obs * 100,\n           y = cota_l_vac * 100, yend = cota_u_vac * 100,\n           color = c_pt, linewidth = 2, alpha = 0.8) +\n  annotate(\"text\", x = r_obs * 100 + 2,\n           y = (cota_l_vac + cota_u_vac) / 2 * 100,\n           label = sprintf(\"[%.0f %%, %.0f %%]\",\n                           cota_l_vac * 100, cota_u_vac * 100),\n           hjust = 0, size = 3.2, color = c_pt) +\n  scale_x_continuous(limits = c(5, 99), breaks = seq(10, 90, 10),\n                     labels = function(x) paste0(x, \" %\")) +\n  scale_y_continuous(limits = c(0, 105), breaks = seq(0, 100, 10),\n                     labels = function(x) paste0(x, \" %\")) +\n  labs(title = \"Cotas de tasa de vacunación MMR según tasa de respuesta\",\n       subtitle = \"Región sombreada = intervalo sin supuestos. Segmento naranja = intervalo en NIS 2017.\",\n       x = \"Tasa de respuesta de la encuesta\",\n       y = \"Tasa de vacunación poblacional\",\n       caption = \"Datos: CDC/NIS 2017. Mullahy et al. (2021).\") +\n  tema","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Las cotas se estrechan conforme sube la tasa de respuesta. La línea roja punteada marca el 92 % (MAR). La línea azul punteada marca la NIS 2017.","fig-height":5,"fig-width":7,"label":"fig-vac-sensibilidad","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(2026)\nn <- 3000\n\n# Confusor: habilidad no observada (afecta salario Y participación)\nhabilidad <- rnorm(n, mean = 0, sd = 1)\n\n# Instrumento potencial: distancia al centro de capacitación (km)\ndistancia <- runif(n, min = 0, max = 60)\n\n# Participación: aumenta con habilidad, disminuye con distancia\nprob_D <- plogis(0.6 * habilidad - 0.04 * distancia + 0.2)\nD      <- rbinom(n, 1, prob_D)\n\n# Resultados potenciales (miles de MXN/mes)\nate_sim <- 2.5                                      # efecto verdadero\nY0 <- 10 + 3 * habilidad + rnorm(n, sd = 2)        # salario sin programa\nY1 <- Y0 + ate_sim + rnorm(n, sd = 1)              # salario con programa\n\nY <- D * Y1 + (1 - D) * Y0                         # salario observado\n\ndatos <- tibble(D, Y, Y0, Y1, habilidad, distancia)\n\ncat(sprintf(\"n = %d observaciones\\n\", n))\ncat(sprintf(\"Participantes (D=1): %.1f %%\\n\", mean(D) * 100))\ncat(sprintf(\"ATE simulado (verdadero): +%.2f mil MXN/mes\\n\\n\", ate_sim))\n\n# Verificamos que la selección sea positiva\ncat(\"Habilidad promedio por grupo:\\n\")\ncat(sprintf(\"  Participantes:     %.3f\\n\", mean(habilidad[D == 1])))\ncat(sprintf(\"  No participantes:  %.3f\\n\", mean(habilidad[D == 0])))\ncat(\"→ Los participantes tienen mayor habilidad promedio: selección positiva.\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sim-datos","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"y1_bar <- mean(Y[D == 1])   # E[Y | D=1]: salario promedio de participantes\ny0_bar <- mean(Y[D == 0])   # E[Y | D=0]: salario promedio de no participantes\np_trat <- mean(D)\n\nate_verdadero  <- mean(Y1 - Y0)   # solo posible porque simulamos\nefecto_naive   <- y1_bar - y0_bar\nsesgo_seleccion <- efecto_naive - ate_verdadero\n\ncat(sprintf(\"ATE verdadero (simulado):        +%.3f mil MXN\\n\", ate_verdadero))\ncat(sprintf(\"Estimador naive (dif. de medias): +%.3f mil MXN\\n\", efecto_naive))\ncat(sprintf(\"Sesgo de selección:               +%.3f mil MXN\\n\\n\", sesgo_seleccion))\ncat(sprintf(\"El naive sobreestima en %.1f %% del ATE verdadero.\\n\",\n            sesgo_seleccion / ate_verdadero * 100))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sesgo-naive","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"y_L <- min(Y)  # soporte mínimo observado\ny_U <- max(Y)  # soporte máximo observado\n\ncota_l_0 <- (y1_bar - y_U) * p_trat + (y_L - y0_bar) * (1 - p_trat)\ncota_u_0 <- (y1_bar - y_L) * p_trat + (y_U - y0_bar) * (1 - p_trat)\n\ncat(sprintf(\"Soporte observado: [%.1f, %.1f] mil MXN\\n\", y_L, y_U))\ncat(sprintf(\"Cota inferior (sin supuestos): %+.2f mil MXN\\n\", cota_l_0))\ncat(sprintf(\"Cota superior (sin supuestos): %+.2f mil MXN\\n\", cota_u_0))\ncat(sprintf(\"Amplitud del intervalo: %.2f mil MXN\\n\\n\", cota_u_0 - cota_l_0))\ncat(sprintf(\"¿Cruza el cero? %s\\n\",\n            ifelse(cota_l_0 < 0 & cota_u_0 > 0,\n                   \"Sí → con datos observacionales y sin supuestos,\",\n                   \"No\")))\nif (cota_l_0 < 0 & cota_u_0 > 0)\n  cat(\"  no podemos afirmar que el efecto es positivo.\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-sin-sup","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mrt <- max(0, cota_l_0)   # MRT: efecto no puede ser negativo\ncota_u_mrt <- cota_u_0            # MRT no afecta la cota superior\n\ncat(sprintf(\"Con MRT — cota inferior: %+.2f mil MXN\\n\", cota_l_mrt))\ncat(sprintf(\"Con MRT — cota superior: %+.2f mil MXN\\n\", cota_u_mrt))\ncat(sprintf(\"Amplitud bajo MRT: %.2f mil MXN\\n\\n\", cota_u_mrt - cota_l_mrt))\ncat(\"→ MRT identifica el signo: el efecto es no negativo.\\n\")\ncat(\"  Aún no sabemos la magnitud.\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-mrt","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mrt_mts <- cota_l_mrt   # MTS no mejora la cota inferior bajo MRT\ncota_u_mrt_mts <- y1_bar * p_trat + y_U * (1 - p_trat) - y0_bar\n\ncat(sprintf(\"Con MRT+MTS — cota inferior: %+.2f mil MXN\\n\", cota_l_mrt_mts))\ncat(sprintf(\"Con MRT+MTS — cota superior: %+.2f mil MXN\\n\", cota_u_mrt_mts))\ncat(sprintf(\"Amplitud bajo MRT+MTS: %.2f mil MXN\\n\\n\", cota_u_mrt_mts - cota_l_mrt_mts))\ncat(sprintf(\"¿El ATE verdadero (%.2f) está contenido? %s\\n\",\n            ate_verdadero,\n            ifelse(ate_verdadero >= cota_l_mrt_mts & ate_verdadero <= cota_u_mrt_mts,\n                   \"Sí ✓\", \"No ✗\")))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-mrt-mts","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data.frame(\n  Supuesto      = c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\"),\n  Cota_inferior = round(c(cota_l_0, cota_l_mrt, cota_l_mrt_mts), 2),\n  Cota_superior = round(c(cota_u_0, cota_u_mrt, cota_u_mrt_mts), 2),\n  Amplitud      = round(c(cota_u_0 - cota_l_0,\n                          cota_u_mrt - cota_l_mrt,\n                          cota_u_mrt_mts - cota_l_mrt_mts), 2),\n  Signo_ident   = c(\"No\", \"≥ 0\", \"≥ 0\"),\n  ATE_contenido = c(\n    ifelse(ate_verdadero >= cota_l_0        & ate_verdadero <= cota_u_0,        \"✓\", \"✗\"),\n    ifelse(ate_verdadero >= cota_l_mrt      & ate_verdadero <= cota_u_mrt,      \"✓\", \"✗\"),\n    ifelse(ate_verdadero >= cota_l_mrt_mts  & ate_verdadero <= cota_u_mrt_mts,  \"✓\", \"✗\")\n  )\n)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"tabla-capas","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"resultados <- tibble(\n  supuesto = factor(\n    c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\", \"ATE verdadero\"),\n    levels = c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\", \"ATE verdadero\")\n  ),\n  lb       = c(cota_l_0, cota_l_mrt, cota_l_mrt_mts, ate_verdadero),\n  ub       = c(cota_u_0, cota_u_mrt, cota_u_mrt_mts, ate_verdadero),\n  es_punto = c(FALSE, FALSE, FALSE, TRUE)\n)\n\nggplot(resultados, aes(y = supuesto)) +\n  geom_linerange(\n    data  = filter(resultados, !es_punto),\n    aes(xmin = lb, xmax = ub, color = supuesto),\n    linewidth = 5, alpha = 0.65\n  ) +\n  geom_point(\n    data  = filter(resultados, !es_punto),\n    aes(x = lb, color = supuesto), size = 3\n  ) +\n  geom_point(\n    data  = filter(resultados, !es_punto),\n    aes(x = ub, color = supuesto), size = 3\n  ) +\n  geom_point(\n    data  = filter(resultados, es_punto),\n    aes(x = lb), color = c_rojo, size = 5, shape = 18\n  ) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray50\", linewidth = 0.8) +\n  geom_vline(xintercept = efecto_naive, linetype = \"dotted\",\n             color = c_pt, linewidth = 1.1) +\n  geom_text(\n    data  = filter(resultados, !es_punto),\n    aes(x = lb, label = sprintf(\"%+.1f\", lb)),\n    vjust = -0.8, size = 3, color = c_texto\n  ) +\n  geom_text(\n    data  = filter(resultados, !es_punto),\n    aes(x = ub, label = sprintf(\"%+.1f\", ub)),\n    vjust = -0.8, size = 3, color = c_texto\n  ) +\n  annotate(\"text\", x = efecto_naive + 0.3, y = 0.6,\n           label = paste0(\"Naive: +\", round(efecto_naive, 2)),\n           color = c_pt, hjust = 0, size = 3.2) +\n  scale_color_manual(values = c(\n    \"Sin supuestos\" = \"#001F4D\",\n    \"MRT\"           = c_med,\n    \"MRT + MTS\"     = c_light,\n    \"ATE verdadero\" = c_rojo\n  )) +\n  labs(\n    title    = \"Análisis por capas: efecto del programa de capacitación sobre salarios\",\n    subtitle = paste0(\n      \"Naive (+\", round(efecto_naive, 2),\n      \" mil MXN) sobreestima el ATE verdadero (+\", round(ate_verdadero, 2),\n      \" mil MXN) por selección positiva.\"\n    ),\n    x = \"Efecto sobre salario (miles de MXN/mes)\", y = NULL,\n    caption = \"MRT = Respuesta Monótona al Tratamiento  |  MTS = Selección Monótona al Tratamiento\\nManski (1990, 2011). Datos simulados, set.seed(2026).\"\n  ) +\n  tema + theme(legend.position = \"none\")","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Cada barra es un intervalo bajo un conjunto de supuestos. El rombo rojo es el ATE verdadero (solo observable porque simulamos). La línea punteada roja es el estimador naive.","fig-height":"4.5","fig-width":7,"label":"fig-capas","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"estados_df <- tibble(\n  estado = factor(\n    c(\"CDMX\", \"Jalisco\", \"Oaxaca\", \"Chiapas\"),\n    levels = rev(c(\"CDMX\", \"Jalisco\", \"Oaxaca\", \"Chiapas\"))\n  ),\n  pt     = c( 0.18,  0.04, -0.09, -0.23),  # estimador naive\n  lb_sin = c(-0.06, -0.20, -0.32, -0.50),  # cota inf. sin supuestos\n  ub_sin = c( 0.36,  0.26,  0.20,  0.10),  # cota sup. sin supuestos\n  lb_mts = c( 0.04, -0.08, -0.18, -0.36),  # cota inf. con MTS\n  ub_mts = c( 0.28,  0.17,  0.10,  0.05),  # cota sup. con MTS\n  se     = c( 0.04,  0.04,  0.04,  0.05)   # error estándar aprox.\n)\n\nestados_df","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"datos-estados","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(2026)\nn_boot <- 4000\n\nboot_df <- estados_df |>\n  rowwise() |>\n  mutate(vals = list(rnorm(n_boot, mean = pt, sd = se * 1.6))) |>\n  unnest(vals) |>\n  rename(boot_val = vals)\n\ncat(sprintf(\"Bootstrap: %d muestras por estado\\n\", n_boot))\ncat(sprintf(\"Total de filas en boot_df: %d\\n\", nrow(boot_df)))","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"bootstrap","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"xlim  <- c(-0.65, 0.45)\nxbrks <- c(-0.6, -0.4, -0.2, 0, 0.2, 0.4)\n\ntema_p <- theme_minimal(base_size = 10) +\n  theme(\n    axis.title.y       = element_blank(),\n    axis.text.y        = element_text(size = 9, color = \"gray15\"),\n    axis.title.x       = element_text(size = 8, color = \"gray45\"),\n    panel.grid.major.y = element_line(color = \"gray93\"),\n    panel.grid.major.x = element_line(color = \"gray93\"),\n    panel.grid.minor   = element_blank(),\n    plot.title         = element_text(size = 10, face = \"bold\",\n                                      color = c_dark,\n                                      margin = margin(b = 2)),\n    plot.margin        = margin(6, 8, 6, 8)\n  )","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"config-paneles","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pa <- ggplot(estados_df, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_sin, xmax = ub_sin),\n                 color = c_vlight, linewidth = 5.5) +\n  geom_linerange(aes(xmin = lb_sin,         xmax = lb_sin + 0.008),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_sin - 0.008, xmax = ub_sin),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 5.5, alpha = 0.85) +\n  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),\n                 color = c_med, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),\n                 color = c_med, linewidth = 2.2) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.2) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"a — Dos capas de cotas\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npa","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-a","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"estados_b <- estados_df |>\n  mutate(lb_lo = lb_mts - 1.96 * se,\n         ub_hi = ub_mts + 1.96 * se)\n\npb <- ggplot(estados_b, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_lo, xmax = ub_hi),\n                 color = c_vlight, linewidth = 5.5) +\n  geom_linerange(aes(xmin = lb_lo,         xmax = lb_lo + 0.008),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_hi - 0.008, xmax = ub_hi),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 5.5, alpha = 0.85) +\n  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),\n                 color = c_med, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),\n                 color = c_med, linewidth = 2.2) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.2) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"b — IC 95 % sobre las cotas MTS\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npb","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-b","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pc <- ggplot(estados_df, aes(y = estado)) +\n  geom_errorbar(aes(xmin = lb_mts, xmax = ub_mts),\n                color = c_dark, linewidth = 0.85, width = 0.38) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.5) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"c — Barras de error (ticks en ambos extremos)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npd <- ggplot(estados_df, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 0.85) +\n  geom_errorbar(aes(xmin = ub_mts, xmax = ub_mts),\n                color = c_dark, linewidth = 0.85, width = 0.38) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.5) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"d — Barras de error (tick solo en extremo sup.)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npc\npd","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"paneles-cd","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n_seg <- 150\n\ngrad_df <- estados_df |>\n  mutate(estado_n = as.numeric(estado)) |>\n  rowwise() |>\n  mutate(\n    x_seq = list(seq(lb_sin, ub_sin, length.out = n_seg)),\n    dens  = list(dnorm(seq(lb_sin, ub_sin, length.out = n_seg),\n                       mean = pt,\n                       sd   = (ub_sin - lb_sin) / 5)),\n    w     = (ub_sin - lb_sin) / n_seg\n  ) |>\n  unnest(c(x_seq, dens)) |>\n  group_by(estado) |>\n  mutate(alpha_n = dens / max(dens))\n\ntick_df <- estados_df |> mutate(estado_n = as.numeric(estado))\n\npe <- ggplot() +\n  geom_rect(data = grad_df,\n            aes(xmin  = x_seq - w / 2, xmax = x_seq + w / 2,\n                ymin  = estado_n - 0.29, ymax = estado_n + 0.29,\n                alpha = alpha_n),\n            fill = c_dark) +\n  geom_rect(data = tick_df,\n            aes(xmin = pt - 0.004, xmax = pt + 0.004,\n                ymin = estado_n - 0.29, ymax = estado_n + 0.29),\n            fill = c_pt) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  scale_y_continuous(breaks = 1:4, labels = levels(estados_df$estado)) +\n  scale_alpha_continuous(range = c(0.02, 1), guide = \"none\") +\n  labs(title = \"e — Gradiente de opacidad\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npe","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-e","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pf <- ggplot(boot_df, aes(x = boot_val, y = estado)) +\n  geom_density_ridges(\n    fill = c_vlight, color = c_dark,\n    alpha = 0.88, scale = 0.9,\n    bandwidth = 0.028, rel_min_height = 0.015\n  ) +\n  geom_segment(\n    data = estados_df,\n    aes(x = pt, xend = pt,\n        y    = as.numeric(estado),\n        yend = as.numeric(estado) + 0.82),\n    color = c_pt, linewidth = 2.5,\n    inherit.aes = FALSE\n  ) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"f — Distribuciones bootstrap (ridgeline)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npf","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-f","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"fig_multi <- (pa | pb) / (pc | pd) / (pe | pf) +\n  plot_annotation(\n    title    = \"Seis formas de comunicar incertidumbre en identificación parcial\",\n    subtitle = paste0(\n      \"Programa de capacitación laboral — cuatro estados de México\\n\",\n      \"Exterior (claro) = sin supuestos  |  Interior (oscuro) = MRT + MTS  |\",\n      \"  \\u25cf = estimador naive\"\n    ),\n    caption  = \"Adaptado de Mullahy et al. (2021, Am J Prev Med). Cotas: Manski (1990, 2011). Datos simulados.\",\n    theme = theme(\n      plot.title    = element_text(face = \"bold\", color = c_dark, size = 12.5),\n      plot.subtitle = element_text(color = \"gray35\", size = 8.8),\n      plot.caption  = element_text(color = \"gray55\", size = 8)\n    )\n  )\n\nfig_multi","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Seis codificaciones visuales de la misma incertidumbre. La información de fondo es idéntica en los seis paneles; lo que cambia es cómo se presenta.","fig-height":"11","fig-width":7,"label":"fig-multipanel","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1635,6 +1635,35 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
@@ -1648,7 +1677,7 @@ globalThis.qwebrExecuteCode = async function (
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1659,8 +1688,8 @@ globalThis.qwebrExecuteCode = async function (
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -1788,7 +1817,7 @@ globalThis.qwebrExecuteCode = async function (
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
-  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -1801,7 +1830,47 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#sec-vac" id="toc-sec-vac" class="nav-link" data-scroll-target="#sec-vac">Ejercicio 1: Tasas de vacunación y el problema MAR</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-de-fondo" id="toc-el-problema-de-fondo" class="nav-link" data-scroll-target="#el-problema-de-fondo">El problema de fondo</a></li>
+  <li><a href="#parámetros-observados" id="toc-parámetros-observados" class="nav-link" data-scroll-target="#parámetros-observados">1.1 Parámetros observados</a></li>
+  <li><a href="#cotas-sin-supuestos-adicionales" id="toc-cotas-sin-supuestos-adicionales" class="nav-link" data-scroll-target="#cotas-sin-supuestos-adicionales">1.2 Cotas sin supuestos adicionales</a></li>
+  <li><a href="#supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" id="toc-supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" class="nav-link" data-scroll-target="#supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble">1.3 Supuesto MTS: estrechar las cotas con una restricción creíble</a></li>
+  <li><a href="#análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" id="toc-análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" class="nav-link" data-scroll-target="#análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta">1.4 Análisis de sensibilidad: ¿cómo dependen las cotas de la tasa de respuesta?</a></li>
+  </ul></li>
+  <li><a href="#sec-job" id="toc-sec-job" class="nav-link" data-scroll-target="#sec-job">Ejercicio 2: Capacitación laboral y sesgo de selección</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-causal" id="toc-el-problema-causal" class="nav-link" data-scroll-target="#el-problema-causal">El problema causal</a></li>
+  <li><a href="#simulando-datos-con-sesgo-conocido" id="toc-simulando-datos-con-sesgo-conocido" class="nav-link" data-scroll-target="#simulando-datos-con-sesgo-conocido">2.1 Simulando datos con sesgo conocido</a></li>
+  <li><a href="#el-sesgo-del-estimador-naive" id="toc-el-sesgo-del-estimador-naive" class="nav-link" data-scroll-target="#el-sesgo-del-estimador-naive">2.2 El sesgo del estimador naive</a></li>
+  <li><a href="#cotas-de-manski-sin-supuestos-adicionales" id="toc-cotas-de-manski-sin-supuestos-adicionales" class="nav-link" data-scroll-target="#cotas-de-manski-sin-supuestos-adicionales">2.3 Cotas de Manski sin supuestos adicionales</a></li>
+  <li><a href="#capa-1-mrt-respuesta-monótona-al-tratamiento" id="toc-capa-1-mrt-respuesta-monótona-al-tratamiento" class="nav-link" data-scroll-target="#capa-1-mrt-respuesta-monótona-al-tratamiento">2.4 Capa 1 — MRT: Respuesta Monótona al Tratamiento</a></li>
+  <li><a href="#capa-2-mrt-mts" id="toc-capa-2-mrt-mts" class="nav-link" data-scroll-target="#capa-2-mrt-mts">2.5 Capa 2 — MRT + MTS</a></li>
+  <li><a href="#tabla-resumen-por-capas" id="toc-tabla-resumen-por-capas" class="nav-link" data-scroll-target="#tabla-resumen-por-capas">2.6 Tabla resumen por capas</a></li>
+  <li><a href="#gráfica-del-análisis-por-capas" id="toc-gráfica-del-análisis-por-capas" class="nav-link" data-scroll-target="#gráfica-del-análisis-por-capas">2.7 Gráfica del análisis por capas</a></li>
+  </ul></li>
+  <li><a href="#sec-multi" id="toc-sec-multi" class="nav-link" data-scroll-target="#sec-multi">Ejercicio 3: Seis formas de comunicar la misma incertidumbre</a>
+  <ul class="collapse">
+  <li><a href="#motivación" id="toc-motivación" class="nav-link" data-scroll-target="#motivación">Motivación</a></li>
+  <li><a href="#datos-cuatro-evaluaciones-del-programa-de-capacitación" id="toc-datos-cuatro-evaluaciones-del-programa-de-capacitación" class="nav-link" data-scroll-target="#datos-cuatro-evaluaciones-del-programa-de-capacitación">3.1 Datos: cuatro evaluaciones del programa de capacitación</a></li>
+  <li><a href="#distribuciones-bootstrap-por-qué-y-para-qué" id="toc-distribuciones-bootstrap-por-qué-y-para-qué" class="nav-link" data-scroll-target="#distribuciones-bootstrap-por-qué-y-para-qué">3.2 Distribuciones bootstrap: ¿por qué y para qué?</a></li>
+  <li><a href="#construcción-de-los-seis-paneles" id="toc-construcción-de-los-seis-paneles" class="nav-link" data-scroll-target="#construcción-de-los-seis-paneles">3.3 Construcción de los seis paneles</a></li>
+  <li><a href="#la-figura-completa" id="toc-la-figura-completa" class="nav-link" data-scroll-target="#la-figura-completa">3.4 La figura completa</a></li>
+  </ul></li>
+  <li><a href="#sec-concl" id="toc-sec-concl" class="nav-link" data-scroll-target="#sec-concl">Conclusiones y lecciones aprendidas</a>
+  <ul class="collapse">
+  <li><a href="#lo-que-aprendimos-en-los-tres-ejercicios" id="toc-lo-que-aprendimos-en-los-tres-ejercicios" class="nav-link" data-scroll-target="#lo-que-aprendimos-en-los-tres-ejercicios">Lo que aprendimos en los tres ejercicios</a></li>
+  <li><a href="#tres-reglas-para-llevar-al-trabajo" id="toc-tres-reglas-para-llevar-al-trabajo" class="nav-link" data-scroll-target="#tres-reglas-para-llevar-al-trabajo">Tres reglas para llevar al trabajo</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2091,7 +2160,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 1: La Tiranía del Promedio</h1>
+<h1 class="title">Identificación Parcial: Del Piloto a la Política</h1>
+<p class="subtitle lead">Ciclo de Políticas Públicas II, Trimestre Abr-Jun 2026</p>
 </div>
 
 
@@ -2108,127 +2178,284 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="caso-de-política-pública" class="level1">
-<h1>Caso de Política Pública</h1>
-<p>Un municipio está diseñando un <strong>programa de subsidios alimentarios</strong> para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de <strong>$420 USD/mes</strong>. El Secretario de Desarrollo Social propone establecer el umbral de elegibilidad en $250 USD/mes.</p>
-<p><strong>Tu tarea:</strong> Analizar la distribución de ingresos para determinar: - ¿Cuántos hogares califican para el subsidio? - ¿El promedio representa bien a la población? - ¿Hay diferencias importantes entre zonas urbanas y rurales?</p>
-<hr>
-</section>
-<section id="parte-1-carga-y-exploración-de-datos" class="level1">
-<h1>Parte 1: Carga y Exploración de Datos</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de reflexión:</strong> ¿Por qué simulamos una distribución log-normal en vez de una normal? ¿Qué implica esto sobre la realidad del ingreso?</p>
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>Este ejercicio acompaña la sesión <em>Del piloto a la política: retos de escalar intervenciones basadas en evidencia</em>. Trabajamos con dos ejemplos aplicados y luego exploramos seis formas distintas de comunicar la misma incertidumbre visualmente.</p>
+<p><strong>Lo que aprenderás a hacer:</strong></p>
+<ol type="1">
+<li>Calcular cotas de Manski (Manski, 1990) para tasas con datos faltantes.</li>
+<li>Simular sesgo de selección y aplicar identificación parcial por capas (sin supuestos → MRT → MRT + MTS).</li>
+<li>Elegir la visualización más apropiada según la audiencia.</li>
+</ol>
+<p><strong>Fuentes principales:</strong></p>
+<ul>
+<li>Manski, C.F. (1990). <em>Nonparametric Bounds on Treatment Effects.</em> AER, 80(3).</li>
+<li>Manski, C.F. (2011). <em>Policy Analysis with Incredible Certitude.</em> WP-10-07, IPR Northwestern.</li>
+<li>Mullahy, J. et al.&nbsp;(2021). <em>Embracing Uncertainty.</em> Am J Prev Med, 61(2): e103–e108.</li>
+</ul>
 <hr>
 </section>
-<section id="parte-2-estadísticas-descriptivas-básicas" class="level1">
-<h1>Parte 2: Estadísticas Descriptivas Básicas</h1>
+<section id="sec-vac" class="level2">
+<h2 class="anchored" data-anchor-id="sec-vac">Ejercicio 1: Tasas de vacunación y el problema MAR</h2>
+<section id="el-problema-de-fondo" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-de-fondo">El problema de fondo</h3>
+<p>En 2017, la Encuesta Nacional de Inmunización (NIS) de los CDC reportó una tasa de cobertura de la vacuna triple viral (MMR) del <strong>92 %</strong> en niños de 19–35 meses. El problema: solo el <strong>26.1 %</strong> de los hogares seleccionados respondió la encuesta.</p>
+<p>El CDC publicó el 92 % como si fuera la tasa poblacional. Eso requiere asumir que el 73.9 % no entrevistado está vacunado <strong>exactamente</strong> al mismo ritmo que los entrevistados — un supuesto llamado MAR (<em>Missing at Random</em>, Faltante Completamente al Azar). MAR es fuerte e injustificado aquí: es razonable suponer que los hogares más difíciles de contactar también tienen menor acceso a servicios de salud.</p>
+<p>La identificación parcial no exige ese supuesto. En cambio, pregunta: <em>¿qué rango de tasas poblacionales es consistente con lo que observamos?</em></p>
+</section>
+<section id="parámetros-observados" class="level3">
+<h3 class="anchored" data-anchor-id="parámetros-observados">1.1 Parámetros observados</h3>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Para discutir:</strong> Si el promedio es $420 pero la mediana es menor, ¿qué implica esto para el diseño del programa?</p>
-<hr>
 </section>
-<section id="parte-3-análisis-por-percentiles-las-colas-importan" class="level1">
-<h1>Parte 3: Análisis por Percentiles (Las Colas Importan)</h1>
+<section id="cotas-sin-supuestos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="cotas-sin-supuestos-adicionales">1.2 Cotas sin supuestos adicionales</h3>
+<p>La lógica es simple: no sabemos nada sobre los no respondentes, así que consideramos los dos extremos. Si <strong>ninguno</strong> de los 73.9 % no entrevistados estuviera vacunado, la tasa real sería mínima; si <strong>todos</strong> lo estuvieran, sería máxima.</p>
+<p><span class="math display">\[
+\hat\theta_L = r \cdot \hat p_r + (1-r) \cdot 0 = r \cdot \hat p_r
+\]</span> <span class="math display">\[
+\hat\theta_U = r \cdot \hat p_r + (1-r) \cdot 1 = r \cdot \hat p_r + (1-r)
+\]</span></p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Ejercicio práctico:</strong> 1. ¿Qué porcentaje de hogares gana menos de $250/mes? 2. ¿Deberíamos usar P10 o P25 como criterio de elegibilidad?</p>
-<hr>
+<p><strong>¿Qué nos dicen estas cotas?</strong></p>
+<p>El intervalo [24.0 %, 97.9 %] es muy amplio, pero eso <em>no es un fracaso del análisis</em>: es información genuina sobre el estado del problema de datos. El 92 % reportado por el CDC cae cerca del extremo superior del intervalo — eso quiere decir que el CDC implícitamente asumió el escenario más optimista posible.</p>
+<p>Si la tasa real estuviera cerca del 24 %, la cobertura estaría <strong>muy por debajo</strong> del umbral de inmunidad de rebaño para sarampión (≈ 95 %), lo que representa un riesgo de salud pública significativo.</p>
 </section>
-<section id="parte-4-comparación-por-zona-urbano-vs-rural" class="level1">
-<h1>Parte 4: Comparación por Zona (Urbano vs Rural)</h1>
+<section id="supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" class="level3">
+<h3 class="anchored" data-anchor-id="supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble">1.3 Supuesto MTS: estrechar las cotas con una restricción creíble</h3>
+<p>El supuesto de Selección Monótona (MTS) postula que los no respondentes tienen una tasa de vacunación <strong>igual o menor</strong> a la de los respondentes. Esto es plausible: quienes no contestan la encuesta suelen tener menor acceso a servicios de salud. MTS no requiere saber exactamente cuál es su tasa — solo que no es <em>mayor</em> que la de quienes sí respondieron.</p>
+<p>Bajo MTS: la cota superior se reduce a <span class="math inline">\(\hat p_r = 92.0\,\%\)</span>, eliminando los escenarios en que los no respondentes tienen cobertura superior a los respondentes.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Interpretación clave:</strong> - ¿En qué zona hay mayor desigualdad interna? - ¿Deberían ser diferentes los criterios de elegibilidad por zona?</p>
-<hr>
+<p>El intervalo [24.0 %, 92.0 %] bajo MTS sigue siendo amplio — pero es defendible. Nótese que el CDC reporta exactamente la cota superior del intervalo MTS, lo que equivale a asumir el caso más favorable dentro de un supuesto ya razonablemente optimista.</p>
 </section>
-<section id="parte-5-visualización-1---histograma" class="level1">
-<h1>Parte 5: Visualización 1 - Histograma</h1>
+<section id="análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta">1.4 Análisis de sensibilidad: ¿cómo dependen las cotas de la tasa de respuesta?</h3>
+<p>Hasta ahora usamos <span class="math inline">\(r = 26.1\,\%\)</span>. Pero ¿qué pasaría si la tasa de respuesta fuera mayor? Este análisis muestra cómo las cotas cambian en función de <span class="math inline">\(r\)</span>, manteniendo fija la tasa observada entre respondentes.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de análisis:</strong> ¿Qué nos dice la forma de este histograma sobre la distribución del ingreso?</p>
+<p><strong>Cómo leer esta gráfica:</strong></p>
+<ul>
+<li>La <strong>región sombreada</strong> es el intervalo de identificación: para cada nivel de tasa de respuesta (eje horizontal), el rango de tasas poblacionales consistentes con los datos va desde la línea inferior hasta la superior.</li>
+<li>Conforme la tasa de respuesta se acerca al 100 %, el intervalo colapsa al punto en el estimador MAR (línea punteada roja) — que es exactamente cuando MAR deja de ser cuestionable.</li>
+<li>El <strong>segmento naranja</strong> muestra el intervalo real de la NIS 2017 (r = 26.1 %). Su amplitud revela que la declaración del CDC de “92 % de cobertura” es una elección de supuesto, no un hecho medido.</li>
+<li><strong>La solución no es más encuestas con la misma tasa de respuesta</strong>, sino mejores datos: seguimiento a no respondentes, vinculación con registros administrativos.</li>
+</ul>
 <hr>
 </section>
-<section id="parte-6-visualización-2---boxplot-comparativo" class="level1">
-<h1>Parte 6: Visualización 2 - Boxplot Comparativo</h1>
+</section>
+<section id="sec-job" class="level2">
+<h2 class="anchored" data-anchor-id="sec-job">Ejercicio 2: Capacitación laboral y sesgo de selección</h2>
+<section id="el-problema-causal" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-causal">El problema causal</h3>
+<p>Queremos saber si un programa de capacitación laboral <em>causa</em> un aumento en salarios. El Efecto Promedio del Tratamiento (ATE) es:</p>
+<p><span class="math display">\[
+\text{ATE} = E[Y(1) - Y(0)]
+\]</span></p>
+<p>donde <span class="math inline">\(Y(1)\)</span> es el salario que tendría la persona <em>con</em> el programa y <span class="math inline">\(Y(0)\)</span> el salario <em>sin</em> él. El problema: nunca observamos ambos para la misma persona.</p>
+<p>Si comparamos ingenuamente los salarios de quienes participaron contra quienes no participaron, obtenemos un <strong>estimador naive</strong> que mezcla el efecto causal con diferencias preexistentes entre grupos. Ese sesgo de selección puede ser positivo (los más capaces se inscriben) o negativo (los más desesperados buscan el programa).</p>
+</section>
+<section id="simulando-datos-con-sesgo-conocido" class="level3">
+<h3 class="anchored" data-anchor-id="simulando-datos-con-sesgo-conocido">2.1 Simulando datos con sesgo conocido</h3>
+<p>La ventaja de simular es que <strong>conocemos la verdad</strong>: sabemos exactamente cuánto vale el ATE verdadero y podemos verificar si las cotas lo contienen. En datos reales nunca tenemos ese lujo.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Elementos del boxplot:</strong> - <strong>Línea central:</strong> mediana (P50) - <strong>Caja:</strong> contiene el 50% central de los datos (P25 a P75) - <strong>Bigotes:</strong> se extienden hasta 1.5×IQR - <strong>Puntos rojos:</strong> valores atípicos (outliers)</p>
-<hr>
+<p>La simulación genera selección positiva: los más hábiles tienen mayor probabilidad de inscribirse. Esto hará que el estimador naive sobreestime el efecto del programa.</p>
 </section>
-<section id="parte-7-análisis-de-elegibilidad" class="level1">
-<h1>Parte 7: Análisis de Elegibilidad</h1>
+<section id="el-sesgo-del-estimador-naive" class="level3">
+<h3 class="anchored" data-anchor-id="el-sesgo-del-estimador-naive">2.2 El sesgo del estimador naive</h3>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de política:</strong> - ¿Qué umbral recomendarías y por qué? - ¿Cómo balanceas cobertura vs.&nbsp;recursos disponibles?</p>
-<hr>
+<p>El sesgo proviene de que los participantes habrían ganado más <em>de todos modos</em> gracias a su mayor habilidad. La diferencia simple de medias confunde “el efecto del programa” con “diferencias preexistentes en habilidad”.</p>
 </section>
-<section id="parte-8-tabla-resumen-para-memo-ejecutivo" class="level1">
-<h1>Parte 8: Tabla Resumen para Memo Ejecutivo</h1>
+<section id="cotas-de-manski-sin-supuestos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="cotas-de-manski-sin-supuestos-adicionales">2.3 Cotas de Manski sin supuestos adicionales</h3>
+<p>Con el soporte acotado de <span class="math inline">\(Y \in [y_L, y_U]\)</span> y sin ningún supuesto sobre el mecanismo de selección, las cotas de Manski son:</p>
+<p><span class="math display">\[
+\hat\theta_L = (\bar Y_1 - y_U)\,p + (y_L - \bar Y_0)\,(1-p)
+\]</span> <span class="math display">\[
+\hat\theta_U = (\bar Y_1 - y_L)\,p + (y_U - \bar Y_0)\,(1-p)
+\]</span></p>
+<p>Estas cotas son las más amplias posibles — no asumen nada. Por eso en datos observacionales <em>sin aleatorización</em>, el intervalo suele cruzar el cero.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>Que el intervalo cruce el cero no significa que el programa no funcione — significa que los datos observacionales, por sí solos y sin restricciones adicionales, son compatibles con efectos positivos <em>y</em> negativos.</p>
 </section>
-<section id="parte-9-recomendación-basada-en-evidencia" class="level1">
-<h1>Parte 9: Recomendación Basada en Evidencia</h1>
+<section id="capa-1-mrt-respuesta-monótona-al-tratamiento" class="level3">
+<h3 class="anchored" data-anchor-id="capa-1-mrt-respuesta-monótona-al-tratamiento">2.4 Capa 1 — MRT: Respuesta Monótona al Tratamiento</h3>
+<p>El supuesto MRT dice que el programa no puede <em>reducir</em> salarios: <span class="math inline">\(Y_i(1) \geq Y_i(0)\)</span> para todos los individuos. Si el programa enseña habilidades productivas y la participación es voluntaria, esto es creíble.</p>
+<p>Bajo MRT, la cota inferior queda acotada desde abajo por cero:</p>
+<p><span class="math display">\[
+\hat\theta_L^{\text{MRT}} = \max\left(0,\; \hat\theta_L^{\text{sin sup.}}\right)
+\]</span></p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
 </section>
-<section id="ejercicio-individual-entregable" class="level1">
-<h1>Ejercicio Individual (Entregable)</h1>
-<p><strong>Instrucciones:</strong></p>
-<ol type="1">
-<li><strong>Crea una tabla</strong> comparando las siguientes estadísticas para zona urbana vs rural:
-<ul>
-<li>Media, Mediana, P10, P90, IQR</li>
-<li>Interpreta: ¿Dónde hay mayor desigualdad interna?</li>
-</ul></li>
-<li><strong>Genera un histograma</strong> del ingreso solo para zona rural:
-<ul>
-<li>Incluye líneas de referencia (media, mediana, umbral)</li>
-<li>Escribe un título-conclusión de máximo 18 palabras</li>
-</ul></li>
-<li><strong>Propón un criterio de elegibilidad</strong> basado en percentiles:
-<ul>
-<li>Justifica tu elección en 6 líneas</li>
-<li>Incluye al menos 1 limitación de tu propuesta</li>
-<li>Evita usar “promedio” como criterio único</li>
-</ul></li>
-<li><strong>Responde:</strong>
-<ul>
-<li>¿Qué riesgo operativo implica usar solo el promedio para diseñar política?</li>
-<li>¿Por qué importa ver la “cola” de la distribución (P10 y P90)?</li>
-</ul></li>
-</ol>
-<hr>
+<section id="capa-2-mrt-mts" class="level3">
+<h3 class="anchored" data-anchor-id="capa-2-mrt-mts">2.5 Capa 2 — MRT + MTS</h3>
+<p>El supuesto MTS agrega que los participantes tienen <em>mayor potencial salarial</em> que los no participantes, aun sin el programa: <span class="math inline">\(E[Y(d)|D=1] \geq E[Y(d)|D=0]\)</span> para <span class="math inline">\(d \in \{0,1\}\)</span>.</p>
+<p>Esto captura la selección positiva que observamos en los datos simulados. Bajo MRT + MTS, la cota superior se estrecha:</p>
+<p><span class="math display">\[
+\hat\theta_U^{\text{MRT+MTS}} = \bar Y_1 \cdot p + y_U \cdot (1-p) - \bar Y_0
+\]</span></p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Las cotas contienen el ATE verdadero, como deberían. Eso es la verificación de que el método funciona correctamente en la simulación.</p>
 </section>
-<section id="preguntas-de-discusión" class="level1">
-<h1>Preguntas de Discusión</h1>
-<ol type="1">
-<li><p><strong>Focalización vs Universalidad:</strong> Si tuvieras presupuesto para solo el 20% más pobre, ¿usarías P10 o P20 como corte? ¿Por qué?</p></li>
-<li><p><strong>Denominador:</strong> ¿Debería calcularse el ingreso per cápita o por hogar? ¿Qué cambia?</p></li>
-<li><p><strong>Errores de inclusión/exclusión:</strong> ¿Preferirías un umbral que excluya a algunos elegibles (error tipo II) o que incluya a algunos no elegibles (error tipo I)?</p></li>
-<li><p><strong>Evidencia incompleta:</strong> Si no tienes datos de ingreso informal, ¿cómo afecta esto tu recomendación? ¿Serías más conservador o más agresivo con el umbral?</p></li>
-</ol>
-<hr>
+<section id="tabla-resumen-por-capas" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-por-capas">2.6 Tabla resumen por capas</h3>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Cada fila añade un supuesto más restrictivo y a cambio obtiene un intervalo más estrecho. El decisor elige hasta qué capa llegar según qué supuestos considera defensibles en su contexto.</p>
 </section>
-<section id="recursos-adicionales" class="level1">
-<h1>Recursos Adicionales</h1>
-<p><strong>Conceptos clave para recordar:</strong></p>
+<section id="gráfica-del-análisis-por-capas" class="level3">
+<h3 class="anchored" data-anchor-id="gráfica-del-análisis-por-capas">2.7 Gráfica del análisis por capas</h3>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Cómo leer esta gráfica:</strong></p>
 <ul>
-<li><strong>Media vs Mediana:</strong> En distribuciones asimétricas, la mediana es más robusta</li>
-<li><strong>Percentiles:</strong> Lenguaje para describir posiciones en la distribución</li>
-<li><strong>IQR:</strong> Mide dispersión sin ser afectado por outliers</li>
-<li><strong>Coeficiente de Variación:</strong> Dispersión relativa (&gt; 30% = alta heterogeneidad)</li>
-<li><strong>Histograma:</strong> Muestra la forma completa de la distribución</li>
-<li><strong>Boxplot:</strong> Ideal para comparar grupos y detectar outliers</li>
+<li>Cada fila es un conjunto de supuestos; la longitud de la barra es la amplitud del intervalo.</li>
+<li><strong>Sin supuestos</strong>: el intervalo cruza el cero — no podemos decir ni si el efecto es positivo o negativo.</li>
+<li><strong>MRT</strong>: la cota inferior sube a cero, identificando el signo pero no la magnitud.</li>
+<li><strong>MRT + MTS</strong>: el intervalo se estrecha significativamente. Sabemos que el efecto es no-negativo, pero la magnitud sigue siendo incierta.</li>
+<li>El <strong>rombo rojo</strong> (ATE verdadero = +2.5) cae dentro de todos los intervalos — confirmación de que el método es válido.</li>
+<li>La <strong>línea punteada naranja</strong> (naive = +3.98) está por encima del ATE verdadero: la diferencia simple de medias sobreestima el efecto.</li>
 </ul>
-<p><strong>Para profundizar:</strong> - Busca “Anscombe’s Quartet” para ver por qué siempre hay que visualizar - Lee sobre “Simpson’s Paradox” (lo veremos en sesión 10) - Investiga cómo se calcula la línea de pobreza en tu país</p>
 <hr>
-<p><strong>Última reflexión:</strong> En política pública, un solo número (el promedio) puede ocultar más de lo que revela. La distribución completa importa.</p>
+</section>
+</section>
+<section id="sec-multi" class="level2">
+<h2 class="anchored" data-anchor-id="sec-multi">Ejercicio 3: Seis formas de comunicar la misma incertidumbre</h2>
+<section id="motivación" class="level3">
+<h3 class="anchored" data-anchor-id="motivación">Motivación</h3>
+<p>La identificación parcial produce un intervalo. Pero <em>cómo presentamos</em> ese intervalo importa tanto como su amplitud. Esta sección replica el enfoque visual de Mullahy et al.&nbsp;(2021) aplicado a cuatro estados de México, mostrando seis codificaciones visuales de la misma información.</p>
+</section>
+<section id="datos-cuatro-evaluaciones-del-programa-de-capacitación" class="level3">
+<h3 class="anchored" data-anchor-id="datos-cuatro-evaluaciones-del-programa-de-capacitación">3.1 Datos: cuatro evaluaciones del programa de capacitación</h3>
+<p>Los datos representan el resultado de aplicar el análisis del Ejercicio 2 a cuatro contextos estatales con diferente contexto institucional. La métrica es la <strong>diferencia en ingreso laboral estandarizado</strong> (escala comparable entre estados).</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Los cuatro estados representan un gradiente de resultados:</p>
+<ul>
+<li><strong>CDMX</strong>: el intervalo MTS excluye el cero → el efecto es probablemente positivo.</li>
+<li><strong>Jalisco</strong>: intervalo cerca de cero, alta incertidumbre.</li>
+<li><strong>Oaxaca</strong>: el intervalo cruza el cero → el efecto es ambiguo.</li>
+<li><strong>Chiapas</strong>: el intervalo MTS sugiere efecto negativo → revisar el diseño antes de escalar.</li>
+</ul>
+</section>
+<section id="distribuciones-bootstrap-por-qué-y-para-qué" class="level3">
+<h3 class="anchored" data-anchor-id="distribuciones-bootstrap-por-qué-y-para-qué">3.2 Distribuciones bootstrap: ¿por qué y para qué?</h3>
+<p>El bootstrap simula la <strong>incertidumbre de muestreo</strong> alrededor del estimador naive. La idea es: si hubiéramos tomado una muestra distinta de la misma población, ¿qué tan diferentes serían nuestros resultados?</p>
+<p>Simular muchas muestras “como si” nos da una distribución del estimador. Esta distribución (paneles e y f) muestra cuánta variabilidad esperamos — incluso antes de considerar la incertidumbre de identificación (los bounds).</p>
+<blockquote class="blockquote">
+<p><strong>Distinción clave:</strong> el bootstrap captura incertidumbre <em>estadística</em> (resuelta con más datos del mismo tipo). Las cotas capturan incertidumbre de <em>identificación</em> (resuelta solo con mejores datos o supuestos adicionales). Son dos fuentes distintas de incertidumbre y nunca deben confundirse.</p>
+</blockquote>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="construcción-de-los-seis-paneles" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-de-los-seis-paneles">3.3 Construcción de los seis paneles</h3>
+<p>Definimos los parámetros comunes de escala y tema:</p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel a — Dos capas: intervalo amplio (sin supuestos) + intervalo estrecho (MTS)</strong></p>
+<p>La capa exterior (azul claro) muestra el rango sin restricciones; la interior (azul oscuro) muestra lo que ganamos con MTS. El punto naranja es el estimador naive.</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel b — Incertidumbre de muestreo sobre las cotas MTS</strong></p>
+<p>La capa exterior ahora es el intervalo de confianza del 95 % <em>sobre las propias cotas</em> (incertidumbre estadística), y la interior son las cotas puntuales.</p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Paneles c y d — Barras de error clásicas</strong></p>
+<p>La forma más común en la literatura. El panel c tiene ticks en ambos extremos (convencional); el d solo en el extremo superior, útil cuando la cota inferior es menos informativa o tiene mayor incertidumbre.</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel e — Gradiente de opacidad</strong></p>
+<p>La opacidad de cada píxel es proporcional a la densidad gaussiana centrada en el estimador naive. Transmite la idea de que el punto central es más probable y la incertidumbre se difumina hacia los extremos.</p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel f — Distribuciones bootstrap completas (ridgeline)</strong></p>
+<p>Muestra la distribución muestral del estimador para cada estado. La barra naranja marca el estimador naive. Este panel es el que más información transmite pero también el que más requiere alfabetización estadística de la audiencia.</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="la-figura-completa" class="level3">
+<h3 class="anchored" data-anchor-id="la-figura-completa">3.4 La figura completa</h3>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Cuándo usar cada panel:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Panel</th>
+<th>Ideal para</th>
+<th>Requiere en la audiencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>Comunicar la ganancia de añadir MTS vs.&nbsp;no asumir nada</td>
+<td>Familiaridad con cotas</td>
+</tr>
+<tr class="even">
+<td><strong>b</strong></td>
+<td>Mostrar que las propias cotas tienen incertidumbre estadística</td>
+<td>Estadística básica</td>
+</tr>
+<tr class="odd">
+<td><strong>c</strong></td>
+<td>Publicaciones técnicas, comparaciones múltiples</td>
+<td>Lectura de CI</td>
+</tr>
+<tr class="even">
+<td><strong>d</strong></td>
+<td>Cuando la cota inferior es poco informativa o abierta</td>
+<td>Lectura de CI</td>
+</tr>
+<tr class="odd">
+<td><strong>e</strong></td>
+<td>Presentaciones a decisores: sugiere “probabilidad” sin asumirla</td>
+<td>Ninguno especial</td>
+</tr>
+<tr class="even">
+<td><strong>f</strong></td>
+<td>Comunicar distribución completa, análisis bayesiano</td>
+<td>Mayor alfabetización</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="sec-concl" class="level2">
+<h2 class="anchored" data-anchor-id="sec-concl">Conclusiones y lecciones aprendidas</h2>
+<section id="lo-que-aprendimos-en-los-tres-ejercicios" class="level3">
+<h3 class="anchored" data-anchor-id="lo-que-aprendimos-en-los-tres-ejercicios">Lo que aprendimos en los tres ejercicios</h3>
+<p><strong>Ejercicio 1 (vacunación):</strong> El supuesto MAR transforma una tasa de respuesta del 26 % en una declaración de cobertura del 92 % con falsa precisión. El intervalo [24 %, 97.9 %] no es un fracaso del análisis — es evidencia de que el problema de datos no puede ocultarse detrás de un supuesto conveniente. La solución es invertir en mejores datos, no en supuestos más fuertes.</p>
+<p><strong>Ejercicio 2 (capacitación):</strong> El estimador naive sobreestima el ATE en aproximadamente 1.5 mil MXN por selección positiva. Sin supuestos adicionales, los datos observacionales son compatibles con efectos positivos <em>y</em> negativos. Cada supuesto adicional (MRT, MTS) estrecha el intervalo a cambio de una restricción que debemos defender sustantivamente.</p>
+<p><strong>Ejercicio 3 (visualización):</strong> La misma incertidumbre puede comunicarse de seis formas distintas. La elección depende de la audiencia, no de cuál presenta los resultados de manera más favorable. Suprimir la incertidumbre para facilitar la comunicación es un error ético, no solo metodológico.</p>
+</section>
+<section id="tres-reglas-para-llevar-al-trabajo" class="level3">
+<h3 class="anchored" data-anchor-id="tres-reglas-para-llevar-al-trabajo">Tres reglas para llevar al trabajo</h3>
+<ol type="1">
+<li><p><strong>Reporta siempre el intervalo, no solo el punto.</strong> Si solo tienes el punto, pregunta qué supuesto lo genera y si ese supuesto es defendible.</p></li>
+<li><p><strong>Distingue incertidumbre estadística de incertidumbre de identificación.</strong> La primera se resuelve con más datos del mismo tipo. La segunda requiere mejores datos o supuestos adicionales.</p></li>
+<li><p><strong>Haz explícito el análisis por capas.</strong> Muestra qué conclusiones se siguen de qué supuestos. El tomador de decisiones elige la capa; el analista documenta honestamente qué supone cada una.</p></li>
+</ol>
+<hr>
+<p><em>Material de apoyo para la sesión “Del piloto a la política: retos de escalar intervenciones basadas en evidencia”. MPP — Escuela de Gobierno y Transformación Pública.</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2257,12 +2484,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiado");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiado");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
