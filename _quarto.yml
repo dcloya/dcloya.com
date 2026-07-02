@@ -4,6 +4,7 @@ project:
   resources:
     - custom-styles.css
     - food-systems/*.html
+    - food-systems/dashboard/**
 
 execute:
   freeze: auto
@@ -52,6 +53,8 @@ website:
         menu:
           - text: Food systems
             href: food-systems.qmd
+          - text: "Dashboard interactivo"
+            href: food-systems-dashboard.qmd
       
       # --- TEACHING SECTION (REORGANIZED) ---
       - text: Teaching

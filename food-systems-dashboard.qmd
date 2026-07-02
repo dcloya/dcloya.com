@@ -1,0 +1,26 @@
+---
+title: "Dashboard: Sistemas Alimentarios en México"
+description: "Historia visual interactiva de los indicadores de sistemas alimentarios en los 32 estados de México. Círculo Vivo · Tecnológico de Monterrey."
+page-layout: full
+toc: false
+include-in-header:
+  text: |
+    <style>
+      /* Hide Quarto chrome to give the dashboard full vertical space */
+      .quarto-title-block, .page-navigation, #quarto-margin-sidebar { display:none; }
+      body { background: #F0F5F2; }
+      #dashboard-frame {
+        width: 100%; height: calc(100vh - 56px);
+        border: none; display: block;
+      }
+    </style>
+---
+
+```{=html}
+<iframe id="dashboard-frame"
+  src="food-systems/dashboard/story.html"
+  title="Dashboard Sistemas Alimentarios en México"
+  loading="eager"
+  allowfullscreen>
+</iframe>
+```

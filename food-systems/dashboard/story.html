@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistemas Alimentarios en México</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+
+<!-- ══ Masthead ══════════════════════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="kicker-brand">Círculo Vivo · Sistemas Alimentarios</div>
+  <h1>México produce comida de sobra. El problema es quién la come.</h1>
+  <p class="standfirst">
+    Un sistema alimentario debe lograr tres cosas a la vez: nutrir bien a la gente,
+    cuidar el agua y los bosques, y dar un ingreso digno a quien produce.
+    México cumple las tres de forma desigual, y la marginación decide dónde.
+  </p>
+  <p class="byline">
+    Un recorrido por los 32 estados para entender por qué, en el mismo país,
+    unos pasan hambre y a todos nos gana la mala comida.
+  </p>
+</header>
+
+<!-- ══ 1 · Tres mensajes ════════════════════════════════════════════════ -->
+<section class="band">
+  <div class="band-inner">
+    <div class="section-eyebrow">Tres hallazgos</div>
+    <div class="msg-grid">
+      <article class="msg-card">
+        <div class="msg-num">1</div>
+        <h3>La pobreza explica el hambre, no la obesidad</h3>
+        <p>En los estados más pobres, <b>la falta de alimento es el doble</b>. Sin
+        embargo, la obesidad es casi igual en todo el país. Al ser problemas tan
+        distintos, requieren políticas públicas diferentes.</p>
+      </article>
+      <article class="msg-card">
+        <div class="msg-num">2</div>
+        <h3>Producir comida no asegura tenerla</h3>
+        <p>Irónicamente, <b>los estados con más trabajadores agrícolas y que más
+        explotan su agua sufren más hambre</b>. En México, las regiones que siembran
+        los alimentos rara vez tienen la comida garantizada para sus habitantes.</p>
+      </article>
+      <article class="msg-card">
+        <div class="msg-num">3</div>
+        <h3>A más ingresos, más comida chatarra</h3>
+        <p>Contra lo que se pensaría, <b>los estados con menos pobreza gastan más en
+        productos ultraprocesados</b>. Como la pobreza extrema limita el acceso a
+        tiendas y supermercados, la comida chatarra crece hacia las clases medias.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 2 · México vs mundo ══════════════════════════════════════════════ -->
+<section class="band band-alt">
+  <div class="band-inner narrow">
+    <div class="section-eyebrow">El punto de partida</div>
+    <h2 class="section-title">Una epidemia que en México corre más rápido</h2>
+    <div class="chart-frame">
+      <div id="chart-obesity" class="chart-holder"></div>
+      <div class="chart-source">Fuente: Lancet (2024). Obesidad en adultos definida como IMC igual o mayor a 30.</div>
+    </div>
+    <div class="prose">
+      <p>La obesidad en adultos se ha más que duplicado en el mundo desde 1990. En
+      México el salto fue aún más pronunciado: hoy <b>más de uno de cada tres adultos
+      vive con obesidad</b>, más del doble del promedio mundial.</p>
+      <p>Detrás de las cifras hay costos reales, en salud y en dinero. La diabetes y las
+      enfermedades del corazón crecen junto con ella, y el sistema de salud carga con la
+      factura. Sin una respuesta de fondo, la brecha entre México y el mundo seguirá
+      abriéndose.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3 · Hay muchos Méxicos (mapa marginación) ════════════════════════ -->
+<section class="band">
+  <div class="band-inner">
+    <div class="section-eyebrow">El terreno desigual</div>
+    <h2 class="section-title">Hay muchos Méxicos</h2>
+    <div class="prose narrow">
+      <p>Antes de comparar estados conviene definir el terreno. La <b>marginación</b>,
+      o rezago social, la mide el CONAPO combinando indicadores de educación, vivienda,
+      ingresos y servicios como el agua entubada, junto con el tamaño de la población.
+      No hay un solo México: hay muchos, y el mapa lo deja ver.</p>
+    </div>
+    <div class="map-controls">
+      <span class="ctrl-label">Nivel</span>
+      <div class="btn-toggle">
+        <button data-map-level="state" class="on">Estatal</button>
+        <button data-map-level="muni">Municipal</button>
+      </div>
+      <div class="map-legend" id="map-legend"></div>
+    </div>
+    <div class="chart-frame">
+      <div id="chart-map" class="chart-holder"></div>
+      <div class="chart-source">Fuente: CONAPO, Índice de Marginación 2020. Geometrías: mxmaps.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · Los 3 pilares ════════════════════════════════════════════════ -->
+<section class="band band-alt">
+  <div class="band-inner">
+    <div class="section-eyebrow">El marco</div>
+    <h2 class="section-title">Los tres pilares de un sistema alimentario</h2>
+    <div class="pillar-grid">
+      <article class="pillar-card">
+        <div class="pillar-tag">Pilar 1</div>
+        <h3>Salud</h3>
+        <p>¿Come bien la gente y se enferma menos?</p>
+        <div class="pillar-inds">Obesidad · Inseguridad alimentaria · Desnutrición crónica</div>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-tag">Pilar 2</div>
+        <h3>Sostenibilidad</h3>
+        <p>¿Se produce cuidando el agua y los bosques?</p>
+        <div class="pillar-inds">Presión hídrica · Deforestación</div>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-tag">Pilar 3</div>
+        <h3>Medios de vida</h3>
+        <p>¿Vive con dignidad quien produce los alimentos?</p>
+        <div class="pillar-inds">Empleo agropecuario · Gasto en ultraprocesados</div>
+      </article>
+    </div>
+    <div class="prose narrow">
+      <p>Un sistema alimentario sano no es solo comer bien. Es también cuidar el agua y
+      los bosques que producen la comida, y sostener el ingreso de quien la cultiva.
+      Estos tres pilares muchas veces jalan en direcciones opuestas. Lo que sigue compara
+      a los estados en cada uno.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5 · Comparación estatal ══════════════════════════════════════════ -->
+<section class="band">
+  <div class="band-inner">
+    <div class="section-eyebrow">Comparación estatal</div>
+    <h2 class="section-title">Cada estado, medido indicador por indicador</h2>
+    <div class="cmp-controls">
+      <div class="ctrl-group">
+        <span class="ctrl-label">Pilar</span>
+        <div class="btn-toggle">
+          <button data-pillar="Salud" class="on">Salud</button>
+          <button data-pillar="Sostenibilidad">Sostenibilidad</button>
+          <button data-pillar="Medios de vida">Medios de vida</button>
+        </div>
+      </div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Ver</span>
+        <div class="btn-toggle">
+          <button data-mode="score" class="on">Score (z)</button>
+          <button data-mode="rank">Rango</button>
+        </div>
+      </div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Resaltar estado</span>
+        <select id="cmp-state" class="cmp-select"></select>
+      </div>
+    </div>
+    <div id="cmp-rows" class="cmp-rows"></div>
+  </div>
+</section>
+
+<!-- ══ 6 · Entorno alimentario × marginación ════════════════════════════ -->
+<section class="band band-alt">
+  <div class="band-inner">
+    <div class="section-eyebrow">Cruce territorial</div>
+    <h2 class="section-title">Los municipios con pobreza media lideran la expansión de la comida chatarra</h2>
+    <div class="prose narrow">
+      <p>El <b>ratio de entorno saludable</b> mide cuántos establecimientos de
+      comida fresca (fruterías, carnicerías, supermercados) existen por cada
+      tienda de abarrotes o minisuper en el municipio. Al cruzarlo con la
+      marginación, aparecen cuatro territorios con dinámicas muy distintas.
+      El cuadrante más crítico: alta marginación y bajo acceso a comida fresca.</p>
+    </div>
+    <div class="foodenv-controls">
+      <div class="ctrl-group">
+        <span class="ctrl-label">Busca tu municipio</span>
+        <select id="muni-select" class="cmp-select" style="min-width:260px"></select>
+      </div>
+      <div class="quad-legend" id="quad-legend"></div>
+    </div>
+    <div class="chart-frame">
+      <div id="chart-foodenv-scatter" class="chart-holder"></div>
+      <div class="chart-source">
+        Clasificación INFORMAS México (Stern et al. 2021). Saludable: carnicerías,
+        pollerías, pescaderías, fruterías, supermercados. Poco saludable: abarrotes,
+        minisupers. Fuente: DENUE (INEGI, mayo 2026) y CONAPO 2020.
+      </div>
+    </div>
+    <div class="chart-frame">
+      <div id="chart-foodenv-map" class="chart-holder"></div>
+      <div class="chart-source">
+        Fuente: DENUE (INEGI, mayo 2026) y CONAPO 2020. Geometrías: mxmaps.
+        Cortes en medianas nacionales: marginación 19.5, ratio 24.1%.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Closing ══════════════════════════════════════════════════════════ -->
+<div class="closing">
+  <h2>Esto es el mapa. Ahora explora el territorio.</h2>
+  <p>
+    Aquí contamos la historia y marcamos los elementos. Los cruces a fondo, obesidad
+    contra marginación, presión hídrica contra inseguridad, deforestación contra
+    producción y las tendencias de empleo desde 2005, viven en el panel interactivo,
+    donde puedes filtrar por estado y por año.
+  </p>
+  <a class="cta" id="open-shiny" href="#">Abrir el panel de exploración →</a>
+  <div class="shiny-note" id="shiny-note">
+    El panel de exploración es una app de Shiny (R) y corre por separado. Desde la
+    carpeta del proyecto ejecuta:
+    <code>Rscript -e "shiny::runApp('shiny', launch.browser=TRUE)"</code>
+    y se abrirá en tu navegador. Cuando lo despliegues (por ejemplo en shinyapps.io),
+    pon la URL en <code>shinyUrl</code> y este botón enlazará directo.
+  </div>
+</div>
+
+<div class="storyfooter">
+  Fuentes: CONEVAL / ENIGH, ENSANUT 2018·2022·2024, ENOE, CONAGUA, CONAPO, SIAP, Global Forest Watch, Lancet (2024).
+  Visualización: Observable Plot. Diseño: sistema Círculo Vivo.
+</div>
+
+<script type="module">
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
+import { initDashboard, buildLegend } from "./src/components/dashboard.js";
+
+const base = "./src/data/";
+const [obesity, statesMarg, muniMarg, municipios, estados, comparison, muniBivariate] =
+  await Promise.all([
+    fetch(base+"obesity_mx_world.json").then(r=>r.json()),
+    fetch(base+"states_marg.json").then(r=>r.json()),
+    fetch(base+"muni_marg.json").then(r=>r.json()),
+    fetch(base+"municipios.topojson").then(r=>r.json()),
+    fetch(base+"estados.geojson").then(r=>r.json()),
+    fetch(base+"comparison.json").then(r=>r.json()),
+    fetch(base+"muni_bivariate.json").then(r=>r.json())
+  ]);
+
+buildLegend(document.getElementById("map-legend"));
+initDashboard({ Plot, topojson,
+  data:{ obesity, statesMarg, muniMarg, municipios, estados, comparison, muniBivariate },
+  root: document,
+  shinyUrl: "" });   // <- pon aquí la URL del panel Shiny cuando lo despliegues
+</script>
+</body>
+</html>
