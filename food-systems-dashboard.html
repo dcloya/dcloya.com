@@ -81,12 +81,14 @@ gtag('js', new Date());
 gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </script>
 <style>
-  /* Hide Quarto chrome to give the dashboard full vertical space */
   .quarto-title-block, .page-navigation, #quarto-margin-sidebar { display:none; }
-  body { background: #F0F5F2; }
+  body { background: #F0F5F2; margin: 0; padding: 0; }
   #dashboard-frame {
-    width: 100%; height: calc(100vh - 56px);
-    border: none; display: block;
+    width: 100%;
+    min-height: 100vh;
+    border: none;
+    display: block;
+    overflow: hidden;
   }
 </style>
 
@@ -288,8 +290,26 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </header>
 
 
-<iframe id="dashboard-frame" src="food-systems/dashboard/story.html" title="Dashboard Sistemas Alimentarios en México" loading="eager" allowfullscreen="">
+<iframe id="dashboard-frame" src="food-systems/dashboard/story.html" title="Dashboard Sistemas Alimentarios en México" loading="eager" scrolling="no">
 </iframe>
+
+<script>
+(function() {
+  var frame = document.getElementById('dashboard-frame');
+  function resize() {
+    try {
+      var h = frame.contentDocument.documentElement.scrollHeight;
+      if (h > 200) frame.style.height = h + 'px';
+    } catch(e) {}
+  }
+  frame.addEventListener('load', function() {
+    resize();
+    // Poll while Observable loads data async
+    var checks = [300, 600, 1200, 2500, 5000];
+    checks.forEach(function(t) { setTimeout(resize, t); });
+  });
+})();
+</script>
 
 
 
