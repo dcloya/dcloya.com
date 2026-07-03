@@ -101,13 +101,24 @@ function renderObesity(el, obesity, Plot){
   }));
 }
 
-/* ══ 2 · Choropleth: municipal / estatal toggle ════════════════════════════ */
+/* ══ 2 · Choropleth: municipal / estatal / bivariado toggle ════════════════ */
 function setupMap(root, data, topojson, Plot){
   const el = root.querySelector("#chart-map");
   if(!el) return;
-  const btns = root.querySelectorAll("[data-map-level]");
+  const btns    = root.querySelectorAll("[data-map-level]");
+  const legendEl = root.querySelector("#map-legend");
 
-  // Build feature collections + grade lookups once
+  // Bivariate: inseguridad alimentaria (red axis) × empleo agropecuario (blue axis)
+  const BIV_COLORS = {
+    "Paradoja agrícola":     "#8B1A1A",  // high insec + high agro  → crimson
+    "Inseguridad sin campo": "#D4522A",  // high insec + low agro   → orange-red
+    "Campo con seguridad":   "#1B365D",  // low insec  + high agro  → navy
+    "Entorno protector":     "#0D9B8C"   // low insec  + low agro   → teal
+  };
+  const BIV_ORDER = ["Paradoja agrícola","Inseguridad sin campo","Campo con seguridad","Entorno protector"];
+  const bivColor = q => BIV_COLORS[q] ?? "#C9D3CE";
+
+  // ── Feature collections ────────────────────────────────────────────────────
   const muniFC = topojson.feature(data.municipios, data.municipios.objects.municipios);
   const muniGrade = new Map(data.muniMarg.map(d=>[d.code, d]));
   muniFC.features.forEach(f=>{ const m=muniGrade.get(f.properties.id);
@@ -121,25 +132,90 @@ function setupMap(root, data, topojson, Plot){
     f.properties.grade = s? s.grade : null;
     f.properties.score = s? s.score : null; });
 
+  // ── Bivariate classification from comparison.json ─────────────────────────
+  const cmpMap   = new Map(data.comparison.states.map(s=>[s.state, s]));
+  const insecArr = data.comparison.states.map(s=>s.insec?.raw).filter(v=>v!=null).sort((a,b)=>a-b);
+  const agroArr  = data.comparison.states.map(s=>s.agro?.raw).filter(v=>v!=null).sort((a,b)=>a-b);
+  const medInsec = insecArr[Math.floor(insecArr.length/2)];
+  const medAgro  = agroArr[Math.floor(agroArr.length/2)];
+
+  stateFC.features.forEach(f=>{
+    const s = cmpMap.get(f.properties.state_name);
+    const insec = s?.insec?.raw, agro = s?.agro?.raw;
+    if(insec==null||agro==null){ f.properties.bivQuad=null; return; }
+    const hi = insec>medInsec, ha = agro>medAgro;
+    f.properties.bivQuad  = hi&&ha ? "Paradoja agrícola"
+                          : hi     ? "Inseguridad sin campo"
+                          : ha     ? "Campo con seguridad"
+                          :          "Entorno protector";
+    f.properties.insecVal = insec;
+    f.properties.agroVal  = agro;
+  });
+
+  // ── Legend update ─────────────────────────────────────────────────────────
+  function updateLegend(level){
+    if(!legendEl) return;
+    legendEl.replaceChildren();
+    if(level==="bivariate"){
+      BIV_ORDER.forEach(q=>{
+        const item=document.createElement("span");
+        item.className="legend-item";
+        item.innerHTML=`<i style="background:${BIV_COLORS[q]}"></i>${q}`;
+        legendEl.appendChild(item);
+      });
+    } else {
+      buildLegend(legendEl);
+    }
+  }
+
+  // ── Draw ─────────────────────────────────────────────────────────────────
   function draw(level){
-    const fc = level==="muni" ? muniFC : stateFC;
     const width = Math.min(820, el.clientWidth || 820);
-    el.replaceChildren(Plot.plot({
-      width, height: 480,
-      projection:{ type:"mercator", domain: fc },
-      style:{ fontFamily:"Inter, sans-serif", fontSize:"11px" },
-      marks:[
-        Plot.geo(fc, {
-          fill: d=>gradeColor(d.properties.grade),
-          stroke: level==="muni" ? "white" : "#5A6B7B",
-          strokeWidth: level==="muni" ? 0.15 : 0.6,
-          title: d=> level==="muni"
-            ? `${d.properties.nom}\nMarginación: ${d.properties.grade ?? "s/d"}`
-            : `${d.properties.state_name}\nMarginación: ${d.properties.grade ?? "s/d"}`
-        }),
-        level==="state" ? Plot.geo(stateFC, {stroke:"#33475B", strokeWidth:0.9, fill:"none"}) : null
-      ].filter(Boolean)
-    }));
+
+    if(level==="bivariate"){
+      el.replaceChildren(Plot.plot({
+        width, height:480,
+        projection:{ type:"mercator", domain:stateFC },
+        style:{ fontFamily:"Inter, sans-serif", fontSize:"11px" },
+        marks:[
+          Plot.geo(stateFC,{
+            fill:  d=>bivColor(d.properties.bivQuad),
+            fillOpacity: d=>d.properties.bivQuad ? 0.92 : 0.25,
+            stroke:"#F0F5F2", strokeWidth:0.7,
+            title: d=>{
+              const p=d.properties;
+              return `${p.state_name}\n${p.bivQuad ?? "sin dato"}`+
+                (p.insecVal!=null?`\nInseguridad: ${p.insecVal}%`:"")+
+                (p.agroVal!=null ?`\nEmpleo agropecuario: ${p.agroVal}%`:"");
+            }
+          })
+        ]
+      }));
+    } else {
+      const fc = level==="muni" ? muniFC : stateFC;
+      el.replaceChildren(Plot.plot({
+        width, height:480,
+        // Fixed domain: always use stateFC so state/muni views don't shift
+        projection:{ type:"mercator", domain:stateFC },
+        style:{ fontFamily:"Inter, sans-serif", fontSize:"11px" },
+        marks:[
+          Plot.geo(fc,{
+            fill: d=>gradeColor(d.properties.grade),
+            stroke: level==="muni" ? "white" : "#5A6B7B",
+            strokeWidth: level==="muni" ? 0.15 : 0.6,
+            title: d=> level==="muni"
+              ? `${d.properties.nom}\nMarginación: ${d.properties.grade ?? "s/d"}`
+              : `${d.properties.state_name}\nMarginación: ${d.properties.grade ?? "s/d"}`
+          }),
+          // State border overlay: keeps islands visible in all views
+          Plot.geo(stateFC,{stroke:"#5A6B7B", strokeWidth:0.45, fill:"none"}),
+          level==="state"
+            ? Plot.geo(stateFC,{stroke:"#33475B", strokeWidth:0.9, fill:"none"})
+            : null
+        ].filter(Boolean)
+      }));
+    }
+    updateLegend(level);
   }
 
   btns.forEach(b=>b.addEventListener("click", ()=>{
@@ -147,7 +223,7 @@ function setupMap(root, data, topojson, Plot){
     b.classList.add("on");
     draw(b.dataset.mapLevel);
   }));
-  draw("state"); // default level
+  draw("state");
 }
 
 /* ══ 3 · State comparison: beeswarm, one row per indicator ══════════════════ */
