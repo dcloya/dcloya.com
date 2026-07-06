@@ -3,7 +3,6 @@ project:
   output-dir: _site
   resources:
     - custom-styles.css
-    - food-systems/*.html
     - food-systems/dashboard/**
 
 execute:
@@ -51,9 +50,7 @@ website:
             href: cv.qmd
       - text: Research
         menu:
-          - text: Food systems
-            href: food-systems.qmd
-          - text: "Dashboard interactivo"
+          - text: "Sistemas alimentarios (dashboard)"
             href: food-systems-dashboard.qmd
       
       # --- TEACHING SECTION (REORGANIZED) ---

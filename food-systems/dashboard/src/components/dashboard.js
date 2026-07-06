@@ -12,14 +12,14 @@ const MARG_COLORS = {
 };
 // Bivariate quadrant colors (INFORMAS food env × CONAPO marginación)
 const QUAD_COLORS = {
-  "Doble vulnerabilidad":      "#8B1A1A",  // dark crimson, critical
-  "Rezago con acceso":         "#E07B39",  // orange, social lag with some food access
-  "Riqueza sin acceso fresco": "#4A7FA3",  // steel blue, wealthier food desert
-  "Ventaja doble":             "#0D9B8C"   // teal, best scenario
+  "Sinergia de vulnerabilidades": "#8B1A1A",  // dark crimson: high marg + poor food env
+  "Rezago con acceso":            "#E07B39",  // orange: high marg + decent food env
+  "Riqueza sin acceso fresco":    "#4A7FA3",  // steel blue: low marg + poor food env
+  "Entorno protector":            "#0D9B8C"   // teal: low marg + good food env
 };
 const QUAD_ORDER = [
-  "Doble vulnerabilidad","Rezago con acceso",
-  "Riqueza sin acceso fresco","Ventaja doble"
+  "Sinergia de vulnerabilidades","Rezago con acceso",
+  "Riqueza sin acceso fresco","Entorno protector"
 ];
 
 const NAVY="#1B365D", TEAL="#0D9B8C", MUTED="#718096", GRID="#E4EBE8",
@@ -381,8 +381,8 @@ function _setupFoodEnvScatter(root, mb, Plot, highlight=""){
   // quadrant background rects
   const qrects = [
     { x1:0,       x2:medMarg, y1:0,        y2:medRatio, q:"Riqueza sin acceso fresco" },
-    { x1:0,       x2:medMarg, y1:medRatio, y2:1,        q:"Ventaja doble" },
-    { x1:medMarg, x2:100,     y1:0,        y2:medRatio, q:"Doble vulnerabilidad" },
+    { x1:0,       x2:medMarg, y1:medRatio, y2:1,        q:"Entorno protector" },
+    { x1:medMarg, x2:100,     y1:0,        y2:medRatio, q:"Sinergia de vulnerabilidades" },
     { x1:medMarg, x2:100,     y1:medRatio, y2:1,        q:"Rezago con acceso" }
   ];
 
