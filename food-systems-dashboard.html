@@ -9,7 +9,7 @@
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Dashboard: Sistemas Alimentarios en México – David Contreras-Loya</title>
+<title>Sistemas Alimentarios en México: el mapa municipal – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -90,6 +90,12 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     display: block;
     overflow: hidden;
   }
+  .fullscreen-link {
+    display: block; text-align: right; max-width: 1080px;
+    margin: 6px auto 0; padding: 0 24px;
+    font-size: 13px;
+  }
+  .fullscreen-link a { color: #0A7A6E; text-decoration: none; font-weight: 600; }
 </style>
 
 
@@ -143,12 +149,8 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="./food-systems.html">
- <span class="dropdown-text">Food systems</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./food-systems-dashboard.html">
- <span class="dropdown-text">Dashboard interactivo</span></a>
+ <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
   </li>
@@ -268,12 +270,12 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Dashboard: Sistemas Alimentarios en México</h1>
+<h1 class="title">Sistemas Alimentarios en México: el mapa municipal</h1>
 </div>
 
 <div>
   <div class="description">
-    Historia visual interactiva de los indicadores de sistemas alimentarios en los 32 estados de México. Círculo Vivo · Tecnológico de Monterrey.
+    Dashboard interactivo de sistemas alimentarios en los 2,469 municipios de México: agua, carencia alimentaria y entorno de comida fresca. Círculo Vivo · Tecnológico de Monterrey.
   </div>
 </div>
 
@@ -290,7 +292,12 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </header>
 
 
-<iframe id="dashboard-frame" src="food-systems/dashboard/story.html" title="Dashboard Sistemas Alimentarios en México" loading="eager" scrolling="no">
+<div class="fullscreen-link">
+  <a href="food-systems/dashboard/municipal.html" target="_blank" rel="noopener">
+    Abrir en pantalla completa →</a>
+</div>
+
+<iframe id="dashboard-frame" src="food-systems/dashboard/municipal.html" title="Sistemas Alimentarios en México: dashboard municipal" loading="eager" scrolling="no">
 </iframe>
 
 <script>
@@ -304,9 +311,11 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
   }
   frame.addEventListener('load', function() {
     resize();
-    // Poll while Observable loads data async
+    // Poll while Observable loads data async; the page also re-renders on
+    // state/municipality selection, so keep a slow heartbeat afterwards.
     var checks = [300, 600, 1200, 2500, 5000];
     checks.forEach(function(t) { setTimeout(resize, t); });
+    setInterval(resize, 4000);
   });
 })();
 </script>
