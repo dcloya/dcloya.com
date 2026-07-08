@@ -3,9 +3,12 @@
    Tokens mirror shiny/www/styles.css. */
 
 :root{
-  --cv-teal:#0D9B8C; --cv-teal-dark:#0A7A6E; --cv-teal-light:#E6F5F3;
-  --cv-navy:#1B365D; --cv-gold:#D4A843; --cv-crimson:#C0392B;
-  --cv-bg:#F0F5F2; --cv-surface:#FFFFFF; --cv-border:#D0DDD8;
+  /* Identidad Círculo Vivo 2026: verde pizarra (primario), azul cobalto
+     (énfasis/gravedad), verde olivo (secundario), gris neutro (fondos).
+     Los nombres de variable se conservan para no tocar el resto del CSS. */
+  --cv-teal:#78928B; --cv-teal-dark:#54706A; --cv-teal-light:#E7ECEA;
+  --cv-navy:#42557B; --cv-gold:#C5C389; --cv-crimson:#42557B;
+  --cv-bg:#EBEBEB; --cv-surface:#FFFFFF; --cv-border:#D6D9D8;
   --cv-text:#2D3748; --cv-muted:#718096;
   --radius:8px;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
@@ -44,7 +47,7 @@ body{
 
 /* ── Bands (full-width sections) ──────────────────────────────────────────── */
 .band{ padding:56px 0; border-top:1px solid var(--cv-border); }
-.band-alt{ background:linear-gradient(180deg,#EAF2EE 0%, var(--cv-bg) 100%); }
+.band-alt{ background:linear-gradient(180deg,#E2E4E3 0%, var(--cv-bg) 100%); }
 .band-inner{ max-width:1080px; margin:0 auto; padding:0 24px; }
 .band-inner.narrow{ max-width:760px; }
 .section-eyebrow{
@@ -120,7 +123,7 @@ body{
 }
 .pillar-card::after{
   content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px;
-  background:radial-gradient(circle,rgba(13,155,140,.35),transparent 70%);
+  background:radial-gradient(circle,rgba(120,146,139,.35),transparent 70%);
 }
 .pillar-tag{ font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--cv-gold); margin-bottom:8px; }
 .pillar-card h3{ font-family:'Lora',serif; font-weight:600; font-size:24px; margin:0 0 8px; }
@@ -139,7 +142,7 @@ body{
   padding:7px 12px; border:1.5px solid var(--cv-border); border-radius:8px;
   background:var(--cv-surface); cursor:pointer; min-width:190px;
 }
-.cmp-select:focus{ outline:none; border-color:var(--cv-teal); box-shadow:0 0 0 3px rgba(13,155,140,.15); }
+.cmp-select:focus{ outline:none; border-color:var(--cv-teal); box-shadow:0 0 0 3px rgba(120,146,139,.22); }
 .cmp-rows{ display:flex; flex-direction:column; gap:8px; }
 .cmp-block{
   background:var(--cv-surface); border:1px solid var(--cv-border); border-radius:var(--radius);
@@ -169,7 +172,7 @@ body{
 }
 .shiny-note.show{ display:block; }
 .shiny-note code{
-  display:inline-block; margin:4px 0; padding:3px 8px; background:#EEF3F1; border-radius:5px;
+  display:inline-block; margin:4px 0; padding:3px 8px; background:#EDEDED; border-radius:5px;
   font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:var(--cv-navy);
   white-space:pre-wrap; word-break:break-word;
 }

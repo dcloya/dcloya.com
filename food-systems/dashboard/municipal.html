@@ -11,7 +11,7 @@
 /* page-specific: control bar, profile card, stats, bivariate legend */
 .muni-controls{
   position:sticky; top:0; z-index:20;
-  background:rgba(240,245,242,.96); backdrop-filter:blur(4px);
+  background:rgba(235,235,235,.96); backdrop-filter:blur(4px);
   border-bottom:1px solid var(--cv-border);
   padding:12px 24px; display:flex; gap:18px; align-items:center; flex-wrap:wrap;
 }
@@ -108,8 +108,8 @@
     <div class="section-eyebrow">El mapa municipal</div>
     <h2 class="section-title">El mapa del hambre y el agua</h2>
     <div class="prose narrow">
-      <p>Un solo mapa, dos carencias. El morado marca los municipios donde más
-      gente carece de alimentación; el turquesa, aquellos donde las viviendas
+      <p>Un solo mapa, dos carencias. El azul marca los municipios donde más
+      gente carece de alimentación; el verde olivo, aquellos donde las viviendas
       no tienen agua entubada. <b>Donde el color se oscurece, las dos faltas se
       juntan.</b> Busca tu municipio con los selectores de arriba.</p>
     </div>
@@ -140,7 +140,7 @@
       <p>El agua no respeta fronteras estatales: se administra por cuencas.
       Las del norte trabajan al límite y en el Valle de México se extrae más
       agua de la que se recarga. Las del sur apenas se tocan. Sobre ese fondo,
-      los municipios en rojo son aquellos donde falta agua en las viviendas:
+      los municipios en azul son aquellos donde falta agua en las viviendas:
       <b>la mayoría está justo donde el agua sobra en los ríos.</b></p>
     </div>
     <div class="map-legend" id="legend-basins" style="margin-bottom:8px"></div>
@@ -150,7 +150,7 @@
         Cuencas: las 13 regiones hidrológico-administrativas de la Comisión
         Nacional del Agua (CONAGUA); presión hídrica de Estadísticas del Agua
         en México 2023 (datos 2022); geometría de la Comisión Nacional para el
-        Conocimiento y Uso de la Biodiversidad (CONABIO). En rojo: municipios
+        Conocimiento y Uso de la Biodiversidad (CONABIO). En azul: municipios
         en el peor cuarto nacional de viviendas sin agua entubada (Consejo
         Nacional de Población, CONAPO, con el Censo 2020).
       </div>
@@ -222,7 +222,7 @@
     <div class="chart-frame">
       <div id="map-excl" class="chart-holder"></div>
       <div class="chart-source">
-        En rojo: municipios en el peor cuarto nacional de las tres variables a
+        En azul: municipios en el peor cuarto nacional de las tres variables a
         la vez (agua en vivienda, carencia alimentaria y entorno de comida
         fresca). El resto del país en gris.
       </div>
