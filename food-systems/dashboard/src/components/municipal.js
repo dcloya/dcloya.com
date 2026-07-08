@@ -8,18 +8,21 @@
 // One state selector drives V1 zoom, V3 filter and the conditional
 // municipality selector; the municipality selector drives highlights + profile.
 //
-// Bivariate palette: Joshua Stevens 3x3 (teal x purple), the de facto standard
-// for bivariate choropleths (also used by Observable's reference example).
-// Sequential teal ramp and accent colors validated with the dataviz six-checks.
+// Palette: identidad Círculo Vivo 2026. Verde pizarra = primario, azul
+// cobalto = énfasis/gravedad, verde olivo = secundario, gris neutro = fondo.
+// The bivariate 3x3 interpolates between four corners: gris neutro (low-low),
+// cobalto (carencia alimentaria), olivo (sin agua) and their multiply blend
+// (both deficits), so the dark corner reads as an earthy cobalt-olive mix.
 
+const PIZARRA = "#78928B", COBALT = "#42557B", OLIVE = "#C5C389";
+const GRIS_BG = "#EBEBEB", GRIS_DOT = "#D1D5D5";
 const BIV = [
-  "#e8e8e8", "#dfb0d6", "#be64ac",   // row 0: low water   | carencia ->
-  "#ace4e4", "#a5add3", "#8c62aa",   // row 1: mid water
-  "#5ac8c8", "#5698b9", "#3b4994"    // row 2: high water
+  "#EBEBEB", "#97A0B3", "#42557B",   // row 0: low water   | carencia ->
+  "#D8D7BA", "#8A918D", "#3B4B5F",   // row 1: mid water
+  "#C5C389", "#7C8266", "#334142"    // row 2: high water
 ];
-const TEAL_RAMP = ["#74B8AE", "#3D9E92", "#177E71", "#0A5C54"];
-const DEEP_RED  = "#7C1610", FAINT = "#E7EAE8";
-const NODATA = "#F4F4F0", NAVY = "#1B365D", MUTED = "#718096", FADE = "#C9D3CE";
+const PRESS_RAMP = ["#78928B", "#667E86", "#546980", "#42557B"];  // pizarra -> cobalto
+const NODATA = "#F7F7F5", INK = "#2D3748", MUTED = "#718096";
 
 const fmt  = (v, d = 1) => v == null ? "s/d" :
   v.toLocaleString("es-MX", { minimumFractionDigits: 0, maximumFractionDigits: d });
@@ -34,7 +37,7 @@ const tclass = (v, t) => v == null ? null : v <= t[0] ? 0 : v <= t[1] ? 1 : 2;
 
 // Official CONAGUA pressure classes (EAM 2023): collapsed to 4 legend steps
 const pressColor = p => p == null ? NODATA :
-  p < 10 ? TEAL_RAMP[0] : p < 40 ? TEAL_RAMP[1] : p <= 100 ? TEAL_RAMP[2] : TEAL_RAMP[3];
+  p < 10 ? PRESS_RAMP[0] : p < 40 ? PRESS_RAMP[1] : p <= 100 ? PRESS_RAMP[2] : PRESS_RAMP[3];
 const PRESS_LABELS = ["Sin estrés (menos de 10%)", "Bajo a medio (10 a 40%)",
                       "Alto (40 a 100%)", "Muy alto (más de 100%)"];
 
@@ -108,7 +111,8 @@ export function initMunicipal({ Plot, topojson, data, root }) {
 
     const note = root.querySelector("#cmp-note");
     if (note) note.textContent = selState
-      ? `${selState} resaltado en cada fila, con su valor encima del punto.`
+      ? `${selState} resaltado en cada fila, con su valor encima del punto; ` +
+        `en azul cuando está entre los ocho lugares más altos del país.`
       : "Elige un estado arriba para ver su posicion en cada indicador.";
 
     PILLARS.forEach(pillar => {
@@ -136,6 +140,9 @@ export function initMunicipal({ Plot, topojson, data, root }) {
         const meanV = rows.reduce((a, d) => a + d.raw, 0) / rows.length;
         const maxV  = Math.max(...rows.map(d => d.raw));
         const hl    = selState ? rows.find(d => d.state === selState) : null;
+        // Zona de alarma: entre los ocho lugares mas altos (todos los
+        // indicadores son "peor = mas alto") -> cobalto en vez de pizarra.
+        const hlColor = hl && hl.rank != null && hl.rank <= 8 ? COBALT : PIZARRA;
 
         const block = document.createElement("div");
         block.className = "cmp-block";
@@ -160,18 +167,18 @@ export function initMunicipal({ Plot, topojson, data, root }) {
             Plot.ruleX([meanV], { stroke: MUTED, strokeDasharray: "3,3" }),
             Plot.dot(rows, Plot.dodgeY("middle", {
               x: "raw", r: 5.5,
-              fill: d => hl && d.state === selState ? "#0A5C54" : "#5A6B7B",
-              fillOpacity: d => !selState ? 0.45
-                : d.state === selState ? 0.95 : 0.22,
-              stroke: d => hl && d.state === selState ? NAVY : "white",
-              strokeWidth: d => hl && d.state === selState ? 2 : 0.8,
+              fill: d => hl && d.state === selState ? hlColor : GRIS_DOT,
+              fillOpacity: d => !selState ? 0.9
+                : d.state === selState ? 1 : 0.55,
+              stroke: d => hl && d.state === selState ? INK : "white",
+              strokeWidth: d => hl && d.state === selState ? 1.5 : 0.8,
               tip: true,
               title: d => `${d.state}\n${ind.label}: ${fmt(d.raw)}%\nLugar ${d.rank} de 32`
             })),
             hl ? Plot.text([hl], {
               x: "raw", text: d => `${fmt(d.raw)}%`,
               frameAnchor: "top", dy: -2,
-              fontWeight: 700, fontSize: 11, fill: NAVY,
+              fontWeight: 700, fontSize: 11, fill: INK,
               textAnchor: "middle"
             }) : null
           ].filter(Boolean)
@@ -231,7 +238,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
         selMuni ? Plot.geo(
           { type: "FeatureCollection",
             features: dom.features.filter(f => f.properties.id === selMuni) },
-          { stroke: NAVY, strokeWidth: 2.2, fill: "none" }) : null
+          { stroke: INK, strokeWidth: 2.2, fill: "none" }) : null
       ].filter(Boolean)
     }));
     bivLegend(root.querySelector("#legend-biv"));
@@ -282,7 +289,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
                       `Presion hidrica: ${fmt(f.properties.pressure)}% (${f.properties.grade})`
         }),
         Plot.geo(dryMunis, {
-          fill: DEEP_RED, fillOpacity: 0.85,
+          fill: COBALT, fillOpacity: 0.9,
           stroke: "white", strokeWidth: 0.15,
           tip: true,
           title: f => {
@@ -297,12 +304,12 @@ export function initMunicipal({ Plot, topojson, data, root }) {
       PRESS_LABELS.forEach((t, i) => {
         const s = document.createElement("span");
         s.className = "legend-item";
-        s.innerHTML = `<i style="background:${TEAL_RAMP[i]};opacity:.8"></i>${t}`;
+        s.innerHTML = `<i style="background:${PRESS_RAMP[i]};opacity:.8"></i>${t}`;
         lg.appendChild(s);
       });
       const s = document.createElement("span");
       s.className = "legend-item";
-      s.innerHTML = `<i style="background:${DEEP_RED}"></i>Municipios donde falta agua en las casas`;
+      s.innerHTML = `<i style="background:${COBALT}"></i>Municipios donde falta agua en las casas`;
       lg.appendChild(s);
     }
   }
@@ -331,30 +338,30 @@ export function initMunicipal({ Plot, topojson, data, root }) {
         Plot.ruleX([MED_WATER], { stroke: MUTED, strokeDasharray: "4,3" }),
         Plot.ruleY([MED_CAR], { stroke: MUTED, strokeDasharray: "4,3" }),
         Plot.text([{ x: 70, y: 72, t: "Sin agua y con hambre" }],
-          { x: "x", y: "y", text: "t", fill: DEEP_RED, fontSize: 10.5, fontWeight: 600 }),
+          { x: "x", y: "y", text: "t", fill: COBALT, fontSize: 10.5, fontWeight: 600 }),
         Plot.dot(rows.filter(d => !inState(d)), {
           x: "water_no", y: "carencia", r: 2.6,
-          fill: selState ? FADE : "#3D9E92",
-          fillOpacity: selState ? 0.35 : 0.45,
+          fill: selState ? GRIS_DOT : PIZARRA,
+          fillOpacity: selState ? 0.35 : 0.4,
           stroke: "white", strokeWidth: 0.3,
           tip: !selState,
           title: d => `${d.name} (${d.state})\nSin agua: ${fmt(d.water_no)}%\nCarencia: ${fmt(d.carencia)}%`
         }),
         selState ? Plot.dot(rows.filter(inState), {
           x: "water_no", y: "carencia", r: 4.5,
-          fill: "#0A5C54", stroke: "white", strokeWidth: 0.8, tip: true,
+          fill: COBALT, stroke: "white", strokeWidth: 0.8, tip: true,
           title: d => `${d.name}\nSin agua: ${fmt(d.water_no)}%\nCarencia: ${fmt(d.carencia)}%\nPoblacion: ${fpop(d.pop)}`
         }) : null,
         selState ? Plot.linearRegressionY(rows.filter(inState), {
-          x: "water_no", y: "carencia", stroke: "#0A5C54", strokeWidth: 1.5, ci: 0
+          x: "water_no", y: "carencia", stroke: COBALT, strokeWidth: 1.5, ci: 0
         }) : null,
         selMuni ? Plot.dot(rows.filter(d => d.code === selMuni), {
           x: "water_no", y: "carencia", r: 8, fill: "none",
-          stroke: NAVY, strokeWidth: 2.5
+          stroke: INK, strokeWidth: 2.5
         }) : null,
         selMuni ? Plot.text(rows.filter(d => d.code === selMuni), {
           x: "water_no", y: "carencia", text: d => d.name,
-          dy: -14, fontSize: 11.5, fontWeight: 700, fill: NAVY
+          dy: -14, fontSize: 11.5, fontWeight: 700, fill: INK
         }) : null
       ].filter(Boolean)
     }));
@@ -372,7 +379,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
       { x: 2,  y: 0.97, t: "Mejor entorno, menos rezago", a: "start",  c: MUTED },
       { x: 98, y: 0.97, t: "Rezago con comercio fresco",  a: "end",    c: MUTED },
       { x: 2,  y: 0.03, t: "Poco rezago, entorno pobre",  a: "start",  c: MUTED },
-      { x: 98, y: 0.03, t: "Zonas criticas",              a: "end",    c: DEEP_RED }
+      { x: 98, y: 0.03, t: "Zonas criticas",              a: "end",    c: COBALT }
     ];
 
     el.replaceChildren(Plot.plot({
@@ -389,7 +396,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
           fill: d => d.c, fontSize: 10.5, fontWeight: 600 }),
         Plot.dot(rows, {
           x: "marg_score", y: "food_env", r: d => inState(d) ? 4.5 : 2.6,
-          fill: "#5A6B7B",
+          fill: d => inState(d) ? COBALT : PIZARRA,
           fillOpacity: d => selState ? (inState(d) ? 0.9 : 0.12) : 0.4,
           stroke: "white", strokeWidth: 0.4, tip: true,
           title: d => `${d.name} (${d.state})\nMarginacion: ${fmt(d.marg_score)}\n` +
@@ -397,11 +404,11 @@ export function initMunicipal({ Plot, topojson, data, root }) {
         }),
         selMuni ? Plot.dot(rows.filter(d => d.code === selMuni), {
           x: "marg_score", y: "food_env", r: 8, fill: "none",
-          stroke: NAVY, strokeWidth: 2.5
+          stroke: INK, strokeWidth: 2.5
         }) : null,
         selMuni ? Plot.text(rows.filter(d => d.code === selMuni), {
           x: "marg_score", y: "food_env", text: d => d.name,
-          dy: -14, fontSize: 11.5, fontWeight: 700, fill: NAVY
+          dy: -14, fontSize: 11.5, fontWeight: 700, fill: INK
         }) : null
       ].filter(Boolean)
     }));
@@ -418,7 +425,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
       style: { fontFamily: "Inter, sans-serif", fontSize: "11px" },
       marks: [
         Plot.geo(muniFC, {
-          fill: f => f.properties.m?.excl === 3 ? DEEP_RED : FAINT,
+          fill: f => f.properties.m?.excl === 3 ? COBALT : GRIS_BG,
           stroke: "white", strokeWidth: 0.12,
           tip: true,
           title: f => {
@@ -430,7 +437,7 @@ export function initMunicipal({ Plot, topojson, data, root }) {
               : `${m.name} (${m.state})\nCarencias criticas: ${m.excl} de 3`;
           }
         }),
-        Plot.geo(estados, { stroke: "#B9C4BF", strokeWidth: 0.5, fill: "none" })
+        Plot.geo(estados, { stroke: "#C2C5C4", strokeWidth: 0.5, fill: "none" })
       ]
     }));
     const strip = root.querySelector("#excl-stats");
@@ -438,11 +445,11 @@ export function initMunicipal({ Plot, topojson, data, root }) {
       const tres = muni.filter(d => d.excl === 3);
       const pop = tres.reduce((a, d) => a + (d.pop || 0), 0);
       strip.innerHTML =
-        `<div class="excl-stat"><span class="excl-num" style="color:${DEEP_RED}">83</span>` +
+        `<div class="excl-stat"><span class="excl-num" style="color:${COBALT}">83</span>` +
         `<span class="excl-lbl">municipios donde falta todo</span></div>` +
-        `<div class="excl-stat"><span class="excl-num" style="color:${NAVY}">${(pop / 1e6).toLocaleString("es-MX", { maximumFractionDigits: 1 })} M</span>` +
+        `<div class="excl-stat"><span class="excl-num" style="color:${INK}">${(pop / 1e6).toLocaleString("es-MX", { maximumFractionDigits: 1 })} M</span>` +
         `<span class="excl-lbl">personas viven en ellos</span></div>` +
-        `<div class="excl-stat"><span class="excl-num" style="color:${NAVY}">45</span>` +
+        `<div class="excl-stat"><span class="excl-num" style="color:${INK}">45</span>` +
         `<span class="excl-lbl">estan en Oaxaca; los mas poblados, en la sierra de Chihuahua, Durango y Nayarit</span></div>`;
     }
   }

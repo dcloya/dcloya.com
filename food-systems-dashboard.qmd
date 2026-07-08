@@ -7,7 +7,7 @@ include-in-header:
   text: |
     <style>
       .quarto-title-block, .page-navigation, #quarto-margin-sidebar { display:none; }
-      body { background: #F0F5F2; margin: 0; padding: 0; }
+      body { background: #EBEBEB; margin: 0; padding: 0; }
       #dashboard-frame {
         width: 100%;
         min-height: 100vh;
@@ -20,7 +20,7 @@ include-in-header:
         margin: 6px auto 0; padding: 0 24px;
         font-size: 13px;
       }
-      .fullscreen-link a { color: #0A7A6E; text-decoration: none; font-weight: 600; }
+      .fullscreen-link a { color: #54706A; text-decoration: none; font-weight: 600; }
     </style>
 ---
 
