@@ -7,20 +7,22 @@ include-in-header:
   text: |
     <style>
       .quarto-title-block, .page-navigation, #quarto-margin-sidebar { display:none; }
-      body { background: #EBEBEB; margin: 0; padding: 0; }
+      body { background: #F2EFE8; margin: 0; padding: 0; }
+      /* The dashboard scrolls inside the frame: its sticky selector bar and
+         scrollspy section nav depend on an internal viewport. */
       #dashboard-frame {
         width: 100%;
-        min-height: 100vh;
+        height: calc(100vh - 110px);
+        min-height: 640px;
         border: none;
         display: block;
-        overflow: hidden;
       }
       .fullscreen-link {
         display: block; text-align: right; max-width: 1080px;
         margin: 6px auto 0; padding: 0 24px;
         font-size: 13px;
       }
-      .fullscreen-link a { color: #54706A; text-decoration: none; font-weight: 600; }
+      .fullscreen-link a { color: #395284; text-decoration: none; font-weight: 600; }
     </style>
 ---
 
@@ -33,27 +35,6 @@ include-in-header:
 <iframe id="dashboard-frame"
   src="food-systems/dashboard/municipal.html"
   title="Sistemas Alimentarios en México: dashboard municipal"
-  loading="eager"
-  scrolling="no">
+  loading="eager">
 </iframe>
-
-<script>
-(function() {
-  var frame = document.getElementById('dashboard-frame');
-  function resize() {
-    try {
-      var h = frame.contentDocument.documentElement.scrollHeight;
-      if (h > 200) frame.style.height = h + 'px';
-    } catch(e) {}
-  }
-  frame.addEventListener('load', function() {
-    resize();
-    // Poll while Observable loads data async; the page also re-renders on
-    // state/municipality selection, so keep a slow heartbeat afterwards.
-    var checks = [300, 600, 1200, 2500, 5000];
-    checks.forEach(function(t) { setTimeout(resize, t); });
-    setInterval(resize, 4000);
-  });
-})();
-</script>
 ```

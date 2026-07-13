@@ -5,55 +5,38 @@
 // Shared by the standalone story.html (CDN imports) and the Observable
 // Framework page (npm imports). One source of truth.
 
+// Paleta Círculo Vivo v3 (tokens Figma "Colores"):
+// Equilibrio #708B8D · Transformación #395284 · Origen #BCB884 · Impacto #561427
 const MARG_LEVELS = ["Muy bajo","Bajo","Medio","Alto","Muy alto"];
+// Rampa ordinal pizarra→cobalto (interpolación OKLab, pasos validados:
+// luminosidad monótona, ΔL ≥ .06, extremo claro ≥ 2:1 sobre blanco)
 const MARG_COLORS = {
-  "Muy bajo":"#0D9B8C", "Bajo":"#52B788", "Medio":"#D4A843",
-  "Alto":"#E07B39", "Muy alto":"#C0392B"
+  "Muy bajo":"#A7B6B7", "Bajo":"#899BA5", "Medio":"#6B8196",
+  "Alto":"#4E6689", "Muy alto":"#334C7D"
 };
 // Bivariate quadrant colors (INFORMAS food env × CONAPO marginación)
 const QUAD_COLORS = {
-  "Sinergia de vulnerabilidades": "#8B1A1A",  // dark crimson: high marg + poor food env
-  "Rezago con acceso":            "#E07B39",  // orange: high marg + decent food env
-  "Riqueza sin acceso fresco":    "#4A7FA3",  // steel blue: low marg + poor food env
-  "Entorno protector":            "#0D9B8C"   // teal: low marg + good food env
+  "Sinergia de vulnerabilidades": "#561427",  // vino (Impacto): high marg + poor food env
+  "Rezago con acceso":            "#395284",  // cobalto: high marg + decent food env
+  "Riqueza sin acceso fresco":    "#BCB884",  // olivo: low marg + poor food env
+  "Entorno protector":            "#708B8D"   // pizarra: low marg + good food env
 };
 const QUAD_ORDER = [
   "Sinergia de vulnerabilidades","Rezago con acceso",
   "Riqueza sin acceso fresco","Entorno protector"
 ];
 
-const NAVY="#1B365D", TEAL="#0D9B8C", MUTED="#718096", GRID="#E4EBE8",
-      GLOBAL_COL="#94A3B8", MX_COL="#C0392B";
-const gradeColor = g => MARG_COLORS[g] ?? "#C9D3CE";
-const quadColor  = q => QUAD_COLORS[q]  ?? "#C9D3CE";
+const NAVY="#395284", TEAL="#708B8D", MUTED="#6B7280", GRID="#E9E6DD",
+      GLOBAL_COL="#9CA3AF", MX_COL="#395284";
+const gradeColor = g => MARG_COLORS[g] ?? "#E9E6DD";
+const quadColor  = q => QUAD_COLORS[q]  ?? "#E9E6DD";
 const mean = a => a.reduce((x,y)=>x+y,0)/a.length;
 
-export function initDashboard({ Plot, topojson, data, root, shinyUrl = "" }){
+export function initDashboard({ Plot, topojson, data, root }){
   renderObesity(root.querySelector("#chart-obesity"), data.obesity, Plot);
   setupMap(root, data, topojson, Plot);
   setupComparison(root, data.comparison, Plot);
   if(data.muniBivariate) setupFoodEnv(root, data, topojson, Plot);
-  wireShinyCTA(root, shinyUrl);
-}
-
-// The Shiny panel runs as a separate R process; there is no fixed URL until it is
-// launched or deployed. If a real URL is configured the button links to it; if not,
-// clicking reveals launch instructions instead of navigating to a dead path.
-function wireShinyCTA(root, shinyUrl){
-  const btn  = root.querySelector("#open-shiny");
-  const note = root.querySelector("#shiny-note");
-  if(!btn) return;
-  if(shinyUrl){
-    btn.setAttribute("href", shinyUrl);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-    return;
-  }
-  btn.setAttribute("href", "#");
-  btn.addEventListener("click", (e)=>{
-    e.preventDefault();
-    if(note) note.classList.toggle("show");
-  });
 }
 
 // Categorical marginación legend (5 tiers), rendered as HTML swatches.
@@ -108,15 +91,16 @@ function setupMap(root, data, topojson, Plot){
   const btns    = root.querySelectorAll("[data-map-level]");
   const legendEl = root.querySelector("#map-legend");
 
-  // Bivariate: inseguridad alimentaria (red axis) × empleo agropecuario (blue axis)
+  // Bivariate: inseguridad (eje cobalto) × empleo agropecuario (eje olivo),
+  // mismas cuatro esquinas que el bivariado municipal — la oscura es el mensaje
   const BIV_COLORS = {
-    "Paradoja agrícola":     "#8B1A1A",  // high insec + high agro  → crimson
-    "Inseguridad sin campo": "#D4522A",  // high insec + low agro   → orange-red
-    "Campo con seguridad":   "#1B365D",  // low insec  + high agro  → navy
-    "Entorno protector":     "#0D9B8C"   // low insec  + low agro   → teal
+    "Paradoja agrícola":     "#2A3B44",  // high insec + high agro  → mezcla oscura
+    "Inseguridad sin campo": "#395284",  // high insec + low agro   → cobalto
+    "Campo con seguridad":   "#BCB884",  // low insec  + high agro  → olivo
+    "Entorno protector":     "#E9E6DD"   // low insec  + low agro   → gris neutro
   };
   const BIV_ORDER = ["Paradoja agrícola","Inseguridad sin campo","Campo con seguridad","Entorno protector"];
-  const bivColor = q => BIV_COLORS[q] ?? "#C9D3CE";
+  const bivColor = q => BIV_COLORS[q] ?? "#FAF8F5";
 
   // ── Feature collections ────────────────────────────────────────────────────
   const muniFC = topojson.feature(data.municipios, data.municipios.objects.municipios);
@@ -181,7 +165,7 @@ function setupMap(root, data, topojson, Plot){
           Plot.geo(stateFC,{
             fill:  d=>bivColor(d.properties.bivQuad),
             fillOpacity: d=>d.properties.bivQuad ? 0.92 : 0.25,
-            stroke:"#F0F5F2", strokeWidth:0.7,
+            stroke:"white", strokeWidth:0.7,
             title: d=>{
               const p=d.properties;
               return `${p.state_name}\n${p.bivQuad ?? "sin dato"}`+
@@ -201,16 +185,16 @@ function setupMap(root, data, topojson, Plot){
         marks:[
           Plot.geo(fc,{
             fill: d=>gradeColor(d.properties.grade),
-            stroke: level==="muni" ? "white" : "#5A6B7B",
+            stroke: level==="muni" ? "white" : "#8A938F",
             strokeWidth: level==="muni" ? 0.15 : 0.6,
             title: d=> level==="muni"
               ? `${d.properties.nom}\nMarginación: ${d.properties.grade ?? "s/d"}`
               : `${d.properties.state_name}\nMarginación: ${d.properties.grade ?? "s/d"}`
           }),
           // State border overlay: keeps islands visible in all views
-          Plot.geo(stateFC,{stroke:"#5A6B7B", strokeWidth:0.45, fill:"none"}),
+          Plot.geo(stateFC,{stroke:"#8A938F", strokeWidth:0.45, fill:"none"}),
           level==="state"
-            ? Plot.geo(stateFC,{stroke:"#33475B", strokeWidth:0.9, fill:"none"})
+            ? Plot.geo(stateFC,{stroke:"#4B5A55", strokeWidth:0.9, fill:"none"})
             : null
         ].filter(Boolean)
       }));
