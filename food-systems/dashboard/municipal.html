@@ -3,275 +3,216 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sistemas Alimentarios · Nivel Municipal</title>
+<title>Sistemas Alimentarios · El mapa municipal</title>
+<meta name="description" content="Dashboard de sistemas alimentarios en los 2,469 municipios de México: agua, carencia alimentaria y entorno de comida fresca. Círculo Vivo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./src/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* page-specific: control bar, profile card, stats, bivariate legend */
-.muni-controls{
-  position:sticky; top:0; z-index:20;
-  background:rgba(235,235,235,.96); backdrop-filter:blur(4px);
-  border-bottom:1px solid var(--cv-border);
-  padding:12px 24px; display:flex; gap:18px; align-items:center; flex-wrap:wrap;
-}
-.muni-controls .ctrl-group{ display:flex; gap:8px; align-items:center; }
-.mp-card{
-  display:none; background:var(--cv-surface); border:1px solid var(--cv-border);
-  border-left:3px solid var(--cv-navy); border-radius:var(--radius);
-  padding:14px 18px; margin:14px 0; box-shadow:var(--shadow);
-}
-.mp-card.show{ display:block; }
-.mp-name{ font-weight:700; font-size:15px; color:var(--cv-navy); margin-bottom:8px; }
-.mp-state{ font-weight:400; color:var(--cv-muted); font-size:13px; margin-left:6px; }
-.mp-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px 20px; }
-.mp-grid>div{ display:flex; flex-direction:column; }
-.mp-k{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--cv-muted); }
-.mp-v{ font-size:14px; font-weight:600; color:var(--cv-text); }
-.excl-stats{ display:flex; gap:34px; flex-wrap:wrap; margin:10px 0 16px; }
-.excl-stat{ display:flex; flex-direction:column; max-width:300px; }
-.excl-num{ font-size:26px; font-weight:800; }
-.excl-lbl{ font-size:11.5px; color:var(--cv-muted); line-height:1.35; }
-.scatter-note{
-  font-size:13px; color:var(--cv-navy); background:var(--cv-teal-light);
-  border-radius:6px; padding:8px 12px; margin:8px 0 12px; font-weight:500;
-}
-.biv-legend-wrap{ display:flex; align-items:center; gap:16px; margin:6px 0 4px; }
-.method-note{ font-size:12px; color:var(--cv-muted); max-width:70ch; }
-.cmp-group{ margin-bottom:14px; }
-.cmp-group-head{
-  display:flex; align-items:center; gap:10px; width:100%;
-  background:none; border:none; border-bottom:2px solid var(--cv-border);
-  padding:8px 2px; cursor:pointer; text-align:left;
-  font:700 13px/1.2 Inter, sans-serif; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--cv-teal-dark);
-}
-.cmp-group-head .tg{
-  display:inline-flex; width:18px; height:18px; align-items:center;
-  justify-content:center; border:1.5px solid var(--cv-teal-dark);
-  border-radius:50%; font-size:13px; font-weight:600;
-}
-.cmp-group-body{ display:flex; flex-direction:column; gap:8px; padding-top:8px; }
-.cmp-group-body.closed{ display:none; }
+  body { margin: 0; padding: 0; background: #F2EFE8; color: #1C1C18; font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #395284; }
+  a:hover { color: #561427; }
+  select { font-family: inherit; }
 </style>
 </head>
 <body>
 
-<!-- ══ Masthead ══════════════════════════════════════════════════════════ -->
-<header class="masthead">
-  <div class="kicker-brand">Círculo Vivo · Sistemas Alimentarios</div>
-  <h1>2,469 municipios: el mapa fino del sistema alimentario</h1>
-  <p class="standfirst">
-    Los promedios estatales esconden el territorio. Municipio por municipio,
-    el agua que llega a las casas, la comida que falta en las mesas y los
-    comercios donde se compra lo fresco cuentan otra historia.
-  </p>
-  <p class="byline">
-    Fuentes: Consejo Nacional de Población (CONAPO), marginación 2020;
-    Consejo Nacional de Evaluación de la Política de Desarrollo Social
-    (CONEVAL), carencia alimentaria 2020; Directorio Estadístico Nacional de
-    Unidades Económicas (DENUE) del INEGI, comercios de alimentos, mayo 2026;
-    Comisión Nacional del Agua (CONAGUA), presión hídrica por cuenca, 2022.
-  </p>
-</header>
-
-<!-- ══ Sticky selectors: estado → municipio ═════════════════════════════ -->
-<div class="muni-controls">
-  <div class="ctrl-group">
-    <span class="ctrl-label">Estado</span>
-    <select id="sel-state" class="cmp-select"></select>
-  </div>
-  <div class="ctrl-group">
-    <span class="ctrl-label">Municipio</span>
-    <select id="sel-muni" class="cmp-select" style="min-width:220px"></select>
+<!-- ══ Header · top overlay bar (patrón .fig: TopAppBar) ══ -->
+<div style="padding: 17px 32px 0;">
+  <div style="border-radius: 8px; background: rgba(112,139,141,0.6); backdrop-filter: blur(4px); padding: 6px 24px; height: 65px; box-sizing: border-box; display: flex; flex-direction: row; justify-content: space-between; align-items: center; max-width: 1216px; margin: 0 auto;">
+    <div style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; line-height: 1.05; color: #FFFFFF; letter-spacing: 0.01em;">círculo<br>vivo</div>
+    <nav style="border-radius: 999px; background: rgba(255,255,255,0.5); display: flex; flex-direction: row; align-items: center; padding: 3px;">
+      <a href="story.html" style="text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; color: #1C1C18; padding: 8px 16px; border-radius: 999px;">HISTORIA</a>
+      <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; color: #FFFFFF; background: #5E7B7D; padding: 8px 16px; border-radius: 999px;">INDICADORES</span>
+    </nav>
+    <div style="width: 76px;"></div>
   </div>
 </div>
 
-<!-- ══ V0 · Comparación estatal ══════════════════════════════════════════ -->
-<section class="band">
-  <div class="band-inner">
-    <div class="section-eyebrow">Comparación estatal</div>
-    <h2 class="section-title">¿Cómo está tu estado?</h2>
-    <div class="prose narrow">
-      <p>Cada fila es un indicador; cada punto, un estado. La línea punteada
-      marca el promedio nacional. Antes de bajar al municipio, ubica la posición
-      de tu estado en cada tema.</p>
+<!-- ══ Hero ══ -->
+<section id="hero" style="padding: 56px 32px 48px; position: relative;">
+  <div style="max-width: 1080px; margin: 0 auto;">
+    <div style="display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #395284; margin-bottom: 24px;">
+      <span style="width: 26px; height: 3px; background: #395284; border-radius: 2px;"></span>
+      <span>Círculo Vivo · Sistemas Alimentarios</span>
     </div>
-    <div id="cmp-note" class="scatter-note"></div>
-    <div id="cmp-groups"></div>
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(38px, 5.6vw, 68px); line-height: 1.06; font-weight: 700; margin: 0 0 22px; color: #1C1C18; max-width: 17ch;">El hambre en México tiene código postal</h1>
+    <p style="font-size: clamp(16px, 1.9vw, 19px); line-height: 1.6; color: #4B5563; max-width: 62ch; margin: 0;">Los promedios estatales borran a la gente. Municipio por municipio, esta página sigue el agua que no llega a las casas, la comida que falta en las mesas y las tiendas donde no hay nada fresco que comprar. Detrás de cada punto hay un lugar con nombre.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 40px;">
+      <div style="background: #FFFFFF; border: 1px solid #708B8D; border-left: 4px solid #708B8D; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #6B7280; line-height: 1;">Municipios bajo la lupa</span>
+        <span id="stat-n1" style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1; color: #708B8D;">2,469</span>
+        <span style="font-size: 14px; color: #9CA3AF;">Todo el país, sin promediar</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #395284; border-left: 4px solid #395284; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #6B7280; line-height: 1;">Donde falta todo</span>
+        <span id="stat-n2" style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1; color: #395284;">83</span>
+        <span style="font-size: 14px; color: #9CA3AF;">Sin agua, comida ni comercio fresco a la vez</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #561427; border-left: 4px solid #561427; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #6B7280; line-height: 1;">Personas en esos municipios</span>
+        <span id="stat-n3" style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1; color: #561427;">1.3 M</span>
+        <span style="font-size: 14px; color: #9CA3AF;">Familias con las tres carencias encima</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 4px; max-width: 768px;">
+      <span style="font-size: 10px; letter-spacing: 0.04em; color: #395284;">FUENTES DE INFORMACIÓN</span>
+      <span style="font-size: 12px; line-height: 1.6; color: #6B7280;">CONAPO, marginación 2020 · CONEVAL, carencia alimentaria 2020 · DENUE (INEGI), comercios de alimentos, mayo 2026 · CONAGUA, presión hídrica por cuenca, 2022.</span>
+    </div>
   </div>
 </section>
 
-<!-- ══ V1 · Mapa bivariado ═══════════════════════════════════════════════ -->
-<section class="band band-alt">
-  <div class="band-inner">
-    <div class="section-eyebrow">El mapa municipal</div>
-    <h2 class="section-title">El mapa del hambre y el agua</h2>
-    <div class="prose narrow">
-      <p>Un solo mapa, dos carencias. El azul marca los municipios donde más
-      gente carece de alimentación; el verde olivo, aquellos donde las viviendas
-      no tienen agua entubada. <b>Donde el color se oscurece, las dos faltas se
-      juntan.</b> Busca tu municipio con los selectores de arriba.</p>
+<!-- ══ Sticky controls + section nav ══ -->
+<div style="position: sticky; top: 0; z-index: 20; background: rgba(242,239,232,0.96); backdrop-filter: blur(6px); border-bottom: 1px solid #E5E7EB; padding: 10px 32px;">
+  <div style="max-width: 1080px; margin: 0 auto; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7280;">Estado</span>
+      <select id="sel-state" style="font-size: 13px; font-weight: 600; color: #395284; padding: 6px 10px; border: 1.5px solid #D1C6CF; border-radius: 10px; background: #FFFFFF; cursor: pointer; min-width: 160px;"></select>
     </div>
-    <div class="biv-legend-wrap">
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7280;">Municipio</span>
+      <select id="sel-muni" style="font-size: 13px; font-weight: 600; color: #395284; padding: 6px 10px; border: 1.5px solid #D1C6CF; border-radius: 10px; background: #FFFFFF; cursor: pointer; min-width: 210px;"></select>
+    </div>
+    <span id="mp-chip" style="display: none; align-items: center; gap: 8px; font-size: 12px; background: rgba(195,210,217,0.35); border: 1px solid #C3D2D9; border-radius: 999px; padding: 4px 12px; flex-wrap: wrap;"></span>
+    <nav id="secnav" style="display: flex; gap: 2px; align-items: center; margin-left: auto; flex-wrap: wrap;"></nav>
+  </div>
+</div>
+
+<div data-loading="true" style="max-width: 1080px; margin: 14px auto 0; padding: 0 32px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #6B7280;">Cargando datos de 2,469 municipios…</div>
+
+<!-- ══ V0 · Comparación estatal ══ -->
+<section id="v0" style="padding: 56px 0;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #708B8D; margin-bottom: 10px;">Comparación estatal</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.18; color: #1C1C18; margin: 0 0 20px;">Empieza por tu estado</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16px; line-height: 1.65; color: #374151; margin: 0 0 14px;">Cada punto es un estado; la línea punteada, el promedio nacional. Antes de bajar al municipio, mira dónde queda el tuyo: <b style="color: #395284;">cruzar una frontera estatal puede cambiar lo que hay en la mesa.</b></p>
+    </div>
+    <div id="cmp-note" style="font-size: 13px; color: #395284; background: rgba(195,210,217,0.25); border-radius: 8px; padding: 8px 14px; margin: 8px 0 14px; font-weight: 500;"></div>
+    <div id="cmp-groups" style="min-height: 300px;"></div>
+  </div>
+</section>
+
+<!-- ══ V1 · Mapa bivariado ══ -->
+<section id="v1" style="padding: 56px 0; background: #FAF8F5; border-top: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #708B8D; margin-bottom: 10px;">El mapa municipal</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.18; color: #1C1C18; margin: 0 0 20px;">El mapa del hambre y el agua</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16px; line-height: 1.65; color: #374151; margin: 0 0 14px;">Un solo mapa, dos faltas. El azul cobalto marca dónde escasea la comida; el verde olivo, dónde las llaves no dan agua. <b style="color: #395284;">Donde el color se oscurece, las dos faltas se juntan en la misma casa.</b> Busca tu municipio con los selectores de arriba y el mapa lo señalará.</p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px; margin: 6px 0 4px; flex-wrap: wrap;">
       <div id="legend-biv"></div>
+      <span id="biv-count" style="font-size: 12.5px; color: #6B7280; font-style: italic;">Pasa el cursor por la leyenda para aislar cada combinación.</span>
     </div>
-    <div id="muni-profile" class="mp-card"></div>
-    <div class="chart-frame">
-      <div id="map-biv" class="chart-holder"></div>
-      <div class="chart-source">
-        Cada municipio se clasifica en tercios nacionales de ambas variables.
-        Carencia alimentaria: Consejo Nacional de Evaluación de la Política de
-        Desarrollo Social (CONEVAL), 2020; estimación oficial basada en lo que
-        los hogares reportan sobre su alimentación (ver nota al pie). Agua
-        entubada: Consejo Nacional de Población (CONAPO) con el Censo 2020.
-        Geometrías: mxmaps.
+    <div id="muni-profile" style="display: none; background: #FFFFFF; border: 1px solid #E5E7EB; border-left: 4px solid #395284; border-radius: 12px; padding: 16px 20px; margin: 14px 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"></div>
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px 24px 16px; margin-bottom: 10px;">
+      <div id="map-biv" style="width: 100%; min-height: 480px;"></div>
+      <details style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5E7EB;">
+        <summary style="font-size: 11px; font-weight: 600; color: #708B8D; cursor: pointer;">¿Cómo se midió? Fuentes y método</summary>
+        <p style="font-size: 11px; color: #6B7280; line-height: 1.5; margin: 6px 0 0; max-width: 80ch;">Cada municipio se clasifica en tercios nacionales de ambas variables. Carencia alimentaria: CONEVAL, 2020; estimación oficial basada en lo que los hogares reportan sobre su alimentación (ver nota al pie). Agua entubada: CONAPO con el Censo 2020. Geometrías: mxmaps.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ V2 · Cuencas ══ -->
+<section id="v2" style="padding: 56px 0;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #708B8D; margin-bottom: 10px;">Sostenibilidad hídrica</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.18; color: #1C1C18; margin: 0 0 20px;">Agua en los ríos, sequía en las casas</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16px; line-height: 1.65; color: #374151; margin: 0 0 14px;">El agua no respeta fronteras: se administra por cuencas. Las del norte trabajan al límite; en el Valle de México se extrae más de lo que se recarga. Y sin embargo, la mayoría de las casas sin agua entubada está en el sur, justo donde los ríos van llenos. <b style="color: #395284;">No es que falte el agua: falta el tubo.</b></p>
+    </div>
+    <div id="legend-basins" style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px;"></div>
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px 24px 16px; margin-bottom: 10px;">
+      <div id="map-basins" style="width: 100%; min-height: 480px;"></div>
+      <details style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5E7EB;">
+        <summary style="font-size: 11px; font-weight: 600; color: #708B8D; cursor: pointer;">¿Cómo se midió? Fuentes y método</summary>
+        <p style="font-size: 11px; color: #6B7280; line-height: 1.5; margin: 6px 0 0; max-width: 80ch;">Cuencas: las 13 regiones hidrológico-administrativas de CONAGUA; presión hídrica de Estadísticas del Agua en México 2023 (datos 2022); geometría de CONABIO. En azul: municipios en el peor cuarto nacional de viviendas sin agua entubada (CONAPO, Censo 2020).</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ V3 · Focalización ══ -->
+<section id="v3" style="padding: 56px 0; background: #FAF8F5; border-top: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #708B8D; margin-bottom: 10px;">Focalización</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.18; color: #1C1C18; margin: 0 0 20px;">En el norte, la falta de agua señala el hambre</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16px; line-height: 1.65; color: #374151; margin: 0 0 14px;">En Chihuahua, Durango, Nayarit o Nuevo León casi todas las viviendas tienen agua entubada. Por eso los pocos municipios donde no la hay dicen tanto: son, casi uno por uno, los mismos donde falta la comida. <b style="color: #395284;">Una lista corta de lugares donde tocar primero. Selecciona un estado y compara su patrón.</b></p>
+    </div>
+    <div id="scatter-water-note" style="font-size: 13px; color: #395284; background: rgba(195,210,217,0.25); border-radius: 8px; padding: 8px 14px; margin: 8px 0 12px; font-weight: 500;"></div>
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px 24px 16px; margin-bottom: 10px;">
+      <div id="scatter-water" style="width: 100%; min-height: 440px;"></div>
+      <div style="font-size: 10.5px; color: #6B7280; margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5E7EB; line-height: 1.5;">Cada punto es un municipio. Las líneas punteadas marcan la mitad nacional de cada variable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ V4 · Entorno alimentario ══ -->
+<section id="v4" style="padding: 56px 0;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #708B8D; margin-bottom: 10px;">Entorno alimentario</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.18; color: #1C1C18; margin: 0 0 20px;">¿Quién vive en los peores entornos?</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16px; line-height: 1.65; color: #374151; margin: 0 0 14px;">El <b style="color: #395284;">entorno saludable</b> cuenta cuántos comercios de comida fresca —fruterías, carnicerías, supermercados— hay por cada abarrote o minisúper. Lo fresco abre donde hay ciudad e ingreso, no donde hay hambre. <b style="color: #395284;">La esquina inferior derecha es el peor de los mundos:</b> mucho rezago y nada fresco que comprar en kilómetros.</p>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 24px 24px 16px; margin-bottom: 10px;">
+      <div id="scatter-quad" style="width: 100%; min-height: 440px;"></div>
+      <details style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5E7EB;">
+        <summary style="font-size: 11px; font-weight: 600; color: #708B8D; cursor: pointer;">¿Cómo se midió? Fuentes y método</summary>
+        <p style="font-size: 11px; color: #6B7280; line-height: 1.5; margin: 6px 0 0; max-width: 80ch;">Clasificación de comercios de INFORMAS, red internacional de monitoreo de entornos alimentarios (Stern et al. 2021). Las líneas punteadas marcan la mitad nacional. Fuentes: DENUE (INEGI), mayo 2026, y CONAPO, 2020.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ V5 · Los 83 (banda oscura) ══ -->
+<section id="v5" style="padding: 64px 0 72px; background: #1A1C1C; color: #FFFFFF;">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #BCB884; margin-bottom: 10px;">Zonas críticas</div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(28px, 3.6vw, 42px); line-height: 1.14; color: #FFFFFF; margin: 0 0 20px;">Los 83 municipios donde falta todo</h2>
+    <div style="max-width: 62ch;">
+      <p style="font-size: 16.5px; line-height: 1.65; color: rgba(255,255,255,0.85); margin: 0 0 14px;">Sin agua en la llave, sin comida suficiente, sin una frutería cerca. En 83 municipios las tres carencias caen sobre las mismas familias, en dos geografías: la sierra de Oaxaca, de municipios pequeños y numerosos, y el corredor indígena de la Sierra Madre Occidental, donde pueblos de más de 50 mil habitantes desaparecen dentro de los promedios de sus estados. <b style="color: #BCB884;">Estos lugares tienen nombre.</b></p>
+    </div>
+    <div id="excl-stats" style="display: flex; gap: 44px; flex-wrap: wrap; margin: 26px 0 26px;"></div>
+    <div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 22px; align-items: start;">
+      <div style="background: #FFFFFF; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); padding: 20px 20px 14px;">
+        <div id="map-excl" style="width: 100%; min-height: 420px;"></div>
+        <div style="font-size: 10.5px; color: #6B7280; margin-top: 8px; padding-top: 8px; border-top: 1px solid #E5E7EB; line-height: 1.5;">En azul: municipios en el peor cuarto nacional de las tres variables a la vez. El resto del país en gris.</div>
+      </div>
+      <div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 10px;">Los más poblados, por nombre</div>
+        <div id="excl-names" style="display: flex; flex-direction: column;"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ V2 · Cuencas ══════════════════════════════════════════════════════ -->
-<section class="band">
-  <div class="band-inner">
-    <div class="section-eyebrow">Sostenibilidad hídrica</div>
-    <h2 class="section-title">Agua en las cuencas, sequía en las casas</h2>
-    <div class="prose narrow">
-      <p>El agua no respeta fronteras estatales: se administra por cuencas.
-      Las del norte trabajan al límite y en el Valle de México se extrae más
-      agua de la que se recarga. Las del sur apenas se tocan. Sobre ese fondo,
-      los municipios en azul son aquellos donde falta agua en las viviendas:
-      <b>la mayoría está justo donde el agua sobra en los ríos.</b></p>
+<!-- ══ Footer (patrón .fig: FUENTES DE INFORMACIÓN + enlaces) ══ -->
+<footer style="background: #F0F2F5; border-top: 1px solid #E5E7EB;">
+  <div style="max-width: 1216px; margin: 0 auto; padding: 16px 32px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+    <div style="display: flex; flex-direction: column; gap: 4px; max-width: 768px;">
+      <span style="font-size: 10px; letter-spacing: 0.04em; color: #395284;">FUENTES DE INFORMACIÓN</span>
+      <span style="font-size: 12px; line-height: 1.6; color: #6B7280;">Índice de Marginación Municipal (CONAPO, 2020) · CONEVAL, 2020 · DENUE (INEGI), mayo 2026 · Estadísticas del Agua en México 2023 (CONAGUA). Análisis: R (scripts 09 a 11). Visualización: Observable Plot. Diseño: sistema Círculo Vivo.</span>
     </div>
-    <div class="map-legend" id="legend-basins" style="margin-bottom:8px"></div>
-    <div class="chart-frame">
-      <div id="map-basins" class="chart-holder"></div>
-      <div class="chart-source">
-        Cuencas: las 13 regiones hidrológico-administrativas de la Comisión
-        Nacional del Agua (CONAGUA); presión hídrica de Estadísticas del Agua
-        en México 2023 (datos 2022); geometría de la Comisión Nacional para el
-        Conocimiento y Uso de la Biodiversidad (CONABIO). En azul: municipios
-        en el peor cuarto nacional de viviendas sin agua entubada (Consejo
-        Nacional de Población, CONAPO, con el Censo 2020).
-      </div>
+    <div style="display: flex; flex-direction: row; gap: 24px; align-items: center;">
+      <a href="https://www.fao.org/measuring-hunger/access-to-food/about-the-food-insecurity-experience-scale-(fies)/es" target="_blank" rel="noopener" style="font-size: 12px; font-weight: 500; color: #395284; text-decoration: none;">Metodología FIES</a>
+      <a href="story.html" style="font-size: 12px; font-weight: 500; color: #395284; text-decoration: none;">La historia estatal</a>
     </div>
   </div>
-</section>
-
-<!-- ══ V3 · Scatter agua × carencia ══════════════════════════════════════ -->
-<section class="band band-alt">
-  <div class="band-inner">
-    <div class="section-eyebrow">Focalización</div>
-    <h2 class="section-title">En el norte, la falta de agua señala el hambre</h2>
-    <div class="prose narrow">
-      <p>Dentro de los estados donde el agua entubada es la norma (Chihuahua,
-      Nayarit, Durango, Nuevo León), los pocos municipios sin cobertura son
-      casi exactamente los municipios con carencia alimentaria.
-      <b>Selecciona un estado y compara su patrón.</b></p>
-    </div>
-    <div id="scatter-water-note" class="scatter-note"></div>
-    <div class="chart-frame">
-      <div id="scatter-water" class="chart-holder"></div>
-      <div class="chart-source">
-        Cada punto es un municipio. Las líneas punteadas marcan la mitad
-        nacional de cada variable.
-      </div>
-    </div>
+  <div style="max-width: 1216px; margin: 0 auto; padding: 0 32px 24px; font-size: 12px; color: #6B7280; line-height: 1.7; max-width: 78ch;">
+    <b style="color: #1C1C18;">Cómo se mide el hambre en esta página:</b> la inseguridad y la carencia alimentaria no se miden pesando alimentos ni contando calorías, sino preguntando a los hogares por sus experiencias: si les preocupó quedarse sin comida, si comieron menos o si dejaron de comer por falta de dinero. Es el método estándar internacional: la escala de experiencias de inseguridad alimentaria (FIES) de la FAO, aplicada en México por la ENSANUT y por CONEVAL en su versión latinoamericana. La carencia alimentaria municipal es además una estimación oficial construida con modelos; el resto de las variables proviene de censos y conteos directos.
   </div>
-</section>
-
-<!-- ══ V4 · Scatter marginación × entorno ════════════════════════════════ -->
-<section class="band">
-  <div class="band-inner">
-    <div class="section-eyebrow">Entorno alimentario</div>
-    <h2 class="section-title">¿Quién vive en los peores entornos?</h2>
-    <div class="prose narrow">
-      <p>El <b>entorno saludable</b> mide cuántos comercios de comida fresca
-      (fruterías, carnicerías, supermercados) hay por cada tienda de abarrotes
-      o minisúper. Los comercios frescos abren donde hay ciudad e ingreso, no
-      donde hay hambre. La esquina inferior derecha reúne lo peor de ambos
-      mundos: mucho rezago y casi nada fresco que comprar.</p>
-    </div>
-    <div class="chart-frame">
-      <div id="scatter-quad" class="chart-holder"></div>
-      <div class="chart-source">
-        Clasificación de comercios de INFORMAS, red internacional de monitoreo
-        de entornos alimentarios (Stern et al. 2021). Las líneas punteadas
-        marcan la mitad nacional. Fuentes: Directorio Estadístico Nacional de
-        Unidades Económicas (DENUE) del Instituto Nacional de Estadística y
-        Geografía (INEGI), mayo 2026, y Consejo Nacional de Población (CONAPO),
-        2020.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ V5 · Los 83 municipios ════════════════════════════════════════════ -->
-<section class="band band-alt">
-  <div class="band-inner">
-    <div class="section-eyebrow">Zonas críticas</div>
-    <h2 class="section-title">Los 83 municipios donde falta todo</h2>
-    <div class="prose narrow">
-      <p>Sin agua en las casas, sin alimentación suficiente y sin comercios de
-      comida fresca. 83 municipios acumulan las tres carencias a la vez, en dos
-      geografías: la sierra de Oaxaca, de municipios pequeños y numerosos, y el
-      corredor indígena de la Sierra Madre Occidental, donde municipios enteros
-      de más de 50 mil habitantes desaparecen en los promedios de sus estados.</p>
-    </div>
-    <div id="excl-stats" class="excl-stats"></div>
-    <div class="chart-frame">
-      <div id="map-excl" class="chart-holder"></div>
-      <div class="chart-source">
-        En azul: municipios en el peor cuarto nacional de las tres variables a
-        la vez (agua en vivienda, carencia alimentaria y entorno de comida
-        fresca). El resto del país en gris.
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="storyfooter">
-  Fuentes: Índice de Marginación Municipal del Consejo Nacional de Población
-  (CONAPO), 2020; Consejo Nacional de Evaluación de la Política de Desarrollo
-  Social (CONEVAL), 2020; Directorio Estadístico Nacional de Unidades
-  Económicas (DENUE) del INEGI, mayo 2026; Estadísticas del Agua en México
-  2023 de la Comisión Nacional del Agua (CONAGUA).
-  Análisis: R (scripts 09 a 11). Visualización: Observable Plot.
-  Diseño: sistema Círculo Vivo.
-  <div class="method-note" style="margin-top:8px">
-    <b>Cómo se mide el hambre en esta página:</b> la inseguridad y la carencia
-    alimentaria no se miden pesando alimentos ni contando calorías, sino
-    preguntando a los hogares por sus experiencias: si les preocupó quedarse
-    sin comida, si comieron menos o si dejaron de comer por falta de dinero.
-    Es el método estándar internacional: la
-    <a href="https://www.fao.org/measuring-hunger/access-to-food/about-the-food-insecurity-experience-scale-(fies)/es"
-    target="_blank" rel="noopener">escala de experiencias de inseguridad
-    alimentaria (FIES)</a> de la Organización de las Naciones Unidas para la
-    Alimentación y la Agricultura (FAO), aplicado en México por la Encuesta
-    Nacional de Salud y Nutrición (ENSANUT) y por CONEVAL en su versión
-    latinoamericana. La carencia alimentaria municipal
-    es además una estimación oficial construida con modelos; el resto de las
-    variables proviene de censos y conteos directos.
-  </div>
-</div>
+</footer>
 
 <script type="module">
-import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
-import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
-import { initMunicipal } from "./src/components/municipal.js";
-
-const base = "./src/data/";
-const [muni, municipios, estados, rha, comparison] = await Promise.all([
-  fetch(base + "muni_master.json").then(r => r.json()),
-  fetch(base + "municipios.topojson").then(r => r.json()),
-  fetch(base + "estados.geojson").then(r => r.json()),
-  fetch(base + "rha.geojson").then(r => r.json()),
-  fetch(base + "comparison.json").then(r => r.json())
-]);
-
-initMunicipal({ Plot, topojson,
-  data: { muni, municipios, estados, rha, comparison },
-  root: document });
+import { initMunicipalV3 } from "./src/components/municipal_v3.js";
+initMunicipalV3({ root: document, named: 12, animate: true })
+  .catch(e => console.error("municipal_v3 init failed", e));
 </script>
 </body>
 </html>

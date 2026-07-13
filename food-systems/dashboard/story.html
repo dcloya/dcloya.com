@@ -5,10 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sistemas Alimentarios en México</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
+
+<!-- ══ Header · top overlay bar (patrón .fig: TopAppBar) ══════════════════ -->
+<div style="padding: 17px 32px 0;">
+  <div style="border-radius: 8px; background: rgba(112,139,141,0.6); backdrop-filter: blur(4px); padding: 6px 24px; height: 65px; box-sizing: border-box; display: flex; flex-direction: row; justify-content: space-between; align-items: center; max-width: 1216px; margin: 0 auto;">
+    <div style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; line-height: 1.05; color: #FFFFFF; letter-spacing: 0.01em;">círculo<br>vivo</div>
+    <nav style="border-radius: 999px; background: rgba(255,255,255,0.5); display: flex; flex-direction: row; align-items: center; padding: 3px;">
+      <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; color: #FFFFFF; background: #5E7B7D; padding: 8px 16px; border-radius: 999px;">HISTORIA</span>
+      <a href="municipal.html" style="text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; color: #1C1C18; padding: 8px 16px; border-radius: 999px;">INDICADORES</a>
+    </nav>
+    <div style="width: 76px;"></div>
+  </div>
+</div>
 
 <!-- ══ Masthead ══════════════════════════════════════════════════════════ -->
 <header class="masthead">
@@ -211,19 +223,12 @@
 <div class="closing">
   <h2>Esto es el mapa. Ahora explora el territorio.</h2>
   <p>
-    Aquí contamos la historia y marcamos los elementos. Los cruces a fondo, obesidad
-    contra marginación, presión hídrica contra inseguridad, deforestación contra
-    producción y las tendencias de empleo desde 2005, viven en el panel interactivo,
-    donde puedes filtrar por estado y por año.
+    Aquí contamos la historia con los promedios estatales. Pero el hambre tiene
+    código postal: el agua que no llega a las casas, la comida que falta en las
+    mesas y los municipios donde falta todo se ven municipio por municipio,
+    en los 2,469 que tiene el país.
   </p>
-  <a class="cta" id="open-shiny" href="#">Abrir el panel de exploración →</a>
-  <div class="shiny-note" id="shiny-note">
-    El panel de exploración es una app de Shiny (R) y corre por separado. Desde la
-    carpeta del proyecto ejecuta:
-    <code>Rscript -e "shiny::runApp('shiny', launch.browser=TRUE)"</code>
-    y se abrirá en tu navegador. Cuando lo despliegues (por ejemplo en shinyapps.io),
-    pon la URL en <code>shinyUrl</code> y este botón enlazará directo.
-  </div>
+  <a class="cta" href="municipal.html">Baja al mapa municipal →</a>
 </div>
 
 <div class="storyfooter">
@@ -251,8 +256,7 @@ const [obesity, statesMarg, muniMarg, municipios, estados, comparison, muniBivar
 buildLegend(document.getElementById("map-legend"));
 initDashboard({ Plot, topojson,
   data:{ obesity, statesMarg, muniMarg, municipios, estados, comparison, muniBivariate },
-  root: document,
-  shinyUrl: "https://dcloya.shinyapps.io/shiny/" });
+  root: document });
 </script>
 </body>
 </html>
