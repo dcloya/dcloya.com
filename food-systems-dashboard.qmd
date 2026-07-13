@@ -1,7 +1,7 @@
 ---
 title: "Sistemas Alimentarios en México: el mapa municipal"
 description: "Dashboard interactivo de sistemas alimentarios en los 2,469 municipios de México: agua, carencia alimentaria y entorno de comida fresca. Círculo Vivo · Tecnológico de Monterrey."
-page-layout: full
+page-layout: custom
 toc: false
 include-in-header:
   text: |
@@ -12,14 +12,14 @@ include-in-header:
          scrollspy section nav depend on an internal viewport. */
       #dashboard-frame {
         width: 100%;
-        height: calc(100vh - 110px);
+        height: calc(100vh - 108px);
         min-height: 640px;
         border: none;
         display: block;
       }
       .fullscreen-link {
-        display: block; text-align: right; max-width: 1080px;
-        margin: 6px auto 0; padding: 0 24px;
+        display: block; text-align: right;
+        margin: 6px 0 0; padding: 0 32px;
         font-size: 13px;
       }
       .fullscreen-link a { color: #395284; text-decoration: none; font-weight: 600; }
