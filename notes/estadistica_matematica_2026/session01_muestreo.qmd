@@ -1,0 +1,121 @@
+---
+title: "S1: La distribución muestral de la media"
+subtitle: "Estadística Matemática — Maestría en Economía Aplicada"
+format: html
+filters:
+  - webr
+---
+
+# Contexto
+
+Queremos conocer el **salario mensual promedio** entre los trabajadores asalariados de una economía. No podemos encuestar a toda la población, así que tomamos una **muestra** y calculamos su promedio, $\bar X_n$.
+
+**Pregunta central de la Sesión 1:** si $\bar X_n$ depende de qué trabajadores nos tocaron en la muestra, ¿qué tan confiable es como estimador de la media poblacional $\mu$?
+
+Esta página corre R directamente en tu navegador (vía webR) — no necesitas instalar nada. Cada bloque de código es editable: cambia los valores marcados con `<-` y vuelve a correr el bloque con el botón **Run Code** para ver qué cambia.
+
+---
+
+# Parte 1: la población de salarios (simulada)
+
+Simulamos una población de salarios con una distribución log-normal —a propósito asimétrica hacia la derecha, como los salarios reales (unos pocos ingresos muy altos)—, para que en la Sesión 8 (Teorema del Límite Central) recordemos de dónde partimos.
+
+```{webr-r}
+# Parámetros de la población (en la vida real, desconocidos)
+meanlog <- 9.4   # parámetro de localización, escala logarítmica
+sdlog   <- 0.5   # parámetro de escala, escala logarítmica
+
+# Media y varianza poblacionales, fórmula cerrada para log-normal(meanlog, sdlog)
+mu_real    <- exp(meanlog + sdlog^2 / 2)
+sigma_real <- sqrt((exp(sdlog^2) - 1) * exp(2 * meanlog + sdlog^2))
+
+cat("PARÁMETROS POBLACIONALES (la verdad, que normalmente no observamos)\n")
+cat("========================================================\n")
+cat("Media poblacional (mu):    ", round(mu_real, 1), "\n")
+cat("Desv. estándar (sigma):    ", round(sigma_real, 1), "\n")
+```
+
+```{webr-r}
+# Una "población" simulada de 200,000 salarios, para visualizar su forma
+set.seed(2026)
+poblacion <- rlnorm(200000, meanlog = meanlog, sdlog = sdlog)
+
+hist(poblacion, breaks = 60, col = rgb(0.2, 0.4, 0.8, 0.6), border = "white",
+     main = "Distribución de salarios en la POBLACIÓN (simulada)",
+     xlab = "Salario mensual simulado", ylab = "Frecuencia")
+abline(v = mu_real, col = "firebrick", lwd = 3, lty = 2)
+legend("topright", legend = "Media poblacional (mu)", col = "firebrick", lwd = 3, lty = 2, bty = "n")
+
+cat("Nota la asimetría hacia la derecha: la mayoría de los salarios están\n")
+cat("por debajo de la media, pero unos pocos muy altos la jalan hacia arriba.\n")
+```
+
+---
+
+# Parte 2: una sola muestra
+
+Tomamos **una** muestra de tamaño `n` y calculamos su media, $\bar x_n$. Cambia `n` abajo y vuelve a correr el bloque — ¿qué tan cerca cae $\bar x_n$ de $\mu$ cada vez?
+
+```{webr-r}
+n <- 10   # <-- cambia el tamaño de muestra aquí
+
+muestra <- rlnorm(n, meanlog = meanlog, sdlog = sdlog)
+x_bar <- mean(muestra)
+
+cat("Media muestral (x-bar), n =", n, ":", round(x_bar, 1), "\n")
+cat("Media poblacional (mu):        ", round(mu_real, 1), "\n")
+cat("Diferencia:                    ", round(x_bar - mu_real, 1), "\n")
+
+plot(muestra, rep(0, length(muestra)), pch = 16, cex = 1.3,
+     col = adjustcolor("black", alpha.f = 0.5),
+     yaxt = "n", ylab = "", xlab = "Salario mensual simulado",
+     main = paste0("Una muestra de tamaño n = ", n))
+abline(v = x_bar, col = "firebrick", lwd = 2)
+abline(v = mu_real, col = "steelblue", lwd = 2, lty = 2)
+legend("topright", bty = "n",
+       legend = c("media muestral", "media poblacional (mu)"),
+       col = c("firebrick", "steelblue"), lty = c(1, 2), lwd = 2)
+```
+
+---
+
+# Parte 3: repetir la muestra muchas veces — la distribución muestral de $\bar X_n$
+
+$\bar X_n$ es una variable aleatoria: cada vez que resurveamos, cambia. Si repetimos el experimento `n_sims` veces, podemos ver **su propia distribución** —la distribución muestral— y compararla con lo que el Teorema de la Sesión 1 predice: $\bar X_n \approx \mathcal N(\mu, \sigma^2/n)$.
+
+Cambia `n` o `n_sims` abajo y vuelve a correr para comparar.
+
+```{webr-r}
+n      <- 10     # <-- tamaño de cada muestra
+n_sims <- 1000    # <-- número de muestras repetidas
+
+x_bars <- replicate(n_sims, mean(rlnorm(n, meanlog = meanlog, sdlog = sdlog)))
+se_teorico <- sigma_real / sqrt(n)
+
+hist(x_bars, breaks = 40, freq = FALSE, col = "steelblue", border = "white",
+     main = paste0("Distribución muestral de x-bar  (n = ", n, ", ", n_sims, " muestras)"),
+     xlab = "x-bar")
+curve(dnorm(x, mean = mu_real, sd = se_teorico), add = TRUE, col = "firebrick", lwd = 2, n = 400)
+abline(v = mu_real, col = "firebrick", lty = 2)
+
+cat("Media empírica de las x-bar's:        ", round(mean(x_bars), 1), "\n")
+cat("Desv. estándar empírica de las x-bar's:", round(sd(x_bars), 2), "\n")
+cat("Error estándar teórico  sigma/sqrt(n):  ", round(se_teorico, 2), "\n\n")
+cat("-> compara las últimas dos líneas al cambiar n arriba.\n")
+```
+
+**Preguntas para responder cambiando `n` y `n_sims` en el código:**
+
+- Al aumentar `n`, ¿la distribución muestral se concentra más alrededor de $\mu$? ¿Qué tan rápido?
+- ¿La desviación estándar empírica de las $\bar x_n$'s se acerca a $\sigma/\sqrt n$?
+- La población de salarios es asimétrica. ¿La distribución muestral de $\bar X_n$ también lo es, incluso con `n` moderada? (Un anticipo del Teorema del Límite Central, Sesión 8.)
+
+---
+
+# Para llevar
+
+- $\E[\bar X_n] = \mu$: no importa qué tan asimétrica sea la población, $\bar X_n$ es insesgado.
+- $\Var(\bar X_n) = \sigma^2/n$: la dispersión de la distribución muestral cae con $n$, a una tasa de $1/\sqrt n$.
+- Estos dos hechos —no la forma exacta de la población— son los que hacen que $\bar X_n$ sea un estimador confiable de $\mu$.
+
+Guión de clase y handout completo: ver la sección de Estadística Matemática en este mismo menú de Teaching.
