@@ -1728,78 +1728,18 @@ window.Quarto = {
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
-        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
         <li>
-    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
- <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+    <a class="dropdown-item" href="../../teaching.html">
+ <span class="dropdown-text">Ver todos los cursos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
-        <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
- <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">INTRODUCCION</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
- <span class="dropdown-text">Estructura y Objetivos</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">CONFIGURACION</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
- <span class="dropdown-text">Como Instalar R y RStudio</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Sesiones de clase (10)</li>
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
- <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/index.html">
+ <span class="dropdown-text">Estadística Matemática (2026)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
- <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
- <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
- <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
- <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
- <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
- <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
- <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
-  </li>  
-        <li class="dropdown-header">Tareas</li>
-        <li>
-    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
- <span class="dropdown-text">Tarea integradora</span></a>
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/index.html">
+ <span class="dropdown-text">Métodos Cuantitativos (2026)</span></a>
   </li>  
     </ul>
   </li>
@@ -2131,7 +2071,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">S1: La distribución muestral de la media</h1>
-<p class="subtitle lead">Estadística Matemática — Maestría en Economía Aplicada</p>
+<p class="subtitle lead">Estadística Matemática, Maestría en Economía Aplicada</p>
 </div>
 
 
@@ -2152,12 +2092,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h1>Contexto</h1>
 <p>Queremos conocer el <strong>salario mensual promedio</strong> entre los trabajadores asalariados de una economía. No podemos encuestar a toda la población, así que tomamos una <strong>muestra</strong> y calculamos su promedio, <span class="math inline">\(\bar X_n\)</span>.</p>
 <p><strong>Pregunta central de la Sesión 1:</strong> si <span class="math inline">\(\bar X_n\)</span> depende de qué trabajadores nos tocaron en la muestra, ¿qué tan confiable es como estimador de la media poblacional <span class="math inline">\(\mu\)</span>?</p>
-<p>Esta página corre R directamente en tu navegador (vía webR) — no necesitas instalar nada. Cada bloque de código es editable: cambia los valores marcados con <code>&lt;-</code> y vuelve a correr el bloque con el botón <strong>Run Code</strong> para ver qué cambia.</p>
+<p>Esta página corre R directamente en tu navegador (vía webR). No necesitas instalar nada. Cada bloque de código es editable: cambia los valores marcados con <code>&lt;-</code> y vuelve a correr el bloque con el botón <strong>Run Code</strong> para ver qué cambia.</p>
 <hr>
 </section>
 <section id="parte-1-la-población-de-salarios-simulada" class="level1">
 <h1>Parte 1: la población de salarios (simulada)</h1>
-<p>Simulamos una población de salarios con una distribución log-normal —a propósito asimétrica hacia la derecha, como los salarios reales (unos pocos ingresos muy altos)—, para que en la Sesión 8 (Teorema del Límite Central) recordemos de dónde partimos.</p>
+<p>Simulamos una población de salarios con una distribución log-normal, a propósito asimétrica hacia la derecha como los salarios reales (unos pocos ingresos muy altos), para que en la Sesión 8 (Teorema del Límite Central) recordemos de dónde partimos.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-2"></div>
@@ -2166,14 +2106,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </section>
 <section id="parte-2-una-sola-muestra" class="level1">
 <h1>Parte 2: una sola muestra</h1>
-<p>Tomamos <strong>una</strong> muestra de tamaño <code>n</code> y calculamos su media, <span class="math inline">\(\bar x_n\)</span>. Cambia <code>n</code> abajo y vuelve a correr el bloque — ¿qué tan cerca cae <span class="math inline">\(\bar x_n\)</span> de <span class="math inline">\(\mu\)</span> cada vez?</p>
+<p>Tomamos <strong>una</strong> muestra de tamaño <code>n</code> y calculamos su media, <span class="math inline">\(\bar x_n\)</span>. Cambia <code>n</code> abajo y vuelve a correr el bloque. ¿Qué tan cerca cae <span class="math inline">\(\bar x_n\)</span> de <span class="math inline">\(\mu\)</span> cada vez?</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
 <section id="parte-3-repetir-la-muestra-muchas-veces-la-distribución-muestral-de-bar-x_n" class="level1">
-<h1>Parte 3: repetir la muestra muchas veces — la distribución muestral de <span class="math inline">\(\bar X_n\)</span></h1>
-<p><span class="math inline">\(\bar X_n\)</span> es una variable aleatoria: cada vez que resurveamos, cambia. Si repetimos el experimento <code>n_sims</code> veces, podemos ver <strong>su propia distribución</strong> —la distribución muestral— y compararla con lo que el Teorema de la Sesión 1 predice: <span class="math inline">\(\bar X_n \approx \mathcal N(\mu, \sigma^2/n)\)</span>.</p>
+<h1>Parte 3: repetir la muestra muchas veces (la distribución muestral de <span class="math inline">\(\bar X_n\)</span>)</h1>
+<p><span class="math inline">\(\bar X_n\)</span> es una variable aleatoria: cada vez que resurveamos, cambia. Si repetimos el experimento <code>n_sims</code> veces, podemos ver <strong>su propia distribución</strong> (la distribución muestral) y compararla con lo que el Teorema de la Sesión 1 predice: <span class="math inline">\(\bar X_n \approx \mathcal N(\mu, \sigma^2/n)\)</span>.</p>
 <p>Cambia <code>n</code> o <code>n_sims</code> abajo y vuelve a correr para comparar.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2190,7 +2130,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <ul>
 <li><span class="math inline">\(\E[\bar X_n] = \mu\)</span>: no importa qué tan asimétrica sea la población, <span class="math inline">\(\bar X_n\)</span> es insesgado.</li>
 <li><span class="math inline">\(\Var(\bar X_n) = \sigma^2/n\)</span>: la dispersión de la distribución muestral cae con <span class="math inline">\(n\)</span>, a una tasa de <span class="math inline">\(1/\sqrt n\)</span>.</li>
-<li>Estos dos hechos —no la forma exacta de la población— son los que hacen que <span class="math inline">\(\bar X_n\)</span> sea un estimador confiable de <span class="math inline">\(\mu\)</span>.</li>
+<li>Estos dos hechos (no la forma exacta de la población) son los que hacen que <span class="math inline">\(\bar X_n\)</span> sea un estimador confiable de <span class="math inline">\(\mu\)</span>.</li>
 </ul>
 <p>Guión de clase y handout completo: ver la sección de Estadística Matemática en este mismo menú de Teaching.</p>
 
