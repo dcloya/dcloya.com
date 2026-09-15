@@ -13,7 +13,6 @@ format:
     df-print: kable
     fig-width: 8
     fig-height: 5
-engine: knitr
 filters:
   - webr
 webr:
