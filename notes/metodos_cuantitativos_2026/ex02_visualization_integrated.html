@@ -2,22 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 7–8: Prueba de Hipótesis, Valor p y Poder Estadístico – David Contreras-Loya</title>
+<title>Sesión 2: Visualización como Evidencia – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -28,23 +31,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe7020910c808501f8c9f19b9545dcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0f70c849674a990122300108587fb581.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -381,7 +384,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# set.seed() fija la semilla del generador de números aleatorios.\n# Usar la misma semilla garantiza que todos obtendremos exactamente\n# los mismos \"números aleatorios\" — indispensable para reproducibilidad.\nset.seed(2026)\n\n# Parámetros poblacionales que nosotros conocemos porque simulamos.\n# En un estudio real estos serían desconocidos.\nn              <- 60   # alumnos por grupo\nmu_control     <- 62   # media poblacional del grupo sin beca\nmu_tratamiento <- 67   # media poblacional del grupo con beca  (Δ real = 5 pts)\nsigma          <- 12   # desviación estándar poblacional (igual en ambos grupos)\n\n# rnorm(n, mean, sd) genera n observaciones de una distribución Normal(mean, sd).\n# Cada llamada produce un vector de n números.\npuntajes_control     <- rnorm(n, mean = mu_control,     sd = sigma)\npuntajes_tratamiento <- rnorm(n, mean = mu_tratamiento, sd = sigma)\n\n# Apilamos los dos vectores en un data.frame para facilitar análisis posteriores.\n# c() concatena vectores; rep(..., each = n) repite cada etiqueta n veces consecutivas.\ndatos <- data.frame(\n  puntaje = c(puntajes_control, puntajes_tratamiento),\n  grupo   = rep(c(\"Control\", \"Beca\"), each = n)\n)\n\ncat(\"Resumen por grupo\\n\")\ncat(\"─────────────────────────────────────\\n\")\n# sprintf() formatea texto con especificadores: %.1f = número con 1 decimal\ncat(sprintf(\"Control    : media = %.1f  SD = %.1f\\n\",\n            mean(puntajes_control), sd(puntajes_control)))\ncat(sprintf(\"Beca       : media = %.1f  SD = %.1f\\n\",\n            mean(puntajes_tratamiento), sd(puntajes_tratamiento)))\ncat(sprintf(\"Diferencia : %.1f puntos\\n\",\n            mean(puntajes_tratamiento) - mean(puntajes_control)))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# par(mfrow = c(filas, columnas)) divide el área gráfica en una cuadrícula.\n# c(1, 2) = 1 fila, 2 columnas → dos paneles lado a lado.\n# mar = c(abajo, izquierda, arriba, derecha) ajusta los márgenes en líneas de texto.\npar(mfrow = c(1, 2), mar = c(4, 4, 3, 1))\n\n# ══════════════════════════════════════════════════════════════════\n# PANEL IZQUIERDO: histogramas de los datos individuales\n# ══════════════════════════════════════════════════════════════════\n\n# rgb(rojo, verde, azul, alpha) define un color con transparencia.\n# Los valores van de 0 a 1. alpha = 0.55 → 55% opaco (semi-transparente),\n# lo que permite ver ambos histogramas donde se superponen.\nhist(puntajes_control,\n     col    = rgb(0.85, 0.32, 0.32, 0.55),  # rojo semi-transparente\n     breaks = 18,                             # número aproximado de barras\n     main   = \"Distribución de puntajes\",\n     xlab   = \"Puntaje matemáticas\",\n     xlim   = c(25, 105),   # forzamos el mismo rango en X para ambos histogramas\n     ylim   = c(0, 18))     # forzamos el mismo rango en Y\n\n# add = TRUE superpone el segundo histograma sobre el primero\n# en lugar de abrir una nueva figura.\nhist(puntajes_tratamiento,\n     col    = rgb(0.18, 0.62, 0.60, 0.55),  # verde-azul semi-transparente\n     breaks = 18,\n     add    = TRUE)   # ← clave: dibuja encima sin reemplazar el gráfico anterior\n\nlegend(\"topright\",\n       legend = c(\"Control\", \"Beca\"),\n       fill   = c(rgb(0.85, 0.32, 0.32, 0.55),\n                  rgb(0.18, 0.62, 0.60, 0.55)),\n       bty    = \"n\",   # sin caja alrededor de la leyenda\n       cex    = 0.9)   # tamaño del texto (0.9 = 90% del default)\n\n# ══════════════════════════════════════════════════════════════════\n# PANEL DERECHO: distribuciones muestrales del promedio\n# ══════════════════════════════════════════════════════════════════\n\n# Por el Teorema Central del Límite, si repetimos el estudio muchas veces,\n# la distribución muestral de X̄ es aproximadamente Normal con:\n#   media = μ  (la media poblacional del grupo)\n#   sd    = σ / √n  (el \"error estándar\" o SE)\n# Este SE es MUCHO más angosto que σ: con n=60, SE ≈ 12/√60 ≈ 1.55\nse <- sigma / sqrt(n)   # error estándar del promedio\n\n# seq(desde, hasta, length.out = k) genera un vector de k valores\n# igualmente espaciados entre 'desde' y 'hasta'.\n# Este \"grid\" de valores de x nos sirve para evaluar la función de densidad\n# en muchos puntos y trazar una curva suave (como un eje continuo simulado).\n# El rango cubre ± 4 errores estándar alrededor de cada media para no cortar las colas.\nx_seq <- seq(mu_control - 4 * se,      # extremo izquierdo del eje x\n             mu_tratamiento + 4 * se,   # extremo derecho del eje x\n             length.out = 400)          # resolución: 400 puntos para una curva suave\n\n# dnorm(x, mean, sd) evalúa la DENSIDAD de la Normal en cada valor de x_seq.\n# La densidad es la \"altura\" de la campana en ese punto — no es una probabilidad.\n# Para obtener probabilidades necesitamos integrar dnorm (o usar pnorm).\n# type = \"l\" → línea continua; lwd = grosor de línea\nplot(x_seq,\n     dnorm(x_seq, mean = mu_control, sd = se),   # densidad del promedio del control\n     type = \"l\", lwd = 3,\n     col  = rgb(0.85, 0.32, 0.32, 0.9),\n     main = \"Distribución muestral del promedio\",\n     xlab = expression(bar(X)),   # expression() permite símbolos matemáticos: X̄\n     ylab = \"Densidad\",\n     ylim = c(0, 0.45))\n\n# lines() agrega una curva al gráfico ya existente (no abre uno nuevo).\nlines(x_seq,\n      dnorm(x_seq, mean = mu_tratamiento, sd = se),  # densidad del promedio de beca\n      lwd = 3,\n      col = rgb(0.18, 0.62, 0.60, 0.9))\n\n# ── Sombreado de la zona de traslape ─────────────────────────────\n# El traslape visual entre las dos campanas ilustra qué tan difícil es\n# distinguir una media de la otra solo con variabilidad muestral.\n\n# Nuevo grid centrado en la zona donde ambas campanas conviven.\nx_overlap <- seq(mu_control     - 3 * se,\n                 mu_tratamiento + 3 * se,\n                 length.out = 400)\n\n# pmin(vector_a, vector_b) devuelve el MÍNIMO elemento a elemento.\n# En cada punto x del grid, el traslape está limitado por la campana más baja:\n# si en x la curva de control es más baja, el traslape no puede exceder esa altura.\ndens_min <- pmin(\n  dnorm(x_overlap, mu_control,     se),   # altura de la campana control en x\n  dnorm(x_overlap, mu_tratamiento, se)    # altura de la campana beca en x\n)\n\n# polygon() dibuja un polígono relleno definido por sus vértices (x, y).\n# Trazamos: de izquierda a derecha por la curva (dens_min), luego\n# de derecha a izquierda por el piso (ceros), cerrando el polígono.\n# rev() invierte el orden del vector para hacer el trayecto de vuelta.\npolygon(\n  c(x_overlap, rev(x_overlap)),               # coordenadas X (ida y vuelta)\n  c(dens_min,  rep(0, length(x_overlap))),    # coordenadas Y (densidad y piso)\n  col    = rgb(0.6, 0.6, 0.6, 0.35),         # gris con alta transparencia\n  border = NA                                  # sin borde visible\n)\n\n# abline(v = valor) traza una línea vertical; lty = 2 → línea punteada\nabline(v = mu_control,     lty = 2, col = rgb(0.85, 0.32, 0.32, 0.8))\nabline(v = mu_tratamiento, lty = 2, col = rgb(0.18, 0.62, 0.60, 0.8))\n\nlegend(\"topright\",\n       legend = c(\"Control\", \"Beca\", \"Traslape\"),\n       lty    = c(1, 1, NA),      # tipo de línea (NA = ninguna, solo símbolo)\n       pch    = c(NA, NA, 15),    # símbolo (15 = cuadrado relleno)\n       col    = c(rgb(0.85, 0.32, 0.32),\n                  rgb(0.18, 0.62, 0.60),\n                  rgb(0.6,  0.6,  0.6, 0.5)),\n       lwd    = 2, bty = \"n\", cex = 0.85)\n\n# Restaurar el layout de gráficos a un solo panel\npar(mfrow = c(1, 1))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# dnorm(): densidad de la distribución normal\n# ══════════════════════════════════════════════════════════════════\n\n# La densidad NO es una probabilidad — es la \"altura\" de la curva.\n# Para obtener probabilidades necesitamos integrar (o usar pnorm).\n# Por default: Normal(0,1), i.e., mean=0, sd=1.\n\ncat(\"── dnorm(): altura de la campana en x ────────────────────\\n\")\ncat(sprintf(\"  dnorm(0)              = %.4f  (máximo, centro de la campana)\\n\", dnorm(0)))\ncat(sprintf(\"  dnorm(1.96)           = %.4f  (ya estamos en la cola)\\n\",        dnorm(1.96)))\ncat(sprintf(\"  dnorm(0, mean=5, sd=2)= %.4f  (otra distribución, en x=0)\\n\",   dnorm(0, mean=5, sd=2)))\n\ncat(\"\\n\")\n\n# ══════════════════════════════════════════════════════════════════\n# pnorm(): probabilidad acumulada P(X ≤ x)  [cola izquierda por default]\n# ══════════════════════════════════════════════════════════════════\n\ncat(\"── pnorm(): área acumulada hasta x ───────────────────────\\n\")\n# lower.tail = TRUE (default) → P(X ≤ q)\ncat(sprintf(\"  pnorm(0)              = %.4f  (50%% del área a la izquierda de 0)\\n\", pnorm(0)))\ncat(sprintf(\"  pnorm(1.645)          = %.4f  (umbral α=0.05 unilateral)\\n\",          pnorm(1.645)))\ncat(sprintf(\"  pnorm(1.96)           = %.4f  (umbral α=0.025 en cada cola)\\n\",       pnorm(1.96)))\n\ncat(\"\\n\")\n# lower.tail = FALSE → P(X > q)  [cola DERECHA]\n# Equivalente a 1 - pnorm(q), pero numéricamente más preciso en colas extremas.\ncat(\"  Con lower.tail = FALSE obtenemos P(X > q):\\n\")\ncat(sprintf(\"  pnorm(1.645, lower.tail=FALSE) = %.4f  (5%% en la cola derecha)\\n\",  pnorm(1.645, lower.tail=FALSE)))\ncat(sprintf(\"  pnorm(1.96,  lower.tail=FALSE) = %.4f  (2.5%% en la cola derecha)\\n\", pnorm(1.96,  lower.tail=FALSE)))\n\ncat(\"\\n\")\n# Prueba BILATERAL: P(|X| > z) = 2 × P(X > |z|)\n# Multiplicamos por 2 porque el efecto podría estar en cualquiera de las dos colas.\n# abs() garantiza que funcione aunque el estadístico sea negativo.\nz_ej <- 2.10\ncat(sprintf(\"  Bilateral: 2 * pnorm(%.2f, lower.tail=FALSE) = %.4f\\n\",\n            z_ej, 2 * pnorm(z_ej, lower.tail=FALSE)))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# pt(): distribución t de Student — para muestras pequeñas o moderadas\n# ══════════════════════════════════════════════════════════════════\n\n# La distribución t tiene colas más pesadas que la normal:\n# con pocos grados de libertad, los valores extremos son más probables.\n# A medida que df → ∞, la t converge a la Normal(0,1).\n# pt(q, df, lower.tail) es análogo a pnorm pero requiere especificar df.\n\nt_ej <- 2.10\ndf_ej <- 20\n\ncat(sprintf(\"Con estadístico t = %.2f y df = %d\\n\\n\", t_ej, df_ej))\n\n# Cola derecha: P(T > t)\np_t_uni <- pt(t_ej, df = df_ej, lower.tail = FALSE)\n# Cola bilateral: P(|T| > t) — abs() para que funcione con t negativos\np_t_bi  <- 2 * pt(abs(t_ej), df = df_ej, lower.tail = FALSE)\n\n# Comparamos con la aproximación normal\np_z_uni <- pnorm(t_ej, lower.tail = FALSE)\np_z_bi  <- 2 * pnorm(abs(t_ej), lower.tail = FALSE)\n\ncat(\"── Valor p unilateral ─────────────────────────────────────\\n\")\ncat(sprintf(\"  pt(%.2f, df=%d, lower.tail=FALSE) = %.4f\\n\", t_ej, df_ej, p_t_uni))\ncat(sprintf(\"  pnorm(%.2f, lower.tail=FALSE)     = %.4f  (aprox. normal)\\n\", t_ej, p_z_uni))\ncat(sprintf(\"  Diferencia pt - pnorm             = %.5f\\n\\n\", p_t_uni - p_z_uni))\n\ncat(\"── Valor p bilateral ──────────────────────────────────────\\n\")\ncat(sprintf(\"  2*pt(%.2f, df=%d, lower.tail=FALSE)= %.4f\\n\", t_ej, df_ej, p_t_bi))\ncat(sprintf(\"  2*pnorm(%.2f, lower.tail=FALSE)    = %.4f  (aprox. normal)\\n\", t_ej, p_z_bi))\ncat(sprintf(\"  Diferencia                         = %.5f\\n\\n\", p_t_bi - p_z_bi))\n\ncat(\"Con df pequeño, pt() da p-valores MAYORES que pnorm().\\n\")\ncat(\"Usar pnorm() cuando n es pequeño es anticonservador:\\n\")\ncat(\"subestima la incertidumbre y rechaza H₀ con más facilidad de la debida.\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# qnorm() y qt(): cuantiles — la operación INVERSA de pnorm / pt\n# ══════════════════════════════════════════════════════════════════\n\n# Si pnorm(1.96) = 0.975, entonces qnorm(0.975) = 1.96.\n# qnorm(p) responde: ¿qué valor z deja el p% del área a su izquierda?\n# Se usa principalmente para obtener valores críticos (umbrales de rechazo).\n\ncat(\"── qnorm(): valores críticos z ────────────────────────────\\n\")\n# Prueba unilateral α=0.05: rechazamos si z > qnorm(0.95)\ncat(sprintf(\"  qnorm(0.95)  = %.4f  (valor crítico α=0.05 unilateral)\\n\",  qnorm(0.95)))\n# Prueba bilateral α=0.05: rechazamos si |z| > qnorm(0.975)\ncat(sprintf(\"  qnorm(0.975) = %.4f  (valor crítico α=0.05 bilateral)\\n\",   qnorm(0.975)))\ncat(sprintf(\"  qnorm(0.995) = %.4f  (valor crítico α=0.01 bilateral)\\n\\n\", qnorm(0.995)))\n\n# Equivalente con lower.tail = FALSE:\n# qnorm(alpha, lower.tail=FALSE) = qnorm(1 - alpha)\ncat(sprintf(\"  qnorm(0.05, lower.tail=FALSE) = %.4f  (idéntico a qnorm(0.95))\\n\\n\",\n            qnorm(0.05, lower.tail = FALSE)))\n\ncat(\"── qt(): valores críticos t (dependen de df) ──────────────\\n\")\ncat(\"  df      qt(0.975, df)   [bilateral α=0.05]\\n\")\ncat(\"  ──────────────────────────────────────────\\n\")\n# A medida que df crece, qt() converge al 1.96 de la normal\nfor (df in c(5, 10, 20, 30, 60, 120, Inf)) {\n  cat(sprintf(\"  %5g       %.4f\\n\", df, qt(0.975, df = df)))\n}\ncat(\"\\nCon df → Inf, qt() converge a qnorm(0.975) = 1.9600.\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# Mapa visual: dnorm, pnorm y qnorm sobre la misma curva\n# ══════════════════════════════════════════════════════════════════\n\n# Construimos el eje x: 500 puntos igualmente espaciados de -4 a 4.\n# 500 puntos es suficiente para que la curva se vea perfectamente suave.\nx_grid <- seq(-4, 4, length.out = 500)\n\n# Evaluamos la densidad Normal(0,1) en cada punto del grid.\n# Esto da la \"altura\" de la campana en 500 posiciones distintas.\ny_dens <- dnorm(x_grid)   # un vector de 500 alturas\n\n# Dibujamos la campana\nplot(x_grid, y_dens,\n     type = \"l\", lwd = 2.5, col = \"gray20\",\n     main = \"d / p / q — visualización en la Normal(0,1)\",\n     xlab = \"z\", ylab = \"Densidad\",\n     bty  = \"n\")\n\n# ── Región sombreada: ilustra pnorm(1.0) ─────────────────────────\n# El área sombreada va de -4 hasta z=1.0: esa área = pnorm(1.0)\nx_izq <- seq(-4, 1.0, length.out = 300)    # subgrid solo hasta z=1\n# polygon necesita un circuito cerrado: arriba por la curva (dnorm),\n# abajo por el eje (ceros). rep(0, 300) crea un vector de 300 ceros.\npolygon(c(x_izq, rev(x_izq)),\n        c(dnorm(x_izq), rep(0, 300)),\n        col = rgb(0.2, 0.5, 0.8, 0.3), border = NA)\n\n# ── Línea vertical: ilustra qnorm(0.975) = 1.96 ──────────────────\n# Este es el valor crítico bilateral para α=0.05\nabline(v = qnorm(0.975), lty = 2, col = \"firebrick\", lwd = 2)\n\n# ── Punto: ilustra dnorm(0) en el máximo de la campana ───────────\n# pch = 19 → círculo sólido; cex = tamaño\npoints(0, dnorm(0), pch = 19, col = \"darkorange\", cex = 1.5)\n\n# text() agrega una etiqueta de texto en las coordenadas (x, y)\n# adj controla la alineación horizontal: 0=izquierda, 0.5=centro, 1=derecha\ntext(-1.5, 0.12,\n     sprintf(\"pnorm(1.0) = %.3f\\n(área sombreada)\", pnorm(1.0)),\n     col = rgb(0.2, 0.5, 0.8), cex = 0.85)\ntext(2.6, 0.15,\n     sprintf(\"qnorm(0.975)\\n= %.4f\", qnorm(0.975)),\n     col = \"firebrick\", cex = 0.85)\ntext(0.1, dnorm(0) - 0.04,\n     sprintf(\"dnorm(0) = %.4f\", dnorm(0)),\n     col = \"darkorange\", cex = 0.85, adj = 0)\n\ncat(\"Recuerda la familia d/p/q/r:\\n\")\ncat(\"  dnorm(x)         → altura de la curva en x          (densidad)\\n\")\ncat(\"  pnorm(x)         → área acumulada P(X ≤ x)          (probabilidad)\\n\")\ncat(\"  qnorm(p)         → valor x tal que P(X ≤ x) = p     (cuantil / inversa)\\n\")\ncat(\"  rnorm(n)         → genera n valores aleatorios       (simulación)\\n\")\ncat(\"\\n\")\ncat(\"  dt / pt / qt / rt → lo mismo para la t de Student\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ══════════════════════════════════════════════════════════════════\n# RESUMEN EJECUTIVO: ¿cuándo usar cada función para un valor p?\n# ══════════════════════════════════════════════════════════════════\n\ncat(\"╔══════════════════════════════════════════════════════════════════╗\\n\")\ncat(\"║         OBTENER UN VALOR p DADO UN ESTADÍSTICO DE PRUEBA        ║\\n\")\ncat(\"╠══════════════════════════════════════════════════════════════════╣\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Tengo un estadístico z (o n ≥ 100, aproximo con normal):       ║\\n\")\ncat(\"║    Unilateral derecha  : pnorm(z, lower.tail = FALSE)           ║\\n\")\ncat(\"║    Unilateral izquierda: pnorm(z)                               ║\\n\")\ncat(\"║    Bilateral           : 2 * pnorm(abs(z), lower.tail = FALSE)  ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Tengo un estadístico t (n < 100, usar t de Student):           ║\\n\")\ncat(\"║    Unilateral derecha  : pt(t, df, lower.tail = FALSE)          ║\\n\")\ncat(\"║    Unilateral izquierda: pt(t, df)                              ║\\n\")\ncat(\"║    Bilateral           : 2 * pt(abs(t), df, lower.tail = FALSE) ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Quiero el VALOR CRÍTICO (umbral de rechazo de H₀):             ║\\n\")\ncat(\"║    Normal unilateral   : qnorm(1 - alpha)                       ║\\n\")\ncat(\"║    Normal bilateral    : qnorm(1 - alpha/2)                     ║\\n\")\ncat(\"║    t unilateral        : qt(1 - alpha, df)                      ║\\n\")\ncat(\"║    t bilateral         : qt(1 - alpha/2, df)                    ║\\n\")\ncat(\"║                                                                  ║\\n\")\ncat(\"║  Regla práctica de convergencia:                                 ║\\n\")\ncat(\"║    n ≥ 100  → pnorm() y qnorm() son suficientemente precisos    ║\\n\")\ncat(\"║    n <  100 → usa siempre pt() y qt()                           ║\\n\")\ncat(\"╚══════════════════════════════════════════════════════════════════╝\\n\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"H₀: las becas no cambian el puntaje promedio\\n\")\ncat(\"H₁: las becas aumentan el puntaje promedio\\n\\n\")\ncat(\"Nivel de significancia: α = 0.05\\n\")\ncat(\"  → Aceptamos un 5% de probabilidad de rechazar H₀\\n\")\ncat(\"    cuando en realidad es verdadera (error tipo I).\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# mean() y sd() calculan la media y la desviación estándar MUESTRALES\nx_beca    <- mean(puntajes_tratamiento)\nx_control <- mean(puntajes_control)\ns_beca    <- sd(puntajes_tratamiento)\ns_control <- sd(puntajes_control)\n\n# Error estándar de la diferencia de medias (fórmula de Welch).\n# sqrt() = raíz cuadrada; ^2 = elevar al cuadrado.\n# Dividimos la varianza (s²) de cada grupo entre su n y sumamos.\nse_diff <- sqrt(s_beca^2 / n + s_control^2 / n)\n\n# El estadístico t es la diferencia observada medida en unidades de SE.\n# Un t grande (en valor absoluto) significa que la diferencia es\n# muy inusual bajo H₀ (donde esperaríamos t ≈ 0).\nt_stat <- (x_beca - x_control) / se_diff\n\ncat(\"─── Ingredientes ──────────────────────────────────\\n\")\ncat(sprintf(\"  Media beca    : %.3f\\n\", x_beca))\ncat(sprintf(\"  Media control : %.3f\\n\", x_control))\ncat(sprintf(\"  Diferencia    : %.3f puntos\\n\", x_beca - x_control))\ncat(sprintf(\"  SE diferencia : %.3f\\n\", se_diff))\ncat(\"───────────────────────────────────────────────────\\n\")\ncat(sprintf(\"  t calculado   : %.4f\\n\\n\", t_stat))\ncat(sprintf(\"  La diferencia de %.2f pts equivale a %.2f errores\\n\",\n            x_beca - x_control, t_stat))\ncat(\"  estándar por encima de cero.\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Grados de libertad de Welch — fórmula de Satterthwaite.\n# \"Penaliza\" cuando las varianzas o tamaños muestrales difieren entre grupos.\n# El resultado es un número no entero, menor o igual que n1 + n2 - 2.\nnu_welch <- (s_beca^2/n + s_control^2/n)^2 /\n            ((s_beca^2/n)^2 / (n - 1) + (s_control^2/n)^2 / (n - 1))\n\ncat(sprintf(\"Grados de libertad de Welch: %.1f\\n\\n\", nu_welch))\n\n# ── Valor p con distribución t (correcto para muestras finitas) ──\n# pt(q, df, lower.tail = FALSE) calcula P(T > q) bajo la t con 'df' gl.\n# Es el área de la COLA DERECHA: la probabilidad de observar\n# un t tan grande o mayor, ASUMIENDO que H₀ es verdadera.\npval_t_uni <- pt(t_stat, df = nu_welch, lower.tail = FALSE)\n\n# Para prueba bilateral multiplicamos por 2 (ambas colas son igualmente extremas).\n# abs() garantiza que tomamos la cola correcta sin importar el signo de t.\npval_t_bi  <- 2 * pt(abs(t_stat), df = nu_welch, lower.tail = FALSE)\n\n# ── Valor p con distribución normal (aproximación para n grande) ─\n# pnorm() asume que el estadístico sigue exactamente una Normal(0,1).\n# Con n ≥ 100 la aproximación es excelente; con n < 100 subestima el p-valor.\npval_z_uni <- pnorm(t_stat, lower.tail = FALSE)\npval_z_bi  <- 2 * pnorm(abs(t_stat), lower.tail = FALSE)\n\ncat(\"── pt(): distribución t de Student (recomendado) ──────────\\n\")\ncat(sprintf(\"  Unilateral: pt(%.3f, df=%.0f, lower.tail=FALSE) = %.4f\\n\",\n            t_stat, nu_welch, pval_t_uni))\ncat(sprintf(\"  Bilateral : 2*pt(|t|, df=%.0f, lower.tail=FALSE)= %.4f\\n\\n\",\n            nu_welch, pval_t_bi))\n\ncat(\"── pnorm(): aproximación normal estándar ───────────────────\\n\")\ncat(sprintf(\"  Unilateral: pnorm(%.3f, lower.tail=FALSE) = %.4f\\n\",\n            t_stat, pval_z_uni))\ncat(sprintf(\"  Bilateral : 2*pnorm(|t|, lower.tail=FALSE)= %.4f\\n\\n\",\n            pval_z_bi))\n\ncat(\"── Diferencia entre ambas aproximaciones ───────────────────\\n\")\ncat(sprintf(\"  Δ unilateral = %.5f\\n\", pval_t_uni - pval_z_uni))\ncat(sprintf(\"  Con n=%d por grupo la diferencia es pequeña.\\n\", n))\ncat(\"  Con n=10 sería mucho mayor — siempre usa pt() con n < 100.\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# t.test() ejecuta internamente los tres pasos anteriores.\n# alternative = \"greater\" → prueba unilateral H₁: grupo1 > grupo2.\n# El primer argumento es el grupo que queremos probar que es \"mayor\".\nresultado <- t.test(puntajes_tratamiento, puntajes_control,\n                    alternative = \"greater\")\n\ncat(\"─── Verificación con t.test() ──────────────────────────────\\n\")\n# Los resultados se extraen con $ del objeto que devuelve t.test()\ncat(sprintf(\"  t            : %.4f  (coincide con nuestro cálculo: %.4f)\\n\",\n            resultado$statistic, t_stat))\ncat(sprintf(\"  gl (Welch)   : %.1f\\n\",  resultado$parameter))\ncat(sprintf(\"  p-valor      : %.4f\\n\",  resultado$p.value))\ncat(sprintf(\"  IC 95%%       : [%.2f, Inf]\\n\", resultado$conf.int[1]))\ncat(\"\\n\")\n\nif (resultado$p.value < 0.05) {\n  cat(\"✅ Rechazamos H₀ (p < 0.05)\\n\")\n  cat(\"   Hay evidencia de que las becas aumentan el puntaje en matemáticas.\\n\")\n} else {\n  cat(\"⚠️  No rechazamos H₀ (p ≥ 0.05)\\n\")\n  cat(\"   La evidencia no es suficiente para concluir que hay efecto.\\n\")\n}","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Grid de x: cubre ± 4 unidades de la distribución t.\n# Con df moderados la t se parece mucho a la normal, pero tiene colas más pesadas.\nx_t <- seq(-4, 4, length.out = 500)\n\n# dt(x, df) evalúa la densidad de la t de Student en cada punto del grid.\n# Es el equivalente a dnorm() pero para la distribución t.\nplot(x_t, dt(x_t, df = nu_welch),\n     type = \"l\", lwd = 2.5, col = \"gray20\",\n     main = sprintf(\"Distribución t bajo H₀  (df = %.0f)  —  valor p unilateral\",\n                    nu_welch),\n     xlab = \"Estadístico t\", ylab = \"Densidad\",\n     bty  = \"n\")\n\n# Sombreamos el área a la DERECHA del t observado.\n# Esa área ES el valor p: P(T > t_observado | H₀ verdadera).\n# Solo tomamos los puntos del grid que están a la derecha de t_stat.\nx_shade <- seq(t_stat, 4, length.out = 200)\npolygon(\n  c(x_shade, rev(x_shade)),\n  c(dt(x_shade, df = nu_welch), rep(0, 200)),  # dt() da la altura de la curva t\n  col    = rgb(0.85, 0.32, 0.32, 0.5),\n  border = NA\n)\n\n# Línea vertical en el t observado\nabline(v = t_stat, lty = 2, col = \"firebrick\", lwd = 2)\n\n# qt(0.95, df) devuelve el cuantil 95 de la t: el umbral de rechazo.\n# Si t_observado > valor_critico → rechazamos H₀ a α=0.05 unilateral.\nvalor_critico <- qt(0.95, df = nu_welch)\nabline(v = valor_critico, lty = 3, col = \"navy\", lwd = 1.8)\n\nlegend(\"topright\",\n       legend = c(\n         sprintf(\"t observado = %.2f\",           t_stat),\n         sprintf(\"valor crítico (α=0.05) = %.2f\", valor_critico),\n         sprintf(\"p-valor = %.4f  (área roja)\",   pval_t_uni)\n       ),\n       lty = c(2, 3, NA), pch = c(NA, NA, 15),\n       col = c(\"firebrick\", \"navy\", rgb(0.85, 0.32, 0.32, 0.5)),\n       lwd = 2, bty = \"n\", cex = 0.85)","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función que estima el poder mediante simulación Monte Carlo.\n# Repite el experimento nsims veces y cuenta cuántas veces rechazamos H₀.\ncalcular_poder <- function(n_por_grupo,   # alumnos por brazo\n                           delta,          # efecto real (diferencia de medias)\n                           sigma  = 12,   # desviación estándar (asumida igual)\n                           nsims  = 800,  # repeticiones del experimento simulado\n                           alpha  = 0.05) # nivel de significancia\n{\n  rechazos <- 0L   # contador de rechazos (sufijo L = tipo entero)\n\n  for (i in seq_len(nsims)) {\n    # Simulamos un nuevo experimento con el mismo diseño\n    ctrl <- rnorm(n_por_grupo, mean = 0,     sd = sigma)\n    trt  <- rnorm(n_por_grupo, mean = delta, sd = sigma)\n\n    # Prueba t unilateral y extraemos solo el p-valor con $p.value\n    p <- t.test(trt, ctrl, alternative = \"greater\")$p.value\n\n    # Contamos si rechazamos H₀ en esta simulación\n    if (p < alpha) rechazos <- rechazos + 1L\n  }\n\n  # Poder empírico = proporción de simulaciones donde rechazamos\n  return(rechazos / nsims)\n}\n\n# sapply(vector, funcion) aplica la función a cada elemento del vector\n# y devuelve un vector de resultados — equivalente a un bucle for simplificado.\ntamanos <- seq(20, 300, by = 20)\npoder_5 <- sapply(tamanos, calcular_poder, delta = 5)   # Δ = 5 puntos\npoder_3 <- sapply(tamanos, calcular_poder, delta = 3)   # Δ = 3 puntos\n\nplot(tamanos, poder_5, type = \"b\", pch = 19, lwd = 2, col = \"steelblue\",\n     main = \"Poder estadístico vs tamaño de muestra\",\n     xlab = \"n por grupo\", ylab = \"Poder (1 − β)\", ylim = c(0, 1), bty = \"n\")\nlines(tamanos, poder_3, type = \"b\", pch = 17, lwd = 2, col = \"darkorange\")\nabline(h = 0.80, lty = 2, col = \"gray40\")   # umbral convencional del 80%\nlegend(\"bottomright\",\n       legend = c(\"Δ = 5 pts\", \"Δ = 3 pts\", \"Poder = 80%\"),\n       col    = c(\"steelblue\", \"darkorange\", \"gray40\"),\n       lty    = c(1, 1, 2), pch = c(19, 17, NA), lwd = 2, bty = \"n\")","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función para calcular poder con diseño clusterizado.\n# Simula un modelo de efectos aleatorios de dos niveles:\n#   Nivel 1: alumnos (variabilidad dentro del clúster)\n#   Nivel 2: escuelas (variabilidad entre clústeres)\npoder_cluster <- function(n_clusters,   # número de escuelas por brazo\n                          m,            # alumnos por escuela\n                          icc,          # ICC: proporción de varianza entre clústeres\n                          delta,        # efecto real (diferencia de medias)\n                          sigma  = 12,  # sd total (se descompone según el ICC)\n                          nsims  = 600,\n                          alpha  = 0.05) {\n\n  # Descomponemos la varianza total usando el ICC:\n  #   σ²_total = σ²_entre + σ²_dentro\n  #   ICC = σ²_entre / σ²_total  →  σ_entre = sqrt(ICC) * sigma\n  sigma_entre  <- sqrt(icc) * sigma        # variabilidad entre escuelas\n  sigma_dentro <- sqrt(1 - icc) * sigma    # variabilidad dentro de cada escuela\n\n  rechazos <- 0L\n  for (i in seq_len(nsims)) {\n    # CONTROL: primero sorteamos el \"efecto escuela\" (intercepto aleatorio por clúster)\n    # rnorm(n_clusters, 0, sigma_entre) genera un desvío por escuela alrededor de 0\n    u_ctrl <- rnorm(n_clusters, mean = 0, sd = sigma_entre)\n\n    # Para cada escuela, generamos m alumnos alrededor del efecto de ESA escuela.\n    # lapply devuelve una LISTA (un elemento por escuela).\n    # unlist() la convierte en un vector plano de n_clusters * m elementos.\n    ctrl <- unlist(lapply(u_ctrl, function(u) rnorm(m, mean = u, sd = sigma_dentro)))\n\n    # TRATAMIENTO: igual que control, pero la media de cada escuela es delta más alta\n    u_trt <- rnorm(n_clusters, mean = delta, sd = sigma_entre)\n    trt   <- unlist(lapply(u_trt, function(u) rnorm(m, mean = u, sd = sigma_dentro)))\n\n    p <- t.test(trt, ctrl, alternative = \"greater\")$p.value\n    if (p < alpha) rechazos <- rechazos + 1L\n  }\n  rechazos / nsims\n}\n\n# ── Gráfica 1: poder vs N° clústeres, por distintos ICC ──────────\nicc_vals  <- c(0.00, 0.05, 0.15, 0.30)\nn_clust_v <- seq(5, 40, by = 5)   # clústeres por brazo\nm_fijo    <- 20                    # alumnos por escuela (constante)\ndelta     <- 5\n\ncolores <- c(\"gray50\", \"steelblue\", \"darkorange\", \"firebrick\")\n\n# plot(NULL, ...) crea un lienzo en blanco con los ejes definidos;\n# luego añadimos las curvas con lines() en el bucle.\nplot(NULL, xlim = range(n_clust_v), ylim = c(0, 1),\n     main = sprintf(\"Poder vs N° clústeres  (m = %d alumnos/escuela, Δ = %d pts)\",\n                    m_fijo, delta),\n     xlab = \"Clústeres por brazo\", ylab = \"Poder (1 − β)\", bty = \"n\")\nabline(h = 0.80, lty = 2, col = \"gray70\")\n\nfor (j in seq_along(icc_vals)) {\n  # Para cada ICC calculamos el poder para cada tamaño de clúster\n  pod <- sapply(n_clust_v, function(nc)\n    poder_cluster(nc, m = m_fijo, icc = icc_vals[j], delta = delta))\n  lines(n_clust_v, pod, type = \"b\", pch = 19, lwd = 2, col = colores[j])\n}\nlegend(\"bottomright\", legend = paste0(\"ICC = \", icc_vals),\n       col = colores, lty = 1, lwd = 2, pch = 19, bty = \"n\")","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ── Gráfica 2: con ICC alto, ¿conviene más clústeres o más alumnos? ──\nicc_alto <- 0.20\nm_vals   <- c(5, 10, 20, 40)   # distintos tamaños de clúster a comparar\nn_c_v    <- seq(5, 50, by = 5)\n\nplot(NULL, xlim = range(n_c_v), ylim = c(0, 1),\n     main = sprintf(\"ICC = %.2f: ¿más clústeres o más alumnos/clúster?\", icc_alto),\n     xlab = \"Clústeres por brazo\", ylab = \"Poder (1 − β)\", bty = \"n\")\nabline(h = 0.80, lty = 2, col = \"gray70\")\n\npal <- c(\"steelblue\", \"darkorange\", \"firebrick\", \"forestgreen\")\nfor (j in seq_along(m_vals)) {\n  pod <- sapply(n_c_v, function(nc)\n    poder_cluster(nc, m = m_vals[j], icc = icc_alto, delta = delta))\n  lines(n_c_v, pod, type = \"b\", pch = 19, lwd = 2, col = pal[j])\n}\nlegend(\"bottomright\", legend = paste0(\"m = \", m_vals, \" alumnos/escuela\"),\n       col = pal, lty = 1, lwd = 2, pch = 19, bty = \"n\")\n\ncat(\"\\n💡 LECCIÓN CLAVE con ICC alto:\\n\")\ncat(\"   Cuando ρ es alto, duplicar el tamaño del clúster aporta poco poder.\\n\")\ncat(\"   La ganancia en poder viene de muestrear MÁS clústeres,\\n\")\ncat(\"   aunque cada uno tenga pocos alumnos.\\n\\n\")\ncat(\"   Intuición: si todos los alumnos de una escuela son muy similares\\n\")\ncat(\"   (ICC alto), el alumno 21 casi no aporta información nueva.\\n\")\ncat(\"   En cambio, incorporar una escuela nueva sí añade información genuina.\\n\")","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(42)\n\n# Escenario A: efecto GRANDE, muestra PEQUEÑA → posiblemente no significativo\nnA       <- 18\ngrA_ctrl <- rnorm(nA, mean = 60, sd = 14)\ngrA_trt  <- rnorm(nA, mean = 70, sd = 14)   # +10 puntos reales\ntA       <- t.test(grA_trt, grA_ctrl, alternative = \"greater\")\n\n# Escenario B: efecto TRIVIAL, muestra ENORME → muy significativo\nnB       <- 2000\ngrB_ctrl <- rnorm(nB, mean = 60, sd = 14)\ngrB_trt  <- rnorm(nB, mean = 61.2, sd = 14) # +1.2 puntos reales\ntB       <- t.test(grB_trt, grB_ctrl, alternative = \"greater\")\n\ncat(\"══════════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"  Escenario A: n = %d,   Δ real = 10 pts\\n\", nA))\ncat(sprintf(\"    t = %.3f   p = %.3f  → %s\\n\",\n            tA$statistic, tA$p.value,\n            ifelse(tA$p.value < 0.05, \"✅ Significativo\", \"⚠️  No significativo\")))\ncat(sprintf(\"  Escenario B: n = %d,  Δ real = 1.2 pts\\n\", nB))\ncat(sprintf(\"    t = %.3f   p = %.4f  → %s\\n\",\n            tB$statistic, tB$p.value,\n            ifelse(tB$p.value < 0.05, \"✅ Significativo\", \"⚠️  No significativo\")))\ncat(\"══════════════════════════════════════════════════════════════\\n\")\ncat(\"  LECCIÓN: Con n suficientemente grande, CUALQUIER diferencia\\n\")\ncat(\"  se vuelve estadísticamente significativa — aunque sea trivial.\\n\")\ncat(\"  Con n pequeño, un efecto grande puede pasar desapercibido.\\n\")\ncat(\"══════════════════════════════════════════════════════════════\\n\")","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función analítica para el MDE de una prueba t de dos muestras independientes\nmde_analitico <- function(n,              # alumnos por grupo\n                          sigma  = 12,   # sd poblacional\n                          alpha  = 0.05, # nivel de significancia\n                          poder  = 0.80) # poder objetivo\n{\n  # qnorm(1 - alpha) → z que deja alpha de probabilidad en la cola derecha.\n  # Para H₁ unilateral con α=0.05: qnorm(0.95) ≈ 1.645.\n  # Este es el \"umbral de rechazo\": t necesita superar este valor para p < α.\n  z_alpha <- qnorm(1 - alpha)\n\n  # qnorm(poder) → cuántas SEs adicionales necesitamos para que la distribución\n  # bajo H₁ tenga el 'poder'% de probabilidad de superar el umbral de rechazo.\n  # Con poder=0.80: qnorm(0.80) ≈ 0.842.\n  z_beta  <- qnorm(poder)\n\n  # SE de la diferencia de medias cuando los dos grupos tienen el mismo tamaño n\n  se      <- sigma * sqrt(2 / n)\n\n  # El MDE resulta de despejar Δ de la condición: Δ/SE = z_alpha + z_beta\n  mde     <- (z_alpha + z_beta) * se\n  return(mde)\n}\n\ntamanos_mde <- c(20, 40, 60, 100, 150, 200, 300, 500)\n# sapply aplica mde_analitico() a cada elemento del vector y devuelve un vector\nmde_vals    <- sapply(tamanos_mde, mde_analitico)\n\ncat(\"─────────────────────────────────────────────────────\\n\")\ncat(\"  n por grupo   MDE (pts)   MDE / media control (%)\\n\")\ncat(\"─────────────────────────────────────────────────────\\n\")\nfor (i in seq_along(tamanos_mde)) {\n  cat(sprintf(\"  %5d         %5.2f       %5.1f%%\\n\",\n              tamanos_mde[i], mde_vals[i], 100 * mde_vals[i] / 62))\n}\ncat(\"─────────────────────────────────────────────────────\\n\")\ncat(\"  Supuestos: σ = 12, α = 0.05, poder = 80%, unilateral\\n\")\n\nplot(tamanos_mde, mde_vals, type = \"b\", pch = 19, lwd = 2, col = \"steelblue\",\n     main = \"Efecto Mínimo Detectable vs Tamaño de Muestra\\nBecas para Todos  (σ = 12, α = 0.05, poder = 80%)\",\n     xlab = \"n por grupo\", ylab = \"MDE (puntos de puntaje)\", bty = \"n\")\nabline(h = 5, lty = 2, col = \"firebrick\",  lwd = 1.5)\nabline(h = 3, lty = 2, col = \"darkorange\", lwd = 1.5)\nlegend(\"topright\",\n       legend = c(\"MDE\", \"Umbral 5 pts (mín. relevante)\", \"Umbral 3 pts (ambicioso)\"),\n       col    = c(\"steelblue\", \"firebrick\", \"darkorange\"),\n       lty    = c(1, 2, 2), pch = c(19, NA, NA), lwd = 2, bty = \"n\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# which(condicion) devuelve los ÍNDICES donde la condición es TRUE.\n# [1] selecciona el primero: el n más pequeño que ya satisface la condición.\nn_necesario_5 <- tamanos_mde[which(mde_vals <= 5)[1]]\nn_necesario_3 <- tamanos_mde[which(mde_vals <= 3)[1]]\n\ncat(sprintf(\"  MDE ≤ 5 pts → n ≈ %d por grupo\\n\", n_necesario_5))\ncat(sprintf(\"  MDE ≤ 3 pts → n ≈ %d por grupo\\n\\n\", n_necesario_3))\n\ncat(\"═══════════════════════════════════════════════════════\\n\")\ncat(\"  CÓMO USAR EL MDE EN LA PRÁCTICA\\n\")\ncat(\"═══════════════════════════════════════════════════════\\n\")\ncat(\"  ANTES de recolectar datos:\\n\")\ncat(\"   1. Define el efecto mínimo relevante para la política.\\n\")\ncat(\"   2. Calcula el MDE con el n disponible.\\n\")\ncat(\"   3. Si MDE > efecto relevante: el estudio está subpotenciado.\\n\\n\")\ncat(\"  DESPUÉS de recolectar datos:\\n\")\ncat(\"   • p < 0.05                          → resultado significativo\\n\")\ncat(\"   • p > 0.05 y MDE > efecto relevante → falta poder (no evidencia)\\n\")\ncat(\"   • p > 0.05 y MDE < efecto relevante → evidencia de ausencia\\n\")\ncat(\"═══════════════════════════════════════════════════════\\n\")","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"icc_grid <- c(0, 0.05, 0.10, 0.20)\nm_grid   <- c(5, 10, 20, 30, 50)\nn_total  <- 120   # observaciones totales por brazo (presupuesto fijo)\n\ncat(\"MDE (puntos) según ICC y tamaño de clúster\\n\")\ncat(sprintf(\"n total por brazo = %d  |  σ = 12  |  α=0.05  |  poder=80%%\\n\\n\", n_total))\n\n# Construimos el encabezado de la tabla dinámicamente con paste0()\nheader <- sprintf(\"  %-8s\", \"ICC \\\\ m\")\nfor (m in m_grid) header <- paste0(header, sprintf(\"  m=%2d\", m))\ncat(header, \"\\n\")\ncat(strrep(\"─\", nchar(header) + 2), \"\\n\")   # strrep repite un string n veces\n\nfor (rho in icc_grid) {\n  fila <- sprintf(\"  ICC=%.2f\", rho)\n  for (m in m_grid) {\n    # DEFF: factor por el que se infla el n efectivo necesario por el clustering\n    deff       <- 1 + (m - 1) * rho\n    # n efectivo: las n_total observaciones \"valen menos\" en presencia de clustering\n    n_efectivo <- n_total / deff\n    # El MDE se calcula con el n efectivo ya deflactado por el DEFF\n    mde_cl     <- mde_analitico(n = n_efectivo)\n    fila       <- paste0(fila, sprintf(\"  %5.2f\", mde_cl))\n  }\n  cat(fila, \"\\n\")\n}\ncat(strrep(\"─\", nchar(header) + 2), \"\\n\")\ncat(\"  (MDE simple con n=120: \", round(mde_analitico(120), 2), \" pts)\\n\")","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# Simulación de datos educativos\nset.seed(2026)\nn_urbano <- 80\nn_rural <- 40\n\n# Escuelas URBANAS: mayor presupuesto pero más variabilidad\npresup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD\n# Efecto del presupuesto + ruido + efecto fijo urbano\npuntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5\n\n# Escuelas RURALES: menor presupuesto, mayor efecto marginal\npresup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)\n# Efecto más fuerte del presupuesto en contexto rural\npuntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)\n\n# Crear base de datos\nescuelas <- data.frame(\n  id_escuela = 1:(n_urbano + n_rural),\n  presupuesto_anual_kusd = c(presup_urbano, presup_rural),\n  puntaje_prueba = c(puntaje_urbano, puntaje_rural),\n  tipo = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Asegurar que puntajes estén en rango válido\nescuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))\n\n# Vista previa\nhead(escuelas, 10)\ncat(\"\\n📚 Total de escuelas:\", nrow(escuelas), \"\\n\")\ncat(\"   - Urbanas:\", n_urbano, \"\\n\")\ncat(\"   - Rurales:\", n_rural, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Función para calcular estadísticas completas\nresumen_estadistico <- function(x) {\n  c(\n    n = length(x),\n    Media = mean(x),\n    Mediana = median(x),\n    DE = sd(x),\n    Min = min(x),\n    P25 = quantile(x, 0.25),\n    P75 = quantile(x, 0.75),\n    Max = max(x),\n    IQR = IQR(x)\n  )\n}\n\ncat(\"\\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)\n\ncat(\"\\n\\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)\n\n# Tabla comparativa lado a lado\ncat(\"\\n\\n📋 COMPARACIÓN DIRECTA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-25s %12s %12s %12s\\n\", \"Variable\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"───────────────────────────────────────────────────────────\\n\")\n\n# Puntaje promedio\npunt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\npunt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje promedio\", \n            punt_urb, punt_rur, punt_urb - punt_rur))\n\n# Puntaje mediano\nmed_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\nmed_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje mediano\", \n            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))\n\n# Presupuesto promedio\npres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"])\npres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Presupuesto (kUSD)\", \n            pres_urb, pres_rur, pres_urb - pres_rur))\n\n# Dispersión (IQR)\niqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\niqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"IQR Puntaje\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot básico pero informativo\nboxplot(puntaje_prueba ~ tipo, \n        data = escuelas,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Distribución de Puntajes por Tipo de Escuela\",\n        ylab = \"Puntaje en Prueba Estandarizada (0-100)\",\n        xlab = \"Tipo de Escuela\",\n        border = \"gray30\",\n        notch = FALSE,\n        horizontal = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 1.2)\n\n# Agregar línea de referencia: puntaje mínimo aceptable\nabline(h = 60, col = \"orange\", lwd = 2, lty = 2)\ntext(1.5, 62, \"Meta mínima: 60 puntos\", pos = 4, col = \"orange\", cex = 0.9)\n\n# Agregar la media como punto\npoints(c(1, 2), c(punt_urb, punt_rur), \n       pch = 18, col = \"blue\", cex = 2.5)\nlegend(\"bottomright\", \n       legend = c(\"Mediana (línea)\", \"Media (rombo)\"),\n       pch = c(NA, 18),\n       lty = c(1, NA),\n       col = c(\"black\", \"blue\"),\n       bty = \"n\")\n\n# Anotar elementos del boxplot\nmtext(\"Línea central = MEDIANA (hogar típico)\", \n      side = 3, line = -2, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Caja = IQR (50% central de escuelas)\", \n      side = 3, line = -3, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Puntos rojos = Outliers (casos extremos)\", \n      side = 3, line = -4, at = 1, cex = 0.75, col = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Identificar escuelas por cuartil de desempeño\nescuelas$cuartil <- cut(escuelas$puntaje_prueba,\n                        breaks = quantile(escuelas$puntaje_prueba, \n                                         probs = c(0, 0.25, 0.5, 0.75, 1)),\n                        labels = c(\"Q1 (bajo)\", \"Q2\", \"Q3\", \"Q4 (alto)\"),\n                        include.lowest = TRUE)\n\n# Tabla de distribución por cuartil y tipo\ncat(\"\\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ntabla <- table(escuelas$tipo, escuelas$cuartil)\nprint(tabla)\n\ncat(\"\\nProporción por tipo:\\n\")\nprint(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)\n\n# Identificar escuelas con bajo desempeño (bottom 25%)\nescuelas_bajo_desempeno <- escuelas[escuelas$cuartil == \"Q1 (bajo)\", ]\ncat(\"\\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(escuelas_bajo_desempeno), \"escuelas\\n\")\ncat(\"Urbanas:\", sum(escuelas_bajo_desempeno$tipo == \"Urbana\"), \"\\n\")\ncat(\"Rurales:\", sum(escuelas_bajo_desempeno$tipo == \"Rural\"), \"\\n\")\ncat(\"\\nPresupuesto promedio en este grupo: $\", \n    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), \"k USD\\n\")\ncat(\"Puntaje promedio: \", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), \"\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Scatterplot con diferenciación por tipo\nplot(escuelas$presupuesto_anual_kusd, \n     escuelas$puntaje_prueba,\n     pch = ifelse(escuelas$tipo == \"Urbana\", 19, 17),\n     col = ifelse(escuelas$tipo == \"Urbana\", \"#FF6B6B\", \"#4ECDC4\"),\n     cex = 1.3,\n     main = \"Relación Presupuesto-Desempeño por Tipo de Escuela\",\n     xlab = \"Presupuesto Anual por Estudiante (miles USD)\",\n     ylab = \"Puntaje en Prueba Estandarizada\",\n     xlim = c(0, 14),\n     ylim = c(0, 100))\n\n# Líneas de tendencia por grupo\nurbanas <- escuelas[escuelas$tipo == \"Urbana\", ]\nrurales <- escuelas[escuelas$tipo == \"Rural\", ]\n\nmodelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)\nmodelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)\n\nabline(modelo_urb, col = \"#FF6B6B\", lwd = 3)\nabline(modelo_rur, col = \"#4ECDC4\", lwd = 3)\n\n# Línea de meta mínima\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\n# Leyenda\nlegend(\"bottomright\",\n       legend = c(\"Urbana\", \"Rural\", \"Meta (60 pts)\"),\n       pch = c(19, 17, NA),\n       lty = c(1, 1, 2),\n       col = c(\"#FF6B6B\", \"#4ECDC4\", \"orange\"),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Identificar outliers interesantes (alto presupuesto, bajo desempeño)\nbajo_desempeno_alto_presup <- escuelas[\n  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, \n]\n\nif (nrow(bajo_desempeno_alto_presup) > 0) {\n  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n         bajo_desempeno_alto_presup$puntaje_prueba,\n         pch = 1, col = \"red\", cex = 3, lwd = 2)\n  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n       bajo_desempeno_alto_presup$puntaje_prueba,\n       \"Problema\\nde gestión?\",\n       pos = 4, col = \"red\", cex = 0.8)\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Pendiente para escuelas urbanas\nslope_urb <- coef(modelo_urb)[2]\ncat(\"ESCUELAS URBANAS:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_urb, 2), \"puntos\\n\\n\")\n\n# Pendiente para escuelas rurales\nslope_rur <- coef(modelo_rur)[2]\ncat(\"ESCUELAS RURALES:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_rur, 2), \"puntos\\n\\n\")\n\n# Comparación\ndiferencia_slopes <- slope_rur - slope_urb\ncat(\"DIFERENCIA:\\n\")\ncat(\"  Las escuelas rurales tienen un retorno\", \n    round(abs(diferencia_slopes), 2), \"puntos\")\nif (diferencia_slopes > 0) {\n  cat(\" MAYOR por cada $1k USD\\n\")\n  cat(\"  → Invertir en rurales puede ser más eficiente\\n\")\n} else {\n  cat(\" MENOR por cada $1k USD\\n\")\n}\n\n# R² (qué tan bien explica el presupuesto el desempeño)\nr2_urb <- summary(modelo_urb)$r.squared\nr2_rur <- summary(modelo_rur)$r.squared\n\ncat(\"\\n📊 PODER EXPLICATIVO (R²):\\n\")\ncat(\"  Urbanas: El presupuesto explica el\", round(100 * r2_urb, 1), \n    \"% de la variación en puntajes\\n\")\ncat(\"  Rurales: El presupuesto explica el\", round(100 * r2_rur, 1), \n    \"% de la variación en puntajes\\n\\n\")\n\nif (r2_urb < 0.5) {\n  cat(\"⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\\n\")\n  cat(\"   Otros factores son importantes (calidad docente, infraestructura, contexto)\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histogramas superpuestos para comparar distribuciones\npar(mfrow = c(1, 2))\n\n# Urbanas\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"],\n     breaks = 15,\n     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Urbanas\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_urb, col = \"darkred\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"]), \n       col = \"darkred\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkred\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\n# Rurales\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"],\n     breaks = 12,\n     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Rurales\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_rur, col = \"darkblue\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"]), \n       col = \"darkblue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkblue\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\npar(mfrow = c(1, 1))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear categorías de desempeño\nescuelas$categoria_desempeno <- cut(\n  escuelas$puntaje_prueba,\n  breaks = c(0, 50, 70, 85, 100),\n  labels = c(\"Crítico\", \"Bajo\", \"Aceptable\", \"Destacado\"),\n  include.lowest = TRUE\n)\n\ncat(\"\\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Tabla cruzada\ntabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)\nprint(tabla_desempeno)\n\ncat(\"\\n\\nPorcentaje dentro de cada tipo:\\n\")\nprint(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))\n\n# Escuelas en situación crítica\ncriticas <- escuelas[escuelas$categoria_desempeno == \"Crítico\", ]\ncat(\"\\n\\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(criticas), \"escuelas\\n\\n\")\n\nif (nrow(criticas) > 0) {\n  cat(\"Detalle de escuelas críticas:\\n\")\n  print(criticas[, c(\"id_escuela\", \"tipo\", \"puntaje_prueba\", \n                     \"presupuesto_anual_kusd\")])\n  \n  cat(\"\\n  Presupuesto promedio de escuelas críticas: $\",\n      round(mean(criticas$presupuesto_anual_kusd), 2), \"k USD\\n\")\n  cat(\"  ¿Es el presupuesto el problema o hay otros factores?\\n\")\n}","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparemos dos formas de graficar la MISMA información\n\npar(mfrow = c(1, 2))\n\n# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(50, 80),  # NO empieza en 0\n        main = \"¿Enorme diferencia?\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 2, round(punt_urb, 1))\ntext(1.9, punt_rur + 2, round(punt_rur, 1))\n\n# GRÁFICO 2: Eje Y correcto (empieza en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(0, 100),  # Empieza en 0\n        main = \"Diferencia en contexto\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 5, round(punt_urb, 1))\ntext(1.9, punt_rur + 5, round(punt_rur, 1))\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\npar(mfrow = c(1, 1))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\\n\")\ncat(\"  Para: Secretario de Educación\\n\")\ncat(\"  Fecha:\", format(Sys.Date(), \"%d-%m-%Y\"), \"\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. HALLAZGO PRINCIPAL\\n\\n\")\ncat(\"   Las escuelas urbanas tienen en promedio\", round(pres_urb - pres_rur, 1),\n    \"k USD más de presupuesto\\n\")\ncat(\"   pero solo\", round(punt_urb - punt_rur, 1), \n    \"puntos más de desempeño.\\n\\n\")\ncat(\"   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\\n\")\ncat(\"     (\", round(slope_rur, 2), \" vs \", round(slope_urb, 2), \n    \" puntos por kUSD)\\n\\n\")\n\ncat(\"2. ESCUELAS EN RIESGO\\n\\n\")\ncat(\"   •\", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), \n    \"escuelas están por debajo de la meta mínima (60 puntos)\\n\")\ncat(\"   • De estas,\", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == \"Rural\"),\n    \"son rurales\\n\")\ncat(\"   • El\", round(100 * nrow(criticas)/nrow(escuelas), 1),\n    \"% está en situación CRÍTICA (< 50 puntos)\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\\n\")\ncat(\"   • IQR Urbanas:\", round(iqr_urb, 1), \"puntos\\n\")\ncat(\"   • IQR Rurales:\", round(iqr_rur, 1), \"puntos\\n\")\ncat(\"   → Mayor dispersión en\", \n    ifelse(iqr_urb > iqr_rur, \"urbanas\", \"rurales\"), \"\\n\\n\")\n\ncat(\"4. RECOMENDACIONES BASADAS EN EVIDENCIA\\n\\n\")\ncat(\"   a) Priorizar inversión en escuelas rurales de bajo desempeño\\n\")\ncat(\"      (mayor retorno marginal del presupuesto)\\n\\n\")\ncat(\"   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\\n\")\ncat(\"      (posible problema de gestión, no recursos)\\n\\n\")\ncat(\"   c) No usar solo presupuesto como palanca - el R² es\", \n    round(r2_urb, 2), \"\\n\")\ncat(\"      Considerar: capacitación docente, infraestructura, contexto\\n\\n\")\n\ncat(\"5. LIMITACIONES\\n\\n\")\ncat(\"   • Correlación NO implica causalidad\\n\")\ncat(\"   • No controlamos por: nivel socioeconómico, experiencia docente,\\n\")\ncat(\"     infraestructura, tamaño de clase\\n\")\ncat(\"   • Puntaje de prueba es solo un indicador de calidad educativa\\n\")\ncat(\"   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1635,37 +1638,8 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../custom-styles.css">
+<link rel="stylesheet" href="../../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
 <meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
@@ -1684,7 +1658,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
@@ -1700,11 +1674,11 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="../contact.html">
+    <a class="dropdown-item" href="../../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cv.html">
+    <a class="dropdown-item" href="../../cv.html">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -1715,7 +1689,7 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../food-systems-dashboard.html">
+    <a class="dropdown-item" href="../../food-systems-dashboard.html">
  <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
@@ -1725,21 +1699,28 @@ window.Quarto = {
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
+        <li>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
+ <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
         <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_bounds.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
  <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
  <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -1747,48 +1728,48 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
  <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
  <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
  <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
         <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
  <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
@@ -1796,7 +1777,7 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+    <a class="nav-link" href="../../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -2120,8 +2101,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 7–8: Prueba de Hipótesis, Valor p y Poder Estadístico</h1>
-<p class="subtitle lead">Caso: Programa Becas para Todos</p>
+<h1 class="title">Sesión 2: Visualización como Evidencia</h1>
 </div>
 
 
@@ -2138,185 +2118,183 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<blockquote class="blockquote">
-<p><strong>Contexto del caso.</strong> El programa <em>Becas para Todos</em> asigna becas de apoyo educativo a estudiantes de secundaria en municipios con alta marginación. Queremos saber si las becas mejoran el rendimiento en matemáticas — y si podemos confiar en los resultados de nuestra evaluación.</p>
-</blockquote>
+<section id="caso-de-política-pública" class="level1">
+<h1>Caso de Política Pública</h1>
+<p>El <strong>Secretario de Educación</strong> debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)</p>
+<p><strong>Tu tarea:</strong> Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?</p>
+<p><strong>Regla de oro:</strong> Un gráfico en política pública no es decoración; es un argumento basado en evidencia.</p>
 <hr>
-<section id="parte-1-visualizando-los-grupos" class="level1">
-<h1>Parte 1: Visualizando los grupos</h1>
-<p>Antes de hacer cualquier prueba, miremos los datos. Simulamos puntajes de matemáticas (escala 0–100) para el grupo de control y el grupo que recibió la beca.</p>
+</section>
+<section id="parte-1-simulación-y-carga-de-datos" class="level1">
+<h1>Parte 1: Simulación y Carga de Datos</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="histogramas-de-los-grupos" class="level2">
-<h2 class="anchored" data-anchor-id="histogramas-de-los-grupos">Histogramas de los grupos</h2>
+<hr>
+</section>
+<section id="parte-2-estadísticas-descriptivas-por-tipo" class="level1">
+<h1>Parte 2: Estadísticas Descriptivas por Tipo</h1>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<blockquote class="blockquote">
-<p><strong>¿Por qué dos paneles?</strong> El panel izquierdo muestra la variación <em>dentro</em> de cada grupo: los 60 puntajes individuales de cada alumno. El panel derecho muestra la <strong>distribución muestral del promedio</strong>: si repitiéramos el estudio muchas veces con muestras de n = 60, ¿dónde caería X̄ cada vez? El error estándar (SE = σ/√n) es mucho más angosto que σ porque el promedio es mucho más estable que una observación individual. El traslape gris en el panel derecho visualiza cuán fácil o difícil es que las dos medias “se confundan” por azar — esa dificultad es exactamente lo que cuantifica el estadístico <em>t</em>.</p>
-</blockquote>
+<p><strong>Pregunta de reflexión:</strong> ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?</p>
 <hr>
 </section>
-</section>
-<section id="parte-2-las-funciones-de-distribución-en-r-guía-de-referencia" class="level1">
-<h1>Parte 2: Las funciones de distribución en R — guía de referencia</h1>
-<p>Antes de construir la prueba, conviene tener un mapa claro de las cuatro familias de funciones que R ofrece para cualquier distribución de probabilidad.</p>
-<section id="la-familia-d-p-q-r" class="level2">
-<h2 class="anchored" data-anchor-id="la-familia-d-p-q-r">La familia <code>d / p / q / r</code></h2>
-<p>Para cada distribución (normal, <em>t</em>, chi-cuadrado, F, binomial…), R implementa cuatro funciones con prefijos consistentes:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 27%">
-<col style="width: 54%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Prefijo</th>
-<th>Qué calcula</th>
-<th>Ejemplo (Normal estándar)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>d</code></td>
-<td><strong>Densidad</strong> — la “altura” de la campana en un punto <em>x</em></td>
-<td><code>dnorm(0)</code> → 0.3989</td>
-</tr>
-<tr class="even">
-<td><code>p</code></td>
-<td><strong>Probabilidad acumulada</strong> — P(X ≤ x)</td>
-<td><code>pnorm(1.96)</code> → 0.9750</td>
-</tr>
-<tr class="odd">
-<td><code>q</code></td>
-<td><strong>Cuantil</strong> — el valor <em>x</em> tal que P(X ≤ x) = p</td>
-<td><code>qnorm(0.975)</code> → 1.96</td>
-</tr>
-<tr class="even">
-<td><code>r</code></td>
-<td><strong>Simulación</strong> — genera números aleatorios</td>
-<td><code>rnorm(10)</code> → 10 valores</td>
-</tr>
-</tbody>
-</table>
-<p>Los sufijos de distribución más usados en inferencia: <code>norm</code> (normal), <code>t</code> (t de Student), <code>chisq</code> (chi-cuadrado), <code>f</code> (F de Fisher), <code>binom</code> (binomial).</p>
+<section id="parte-3-visualización-esencial---el-boxplot" class="level1">
+<h1>Parte 3: Visualización Esencial - El Boxplot</h1>
+<p><strong>¿Por qué boxplot?</strong> Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Interpreta el boxplot:</strong> 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?</p>
+<hr>
+</section>
+<section id="parte-4-análisis-de-dispersión-y-desigualdad" class="level1">
+<h1>Parte 4: Análisis de Dispersión y Desigualdad</h1>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="parte-5-scatterplot---relación-presupuesto-desempeño" class="level1">
+<h1>Parte 5: Scatterplot - Relación Presupuesto-Desempeño</h1>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Análisis del scatterplot:</strong> 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)</p>
+<hr>
+</section>
+<section id="parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="level1">
+<h1>Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</h1>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Importante:</strong> Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto <em>cause</em> mejor desempeño.</p>
+<hr>
+</section>
+<section id="parte-7-histograma-de-presupuesto" class="level1">
+<h1>Parte 7: Histograma de Presupuesto</h1>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta:</strong> ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?</p>
 <hr>
 </section>
-</section>
-<section id="parte-3-construyendo-la-prueba-t-paso-a-paso" class="level1">
-<h1>Parte 3: Construyendo la prueba <em>t</em> paso a paso</h1>
-<section id="paso-1-planteamos-las-hipótesis" class="level2">
-<h2 class="anchored" data-anchor-id="paso-1-planteamos-las-hipótesis">Paso 1 — Planteamos las hipótesis</h2>
-<p><span class="math display">\[H_0: \mu_{\text{beca}} - \mu_{\text{control}} = 0\]</span> <span class="math display">\[H_1: \mu_{\text{beca}} - \mu_{\text{control}} &gt; 0 \quad \text{(prueba unilateral: esperamos mejora)}\]</span></p>
+<section id="parte-8-tabla-de-rendición-de-cuentas" class="level1">
+<h1>Parte 8: Tabla de Rendición de Cuentas</h1>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
 </section>
-<section id="paso-2-calculamos-el-estadístico-t-a-mano" class="level2">
-<h2 class="anchored" data-anchor-id="paso-2-calculamos-el-estadístico-t-a-mano">Paso 2 — Calculamos el estadístico <em>t</em> a mano</h2>
-<p>El estadístico <span class="math inline">\(t\)</span> de Welch (que <strong>no</strong> asume varianzas iguales entre grupos) es:</p>
-<p><span class="math display">\[t = \frac{\bar{X}_{\text{beca}} - \bar{X}_{\text{control}}}{\sqrt{\dfrac{s_{\text{beca}}^2}{n_{\text{beca}}} + \dfrac{s_{\text{control}}^2}{n_{\text{control}}}}}\]</span></p>
-<p>El denominador es el <strong>error estándar de la diferencia</strong>: cuánta variabilidad esperamos en esa diferencia si repitiéramos el muestreo.</p>
+<section id="parte-9-auditoría-de-gráficos-engañosos" class="level1">
+<h1>Parte 9: Auditoría de Gráficos Engañosos</h1>
+<p><strong>Ejercicio de lectura crítica:</strong> Imagina que ves este titular en un reporte:</p>
+<blockquote class="blockquote">
+<p>“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”</p>
+</blockquote>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Pregunta crítica:</strong> - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?</p>
+<p><strong>Reglas de auditoría de gráficos:</strong> 1. ✅ <strong>Eje Y empieza en 0</strong> (para barras) 2. ✅ <strong>Denominador claro</strong> (¿por estudiante? ¿por escuela?) 3. ✅ <strong>Población y periodo especificados</strong> 4. ✅ <strong>Muestra dispersión</strong> (no solo promedios) 5. ✅ <strong>Declara limitaciones</strong></p>
+<hr>
 </section>
-<section id="paso-3-obtenemos-el-valor-p" class="level2">
-<h2 class="anchored" data-anchor-id="paso-3-obtenemos-el-valor-p">Paso 3 — Obtenemos el valor <em>p</em></h2>
+<section id="parte-10-memo-ejecutivo-con-visualización" class="level1">
+<h1>Parte 10: Memo Ejecutivo con Visualización</h1>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="paso-4-verificamos-con-t.test" class="level2">
-<h2 class="anchored" data-anchor-id="paso-4-verificamos-con-t.test">Paso 4 — Verificamos con <code>t.test()</code></h2>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="visualizando-el-valor-p-en-la-distribución-t" class="level2">
-<h2 class="anchored" data-anchor-id="visualizando-el-valor-p-en-la-distribución-t">Visualizando el valor <em>p</em> en la distribución <em>t</em></h2>
-<div id="qwebr-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-</section>
-<section id="parte-4-valor-p-poder-y-tamaño-de-muestra" class="level1">
-<h1>Parte 4: Valor <em>p</em>, poder y tamaño de muestra</h1>
-<section id="simulando-el-poder-estadístico" class="level2">
-<h2 class="anchored" data-anchor-id="simulando-el-poder-estadístico">Simulando el poder estadístico</h2>
-<p>El <strong>poder</strong> (1 − β) es la probabilidad de rechazar <span class="math inline">\(H_0\)</span> cuando el efecto es <strong>real</strong>. Depende del tamaño de muestra, del tamaño del efecto y del nivel α.</p>
-<div id="qwebr-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="correlación-intraclúster-icc-y-diseño-por-conglomerados" class="level2">
-<h2 class="anchored" data-anchor-id="correlación-intraclúster-icc-y-diseño-por-conglomerados">Correlación intraclúster (ICC) y diseño por conglomerados</h2>
-<p>En <em>Becas para Todos</em>, las becas <strong>no se asignan alumno por alumno</strong>: se asignan a <strong>escuelas enteras</strong>. Cuando la unidad de asignación es un grupo (escuela, comunidad, clínica), hablamos de un <strong>diseño clusterizado</strong>.</p>
-<p>Los alumnos de una misma escuela tienden a parecerse más entre sí que alumnos de distintas escuelas — comparten maestros, infraestructura y contexto socioeconómico. Esa similitud interna se mide con el <strong>coeficiente de correlación intraclúster</strong> (ICC, ρ):</p>
-<p><span class="math display">\[\text{ICC} = \frac{\sigma^2_{\text{entre clústeres}}}{\sigma^2_{\text{entre}} + \sigma^2_{\text{dentro}}}\]</span></p>
-<p>El <strong>efecto de diseño</strong> (<em>DEFF</em>) cuantifica cuánto se infla el tamaño de muestra requerido:</p>
-<p><span class="math display">\[\text{DEFF} = 1 + (m - 1) \cdot \rho\]</span></p>
-<p>donde <span class="math inline">\(m\)</span> = alumnos por escuela y <span class="math inline">\(\rho\)</span> = ICC.</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<blockquote class="blockquote">
-<p><strong>Regla práctica:</strong> Con ICC ≥ 0.10, los diseños clusterizados requieren ajuste explícito. El DEFF con <span class="math inline">\(m = 20\)</span> y <span class="math inline">\(\rho = 0.20\)</span> es <span class="math inline">\(1 + 19 \times 0.20 = 4.8\)</span> — necesitas casi cinco veces más observaciones que en un diseño simple para el mismo poder.</p>
-</blockquote>
-<hr>
-</section>
-</section>
-<section id="parte-5-relevancia-práctica-significancia-estadística-y-efecto-mínimo-detectable" class="level1">
-<h1>Parte 5: Relevancia práctica, significancia estadística y efecto mínimo detectable</h1>
-<section id="el-problema-de-confundir-significancia-con-importancia" class="level2">
-<h2 class="anchored" data-anchor-id="el-problema-de-confundir-significancia-con-importancia">El problema de confundir significancia con importancia</h2>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="el-efecto-mínimo-detectable-mde" class="level2">
-<h2 class="anchored" data-anchor-id="el-efecto-mínimo-detectable-mde">El efecto mínimo detectable (MDE)</h2>
-<p>El <strong>MDE</strong> (<em>Minimum Detectable Effect</em>) es la diferencia más pequeña que nuestro diseño puede detectar con probabilidad ≥ 80%, dado un α fijo. Se deriva de la condición de poder:</p>
-<p><span class="math display">\[\text{MDE} = (z_{1-\alpha} + z_{1-\beta}) \times SE \qquad \text{donde } SE = \sigma\sqrt{\tfrac{2}{n}}\]</span></p>
-<div id="qwebr-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="mde-en-diseños-clusterizados" class="level2">
-<h2 class="anchored" data-anchor-id="mde-en-diseños-clusterizados">MDE en diseños clusterizados</h2>
-<p><span class="math display">\[\text{MDE}_{\text{cluster}} = \text{MDE}_{\text{simple}} \times \sqrt{\text{DEFF}} = \text{MDE}_{\text{simple}} \times \sqrt{1 + (m-1)\rho}\]</span></p>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<blockquote class="blockquote">
-<p><strong>Conclusión:</strong> Si las escuelas tienen ICC = 0.20 y asignamos 30 alumnos por escuela (4 clústeres por brazo con <span class="math inline">\(n_{\text{total}} = 120\)</span>), el MDE se infla considerablemente. Conviene <strong>reducir el tamaño del clúster y aumentar el número de escuelas</strong> para recuperar poder con el mismo presupuesto de observaciones.</p>
-</blockquote>
-<hr>
-</section>
-</section>
-<section id="ejercicios" class="level1">
-<h1>Ejercicios</h1>
+<section id="ejercicio-individual-entregable" class="level1">
+<h1>Ejercicio Individual (Entregable)</h1>
+<p><strong>Parte A: Crear Visualizaciones</strong></p>
 <ol type="1">
-<li><p><strong>Re-simula</strong> los datos de Becas para Todos con <code>n &lt;- 30</code>. ¿Cambia la conclusión? ¿Cambió más el valor <em>p</em> o el estadístico <em>t</em>?</p></li>
-<li><p><strong>Valor p a mano:</strong> calcula <code>pt()</code> y <code>pnorm()</code> para un estadístico <span class="math inline">\(t = 1.85\)</span> con 58 grados de libertad, tanto unilateral como bilateral. ¿Cuándo divergen más las dos distribuciones?</p></li>
-<li><p><strong>ICC:</strong> Supón que el ICC real en escuelas mexicanas de secundaria es 0.12 y que cada escuela tiene 25 alumnos. ¿Cuántas escuelas por brazo necesitas para tener 80% de poder y detectar un efecto de 4 puntos? Usa <code>mde_analitico()</code> con <code>n = n_total / deff</code>.</p></li>
-<li><p><strong>MDE y política:</strong> Alguien te dice <em>“el programa no tuvo efecto significativo con n = 40 por grupo”</em>. Calcula el MDE para ese diseño. ¿Es ese resultado evidencia de ausencia de efecto o ausencia de evidencia?</p></li>
+<li><strong>Boxplot comparativo:</strong>
+<ul>
+<li>Grafica presupuesto_anual_kusd ~ tipo</li>
+<li>Incluye título-conclusión (máximo 18 palabras)</li>
+<li>Identifica outliers y explica qué pueden representar</li>
+</ul></li>
+<li><strong>Scatterplot con segmentación:</strong>
+<ul>
+<li>Eje X: presupuesto, Eje Y: puntaje</li>
+<li>Colorea puntos por tipo</li>
+<li>Agrega líneas de tendencia</li>
+<li>Marca escuelas con puntaje &lt; 50 (círculos rojos)</li>
+</ul></li>
+</ol>
+<p><strong>Parte B: Análisis Escrito</strong></p>
+<ol start="3" type="1">
+<li><strong>Tabla de análisis:</strong> Crea una tabla con 3 columnas:
+<ul>
+<li>Tipo de gráfico (Histograma, Boxplot, Scatterplot)</li>
+<li>Pregunta que responde mejor</li>
+<li>Limitación principal</li>
+</ul></li>
+<li><strong>Ejercicio de lectura crítica:</strong> Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
+<ul>
+<li>¿Cumple las 5 reglas de auditoría?</li>
+<li>¿Hay algo engañoso en la presentación?</li>
+<li>¿Qué mejorarías?</li>
+</ul></li>
+</ol>
+<p><strong>Parte C: Recomendación Estratégica</strong></p>
+<ol start="5" type="1">
+<li><strong>Escribe 6 líneas respondiendo:</strong>
+<ul>
+<li>Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?</li>
+<li>¿Usas criterio de presupuesto, desempeño, tipo, o combinación?</li>
+<li>Incluye 1 limitación de tu propuesta</li>
+</ul></li>
 </ol>
 <hr>
 </section>
-<section id="discusión" class="level1">
-<h1>Discusión</h1>
+<section id="preguntas-de-discusión" class="level1">
+<h1>Preguntas de Discusión</h1>
+<ol type="1">
+<li><strong>La Trampa del Promedio Revisitada:</strong>
 <ul>
-<li>¿“No significativo” significa “no funciona”?</li>
-<li>¿Cuándo un resultado estadísticamente significativo <strong>no debería</strong> cambiar una política?</li>
-<li>¿Por qué un ICC alto obliga a preferir más clústeres pequeños sobre pocos clústeres grandes?</li>
-<li>¿Cómo presentarías el MDE en un informe para tomadores de decisión no estadísticos?</li>
+<li>¿Por qué un gráfico de solo promedios puede ser engañoso?</li>
+<li>¿Qué se pierde cuando no mostramos dispersión?</li>
+</ul></li>
+<li><strong>Escalas Visuales:</strong>
+<ul>
+<li>¿Cuándo es legítimo NO empezar el eje Y en cero?</li>
+<li>¿Qué riesgos tiene manipular las escalas?</li>
+</ul></li>
+<li><strong>Denominadores:</strong>
+<ul>
+<li>¿Deberíamos graficar presupuesto total o por estudiante?</li>
+<li>¿Puntaje promedio de escuela o distribución completa?</li>
+</ul></li>
+<li><strong>Outliers:</strong>
+<ul>
+<li>¿Los outliers son errores o información valiosa?</li>
+<li>¿Cuándo deberías investigar un outlier vs.&nbsp;eliminarlo?</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="recursos-adicionales" class="level1">
+<h1>Recursos Adicionales</h1>
+<p><strong>Principios de visualización efectiva:</strong></p>
+<ol type="1">
+<li><strong>Claridad sobre estética:</strong> El gráfico debe comunicar, no impresionar</li>
+<li><strong>Honestidad visual:</strong> Escalas apropiadas, contexto completo</li>
+<li><strong>Dispersión importa:</strong> No solo promedios</li>
+<li><strong>Comparaciones justas:</strong> Mismo denominador, misma escala</li>
+<li><strong>Contexto siempre:</strong> Población, periodo, fuente, limitaciones</li>
+</ol>
+<p><strong>Tipos de gráficos y cuándo usarlos:</strong></p>
+<ul>
+<li><strong>Histograma:</strong> Ver forma de distribución (asimetría, modas)</li>
+<li><strong>Boxplot:</strong> Comparar grupos, detectar outliers</li>
+<li><strong>Scatterplot:</strong> Explorar relaciones entre dos variables</li>
+<li><strong>Barras:</strong> Comparar cantidades (¡eje Y en 0!)</li>
+<li><strong>Líneas:</strong> Mostrar tendencias en el tiempo</li>
 </ul>
+<p><strong>Errores comunes a evitar:</strong></p>
+<ul>
+<li>❌ Solo mostrar promedios sin dispersión</li>
+<li>❌ Manipular escalas para exagerar diferencias</li>
+<li>❌ No declarar denominador</li>
+<li>❌ Graficar sin pregunta clara en mente</li>
+<li>❌ Usar 3D, colores excesivos, “chart junk”</li>
+</ul>
+<hr>
+<p><strong>Última reflexión:</strong> Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?</p>
 
 
 </section>

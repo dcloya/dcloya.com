@@ -2,22 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Sesión 2: Visualización como Evidencia – David Contreras-Loya</title>
+<title>Ejercicio Aplicado: Intervalos de Confianza – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -28,23 +31,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe7020910c808501f8c9f19b9545dcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0f70c849674a990122300108587fb581.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -381,7 +384,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\n\n# Simulación de datos educativos\nset.seed(2026)\nn_urbano <- 80\nn_rural <- 40\n\n# Escuelas URBANAS: mayor presupuesto pero más variabilidad\npresup_urbano <- rnorm(n_urbano, mean = 8, sd = 2)  # miles USD\n# Efecto del presupuesto + ruido + efecto fijo urbano\npuntaje_urbano <- 55 + 2.5 * presup_urbano + rnorm(n_urbano, 0, 8) + 5\n\n# Escuelas RURALES: menor presupuesto, mayor efecto marginal\npresup_rural <- rnorm(n_rural, mean = 5, sd = 1.5)\n# Efecto más fuerte del presupuesto en contexto rural\npuntaje_rural <- 45 + 4 * presup_rural + rnorm(n_rural, 0, 6)\n\n# Crear base de datos\nescuelas <- data.frame(\n  id_escuela = 1:(n_urbano + n_rural),\n  presupuesto_anual_kusd = c(presup_urbano, presup_rural),\n  puntaje_prueba = c(puntaje_urbano, puntaje_rural),\n  tipo = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Asegurar que puntajes estén en rango válido\nescuelas$puntaje_prueba <- pmax(0, pmin(100, escuelas$puntaje_prueba))\n\n# Vista previa\nhead(escuelas, 10)\ncat(\"\\n📚 Total de escuelas:\", nrow(escuelas), \"\\n\")\ncat(\"   - Urbanas:\", n_urbano, \"\\n\")\ncat(\"   - Rurales:\", n_rural, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Función para calcular estadísticas completas\nresumen_estadistico <- function(x) {\n  c(\n    n = length(x),\n    Media = mean(x),\n    Mediana = median(x),\n    DE = sd(x),\n    Min = min(x),\n    P25 = quantile(x, 0.25),\n    P75 = quantile(x, 0.75),\n    Max = max(x),\n    IQR = IQR(x)\n  )\n}\n\ncat(\"\\n📊 RESUMEN: PUNTAJE EN PRUEBA ESTANDARIZADA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$puntaje_prueba, escuelas$tipo, resumen_estadistico)\n\ncat(\"\\n\\n💰 RESUMEN: PRESUPUESTO ANUAL (miles USD)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\nby(escuelas$presupuesto_anual_kusd, escuelas$tipo, resumen_estadistico)\n\n# Tabla comparativa lado a lado\ncat(\"\\n\\n📋 COMPARACIÓN DIRECTA\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-25s %12s %12s %12s\\n\", \"Variable\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"───────────────────────────────────────────────────────────\\n\")\n\n# Puntaje promedio\npunt_urb <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\npunt_rur <- mean(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje promedio\", \n            punt_urb, punt_rur, punt_urb - punt_rur))\n\n# Puntaje mediano\nmed_punt_urb <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\nmed_punt_rur <- median(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Puntaje mediano\", \n            med_punt_urb, med_punt_rur, med_punt_urb - med_punt_rur))\n\n# Presupuesto promedio\npres_urb <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"])\npres_rur <- mean(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"Presupuesto (kUSD)\", \n            pres_urb, pres_rur, pres_urb - pres_rur))\n\n# Dispersión (IQR)\niqr_urb <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Urbana\"])\niqr_rur <- IQR(escuelas$puntaje_prueba[escuelas$tipo == \"Rural\"])\ncat(sprintf(\"%-25s %12.2f %12.2f %12.2f\\n\", \"IQR Puntaje\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot básico pero informativo\nboxplot(puntaje_prueba ~ tipo, \n        data = escuelas,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Distribución de Puntajes por Tipo de Escuela\",\n        ylab = \"Puntaje en Prueba Estandarizada (0-100)\",\n        xlab = \"Tipo de Escuela\",\n        border = \"gray30\",\n        notch = FALSE,\n        horizontal = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 1.2)\n\n# Agregar línea de referencia: puntaje mínimo aceptable\nabline(h = 60, col = \"orange\", lwd = 2, lty = 2)\ntext(1.5, 62, \"Meta mínima: 60 puntos\", pos = 4, col = \"orange\", cex = 0.9)\n\n# Agregar la media como punto\npoints(c(1, 2), c(punt_urb, punt_rur), \n       pch = 18, col = \"blue\", cex = 2.5)\nlegend(\"bottomright\", \n       legend = c(\"Mediana (línea)\", \"Media (rombo)\"),\n       pch = c(NA, 18),\n       lty = c(1, NA),\n       col = c(\"black\", \"blue\"),\n       bty = \"n\")\n\n# Anotar elementos del boxplot\nmtext(\"Línea central = MEDIANA (hogar típico)\", \n      side = 3, line = -2, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Caja = IQR (50% central de escuelas)\", \n      side = 3, line = -3, at = 1, cex = 0.75, col = \"gray30\")\nmtext(\"Puntos rojos = Outliers (casos extremos)\", \n      side = 3, line = -4, at = 1, cex = 0.75, col = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Identificar escuelas por cuartil de desempeño\nescuelas$cuartil <- cut(escuelas$puntaje_prueba,\n                        breaks = quantile(escuelas$puntaje_prueba, \n                                         probs = c(0, 0.25, 0.5, 0.75, 1)),\n                        labels = c(\"Q1 (bajo)\", \"Q2\", \"Q3\", \"Q4 (alto)\"),\n                        include.lowest = TRUE)\n\n# Tabla de distribución por cuartil y tipo\ncat(\"\\n📊 DISTRIBUCIÓN DE ESCUELAS POR CUARTIL DE DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ntabla <- table(escuelas$tipo, escuelas$cuartil)\nprint(tabla)\n\ncat(\"\\nProporción por tipo:\\n\")\nprint(prop.table(tabla, margin = 1) * 100)  # Por fila (tipo)\n\n# Identificar escuelas con bajo desempeño (bottom 25%)\nescuelas_bajo_desempeno <- escuelas[escuelas$cuartil == \"Q1 (bajo)\", ]\ncat(\"\\n🔴 ESCUELAS DE BAJO DESEMPEÑO (Q1)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(escuelas_bajo_desempeno), \"escuelas\\n\")\ncat(\"Urbanas:\", sum(escuelas_bajo_desempeno$tipo == \"Urbana\"), \"\\n\")\ncat(\"Rurales:\", sum(escuelas_bajo_desempeno$tipo == \"Rural\"), \"\\n\")\ncat(\"\\nPresupuesto promedio en este grupo: $\", \n    round(mean(escuelas_bajo_desempeno$presupuesto_anual_kusd), 2), \"k USD\\n\")\ncat(\"Puntaje promedio: \", round(mean(escuelas_bajo_desempeno$puntaje_prueba), 1), \"\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Scatterplot con diferenciación por tipo\nplot(escuelas$presupuesto_anual_kusd, \n     escuelas$puntaje_prueba,\n     pch = ifelse(escuelas$tipo == \"Urbana\", 19, 17),\n     col = ifelse(escuelas$tipo == \"Urbana\", \"#FF6B6B\", \"#4ECDC4\"),\n     cex = 1.3,\n     main = \"Relación Presupuesto-Desempeño por Tipo de Escuela\",\n     xlab = \"Presupuesto Anual por Estudiante (miles USD)\",\n     ylab = \"Puntaje en Prueba Estandarizada\",\n     xlim = c(0, 14),\n     ylim = c(0, 100))\n\n# Líneas de tendencia por grupo\nurbanas <- escuelas[escuelas$tipo == \"Urbana\", ]\nrurales <- escuelas[escuelas$tipo == \"Rural\", ]\n\nmodelo_urb <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = urbanas)\nmodelo_rur <- lm(puntaje_prueba ~ presupuesto_anual_kusd, data = rurales)\n\nabline(modelo_urb, col = \"#FF6B6B\", lwd = 3)\nabline(modelo_rur, col = \"#4ECDC4\", lwd = 3)\n\n# Línea de meta mínima\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\n# Leyenda\nlegend(\"bottomright\",\n       legend = c(\"Urbana\", \"Rural\", \"Meta (60 pts)\"),\n       pch = c(19, 17, NA),\n       lty = c(1, 1, 2),\n       col = c(\"#FF6B6B\", \"#4ECDC4\", \"orange\"),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Identificar outliers interesantes (alto presupuesto, bajo desempeño)\nbajo_desempeno_alto_presup <- escuelas[\n  escuelas$puntaje_prueba < 60 & escuelas$presupuesto_anual_kusd > 8, \n]\n\nif (nrow(bajo_desempeno_alto_presup) > 0) {\n  points(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n         bajo_desempeno_alto_presup$puntaje_prueba,\n         pch = 1, col = \"red\", cex = 3, lwd = 2)\n  text(bajo_desempeno_alto_presup$presupuesto_anual_kusd,\n       bajo_desempeno_alto_presup$puntaje_prueba,\n       \"Problema\\nde gestión?\",\n       pos = 4, col = \"red\", cex = 0.8)\n}","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n📈 RETORNO DEL PRESUPUESTO (Pendiente de Regresión)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Pendiente para escuelas urbanas\nslope_urb <- coef(modelo_urb)[2]\ncat(\"ESCUELAS URBANAS:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_urb, 2), \"puntos\\n\\n\")\n\n# Pendiente para escuelas rurales\nslope_rur <- coef(modelo_rur)[2]\ncat(\"ESCUELAS RURALES:\\n\")\ncat(\"  Por cada $1,000 USD adicionales de presupuesto anual,\\n\")\ncat(\"  el puntaje aumenta en promedio:\", round(slope_rur, 2), \"puntos\\n\\n\")\n\n# Comparación\ndiferencia_slopes <- slope_rur - slope_urb\ncat(\"DIFERENCIA:\\n\")\ncat(\"  Las escuelas rurales tienen un retorno\", \n    round(abs(diferencia_slopes), 2), \"puntos\")\nif (diferencia_slopes > 0) {\n  cat(\" MAYOR por cada $1k USD\\n\")\n  cat(\"  → Invertir en rurales puede ser más eficiente\\n\")\n} else {\n  cat(\" MENOR por cada $1k USD\\n\")\n}\n\n# R² (qué tan bien explica el presupuesto el desempeño)\nr2_urb <- summary(modelo_urb)$r.squared\nr2_rur <- summary(modelo_rur)$r.squared\n\ncat(\"\\n📊 PODER EXPLICATIVO (R²):\\n\")\ncat(\"  Urbanas: El presupuesto explica el\", round(100 * r2_urb, 1), \n    \"% de la variación en puntajes\\n\")\ncat(\"  Rurales: El presupuesto explica el\", round(100 * r2_rur, 1), \n    \"% de la variación en puntajes\\n\\n\")\n\nif (r2_urb < 0.5) {\n  cat(\"⚠️  ADVERTENCIA: El presupuesto explica MENOS de la mitad de la variación.\\n\")\n  cat(\"   Otros factores son importantes (calidad docente, infraestructura, contexto)\\n\")\n}\n\ncat(\"═══════════════════════════════════════════════════════════\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histogramas superpuestos para comparar distribuciones\npar(mfrow = c(1, 2))\n\n# Urbanas\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"],\n     breaks = 15,\n     col = rgb(1, 0.42, 0.42, 0.7),  # Rojo transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Urbanas\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_urb, col = \"darkred\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Urbana\"]), \n       col = \"darkred\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkred\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\n# Rurales\nhist(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"],\n     breaks = 12,\n     col = rgb(0.31, 0.8, 0.77, 0.7),  # Turquesa transparente\n     border = \"white\",\n     main = \"Distribución: Escuelas Rurales\",\n     xlab = \"Presupuesto (kUSD)\",\n     ylab = \"Frecuencia\",\n     xlim = c(0, 14))\nabline(v = pres_rur, col = \"darkblue\", lwd = 3)\nabline(v = median(escuelas$presupuesto_anual_kusd[escuelas$tipo == \"Rural\"]), \n       col = \"darkblue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Media\", \"Mediana\"), \n       col = \"darkblue\", lty = c(1, 2), lwd = c(3, 2), bty = \"n\")\n\npar(mfrow = c(1, 1))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear categorías de desempeño\nescuelas$categoria_desempeno <- cut(\n  escuelas$puntaje_prueba,\n  breaks = c(0, 50, 70, 85, 100),\n  labels = c(\"Crítico\", \"Bajo\", \"Aceptable\", \"Destacado\"),\n  include.lowest = TRUE\n)\n\ncat(\"\\n🎯 CLASIFICACIÓN DE ESCUELAS POR DESEMPEÑO\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\\n\")\n\n# Tabla cruzada\ntabla_desempeno <- table(escuelas$tipo, escuelas$categoria_desempeno)\nprint(tabla_desempeno)\n\ncat(\"\\n\\nPorcentaje dentro de cada tipo:\\n\")\nprint(round(prop.table(tabla_desempeno, margin = 1) * 100, 1))\n\n# Escuelas en situación crítica\ncriticas <- escuelas[escuelas$categoria_desempeno == \"Crítico\", ]\ncat(\"\\n\\n🚨 ESCUELAS EN SITUACIÓN CRÍTICA (< 50 puntos)\\n\")\ncat(\"═══════════════════════════════════════════════════════════\\n\")\ncat(\"Total:\", nrow(criticas), \"escuelas\\n\\n\")\n\nif (nrow(criticas) > 0) {\n  cat(\"Detalle de escuelas críticas:\\n\")\n  print(criticas[, c(\"id_escuela\", \"tipo\", \"puntaje_prueba\", \n                     \"presupuesto_anual_kusd\")])\n  \n  cat(\"\\n  Presupuesto promedio de escuelas críticas: $\",\n      round(mean(criticas$presupuesto_anual_kusd), 2), \"k USD\\n\")\n  cat(\"  ¿Es el presupuesto el problema o hay otros factores?\\n\")\n}","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparemos dos formas de graficar la MISMA información\n\npar(mfrow = c(1, 2))\n\n# GRÁFICO 1: Eje Y manipulado (empieza en 50, no en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(50, 80),  # NO empieza en 0\n        main = \"¿Enorme diferencia?\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 2, round(punt_urb, 1))\ntext(1.9, punt_rur + 2, round(punt_rur, 1))\n\n# GRÁFICO 2: Eje Y correcto (empieza en 0)\nbarplot(c(punt_urb, punt_rur),\n        names.arg = c(\"Urbana\", \"Rural\"),\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        ylim = c(0, 100),  # Empieza en 0\n        main = \"Diferencia en contexto\",\n        ylab = \"Puntaje promedio\")\ntext(0.7, punt_urb + 5, round(punt_urb, 1))\ntext(1.9, punt_rur + 5, round(punt_rur, 1))\nabline(h = 60, col = \"orange\", lty = 2, lwd = 2)\n\npar(mfrow = c(1, 1))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  MEMO EJECUTIVO: ANÁLISIS DE DESEMPEÑO ESCOLAR\\n\")\ncat(\"  Para: Secretario de Educación\\n\")\ncat(\"  Fecha:\", format(Sys.Date(), \"%d-%m-%Y\"), \"\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. HALLAZGO PRINCIPAL\\n\\n\")\ncat(\"   Las escuelas urbanas tienen en promedio\", round(pres_urb - pres_rur, 1),\n    \"k USD más de presupuesto\\n\")\ncat(\"   pero solo\", round(punt_urb - punt_rur, 1), \n    \"puntos más de desempeño.\\n\\n\")\ncat(\"   → El retorno marginal del presupuesto es MAYOR en escuelas rurales\\n\")\ncat(\"     (\", round(slope_rur, 2), \" vs \", round(slope_urb, 2), \n    \" puntos por kUSD)\\n\\n\")\n\ncat(\"2. ESCUELAS EN RIESGO\\n\\n\")\ncat(\"   •\", nrow(escuelas[escuelas$puntaje_prueba < 60, ]), \n    \"escuelas están por debajo de la meta mínima (60 puntos)\\n\")\ncat(\"   • De estas,\", sum(escuelas$puntaje_prueba < 60 & escuelas$tipo == \"Rural\"),\n    \"son rurales\\n\")\ncat(\"   • El\", round(100 * nrow(criticas)/nrow(escuelas), 1),\n    \"% está en situación CRÍTICA (< 50 puntos)\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\\n\")\ncat(\"   • IQR Urbanas:\", round(iqr_urb, 1), \"puntos\\n\")\ncat(\"   • IQR Rurales:\", round(iqr_rur, 1), \"puntos\\n\")\ncat(\"   → Mayor dispersión en\", \n    ifelse(iqr_urb > iqr_rur, \"urbanas\", \"rurales\"), \"\\n\\n\")\n\ncat(\"4. RECOMENDACIONES BASADAS EN EVIDENCIA\\n\\n\")\ncat(\"   a) Priorizar inversión en escuelas rurales de bajo desempeño\\n\")\ncat(\"      (mayor retorno marginal del presupuesto)\\n\\n\")\ncat(\"   b) Auditar escuelas urbanas con alto presupuesto y bajo desempeño\\n\")\ncat(\"      (posible problema de gestión, no recursos)\\n\\n\")\ncat(\"   c) No usar solo presupuesto como palanca - el R² es\", \n    round(r2_urb, 2), \"\\n\")\ncat(\"      Considerar: capacitación docente, infraestructura, contexto\\n\\n\")\n\ncat(\"5. LIMITACIONES\\n\\n\")\ncat(\"   • Correlación NO implica causalidad\\n\")\ncat(\"   • No controlamos por: nivel socioeconómico, experiencia docente,\\n\")\ncat(\"     infraestructura, tamaño de clase\\n\")\ncat(\"   • Puntaje de prueba es solo un indicador de calidad educativa\\n\")\ncat(\"   • No sabemos si escuelas con bajo presupuesto ya recibieron apoyos\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nset.seed(2026)\n\n# PARÁMETROS POBLACIONALES (verdad desconocida)\n# Efecto real del programa: +10 puntos porcentuales de asistencia\n\nn_tratamiento <- 500\nn_control <- 500\n\n# Grupo CONTROL: asistencia promedio 72%, desviación estándar 18%\nasistencia_control <- rnorm(n_control, mean = 72, sd = 18)\nasistencia_control <- pmax(pmin(asistencia_control, 100), 0)  # Limitar a [0, 100]\n\n# Grupo TRATAMIENTO: asistencia promedio 82%, desviación estándar 15%\n# (menor variabilidad porque el programa estabiliza la asistencia)\nasistencia_tratamiento <- rnorm(n_tratamiento, mean = 82, sd = 15)\nasistencia_tratamiento <- pmax(pmin(asistencia_tratamiento, 100), 0)\n\n# Crear data frame\ndatos <- data.frame(\n  grupo = rep(c(\"Control\", \"Tratamiento\"), c(n_control, n_tratamiento)),\n  asistencia = c(asistencia_control, asistencia_tratamiento)\n)\n\ncat(\"📊 DATOS DE LA EVALUACIÓN\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Total de familias:      \", nrow(datos), \"\\n\")\ncat(\"Grupo Control:          \", n_control, \"\\n\")\ncat(\"Grupo Tratamiento:      \", n_tratamiento, \"\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular estadísticas por grupo\nstats_control <- datos$asistencia[datos$grupo == \"Control\"]\nstats_tratamiento <- datos$asistencia[datos$grupo == \"Tratamiento\"]\n\nmedia_control <- mean(stats_control)\nmedia_tratamiento <- mean(stats_tratamiento)\nsd_control <- sd(stats_control)\nsd_tratamiento <- sd(stats_tratamiento)\n\ndiferencia_observada <- media_tratamiento - media_control\n\ncat(\"📈 ESTADÍSTICAS DESCRIPTIVAS\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"GRUPO CONTROL:\\n\")\ncat(\"  Media:              \", round(media_control, 2), \"%\\n\")\ncat(\"  Desviación estándar:\", round(sd_control, 2), \"%\\n\")\ncat(\"  Rango:              \", round(min(stats_control), 1), \"% -\", \n    round(max(stats_control), 1), \"%\\n\\n\")\n\ncat(\"GRUPO TRATAMIENTO:\\n\")\ncat(\"  Media:              \", round(media_tratamiento, 2), \"%\\n\")\ncat(\"  Desviación estándar:\", round(sd_tratamiento, 2), \"%\\n\")\ncat(\"  Rango:              \", round(min(stats_tratamiento), 1), \"% -\", \n    round(max(stats_tratamiento), 1), \"%\\n\\n\")\n\ncat(\"DIFERENCIA OBSERVADA:\\n\")\ncat(\"  Tratamiento - Control:\", round(diferencia_observada, 2), \n    \"puntos porcentuales\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot comparativo\nboxplot(asistencia ~ grupo, data = datos,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Asistencia Escolar por Grupo\",\n        ylab = \"Asistencia (%)\",\n        xlab = \"Grupo\",\n        ylim = c(0, 100))\n\n# Agregar medias\npoints(c(1, 2), c(media_control, media_tratamiento),\n       pch = 18, cex = 2.5, col = \"blue\")\n\nlegend(\"bottomright\",\n       legend = c(\"Media\"),\n       pch = 18, col = \"blue\", bty = \"n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular IC 95% para cada grupo\n\n# GRUPO CONTROL\nse_control <- sd_control / sqrt(n_control)\nic_control_lower <- media_control - 1.96 * se_control\nic_control_upper <- media_control + 1.96 * se_control\n\n# GRUPO TRATAMIENTO\nse_tratamiento <- sd_tratamiento / sqrt(n_tratamiento)\nic_trat_lower <- media_tratamiento - 1.96 * se_tratamiento\nic_trat_upper <- media_tratamiento + 1.96 * se_tratamiento\n\ncat(\"\\n📊 INTERVALOS DE CONFIANZA AL 95%\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"GRUPO CONTROL:\\n\")\ncat(\"  Media:              \", round(media_control, 2), \"%\\n\")\ncat(\"  Error Estándar:     \", round(se_control, 2), \"%\\n\")\ncat(\"  IC 95%:             [\", round(ic_control_lower, 2), \"%, \", \n    round(ic_control_upper, 2), \"%]\\n\")\ncat(\"  Ancho del IC:       \", round(ic_control_upper - ic_control_lower, 2), \"%\\n\\n\")\n\ncat(\"GRUPO TRATAMIENTO:\\n\")\ncat(\"  Media:              \", round(media_tratamiento, 2), \"%\\n\")\ncat(\"  Error Estándar:     \", round(se_tratamiento, 2), \"%\\n\")\ncat(\"  IC 95%:             [\", round(ic_trat_lower, 2), \"%, \", \n    round(ic_trat_upper, 2), \"%]\\n\")\ncat(\"  Ancho del IC:       \", round(ic_trat_upper - ic_trat_lower, 2), \"%\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Intervalo de confianza para la DIFERENCIA\n\n# Error estándar de la diferencia\nse_diferencia <- sqrt((sd_control^2 / n_control) + (sd_tratamiento^2 / n_tratamiento))\n\n# IC 95% para la diferencia\nic_dif_lower <- diferencia_observada - 1.96 * se_diferencia\nic_dif_upper <- diferencia_observada + 1.96 * se_diferencia\n\ncat(\"\\n🎯 INTERVALO DE CONFIANZA PARA LA DIFERENCIA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"Diferencia estimada:     \", round(diferencia_observada, 2), \n    \" puntos porcentuales\\n\")\ncat(\"Error estándar:          \", round(se_diferencia, 2), \"%\\n\")\ncat(\"IC 95%:                  [\", round(ic_dif_lower, 2), \"%, \", \n    round(ic_dif_upper, 2), \"%]\\n\\n\")\n\ncat(\"INTERPRETACIÓN:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\n\nif (ic_dif_lower > 0) {\n  cat(\"✅ El intervalo NO incluye cero.\\n\")\n  cat(\"   Conclusión: El programa AUMENTA la asistencia escolar.\\n\")\n  cat(\"   Con 95% de confianza, el aumento está entre\\n\")\n  cat(\"   \", round(ic_dif_lower, 1), \"% y \", round(ic_dif_upper, 1), \n      \"% puntos porcentuales.\\n\\n\")\n} else if (ic_dif_upper < 0) {\n  cat(\"❌ El intervalo NO incluye cero (valores negativos).\\n\")\n  cat(\"   Conclusión: El programa REDUCE la asistencia (resultado adverso).\\n\\n\")\n} else {\n  cat(\"⚠️  El intervalo INCLUYE cero.\\n\")\n  cat(\"   Conclusión: NO podemos descartar que la diferencia sea por azar.\\n\")\n  cat(\"   No hay evidencia suficiente de que el programa tenga efecto.\\n\\n\")\n}\n\ncat(\"⚠️  ADVERTENCIA:\\n\")\ncat(\"   Diferencia estadísticamente significativa ≠ Causalidad\\n\")\ncat(\"   Podría haber variables confusoras (autoselección, etc.)\\n\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Barplot con intervalos de confianza (barras de error)\n\n# Preparar datos\nmedias <- c(media_control, media_tratamiento)\nnombres <- c(\"Control\", \"Tratamiento\")\nerrores <- c(\n  1.96 * sd_control / sqrt(n_control),\n  1.96 * sd_tratamiento / sqrt(n_tratamiento)\n)\n\n# Crear barplot\nbp <- barplot(medias,\n              names.arg = nombres,\n              col = c(\"#FF6B6B\", \"#4ECDC4\"),\n              ylim = c(0, max(medias + errores) + 10),\n              ylab = \"Asistencia Escolar (%)\",\n              main = \"Asistencia por Grupo con IC 95%\\n(Las barras de error NO se traslapan)\",\n              border = \"white\",\n              las = 1,\n              cex.names = 1.2,\n              cex.axis = 1.1,\n              cex.lab = 1.2)\n\n# Agregar barras de error (IC 95%)\narrows(bp, medias - errores, \n       bp, medias + errores,\n       angle = 90, code = 3, length = 0.15, lwd = 2.5, col = \"black\")\n\n# Agregar media como número grande encima de cada barra\ntext(bp, medias + errores + 3,\n     paste0(round(medias, 1), \"%\"),\n     cex = 1.3, font = 2, col = \"black\")\n\n# Agregar IC como texto más pequeño debajo\ntext(bp, medias + errores + 6,\n     paste0(\"[\", round(medias - errores, 1), \"%-\", \n            round(medias + errores, 1), \"%]\"),\n     cex = 0.9, col = \"gray40\")\n\n# Línea horizontal de referencia\nabline(h = 0, col = \"gray50\", lwd = 1)\n\ncat(\"\\n🔍 OBSERVA:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(\"Los intervalos de confianza NO se traslapan.\\n\")\ncat(\"Esto es evidencia visual de que la diferencia es significativa.\\n\\n\")\ncat(\"Control:     \", round(media_control, 1), \"% [\", \n    round(media_control - errores[1], 1), \"%, \",\n    round(media_control + errores[1], 1), \"%]\\n\")\ncat(\"Tratamiento: \", round(media_tratamiento, 1), \"% [\", \n    round(media_tratamiento - errores[2], 1), \"%, \",\n    round(media_tratamiento + errores[2], 1), \"%]\\n\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar IC 90%, 95%, 99%\n\nniveles_confianza <- c(90, 95, 99)\nz_valores <- c(1.645, 1.96, 2.576)\n\ncat(\"\\n📊 COMPARACIÓN DE INTERVALOS DE CONFIANZA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\nresultados_ic <- data.frame()\n\nfor (i in 1:length(niveles_confianza)) {\n  nivel <- niveles_confianza[i]\n  z <- z_valores[i]\n  \n  ic_lower <- diferencia_observada - z * se_diferencia\n  ic_upper <- diferencia_observada + z * se_diferencia\n  ancho <- ic_upper - ic_lower\n  \n  cat(\"IC al \", nivel, \"%:\\n\", sep = \"\")\n  cat(\"  Intervalo:  [\", round(ic_lower, 2), \"%, \", round(ic_upper, 2), \"%]\\n\")\n  cat(\"  Ancho:      \", round(ancho, 2), \"%\\n\\n\")\n  \n  resultados_ic <- rbind(resultados_ic, data.frame(\n    nivel = nivel,\n    lower = ic_lower,\n    upper = ic_upper,\n    ancho = ancho\n  ))\n}\n\ncat(\"🔍 OBSERVA:\\n\")\ncat(\"   Mayor confianza → Intervalo MÁS ANCHO\\n\")\ncat(\"   Para estar más seguro (99%), necesitas un rango más amplio\\n\\n\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Graficar los tres ICs\nplot(NULL, xlim = c(0.5, 3.5), ylim = c(min(resultados_ic$lower) - 1, \n                                         max(resultados_ic$upper) + 1),\n     xlab = \"Nivel de Confianza\", ylab = \"Diferencia en asistencia (%)\",\n     main = \"Intervalos de Confianza al 90%, 95% y 99%\",\n     xaxt = \"n\")\n\naxis(1, at = 1:3, labels = c(\"90%\", \"95%\", \"99%\"))\n\n# Dibujar intervalos\nfor (i in 1:nrow(resultados_ic)) {\n  segments(i, resultados_ic$lower[i], i, resultados_ic$upper[i],\n           lwd = 5, col = c(\"#4ECDC4\", \"#45B7D1\", \"#96CEB4\")[i])\n  points(i, diferencia_observada, pch = 19, cex = 2, col = \"darkgreen\")\n}\n\n# Línea del cero\nabline(h = 0, col = \"red\", lwd = 2, lty = 2)\ntext(2, -0.5, \"Cero (sin efecto)\", col = \"red\", font = 2)\n\n# Leyenda\nlegend(\"topright\",\n       legend = c(\"90% confianza\", \"95% confianza\", \"99% confianza\"),\n       col = c(\"#4ECDC4\", \"#45B7D1\", \"#96CEB4\"),\n       lwd = 5, bty = \"n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 100 estudios diferentes\nn_simulaciones <- 100\nefecto_real <- 10  # El efecto verdadero del programa\n\nresultados_sim <- data.frame()\ncaptura_verdad <- 0\n\nfor (i in 1:n_simulaciones) {\n  # Generar datos de un estudio\n  control_sim <- rnorm(500, mean = 72, sd = 18)\n  tratamiento_sim <- rnorm(500, mean = 82, sd = 15)\n  \n  # Calcular diferencia\n  dif_sim <- mean(tratamiento_sim) - mean(control_sim)\n  \n  # Calcular IC\n  se_sim <- sqrt((sd(control_sim)^2 / 500) + (sd(tratamiento_sim)^2 / 500))\n  ic_lower_sim <- dif_sim - 1.96 * se_sim\n  ic_upper_sim <- dif_sim + 1.96 * se_sim\n  \n  # ¿Captura el efecto real?\n  captura <- (ic_lower_sim <= efecto_real) & (efecto_real <= ic_upper_sim)\n  if (captura) captura_verdad <- captura_verdad + 1\n  \n  resultados_sim <- rbind(resultados_sim, data.frame(\n    sim = i,\n    diferencia = dif_sim,\n    ic_lower = ic_lower_sim,\n    ic_upper = ic_upper_sim,\n    captura = captura\n  ))\n}\n\ncat(\"De\", n_simulaciones, \"intervalos al 95% de confianza:\\n\")\ncat(\"  Capturan el efecto real:  \", captura_verdad, \n    \" (\", round(100*captura_verdad/n_simulaciones, 1), \"%)\\n\")\ncat(\"  No lo capturan:           \", n_simulaciones - captura_verdad, \"\\n\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Graficar los 100 intervalos\nplot(1:n_simulaciones, resultados_sim$diferencia,\n     ylim = range(c(resultados_sim$ic_lower, resultados_sim$ic_upper)),\n     pch = 19, cex = 0.5,\n     col = ifelse(resultados_sim$captura, \"steelblue\", \"red\"),\n     main = paste0(\"100 Intervalos de Confianza al 95%\\n\",\n                   captura_verdad, \" capturan el efecto real (azul), \",\n                   n_simulaciones - captura_verdad, \" no lo capturan (rojo)\"),\n     xlab = \"Número de simulación\",\n     ylab = \"Diferencia estimada (%)\")\n\n# Dibujar intervalos\nfor (i in 1:n_simulaciones) {\n  segments(i, resultados_sim$ic_lower[i], i, resultados_sim$ic_upper[i],\n           col = ifelse(resultados_sim$captura[i], \"steelblue\", \"red\"),\n           lwd = 1.5)\n}\n\n# Línea del efecto verdadero\nabline(h = efecto_real, col = \"darkgreen\", lwd = 3, lty = 2)\ntext(50, efecto_real + 0.8, \n     paste0(\"Efecto real = \", efecto_real, \"%\"),\n     col = \"darkgreen\", font = 2)\n\nlegend(\"topright\",\n       legend = c(\"Captura efecto real\", \"No captura\"),\n       col = c(\"steelblue\", \"red\"), pch = 19, bty = \"n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Agregar variable de zona (urbano/rural)\nset.seed(2026)\ndatos$zona <- sample(c(\"Urbano\", \"Rural\"), nrow(datos), \n                     replace = TRUE, prob = c(0.6, 0.4))\n\n# ZONA URBANA: Programa funciona bien\n# Ajustar asistencia urbana (efecto positivo fuerte)\ndatos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Control\"] <- \n  datos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Control\"] * 0.95\n\ndatos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Tratamiento\"] <- \n  datos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Tratamiento\"] * 1.05\n\n# ZONA RURAL: Programa NO funciona (efecto cercano a cero)\n# Hacer que tratamiento y control sean similares en rural\ndatos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Control\"] <- \n  datos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Control\"] * 1.02\n\ndatos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Tratamiento\"] <- \n  datos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Tratamiento\"] * 0.95\n\n# Limitar a [0, 100]\ndatos$asistencia <- pmax(pmin(datos$asistencia, 100), 0)\n\n# Calcular diferencias por zona\ncat(\"\\n📊 ANÁLISIS POR SUBGRUPOS: URBANO VS RURAL\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\nfor (zona_i in c(\"Urbano\", \"Rural\")) {\n  datos_zona <- datos[datos$zona == zona_i, ]\n  \n  control_zona <- datos_zona$asistencia[datos_zona$grupo == \"Control\"]\n  trat_zona <- datos_zona$asistencia[datos_zona$grupo == \"Tratamiento\"]\n  \n  media_c <- mean(control_zona)\n  media_t <- mean(trat_zona)\n  dif <- media_t - media_c\n  \n  se_dif <- sqrt((sd(control_zona)^2 / length(control_zona)) + \n                 (sd(trat_zona)^2 / length(trat_zona)))\n  \n  ic_lower <- dif - 1.96 * se_dif\n  ic_upper <- dif + 1.96 * se_dif\n  \n  cat(\"ZONA:\", zona_i, \"\\n\")\n  cat(\"  n Control:      \", length(control_zona), \"\\n\")\n  cat(\"  n Tratamiento:  \", length(trat_zona), \"\\n\")\n  cat(\"  Media Control:  \", round(media_c, 2), \"%\\n\")\n  cat(\"  Media Trat.:    \", round(media_t, 2), \"%\\n\")\n  cat(\"  Diferencia:     \", round(dif, 2), \"%\\n\")\n  cat(\"  IC 95%:         [\", round(ic_lower, 2), \"%, \", \n      round(ic_upper, 2), \"%]\\n\")\n  \n  if (ic_lower > 0) {\n    cat(\"  Conclusión:     ✅ Efecto positivo significativo\\n\\n\")\n  } else if (ic_upper < 0) {\n    cat(\"  Conclusión:     ❌ Efecto negativo\\n\\n\")\n  } else {\n    cat(\"  Conclusión:     ⚠️  IC incluye cero → No hay evidencia clara de efecto\\n\\n\")\n  }\n}\n\ncat(\"🎯 IMPLICACIÓN DE POLÍTICA:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(\"El programa funciona en zonas URBANAS pero NO en RURALES.\\n\")\ncat(\"Posibles explicaciones:\\n\")\ncat(\"  • Acceso: Escuelas más lejanas en zonas rurales\\n\")\ncat(\"  • Infraestructura: Menor calidad educativa rural\\n\")\ncat(\"  • Economía: Mayor necesidad de trabajo infantil rural\\n\\n\")\ncat(\"Recomendación: Adaptar el programa para zonas rurales con\\n\")\ncat(\"apoyos complementarios (transporte, útiles, etc.)\\n\\n\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1636,7 +1639,7 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
 
-<link rel="stylesheet" href="../custom-styles.css">
+<link rel="stylesheet" href="../../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
 <meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
@@ -1655,7 +1658,7 @@ globalThis.qwebrExecuteCode = async function (
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
@@ -1671,11 +1674,11 @@ globalThis.qwebrExecuteCode = async function (
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="../contact.html">
+    <a class="dropdown-item" href="../../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cv.html">
+    <a class="dropdown-item" href="../../cv.html">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -1686,7 +1689,7 @@ globalThis.qwebrExecuteCode = async function (
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../food-systems-dashboard.html">
+    <a class="dropdown-item" href="../../food-systems-dashboard.html">
  <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
@@ -1696,21 +1699,28 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
+        <li>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
+ <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
         <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_bounds.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
  <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
  <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -1718,48 +1728,48 @@ globalThis.qwebrExecuteCode = async function (
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
  <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
  <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
  <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
         <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
  <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
@@ -1767,7 +1777,7 @@ globalThis.qwebrExecuteCode = async function (
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+    <a class="nav-link" href="../../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -2091,7 +2101,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sesión 2: Visualización como Evidencia</h1>
+<h1 class="title">Ejercicio Aplicado: Intervalos de Confianza</h1>
+<p class="subtitle lead">Programa Becas para Todos - ¿Funciona el programa?</p>
 </div>
 
 
@@ -2108,183 +2119,114 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="caso-de-política-pública" class="level1">
-<h1>Caso de Política Pública</h1>
-<p>El <strong>Secretario de Educación</strong> debe decidir cómo distribuir recursos adicionales entre escuelas públicas. Tiene datos de 120 escuelas con información sobre: - Puntaje promedio en prueba estandarizada (0-100) - Presupuesto anual por estudiante (miles de USD) - Tipo de escuela (Urbana vs Rural)</p>
-<p><strong>Tu tarea:</strong> Crear visualizaciones que ayuden a responder: - ¿Más presupuesto se traduce en mejor desempeño? - ¿Hay diferencias sistemáticas entre escuelas urbanas y rurales? - ¿Dónde están las mejores oportunidades de mejora?</p>
-<p><strong>Regla de oro:</strong> Un gráfico en política pública no es decoración; es un argumento basado en evidencia.</p>
+<section id="contexto" class="level1">
+<h1>Contexto</h1>
+<p>El programa <strong>“Becas para Todos”</strong> lleva 2 años operando. Ahora queremos evaluar su impacto:</p>
+<p><strong>Pregunta de política:</strong> ¿El programa aumentó la asistencia escolar?</p>
+<p><strong>Diseño de evaluación:</strong> - <strong>Grupo Tratamiento:</strong> 500 familias que recibieron la beca - <strong>Grupo Control:</strong> 500 familias que NO recibieron la beca (lista de espera)</p>
+<p><strong>Objetivo:</strong> Calcular intervalos de confianza para estimar el impacto del programa.</p>
 <hr>
 </section>
-<section id="parte-1-simulación-y-carga-de-datos" class="level1">
-<h1>Parte 1: Simulación y Carga de Datos</h1>
+<section id="parte-1-generación-de-datos-de-la-evaluación" class="level1">
+<h1>Parte 1: Generación de Datos de la Evaluación</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-<section id="parte-2-estadísticas-descriptivas-por-tipo" class="level1">
-<h1>Parte 2: Estadísticas Descriptivas por Tipo</h1>
+<section id="parte-2-estadísticas-descriptivas-por-grupo" class="level1">
+<h1>Parte 2: Estadísticas Descriptivas por Grupo</h1>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta de reflexión:</strong> ¿Las escuelas urbanas tienen mayor variabilidad? ¿Qué implica esto para la intervención?</p>
 <hr>
 </section>
-<section id="parte-3-visualización-esencial---el-boxplot" class="level1">
-<h1>Parte 3: Visualización Esencial - El Boxplot</h1>
-<p><strong>¿Por qué boxplot?</strong> Porque muestra de un vistazo: - El “típico” (mediana) - La dispersión (IQR) - Los valores extremos (outliers) - Permite comparar grupos fácilmente</p>
+<section id="parte-3-visualización-inicial" class="level1">
+<h1>Parte 3: Visualización Inicial</h1>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Interpreta el boxplot:</strong> 1. ¿Qué grupo tiene mayor dispersión? 2. ¿Hay outliers? ¿Son positivos (escuelas excepcionales) o negativos? 3. ¿Se traslapan las cajas? ¿Qué significa esto?</p>
 <hr>
 </section>
-<section id="parte-4-análisis-de-dispersión-y-desigualdad" class="level1">
-<h1>Parte 4: Análisis de Dispersión y Desigualdad</h1>
+<section id="parte-4-intervalo-de-confianza-para-cada-grupo" class="level1">
+<h1>Parte 4: Intervalo de Confianza para Cada Grupo</h1>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-<section id="parte-5-scatterplot---relación-presupuesto-desempeño" class="level1">
-<h1>Parte 5: Scatterplot - Relación Presupuesto-Desempeño</h1>
+<section id="parte-5-ic-para-la-diferencia-de-medias" class="level1">
+<h1>Parte 5: IC para la Diferencia de Medias</h1>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Análisis del scatterplot:</strong> 1. ¿La relación es lineal o se aplana en algún punto? 2. ¿Las pendientes son iguales para urbanas y rurales? 3. ¿Hay escuelas que están “fuera de la curva”? (outliers influyentes)</p>
 <hr>
 </section>
-<section id="parte-6-cálculo-de-pendientes-retorno-del-presupuesto" class="level1">
-<h1>Parte 6: Cálculo de Pendientes (Retorno del Presupuesto)</h1>
+<section id="parte-6-visualización-del-ic-de-la-diferencia" class="level1">
+<h1>Parte 6: Visualización del IC de la Diferencia</h1>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Importante:</strong> Correlación ≠ Causalidad. Esta pendiente sugiere una asociación, pero no prueba que aumentar presupuesto <em>cause</em> mejor desempeño.</p>
 <hr>
 </section>
-<section id="parte-7-histograma-de-presupuesto" class="level1">
-<h1>Parte 7: Histograma de Presupuesto</h1>
+<section id="parte-7-comparación-de-ics-con-diferentes-niveles-de-confianza" class="level1">
+<h1>Parte 7: Comparación de ICs con Diferentes Niveles de Confianza</h1>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta:</strong> ¿La distribución del presupuesto es simétrica o asimétrica en cada grupo?</p>
 <hr>
 </section>
-<section id="parte-8-tabla-de-rendición-de-cuentas" class="level1">
-<h1>Parte 8: Tabla de Rendición de Cuentas</h1>
+<section id="parte-8-visualización-de-ics-con-diferentes-niveles" class="level1">
+<h1>Parte 8: Visualización de ICs con Diferentes Niveles</h1>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-<section id="parte-9-auditoría-de-gráficos-engañosos" class="level1">
-<h1>Parte 9: Auditoría de Gráficos Engañosos</h1>
-<p><strong>Ejercicio de lectura crítica:</strong> Imagina que ves este titular en un reporte:</p>
-<blockquote class="blockquote">
-<p>“Escuelas con mayor presupuesto tienen 15 puntos más en promedio - ¡El dinero sí importa!”</p>
-</blockquote>
+<section id="parte-9-simulación-de-100-intervalos-de-confianza" class="level1">
+<h1>Parte 9: Simulación de 100 Intervalos de Confianza</h1>
+<p><strong>Pregunta:</strong> ¿Qué significa “95% de confianza”?</p>
+<p><strong>Experimento:</strong> Simular 100 evaluaciones diferentes del programa.</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Pregunta crítica:</strong> - ¿Cuál gráfico exagera la diferencia? - ¿Cuál es más honesto? - ¿Por qué importa la escala del eje Y?</p>
-<p><strong>Reglas de auditoría de gráficos:</strong> 1. ✅ <strong>Eje Y empieza en 0</strong> (para barras) 2. ✅ <strong>Denominador claro</strong> (¿por estudiante? ¿por escuela?) 3. ✅ <strong>Población y periodo especificados</strong> 4. ✅ <strong>Muestra dispersión</strong> (no solo promedios) 5. ✅ <strong>Declara limitaciones</strong></p>
 <hr>
 </section>
-<section id="parte-10-memo-ejecutivo-con-visualización" class="level1">
-<h1>Parte 10: Memo Ejecutivo con Visualización</h1>
+<section id="parte-10-visualización-de-los-100-intervalos" class="level1">
+<h1>Parte 10: Visualización de los 100 Intervalos</h1>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <hr>
 </section>
-<section id="ejercicio-individual-entregable" class="level1">
-<h1>Ejercicio Individual (Entregable)</h1>
-<p><strong>Parte A: Crear Visualizaciones</strong></p>
+<section id="parte-11-análisis-por-subgrupos-urbano-vs-rural" class="level1">
+<h1>Parte 11: Análisis por Subgrupos (Urbano vs Rural)</h1>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<hr>
+</section>
+<section id="preguntas-para-reflexionar" class="level1">
+<h1>Preguntas para Reflexionar</h1>
 <ol type="1">
-<li><strong>Boxplot comparativo:</strong>
-<ul>
-<li>Grafica presupuesto_anual_kusd ~ tipo</li>
-<li>Incluye título-conclusión (máximo 18 palabras)</li>
-<li>Identifica outliers y explica qué pueden representar</li>
-</ul></li>
-<li><strong>Scatterplot con segmentación:</strong>
-<ul>
-<li>Eje X: presupuesto, Eje Y: puntaje</li>
-<li>Colorea puntos por tipo</li>
-<li>Agrega líneas de tendencia</li>
-<li>Marca escuelas con puntaje &lt; 50 (círculos rojos)</li>
-</ul></li>
-</ol>
-<p><strong>Parte B: Análisis Escrito</strong></p>
-<ol start="3" type="1">
-<li><strong>Tabla de análisis:</strong> Crea una tabla con 3 columnas:
-<ul>
-<li>Tipo de gráfico (Histograma, Boxplot, Scatterplot)</li>
-<li>Pregunta que responde mejor</li>
-<li>Limitación principal</li>
-</ul></li>
-<li><strong>Ejercicio de lectura crítica:</strong> Busca UN gráfico de un reporte real (puede ser de periódico, informe gubernamental, etc.)
-<ul>
-<li>¿Cumple las 5 reglas de auditoría?</li>
-<li>¿Hay algo engañoso en la presentación?</li>
-<li>¿Qué mejorarías?</li>
-</ul></li>
-</ol>
-<p><strong>Parte C: Recomendación Estratégica</strong></p>
-<ol start="5" type="1">
-<li><strong>Escribe 6 líneas respondiendo:</strong>
-<ul>
-<li>Si solo puedes intervenir en 20 escuelas, ¿cuáles eliges?</li>
-<li>¿Usas criterio de presupuesto, desempeño, tipo, o combinación?</li>
-<li>Incluye 1 limitación de tu propuesta</li>
-</ul></li>
+<li><p><strong>¿Qué significa que el IC no incluya cero?</strong><br>
+Tenemos evidencia de que hay una diferencia real entre los grupos (con 95% de confianza).</p></li>
+<li><p><strong>¿Por qué el IC de 99% es más ancho que el de 90%?</strong><br>
+Trade-off entre confianza y precisión. Para estar MÁS seguro, necesitas un intervalo MÁS amplio.</p></li>
+<li><p><strong>Si el IC de la diferencia es [4%, 8%], ¿cuál es el efecto mínimo plausible?</strong><br>
+4% (límite inferior). Podemos decir con 95% de confianza que el efecto es AL MENOS 4%.</p></li>
+<li><p><strong>¿Diferencia significativa implica causalidad?</strong><br>
+NO. Podría haber autoselección, variables confusoras, etc. Se necesita diseño experimental (aleatorización).</p></li>
 </ol>
 <hr>
 </section>
-<section id="preguntas-de-discusión" class="level1">
-<h1>Preguntas de Discusión</h1>
+<section id="ejercicio-individual" class="level1">
+<h1>Ejercicio Individual</h1>
+<p>Modifica el código para:</p>
 <ol type="1">
-<li><strong>La Trampa del Promedio Revisitada:</strong>
-<ul>
-<li>¿Por qué un gráfico de solo promedios puede ser engañoso?</li>
-<li>¿Qué se pierde cuando no mostramos dispersión?</li>
-</ul></li>
-<li><strong>Escalas Visuales:</strong>
-<ul>
-<li>¿Cuándo es legítimo NO empezar el eje Y en cero?</li>
-<li>¿Qué riesgos tiene manipular las escalas?</li>
-</ul></li>
-<li><strong>Denominadores:</strong>
-<ul>
-<li>¿Deberíamos graficar presupuesto total o por estudiante?</li>
-<li>¿Puntaje promedio de escuela o distribución completa?</li>
-</ul></li>
-<li><strong>Outliers:</strong>
-<ul>
-<li>¿Los outliers son errores o información valiosa?</li>
-<li>¿Cuándo deberías investigar un outlier vs.&nbsp;eliminarlo?</li>
-</ul></li>
+<li><strong>Calcular el IC al 90%</strong> para la diferencia de medias</li>
+<li><strong>Determinar el tamaño de muestra necesario</strong> para tener un IC más estrecho (ancho ≤ 3%)</li>
+<li><strong>Analizar diferencias por género</strong> (niñas vs niños)</li>
+<li><strong>Escribir un memo de 1 página</strong> comunicando los resultados a tomadores de decisión</li>
 </ol>
 <hr>
 </section>
-<section id="recursos-adicionales" class="level1">
-<h1>Recursos Adicionales</h1>
-<p><strong>Principios de visualización efectiva:</strong></p>
-<ol type="1">
-<li><strong>Claridad sobre estética:</strong> El gráfico debe comunicar, no impresionar</li>
-<li><strong>Honestidad visual:</strong> Escalas apropiadas, contexto completo</li>
-<li><strong>Dispersión importa:</strong> No solo promedios</li>
-<li><strong>Comparaciones justas:</strong> Mismo denominador, misma escala</li>
-<li><strong>Contexto siempre:</strong> Población, periodo, fuente, limitaciones</li>
-</ol>
-<p><strong>Tipos de gráficos y cuándo usarlos:</strong></p>
-<ul>
-<li><strong>Histograma:</strong> Ver forma de distribución (asimetría, modas)</li>
-<li><strong>Boxplot:</strong> Comparar grupos, detectar outliers</li>
-<li><strong>Scatterplot:</strong> Explorar relaciones entre dos variables</li>
-<li><strong>Barras:</strong> Comparar cantidades (¡eje Y en 0!)</li>
-<li><strong>Líneas:</strong> Mostrar tendencias en el tiempo</li>
-</ul>
-<p><strong>Errores comunes a evitar:</strong></p>
-<ul>
-<li>❌ Solo mostrar promedios sin dispersión</li>
-<li>❌ Manipular escalas para exagerar diferencias</li>
-<li>❌ No declarar denominador</li>
-<li>❌ Graficar sin pregunta clara en mente</li>
-<li>❌ Usar 3D, colores excesivos, “chart junk”</li>
-</ul>
-<hr>
-<p><strong>Última reflexión:</strong> Un buen gráfico en política pública debe pasar la “prueba del ascensor”: ¿Puedes explicarlo en 30 segundos y cambiar una decisión?</p>
+<section id="conclusión" class="level1">
+<h1>Conclusión</h1>
+<p>✅ <strong>IC cuantifica incertidumbre:</strong> No basta con la diferencia puntual</p>
+<p>✅ <strong>Interpretación correcta:</strong> “95% de intervalos contienen el efecto real”</p>
+<p>✅ <strong>IC que no incluye cero:</strong> Evidencia de diferencia estadísticamente significativa</p>
+<p>✅ <strong>Mayor confianza = Intervalo más ancho:</strong> Trade-off fundamental</p>
+<p>⚠️ <strong>Significancia ≠ Causalidad:</strong> Cuidado con variables confusoras</p>
 
 
 </section>

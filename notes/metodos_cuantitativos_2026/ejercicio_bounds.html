@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Ejercicio Aplicado: Intervalos de Confianza – David Contreras-Loya</title>
+<title>Identificación Parcial: Del Piloto a la Política – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -28,23 +31,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe7020910c808501f8c9f19b9545dcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-df436f9980fa4e0545b4d17c94b998b3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -58,17 +61,17 @@ ul.task-list li input[type="checkbox"] {
     "s"
   ],
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CRLS583RW9"></script>
@@ -359,7 +362,7 @@ iframe.qwebr-output-code-browse {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = [''];
+globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'tidyr', 'patchwork', 'ggridges'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -381,7 +384,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nset.seed(2026)\n\n# PARÁMETROS POBLACIONALES (verdad desconocida)\n# Efecto real del programa: +10 puntos porcentuales de asistencia\n\nn_tratamiento <- 500\nn_control <- 500\n\n# Grupo CONTROL: asistencia promedio 72%, desviación estándar 18%\nasistencia_control <- rnorm(n_control, mean = 72, sd = 18)\nasistencia_control <- pmax(pmin(asistencia_control, 100), 0)  # Limitar a [0, 100]\n\n# Grupo TRATAMIENTO: asistencia promedio 82%, desviación estándar 15%\n# (menor variabilidad porque el programa estabiliza la asistencia)\nasistencia_tratamiento <- rnorm(n_tratamiento, mean = 82, sd = 15)\nasistencia_tratamiento <- pmax(pmin(asistencia_tratamiento, 100), 0)\n\n# Crear data frame\ndatos <- data.frame(\n  grupo = rep(c(\"Control\", \"Tratamiento\"), c(n_control, n_tratamiento)),\n  asistencia = c(asistencia_control, asistencia_tratamiento)\n)\n\ncat(\"📊 DATOS DE LA EVALUACIÓN\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Total de familias:      \", nrow(datos), \"\\n\")\ncat(\"Grupo Control:          \", n_control, \"\\n\")\ncat(\"Grupo Tratamiento:      \", n_tratamiento, \"\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular estadísticas por grupo\nstats_control <- datos$asistencia[datos$grupo == \"Control\"]\nstats_tratamiento <- datos$asistencia[datos$grupo == \"Tratamiento\"]\n\nmedia_control <- mean(stats_control)\nmedia_tratamiento <- mean(stats_tratamiento)\nsd_control <- sd(stats_control)\nsd_tratamiento <- sd(stats_tratamiento)\n\ndiferencia_observada <- media_tratamiento - media_control\n\ncat(\"📈 ESTADÍSTICAS DESCRIPTIVAS\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"GRUPO CONTROL:\\n\")\ncat(\"  Media:              \", round(media_control, 2), \"%\\n\")\ncat(\"  Desviación estándar:\", round(sd_control, 2), \"%\\n\")\ncat(\"  Rango:              \", round(min(stats_control), 1), \"% -\", \n    round(max(stats_control), 1), \"%\\n\\n\")\n\ncat(\"GRUPO TRATAMIENTO:\\n\")\ncat(\"  Media:              \", round(media_tratamiento, 2), \"%\\n\")\ncat(\"  Desviación estándar:\", round(sd_tratamiento, 2), \"%\\n\")\ncat(\"  Rango:              \", round(min(stats_tratamiento), 1), \"% -\", \n    round(max(stats_tratamiento), 1), \"%\\n\\n\")\n\ncat(\"DIFERENCIA OBSERVADA:\\n\")\ncat(\"  Tratamiento - Control:\", round(diferencia_observada, 2), \n    \"puntos porcentuales\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot comparativo\nboxplot(asistencia ~ grupo, data = datos,\n        col = c(\"#FF6B6B\", \"#4ECDC4\"),\n        main = \"Asistencia Escolar por Grupo\",\n        ylab = \"Asistencia (%)\",\n        xlab = \"Grupo\",\n        ylim = c(0, 100))\n\n# Agregar medias\npoints(c(1, 2), c(media_control, media_tratamiento),\n       pch = 18, cex = 2.5, col = \"blue\")\n\nlegend(\"bottomright\",\n       legend = c(\"Media\"),\n       pch = 18, col = \"blue\", bty = \"n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular IC 95% para cada grupo\n\n# GRUPO CONTROL\nse_control <- sd_control / sqrt(n_control)\nic_control_lower <- media_control - 1.96 * se_control\nic_control_upper <- media_control + 1.96 * se_control\n\n# GRUPO TRATAMIENTO\nse_tratamiento <- sd_tratamiento / sqrt(n_tratamiento)\nic_trat_lower <- media_tratamiento - 1.96 * se_tratamiento\nic_trat_upper <- media_tratamiento + 1.96 * se_tratamiento\n\ncat(\"\\n📊 INTERVALOS DE CONFIANZA AL 95%\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"GRUPO CONTROL:\\n\")\ncat(\"  Media:              \", round(media_control, 2), \"%\\n\")\ncat(\"  Error Estándar:     \", round(se_control, 2), \"%\\n\")\ncat(\"  IC 95%:             [\", round(ic_control_lower, 2), \"%, \", \n    round(ic_control_upper, 2), \"%]\\n\")\ncat(\"  Ancho del IC:       \", round(ic_control_upper - ic_control_lower, 2), \"%\\n\\n\")\n\ncat(\"GRUPO TRATAMIENTO:\\n\")\ncat(\"  Media:              \", round(media_tratamiento, 2), \"%\\n\")\ncat(\"  Error Estándar:     \", round(se_tratamiento, 2), \"%\\n\")\ncat(\"  IC 95%:             [\", round(ic_trat_lower, 2), \"%, \", \n    round(ic_trat_upper, 2), \"%]\\n\")\ncat(\"  Ancho del IC:       \", round(ic_trat_upper - ic_trat_lower, 2), \"%\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Intervalo de confianza para la DIFERENCIA\n\n# Error estándar de la diferencia\nse_diferencia <- sqrt((sd_control^2 / n_control) + (sd_tratamiento^2 / n_tratamiento))\n\n# IC 95% para la diferencia\nic_dif_lower <- diferencia_observada - 1.96 * se_diferencia\nic_dif_upper <- diferencia_observada + 1.96 * se_diferencia\n\ncat(\"\\n🎯 INTERVALO DE CONFIANZA PARA LA DIFERENCIA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"Diferencia estimada:     \", round(diferencia_observada, 2), \n    \" puntos porcentuales\\n\")\ncat(\"Error estándar:          \", round(se_diferencia, 2), \"%\\n\")\ncat(\"IC 95%:                  [\", round(ic_dif_lower, 2), \"%, \", \n    round(ic_dif_upper, 2), \"%]\\n\\n\")\n\ncat(\"INTERPRETACIÓN:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\n\nif (ic_dif_lower > 0) {\n  cat(\"✅ El intervalo NO incluye cero.\\n\")\n  cat(\"   Conclusión: El programa AUMENTA la asistencia escolar.\\n\")\n  cat(\"   Con 95% de confianza, el aumento está entre\\n\")\n  cat(\"   \", round(ic_dif_lower, 1), \"% y \", round(ic_dif_upper, 1), \n      \"% puntos porcentuales.\\n\\n\")\n} else if (ic_dif_upper < 0) {\n  cat(\"❌ El intervalo NO incluye cero (valores negativos).\\n\")\n  cat(\"   Conclusión: El programa REDUCE la asistencia (resultado adverso).\\n\\n\")\n} else {\n  cat(\"⚠️  El intervalo INCLUYE cero.\\n\")\n  cat(\"   Conclusión: NO podemos descartar que la diferencia sea por azar.\\n\")\n  cat(\"   No hay evidencia suficiente de que el programa tenga efecto.\\n\\n\")\n}\n\ncat(\"⚠️  ADVERTENCIA:\\n\")\ncat(\"   Diferencia estadísticamente significativa ≠ Causalidad\\n\")\ncat(\"   Podría haber variables confusoras (autoselección, etc.)\\n\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Barplot con intervalos de confianza (barras de error)\n\n# Preparar datos\nmedias <- c(media_control, media_tratamiento)\nnombres <- c(\"Control\", \"Tratamiento\")\nerrores <- c(\n  1.96 * sd_control / sqrt(n_control),\n  1.96 * sd_tratamiento / sqrt(n_tratamiento)\n)\n\n# Crear barplot\nbp <- barplot(medias,\n              names.arg = nombres,\n              col = c(\"#FF6B6B\", \"#4ECDC4\"),\n              ylim = c(0, max(medias + errores) + 10),\n              ylab = \"Asistencia Escolar (%)\",\n              main = \"Asistencia por Grupo con IC 95%\\n(Las barras de error NO se traslapan)\",\n              border = \"white\",\n              las = 1,\n              cex.names = 1.2,\n              cex.axis = 1.1,\n              cex.lab = 1.2)\n\n# Agregar barras de error (IC 95%)\narrows(bp, medias - errores, \n       bp, medias + errores,\n       angle = 90, code = 3, length = 0.15, lwd = 2.5, col = \"black\")\n\n# Agregar media como número grande encima de cada barra\ntext(bp, medias + errores + 3,\n     paste0(round(medias, 1), \"%\"),\n     cex = 1.3, font = 2, col = \"black\")\n\n# Agregar IC como texto más pequeño debajo\ntext(bp, medias + errores + 6,\n     paste0(\"[\", round(medias - errores, 1), \"%-\", \n            round(medias + errores, 1), \"%]\"),\n     cex = 0.9, col = \"gray40\")\n\n# Línea horizontal de referencia\nabline(h = 0, col = \"gray50\", lwd = 1)\n\ncat(\"\\n🔍 OBSERVA:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(\"Los intervalos de confianza NO se traslapan.\\n\")\ncat(\"Esto es evidencia visual de que la diferencia es significativa.\\n\\n\")\ncat(\"Control:     \", round(media_control, 1), \"% [\", \n    round(media_control - errores[1], 1), \"%, \",\n    round(media_control + errores[1], 1), \"%]\\n\")\ncat(\"Tratamiento: \", round(media_tratamiento, 1), \"% [\", \n    round(media_tratamiento - errores[2], 1), \"%, \",\n    round(media_tratamiento + errores[2], 1), \"%]\\n\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Comparar IC 90%, 95%, 99%\n\nniveles_confianza <- c(90, 95, 99)\nz_valores <- c(1.645, 1.96, 2.576)\n\ncat(\"\\n📊 COMPARACIÓN DE INTERVALOS DE CONFIANZA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\nresultados_ic <- data.frame()\n\nfor (i in 1:length(niveles_confianza)) {\n  nivel <- niveles_confianza[i]\n  z <- z_valores[i]\n  \n  ic_lower <- diferencia_observada - z * se_diferencia\n  ic_upper <- diferencia_observada + z * se_diferencia\n  ancho <- ic_upper - ic_lower\n  \n  cat(\"IC al \", nivel, \"%:\\n\", sep = \"\")\n  cat(\"  Intervalo:  [\", round(ic_lower, 2), \"%, \", round(ic_upper, 2), \"%]\\n\")\n  cat(\"  Ancho:      \", round(ancho, 2), \"%\\n\\n\")\n  \n  resultados_ic <- rbind(resultados_ic, data.frame(\n    nivel = nivel,\n    lower = ic_lower,\n    upper = ic_upper,\n    ancho = ancho\n  ))\n}\n\ncat(\"🔍 OBSERVA:\\n\")\ncat(\"   Mayor confianza → Intervalo MÁS ANCHO\\n\")\ncat(\"   Para estar más seguro (99%), necesitas un rango más amplio\\n\\n\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Graficar los tres ICs\nplot(NULL, xlim = c(0.5, 3.5), ylim = c(min(resultados_ic$lower) - 1, \n                                         max(resultados_ic$upper) + 1),\n     xlab = \"Nivel de Confianza\", ylab = \"Diferencia en asistencia (%)\",\n     main = \"Intervalos de Confianza al 90%, 95% y 99%\",\n     xaxt = \"n\")\n\naxis(1, at = 1:3, labels = c(\"90%\", \"95%\", \"99%\"))\n\n# Dibujar intervalos\nfor (i in 1:nrow(resultados_ic)) {\n  segments(i, resultados_ic$lower[i], i, resultados_ic$upper[i],\n           lwd = 5, col = c(\"#4ECDC4\", \"#45B7D1\", \"#96CEB4\")[i])\n  points(i, diferencia_observada, pch = 19, cex = 2, col = \"darkgreen\")\n}\n\n# Línea del cero\nabline(h = 0, col = \"red\", lwd = 2, lty = 2)\ntext(2, -0.5, \"Cero (sin efecto)\", col = \"red\", font = 2)\n\n# Leyenda\nlegend(\"topright\",\n       legend = c(\"90% confianza\", \"95% confianza\", \"99% confianza\"),\n       col = c(\"#4ECDC4\", \"#45B7D1\", \"#96CEB4\"),\n       lwd = 5, bty = \"n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 100 estudios diferentes\nn_simulaciones <- 100\nefecto_real <- 10  # El efecto verdadero del programa\n\nresultados_sim <- data.frame()\ncaptura_verdad <- 0\n\nfor (i in 1:n_simulaciones) {\n  # Generar datos de un estudio\n  control_sim <- rnorm(500, mean = 72, sd = 18)\n  tratamiento_sim <- rnorm(500, mean = 82, sd = 15)\n  \n  # Calcular diferencia\n  dif_sim <- mean(tratamiento_sim) - mean(control_sim)\n  \n  # Calcular IC\n  se_sim <- sqrt((sd(control_sim)^2 / 500) + (sd(tratamiento_sim)^2 / 500))\n  ic_lower_sim <- dif_sim - 1.96 * se_sim\n  ic_upper_sim <- dif_sim + 1.96 * se_sim\n  \n  # ¿Captura el efecto real?\n  captura <- (ic_lower_sim <= efecto_real) & (efecto_real <= ic_upper_sim)\n  if (captura) captura_verdad <- captura_verdad + 1\n  \n  resultados_sim <- rbind(resultados_sim, data.frame(\n    sim = i,\n    diferencia = dif_sim,\n    ic_lower = ic_lower_sim,\n    ic_upper = ic_upper_sim,\n    captura = captura\n  ))\n}\n\ncat(\"De\", n_simulaciones, \"intervalos al 95% de confianza:\\n\")\ncat(\"  Capturan el efecto real:  \", captura_verdad, \n    \" (\", round(100*captura_verdad/n_simulaciones, 1), \"%)\\n\")\ncat(\"  No lo capturan:           \", n_simulaciones - captura_verdad, \"\\n\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Graficar los 100 intervalos\nplot(1:n_simulaciones, resultados_sim$diferencia,\n     ylim = range(c(resultados_sim$ic_lower, resultados_sim$ic_upper)),\n     pch = 19, cex = 0.5,\n     col = ifelse(resultados_sim$captura, \"steelblue\", \"red\"),\n     main = paste0(\"100 Intervalos de Confianza al 95%\\n\",\n                   captura_verdad, \" capturan el efecto real (azul), \",\n                   n_simulaciones - captura_verdad, \" no lo capturan (rojo)\"),\n     xlab = \"Número de simulación\",\n     ylab = \"Diferencia estimada (%)\")\n\n# Dibujar intervalos\nfor (i in 1:n_simulaciones) {\n  segments(i, resultados_sim$ic_lower[i], i, resultados_sim$ic_upper[i],\n           col = ifelse(resultados_sim$captura[i], \"steelblue\", \"red\"),\n           lwd = 1.5)\n}\n\n# Línea del efecto verdadero\nabline(h = efecto_real, col = \"darkgreen\", lwd = 3, lty = 2)\ntext(50, efecto_real + 0.8, \n     paste0(\"Efecto real = \", efecto_real, \"%\"),\n     col = \"darkgreen\", font = 2)\n\nlegend(\"topright\",\n       legend = c(\"Captura efecto real\", \"No captura\"),\n       col = c(\"steelblue\", \"red\"), pch = 19, bty = \"n\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Agregar variable de zona (urbano/rural)\nset.seed(2026)\ndatos$zona <- sample(c(\"Urbano\", \"Rural\"), nrow(datos), \n                     replace = TRUE, prob = c(0.6, 0.4))\n\n# ZONA URBANA: Programa funciona bien\n# Ajustar asistencia urbana (efecto positivo fuerte)\ndatos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Control\"] <- \n  datos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Control\"] * 0.95\n\ndatos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Tratamiento\"] <- \n  datos$asistencia[datos$zona == \"Urbano\" & datos$grupo == \"Tratamiento\"] * 1.05\n\n# ZONA RURAL: Programa NO funciona (efecto cercano a cero)\n# Hacer que tratamiento y control sean similares en rural\ndatos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Control\"] <- \n  datos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Control\"] * 1.02\n\ndatos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Tratamiento\"] <- \n  datos$asistencia[datos$zona == \"Rural\" & datos$grupo == \"Tratamiento\"] * 0.95\n\n# Limitar a [0, 100]\ndatos$asistencia <- pmax(pmin(datos$asistencia, 100), 0)\n\n# Calcular diferencias por zona\ncat(\"\\n📊 ANÁLISIS POR SUBGRUPOS: URBANO VS RURAL\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\\n\")\n\nfor (zona_i in c(\"Urbano\", \"Rural\")) {\n  datos_zona <- datos[datos$zona == zona_i, ]\n  \n  control_zona <- datos_zona$asistencia[datos_zona$grupo == \"Control\"]\n  trat_zona <- datos_zona$asistencia[datos_zona$grupo == \"Tratamiento\"]\n  \n  media_c <- mean(control_zona)\n  media_t <- mean(trat_zona)\n  dif <- media_t - media_c\n  \n  se_dif <- sqrt((sd(control_zona)^2 / length(control_zona)) + \n                 (sd(trat_zona)^2 / length(trat_zona)))\n  \n  ic_lower <- dif - 1.96 * se_dif\n  ic_upper <- dif + 1.96 * se_dif\n  \n  cat(\"ZONA:\", zona_i, \"\\n\")\n  cat(\"  n Control:      \", length(control_zona), \"\\n\")\n  cat(\"  n Tratamiento:  \", length(trat_zona), \"\\n\")\n  cat(\"  Media Control:  \", round(media_c, 2), \"%\\n\")\n  cat(\"  Media Trat.:    \", round(media_t, 2), \"%\\n\")\n  cat(\"  Diferencia:     \", round(dif, 2), \"%\\n\")\n  cat(\"  IC 95%:         [\", round(ic_lower, 2), \"%, \", \n      round(ic_upper, 2), \"%]\\n\")\n  \n  if (ic_lower > 0) {\n    cat(\"  Conclusión:     ✅ Efecto positivo significativo\\n\\n\")\n  } else if (ic_upper < 0) {\n    cat(\"  Conclusión:     ❌ Efecto negativo\\n\\n\")\n  } else {\n    cat(\"  Conclusión:     ⚠️  IC incluye cero → No hay evidencia clara de efecto\\n\\n\")\n  }\n}\n\ncat(\"🎯 IMPLICACIÓN DE POLÍTICA:\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(\"El programa funciona en zonas URBANAS pero NO en RURALES.\\n\")\ncat(\"Posibles explicaciones:\\n\")\ncat(\"  • Acceso: Escuelas más lejanas en zonas rurales\\n\")\ncat(\"  • Infraestructura: Menor calidad educativa rural\\n\")\ncat(\"  • Economía: Mayor necesidad de trabajo infantil rural\\n\\n\")\ncat(\"Recomendación: Adaptar el programa para zonas rurales con\\n\")\ncat(\"apoyos complementarios (transporte, útiles, etc.)\\n\\n\")","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(patchwork)\nlibrary(ggridges)\n\n# Paleta institucional TEC\nc_dark   <- \"#003366\"\nc_med    <- \"#1A5299\"\nc_light  <- \"#6A9FCC\"\nc_vlight <- \"#C6D9F0\"\nc_pt     <- \"#E8622A\"   # naranja: estimador puntual / naive\nc_rojo   <- \"#B40000\"\nc_texto  <- \"#333333\"\n\ntema <- theme_minimal(base_size = 12) +\n  theme(\n    plot.title    = element_text(face = \"bold\", color = c_dark),\n    plot.subtitle = element_text(color = c_texto, size = 10),\n    plot.caption  = element_text(color = \"gray50\", size = 9),\n    panel.grid.minor = element_blank()\n  )","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"setup","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"r_obs   <- 0.261   # tasa de respuesta de la encuesta\np_r_obs <- 0.920   # tasa MMR observada entre respondentes\n\ncat(sprintf(\"Tasa de respuesta:           %5.1f %%\\n\", r_obs   * 100))\ncat(sprintf(\"Tasa MMR (respondentes):     %5.1f %%\\n\", p_r_obs * 100))\ncat(sprintf(\"CDC reporta (puntual, MAR):  %5.1f %%\\n\", p_r_obs * 100))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-params","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_vac <- r_obs * p_r_obs               # caso más pesimista\ncota_u_vac <- r_obs * p_r_obs + (1 - r_obs) # caso más optimista\n\ncat(sprintf(\"Cota inferior (0%% no-resp. vacunados):   %5.1f %%\\n\",\n            cota_l_vac * 100))\ncat(sprintf(\"Cota superior (100%% no-resp. vacunados): %5.1f %%\\n\",\n            cota_u_vac * 100))\ncat(sprintf(\"Intervalo identificado: [%.1f%%, %.1f%%]\\n\",\n            cota_l_vac * 100, cota_u_vac * 100))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-cotas-sin-sup","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mts <- cota_l_vac   # MTS no cambia la cota inferior\ncota_u_mts <- p_r_obs      # bajo MTS, el máximo posible es la tasa de respondentes\n\ncat(sprintf(\"Bajo MTS — cota inferior: %5.1f %%\\n\", cota_l_mts * 100))\ncat(sprintf(\"Bajo MTS — cota superior: %5.1f %%\\n\", cota_u_mts * 100))\ncat(sprintf(\"Intervalo bajo MTS: [%.1f%%, %.1f%%]\\n\",\n            cota_l_mts * 100, cota_u_mts * 100))\ncat(sprintf(\"Reducción en amplitud: %.1f puntos porcentuales\\n\",\n            (cota_u_vac - cota_u_mts) * 100))","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"vac-mts","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"grid_r <- seq(0.05, 0.99, by = 0.01)\n\nbounds_vac <- tibble(\n  tasa_r  = grid_r,\n  cota_l  = grid_r * p_r_obs,\n  cota_u  = grid_r * p_r_obs + (1 - grid_r),\n  puntual = p_r_obs\n)\n\nggplot(bounds_vac, aes(x = tasa_r * 100)) +\n  geom_ribbon(aes(ymin = cota_l * 100, ymax = cota_u * 100),\n              fill = c_vlight, alpha = 0.9) +\n  geom_line(aes(y = cota_l * 100), color = c_dark, linewidth = 1) +\n  geom_line(aes(y = cota_u * 100), color = c_dark, linewidth = 1) +\n  geom_hline(yintercept = p_r_obs * 100,\n             linetype = \"dashed\", color = c_rojo, linewidth = 0.9) +\n  geom_vline(xintercept = r_obs * 100,\n             linetype = \"dotted\", color = c_med, linewidth = 1) +\n  annotate(\"text\", x = r_obs * 100 + 2, y = 40,\n           label = paste0(\"NIS 2017\\n(r = \", round(r_obs * 100, 1), \" %)\"),\n           hjust = 0, size = 3.2, color = c_med) +\n  annotate(\"text\", x = 65, y = p_r_obs * 100 + 2.5,\n           label = \"Estimador puntual MAR = 92 %\",\n           color = c_rojo, hjust = 0, size = 3.2) +\n  annotate(\"segment\",\n           x = r_obs * 100, xend = r_obs * 100,\n           y = cota_l_vac * 100, yend = cota_u_vac * 100,\n           color = c_pt, linewidth = 2, alpha = 0.8) +\n  annotate(\"text\", x = r_obs * 100 + 2,\n           y = (cota_l_vac + cota_u_vac) / 2 * 100,\n           label = sprintf(\"[%.0f %%, %.0f %%]\",\n                           cota_l_vac * 100, cota_u_vac * 100),\n           hjust = 0, size = 3.2, color = c_pt) +\n  scale_x_continuous(limits = c(5, 99), breaks = seq(10, 90, 10),\n                     labels = function(x) paste0(x, \" %\")) +\n  scale_y_continuous(limits = c(0, 105), breaks = seq(0, 100, 10),\n                     labels = function(x) paste0(x, \" %\")) +\n  labs(title = \"Cotas de tasa de vacunación MMR según tasa de respuesta\",\n       subtitle = \"Región sombreada = intervalo sin supuestos. Segmento naranja = intervalo en NIS 2017.\",\n       x = \"Tasa de respuesta de la encuesta\",\n       y = \"Tasa de vacunación poblacional\",\n       caption = \"Datos: CDC/NIS 2017. Mullahy et al. (2021).\") +\n  tema","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Las cotas se estrechan conforme sube la tasa de respuesta. La línea roja punteada marca el 92 % (MAR). La línea azul punteada marca la NIS 2017.","fig-height":5,"fig-width":7,"label":"fig-vac-sensibilidad","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(2026)\nn <- 3000\n\n# Confusor: habilidad no observada (afecta salario Y participación)\nhabilidad <- rnorm(n, mean = 0, sd = 1)\n\n# Instrumento potencial: distancia al centro de capacitación (km)\ndistancia <- runif(n, min = 0, max = 60)\n\n# Participación: aumenta con habilidad, disminuye con distancia\nprob_D <- plogis(0.6 * habilidad - 0.04 * distancia + 0.2)\nD      <- rbinom(n, 1, prob_D)\n\n# Resultados potenciales (miles de MXN/mes)\nate_sim <- 2.5                                      # efecto verdadero\nY0 <- 10 + 3 * habilidad + rnorm(n, sd = 2)        # salario sin programa\nY1 <- Y0 + ate_sim + rnorm(n, sd = 1)              # salario con programa\n\nY <- D * Y1 + (1 - D) * Y0                         # salario observado\n\ndatos <- tibble(D, Y, Y0, Y1, habilidad, distancia)\n\ncat(sprintf(\"n = %d observaciones\\n\", n))\ncat(sprintf(\"Participantes (D=1): %.1f %%\\n\", mean(D) * 100))\ncat(sprintf(\"ATE simulado (verdadero): +%.2f mil MXN/mes\\n\\n\", ate_sim))\n\n# Verificamos que la selección sea positiva\ncat(\"Habilidad promedio por grupo:\\n\")\ncat(sprintf(\"  Participantes:     %.3f\\n\", mean(habilidad[D == 1])))\ncat(sprintf(\"  No participantes:  %.3f\\n\", mean(habilidad[D == 0])))\ncat(\"→ Los participantes tienen mayor habilidad promedio: selección positiva.\\n\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sim-datos","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"y1_bar <- mean(Y[D == 1])   # E[Y | D=1]: salario promedio de participantes\ny0_bar <- mean(Y[D == 0])   # E[Y | D=0]: salario promedio de no participantes\np_trat <- mean(D)\n\nate_verdadero  <- mean(Y1 - Y0)   # solo posible porque simulamos\nefecto_naive   <- y1_bar - y0_bar\nsesgo_seleccion <- efecto_naive - ate_verdadero\n\ncat(sprintf(\"ATE verdadero (simulado):        +%.3f mil MXN\\n\", ate_verdadero))\ncat(sprintf(\"Estimador naive (dif. de medias): +%.3f mil MXN\\n\", efecto_naive))\ncat(sprintf(\"Sesgo de selección:               +%.3f mil MXN\\n\\n\", sesgo_seleccion))\ncat(sprintf(\"El naive sobreestima en %.1f %% del ATE verdadero.\\n\",\n            sesgo_seleccion / ate_verdadero * 100))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sesgo-naive","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"y_L <- min(Y)  # soporte mínimo observado\ny_U <- max(Y)  # soporte máximo observado\n\ncota_l_0 <- (y1_bar - y_U) * p_trat + (y_L - y0_bar) * (1 - p_trat)\ncota_u_0 <- (y1_bar - y_L) * p_trat + (y_U - y0_bar) * (1 - p_trat)\n\ncat(sprintf(\"Soporte observado: [%.1f, %.1f] mil MXN\\n\", y_L, y_U))\ncat(sprintf(\"Cota inferior (sin supuestos): %+.2f mil MXN\\n\", cota_l_0))\ncat(sprintf(\"Cota superior (sin supuestos): %+.2f mil MXN\\n\", cota_u_0))\ncat(sprintf(\"Amplitud del intervalo: %.2f mil MXN\\n\\n\", cota_u_0 - cota_l_0))\ncat(sprintf(\"¿Cruza el cero? %s\\n\",\n            ifelse(cota_l_0 < 0 & cota_u_0 > 0,\n                   \"Sí → con datos observacionales y sin supuestos,\",\n                   \"No\")))\nif (cota_l_0 < 0 & cota_u_0 > 0)\n  cat(\"  no podemos afirmar que el efecto es positivo.\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-sin-sup","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mrt <- max(0, cota_l_0)   # MRT: efecto no puede ser negativo\ncota_u_mrt <- cota_u_0            # MRT no afecta la cota superior\n\ncat(sprintf(\"Con MRT — cota inferior: %+.2f mil MXN\\n\", cota_l_mrt))\ncat(sprintf(\"Con MRT — cota superior: %+.2f mil MXN\\n\", cota_u_mrt))\ncat(sprintf(\"Amplitud bajo MRT: %.2f mil MXN\\n\\n\", cota_u_mrt - cota_l_mrt))\ncat(\"→ MRT identifica el signo: el efecto es no negativo.\\n\")\ncat(\"  Aún no sabemos la magnitud.\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-mrt","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cota_l_mrt_mts <- cota_l_mrt   # MTS no mejora la cota inferior bajo MRT\ncota_u_mrt_mts <- y1_bar * p_trat + y_U * (1 - p_trat) - y0_bar\n\ncat(sprintf(\"Con MRT+MTS — cota inferior: %+.2f mil MXN\\n\", cota_l_mrt_mts))\ncat(sprintf(\"Con MRT+MTS — cota superior: %+.2f mil MXN\\n\", cota_u_mrt_mts))\ncat(sprintf(\"Amplitud bajo MRT+MTS: %.2f mil MXN\\n\\n\", cota_u_mrt_mts - cota_l_mrt_mts))\ncat(sprintf(\"¿El ATE verdadero (%.2f) está contenido? %s\\n\",\n            ate_verdadero,\n            ifelse(ate_verdadero >= cota_l_mrt_mts & ate_verdadero <= cota_u_mrt_mts,\n                   \"Sí ✓\", \"No ✗\")))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cotas-mrt-mts","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data.frame(\n  Supuesto      = c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\"),\n  Cota_inferior = round(c(cota_l_0, cota_l_mrt, cota_l_mrt_mts), 2),\n  Cota_superior = round(c(cota_u_0, cota_u_mrt, cota_u_mrt_mts), 2),\n  Amplitud      = round(c(cota_u_0 - cota_l_0,\n                          cota_u_mrt - cota_l_mrt,\n                          cota_u_mrt_mts - cota_l_mrt_mts), 2),\n  Signo_ident   = c(\"No\", \"≥ 0\", \"≥ 0\"),\n  ATE_contenido = c(\n    ifelse(ate_verdadero >= cota_l_0        & ate_verdadero <= cota_u_0,        \"✓\", \"✗\"),\n    ifelse(ate_verdadero >= cota_l_mrt      & ate_verdadero <= cota_u_mrt,      \"✓\", \"✗\"),\n    ifelse(ate_verdadero >= cota_l_mrt_mts  & ate_verdadero <= cota_u_mrt_mts,  \"✓\", \"✗\")\n  )\n)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"tabla-capas","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"resultados <- tibble(\n  supuesto = factor(\n    c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\", \"ATE verdadero\"),\n    levels = c(\"Sin supuestos\", \"MRT\", \"MRT + MTS\", \"ATE verdadero\")\n  ),\n  lb       = c(cota_l_0, cota_l_mrt, cota_l_mrt_mts, ate_verdadero),\n  ub       = c(cota_u_0, cota_u_mrt, cota_u_mrt_mts, ate_verdadero),\n  es_punto = c(FALSE, FALSE, FALSE, TRUE)\n)\n\nggplot(resultados, aes(y = supuesto)) +\n  geom_linerange(\n    data  = filter(resultados, !es_punto),\n    aes(xmin = lb, xmax = ub, color = supuesto),\n    linewidth = 5, alpha = 0.65\n  ) +\n  geom_point(\n    data  = filter(resultados, !es_punto),\n    aes(x = lb, color = supuesto), size = 3\n  ) +\n  geom_point(\n    data  = filter(resultados, !es_punto),\n    aes(x = ub, color = supuesto), size = 3\n  ) +\n  geom_point(\n    data  = filter(resultados, es_punto),\n    aes(x = lb), color = c_rojo, size = 5, shape = 18\n  ) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray50\", linewidth = 0.8) +\n  geom_vline(xintercept = efecto_naive, linetype = \"dotted\",\n             color = c_pt, linewidth = 1.1) +\n  geom_text(\n    data  = filter(resultados, !es_punto),\n    aes(x = lb, label = sprintf(\"%+.1f\", lb)),\n    vjust = -0.8, size = 3, color = c_texto\n  ) +\n  geom_text(\n    data  = filter(resultados, !es_punto),\n    aes(x = ub, label = sprintf(\"%+.1f\", ub)),\n    vjust = -0.8, size = 3, color = c_texto\n  ) +\n  annotate(\"text\", x = efecto_naive + 0.3, y = 0.6,\n           label = paste0(\"Naive: +\", round(efecto_naive, 2)),\n           color = c_pt, hjust = 0, size = 3.2) +\n  scale_color_manual(values = c(\n    \"Sin supuestos\" = \"#001F4D\",\n    \"MRT\"           = c_med,\n    \"MRT + MTS\"     = c_light,\n    \"ATE verdadero\" = c_rojo\n  )) +\n  labs(\n    title    = \"Análisis por capas: efecto del programa de capacitación sobre salarios\",\n    subtitle = paste0(\n      \"Naive (+\", round(efecto_naive, 2),\n      \" mil MXN) sobreestima el ATE verdadero (+\", round(ate_verdadero, 2),\n      \" mil MXN) por selección positiva.\"\n    ),\n    x = \"Efecto sobre salario (miles de MXN/mes)\", y = NULL,\n    caption = \"MRT = Respuesta Monótona al Tratamiento  |  MTS = Selección Monótona al Tratamiento\\nManski (1990, 2011). Datos simulados, set.seed(2026).\"\n  ) +\n  tema + theme(legend.position = \"none\")","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Cada barra es un intervalo bajo un conjunto de supuestos. El rombo rojo es el ATE verdadero (solo observable porque simulamos). La línea punteada roja es el estimador naive.","fig-height":"4.5","fig-width":7,"label":"fig-capas","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"estados_df <- tibble(\n  estado = factor(\n    c(\"CDMX\", \"Jalisco\", \"Oaxaca\", \"Chiapas\"),\n    levels = rev(c(\"CDMX\", \"Jalisco\", \"Oaxaca\", \"Chiapas\"))\n  ),\n  pt     = c( 0.18,  0.04, -0.09, -0.23),  # estimador naive\n  lb_sin = c(-0.06, -0.20, -0.32, -0.50),  # cota inf. sin supuestos\n  ub_sin = c( 0.36,  0.26,  0.20,  0.10),  # cota sup. sin supuestos\n  lb_mts = c( 0.04, -0.08, -0.18, -0.36),  # cota inf. con MTS\n  ub_mts = c( 0.28,  0.17,  0.10,  0.05),  # cota sup. con MTS\n  se     = c( 0.04,  0.04,  0.04,  0.05)   # error estándar aprox.\n)\n\nestados_df","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"datos-estados","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(2026)\nn_boot <- 4000\n\nboot_df <- estados_df |>\n  rowwise() |>\n  mutate(vals = list(rnorm(n_boot, mean = pt, sd = se * 1.6))) |>\n  unnest(vals) |>\n  rename(boot_val = vals)\n\ncat(sprintf(\"Bootstrap: %d muestras por estado\\n\", n_boot))\ncat(sprintf(\"Total de filas en boot_df: %d\\n\", nrow(boot_df)))","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"bootstrap","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"xlim  <- c(-0.65, 0.45)\nxbrks <- c(-0.6, -0.4, -0.2, 0, 0.2, 0.4)\n\ntema_p <- theme_minimal(base_size = 10) +\n  theme(\n    axis.title.y       = element_blank(),\n    axis.text.y        = element_text(size = 9, color = \"gray15\"),\n    axis.title.x       = element_text(size = 8, color = \"gray45\"),\n    panel.grid.major.y = element_line(color = \"gray93\"),\n    panel.grid.major.x = element_line(color = \"gray93\"),\n    panel.grid.minor   = element_blank(),\n    plot.title         = element_text(size = 10, face = \"bold\",\n                                      color = c_dark,\n                                      margin = margin(b = 2)),\n    plot.margin        = margin(6, 8, 6, 8)\n  )","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"config-paneles","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pa <- ggplot(estados_df, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_sin, xmax = ub_sin),\n                 color = c_vlight, linewidth = 5.5) +\n  geom_linerange(aes(xmin = lb_sin,         xmax = lb_sin + 0.008),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_sin - 0.008, xmax = ub_sin),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 5.5, alpha = 0.85) +\n  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),\n                 color = c_med, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),\n                 color = c_med, linewidth = 2.2) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.2) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"a — Dos capas de cotas\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npa","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-a","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"estados_b <- estados_df |>\n  mutate(lb_lo = lb_mts - 1.96 * se,\n         ub_hi = ub_mts + 1.96 * se)\n\npb <- ggplot(estados_b, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_lo, xmax = ub_hi),\n                 color = c_vlight, linewidth = 5.5) +\n  geom_linerange(aes(xmin = lb_lo,         xmax = lb_lo + 0.008),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_hi - 0.008, xmax = ub_hi),\n                 color = c_light, linewidth = 2.2) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 5.5, alpha = 0.85) +\n  geom_linerange(aes(xmin = lb_mts,         xmax = lb_mts + 0.008),\n                 color = c_med, linewidth = 2.2) +\n  geom_linerange(aes(xmin = ub_mts - 0.008, xmax = ub_mts),\n                 color = c_med, linewidth = 2.2) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.2) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"b — IC 95 % sobre las cotas MTS\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npb","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-b","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pc <- ggplot(estados_df, aes(y = estado)) +\n  geom_errorbar(aes(xmin = lb_mts, xmax = ub_mts),\n                color = c_dark, linewidth = 0.85, width = 0.38) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.5) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"c — Barras de error (ticks en ambos extremos)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npd <- ggplot(estados_df, aes(y = estado)) +\n  geom_linerange(aes(xmin = lb_mts, xmax = ub_mts),\n                 color = c_dark, linewidth = 0.85) +\n  geom_errorbar(aes(xmin = ub_mts, xmax = ub_mts),\n                color = c_dark, linewidth = 0.85, width = 0.38) +\n  geom_point(aes(x = pt), color = c_pt, size = 3.5) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"d — Barras de error (tick solo en extremo sup.)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\npc\npd","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"paneles-cd","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n_seg <- 150\n\ngrad_df <- estados_df |>\n  mutate(estado_n = as.numeric(estado)) |>\n  rowwise() |>\n  mutate(\n    x_seq = list(seq(lb_sin, ub_sin, length.out = n_seg)),\n    dens  = list(dnorm(seq(lb_sin, ub_sin, length.out = n_seg),\n                       mean = pt,\n                       sd   = (ub_sin - lb_sin) / 5)),\n    w     = (ub_sin - lb_sin) / n_seg\n  ) |>\n  unnest(c(x_seq, dens)) |>\n  group_by(estado) |>\n  mutate(alpha_n = dens / max(dens))\n\ntick_df <- estados_df |> mutate(estado_n = as.numeric(estado))\n\npe <- ggplot() +\n  geom_rect(data = grad_df,\n            aes(xmin  = x_seq - w / 2, xmax = x_seq + w / 2,\n                ymin  = estado_n - 0.29, ymax = estado_n + 0.29,\n                alpha = alpha_n),\n            fill = c_dark) +\n  geom_rect(data = tick_df,\n            aes(xmin = pt - 0.004, xmax = pt + 0.004,\n                ymin = estado_n - 0.29, ymax = estado_n + 0.29),\n            fill = c_pt) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  scale_y_continuous(breaks = 1:4, labels = levels(estados_df$estado)) +\n  scale_alpha_continuous(range = c(0.02, 1), guide = \"none\") +\n  labs(title = \"e — Gradiente de opacidad\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npe","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-e","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pf <- ggplot(boot_df, aes(x = boot_val, y = estado)) +\n  geom_density_ridges(\n    fill = c_vlight, color = c_dark,\n    alpha = 0.88, scale = 0.9,\n    bandwidth = 0.028, rel_min_height = 0.015\n  ) +\n  geom_segment(\n    data = estados_df,\n    aes(x = pt, xend = pt,\n        y    = as.numeric(estado),\n        yend = as.numeric(estado) + 0.82),\n    color = c_pt, linewidth = 2.5,\n    inherit.aes = FALSE\n  ) +\n  geom_vline(xintercept = 0, linetype = \"dashed\",\n             color = \"gray55\", linewidth = 0.45) +\n  scale_x_continuous(limits = xlim, breaks = xbrks) +\n  labs(title = \"f — Distribuciones bootstrap (ridgeline)\",\n       x = \"diferencia en ingreso estandarizado\") +\n  tema_p\n\npf","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"panel-f","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"fig_multi <- (pa | pb) / (pc | pd) / (pe | pf) +\n  plot_annotation(\n    title    = \"Seis formas de comunicar incertidumbre en identificación parcial\",\n    subtitle = paste0(\n      \"Programa de capacitación laboral — cuatro estados de México\\n\",\n      \"Exterior (claro) = sin supuestos  |  Interior (oscuro) = MRT + MTS  |\",\n      \"  \\u25cf = estimador naive\"\n    ),\n    caption  = \"Adaptado de Mullahy et al. (2021, Am J Prev Med). Cotas: Manski (1990, 2011). Datos simulados.\",\n    theme = theme(\n      plot.title    = element_text(face = \"bold\", color = c_dark, size = 12.5),\n      plot.subtitle = element_text(color = \"gray35\", size = 8.8),\n      plot.caption  = element_text(color = \"gray55\", size = 8)\n    )\n  )\n\nfig_multi","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Seis codificaciones visuales de la misma incertidumbre. La información de fondo es idéntica en los seis paneles; lo que cambia es cómo se presenta.","fig-height":"11","fig-width":7,"label":"fig-multipanel","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1635,8 +1638,37 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../custom-styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
 <meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
@@ -1648,19 +1680,19 @@ globalThis.qwebrExecuteCode = async function (
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -1671,11 +1703,11 @@ globalThis.qwebrExecuteCode = async function (
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="../contact.html">
+    <a class="dropdown-item" href="../../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cv.html">
+    <a class="dropdown-item" href="../../cv.html">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -1686,7 +1718,7 @@ globalThis.qwebrExecuteCode = async function (
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../food-systems-dashboard.html">
+    <a class="dropdown-item" href="../../food-systems-dashboard.html">
  <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
@@ -1696,21 +1728,28 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
+        <li>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
+ <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
         <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_bounds.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
  <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
  <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -1718,48 +1757,48 @@ globalThis.qwebrExecuteCode = async function (
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
  <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
  <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
  <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
         <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
  <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
@@ -1767,7 +1806,7 @@ globalThis.qwebrExecuteCode = async function (
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+    <a class="nav-link" href="../../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -1788,7 +1827,7 @@ globalThis.qwebrExecuteCode = async function (
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
-  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -1801,7 +1840,47 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#sec-vac" id="toc-sec-vac" class="nav-link" data-scroll-target="#sec-vac">Ejercicio 1: Tasas de vacunación y el problema MAR</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-de-fondo" id="toc-el-problema-de-fondo" class="nav-link" data-scroll-target="#el-problema-de-fondo">El problema de fondo</a></li>
+  <li><a href="#parámetros-observados" id="toc-parámetros-observados" class="nav-link" data-scroll-target="#parámetros-observados">1.1 Parámetros observados</a></li>
+  <li><a href="#cotas-sin-supuestos-adicionales" id="toc-cotas-sin-supuestos-adicionales" class="nav-link" data-scroll-target="#cotas-sin-supuestos-adicionales">1.2 Cotas sin supuestos adicionales</a></li>
+  <li><a href="#supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" id="toc-supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" class="nav-link" data-scroll-target="#supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble">1.3 Supuesto MTS: estrechar las cotas con una restricción creíble</a></li>
+  <li><a href="#análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" id="toc-análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" class="nav-link" data-scroll-target="#análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta">1.4 Análisis de sensibilidad: ¿cómo dependen las cotas de la tasa de respuesta?</a></li>
+  </ul></li>
+  <li><a href="#sec-job" id="toc-sec-job" class="nav-link" data-scroll-target="#sec-job">Ejercicio 2: Capacitación laboral y sesgo de selección</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-causal" id="toc-el-problema-causal" class="nav-link" data-scroll-target="#el-problema-causal">El problema causal</a></li>
+  <li><a href="#simulando-datos-con-sesgo-conocido" id="toc-simulando-datos-con-sesgo-conocido" class="nav-link" data-scroll-target="#simulando-datos-con-sesgo-conocido">2.1 Simulando datos con sesgo conocido</a></li>
+  <li><a href="#el-sesgo-del-estimador-naive" id="toc-el-sesgo-del-estimador-naive" class="nav-link" data-scroll-target="#el-sesgo-del-estimador-naive">2.2 El sesgo del estimador naive</a></li>
+  <li><a href="#cotas-de-manski-sin-supuestos-adicionales" id="toc-cotas-de-manski-sin-supuestos-adicionales" class="nav-link" data-scroll-target="#cotas-de-manski-sin-supuestos-adicionales">2.3 Cotas de Manski sin supuestos adicionales</a></li>
+  <li><a href="#capa-1-mrt-respuesta-monótona-al-tratamiento" id="toc-capa-1-mrt-respuesta-monótona-al-tratamiento" class="nav-link" data-scroll-target="#capa-1-mrt-respuesta-monótona-al-tratamiento">2.4 Capa 1 — MRT: Respuesta Monótona al Tratamiento</a></li>
+  <li><a href="#capa-2-mrt-mts" id="toc-capa-2-mrt-mts" class="nav-link" data-scroll-target="#capa-2-mrt-mts">2.5 Capa 2 — MRT + MTS</a></li>
+  <li><a href="#tabla-resumen-por-capas" id="toc-tabla-resumen-por-capas" class="nav-link" data-scroll-target="#tabla-resumen-por-capas">2.6 Tabla resumen por capas</a></li>
+  <li><a href="#gráfica-del-análisis-por-capas" id="toc-gráfica-del-análisis-por-capas" class="nav-link" data-scroll-target="#gráfica-del-análisis-por-capas">2.7 Gráfica del análisis por capas</a></li>
+  </ul></li>
+  <li><a href="#sec-multi" id="toc-sec-multi" class="nav-link" data-scroll-target="#sec-multi">Ejercicio 3: Seis formas de comunicar la misma incertidumbre</a>
+  <ul class="collapse">
+  <li><a href="#motivación" id="toc-motivación" class="nav-link" data-scroll-target="#motivación">Motivación</a></li>
+  <li><a href="#datos-cuatro-evaluaciones-del-programa-de-capacitación" id="toc-datos-cuatro-evaluaciones-del-programa-de-capacitación" class="nav-link" data-scroll-target="#datos-cuatro-evaluaciones-del-programa-de-capacitación">3.1 Datos: cuatro evaluaciones del programa de capacitación</a></li>
+  <li><a href="#distribuciones-bootstrap-por-qué-y-para-qué" id="toc-distribuciones-bootstrap-por-qué-y-para-qué" class="nav-link" data-scroll-target="#distribuciones-bootstrap-por-qué-y-para-qué">3.2 Distribuciones bootstrap: ¿por qué y para qué?</a></li>
+  <li><a href="#construcción-de-los-seis-paneles" id="toc-construcción-de-los-seis-paneles" class="nav-link" data-scroll-target="#construcción-de-los-seis-paneles">3.3 Construcción de los seis paneles</a></li>
+  <li><a href="#la-figura-completa" id="toc-la-figura-completa" class="nav-link" data-scroll-target="#la-figura-completa">3.4 La figura completa</a></li>
+  </ul></li>
+  <li><a href="#sec-concl" id="toc-sec-concl" class="nav-link" data-scroll-target="#sec-concl">Conclusiones y lecciones aprendidas</a>
+  <ul class="collapse">
+  <li><a href="#lo-que-aprendimos-en-los-tres-ejercicios" id="toc-lo-que-aprendimos-en-los-tres-ejercicios" class="nav-link" data-scroll-target="#lo-que-aprendimos-en-los-tres-ejercicios">Lo que aprendimos en los tres ejercicios</a></li>
+  <li><a href="#tres-reglas-para-llevar-al-trabajo" id="toc-tres-reglas-para-llevar-al-trabajo" class="nav-link" data-scroll-target="#tres-reglas-para-llevar-al-trabajo">Tres reglas para llevar al trabajo</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
@@ -2091,8 +2170,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ejercicio Aplicado: Intervalos de Confianza</h1>
-<p class="subtitle lead">Programa Becas para Todos - ¿Funciona el programa?</p>
+<h1 class="title">Identificación Parcial: Del Piloto a la Política</h1>
+<p class="subtitle lead">Ciclo de Políticas Públicas II, Trimestre Abr-Jun 2026</p>
 </div>
 
 
@@ -2109,116 +2188,284 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="contexto" class="level1">
-<h1>Contexto</h1>
-<p>El programa <strong>“Becas para Todos”</strong> lleva 2 años operando. Ahora queremos evaluar su impacto:</p>
-<p><strong>Pregunta de política:</strong> ¿El programa aumentó la asistencia escolar?</p>
-<p><strong>Diseño de evaluación:</strong> - <strong>Grupo Tratamiento:</strong> 500 familias que recibieron la beca - <strong>Grupo Control:</strong> 500 familias que NO recibieron la beca (lista de espera)</p>
-<p><strong>Objetivo:</strong> Calcular intervalos de confianza para estimar el impacto del programa.</p>
-<hr>
-</section>
-<section id="parte-1-generación-de-datos-de-la-evaluación" class="level1">
-<h1>Parte 1: Generación de Datos de la Evaluación</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>Este ejercicio acompaña la sesión <em>Del piloto a la política: retos de escalar intervenciones basadas en evidencia</em>. Trabajamos con dos ejemplos aplicados y luego exploramos seis formas distintas de comunicar la misma incertidumbre visualmente.</p>
+<p><strong>Lo que aprenderás a hacer:</strong></p>
+<ol type="1">
+<li>Calcular cotas de Manski (Manski, 1990) para tasas con datos faltantes.</li>
+<li>Simular sesgo de selección y aplicar identificación parcial por capas (sin supuestos → MRT → MRT + MTS).</li>
+<li>Elegir la visualización más apropiada según la audiencia.</li>
+</ol>
+<p><strong>Fuentes principales:</strong></p>
+<ul>
+<li>Manski, C.F. (1990). <em>Nonparametric Bounds on Treatment Effects.</em> AER, 80(3).</li>
+<li>Manski, C.F. (2011). <em>Policy Analysis with Incredible Certitude.</em> WP-10-07, IPR Northwestern.</li>
+<li>Mullahy, J. et al.&nbsp;(2021). <em>Embracing Uncertainty.</em> Am J Prev Med, 61(2): e103–e108.</li>
+</ul>
 <hr>
 </section>
-<section id="parte-2-estadísticas-descriptivas-por-grupo" class="level1">
-<h1>Parte 2: Estadísticas Descriptivas por Grupo</h1>
+<section id="sec-vac" class="level2">
+<h2 class="anchored" data-anchor-id="sec-vac">Ejercicio 1: Tasas de vacunación y el problema MAR</h2>
+<section id="el-problema-de-fondo" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-de-fondo">El problema de fondo</h3>
+<p>En 2017, la Encuesta Nacional de Inmunización (NIS) de los CDC reportó una tasa de cobertura de la vacuna triple viral (MMR) del <strong>92 %</strong> en niños de 19–35 meses. El problema: solo el <strong>26.1 %</strong> de los hogares seleccionados respondió la encuesta.</p>
+<p>El CDC publicó el 92 % como si fuera la tasa poblacional. Eso requiere asumir que el 73.9 % no entrevistado está vacunado <strong>exactamente</strong> al mismo ritmo que los entrevistados — un supuesto llamado MAR (<em>Missing at Random</em>, Faltante Completamente al Azar). MAR es fuerte e injustificado aquí: es razonable suponer que los hogares más difíciles de contactar también tienen menor acceso a servicios de salud.</p>
+<p>La identificación parcial no exige ese supuesto. En cambio, pregunta: <em>¿qué rango de tasas poblacionales es consistente con lo que observamos?</em></p>
+</section>
+<section id="parámetros-observados" class="level3">
+<h3 class="anchored" data-anchor-id="parámetros-observados">1.1 Parámetros observados</h3>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
 </section>
-<section id="parte-3-visualización-inicial" class="level1">
-<h1>Parte 3: Visualización Inicial</h1>
+<section id="cotas-sin-supuestos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="cotas-sin-supuestos-adicionales">1.2 Cotas sin supuestos adicionales</h3>
+<p>La lógica es simple: no sabemos nada sobre los no respondentes, así que consideramos los dos extremos. Si <strong>ninguno</strong> de los 73.9 % no entrevistados estuviera vacunado, la tasa real sería mínima; si <strong>todos</strong> lo estuvieran, sería máxima.</p>
+<p><span class="math display">\[
+\hat\theta_L = r \cdot \hat p_r + (1-r) \cdot 0 = r \cdot \hat p_r
+\]</span> <span class="math display">\[
+\hat\theta_U = r \cdot \hat p_r + (1-r) \cdot 1 = r \cdot \hat p_r + (1-r)
+\]</span></p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p><strong>¿Qué nos dicen estas cotas?</strong></p>
+<p>El intervalo [24.0 %, 97.9 %] es muy amplio, pero eso <em>no es un fracaso del análisis</em>: es información genuina sobre el estado del problema de datos. El 92 % reportado por el CDC cae cerca del extremo superior del intervalo — eso quiere decir que el CDC implícitamente asumió el escenario más optimista posible.</p>
+<p>Si la tasa real estuviera cerca del 24 %, la cobertura estaría <strong>muy por debajo</strong> del umbral de inmunidad de rebaño para sarampión (≈ 95 %), lo que representa un riesgo de salud pública significativo.</p>
 </section>
-<section id="parte-4-intervalo-de-confianza-para-cada-grupo" class="level1">
-<h1>Parte 4: Intervalo de Confianza para Cada Grupo</h1>
+<section id="supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble" class="level3">
+<h3 class="anchored" data-anchor-id="supuesto-mts-estrechar-las-cotas-con-una-restricción-creíble">1.3 Supuesto MTS: estrechar las cotas con una restricción creíble</h3>
+<p>El supuesto de Selección Monótona (MTS) postula que los no respondentes tienen una tasa de vacunación <strong>igual o menor</strong> a la de los respondentes. Esto es plausible: quienes no contestan la encuesta suelen tener menor acceso a servicios de salud. MTS no requiere saber exactamente cuál es su tasa — solo que no es <em>mayor</em> que la de quienes sí respondieron.</p>
+<p>Bajo MTS: la cota superior se reduce a <span class="math inline">\(\hat p_r = 92.0\,\%\)</span>, eliminando los escenarios en que los no respondentes tienen cobertura superior a los respondentes.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>El intervalo [24.0 %, 92.0 %] bajo MTS sigue siendo amplio — pero es defendible. Nótese que el CDC reporta exactamente la cota superior del intervalo MTS, lo que equivale a asumir el caso más favorable dentro de un supuesto ya razonablemente optimista.</p>
 </section>
-<section id="parte-5-ic-para-la-diferencia-de-medias" class="level1">
-<h1>Parte 5: IC para la Diferencia de Medias</h1>
+<section id="análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-sensibilidad-cómo-dependen-las-cotas-de-la-tasa-de-respuesta">1.4 Análisis de sensibilidad: ¿cómo dependen las cotas de la tasa de respuesta?</h3>
+<p>Hasta ahora usamos <span class="math inline">\(r = 26.1\,\%\)</span>. Pero ¿qué pasaría si la tasa de respuesta fuera mayor? Este análisis muestra cómo las cotas cambian en función de <span class="math inline">\(r\)</span>, manteniendo fija la tasa observada entre respondentes.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Cómo leer esta gráfica:</strong></p>
+<ul>
+<li>La <strong>región sombreada</strong> es el intervalo de identificación: para cada nivel de tasa de respuesta (eje horizontal), el rango de tasas poblacionales consistentes con los datos va desde la línea inferior hasta la superior.</li>
+<li>Conforme la tasa de respuesta se acerca al 100 %, el intervalo colapsa al punto en el estimador MAR (línea punteada roja) — que es exactamente cuando MAR deja de ser cuestionable.</li>
+<li>El <strong>segmento naranja</strong> muestra el intervalo real de la NIS 2017 (r = 26.1 %). Su amplitud revela que la declaración del CDC de “92 % de cobertura” es una elección de supuesto, no un hecho medido.</li>
+<li><strong>La solución no es más encuestas con la misma tasa de respuesta</strong>, sino mejores datos: seguimiento a no respondentes, vinculación con registros administrativos.</li>
+</ul>
 <hr>
 </section>
-<section id="parte-6-visualización-del-ic-de-la-diferencia" class="level1">
-<h1>Parte 6: Visualización del IC de la Diferencia</h1>
+</section>
+<section id="sec-job" class="level2">
+<h2 class="anchored" data-anchor-id="sec-job">Ejercicio 2: Capacitación laboral y sesgo de selección</h2>
+<section id="el-problema-causal" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-causal">El problema causal</h3>
+<p>Queremos saber si un programa de capacitación laboral <em>causa</em> un aumento en salarios. El Efecto Promedio del Tratamiento (ATE) es:</p>
+<p><span class="math display">\[
+\text{ATE} = E[Y(1) - Y(0)]
+\]</span></p>
+<p>donde <span class="math inline">\(Y(1)\)</span> es el salario que tendría la persona <em>con</em> el programa y <span class="math inline">\(Y(0)\)</span> el salario <em>sin</em> él. El problema: nunca observamos ambos para la misma persona.</p>
+<p>Si comparamos ingenuamente los salarios de quienes participaron contra quienes no participaron, obtenemos un <strong>estimador naive</strong> que mezcla el efecto causal con diferencias preexistentes entre grupos. Ese sesgo de selección puede ser positivo (los más capaces se inscriben) o negativo (los más desesperados buscan el programa).</p>
+</section>
+<section id="simulando-datos-con-sesgo-conocido" class="level3">
+<h3 class="anchored" data-anchor-id="simulando-datos-con-sesgo-conocido">2.1 Simulando datos con sesgo conocido</h3>
+<p>La ventaja de simular es que <strong>conocemos la verdad</strong>: sabemos exactamente cuánto vale el ATE verdadero y podemos verificar si las cotas lo contienen. En datos reales nunca tenemos ese lujo.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>La simulación genera selección positiva: los más hábiles tienen mayor probabilidad de inscribirse. Esto hará que el estimador naive sobreestime el efecto del programa.</p>
 </section>
-<section id="parte-7-comparación-de-ics-con-diferentes-niveles-de-confianza" class="level1">
-<h1>Parte 7: Comparación de ICs con Diferentes Niveles de Confianza</h1>
+<section id="el-sesgo-del-estimador-naive" class="level3">
+<h3 class="anchored" data-anchor-id="el-sesgo-del-estimador-naive">2.2 El sesgo del estimador naive</h3>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>El sesgo proviene de que los participantes habrían ganado más <em>de todos modos</em> gracias a su mayor habilidad. La diferencia simple de medias confunde “el efecto del programa” con “diferencias preexistentes en habilidad”.</p>
 </section>
-<section id="parte-8-visualización-de-ics-con-diferentes-niveles" class="level1">
-<h1>Parte 8: Visualización de ICs con Diferentes Niveles</h1>
+<section id="cotas-de-manski-sin-supuestos-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="cotas-de-manski-sin-supuestos-adicionales">2.3 Cotas de Manski sin supuestos adicionales</h3>
+<p>Con el soporte acotado de <span class="math inline">\(Y \in [y_L, y_U]\)</span> y sin ningún supuesto sobre el mecanismo de selección, las cotas de Manski son:</p>
+<p><span class="math display">\[
+\hat\theta_L = (\bar Y_1 - y_U)\,p + (y_L - \bar Y_0)\,(1-p)
+\]</span> <span class="math display">\[
+\hat\theta_U = (\bar Y_1 - y_L)\,p + (y_U - \bar Y_0)\,(1-p)
+\]</span></p>
+<p>Estas cotas son las más amplias posibles — no asumen nada. Por eso en datos observacionales <em>sin aleatorización</em>, el intervalo suele cruzar el cero.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>Que el intervalo cruce el cero no significa que el programa no funcione — significa que los datos observacionales, por sí solos y sin restricciones adicionales, son compatibles con efectos positivos <em>y</em> negativos.</p>
 </section>
-<section id="parte-9-simulación-de-100-intervalos-de-confianza" class="level1">
-<h1>Parte 9: Simulación de 100 Intervalos de Confianza</h1>
-<p><strong>Pregunta:</strong> ¿Qué significa “95% de confianza”?</p>
-<p><strong>Experimento:</strong> Simular 100 evaluaciones diferentes del programa.</p>
+<section id="capa-1-mrt-respuesta-monótona-al-tratamiento" class="level3">
+<h3 class="anchored" data-anchor-id="capa-1-mrt-respuesta-monótona-al-tratamiento">2.4 Capa 1 — MRT: Respuesta Monótona al Tratamiento</h3>
+<p>El supuesto MRT dice que el programa no puede <em>reducir</em> salarios: <span class="math inline">\(Y_i(1) \geq Y_i(0)\)</span> para todos los individuos. Si el programa enseña habilidades productivas y la participación es voluntaria, esto es creíble.</p>
+<p>Bajo MRT, la cota inferior queda acotada desde abajo por cero:</p>
+<p><span class="math display">\[
+\hat\theta_L^{\text{MRT}} = \max\left(0,\; \hat\theta_L^{\text{sin sup.}}\right)
+\]</span></p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
 </section>
-<section id="parte-10-visualización-de-los-100-intervalos" class="level1">
-<h1>Parte 10: Visualización de los 100 Intervalos</h1>
+<section id="capa-2-mrt-mts" class="level3">
+<h3 class="anchored" data-anchor-id="capa-2-mrt-mts">2.5 Capa 2 — MRT + MTS</h3>
+<p>El supuesto MTS agrega que los participantes tienen <em>mayor potencial salarial</em> que los no participantes, aun sin el programa: <span class="math inline">\(E[Y(d)|D=1] \geq E[Y(d)|D=0]\)</span> para <span class="math inline">\(d \in \{0,1\}\)</span>.</p>
+<p>Esto captura la selección positiva que observamos en los datos simulados. Bajo MRT + MTS, la cota superior se estrecha:</p>
+<p><span class="math display">\[
+\hat\theta_U^{\text{MRT+MTS}} = \bar Y_1 \cdot p + y_U \cdot (1-p) - \bar Y_0
+\]</span></p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<hr>
+<p>Las cotas contienen el ATE verdadero, como deberían. Eso es la verificación de que el método funciona correctamente en la simulación.</p>
 </section>
-<section id="parte-11-análisis-por-subgrupos-urbano-vs-rural" class="level1">
-<h1>Parte 11: Análisis por Subgrupos (Urbano vs Rural)</h1>
+<section id="tabla-resumen-por-capas" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-por-capas">2.6 Tabla resumen por capas</h3>
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Cada fila añade un supuesto más restrictivo y a cambio obtiene un intervalo más estrecho. El decisor elige hasta qué capa llegar según qué supuestos considera defensibles en su contexto.</p>
+</section>
+<section id="gráfica-del-análisis-por-capas" class="level3">
+<h3 class="anchored" data-anchor-id="gráfica-del-análisis-por-capas">2.7 Gráfica del análisis por capas</h3>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Cómo leer esta gráfica:</strong></p>
+<ul>
+<li>Cada fila es un conjunto de supuestos; la longitud de la barra es la amplitud del intervalo.</li>
+<li><strong>Sin supuestos</strong>: el intervalo cruza el cero — no podemos decir ni si el efecto es positivo o negativo.</li>
+<li><strong>MRT</strong>: la cota inferior sube a cero, identificando el signo pero no la magnitud.</li>
+<li><strong>MRT + MTS</strong>: el intervalo se estrecha significativamente. Sabemos que el efecto es no-negativo, pero la magnitud sigue siendo incierta.</li>
+<li>El <strong>rombo rojo</strong> (ATE verdadero = +2.5) cae dentro de todos los intervalos — confirmación de que el método es válido.</li>
+<li>La <strong>línea punteada naranja</strong> (naive = +3.98) está por encima del ATE verdadero: la diferencia simple de medias sobreestima el efecto.</li>
+</ul>
 <hr>
 </section>
-<section id="preguntas-para-reflexionar" class="level1">
-<h1>Preguntas para Reflexionar</h1>
+</section>
+<section id="sec-multi" class="level2">
+<h2 class="anchored" data-anchor-id="sec-multi">Ejercicio 3: Seis formas de comunicar la misma incertidumbre</h2>
+<section id="motivación" class="level3">
+<h3 class="anchored" data-anchor-id="motivación">Motivación</h3>
+<p>La identificación parcial produce un intervalo. Pero <em>cómo presentamos</em> ese intervalo importa tanto como su amplitud. Esta sección replica el enfoque visual de Mullahy et al.&nbsp;(2021) aplicado a cuatro estados de México, mostrando seis codificaciones visuales de la misma información.</p>
+</section>
+<section id="datos-cuatro-evaluaciones-del-programa-de-capacitación" class="level3">
+<h3 class="anchored" data-anchor-id="datos-cuatro-evaluaciones-del-programa-de-capacitación">3.1 Datos: cuatro evaluaciones del programa de capacitación</h3>
+<p>Los datos representan el resultado de aplicar el análisis del Ejercicio 2 a cuatro contextos estatales con diferente contexto institucional. La métrica es la <strong>diferencia en ingreso laboral estandarizado</strong> (escala comparable entre estados).</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Los cuatro estados representan un gradiente de resultados:</p>
+<ul>
+<li><strong>CDMX</strong>: el intervalo MTS excluye el cero → el efecto es probablemente positivo.</li>
+<li><strong>Jalisco</strong>: intervalo cerca de cero, alta incertidumbre.</li>
+<li><strong>Oaxaca</strong>: el intervalo cruza el cero → el efecto es ambiguo.</li>
+<li><strong>Chiapas</strong>: el intervalo MTS sugiere efecto negativo → revisar el diseño antes de escalar.</li>
+</ul>
+</section>
+<section id="distribuciones-bootstrap-por-qué-y-para-qué" class="level3">
+<h3 class="anchored" data-anchor-id="distribuciones-bootstrap-por-qué-y-para-qué">3.2 Distribuciones bootstrap: ¿por qué y para qué?</h3>
+<p>El bootstrap simula la <strong>incertidumbre de muestreo</strong> alrededor del estimador naive. La idea es: si hubiéramos tomado una muestra distinta de la misma población, ¿qué tan diferentes serían nuestros resultados?</p>
+<p>Simular muchas muestras “como si” nos da una distribución del estimador. Esta distribución (paneles e y f) muestra cuánta variabilidad esperamos — incluso antes de considerar la incertidumbre de identificación (los bounds).</p>
+<blockquote class="blockquote">
+<p><strong>Distinción clave:</strong> el bootstrap captura incertidumbre <em>estadística</em> (resuelta con más datos del mismo tipo). Las cotas capturan incertidumbre de <em>identificación</em> (resuelta solo con mejores datos o supuestos adicionales). Son dos fuentes distintas de incertidumbre y nunca deben confundirse.</p>
+</blockquote>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="construcción-de-los-seis-paneles" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-de-los-seis-paneles">3.3 Construcción de los seis paneles</h3>
+<p>Definimos los parámetros comunes de escala y tema:</p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel a — Dos capas: intervalo amplio (sin supuestos) + intervalo estrecho (MTS)</strong></p>
+<p>La capa exterior (azul claro) muestra el rango sin restricciones; la interior (azul oscuro) muestra lo que ganamos con MTS. El punto naranja es el estimador naive.</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel b — Incertidumbre de muestreo sobre las cotas MTS</strong></p>
+<p>La capa exterior ahora es el intervalo de confianza del 95 % <em>sobre las propias cotas</em> (incertidumbre estadística), y la interior son las cotas puntuales.</p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Paneles c y d — Barras de error clásicas</strong></p>
+<p>La forma más común en la literatura. El panel c tiene ticks en ambos extremos (convencional); el d solo en el extremo superior, útil cuando la cota inferior es menos informativa o tiene mayor incertidumbre.</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel e — Gradiente de opacidad</strong></p>
+<p>La opacidad de cada píxel es proporcional a la densidad gaussiana centrada en el estimador naive. Transmite la idea de que el punto central es más probable y la incertidumbre se difumina hacia los extremos.</p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Panel f — Distribuciones bootstrap completas (ridgeline)</strong></p>
+<p>Muestra la distribución muestral del estimador para cada estado. La barra naranja marca el estimador naive. Este panel es el que más información transmite pero también el que más requiere alfabetización estadística de la audiencia.</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="la-figura-completa" class="level3">
+<h3 class="anchored" data-anchor-id="la-figura-completa">3.4 La figura completa</h3>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Cuándo usar cada panel:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Panel</th>
+<th>Ideal para</th>
+<th>Requiere en la audiencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>Comunicar la ganancia de añadir MTS vs.&nbsp;no asumir nada</td>
+<td>Familiaridad con cotas</td>
+</tr>
+<tr class="even">
+<td><strong>b</strong></td>
+<td>Mostrar que las propias cotas tienen incertidumbre estadística</td>
+<td>Estadística básica</td>
+</tr>
+<tr class="odd">
+<td><strong>c</strong></td>
+<td>Publicaciones técnicas, comparaciones múltiples</td>
+<td>Lectura de CI</td>
+</tr>
+<tr class="even">
+<td><strong>d</strong></td>
+<td>Cuando la cota inferior es poco informativa o abierta</td>
+<td>Lectura de CI</td>
+</tr>
+<tr class="odd">
+<td><strong>e</strong></td>
+<td>Presentaciones a decisores: sugiere “probabilidad” sin asumirla</td>
+<td>Ninguno especial</td>
+</tr>
+<tr class="even">
+<td><strong>f</strong></td>
+<td>Comunicar distribución completa, análisis bayesiano</td>
+<td>Mayor alfabetización</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="sec-concl" class="level2">
+<h2 class="anchored" data-anchor-id="sec-concl">Conclusiones y lecciones aprendidas</h2>
+<section id="lo-que-aprendimos-en-los-tres-ejercicios" class="level3">
+<h3 class="anchored" data-anchor-id="lo-que-aprendimos-en-los-tres-ejercicios">Lo que aprendimos en los tres ejercicios</h3>
+<p><strong>Ejercicio 1 (vacunación):</strong> El supuesto MAR transforma una tasa de respuesta del 26 % en una declaración de cobertura del 92 % con falsa precisión. El intervalo [24 %, 97.9 %] no es un fracaso del análisis — es evidencia de que el problema de datos no puede ocultarse detrás de un supuesto conveniente. La solución es invertir en mejores datos, no en supuestos más fuertes.</p>
+<p><strong>Ejercicio 2 (capacitación):</strong> El estimador naive sobreestima el ATE en aproximadamente 1.5 mil MXN por selección positiva. Sin supuestos adicionales, los datos observacionales son compatibles con efectos positivos <em>y</em> negativos. Cada supuesto adicional (MRT, MTS) estrecha el intervalo a cambio de una restricción que debemos defender sustantivamente.</p>
+<p><strong>Ejercicio 3 (visualización):</strong> La misma incertidumbre puede comunicarse de seis formas distintas. La elección depende de la audiencia, no de cuál presenta los resultados de manera más favorable. Suprimir la incertidumbre para facilitar la comunicación es un error ético, no solo metodológico.</p>
+</section>
+<section id="tres-reglas-para-llevar-al-trabajo" class="level3">
+<h3 class="anchored" data-anchor-id="tres-reglas-para-llevar-al-trabajo">Tres reglas para llevar al trabajo</h3>
 <ol type="1">
-<li><p><strong>¿Qué significa que el IC no incluya cero?</strong><br>
-Tenemos evidencia de que hay una diferencia real entre los grupos (con 95% de confianza).</p></li>
-<li><p><strong>¿Por qué el IC de 99% es más ancho que el de 90%?</strong><br>
-Trade-off entre confianza y precisión. Para estar MÁS seguro, necesitas un intervalo MÁS amplio.</p></li>
-<li><p><strong>Si el IC de la diferencia es [4%, 8%], ¿cuál es el efecto mínimo plausible?</strong><br>
-4% (límite inferior). Podemos decir con 95% de confianza que el efecto es AL MENOS 4%.</p></li>
-<li><p><strong>¿Diferencia significativa implica causalidad?</strong><br>
-NO. Podría haber autoselección, variables confusoras, etc. Se necesita diseño experimental (aleatorización).</p></li>
+<li><p><strong>Reporta siempre el intervalo, no solo el punto.</strong> Si solo tienes el punto, pregunta qué supuesto lo genera y si ese supuesto es defendible.</p></li>
+<li><p><strong>Distingue incertidumbre estadística de incertidumbre de identificación.</strong> La primera se resuelve con más datos del mismo tipo. La segunda requiere mejores datos o supuestos adicionales.</p></li>
+<li><p><strong>Haz explícito el análisis por capas.</strong> Muestra qué conclusiones se siguen de qué supuestos. El tomador de decisiones elige la capa; el analista documenta honestamente qué supone cada una.</p></li>
 </ol>
 <hr>
-</section>
-<section id="ejercicio-individual" class="level1">
-<h1>Ejercicio Individual</h1>
-<p>Modifica el código para:</p>
-<ol type="1">
-<li><strong>Calcular el IC al 90%</strong> para la diferencia de medias</li>
-<li><strong>Determinar el tamaño de muestra necesario</strong> para tener un IC más estrecho (ancho ≤ 3%)</li>
-<li><strong>Analizar diferencias por género</strong> (niñas vs niños)</li>
-<li><strong>Escribir un memo de 1 página</strong> comunicando los resultados a tomadores de decisión</li>
-</ol>
-<hr>
-</section>
-<section id="conclusión" class="level1">
-<h1>Conclusión</h1>
-<p>✅ <strong>IC cuantifica incertidumbre:</strong> No basta con la diferencia puntual</p>
-<p>✅ <strong>Interpretación correcta:</strong> “95% de intervalos contienen el efecto real”</p>
-<p>✅ <strong>IC que no incluye cero:</strong> Evidencia de diferencia estadísticamente significativa</p>
-<p>✅ <strong>Mayor confianza = Intervalo más ancho:</strong> Trade-off fundamental</p>
-<p>⚠️ <strong>Significancia ≠ Causalidad:</strong> Cuidado con variables confusoras</p>
+<p><em>Material de apoyo para la sesión “Del piloto a la política: retos de escalar intervenciones basadas en evidencia”. MPP — Escuela de Gobierno y Transformación Pública.</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2247,12 +2494,12 @@ NO. Podría haber autoselección, variables confusoras, etc. Se necesita diseño
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiado");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiado");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

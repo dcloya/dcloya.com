@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -28,23 +31,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe7020910c808501f8c9f19b9545dcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0f70c849674a990122300108587fb581.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -83,7 +86,7 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
 
-<link rel="stylesheet" href="../custom-styles.css">
+<link rel="stylesheet" href="../../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
 <meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
@@ -102,7 +105,7 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
@@ -118,11 +121,11 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="../contact.html">
+    <a class="dropdown-item" href="../../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cv.html">
+    <a class="dropdown-item" href="../../cv.html">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -133,7 +136,7 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../food-systems-dashboard.html">
+    <a class="dropdown-item" href="../../food-systems-dashboard.html">
  <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
@@ -143,21 +146,28 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
+        <li>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
+ <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
         <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_bounds.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
  <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
  <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -165,48 +175,48 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
  <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
  <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
  <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
         <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
  <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
@@ -214,7 +224,7 @@ gtag('config', 'G-CRLS583RW9', { 'anonymize_ip': true});
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+    <a class="nav-link" href="../../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">

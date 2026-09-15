@@ -2,22 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;David Contreras-Loya">
 <meta name="description" content="Academic website for Dr.&nbsp;David Contreras-Loya">
 
-<title>Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes – David Contreras-Loya</title>
+<title>Sesión 1: La Tiranía del Promedio – David Contreras-Loya</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -25,61 +28,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe7020910c808501f8c9f19b9545dcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0f70c849674a990122300108587fb581.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -416,7 +384,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# Parámetros del estudio\nset.seed(2026)\n\n# Características de la población y la prueba\nprevalencia <- 0.01      # 1% tiene cáncer (tasa base)\nsensibilidad <- 0.90     # 90% de enfermos detectados\nespecificidad <- 0.91    # 91% de sanos correctamente identificados\n\n# Tamaño de la población simulada\nn <- 10000\n\ncat(\"PARÁMETROS DE LA SIMULACIÓN\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Prevalencia (tasa base):  \", prevalencia * 100, \"%\\n\")\ncat(\"Sensibilidad P(+|caso):   \", sensibilidad * 100, \"%\\n\")\ncat(\"Especificidad P(-|sano):  \", especificidad * 100, \"%\\n\")\ncat(\"Población simulada:       \", n, \"personas\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Asignar estado real (tiene cáncer o no)\ntiene_cancer <- rbinom(n, size = 1, prob = prevalencia)\n\ncat(\"ESTADO REAL DE LA POBLACIÓN\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Personas CON cáncer:     \", sum(tiene_cancer), \"\\n\")\ncat(\"Personas SIN cáncer:     \", sum(1 - tiene_cancer), \"\\n\")\ncat(\"Total:                   \", n, \"\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Inicializar vector de resultados\nresultado_prueba <- numeric(n)\n\n# Para las personas CON cáncer: aplicar sensibilidad\nresultado_prueba[tiene_cancer == 1] <- rbinom(\n  sum(tiene_cancer), \n  size = 1, \n  prob = sensibilidad\n)\n\n# Para las personas SIN cáncer: aplicar especificidad\n# Si especificidad = 0.91 → prob de positivo falso = 1 - 0.91 = 0.09\nresultado_prueba[tiene_cancer == 0] <- rbinom(\n  sum(1 - tiene_cancer), \n  size = 1, \n  prob = 1 - especificidad\n)\n\ncat(\"RESULTADOS DE LA PRUEBA\\n\")\ncat(\"══════════════════════════════════════\\n\")\ncat(\"Total de pruebas POSITIVAS: \", sum(resultado_prueba), \"\\n\")\ncat(\"Total de pruebas NEGATIVAS: \", sum(1 - resultado_prueba), \"\\n\")\ncat(\"══════════════════════════════════════\\n\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Calcular elementos de la tabla 2x2\nTP <- sum(tiene_cancer == 1 & resultado_prueba == 1)  # Verdaderos Positivos\nFP <- sum(tiene_cancer == 0 & resultado_prueba == 1)  # Falsos Positivos\nFN <- sum(tiene_cancer == 1 & resultado_prueba == 0)  # Falsos Negativos\nTN <- sum(tiene_cancer == 0 & resultado_prueba == 0)  # Verdaderos Negativos\n\n# Crear tabla\ntabla_2x2 <- matrix(c(TP, FN, FP, TN), \n                    nrow = 2, \n                    byrow = TRUE)\nrownames(tabla_2x2) <- c(\"Tiene cáncer\", \"No tiene cáncer\")\ncolnames(tabla_2x2) <- c(\"Test +\", \"Test -\")\n\ncat(\"TABLA 2×2 (SIMULADA)\\n\")\ncat(\"══════════════════════════════════════════════════\\n\")\nprint(tabla_2x2)\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\n# Verificación\ncat(\"Verificación de totales:\\n\")\ncat(\"  Total de casos:    \", sum(tabla_2x2[1, ]), \"\\n\")\ncat(\"  Total de sanos:    \", sum(tabla_2x2[2, ]), \"\\n\")\ncat(\"  Total de positivos:\", sum(tabla_2x2[, 1]), \"\\n\")\ncat(\"  Total de negativos:\", sum(tabla_2x2[, 2]), \"\\n\")\ncat(\"  TOTAL:             \", sum(tabla_2x2), \"\\n\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Valor Predictivo Positivo (VPP)\nVPP <- TP / (TP + FP)\n\n# Valor Predictivo Negativo (VPN)\nVPN <- TN / (TN + FN)\n\n# Sensibilidad observada\nsens_obs <- TP / (TP + FN)\n\n# Especificidad observada\nespec_obs <- TN / (TN + FP)\n\n# Accuracy (precisión general)\naccuracy <- (TP + TN) / n\n\ncat(\"MÉTRICAS DIAGNÓSTICAS\\n\")\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\ncat(\"CARACTERÍSTICAS DE LA PRUEBA (observadas):\\n\")\ncat(\"  Sensibilidad:      \", round(sens_obs * 100, 2), \"%\\n\")\ncat(\"  Especificidad:     \", round(espec_obs * 100, 2), \"%\\n\\n\")\n\ncat(\"UTILIDAD PARA LA DECISIÓN:\\n\")\ncat(\"  VPP (+ → caso):    \", round(VPP * 100, 2), \"%\\n\")\ncat(\"  VPN (- → sano):    \", round(VPN * 100, 2), \"%\\n\\n\")\n\ncat(\"PRECISIÓN GENERAL:\\n\")\ncat(\"  Accuracy:          \", round(accuracy * 100, 2), \"%\\n\\n\")\n\ncat(\"══════════════════════════════════════════════════\\n\\n\")\n\ncat(\"💡 INTERPRETACIÓN DEL VPP:\\n\")\ncat(\"   Si una persona tiene resultado POSITIVO,\\n\")\ncat(\"   la probabilidad de que REALMENTE tenga cáncer es \", \n    round(VPP * 100, 1), \"%\\n\\n\")\n\ncat(\"   En otras palabras: De cada 100 positivos,\\n\")\ncat(\"   solo \", round(VPP * 100, 1), \" realmente tienen cáncer.\\n\\n\")","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear visualización de la tabla con colores\npar(mar = c(3, 3, 3, 3))\nplot(1, type = \"n\", xlim = c(0, 3), ylim = c(0, 3.5), \n     axes = FALSE, xlab = \"\", ylab = \"\",\n     main = \"Tabla 2×2: Resultados de la Simulación\")\n\n# Dibujar rectángulos con colores\nrect(0.5, 2, 1.5, 3, col = \"red\", border = \"black\", lwd = 2)\nrect(1.5, 2, 2.5, 3, col = \"pink\", border = \"black\", lwd = 2)\nrect(0.5, 1, 1.5, 2, col = \"orange\", border = \"black\", lwd = 2)\nrect(1.5, 1, 2.5, 2, col = \"lightgreen\", border = \"black\", lwd = 2)\n\n# Añadir valores\ntext(1, 2.5, paste0(\"VP\\n\", TP), cex = 1.8, font = 2)\ntext(2, 2.5, paste0(\"FN\\n\", FN), cex = 1.8, font = 2)\ntext(1, 1.5, paste0(\"FP\\n\", FP), cex = 1.8, font = 2)\ntext(2, 1.5, paste0(\"VN\\n\", TN), cex = 1.8, font = 2)\n\n# Etiquetas de filas\ntext(0.2, 2.5, \"Tiene\\ncáncer\", cex = 0.9, adj = 1)\ntext(0.2, 1.5, \"No tiene\\ncáncer\", cex = 0.9, adj = 1)\n\n# Etiquetas de columnas\ntext(1, 3.3, \"Test +\", cex = 1, font = 2)\ntext(2, 3.3, \"Test -\", cex = 1, font = 2)\n\n# Totales marginales\ntext(2.8, 2.5, TP + FN, cex = 1.2, col = \"darkred\", font = 2)\ntext(2.8, 1.5, FP + TN, cex = 1.2, col = \"darkgreen\", font = 2)\ntext(1, 0.6, TP + FP, cex = 1.2, col = \"darkorange\", font = 2)\ntext(2, 0.6, FN + TN, cex = 1.2, col = \"darkblue\", font = 2)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Función para calcular VPP teórico\ncalcular_VPP <- function(prevalencia, sensibilidad, especificidad) {\n  # Aplicar fórmula de Bayes\n  numerador <- sensibilidad * prevalencia\n  denominador <- (sensibilidad * prevalencia) + \n                 ((1 - especificidad) * (1 - prevalencia))\n  return(numerador / denominador)\n}\n\n# Probar diferentes tasas base\ntasas_base <- seq(0.001, 0.50, by = 0.001)\nVPP_teorico <- sapply(tasas_base, calcular_VPP, \n                       sensibilidad = sensibilidad, \n                       especificidad = especificidad)\n\n# Gráfico\nplot(tasas_base * 100, VPP_teorico * 100,\n     type = \"l\", lwd = 3, col = \"navy\",\n     xlab = \"Tasa base / Prevalencia (%)\",\n     ylab = \"VPP (%)\",\n     main = \"Efecto de la Tasa Base en el Valor Predictivo Positivo\",\n     xlim = c(0, 50), ylim = c(0, 100),\n     las = 1, bty = \"l\")\n\n# Líneas de referencia\nabline(h = c(25, 50, 75), lty = 2, col = \"gray\")\nabline(v = c(1, 5, 10, 20), lty = 2, col = \"gray\")\n\n# Marcar el caso actual\npoints(prevalencia * 100, VPP * 100, \n       pch = 19, cex = 2, col = \"red\")\ntext(prevalencia * 100 + 3, VPP * 100 + 8, \n     paste0(\"Nuestra\\nsimulación\\n(\", round(VPP*100, 1), \"%)\"),\n     cex = 0.8, col = \"red\", adj = 0)\n\n# Leyenda\nlegend(\"bottomright\", \n       legend = c(\"Sensibilidad = 90%\", \"Especificidad = 91%\"),\n       bty = \"n\", cex = 0.9)\n\ngrid()","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Simular 3 escenarios con diferentes prevalencias\nescenarios <- data.frame(\n  Escenario = c(\"Población general\", \"Grupo de riesgo\", \"Alta sospecha\"),\n  Prevalencia = c(0.01, 0.20, 0.50),\n  VPP = NA,\n  Interpretacion = c(\"9 de cada 10 + son falsos\", \n                     \"1 de cada 3 + es falso\", \n                     \"1 de cada 10 + es falso\")\n)\n\n# Calcular VPP para cada escenario\nfor (i in 1:nrow(escenarios)) {\n  escenarios$VPP[i] <- calcular_VPP(\n    escenarios$Prevalencia[i], \n    sensibilidad, \n    especificidad\n  ) * 100\n}\n\ncat(\"COMPARACIÓN DE ESCENARIOS (Misma prueba, diferentes poblaciones)\\n\")\ncat(\"═════════════════════════════════════════════════════════════════════\\n\")\nprint(escenarios, row.names = FALSE, digits = 3)\ncat(\"═════════════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"💡 LECCIÓN CLAVE:\\n\")\ncat(\"   La MISMA prueba puede ser inútil o excelente\\n\")\ncat(\"   dependiendo de A QUIÉN se la apliques.\\n\\n\")\n\ncat(\"   • Tamizaje universal (1%):   VPP bajo, muchos FP, carga operativa alta\\n\")\ncat(\"   • Tamizaje focalizado (20%): VPP aceptable, balance razonable\\n\")\ncat(\"   • Confirmación (50%):        VPP alto, confiable para decisión\\n\\n\")\n\ncat(\"DECISIÓN DE POLÍTICA:\\n\")\ncat(\"   ¿Conviene tamizaje universal o focalizado?\\n\")\ncat(\"   Depende del costo de:\\n\")\ncat(\"     - Procesar un Falso Positivo (recursos, ansiedad)\\n\")\ncat(\"     - Perder un caso real (Falso Negativo)\\n\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"ESTRATEGIA DE DOS ETAPAS\\n\")\ncat(\"═════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"Etapa 1: Tamizaje inicial (prueba barata, sensible)\\n\")\ncat(\"   - Aplicar a toda la población\\n\")\ncat(\"   - Captura la mayoría de casos\\n\")\ncat(\"   - Genera muchos FP\\n\\n\")\n\ncat(\"Etapa 2: Confirmación (prueba cara, específica)\\n\")\ncat(\"   - Solo a los positivos de Etapa 1\\n\")\ncat(\"   - Filtra los FP\\n\")\ncat(\"   - VPP final mucho mayor\\n\\n\")\n\n# Simular etapa 1: prueba sensible pero menos específica\nsens_etapa1 <- 0.95   # Muy sensible\nespec_etapa1 <- 0.85  # Menos específica\n\n# Aplicar etapa 1\nresultado_etapa1 <- numeric(n)\nresultado_etapa1[tiene_cancer == 1] <- rbinom(sum(tiene_cancer), 1, sens_etapa1)\nresultado_etapa1[tiene_cancer == 0] <- rbinom(sum(1 - tiene_cancer), 1, 1 - espec_etapa1)\n\npositivos_etapa1 <- sum(resultado_etapa1)\n\ncat(\"RESULTADOS ETAPA 1:\\n\")\ncat(\"  Positivos detectados: \", positivos_etapa1, \"\\n\")\ncat(\"  VPP Etapa 1:          \", \n    round(sum(tiene_cancer == 1 & resultado_etapa1 == 1) / positivos_etapa1 * 100, 1), \"%\\n\\n\")\n\n# Simular etapa 2: solo en positivos de etapa 1\n# Prueba más específica\nsens_etapa2 <- 0.90\nespec_etapa2 <- 0.95  # Muy específica\n\nidx_positivos_e1 <- which(resultado_etapa1 == 1)\nresultado_etapa2 <- numeric(length(idx_positivos_e1))\n\nfor (i in seq_along(idx_positivos_e1)) {\n  idx <- idx_positivos_e1[i]\n  if (tiene_cancer[idx] == 1) {\n    resultado_etapa2[i] <- rbinom(1, 1, sens_etapa2)\n  } else {\n    resultado_etapa2[i] <- rbinom(1, 1, 1 - espec_etapa2)\n  }\n}\n\npositivos_etapa2 <- sum(resultado_etapa2)\ncasos_reales_detectados <- sum(tiene_cancer[idx_positivos_e1] == 1 & resultado_etapa2 == 1)\n\nVPP_final <- casos_reales_detectados / positivos_etapa2\n\ncat(\"RESULTADOS ETAPA 2:\\n\")\ncat(\"  Positivos confirmados:\", positivos_etapa2, \"\\n\")\ncat(\"  De los cuales son casos reales: \", casos_reales_detectados, \"\\n\")\ncat(\"  VPP Final:            \", round(VPP_final * 100, 1), \"%\\n\\n\")\n\ncat(\"COMPARACIÓN:\\n\")\ncat(\"  VPP una sola etapa:   ~9%\\n\")\ncat(\"  VPP dos etapas:       \", round(VPP_final * 100, 1), \"%\\n\\n\")\n\ncat(\"¡El diseño de dos etapas mejora drásticamente el VPP!\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Cargar librerías\nlibrary(ggplot2)\n\n# Simulación de datos municipales (5000 hogares)\nset.seed(2026)\nn_urbano <- 3000\nn_rural <- 2000\n\n# Zona urbana: distribución log-normal (cola larga)\n# Hay algunos hogares de clase media-alta que inflan el promedio\ningreso_urbano <- rlnorm(n_urbano, meanlog = 5.8, sdlog = 0.65)\n\n# Zona rural: distribución más concentrada pero con menor ingreso\ningreso_rural <- rlnorm(n_rural, meanlog = 5.3, sdlog = 0.50)\n\n# Crear dataframe\ndatos <- data.frame(\n  ingreso_pc_usd = c(ingreso_urbano, ingreso_rural),\n  zona = c(rep(\"Urbana\", n_urbano), rep(\"Rural\", n_rural))\n)\n\n# Vista previa de los datos\nhead(datos, 10)\ncat(\"\\n📊 Total de hogares en la base:\", nrow(datos), \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Calculemos el promedio que reporta el informe técnico\npromedio_general <- mean(datos$ingreso_pc_usd)\ncat(\"💰 Ingreso promedio general: $\", round(promedio_general, 2), \"USD/mes\\n\\n\")\n\n# Pero... ¿qué nos dice la MEDIANA?\nmediana_general <- median(datos$ingreso_pc_usd)\ncat(\"📍 Ingreso mediano (hogar típico): $\", round(mediana_general, 2), \"USD/mes\\n\\n\")\n\n# Diferencia entre media y mediana\ndiferencia <- promedio_general - mediana_general\ncat(\"⚠️  Diferencia (media - mediana): $\", round(diferencia, 2), \"USD\\n\")\ncat(\"    Esto representa un\", round(100 * diferencia/mediana_general, 1), \"% más\\n\\n\")\n\n# ¿Qué significa esta diferencia?\nif (diferencia > 50) {\n  cat(\"🔴 ALERTA: La distribución es ASIMÉTRICA (cola larga a la derecha).\\n\")\n  cat(\"   El promedio está inflado por hogares de altos ingresos.\\n\")\n  cat(\"   La mediana es una mejor medida del hogar 'típico'.\\n\")\n}","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Percentiles clave para política pública\npercentiles <- quantile(datos$ingreso_pc_usd, \n                        probs = c(0.10, 0.25, 0.50, 0.75, 0.90))\n\ncat(\"📊 DISTRIBUCIÓN DE INGRESOS (Percentiles)\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"P10 (10% más pobre):     $\", round(percentiles[1], 2), \"\\n\")\ncat(\"P25 (cuartil inferior):  $\", round(percentiles[2], 2), \"\\n\")\ncat(\"P50 (mediana):           $\", round(percentiles[3], 2), \"\\n\")\ncat(\"P75 (cuartil superior):  $\", round(percentiles[4], 2), \"\\n\")\ncat(\"P90 (10% más rico):      $\", round(percentiles[5], 2), \"\\n\\n\")\n\n# Rango intercuartil (IQR): donde vive el 50% central\niqr <- IQR(datos$ingreso_pc_usd)\ncat(\"📏 Rango Intercuartil (IQR): $\", round(iqr, 2), \"\\n\")\ncat(\"   (Distancia entre P25 y P75)\\n\\n\")\n\n# Desviación estándar (dispersión)\ndesv_std <- sd(datos$ingreso_pc_usd)\ncat(\"📈 Desviación Estándar: $\", round(desv_std, 2), \"\\n\")\ncat(\"   (Qué tanto se alejan los datos del promedio)\\n\\n\")\n\n# Coeficiente de variación (dispersión relativa)\ncv <- 100 * desv_std / promedio_general\ncat(\"🎯 Coeficiente de Variación:\", round(cv, 1), \"%\\n\")\ncat(\"   (> 30% indica alta heterogeneidad)\\n\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tabla comparativa completa\ncat(\"\\n📋 TABLA COMPARATIVA: INGRESO POR ZONA\\n\")\ncat(\"════════════════════════════════════════════════════════════\\n\")\ncat(sprintf(\"%-20s %12s %12s %12s\\n\", \"Estadística\", \"Urbana\", \"Rural\", \"Diferencia\"))\ncat(\"────────────────────────────────────────────────────────────\\n\")\n\n# Media\nmedia_urb <- mean(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmedia_rur <- mean(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Media\", \n            media_urb, media_rur, media_urb - media_rur))\n\n# Mediana\nmed_urb <- median(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\nmed_rur <- median(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"Mediana\", \n            med_urb, med_rur, med_urb - med_rur))\n\n# P10\np10_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.10)\np10_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.10)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P10 (más pobre)\", \n            p10_urb, p10_rur, p10_urb - p10_rur))\n\n# P90\np90_urb <- quantile(datos$ingreso_pc_usd[datos$zona == \"Urbana\"], 0.90)\np90_rur <- quantile(datos$ingreso_pc_usd[datos$zona == \"Rural\"], 0.90)\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"P90 (más rico)\", \n            p90_urb, p90_rur, p90_urb - p90_rur))\n\n# IQR\niqr_urb <- IQR(datos$ingreso_pc_usd[datos$zona == \"Urbana\"])\niqr_rur <- IQR(datos$ingreso_pc_usd[datos$zona == \"Rural\"])\ncat(sprintf(\"%-20s $%10.2f $%10.2f $%10.2f\\n\", \"IQR (dispersión)\", \n            iqr_urb, iqr_rur, iqr_urb - iqr_rur))\n\ncat(\"════════════════════════════════════════════════════════════\\n\")","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Histograma general con líneas de referencia\nhist(datos$ingreso_pc_usd, \n     breaks = 40, \n     col = \"steelblue\", \n     border = \"white\",\n     main = \"Distribución de Ingresos Per Cápita\",\n     xlab = \"Ingreso mensual (USD)\",\n     ylab = \"Frecuencia de hogares\",\n     xlim = c(0, 1500))\n\n# Línea vertical: media (promedio)\nabline(v = promedio_general, col = \"red\", lwd = 3, lty = 1)\n# Línea vertical: mediana\nabline(v = mediana_general, col = \"darkgreen\", lwd = 3, lty = 2)\n# Línea vertical: umbral de elegibilidad propuesto\nabline(v = 250, col = \"orange\", lwd = 2, lty = 3)\n\n# Leyenda\nlegend(\"topright\", \n       legend = c(\"Media ($420)\", \"Mediana\", \"Umbral ($250)\"),\n       col = c(\"red\", \"darkgreen\", \"orange\"),\n       lty = c(1, 2, 3),\n       lwd = c(3, 3, 2),\n       bty = \"n\")\n\n# Agregar texto explicativo\ntext(900, max(hist(datos$ingreso_pc_usd, plot=F, breaks=40)$counts) * 0.8,\n     \"Cola larga →\\nAlgunos hogares\\nde altos ingresos\\ninflan el promedio\",\n     pos = 4, col = \"red\", cex = 0.9)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Boxplot lado a lado\nboxplot(ingreso_pc_usd ~ zona, \n        data = datos,\n        col = c(\"coral\", \"lightgreen\"),\n        main = \"Comparación de Ingresos: Urbano vs Rural\",\n        ylab = \"Ingreso per cápita (USD/mes)\",\n        xlab = \"Zona\",\n        horizontal = FALSE,\n        notch = FALSE,\n        outcol = \"red\",\n        outpch = 19,\n        outcex = 0.5)\n\n# Línea de referencia: umbral de elegibilidad\nabline(h = 250, col = \"blue\", lwd = 2, lty = 2)\n\n# Agregar anotaciones sobre los elementos del boxplot\nmtext(\"Línea central = Mediana\", side = 3, line = -2, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Caja = IQR (50% central)\", side = 3, line = -3, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Bigotes = Rango esperado\", side = 3, line = -4, at = 1, cex = 0.8, col = \"gray30\")\nmtext(\"Puntos = Outliers\", side = 3, line = -5, at = 1, cex = 0.8, col = \"red\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# ¿Cuántos hogares califican con el umbral de $250?\numbral <- 250\nelegibles <- sum(datos$ingreso_pc_usd < umbral)\npct_elegibles <- 100 * elegibles / nrow(datos)\n\ncat(\"\\n🎯 ANÁLISIS DE ELEGIBILIDAD\\n\")\ncat(\"════════════════════════════════════════\\n\")\ncat(\"Umbral propuesto:    $\", umbral, \"USD/mes\\n\\n\")\ncat(\"Hogares elegibles:   \", elegibles, \"\\n\")\ncat(\"Porcentaje total:    \", round(pct_elegibles, 1), \"%\\n\\n\")\n\n# Por zona\nelegibles_urb <- sum(datos$ingreso_pc_usd[datos$zona == \"Urbana\"] < umbral)\nelegibles_rur <- sum(datos$ingreso_pc_usd[datos$zona == \"Rural\"] < umbral)\n\npct_urb <- 100 * elegibles_urb / n_urbano\npct_rur <- 100 * elegibles_rur / n_rural\n\ncat(\"Zona Urbana:         \", elegibles_urb, \" hogares (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"Zona Rural:          \", elegibles_rur, \" hogares (\", round(pct_rur, 1), \"%)\\n\\n\")\n\n# Comparación con diferentes umbrales\numbrales <- c(200, 250, 300, p10_urb, med_rur)\nnombres_umbrales <- c(\"$200 (restrictivo)\", \"$250 (propuesto)\", \"$300 (amplio)\", \n                      \"P10 urbano\", \"Mediana rural\")\n\ncat(\"📊 SENSIBILIDAD DEL UMBRAL\\n\")\ncat(\"════════════════════════════════════════\\n\")\nfor (i in 1:length(umbrales)) {\n  n_elegibles <- sum(datos$ingreso_pc_usd < umbrales[i])\n  pct <- 100 * n_elegibles / nrow(datos)\n  cat(sprintf(\"%-20s: %4d hogares (%5.1f%%)\\n\", \n              nombres_umbrales[i], n_elegibles, pct))\n}","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Crear tabla profesional para presentar al Secretario\ncat(\"\\n═══════════════════════════════════════════════════════════════\\n\")\ncat(\"  RESUMEN EJECUTIVO: DISTRIBUCIÓN DE INGRESOS MUNICIPAL\\n\")\ncat(\"═══════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"1. PANORAMA GENERAL\\n\")\ncat(\"   • Total de hogares:              5,000\\n\")\ncat(\"   • Ingreso promedio:              $\", round(promedio_general, 2), \" USD/mes\\n\")\ncat(\"   • Ingreso MEDIANO (típico):      $\", round(mediana_general, 2), \" USD/mes\\n\")\ncat(\"   • Diferencia media-mediana:      +\", round(diferencia, 2), \" USD (\", \n    round(100*diferencia/mediana_general, 1), \"%)\\n\\n\")\n\ncat(\"2. ANÁLISIS POR PERCENTILES\\n\")\ncat(\"   • 10% más pobre (P10):           < $\", round(percentiles[1], 2), \"\\n\")\ncat(\"   • 25% inferior (P25):            < $\", round(percentiles[2], 2), \"\\n\")\ncat(\"   • 50% inferior (Mediana):        < $\", round(percentiles[3], 2), \"\\n\")\ncat(\"   • 25% superior (P75):            > $\", round(percentiles[4], 2), \"\\n\")\ncat(\"   • 10% más rico (P90):            > $\", round(percentiles[5], 2), \"\\n\\n\")\n\ncat(\"3. DISPERSIÓN Y DESIGUALDAD\\n\")\ncat(\"   • Rango intercuartil (IQR):      $\", round(iqr, 2), \"\\n\")\ncat(\"   • Desviación estándar:           $\", round(desv_std, 2), \"\\n\")\ncat(\"   • Coeficiente de variación:      \", round(cv, 1), \"%\\n\\n\")\n\ncat(\"4. COMPARACIÓN URBANO-RURAL\\n\")\ncat(\"   • Mediana urbana:                $\", round(med_urb, 2), \"\\n\")\ncat(\"   • Mediana rural:                 $\", round(med_rur, 2), \"\\n\")\ncat(\"   • Brecha:                        $\", round(med_urb - med_rur, 2), \"\\n\\n\")\n\ncat(\"5. ELEGIBILIDAD (Umbral $250)\\n\")\ncat(\"   • Hogares elegibles TOTAL:       \", elegibles, \" (\", round(pct_elegibles, 1), \"%)\\n\")\ncat(\"   • Elegibles zona urbana:         \", elegibles_urb, \" (\", round(pct_urb, 1), \"%)\\n\")\ncat(\"   • Elegibles zona rural:          \", elegibles_rur, \" (\", round(pct_rur, 1), \"%)\\n\\n\")\n\ncat(\"═══════════════════════════════════════════════════════════════\\n\")","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cat(\"\\n💡 RECOMENDACIÓN PARA EL SECRETARIO\\n\")\ncat(\"════════════════════════════════════════════════════════════════\\n\\n\")\n\ncat(\"📌 HALLAZGO PRINCIPAL:\\n\")\ncat(\"El ingreso promedio de $420 USD/mes NO representa al hogar típico.\\n\")\ncat(\"La distribución es altamente asimétrica con cola larga a la derecha.\\n\")\ncat(\"El hogar mediano gana $\", round(mediana_general, 2), \" USD/mes, \", \n    round(100 * diferencia/promedio_general, 1), \"% menos que el promedio.\\n\\n\")\n\ncat(\"🎯 IMPLICACIONES PARA POLÍTICA:\\n\")\ncat(\"1. Usar el PROMEDIO como referencia subestimaría la vulnerabilidad.\\n\")\ncat(\"2. Con umbral de $250, se cubre al \", round(pct_elegibles, 1), \"% de hogares.\\n\")\ncat(\"3. Existe desigualdad significativa entre zonas (CV = \", round(cv, 1), \"%).\\n\\n\")\n\ncat(\"✅ RECOMENDACIONES:\\n\")\ncat(\"1. Considerar umbrales diferenciados por zona:\\n\")\ncat(\"   - Zona urbana: P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Urbana\"], 0.25), 2), \"\\n\")\ncat(\"   - Zona rural:  P25 = $\", round(quantile(datos$ingreso_pc_usd[datos$zona==\"Rural\"], 0.25), 2), \"\\n\\n\")\n\ncat(\"2. Focalizar en el P10-P25 para maximizar impacto en pobreza extrema.\\n\\n\")\n\ncat(\"3. Monitorear la cola superior (P90+) para posibles exclusiones.\\n\\n\")\n\ncat(\"⚠️  LIMITACIONES:\\n\")\ncat(\"• Estos datos NO incluyen ingresos informales (probable subestimación)\\n\")\ncat(\"• No considera composición del hogar (per cápita vs hogar total)\\n\")\ncat(\"• La muestra puede tener sesgo de selección si hay no-respuesta diferencial\\n\")\ncat(\"• No captura variabilidad temporal (ingreso en un solo mes)\\n\\n\")\n\ncat(\"════════════════════════════════════════════════════════════════\\n\")","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1670,37 +1638,8 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../custom-styles.css">
+<link rel="stylesheet" href="../../custom-styles.css">
 <meta property="og:title" content="David Contreras-Loya, PhD">
 <meta property="og:description" content="Applied economist, researcher, and educator working at the intersection of health, education, and social policy">
 <meta property="og:image" content="https://dcloya.com/files/AGT_5639.png">
@@ -1719,7 +1658,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">David Contreras-Loya</span>
     </a>
   </div>
@@ -1735,11 +1674,11 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="../contact.html">
+    <a class="dropdown-item" href="../../contact.html">
  <span class="dropdown-text">Contact</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cv.html">
+    <a class="dropdown-item" href="../../cv.html">
  <span class="dropdown-text">CV</span></a>
   </li>  
     </ul>
@@ -1750,7 +1689,7 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../food-systems-dashboard.html">
+    <a class="dropdown-item" href="../../food-systems-dashboard.html">
  <span class="dropdown-text">Sistemas alimentarios (dashboard)</span></a>
   </li>  
     </ul>
@@ -1760,21 +1699,28 @@ window.Quarto = {
  <span class="menu-text">Teaching</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li class="dropdown-header">ESTADÍSTICA MATEMÁTICA (2026)</li>
+        <li>
+    <a class="dropdown-item" href="../../notes/estadistica_matematica_2026/session01_muestreo.html">
+ <span class="dropdown-text">S1: La distribución muestral de la media</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">MÉTODOS CUANTITATIVOS (2026)</li>
         <li class="dropdown-header">Identificación parcial</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_bounds.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_bounds.html">
  <span class="dropdown-text">Ejercicio: Manski bounds</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">INTRODUCCION</li>
         <li>
-    <a class="dropdown-item" href="../notes/README_EJERCICIOS.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/README_EJERCICIOS.html">
  <span class="dropdown-text">Estructura y Objetivos</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">CONFIGURACION</li>
         <li>
-    <a class="dropdown-item" href="../notes/r_setup_guide_es.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/r_setup_guide_es.html">
  <span class="dropdown-text">Como Instalar R y RStudio</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -1782,48 +1728,48 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 1: Datos y visualización</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex01_average_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex01_average_integrated.html">
  <span class="dropdown-text">S1: La Tiranía del Promedio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex02_visualization_integrated.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex02_visualization_integrated.html">
  <span class="dropdown-text">S2: Visualizacion como Evidencia</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 2: Incertidumbre y riesgo</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex03_montecarlo_simplified_v2.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.html">
  <span class="dropdown-text">S3: Simulacion Monte Carlo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ex04_bayes_simulation.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex04_bayes_simulation.html">
  <span class="dropdown-text">S4: Probabilidad Condicional (Bayes)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 3: Muestreo e Inferencia</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_muestreo_varianza.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.html">
  <span class="dropdown-text">S5: El Arte del Muestreo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_ic_evaluacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.html">
  <span class="dropdown-text">S6: Intervalos de Confianza</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 4: Pruebas de Hipótesis y p-valor</li>
         <li>
-    <a class="dropdown-item" href="../notes/ex07_08_hipotesis_integrated_1.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.html">
  <span class="dropdown-text">S7-8: Ejercicio integrado pruebas de hipótesis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">BLOQUE 5: Asociación y Causalidad</li>
         <li>
-    <a class="dropdown-item" href="../notes/ejercicio_regresion_causalidad.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.html">
  <span class="dropdown-text">S9-10: Retornos a la educación</span></a>
   </li>  
         <li class="dropdown-header">Tareas</li>
         <li>
-    <a class="dropdown-item" href="../notes/tarea_capacitacion.html">
+    <a class="dropdown-item" href="../../notes/metodos_cuantitativos_2026/tarea_capacitacion.html">
  <span class="dropdown-text">Tarea integradora</span></a>
   </li>  
     </ul>
@@ -1831,7 +1777,7 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../files/Contreras_D_academic_CV_2026.pdf"> 
+    <a class="nav-link" href="../../files/Contreras_D_academic_CV_2026.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -2155,7 +2101,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Práctica guiada: Simulando una tabla 2×2 con Teorema de Bayes</h1>
+<h1 class="title">Sesión 1: La Tiranía del Promedio</h1>
 </div>
 
 
@@ -2172,261 +2118,127 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="simulación-de-tabla-22-y-cálculo-de-vpp" class="level1">
-<h1>Simulación de Tabla 2×2 y Cálculo de VPP</h1>
-<section id="objetivo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
-<p>Generar 10,000 casos simulados para entender cómo la <strong>tasa base (prevalencia)</strong> afecta el <strong>Valor Predictivo Positivo (VPP)</strong> de una prueba diagnóstica.</p>
+<section id="caso-de-política-pública" class="level1">
+<h1>Caso de Política Pública</h1>
+<p>Un municipio está diseñando un <strong>programa de subsidios alimentarios</strong> para hogares vulnerables. El informe técnico reporta que el ingreso promedio per cápita es de <strong>$420 USD/mes</strong>. El Secretario de Desarrollo Social propone establecer el umbral de elegibilidad en $250 USD/mes.</p>
+<p><strong>Tu tarea:</strong> Analizar la distribución de ingresos para determinar: - ¿Cuántos hogares califican para el subsidio? - ¿El promedio representa bien a la población? - ¿Hay diferencias importantes entre zonas urbanas y rurales?</p>
 <hr>
 </section>
-<section id="paso-1-definir-parámetros" class="level2">
-<h2 class="anchored" data-anchor-id="paso-1-definir-parámetros">Paso 1: Definir parámetros</h2>
+<section id="parte-1-carga-y-exploración-de-datos" class="level1">
+<h1>Parte 1: Carga y Exploración de Datos</h1>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>¿Qué estamos haciendo?</strong></p>
-<p>Definimos los parámetros clave de nuestro problema: - <strong>Prevalencia:</strong> Qué tan común es el cáncer en la población (1%) - <strong>Sensibilidad:</strong> Qué tan buena es la prueba detectando casos reales (90%) - <strong>Especificidad:</strong> Qué tan buena es la prueba descartando sanos (91%)</p>
+<p><strong>Pregunta de reflexión:</strong> ¿Por qué simulamos una distribución log-normal en vez de una normal? ¿Qué implica esto sobre la realidad del ingreso?</p>
 <hr>
 </section>
-<section id="paso-2-simular-la-población" class="level2">
-<h2 class="anchored" data-anchor-id="paso-2-simular-la-población">Paso 2: Simular la población</h2>
+<section id="parte-2-estadísticas-descriptivas-básicas" class="level1">
+<h1>Parte 2: Estadísticas Descriptivas Básicas</h1>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>¿Qué hace este código?</strong></p>
-<p>Usamos <code>rbinom()</code> para simular una moneda sesgada: - Probabilidad de “éxito” (tener cáncer) = 1% - Lanzamos la moneda 10,000 veces - Resultado: vector de 0s (sano) y 1s (enfermo)</p>
-<p>Esperamos aproximadamente 100 personas con cáncer (1% de 10,000).</p>
+<p><strong>Para discutir:</strong> Si el promedio es $420 pero la mediana es menor, ¿qué implica esto para el diseño del programa?</p>
 <hr>
 </section>
-<section id="paso-3-simular-resultados-de-la-prueba" class="level2">
-<h2 class="anchored" data-anchor-id="paso-3-simular-resultados-de-la-prueba">Paso 3: Simular resultados de la prueba</h2>
+<section id="parte-3-análisis-por-percentiles-las-colas-importan" class="level1">
+<h1>Parte 3: Análisis por Percentiles (Las Colas Importan)</h1>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Lógica del código:</strong></p>
-<p>Este es el paso CRÍTICO donde aplicamos sensibilidad y especificidad:</p>
-<ol type="1">
-<li><strong>Para enfermos:</strong> La prueba da positivo con probabilidad = sensibilidad (90%)</li>
-<li><strong>Para sanos:</strong> La prueba da positivo con probabilidad = 1 - especificidad (9%)</li>
-</ol>
-<p>Esperamos aproximadamente: - 90 verdaderos positivos (90% de ~100 enfermos) - 891 falsos positivos (9% de ~9,900 sanos) - <strong>Total de positivos ≈ 981</strong></p>
+<p><strong>Ejercicio práctico:</strong> 1. ¿Qué porcentaje de hogares gana menos de $250/mes? 2. ¿Deberíamos usar P10 o P25 como criterio de elegibilidad?</p>
 <hr>
 </section>
-<section id="paso-4-construir-tabla-22" class="level2">
-<h2 class="anchored" data-anchor-id="paso-4-construir-tabla-22">Paso 4: Construir tabla 2×2</h2>
+<section id="parte-4-comparación-por-zona-urbano-vs-rural" class="level1">
+<h1>Parte 4: Comparación por Zona (Urbano vs Rural)</h1>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Entendiendo la tabla 2×2:</strong></p>
-<pre><code>                    Test +    Test -
-Tiene cáncer        TP (~90)  FN (~10)
-No tiene cáncer     FP (~891) TN (~9,009)</code></pre>
-<ul>
-<li><strong>TP (Verdadero +):</strong> La prueba acertó, detectó un caso real</li>
-<li><strong>FP (Falso +):</strong> Alarma falsa, persona sana con resultado positivo</li>
-<li><strong>FN (Falso -):</strong> La prueba falló, caso real no detectado</li>
-<li><strong>TN (Verdadero -):</strong> Correctamente identificó a persona sana</li>
-</ul>
+<p><strong>Interpretación clave:</strong> - ¿En qué zona hay mayor desigualdad interna? - ¿Deberían ser diferentes los criterios de elegibilidad por zona?</p>
 <hr>
 </section>
-<section id="paso-5-calcular-métricas-diagnósticas" class="level2">
-<h2 class="anchored" data-anchor-id="paso-5-calcular-métricas-diagnósticas">Paso 5: Calcular métricas diagnósticas</h2>
+<section id="parte-5-visualización-1---histograma" class="level1">
+<h1>Parte 5: Visualización 1 - Histograma</h1>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>La distinción crítica:</strong></p>
-<ul>
-<li><strong>Sensibilidad (90%):</strong> De los enfermos, ¿cuántos detecta la prueba?</li>
-<li><strong>VPP (~9%):</strong> De los positivos, ¿cuántos son realmente enfermos?</li>
-</ul>
-<p><strong>¡NO SON LO MISMO!</strong> Confundirlos es el error más común.</p>
-<p>La sensibilidad mide la calidad de la prueba.<br>
-El VPP mide su utilidad para TI cuando recibes un resultado positivo.</p>
+<p><strong>Pregunta de análisis:</strong> ¿Qué nos dice la forma de este histograma sobre la distribución del ingreso?</p>
 <hr>
 </section>
-<section id="paso-6-visualización-de-la-tabla-22" class="level2">
-<h2 class="anchored" data-anchor-id="paso-6-visualización-de-la-tabla-22">Paso 6: Visualización de la tabla 2×2</h2>
+<section id="parte-6-visualización-2---boxplot-comparativo" class="level1">
+<h1>Parte 6: Visualización 2 - Boxplot Comparativo</h1>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Interpretación visual:</strong></p>
-<ul>
-<li><strong>Rojo oscuro (VP):</strong> Casos correctamente detectados</li>
-<li><strong>Naranja (FP):</strong> El “problema” - sanos alarmados falsamente</li>
-<li><strong>Rosa (FN):</strong> Casos perdidos (fallos de la prueba)</li>
-<li><strong>Verde (VN):</strong> Sanos correctamente descartados</li>
-</ul>
-<p>¡Nota cómo el rectángulo naranja (FP) es mucho más grande que el rojo (VP)!</p>
+<p><strong>Elementos del boxplot:</strong> - <strong>Línea central:</strong> mediana (P50) - <strong>Caja:</strong> contiene el 50% central de los datos (P25 a P75) - <strong>Bigotes:</strong> se extienden hasta 1.5×IQR - <strong>Puntos rojos:</strong> valores atípicos (outliers)</p>
 <hr>
 </section>
-<section id="paso-7-efecto-de-la-tasa-base-en-el-vpp" class="level2">
-<h2 class="anchored" data-anchor-id="paso-7-efecto-de-la-tasa-base-en-el-vpp">Paso 7: Efecto de la tasa base en el VPP</h2>
+<section id="parte-7-análisis-de-elegibilidad" class="level1">
+<h1>Parte 7: Análisis de Elegibilidad</h1>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Lecciones del gráfico:</strong></p>
-<ol type="1">
-<li>Con prevalencia muy baja (1%), el VPP es terrible (~9%)</li>
-<li>A medida que aumenta la prevalencia, el VPP sube <strong>no linealmente</strong></li>
-<li>Con prevalencia del 20%, el VPP sería ~68% (mucho mejor)</li>
-<li>La tasa base importa TANTO como la calidad de la prueba</li>
-</ol>
-<p><strong>Implicación para política pública:</strong><br>
-Focalizar el tamizaje en población de riesgo mejora drásticamente el VPP.</p>
+<p><strong>Pregunta de política:</strong> - ¿Qué umbral recomendarías y por qué? - ¿Cómo balanceas cobertura vs.&nbsp;recursos disponibles?</p>
 <hr>
 </section>
-<section id="paso-8-comparación-de-escenarios" class="level2">
-<h2 class="anchored" data-anchor-id="paso-8-comparación-de-escenarios">Paso 8: Comparación de escenarios</h2>
+<section id="parte-8-tabla-resumen-para-memo-ejecutivo" class="level1">
+<h1>Parte 8: Tabla Resumen para Memo Ejecutivo</h1>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Tabla de decisión:</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 36%">
-<col style="width: 27%">
-<col style="width: 36%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Estrategia</th>
-<th>Ventaja</th>
-<th>Desventaja</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Universal</strong></td>
-<td>No perdemos ningún caso</td>
-<td>90% de positivos son falsos</td>
-</tr>
-<tr class="even">
-<td><strong>Focalizada</strong></td>
-<td>Mejor VPP, menos desperdicio</td>
-<td>Podríamos perder casos fuera del grupo</td>
-</tr>
-<tr class="odd">
-<td><strong>Dos etapas</strong></td>
-<td>Balance óptimo</td>
-<td>Más complejo de implementar</td>
-</tr>
-</tbody>
-</table>
 <hr>
 </section>
-<section id="paso-9-simulación-de-tamizaje-de-dos-etapas" class="level2">
-<h2 class="anchored" data-anchor-id="paso-9-simulación-de-tamizaje-de-dos-etapas">Paso 9: Simulación de tamizaje de dos etapas</h2>
+<section id="parte-9-recomendación-basada-en-evidencia" class="level1">
+<h1>Parte 9: Recomendación Basada en Evidencia</h1>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Ventaja de dos etapas:</strong> - Capturamos casi todos los casos (alta sensibilidad en etapa 1) - Descartamos la mayoría de falsos positivos (alta especificidad en etapa 2) - VPP final es mucho más útil para decisiones</p>
 <hr>
 </section>
-<section id="ejercicios-para-practicar" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios-para-practicar">Ejercicios para practicar</h2>
-<p><strong>Ejercicio 1: Cambiar parámetros</strong></p>
-<p>Modifica el código del Paso 1 y vuelve a correr toda la simulación:</p>
+<section id="ejercicio-individual-entregable" class="level1">
+<h1>Ejercicio Individual (Entregable)</h1>
+<p><strong>Instrucciones:</strong></p>
 <ol type="1">
-<li>Cambia <code>prevalencia &lt;- 0.10</code> (10% en lugar de 1%)
+<li><strong>Crea una tabla</strong> comparando las siguientes estadísticas para zona urbana vs rural:
 <ul>
-<li>¿Cómo cambia el VPP?</li>
+<li>Media, Mediana, P10, P90, IQR</li>
+<li>Interpreta: ¿Dónde hay mayor desigualdad interna?</li>
 </ul></li>
-<li>Cambia <code>sensibilidad &lt;- 0.95</code> (mejor prueba)
+<li><strong>Genera un histograma</strong> del ingreso solo para zona rural:
 <ul>
-<li>¿Vale la pena una prueba más cara pero más sensible?</li>
+<li>Incluye líneas de referencia (media, mediana, umbral)</li>
+<li>Escribe un título-conclusión de máximo 18 palabras</li>
 </ul></li>
-<li>Cambia <code>especificidad &lt;- 0.80</code> (prueba menos específica)
+<li><strong>Propón un criterio de elegibilidad</strong> basado en percentiles:
 <ul>
-<li>¿Cómo explota el número de Falsos Positivos?</li>
+<li>Justifica tu elección en 6 líneas</li>
+<li>Incluye al menos 1 limitación de tu propuesta</li>
+<li>Evita usar “promedio” como criterio único</li>
 </ul></li>
-</ol>
-<p><strong>Ejercicio 2: Caso de fraude en programas sociales</strong></p>
-<p>Imagina un sistema de detección de fraude con: - Prevalencia de fraude: 0.5% (muy raro) - Sensibilidad del algoritmo: 85% - Especificidad del algoritmo: 92%</p>
-<p>Preguntas: 1. Si el sistema marca a alguien, ¿qué probabilidad hay de que sea fraude real? 2. ¿Conviene auditar a todos los marcados? 3. ¿Qué estrategia de dos etapas propondrías?</p>
-<p><strong>Ejercicio 3: Screening en educación</strong></p>
-<p>Screening para identificar niños con retraso del desarrollo: - Prevalencia: 5% - Sensibilidad de prueba inicial: 90% - Especificidad: 88%</p>
-<p>Preguntas: 1. Calcula el VPP 2. ¿Qué pasa si focalizas en escuelas de alta vulnerabilidad (prevalencia 15%)? 3. Diseña protocolo de dos etapas</p>
-<hr>
-</section>
-<section id="preguntas-de-reflexión" class="level2">
-<h2 class="anchored" data-anchor-id="preguntas-de-reflexión">Preguntas de reflexión</h2>
-<ol type="1">
-<li><strong>¿Por qué el VPP es tan bajo (9.2%) aunque la prueba sea 90% sensible?</strong>
+<li><strong>Responde:</strong>
 <ul>
-<li>Porque la tasa base es muy baja (1%)</li>
-<li>Los Falsos Positivos dominan numéricamente</li>
-</ul></li>
-<li><strong>¿En qué contexto de política pública usarías tamizaje universal vs focalizado?</strong>
-<ul>
-<li>Universal: cuando el costo de FP es bajo y el de FN es alto (ej: COVID)</li>
-<li>Focalizado: cuando procesar FP es costoso (ej: auditorías)</li>
-</ul></li>
-<li><strong>Si tienes recursos limitados, ¿prefieres mejorar sensibilidad o especificidad?</strong>
-<ul>
-<li>Depende del contexto:
-<ul>
-<li>Enfermedades graves: prioriza sensibilidad (no perder casos)</li>
-<li>Recursos escasos: prioriza especificidad (evitar desperdicio en FP)</li>
-</ul></li>
-</ul></li>
-<li><strong>¿Cómo comunicarías estos resultados al público?</strong>
-<ul>
-<li>Usar frecuencias naturales: “De cada 100 positivos, solo 9 tienen cáncer”</li>
-<li>Evitar porcentajes anidados que confunden</li>
-<li>Mostrar tabla 2×2 con números concretos</li>
+<li>¿Qué riesgo operativo implica usar solo el promedio para diseñar política?</li>
+<li>¿Por qué importa ver la “cola” de la distribución (P10 y P90)?</li>
 </ul></li>
 </ol>
 <hr>
 </section>
-<section id="conceptos-clave-para-recordar" class="level2">
-<h2 class="anchored" data-anchor-id="conceptos-clave-para-recordar">Conceptos clave para recordar</h2>
-<p><strong>1. Tasa base (prevalencia) importa tanto como la calidad de la prueba</strong> - Misma prueba → VPPs muy diferentes según población</p>
-<p><strong>2. No confundir sensibilidad con VPP</strong> - Sensibilidad: P(+ | caso) = calidad de la prueba - VPP: P(caso | +) = utilidad para tu decisión</p>
-<p><strong>3. Diseño de dos etapas puede resolver el problema</strong> - Etapa 1: sensible (captura casos) - Etapa 2: específica (filtra falsos positivos)</p>
-<p><strong>4. Comunicar con frecuencias naturales</strong> - “9 de cada 100 positivos tienen cáncer” - Es más claro que “VPP = 9.2%”</p>
-<p><strong>5. Decisión depende de los costos relativos</strong> - Costo de FP vs costo de FN - No hay respuesta única “correcta”</p>
+<section id="preguntas-de-discusión" class="level1">
+<h1>Preguntas de Discusión</h1>
+<ol type="1">
+<li><p><strong>Focalización vs Universalidad:</strong> Si tuvieras presupuesto para solo el 20% más pobre, ¿usarías P10 o P20 como corte? ¿Por qué?</p></li>
+<li><p><strong>Denominador:</strong> ¿Debería calcularse el ingreso per cápita o por hogar? ¿Qué cambia?</p></li>
+<li><p><strong>Errores de inclusión/exclusión:</strong> ¿Preferirías un umbral que excluya a algunos elegibles (error tipo II) o que incluya a algunos no elegibles (error tipo I)?</p></li>
+<li><p><strong>Evidencia incompleta:</strong> Si no tienes datos de ingreso informal, ¿cómo afecta esto tu recomendación? ¿Serías más conservador o más agresivo con el umbral?</p></li>
+</ol>
 <hr>
 </section>
-<section id="recursos-adicionales" class="level2">
-<h2 class="anchored" data-anchor-id="recursos-adicionales">Recursos adicionales</h2>
-<p><strong>Fórmula de Bayes (recordatorio):</strong></p>
-<p><span class="math display">\[\text{VPP} = P(\text{caso}|+) = \frac{P(+|\text{caso}) \cdot P(\text{caso})}{P(+)}\]</span></p>
-<p>Donde: <span class="math display">\[P(+) = P(+|\text{caso}) \cdot P(\text{caso}) + P(+|\text{sano}) \cdot P(\text{sano})\]</span></p>
-<p><strong>Para profundizar:</strong> - Gigerenzer, G. (2002). “Reckoning with Risk” - Spiegelhalter, D. (2019). “The Art of Statistics” - Kahneman, D. (2011). “Thinking, Fast and Slow” (Capítulo sobre tasa base)</p>
-<p><strong>Herramientas en línea:</strong> - https://www.thennt.com/ (comunicación de riesgo) - https://seeing-theory.brown.edu/bayesian-inference/ (visualizaciones)</p>
+<section id="recursos-adicionales" class="level1">
+<h1>Recursos Adicionales</h1>
+<p><strong>Conceptos clave para recordar:</strong></p>
+<ul>
+<li><strong>Media vs Mediana:</strong> En distribuciones asimétricas, la mediana es más robusta</li>
+<li><strong>Percentiles:</strong> Lenguaje para describir posiciones en la distribución</li>
+<li><strong>IQR:</strong> Mide dispersión sin ser afectado por outliers</li>
+<li><strong>Coeficiente de Variación:</strong> Dispersión relativa (&gt; 30% = alta heterogeneidad)</li>
+<li><strong>Histograma:</strong> Muestra la forma completa de la distribución</li>
+<li><strong>Boxplot:</strong> Ideal para comparar grupos y detectar outliers</li>
+</ul>
+<p><strong>Para profundizar:</strong> - Busca “Anscombe’s Quartet” para ver por qué siempre hay que visualizar - Lee sobre “Simpson’s Paradox” (lo veremos en sesión 10) - Investiga cómo se calcula la línea de pobreza en tu país</p>
 <hr>
-</section>
-<section id="código-completo-para-copy-paste" class="level2">
-<h2 class="anchored" data-anchor-id="código-completo-para-copy-paste">Código completo para copy-paste</h2>
-<p>Si quieres todo el código de una sola vez para correr en R:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CÓDIGO COMPLETO - Simulación de Bayes</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>prevalencia <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sensibilidad <span class="ot">&lt;-</span> <span class="fl">0.90</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>especificidad <span class="ot">&lt;-</span> <span class="fl">0.91</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular población</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tiene_cancer <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, prevalencia)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular resultados de prueba</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>resultado_prueba <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>resultado_prueba[tiene_cancer <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">sum</span>(tiene_cancer), <span class="dv">1</span>, sensibilidad)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>resultado_prueba[tiene_cancer <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">sum</span>(<span class="dv">1</span> <span class="sc">-</span> tiene_cancer), <span class="dv">1</span>, <span class="dv">1</span> <span class="sc">-</span> especificidad)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla 2x2</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>TP <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>FP <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>FN <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>TN <span class="ot">&lt;-</span> <span class="fu">sum</span>(tiene_cancer <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> resultado_prueba <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular VPP</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>VPP <span class="ot">&lt;-</span> TP <span class="sc">/</span> (TP <span class="sc">+</span> FP)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimir resultados</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tabla 2x2:</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"          Test+   Test-</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Caso     "</span>, TP, <span class="st">"    "</span>, FN, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sano     "</span>, FP, <span class="st">"   "</span>, TN, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"VPP = "</span>, <span class="fu">round</span>(VPP <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-<p>Este es el fin del ejercicio aplicado. Ahora entiendes por qué la tasa base es crítica y cómo diseñar sistemas de tamizaje efectivos en política pública.</p>
+<p><strong>Última reflexión:</strong> En política pública, un solo número (el promedio) puede ocultar más de lo que revela. La distribución completa importa.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
