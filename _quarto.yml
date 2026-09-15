@@ -56,75 +56,14 @@ website:
       # --- TEACHING SECTION (por curso) ---
       - text: Teaching
         menu:
-          # ================================================
-          - text: "ESTADÍSTICA MATEMÁTICA (2026)"
-          - text: "S1: La distribución muestral de la media"
-            href: notes/estadistica_matematica_2026/session01_muestreo.qmd
+          - text: "Ver todos los cursos"
+            href: teaching.qmd
           - text: "---"
+          - text: "Estadística Matemática (2026)"
+            href: notes/estadistica_matematica_2026/index.qmd
+          - text: "Métodos Cuantitativos (2026)"
+            href: notes/metodos_cuantitativos_2026/index.qmd
 
-          # ================================================
-          - text: "MÉTODOS CUANTITATIVOS (2026)"
-          # Partial identification
-          - text: "Identificación parcial"
-          - text: "Ejercicio: Manski bounds"
-            href: notes/metodos_cuantitativos_2026/ejercicio_bounds.qmd
-          - text: "---"
-          # INTRODUCCION AL CURSO
-          - text: "INTRODUCCION"
-          - text: "Estructura y Objetivos"
-            href: notes/metodos_cuantitativos_2026/README_EJERCICIOS.qmd
-          - text: "---"
-          
-          # CONFIGURACION Y HERRAMIENTAS
-          - text: "CONFIGURACION"
-          - text: "Como Instalar R y RStudio"
-            href: notes/metodos_cuantitativos_2026/r_setup_guide_es.qmd
-          - text: "---"
-          
-          # SESIONES DE CLASE
-          - text: "Sesiones de clase (10)"
-          - text: "---"
-          
-          # Bloque 1: Estadistica Descriptiva y Visualizacion
-          - text: "BLOQUE 1: Datos y visualización"
-          - text: "S1: La Tiranía del Promedio"
-            href: notes/metodos_cuantitativos_2026/ex01_average_integrated.qmd
-          - text: "S2: Visualizacion como Evidencia"
-            href: notes/metodos_cuantitativos_2026/ex02_visualization_integrated.qmd
-          - text: "---"
-          
-          # Bloque 2: Incertidumbre y Riesgo
-          - text: "BLOQUE 2: Incertidumbre y riesgo"
-          - text: "S3: Simulacion Monte Carlo"
-            href: notes/metodos_cuantitativos_2026/ex03_montecarlo_simplified_v2.qmd
-          - text: "S4: Probabilidad Condicional (Bayes)"
-            href: notes/metodos_cuantitativos_2026/ex04_bayes_simulation.qmd
-          - text: "---"
-          
-          # Bloque 3: Muestreo e Inferencia I
-          - text: "BLOQUE 3: Muestreo e Inferencia"
-          - text: "S5: El Arte del Muestreo"
-            href: notes/metodos_cuantitativos_2026/ejercicio_muestreo_varianza.qmd
-          - text: "S6: Intervalos de Confianza"
-            href: notes/metodos_cuantitativos_2026/ejercicio_ic_evaluacion.qmd
-          - text: "---"
-          
-          # Bloque 4: Pruebas de Hipotesis
-          - text: "BLOQUE 4: Pruebas de Hipótesis y p-valor"
-          - text: "S7-8: Ejercicio integrado pruebas de hipótesis"
-            href: notes/metodos_cuantitativos_2026/ex07_08_hipotesis_integrated_1.qmd
-          - text: "---"
-          
-          # Bloque 5: Asociacion y Causalidad
-          - text: "BLOQUE 5: Asociación y Causalidad"
-          - text: "S9-10: Retornos a la educación"
-            href: notes/metodos_cuantitativos_2026/ejercicio_regresion_causalidad.qmd
-            
-          # Tarea integradora
-          - text: "Tareas"
-          - text: "Tarea integradora"
-            href: notes/metodos_cuantitativos_2026/tarea_capacitacion.qmd
-          
     right: 
       - text: CV
         href: files/Contreras_D_academic_CV_2026.pdf

@@ -1,0 +1,12 @@
+---
+title: "Estadística Matemática (2026)"
+subtitle: "Maestría en Economía Aplicada, Tecnológico de Monterrey"
+---
+
+Curso de fundamentos de probabilidad y estadística matemática para economistas aplicados. Cada sesión incluye, además de las notas de clase, un ejercicio interactivo en R que corre directamente en tu navegador: no necesitas instalar nada.
+
+## Sesiones
+
+1. [Sesión 1: La distribución muestral de la media](session01_muestreo.qmd)
+
+Esta lista crece conforme avanza el trimestre.

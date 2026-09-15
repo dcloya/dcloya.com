@@ -1,0 +1,17 @@
+---
+title: "Teaching"
+---
+
+Doy clase en la Maestría en Economía Aplicada y en otros programas del Tecnológico de Monterrey. Estos son los dos cursos que imparto actualmente, cada uno con sus propias sesiones y ejercicios.
+
+## Estadística Matemática (2026)
+
+Maestría en Economía Aplicada. Fundamentos de probabilidad y estadística matemática con aplicaciones a econometría.
+
+[Ver el curso completo](notes/estadistica_matematica_2026/index.qmd)
+
+## Métodos Cuantitativos para Política Pública (2026)
+
+Ejercicios interactivos de estadística descriptiva, simulación, inferencia y causalidad, pensados para correrse directamente en el navegador.
+
+[Ver el curso completo](notes/metodos_cuantitativos_2026/index.qmd)

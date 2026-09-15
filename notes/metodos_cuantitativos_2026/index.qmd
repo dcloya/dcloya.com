@@ -1,0 +1,46 @@
+---
+title: "Métodos Cuantitativos para Política Pública (2026)"
+---
+
+Ejercicios interactivos en R para el curso, organizados por bloque temático. Cada ejercicio corre directamente en tu navegador: no necesitas instalar nada.
+
+## Introducción
+
+- [Estructura y objetivos del curso](README_EJERCICIOS.qmd)
+
+## Configuración
+
+- [Cómo instalar R y RStudio](r_setup_guide_es.qmd)
+
+## Sesiones de clase (10)
+
+### Bloque 1: Datos y visualización
+
+- [Sesión 1: La tiranía del promedio](ex01_average_integrated.qmd)
+- [Sesión 2: Visualización como evidencia](ex02_visualization_integrated.qmd)
+
+### Bloque 2: Incertidumbre y riesgo
+
+- [Sesión 3: Simulación Monte Carlo](ex03_montecarlo_simplified_v2.qmd)
+- [Sesión 4: Probabilidad condicional (Bayes)](ex04_bayes_simulation.qmd)
+
+### Bloque 3: Muestreo e inferencia
+
+- [Sesión 5: El arte del muestreo](ejercicio_muestreo_varianza.qmd)
+- [Sesión 6: Intervalos de confianza](ejercicio_ic_evaluacion.qmd)
+
+### Bloque 4: Pruebas de hipótesis y valor p
+
+- [Sesiones 7 y 8: ejercicio integrado de pruebas de hipótesis](ex07_08_hipotesis_integrated_1.qmd)
+
+### Bloque 5: Asociación y causalidad
+
+- [Sesiones 9 y 10: retornos a la educación](ejercicio_regresion_causalidad.qmd)
+
+## Tarea integradora
+
+- [Tarea integradora](tarea_capacitacion.qmd)
+
+## Otro material
+
+- [Ejercicio: Manski bounds (identificación parcial)](ejercicio_bounds.qmd). Nota: este ejercicio parece pertenecer a otro curso, quedó en esta carpeta por la reorganización de archivos de hace unos días. Si prefieres que viva en otro lugar del sitio, dime y lo movemos.
