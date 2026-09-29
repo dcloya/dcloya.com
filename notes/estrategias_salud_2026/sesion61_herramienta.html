@@ -135,9 +135,9 @@ ol.steps li{margin:.25rem 0}
 <div class="wrap">
 <header class="top">
   <div>
-    <div class="eyebrow">Diplomado Estrategias de Salud en México · Módulo VI · Sesión 6.1 · 29 sep</div>
+    <div class="eyebrow">Diplomado Estrategias de Salud en México. Módulo VI, sesión 6.1, 29 de septiembre</div>
     <h1>El valor en salud y la evaluación económica</h1>
-    <p class="muted" style="margin:.3rem 0 0">David Contreras-Loya · 150 minutos · actividad cada 25 minutos o menos</p>
+    <p class="muted" style="margin:.3rem 0 0">David Contreras-Loya. 150 minutos, con una actividad cada 25 minutos o menos. Todas las cifras están en pesos mexicanos</p>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn" id="projBtn" type="button">Modo proyección</button>
@@ -157,7 +157,7 @@ ol.steps li{margin:.25rem 0}
 <section class="panel" id="p-temario">
   <div class="card">
     <h2>Mapa de la sesión</h2>
-    <p class="muted">Cada segmento es un bloque, con ancho proporcional a su duración. Las marcas azules son las actividades. Haga clic en un bloque para ir a su detalle.</p>
+    <p class="muted">Cada segmento es una parte de la sesión, con ancho proporcional a su duración. Las marcas azules son las actividades. Haga clic en una parte para ir a su detalle.</p>
     <div class="timeline">
       <div class="tl-bar" id="tlBar"></div>
       <div class="tl-axis" id="tlAxis"></div>
@@ -171,16 +171,16 @@ ol.steps li{margin:.25rem 0}
 <!-- ============ MENÚ ============ -->
 <section class="panel" id="p-menu" hidden>
   <div class="card">
-    <div class="eyebrow">Bloque 1 · min 15-25</div>
-    <h2>Menú de compras: 10 millones de dólares para una Secretaría estatal</h2>
-    <p>Cada grupo elige qué programas financiar con el presupuesto. Primero se elige con costo y descripción. Después se revelan el costo por AVAD y los AVAD evitados. Los programas no son divisibles: se financian completos o no se financian.</p>
-    <p class="note">Costo por AVAD: Disease Control Priorities, 3a ed. (Horton et al. 2017, tabla S1), en dólares de 2012; MX indica estudios de México. El tamaño de cada programa es ilustrativo. Conjugado anticuerpo-fármaco: resultado preliminar del caso de la pestaña 4, en dólares de 2024 por AVAC; no es estrictamente comparable.</p>
+    <div class="eyebrow">Parte 1, ejercicio 1, min 15-25</div>
+    <h2>Menú de compras con 200 millones de pesos para una Secretaría estatal</h2>
+    <p>Cada grupo elige qué programas financiar con el presupuesto. Primero se elige con costo y descripción. Después se revelan el costo por AVAD y los AVAD evitados. Los programas no son divisibles, así que se financian completos o no se financian.</p>
+    <p class="note">El costo por AVAD viene de Disease Control Priorities, 3a ed. (Horton et al. 2017, tabla S1), en dólares de 2012 convertidos a 17.5 pesos por dólar. MX indica estudios de México. El tamaño de cada programa es ilustrativo. El dato del conjugado anticuerpo-fármaco es el resultado preliminar de la pestaña Caso CAF, en pesos por AVAC (dólares de 2024), y no es estrictamente comparable.</p>
   </div>
   <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
     <div class="card">
       <div class="tblwrap">
         <table id="menuTbl" class="hidecol">
-          <thead><tr><th></th><th>Programa</th><th class="r">Costo (M USD)</th><th class="r rev">USD por AVAD</th><th class="r rev">AVAD evitados</th></tr></thead>
+          <thead><tr><th></th><th>Programa</th><th class="r">Costo (M$)</th><th class="r rev">$ por AVAD</th><th class="r rev">AVAD evitados</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -193,25 +193,25 @@ ol.steps li{margin:.25rem 0}
     </div>
     <div class="card" style="display:grid;gap:14px;align-content:start">
       <div class="field">
-        <label for="budget">Presupuesto disponible (millones de dólares)</label>
-        <div class="row"><input type="range" id="budget" min="4" max="20" step="0.5" value="10"><span class="out" id="budgetOut">10</span></div>
+        <label for="budget">Presupuesto disponible (millones de pesos)</label>
+        <div class="row"><input type="range" id="budget" min="80" max="400" step="10" value="200"><span class="out" id="budgetOut">200</span></div>
       </div>
       <div>
         <div class="note">Gasto comprometido</div>
         <div class="meter" id="meter"><div style="width:0%"></div></div>
-        <div class="num" id="spentTxt">0 M de 10 M USD</div>
+        <div class="num" id="spentTxt">0 M de 200 M$</div>
       </div>
       <div class="kpis">
         <div class="kpi"><div class="v" id="kAvad">?</div><div class="l">AVAD evitados</div></div>
-        <div class="kpi"><div class="v" id="kThr">?</div><div class="l">Umbral implícito (USD por AVAD del programa más caro que se compró)</div></div>
+        <div class="kpi"><div class="v" id="kThr">?</div><div class="l">Umbral implícito ($ por AVAD del programa más caro que se compró)</div></div>
       </div>
       <div class="act">
         <div class="lab">Para discutir</div>
         <ul style="margin:.3rem 0 0;padding-left:1.1rem">
-          <li>¿Cuántos AVAD perdió el grupo frente al óptimo (27,352)? Ese es el costo de oportunidad de su elección.</li>
-          <li>La tabla de liga compra 1,150 AVAD menos que el óptimo: con programas indivisibles, depresión (437 USD por AVAD) queda fuera y prevención cardiovascular (770) entra.</li>
-          <li>El umbral no se eligió: salió del presupuesto. Suba el presupuesto a 15 millones y observe cómo cambia.</li>
-          <li>Conjugado anticuerpo-fármaco: 2 millones de dólares evitan unos 5 AVAC.</li>
+          <li>¿Cuántos AVAD perdió el grupo frente al óptimo (31,259)? Ese es el costo de oportunidad de su elección.</li>
+          <li>La tabla de liga compra 1,315 AVAD menos que el óptimo. Con programas indivisibles, el óptimo deja fuera depresión ($7,648 por AVAD) y financia prevención cardiovascular ($13,475).</li>
+          <li>Nadie eligió el umbral, sino que salió del presupuesto. Suba el presupuesto a 300 millones y observe cómo cambia.</li>
+          <li>40 millones de pesos en el conjugado anticuerpo-fármaco evitan unos 6 AVAC.</li>
         </ul>
       </div>
     </div>
@@ -221,15 +221,15 @@ ol.steps li{margin:.25rem 0}
 <!-- ============ PLANO ============ -->
 <section class="panel" id="p-plano" hidden>
   <div class="card">
-    <div class="eyebrow">Bloque 3a · ejercicio 3 · min 50-58</div>
+    <div class="eyebrow">Parte 3, ejercicio 3, min 50-58</div>
     <h2>¿Qué tipo de evaluación es?</h2>
-    <p>Cinco grupos, un caso por grupo. Cada grupo clasifica su caso base; después recibe una variante y decide si cambia su respuesta.</p>
+    <p>En plenaria, un caso a la vez. Todos votan el tipo de evaluación del caso base; después se muestra la variante y se vota de nuevo.</p>
     <div class="grid3" id="cases"></div>
   </div>
 
   <div class="card">
-    <div class="eyebrow">Bloque 3b · ejercicio 4 · min 82-90</div>
-    <h2>Plano costo-efectividad: detección y control de hipertensión</h2>
+    <div class="eyebrow">Parte 4, ejercicio 4, min 82-90</div>
+    <h2>Plano costo-efectividad de estrategias contra la hipertensión</h2>
     <p>Seis estrategias mutuamente excluyentes para 1,000 adultos a 10 años. Costos y AVAC son incrementales frente a la atención habitual. Pida a los grupos que identifiquen las estrategias dominadas antes de revelar.</p>
     <p class="note">Cifras ilustrativas.</p>
     <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
@@ -255,10 +255,10 @@ ol.steps li{margin:.25rem 0}
 <!-- ============ CBA ============ -->
 <section class="panel" id="p-cba" hidden>
   <div class="card">
-    <div class="eyebrow">Bloque 4 · ejercicio 5 · min 100-107</div>
-    <h2>Costo-beneficio en vivo: programa de detección y control de hipertensión</h2>
-    <p>El programa atiende a una cohorte fija de adultos cada año. Los beneficios en salud y los costos médicos evitados empiezan en el año 2 y alcanzan su nivel pleno en el año 4. Los costos del programa corren desde el año 1. Para pasar de costo-efectividad a costo-beneficio falta un solo número: cuánto vale un AVAC en pesos. Ese número es el que se discute aquí.</p>
-    <p class="note">Cifras ilustrativas. Los múltiplos de Hirth et al. (2000) son sus medianas en dólares de 1997 divididas entre el PIB per cápita de EE.UU. de ese año (≈ 31,400 USD). Aplicarlos a México supone una elasticidad ingreso de 1, supuesto que conviene discutir.</p>
+    <div class="eyebrow">Parte 5, ejercicio 5, min 100-107</div>
+    <h2>Costo-beneficio en vivo de un programa de detección y control de hipertensión</h2>
+    <p>El programa atiende a una cohorte fija de adultos cada año. Los beneficios en salud y los costos médicos evitados empiezan en el año 2 y alcanzan su nivel pleno en el año 4. Los costos del programa corren desde el año 1. Para pasar de costo-efectividad a costo-beneficio falta un solo número, cuánto vale un AVAC en pesos. Ese número es el que se discute aquí.</p>
+    <p class="note">Cifras ilustrativas. Los múltiplos de Hirth et al. (2000) son sus medianas en dólares de 1997 divididas entre el PIB per cápita de EE.UU. de ese año (31,400 USD). Aplicarlos a México supone una elasticidad ingreso de 1, supuesto que conviene discutir.</p>
   </div>
 
   <div class="grid2" style="grid-template-columns:minmax(280px,1fr) minmax(320px,1.6fr)">
@@ -327,8 +327,8 @@ ol.steps li{margin:.25rem 0}
 
       <fieldset>
         <legend>Perspectiva y tiempo</legend>
-        <label class="check"><input type="checkbox" id="incProd"><span>Incluir productividad ganada (150 $ por participante por año). Perspectiva social. Si los pesos de calidad de vida ya capturan el ingreso, se cuenta dos veces.</span></label>
-        <label class="check"><input type="checkbox" id="incFut"><span>Incluir costos médicos futuros no relacionados en los años de vida ganados (80 $ por participante por año). Meltzer y Johannesson (1999).</span></label>
+        <label class="check"><input type="checkbox" id="incProd"><span>Incluir productividad ganada ($150 por participante por año). Perspectiva social. Si los pesos de calidad de vida ya capturan el ingreso, se cuenta dos veces.</span></label>
+        <label class="check"><input type="checkbox" id="incFut"><span>Incluir costos médicos futuros no relacionados en los años de vida ganados ($80 por participante por año). Meltzer y Johannesson (1999).</span></label>
         <div class="field">
           <label for="T">Horizonte (años)</label>
           <div class="row"><input type="range" id="T" min="3" max="30" step="1" value="10"><span class="out" id="TOut"></span></div>
@@ -386,19 +386,19 @@ ol.steps li{margin:.25rem 0}
 <!-- ============ CAF ============ -->
 <section class="panel" id="p-sg" hidden>
   <div class="card">
-    <div class="eyebrow">Bloque 5 · ejercicio 6 · min 122-130 · y ejercicio 7</div>
-    <h2>Caso: un conjugado anticuerpo-fármaco (CAF) para cierto cáncer triple negativo metastásico</h2>
+    <div class="eyebrow">Parte 6, ejercicio 6, min 122-130, y ejercicio 7</div>
+    <h2>Caso de un conjugado anticuerpo-fármaco (CAF) para cierto cáncer triple negativo metastásico</h2>
     <p>Modelo de supervivencia particionada con tres estados (estable, progresión y muerte), ciclos de 21 días y descuento de 3%. Las curvas son las distribuciones ajustadas a los datos reconstruidos del ensayo fase 3. Mueva el precio por ciclo hasta que la ICER llegue a su umbral.</p>
     <p class="note" style="color:var(--cost);font-weight:600">Resultados preliminares. No citar.</p>
-    <p class="note">Réplica del modelo del reporte en el navegador. Reproduce los resultados base con diferencias menores a 0.1%. Costos en dólares de 2024.</p>
+    <p class="note">Réplica del modelo del reporte en el navegador. Reproduce los resultados base con diferencias menores a 0.1%. Costos en pesos, convertidos de dólares de 2024 a 17.5 pesos por dólar.</p>
   </div>
   <div class="grid2" style="grid-template-columns:minmax(280px,1fr) minmax(320px,1.6fr)">
     <div class="card form">
       <fieldset>
         <legend>Precio y estrategia</legend>
         <div class="field">
-          <label for="sgPrice">Precio del CAF por ciclo (USD)</label>
-          <div class="row"><input type="range" id="sgPrice" min="0" max="16000" step="1" value="13374"><span class="out" id="sgPriceOut"></span></div>
+          <label for="sgPrice">Precio del CAF por ciclo (pesos)</label>
+          <div class="row"><input type="range" id="sgPrice" min="0" max="280000" step="5" value="234045"><span class="out" id="sgPriceOut"></span></div>
           <span class="note" id="sgDisc"></span>
         </div>
         <label class="check"><input type="checkbox" id="sgProph" checked><span>Con profilaxis primaria (G-CSF y loperamida en los ciclos 1 y 2)</span></label>
@@ -408,16 +408,16 @@ ol.steps li{margin:.25rem 0}
         <div class="field">
           <label for="sgLam">Disposición a pagar por AVAC</label>
           <select id="sgLam">
-            <option value="14000">1 PIB per cápita de México (≈ 14,000 USD)</option>
-            <option value="41000" selected>3 PIB per cápita (≈ 41,000 USD)</option>
-            <option value="150000">150,000 USD</option>
-            <option value="236868">Disposición a pagar de pacientes (≈ 237,000 USD al año)</option>
+            <option value="245000">1 PIB per cápita de México ($245,000)</option>
+            <option value="717500" selected>3 PIB per cápita ($717,500)</option>
+            <option value="2625000">$2,625,000</option>
+            <option value="4145190">Disposición a pagar de pacientes ($4,145,190 al año)</option>
             <option value="custom">Personalizado</option>
           </select>
         </div>
         <div class="field" id="sgLamCustomWrap" hidden>
-          <label for="sgLamCustom">Valor personalizado (USD por AVAC)</label>
-          <input type="number" id="sgLamCustom" value="100000" step="1000" min="0">
+          <label for="sgLamCustom">Valor personalizado (pesos por AVAC)</label>
+          <input type="number" id="sgLamCustom" value="1750000" step="10000" min="0">
         </div>
       </fieldset>
       <fieldset>
@@ -437,20 +437,20 @@ ol.steps li{margin:.25rem 0}
       <div class="card">
         <div class="verdict"><span class="big" id="sgVerdict">&nbsp;</span><span class="chip" id="sgChip"></span></div>
         <div class="kpis" style="margin-top:12px">
-          <div class="kpi"><div class="v" id="sgKdC"></div><div class="l">Costo incremental por paciente frente a quimioterapia (USD)</div></div>
+          <div class="kpi"><div class="v" id="sgKdC"></div><div class="l">Costo incremental por paciente frente a quimioterapia ($)</div></div>
           <div class="kpi"><div class="v" id="sgKdQ"></div><div class="l">AVAC ganados por paciente</div></div>
-          <div class="kpi"><div class="v" id="sgKicer"></div><div class="l">ICER (USD por AVAC)</div></div>
+          <div class="kpi"><div class="v" id="sgKicer"></div><div class="l">ICER ($ por AVAC)</div></div>
           <div class="kpi"><div class="v" id="sgKpstar"></div><div class="l">Precio por ciclo que iguala la ICER al umbral</div></div>
         </div>
       </div>
       <div class="card">
         <h3>Curvas de supervivencia del modelo</h3>
-        <p class="note">Área verde: tiempo estable. Área azul: tiempo en progresión. Línea continua: sobrevida global; discontinua: libre de progresión.</p>
+        <p class="note">El área verde es el tiempo estable y el área azul el tiempo en progresión. La línea continua es la sobrevida global y la discontinua la sobrevida libre de progresión.</p>
         <div class="chartbox"><svg id="sgCurves" viewBox="0 0 620 280" width="100%" role="img" aria-label="Curvas de supervivencia"></svg></div>
       </div>
       <div class="card">
         <h3>Resultados por paciente</h3>
-        <div class="tblwrap"><table id="sgTbl"><thead><tr><th></th><th class="r">Años de vida</th><th class="r">AVAC</th><th class="r">Costo (USD)</th><th class="r">ICER frente a quimio.</th></tr></thead><tbody></tbody></table></div>
+        <div class="tblwrap"><table id="sgTbl"><thead><tr><th></th><th class="r">Años de vida</th><th class="r">AVAC</th><th class="r">Costo ($)</th><th class="r">ICER frente a quimio.</th></tr></thead><tbody></tbody></table></div>
         <div class="act" style="margin-top:12px"><div class="lab">El valor de la profilaxis</div><span id="sgProphTxt"></span></div>
       </div>
     </div>
@@ -461,40 +461,40 @@ ol.steps li{margin:.25rem 0}
 <section class="panel" id="p-integ" hidden>
   <div class="card">
     <h2>Ejercicios integradores</h2>
-    <p>Para después de la sesión, o en clase si sobra tiempo. Usan las herramientas de esta página y conectan varios bloques. El tercero alimenta el Proyecto Integrador del diplomado.</p>
+    <p>Para después de la sesión, o en clase si sobra tiempo. Usan las herramientas de esta página y conectan varias partes de la sesión. El tercero alimenta el Proyecto Integrador del diplomado.</p>
   </div>
   <div class="grid2">
     <div class="card">
-      <span class="chip acc">Bloques 1, 4 y 5</span>
+      <span class="chip acc">Partes 1, 5 y 6</span>
       <h3 style="margin-top:.5rem">1. Del menú al umbral</h3>
-      <p>Retoma el umbral implícito que salió del menú de compras (bloque 1) y lo compara con los valores del AVAC del bloque 4.</p>
+      <p>Retoma el umbral implícito que salió del menú de compras (parte 1) y lo compara con los valores del AVAC de la parte 5.</p>
       <ol class="steps">
-        <li>Tomar el umbral implícito del ejercicio 1 (1,605 USD por AVAD con 10 millones).</li>
-        <li>Compararlo con 1 y 3 veces el PIB per cápita, con las medianas de Hirth y con la disposición a pagar de las pacientes (237 mil USD al año).</li>
-        <li>En la pestaña 4, calcular a qué precio sería costo-efectivo el CAF con ese umbral.</li>
+        <li>Tomar el umbral implícito del ejercicio 1 ($28,088 por AVAD con 200 millones de pesos).</li>
+        <li>Compararlo con 1 y 3 veces el PIB per cápita, con las medianas de Hirth y con la disposición a pagar de las pacientes (4.1 millones de pesos al año).</li>
+        <li>En la pestaña Caso CAF, calcular a qué precio sería costo-efectivo el CAF con ese umbral.</li>
       </ol>
       <div class="idea"><div class="lab">Pregunta central</div>El umbral del presupuesto mide cuánta salud se desplaza (lado de la oferta). Los valores de Hirth miden cuánto pagaría una persona por reducir su riesgo (lado de la demanda). ¿Cuál debe usar el IMSS para decidir qué entra al Compendio? ¿Y cuál para una regulación ambiental?</div>
     </div>
 
     <div class="card">
-      <span class="chip acc">Bloques 2, 3 y 4</span>
+      <span class="chip acc">Partes 2, 3 y 5</span>
       <h3 style="margin-top:.5rem">2. Una intervención, cuatro respuestas</h3>
       <p>Cada grupo recibe una postura y la traduce a supuestos del modelo. Guarda su escenario en el registro.</p>
       <ul>
-        <li><b>Hacienda:</b> perspectiva del pagador, sin productividad, con costos futuros, descuento 7%.</li>
-        <li><b>Asociación de pacientes:</b> preferencias de pacientes, valoración contingente, horizonte 20 años.</li>
-        <li><b>Secretaría de Salud:</b> 1 × PIB per cápita, preferencias del público, descuento 5%.</li>
-        <li><b>Economista del bienestar:</b> perspectiva social, productividad y costos futuros incluidos, preferencia revelada.</li>
+        <li><b>Hacienda</b>, con perspectiva del pagador, sin productividad, con costos futuros, descuento 7%.</li>
+        <li><b>Asociación de pacientes</b>, con preferencias de pacientes, valoración contingente, horizonte 20 años.</li>
+        <li><b>Secretaría de Salud</b>, con 1 × PIB per cápita, preferencias del público, descuento 5%.</li>
+        <li><b>Economista del bienestar</b>, con perspectiva social, productividad y costos futuros incluidos, preferencia revelada.</li>
       </ul>
       <div class="idea"><div class="lab">Pregunta central</div>Con los mismos datos clínicos, ¿qué supuesto cambió la decisión? Ordenar los supuestos por su efecto y comparar con el tornado. Casi siempre pesa más un juicio de valor que un parámetro clínico.</div>
     </div>
 
     <div class="card">
-      <span class="chip">Después de clase · Proyecto Integrador</span>
+      <span class="chip">Después de clase, Proyecto Integrador</span>
       <h3 style="margin-top:.5rem">3. Dictamen para el Compendio Nacional de Insumos</h3>
-      <p>Cada equipo toma el problema de su Proyecto Integrador, elige una intervención y redacta un dictamen de una página con estos elementos:</p>
+      <p>Cada equipo toma el problema de su Proyecto Integrador, elige una intervención y redacta un dictamen de una página con estos elementos.</p>
       <ol class="steps">
-        <li>Pregunta de decisión: población, intervención, comparador, resultado y perspectiva.</li>
+        <li>Pregunta de decisión, con población, intervención, comparador, resultado y perspectiva.</li>
         <li>Tipo de evaluación que usaría y por qué no otra.</li>
         <li>Costos incluidos y excluidos (productividad, tiempo del paciente, costos futuros).</li>
         <li>Fuente de las preferencias para los AVAC y su efecto probable.</li>
@@ -507,10 +507,10 @@ ol.steps li{margin:.25rem 0}
     </div>
 
     <div class="card">
-      <span class="chip">Opcional · asíncrono</span>
+      <span class="chip">Opcional y asíncrono</span>
       <h3 style="margin-top:.5rem">4. Lectura crítica con CHEERS</h3>
-      <p>Cada participante revisa una evaluación económica publicada sobre México con una lista abreviada de 10 puntos basada en CHEERS 2022: pregunta, comparador, perspectiva, horizonte, descuento, fuente de efectividad, fuente de preferencias, costos, incertidumbre y conflicto de interés.</p>
-      <div class="idea"><div class="lab">Qué buscar</div>El comparador elegido. Cualquier intervención parece costo-efectiva frente al comparador "correcto" (Johannesson y Meltzer, citado en Hirth 2000).</div>
+      <p>Cada participante revisa una evaluación económica publicada sobre México con una lista abreviada de 10 puntos basada en CHEERS 2022, que cubre pregunta, comparador, perspectiva, horizonte, descuento, fuente de efectividad, fuente de preferencias, costos, incertidumbre y conflicto de interés.</p>
+      <div class="idea"><div class="lab">Qué buscar primero</div>El comparador elegido. Cualquier intervención parece costo-efectiva frente al comparador "correcto" (Johannesson y Meltzer, citado en Hirth 2000).</div>
     </div>
   </div>
 </section>
@@ -546,71 +546,71 @@ document.getElementById('projBtn').addEventListener('click',e=>{
 
 /* ---------------- temario ---------------- */
 const BLOCKS = [
- {id:'b1', start:0, dur:25, title:'1. Valor y costo de oportunidad', short:'Valor',
+ {id:'b1', start:0, dur:25, title:'Parte 1. Valor y costo de oportunidad', short:'Valor',
   acts:[[15,25]],
   content:['Escasez, costo de oportunidad, eficiencia asignativa y eficiencia técnica.',
-   'Perspectiva: social, del pagador, del prestador y del paciente.',
-   'Dos decisiones en México: el menú de compras (GLP-1, hemodiálisis, VPH en niños, PrEP, salud mental) y las alternativas para un mismo problema (insuficiencia renal; cáncer triple negativo metastásico).',
+   'Perspectivas social, del pagador, del prestador y del paciente.',
+   'Dos decisiones en México, el menú de compras (GLP-1, hemodiálisis, VPH en niños, PrEP, salud mental) y las alternativas para un mismo problema (insuficiencia renal; cáncer triple negativo metastásico).',
    'Qué es una evaluación económica, con un árbol de decisión de dos alternativas.',
-   'La tabla de liga: qué es, cómo se usa y qué supone.'],
-  act:'Ejercicio 1: menú de compras con 10 millones de dólares y costos por AVAD de DCP3 (pestaña 1).',
-  idea:'El umbral no se fija por decreto: resulta del presupuesto. Con programas indivisibles, la tabla de liga no da el óptimo.',
+   'La tabla de liga, qué es, cómo se usa y qué supone.'],
+  act:'Ejercicio 1, menú de compras con 200 millones de pesos y costos por AVAD de DCP3 (pestaña Menú de compras).',
+  idea:'El umbral no se fija por decreto, sino que resulta del presupuesto. Con programas indivisibles, la tabla de liga no da el óptimo.',
   refs:'Drummond et al. 2015; Horton et al. 2017; Neumann, Cohen y Weinstein 2014.'},
- {id:'b2', start:25, dur:20, title:'2. Medir lo que se gana', short:'Medición',
+ {id:'b2', start:25, dur:20, title:'Parte 2. Medir lo que se gana', short:'Medición',
   acts:[[37,45]],
   content:['Resultados naturales y medidas resumen; AVAC y AVAD.',
-   'Cómo se obtienen los pesos: EVA, compensación temporal, lotería estándar, EQ-5D. Ejemplo: pesos del caso del bloque 5.',
-   '¿De quién son las preferencias? Público general o pacientes; la adaptación.',
-   'Tres hechos: pesos de expertos (Bell 2001), normas menores que 1 (Fryback 1993), variación por método (Lung 2011).'],
-  act:'Ejercicio 2: valorar un estado de salud con EVA y compensación temporal.',
+   'Cómo se obtienen los pesos con EVA, compensación temporal, lotería estándar y EQ-5D, y por qué por lo general SG > TTO > EVA. Ejemplo con los pesos del caso de la parte 6.',
+   '¿De quién son las preferencias? Público general o pacientes, y cuánto debe contar la adaptación.',
+   'Tres hechos poco discutidos, los pesos de expertos (Bell 2001), las normas menores que 1 (Fryback 1993) y la variación por método (Lung 2011).'],
+  act:'Ejercicio 2, valorar un estado de salud con EVA y compensación temporal.',
   idea:'El Módulo VI promueve los resultados que importan a los pacientes, pero el caso de referencia usa preferencias del público.',
   refs:'Dolan 1999; Bell et al. 2001; Fryback et al. 1993; Lung et al. 2011.'},
- {id:'b3a', start:45, dur:15, title:'3a. Tipos de evaluación', short:'Tipos',
+ {id:'b3a', start:45, dur:15, title:'Parte 3. Tipos de evaluación', short:'Tipos',
   acts:[[50,58]],
   content:['Minimización de costos, costo-efectividad, costo-utilidad y costo-beneficio.',
    'Solo el costo-beneficio se deriva de la economía del bienestar (Weinstein 1999).'],
-  act:'Ejercicio 3: cinco grupos, un caso base y una variante por grupo, y una pregunta extra (pestaña 2).',
+  act:'Ejercicio 3 en plenaria, con cinco casos, una variante para cada uno y una pregunta extra (pestaña Tipos y plano CE).',
   idea:'La clasificación depende de la pregunta y del denominador, no del tema del estudio.',
   refs:'Drummond et al. 2015; Weinstein 1999.'},
  {id:'brk', start:60, dur:10, title:'Descanso', short:'Descanso', acts:[], content:[], act:'', idea:'', refs:''},
- {id:'b3b', start:70, dur:20, title:'3b. Costos, ICER y plano costo-efectividad', short:'ICER',
+ {id:'b3b', start:70, dur:20, title:'Parte 4. Costos, ICER y plano costo-efectividad', short:'ICER',
   acts:[[82,90]],
   content:['Costos económicos y financieros; clasificación de costos.',
-   'Debate 1: productividad en el numerador o en el denominador, con ejemplo numérico.',
-   'Debate 2: costos de vivir más, con ejemplo numérico (Meltzer y Johannesson 1999).',
-   'Comparador; ICER con el ejemplo del bloque 5; plano costo-efectividad; beneficio monetario neto.',
+   'Debate 1, productividad en el numerador o en el denominador, con ejemplo numérico.',
+   'Debate 2, costos de vivir más, con ejemplo numérico (Meltzer y Johannesson 1999).',
+   'Comparador; ICER con el ejemplo de la parte 6; plano costo-efectividad; beneficio monetario neto.',
    'Tres ideas erróneas sobre la costo-efectividad.'],
-  act:'Ejercicio 4: plano costo-efectividad de estrategias contra hipertensión (pestaña 2).',
+  act:'Ejercicio 4, plano costo-efectividad de estrategias contra hipertensión (pestaña Tipos y plano CE).',
   idea:'Elegir qué costos entran es, en parte, elegir quién gana.',
   refs:'Meltzer y Johannesson 1999; Weinstein 1999.'},
- {id:'b4', start:90, dur:17, title:'4. Del AVAC al peso', short:'Costo-beneficio',
+ {id:'b4', start:90, dur:17, title:'Parte 5. Del AVAC al peso', short:'Costo-beneficio',
   acts:[[100,107]],
-  content:['Por qué ponerle precio a la salud; valor de una vida estadística.',
-   'Hirth et al. (2000): más de 17 veces de diferencia según el método.',
+  content:['Por qué ponerle precio a la salud y qué es el valor de una vida estadística.',
+   'Hirth et al. (2000) encuentran más de 17 veces de diferencia según el método.',
    'Valor individual (demanda) frente a costo de oportunidad del presupuesto (oferta).'],
-  act:'Ejercicio 5: costo-beneficio en vivo (pestaña 3).',
+  act:'Ejercicio 5, costo-beneficio en vivo (pestaña Costo-beneficio en vivo).',
   idea:'Costo-beneficio con un precio por AVAC es costo-efectividad con un umbral.',
   refs:'Hirth et al. 2000; Kenkel 2006; Hammitt 2002.'},
- {id:'b5', start:107, dur:23, title:'5. Caso: un conjugado anticuerpo-fármaco', short:'Caso CAF',
+ {id:'b5', start:107, dur:23, title:'Parte 6. Caso de un conjugado anticuerpo-fármaco', short:'Caso CAF',
   acts:[[122,130]],
   content:['Pregunta, población y comparador (ensayo fase 3).',
    'Modelo de supervivencia particionada.',
    'Reconstrucción de datos por paciente a partir de curvas publicadas (Guyot 2012) y extrapolación paramétrica.',
    'Costos y utilidades por estado; resultados base; ICER frente a umbrales.',
-   'Hallazgo emergente: el valor de la profilaxis, y por qué casi no mueve la ICER.',
+   'Hallazgo emergente, el valor de la profilaxis, y por qué casi no mueve la ICER.',
    'Precio al que sería costo-efectivo.'],
-  act:'Ejercicio 6: negociar el precio entre IMSS, industria y pacientes (pestaña 4).',
+  act:'Ejercicio 6, negociar el precio entre IMSS, industria y pacientes (pestaña Caso CAF).',
   idea:'Una decisión puede ser correcta dentro de una comparación (dar profilaxis si se usa el fármaco) sin cambiar la decisión de fondo (si financiarlo).',
   refs:'Guyot et al. 2012. Resultados preliminares, no citar.'},
- {id:'b6', start:130, dur:20, title:'6. Umbrales, incertidumbre y límites', short:'Umbrales',
+ {id:'b6', start:130, dur:20, title:'Parte 7. Umbrales, incertidumbre y límites', short:'Umbrales',
   acts:[[140,145],[146,150]],
-  content:['De dónde salen los umbrales: 50 mil dólares, 1 a 3 PIB per cápita, alternativas.',
+  content:['De dónde salen los umbrales (50 mil dólares o 875 mil pesos, 1 a 3 PIB per cápita) y sus alternativas.',
    'La disposición a pagar de las pacientes y cómo leerla.',
-   'Incertidumbre en lenguaje simple con el caso del bloque 5.',
+   'Incertidumbre en lenguaje simple con el caso de la parte 6.',
    'Decidir hoy o investigar más.',
    'Equidad y acceso: amparos, sector público y privado.',
    'Límites de la evaluación económica.'],
-  act:'Ejercicio 7: ¿qué dato pediría antes de decidir sobre el CAF? Boleto de salida.',
+  act:'Ejercicio 7, ¿qué dato pediría antes de decidir sobre el CAF? Boleto de salida.',
   idea:'"La evaluación económica no busca una sabiduría infinita, sino poner límite al error infinito" (Williams, citado en Cheng y Wang 2006).',
   refs:'Neumann et al. 2014; Marseille et al. 2015; Cheng y Wang 2006.'}
 ];
@@ -628,44 +628,44 @@ BLOCKS.forEach(b=>{
 const bl=document.getElementById('blocks');
 BLOCKS.forEach((b,i)=>{
   const d=document.createElement('div'); d.className='block'; d.id=b.id; if(i===0) d.style.borderTop='0';
-  if(b.id==='brk'){ d.innerHTML='<div class="when"><b>60-70</b>min · 10</div><div><h3 style="font-size:1.15rem">Descanso</h3></div>'; bl.appendChild(d); return; }
-  d.innerHTML='<div class="when"><b>'+b.start+'-'+(b.start+b.dur)+'</b>min · '+b.dur+'</div>'+
+  if(b.id==='brk'){ d.innerHTML='<div class="when"><b>60-70</b>min, 10</div><div><h3 style="font-size:1.15rem">Descanso</h3></div>'; bl.appendChild(d); return; }
+  d.innerHTML='<div class="when"><b>'+b.start+'-'+(b.start+b.dur)+'</b>min, '+b.dur+'</div>'+
    '<div><h3 style="font-size:1.15rem">'+b.title+'</h3><ul>'+b.content.map(c=>'<li>'+c+'</li>').join('')+'</ul>'+
    '<div class="act"><div class="lab">Actividad</div>'+b.act+'</div>'+
    '<div class="idea"><div class="lab">Idea poco discutida</div>'+b.idea+'</div>'+
-   '<div class="refs">Lecturas: '+b.refs+'</div></div>';
+   '<div class="refs">Lecturas. '+b.refs+'</div></div>';
   bl.appendChild(d);
 });
 
 /* ---------------- menú ---------------- */
 const MENU=[
- ['Tratamiento de cáncer de mama, todas las etapas (MX)',2.0,230],
- ['Vacunación contra VPH en niñas, 50 USD por niña',1.5,247],
- ['Atención intraparto y emergencia obstétrica (América Latina)',2.5,310],
- ['Depresión: atención psicosocial de mantenimiento',1.2,437],
- ['Prevención secundaria cardiovascular',3.0,770],
- ['Tamizaje de retinopatía diabética por telemedicina',1.0,1605],
- ['Mamografía de tamizaje y tratamiento (MX)',2.5,1838],
- ['Vacunas contra neumococo y rotavirus a precio de mercado',3.0,2018],
- ['Conjugado anticuerpo-fármaco para cierto cáncer triple negativo metastásico (preliminar)',2.0,408285]
+ ['Tratamiento de cáncer de mama, todas las etapas (MX)',40,4025],
+ ['Vacunación contra VPH en niñas, $875 por niña',30,4323],
+ ['Atención intraparto y emergencia obstétrica (América Latina)',50,5425],
+ ['Depresión, atención psicosocial de mantenimiento',24,7648],
+ ['Prevención secundaria cardiovascular',60,13475],
+ ['Tamizaje de retinopatía diabética por telemedicina',20,28088],
+ ['Mamografía de tamizaje y tratamiento (MX)',50,32165],
+ ['Vacunas contra neumococo y rotavirus a precio de mercado',60,35315],
+ ['Conjugado anticuerpo-fármaco para cierto cáncer triple negativo metastásico (preliminar)',40,7144988]
 ];
 const avadOf=i=>MENU[i][1]*1e6/MENU[i][2];
 let menuSel=new Set(), revealed=false, order=MENU.map((_,i)=>i);
 const mt=document.querySelector('#menuTbl tbody'), budgetIn=document.getElementById('budget');
 function renderMenu(){
-  const B=+budgetIn.value; document.getElementById('budgetOut').textContent=fmt1.format(B);
+  const B=+budgetIn.value; document.getElementById('budgetOut').textContent=fmt0.format(B);
   mt.innerHTML='';
   order.forEach(i=>{
     const [name,c,r]=MENU[i]; const tr=document.createElement('tr'); tr.className='clickable'+(menuSel.has(i)?' sel':'');
-    tr.innerHTML='<td><input type="checkbox" aria-label="Elegir '+name+'" '+(menuSel.has(i)?'checked':'')+'></td><td>'+name+'</td><td class="r num">'+fmt1.format(c)+'</td><td class="r num rev">'+fmt0.format(r)+'</td><td class="r num rev">'+fmt0.format(avadOf(i))+'</td>';
+    tr.innerHTML='<td><input type="checkbox" aria-label="Elegir '+name+'" '+(menuSel.has(i)?'checked':'')+'></td><td>'+name+'</td><td class="r num">'+fmt0.format(c)+'</td><td class="r num rev">'+fmt0.format(r)+'</td><td class="r num rev">'+fmt0.format(avadOf(i))+'</td>';
     tr.addEventListener('click',()=>{ menuSel.has(i)?menuSel.delete(i):menuSel.add(i); renderMenu(); });
     mt.appendChild(tr);
   });
   let spent=0,avad=0,thr=0; menuSel.forEach(i=>{spent+=MENU[i][1];avad+=avadOf(i);thr=Math.max(thr,MENU[i][2]);});
   const m=document.getElementById('meter'); m.firstElementChild.style.width=Math.min(100,spent/B*100)+'%'; m.classList.toggle('over',spent>B+1e-9);
-  document.getElementById('spentTxt').textContent=fmt1.format(spent)+' M de '+fmt1.format(B)+' M USD'+(spent>B+1e-9?' · excede el presupuesto':'');
+  document.getElementById('spentTxt').textContent=fmt0.format(spent)+' M de '+fmt0.format(B)+' M$'+(spent>B+1e-9?', excede el presupuesto':'');
   document.getElementById('kAvad').textContent=revealed?fmt0.format(avad):'?';
-  document.getElementById('kThr').textContent=revealed&&menuSel.size?fmt0.format(thr)+' USD':'?';
+  document.getElementById('kThr').textContent=revealed&&menuSel.size?money(thr):'?';
   document.getElementById('menuTbl').classList.toggle('hidecol',!revealed);
 }
 budgetIn.addEventListener('input',renderMenu);
@@ -684,16 +684,16 @@ renderMenu();
 
 /* ---------------- casos ---------------- */
 const CASES=[
- ['Hemodiálisis frente a diálisis peritoneal. Un ensayo mostró resultados clínicos equivalentes; se compara el costo anual por paciente.','Minimización de costos','El ensayo "no encontró diferencias significativas" en mortalidad, con intervalo de confianza amplio.','Ya no es válida la minimización de costos: no encontrar diferencias no demuestra equivalencia. Hace falta costo-efectividad o costo-utilidad.'],
- ['Tamizaje de VIH en centros comunitarios: costo por infección detectada.','Costo-efectividad','Los casos detectados se convierten en AVAC ganados por tratamiento temprano.','Costo-utilidad: cambió la unidad del denominador.'],
- ['Nuevo antidiabético frente a metformina: costo por AVAC ganado.','Costo-utilidad','El fabricante solo reporta costo por punto de HbA1c reducido.','Costo-efectividad con un resultado intermedio: la HbA1c no dice cuánta salud se gana; hay que modelar el vínculo.'],
- ['Fluoración del agua: tratamientos dentales evitados y días laborales ganados, en pesos, frente al costo de la planta.','Costo-beneficio','Solo se cuentan los tratamientos dentales evitados; no se valora ningún beneficio en salud.','Análisis de costos (ahorro neto), no evaluación completa: faltan las consecuencias en salud.'],
- ['Un conjugado anticuerpo-fármaco (CAF) frente a quimioterapia: costo por AVAC ganado.','Costo-utilidad','El CAF con profilaxis frente al CAF sin profilaxis.','Dominancia: con profilaxis cuesta menos y da más AVAC, así que no se calcula ICER (pestaña 4).']
+ ['Hemodiálisis frente a diálisis peritoneal. Un ensayo mostró resultados clínicos equivalentes y se compara el costo anual por paciente.','Minimización de costos','El ensayo "no encontró diferencias significativas" en mortalidad, con intervalo de confianza amplio.','Ya no es válida la minimización de costos, porque no encontrar diferencias no demuestra equivalencia. Hace falta costo-efectividad o costo-utilidad.'],
+ ['Tamizaje de VIH en centros comunitarios, medido como costo por infección detectada.','Costo-efectividad','Los casos detectados se convierten en AVAC ganados por tratamiento temprano.','Costo-utilidad, porque cambió la unidad del denominador.'],
+ ['Nuevo antidiabético frente a metformina, medido como costo por AVAC ganado.','Costo-utilidad','El fabricante solo reporta el costo por punto de HbA1c reducido.','Costo-efectividad con un resultado intermedio. La HbA1c no dice cuánta salud se gana, así que hay que modelar el vínculo.'],
+ ['Fluoración del agua. Se valoran en pesos los tratamientos dentales evitados y los días laborales ganados, y se comparan con el costo de la planta.','Costo-beneficio','Solo se cuentan los tratamientos dentales evitados, sin valorar ningún beneficio en salud.','Es un análisis de costos (ahorro neto) y no una evaluación completa, porque faltan las consecuencias en salud.'],
+ ['Un conjugado anticuerpo-fármaco (CAF) frente a quimioterapia, medido como costo por AVAC ganado.','Costo-utilidad','El CAF con profilaxis frente al CAF sin profilaxis.','Dominancia. Con profilaxis cuesta menos y da más AVAC, así que no se calcula ICER (pestaña Caso CAF).']
 ];
 const cw=document.getElementById('cases');
 CASES.forEach((c,i)=>{
   const d=document.createElement('div'); d.className='card case'; d.style.background='var(--surface2)';
-  d.innerHTML='<span class="mono muted">Grupo '+(i+1)+'</span><div><b>Caso base:</b> '+c[0]+'</div><button class="btn" type="button">Revelar</button><div class="ans" hidden><span class="chip acc">'+c[1]+'</span><p style="margin:.6rem 0 .2rem"><b>Variante:</b> '+c[2]+'</p><button class="btn v2" type="button">Revelar variante</button><p class="note ans2" hidden style="margin-top:.4rem">'+c[3]+'</p></div>';
+  d.innerHTML='<span class="mono muted">Caso '+(i+1)+'</span><div><b>Caso base.</b> '+c[0]+'</div><button class="btn" type="button">Revelar</button><div class="ans" hidden><span class="chip acc">'+c[1]+'</span><p style="margin:.6rem 0 .2rem"><b>Variante.</b> '+c[2]+'</p><button class="btn v2" type="button">Revelar variante</button><p class="note ans2" hidden style="margin-top:.4rem">'+c[3]+'</p></div>';
   const b=d.querySelector('button'), a=d.querySelector('.ans'); b.addEventListener('click',()=>{a.hidden=!a.hidden;b.textContent=a.hidden?'Revelar':'Ocultar';});
   const b2=d.querySelector('.v2'), a2=d.querySelector('.ans2'); b2.addEventListener('click',()=>{a2.hidden=!a2.hidden;b2.textContent=a2.hidden?'Revelar variante':'Ocultar variante';});
   cw.appendChild(d);
@@ -791,7 +791,7 @@ function syncOuts(){
 }
 function runCBA(){
   syncOuts(); const p=params(), R=model(p);
-  $('vOut').textContent='Valor usado: '+money(p.V)+' por AVAC'+(p.pib?' ('+fmt1.format(p.V/p.pib)+' × PIB pc)':'');
+  $('vOut').textContent='Valor usado, '+money(p.V)+' por AVAC'+(p.pib?' ('+fmt1.format(p.V/p.pib)+' × PIB pc)':'');
   $('kNpv').textContent=mill(R.npv); $('kBcr').textContent=R.bcr.toFixed(2);
   $('kIcer').textContent=isFinite(R.icer)?money(R.icer):'n.d.'; $('kBe').textContent=isFinite(R.be)?money(R.be):'n.d.';
   const ok=R.npv>=0; $('verdict').textContent=ok?'El programa conviene':'El programa no conviene';
@@ -833,7 +833,7 @@ function drawNpv(p,R){
   marks.forEach((mk,i)=>{ const v=mk[0]*pib, yy=f(v); el('circle',{cx:X(v),cy:Y(yy),r:4,style:'fill:'+(yy>=0?'var(--benefit)':'var(--cost)')+';stroke:var(--surface);stroke-width:1.5'},svg);
     el('text',{x:X(v)+(i===3?6:-6),y:Y(yy)+(i%2?16:-8),'text-anchor':i===3?'start':'end','font-size':10.5,style:'fill:var(--muted)'},svg,mk[1]); });
   if(isFinite(R.be)&&R.be>0&&R.be<vmax){ el('line',{x1:X(R.be),x2:X(R.be),y1:m.t,y2:H-m.b,style:'stroke:var(--warn);stroke-dasharray:4 4'},svg);
-    el('text',{x:X(R.be)+5,y:m.t+12,'font-size':11,style:'fill:var(--warn)'},svg,'equilibrio: '+fmt1.format(R.be/pib)+'×'); }
+    el('text',{x:X(R.be)+5,y:m.t+12,'font-size':11,style:'fill:var(--warn)'},svg,'equilibrio en '+fmt1.format(R.be/pib)+'×'); }
   if(p.V<=vmax){ el('circle',{cx:X(p.V),cy:Y(f(p.V)),r:7,style:'fill:none;stroke:var(--ink);stroke-width:2'},svg); }
 }
 function niceStep(x){ const e=Math.pow(10,Math.floor(Math.log10(Math.abs(x)||1))); const f=x/e; return (f<1.5?1:f<3?2:f<7?5:10)*e; }
@@ -874,6 +874,7 @@ function erf(x){ const sgn=x<0?-1:1; x=Math.abs(x); const a1=0.254829592,a2=-0.2
 const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
 const llS=(t,g,l)=>1/(1+Math.pow(t/l,g));
 const lnS=(t,m,sd)=>t<=0?1:1-Phi((Math.log(t)-m)/sd);
+const FX=17.5, SG_P0=234045;
 const SG_CL=21/30.4375, SG_H=52, SG_DM=Math.pow(1.03,1/12)-1;
 const SG_T=[]; for(let t=0;t<=SG_H+1e-9;t+=SG_CL) SG_T.push(t);
 const AE_COST=[51,136.49,51,72.7,24907.09,61.625], AE_DQ=[.029,.03,.038,.038,.15,.10];
@@ -898,25 +899,25 @@ function sgRun(arm, price, uS, uP){
 }
 function sgLambda(){ const v=$('sgLam').value; return v==='custom'?(+$('sgLamCustom').value||0):+v; }
 function runSG(){
-  const price=+$('sgPrice').value, uS=+$('sgUS').value, uP=+$('sgUP').value, arm=$('sgProph').checked?'sgp':'sg', L=sgLambda();
-  $('sgPriceOut').textContent=fmt0.format(price); $('sgUSOut').textContent=uS.toFixed(2); $('sgUPOut').textContent=uP.toFixed(2);
-  $('sgDisc').textContent = price<13374 ? 'Descuento de '+Math.round((1-price/13374)*100)+'% sobre el precio de referencia (13,374 USD)' : 'Precio de referencia en México: 13,374 USD por ciclo';
+  const priceMX=+$('sgPrice').value, price=priceMX/FX, uS=+$('sgUS').value, uP=+$('sgUP').value, arm=$('sgProph').checked?'sgp':'sg', L=sgLambda();
+  $('sgPriceOut').textContent=money(priceMX); $('sgUSOut').textContent=uS.toFixed(2); $('sgUPOut').textContent=uP.toFixed(2);
+  $('sgDisc').textContent = priceMX<SG_P0 ? 'Descuento de '+Math.round((1-priceMX/SG_P0)*100)+'% sobre el precio de referencia ('+money(SG_P0)+')' : 'Precio de referencia en México, '+money(SG_P0)+' por ciclo';
   $('sgLamCustomWrap').hidden=$('sgLam').value!=='custom';
   const ch=sgRun('ch',0,uS,uP), sg=sgRun('sg',price,uS,uP), sgp=sgRun('sgp',price,uS,uP), x=arm==='sgp'?sgp:sg;
-  const dC=x.C-ch.C, dQ=x.Q-ch.Q, icer=dC/dQ;
-  const nonPrice = dC - price*x.Sst; const pstar=(L*dQ-nonPrice)/x.Sst;
+  const dC=(x.C-ch.C)*FX, dQ=x.Q-ch.Q, icer=dC/dQ;
+  const nonPrice = dC - priceMX*x.Sst; const pstar=(L*dQ-nonPrice)/x.Sst;
   $('sgKdC').textContent=fmt0.format(dC); $('sgKdQ').textContent=dQ.toFixed(3); $('sgKicer').textContent=fmt0.format(icer);
-  $('sgKpstar').textContent= pstar>0 ? fmt0.format(pstar)+' USD' : 'ninguno';
+  $('sgKpstar').textContent= pstar>0 ? money(pstar) : 'ninguno';
   const ok=icer<=L; $('sgVerdict').textContent= ok ? 'Costo-efectivo con este umbral' : 'No es costo-efectivo con este umbral';
-  const chp=$('sgChip'); chp.className='chip '+(ok?'ok':'no'); chp.textContent='umbral '+fmt0.format(L)+' USD';
+  const chp=$('sgChip'); chp.className='chip '+(ok?'ok':'no'); chp.textContent='umbral '+money(L);
   const tb=document.querySelector('#sgTbl tbody'); tb.innerHTML='';
   [['Quimioterapia',ch,null],['CAF',sg,(sg.C-ch.C)/(sg.Q-ch.Q)],['CAF con profilaxis',sgp,(sgp.C-ch.C)/(sgp.Q-ch.Q)]].forEach(r=>{
     const tr=document.createElement('tr'); if((r[1]===x)) tr.className='sel';
-    tr.innerHTML='<td>'+r[0]+'</td><td class="r num">'+r[1].LY.toFixed(2)+'</td><td class="r num">'+r[1].Q.toFixed(3)+'</td><td class="r num">'+fmt0.format(r[1].C)+'</td><td class="r num">'+(r[2]==null?'':fmt0.format(r[2]))+'</td>';
+    tr.innerHTML='<td>'+r[0]+'</td><td class="r num">'+r[1].LY.toFixed(2)+'</td><td class="r num">'+r[1].Q.toFixed(3)+'</td><td class="r num">'+fmt0.format(r[1].C*FX)+'</td><td class="r num">'+(r[2]==null?'':fmt0.format(r[2]*FX))+'</td>';
     tb.appendChild(tr);
   });
-  const sv=sg.C-sgp.C, gq=sgp.Q-sg.Q;
-  $('sgProphTxt').textContent='Frente al CAF sin profilaxis, la profilaxis cuesta '+fmt0.format(Math.abs(sv))+' USD '+(sv>=0?'menos':'más')+' por paciente y da '+gq.toFixed(3)+' AVAC más: '+(sv>=0&&gq>=0?'domina a la estrategia sin profilaxis.':'no domina.')+' La neutropenia febril pasa de 6.4% a 0%; cada episodio evitado ahorra una hospitalización de 24,907 USD. Aun así, la ICER frente a quimioterapia cambia poco, porque el ahorro es menos de 1% del costo incremental del tratamiento.';
+  const sv=(sg.C-sgp.C)*FX, gq=sgp.Q-sg.Q;
+  $('sgProphTxt').textContent='Frente al CAF sin profilaxis, la profilaxis cuesta '+money(Math.abs(sv))+' '+(sv>=0?'menos':'más')+' por paciente y da '+gq.toFixed(3)+' AVAC más, así que '+(sv>=0&&gq>=0?'domina a la estrategia sin profilaxis.':'no la domina.')+' La neutropenia febril pasa de 6.4% a 0%, y cada episodio evitado ahorra una hospitalización de $435,874. Aun así, la ICER frente a quimioterapia cambia poco, porque el ahorro es menos de 1% del costo incremental del tratamiento.';
   drawSGCurves(arm);
 }
 function drawSGCurves(arm){
@@ -942,7 +943,7 @@ function drawSGCurves(arm){
   el('text',{x:X(28.5),y:Y(0.86)+4,'font-size':12,style:'fill:var(--ink)'},svg,'Quimioterapia');
 }
 ['sgPrice','sgUS','sgUP','sgProph','sgLam','sgLamCustom'].forEach(id=>{ $(id).addEventListener('input',runSG); $(id).addEventListener('change',runSG); });
-$('sgReset').addEventListener('click',()=>{ $('sgPrice').value=13374; $('sgUS').value=0.833; $('sgUP').value=0.433; $('sgProph').checked=true; $('sgLam').value='41000'; runSG(); });
+$('sgReset').addEventListener('click',()=>{ $('sgPrice').value=SG_P0; $('sgUS').value=0.833; $('sgUP').value=0.433; $('sgProph').checked=true; $('sgLam').value='717500'; runSG(); });
 runSG();
 
 const h = (location.hash||'').replace('#','');
