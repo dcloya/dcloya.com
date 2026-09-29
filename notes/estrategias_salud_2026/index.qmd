@@ -1,0 +1,23 @@
+---
+title: "Estrategias de Salud en México (2026)"
+subtitle: "Diplomado Estrategias de Salud en México: Transformación y Política Pública · Educación Continua, Tecnológico de Monterrey"
+---
+
+Imparto tres sesiones del diplomado, coordinado por el Dr. José Narro Robles: dos en el Módulo VI (Atención a la salud basada en valor) y una en el Módulo VII (La salud digital y la inteligencia artificial). Cada sesión tiene diapositivas y una herramienta interactiva que corre directamente en el navegador.
+
+## Sesiones
+
+### 6.1 · El valor en salud y los fundamentos de la evaluación económica (29 de septiembre)
+
+Costo de oportunidad, medición de resultados en salud (AVAC y AVAD), tipos de evaluación económica, ICER y plano costo-efectividad, análisis costo-beneficio y umbrales.
+
+- [Herramienta interactiva](sesion61_herramienta.html){target="_blank"}: menú de compras con datos de DCP3, plano costo-efectividad, costo-beneficio en vivo y el modelo del caso de un conjugado anticuerpo-fármaco (resultados preliminares, no citar).
+- [Diapositivas (PDF)](sesion61_diapositivas.pdf){target="_blank"}
+
+### 6.2 · El costo de los servicios y su organización para una mejor relación costo-beneficio (1 de octubre)
+
+Materiales disponibles antes de la sesión.
+
+### 7.1 · Evaluación de efectividad y eficiencia económica de tecnologías digitales (13 de octubre)
+
+Materiales disponibles antes de la sesión.

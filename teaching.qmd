@@ -2,7 +2,7 @@
 title: "Teaching"
 ---
 
-Doy clase en la Maestría en Economía Aplicada y en otros programas del Tecnológico de Monterrey. Estos son los dos cursos que imparto actualmente, cada uno con sus propias sesiones y ejercicios.
+Doy clase en la Maestría en Economía Aplicada y en otros programas del Tecnológico de Monterrey. Estos son los cursos que imparto actualmente, cada uno con sus propias sesiones y ejercicios.
 
 ## Estadística Matemática (2026)
 
@@ -15,3 +15,9 @@ Maestría en Economía Aplicada. Fundamentos de probabilidad y estadística mate
 Ejercicios interactivos de estadística descriptiva, simulación, inferencia y causalidad, pensados para correrse directamente en el navegador.
 
 [Ver el curso completo](notes/metodos_cuantitativos_2026/index.qmd)
+
+## Estrategias de Salud en México (2026)
+
+Diplomado de Educación Continua. Tres sesiones sobre atención basada en valor, evaluación económica y evaluación de tecnologías digitales, con diapositivas y herramientas interactivas.
+
+[Ver el curso completo](notes/estrategias_salud_2026/index.qmd)

@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clase 1: Valor y evaluación económica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F4F6F9; --surface:#FFFFFF; --surface2:#EBEFF5; --line:#D5DCE6;
+  --ink:#16202E; --muted:#556275; --accent:#1F4E9E; --accent-soft:#DCE6F7;
+  --benefit:#2B7A57; --benefit-soft:#D7EEE2; --cost:#B0502A; --cost-soft:#F5E0D6;
+  --warn:#9A6B00; --grid:#E3E8EF;
+  --f-display:"Spectral", Georgia, "Times New Roman", serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F141B; --surface:#17202B; --surface2:#1E2936; --line:#2D3A4A;
+    --ink:#E6EBF2; --muted:#9AA8BA; --accent:#86AEF2; --accent-soft:#1F3150;
+    --benefit:#6CC49A; --benefit-soft:#1C3A2D; --cost:#E58E66; --cost-soft:#44291E;
+    --warn:#E0B44F; --grid:#243140;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F141B; --surface:#17202B; --surface2:#1E2936; --line:#2D3A4A;
+  --ink:#E6EBF2; --muted:#9AA8BA; --accent:#86AEF2; --accent-soft:#1F3150;
+  --benefit:#6CC49A; --benefit-soft:#1C3A2D; --cost:#E58E66; --cost-soft:#44291E;
+  --warn:#E0B44F; --grid:#243140;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:15px}
+html.proj{font-size:19px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.5;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+header.top{padding-block:28px 12px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--f-display);font-weight:600;font-size:2.1rem;line-height:1.15;margin:.2rem 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.5rem;margin:0 0 .4rem;text-wrap:balance}
+h3{font-size:1.02rem;margin:0 0 .3rem;font-weight:600}
+p{margin:.3rem 0 .6rem;max-width:72ch}
+.muted{color:var(--muted)}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+.btn{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.35rem .75rem;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.btn:focus-visible,select:focus-visible,input:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;margin-bottom:22px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:.7rem .9rem .55rem;cursor:pointer;white-space:nowrap;color:var(--muted);font-weight:500}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab .k{font-family:var(--f-mono);font-size:.8rem;margin-right:.35rem;color:var(--accent)}
+section.panel{display:grid;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.chip.ok{background:var(--benefit-soft);color:var(--benefit)}
+.chip.no{background:var(--cost-soft);color:var(--cost)}
+.chip.acc{background:var(--accent-soft);color:var(--accent)}
+.note{font-size:.85rem;color:var(--muted)}
+/* timeline */
+.timeline{position:relative;margin-top:8px}
+.tl-bar{display:flex;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.tl-seg{position:relative;border-right:1px solid var(--line);background:var(--surface);cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.tl-seg:last-child{border-right:0}
+.tl-seg:hover{background:var(--surface2)}
+.tl-seg .t{font-size:.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-seg .m{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.tl-act{position:absolute;bottom:0;height:9px;background:var(--accent);opacity:.85}
+.tl-axis{position:relative;height:20px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:4px}
+.legend i{display:inline-block;width:14px;height:8px;background:var(--accent);margin-right:6px;vertical-align:middle}
+/* blocks */
+.block{display:grid;grid-template-columns:110px 1fr;gap:6px 22px;padding:18px 0;border-top:1px solid var(--line)}
+.block .when{font-family:var(--f-mono);font-size:.85rem;color:var(--muted)}
+.block .when b{display:block;font-size:1.35rem;color:var(--ink);font-family:var(--f-display);font-weight:600}
+.block ul{margin:.2rem 0 .6rem;padding-left:1.1rem}
+.block li{margin:.15rem 0}
+.act{background:var(--accent-soft);border-radius:6px;padding:10px 12px;margin:.4rem 0}
+.act .lab,.idea .lab{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+.idea{border-left:3px solid var(--warn);padding:4px 12px;margin:.5rem 0}
+.idea .lab{color:var(--warn)}
+.refs{font-size:.85rem;color:var(--muted)}
+@media (max-width:640px){.block{grid-template-columns:1fr}.tl-seg .t{font-size:.66rem}.tl-seg{padding:4px}}
+/* menu */
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+td.r,th.r{text-align:right}
+.tblwrap{overflow-x:auto}
+tr.sel td{background:var(--accent-soft)}
+tr.clickable{cursor:pointer}
+.meter{height:12px;background:var(--surface2);border-radius:6px;overflow:hidden;margin:.3rem 0}
+.meter > div{height:100%;background:var(--accent)}
+.meter.over > div{background:var(--cost)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi .v{font-family:var(--f-mono);font-size:1.35rem;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.78rem;color:var(--muted)}
+.hidecol .rev{visibility:hidden}
+/* forms */
+.form{display:grid;gap:12px;align-self:start;align-content:start}
+.field{display:grid;gap:3px}
+.field label{font-size:.85rem;font-weight:500}
+.field .row{display:flex;gap:8px;align-items:center}
+.field input[type=range]{flex:1;accent-color:var(--accent)}
+.field input[type=number],.field select{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.3rem .45rem;width:100%}
+.field .out{font-family:var(--f-mono);min-width:5.5rem;text-align:right;font-size:.9rem}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:.9rem}
+.check input{margin-top:.25rem;accent-color:var(--accent)}
+fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 12px 12px;margin:0;display:grid;gap:10px}
+legend{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:0 4px}
+svg text{font-family:var(--f-body)}
+.chartbox{width:100%;overflow-x:auto}
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.verdict .big{font-family:var(--f-display);font-size:1.6rem;font-weight:600}
+.case{display:grid;gap:8px;align-content:start}
+.case .ans{font-size:.9rem}
+.cols{columns:2 280px;column-gap:28px}
+.cols > *{break-inside:avoid}
+ol.steps{padding-left:1.2rem;margin:.3rem 0}
+ol.steps li{margin:.25rem 0}
+</style>
+
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <div class="eyebrow">Diplomado Estrategias de Salud en México · Módulo VI · Sesión 6.1 · 29 sep</div>
+    <h1>El valor en salud y la evaluación económica</h1>
+    <p class="muted" style="margin:.3rem 0 0">David Contreras-Loya · 150 minutos · actividad cada 25 minutos o menos</p>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" id="projBtn" type="button">Modo proyección</button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Secciones">
+  <button class="tab" role="tab" data-tab="temario" aria-selected="true"><span class="k">0</span>Temario</button>
+  <button class="tab" role="tab" data-tab="menu" aria-selected="false"><span class="k">1</span>Menú de compras</button>
+  <button class="tab" role="tab" data-tab="plano" aria-selected="false"><span class="k">2</span>Tipos y plano CE</button>
+  <button class="tab" role="tab" data-tab="cba" aria-selected="false"><span class="k">3</span>Costo-beneficio en vivo</button>
+  <button class="tab" role="tab" data-tab="sg" aria-selected="false"><span class="k">4</span>Caso CAF</button>
+  <button class="tab" role="tab" data-tab="integ" aria-selected="false"><span class="k">5</span>Ejercicios integradores</button>
+</nav>
+
+<!-- ============ TEMARIO ============ -->
+<section class="panel" id="p-temario">
+  <div class="card">
+    <h2>Mapa de la sesión</h2>
+    <p class="muted">Cada segmento es un bloque, con ancho proporcional a su duración. Las marcas azules son las actividades. Haga clic en un bloque para ir a su detalle.</p>
+    <div class="timeline">
+      <div class="tl-bar" id="tlBar"></div>
+      <div class="tl-axis" id="tlAxis"></div>
+      <div class="legend"><span><i></i>Actividad grupal o demostración</span></div>
+    </div>
+  </div>
+
+  <div class="card" id="blocks"></div>
+</section>
+
+<!-- ============ MENÚ ============ -->
+<section class="panel" id="p-menu" hidden>
+  <div class="card">
+    <div class="eyebrow">Bloque 1 · min 15-25</div>
+    <h2>Menú de compras: 10 millones de dólares para una Secretaría estatal</h2>
+    <p>Cada grupo elige qué programas financiar con el presupuesto. Primero se elige con costo y descripción. Después se revelan el costo por AVAD y los AVAD evitados. Los programas no son divisibles: se financian completos o no se financian.</p>
+    <p class="note">Costo por AVAD: Disease Control Priorities, 3a ed. (Horton et al. 2017, tabla S1), en dólares de 2012; MX indica estudios de México. El tamaño de cada programa es ilustrativo. Conjugado anticuerpo-fármaco: resultado preliminar del caso de la pestaña 4, en dólares de 2024 por AVAC; no es estrictamente comparable.</p>
+  </div>
+  <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
+    <div class="card">
+      <div class="tblwrap">
+        <table id="menuTbl" class="hidecol">
+          <thead><tr><th></th><th>Programa</th><th class="r">Costo (M USD)</th><th class="r rev">USD por AVAD</th><th class="r rev">AVAD evitados</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn" id="revealBtn" type="button">Revelar AVAD</button>
+        <button class="btn" id="greedyBtn" type="button">Ordenar por costo/AVAD (tabla de liga)</button>
+        <button class="btn" id="optBtn" type="button">Mostrar óptimo</button>
+        <button class="btn" id="clearBtn" type="button">Limpiar</button>
+      </div>
+    </div>
+    <div class="card" style="display:grid;gap:14px;align-content:start">
+      <div class="field">
+        <label for="budget">Presupuesto disponible (millones de dólares)</label>
+        <div class="row"><input type="range" id="budget" min="4" max="20" step="0.5" value="10"><span class="out" id="budgetOut">10</span></div>
+      </div>
+      <div>
+        <div class="note">Gasto comprometido</div>
+        <div class="meter" id="meter"><div style="width:0%"></div></div>
+        <div class="num" id="spentTxt">0 M de 10 M USD</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kAvad">?</div><div class="l">AVAD evitados</div></div>
+        <div class="kpi"><div class="v" id="kThr">?</div><div class="l">Umbral implícito (USD por AVAD del programa más caro que se compró)</div></div>
+      </div>
+      <div class="act">
+        <div class="lab">Para discutir</div>
+        <ul style="margin:.3rem 0 0;padding-left:1.1rem">
+          <li>¿Cuántos AVAD perdió el grupo frente al óptimo (27,352)? Ese es el costo de oportunidad de su elección.</li>
+          <li>La tabla de liga compra 1,150 AVAD menos que el óptimo: con programas indivisibles, depresión (437 USD por AVAD) queda fuera y prevención cardiovascular (770) entra.</li>
+          <li>El umbral no se eligió: salió del presupuesto. Suba el presupuesto a 15 millones y observe cómo cambia.</li>
+          <li>Conjugado anticuerpo-fármaco: 2 millones de dólares evitan unos 5 AVAC.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANO ============ -->
+<section class="panel" id="p-plano" hidden>
+  <div class="card">
+    <div class="eyebrow">Bloque 3a · ejercicio 3 · min 50-58</div>
+    <h2>¿Qué tipo de evaluación es?</h2>
+    <p>Cinco grupos, un caso por grupo. Cada grupo clasifica su caso base; después recibe una variante y decide si cambia su respuesta.</p>
+    <div class="grid3" id="cases"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Bloque 3b · ejercicio 4 · min 82-90</div>
+    <h2>Plano costo-efectividad: detección y control de hipertensión</h2>
+    <p>Seis estrategias mutuamente excluyentes para 1,000 adultos a 10 años. Costos y AVAC son incrementales frente a la atención habitual. Pida a los grupos que identifiquen las estrategias dominadas antes de revelar.</p>
+    <p class="note">Cifras ilustrativas.</p>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
+      <div class="chartbox"><svg id="cePlane" viewBox="0 0 560 400" width="100%" role="img" aria-label="Plano costo-efectividad"></svg></div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="field">
+          <label for="lambda">Disposición a pagar por AVAC (λ)</label>
+          <div class="row"><input type="range" id="lambda" min="0" max="1000000" step="10000" value="250000"><span class="out" id="lambdaOut"></span></div>
+          <div class="note" id="lambdaPib"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="ceReveal" type="button">Revelar dominancia y frontera</button>
+        </div>
+        <div class="tblwrap">
+          <table id="ceTbl"><thead><tr><th>Estrategia</th><th class="r">Costo (M$)</th><th class="r">AVAC</th><th class="r">ICER</th><th>Estado</th><th class="r">BMN (M$)</th></tr></thead><tbody></tbody></table>
+        </div>
+        <p class="note">ICER calculada frente a la estrategia previa no dominada. BMN = beneficio monetario neto = λ × AVAC − costo. La mejor estrategia es la de mayor BMN, que siempre coincide con la de mayor ICER por debajo de λ en la frontera.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CBA ============ -->
+<section class="panel" id="p-cba" hidden>
+  <div class="card">
+    <div class="eyebrow">Bloque 4 · ejercicio 5 · min 100-107</div>
+    <h2>Costo-beneficio en vivo: programa de detección y control de hipertensión</h2>
+    <p>El programa atiende a una cohorte fija de adultos cada año. Los beneficios en salud y los costos médicos evitados empiezan en el año 2 y alcanzan su nivel pleno en el año 4. Los costos del programa corren desde el año 1. Para pasar de costo-efectividad a costo-beneficio falta un solo número: cuánto vale un AVAC en pesos. Ese número es el que se discute aquí.</p>
+    <p class="note">Cifras ilustrativas. Los múltiplos de Hirth et al. (2000) son sus medianas en dólares de 1997 divididas entre el PIB per cápita de EE.UU. de ese año (≈ 31,400 USD). Aplicarlos a México supone una elasticidad ingreso de 1, supuesto que conviene discutir.</p>
+  </div>
+
+  <div class="grid2" style="grid-template-columns:minmax(280px,1fr) minmax(320px,1.6fr)">
+    <div class="card form">
+      <fieldset>
+        <legend>Valor de un AVAC</legend>
+        <div class="field">
+          <label for="method">Método</label>
+          <select id="method">
+            <option value="0.79">Capital humano (Hirth: 0.8 × PIB pc)</option>
+            <option value="1" selected>1 × PIB per cápita (criterio OMS)</option>
+            <option value="2.97">Preferencia revelada, seguridad (Hirth: 3.0 × PIB pc)</option>
+            <option value="3">3 × PIB per cápita (criterio OMS)</option>
+            <option value="5.14">Valoración contingente (Hirth: 5.1 × PIB pc)</option>
+            <option value="13.64">Preferencia revelada, riesgo laboral (Hirth: 13.6 × PIB pc)</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+        <div class="field" id="customWrap" hidden>
+          <label for="customV">Valor por AVAC (pesos)</label>
+          <input type="number" id="customV" value="500000" step="10000" min="0">
+        </div>
+        <div class="field">
+          <label for="pib">PIB per cápita de México (pesos)</label>
+          <input type="number" id="pib" value="250000" step="5000" min="0">
+          <span class="note">Valor aproximado. Actualice con la cifra vigente de INEGI antes de la clase.</span>
+        </div>
+        <div class="num" id="vOut" style="font-size:1.05rem"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Resultados en salud</legend>
+        <div class="field">
+          <label for="prefs">¿De quién son las preferencias?</label>
+          <select id="prefs">
+            <option value="public" selected>Público general (1.5 AVAC por 1,000 por año)</option>
+            <option value="patients">Pacientes adaptados (1.1 AVAC por 1,000 por año)</option>
+          </select>
+          <span class="note">Los pacientes valoran su estado actual más alto que el público, así que la ganancia por tratarlos es menor (Dolan 1999).</span>
+        </div>
+        <div class="field">
+          <label for="qaly">AVAC ganados por 1,000 participantes por año (nivel pleno)</label>
+          <div class="row"><input type="range" id="qaly" min="0.2" max="4" step="0.1" value="1.5"><span class="out" id="qalyOut"></span></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Costos</legend>
+        <div class="field">
+          <label for="n">Participantes por año</label>
+          <div class="row"><input type="range" id="n" min="10000" max="200000" step="5000" value="50000"><span class="out" id="nOut"></span></div>
+        </div>
+        <div class="field">
+          <label for="fixed">Costo fijo anual (M$)</label>
+          <div class="row"><input type="range" id="fixed" min="0" max="30" step="0.5" value="5"><span class="out" id="fixedOut"></span></div>
+        </div>
+        <div class="field">
+          <label for="cpp">Costo por participante por año ($)</label>
+          <div class="row"><input type="range" id="cpp" min="100" max="2000" step="25" value="600"><span class="out" id="cppOut"></span></div>
+        </div>
+        <div class="field">
+          <label for="avert">Costos médicos evitados por participante por año ($, nivel pleno)</label>
+          <div class="row"><input type="range" id="avert" min="0" max="1000" step="10" value="250"><span class="out" id="avertOut"></span></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Perspectiva y tiempo</legend>
+        <label class="check"><input type="checkbox" id="incProd"><span>Incluir productividad ganada (150 $ por participante por año). Perspectiva social. Si los pesos de calidad de vida ya capturan el ingreso, se cuenta dos veces.</span></label>
+        <label class="check"><input type="checkbox" id="incFut"><span>Incluir costos médicos futuros no relacionados en los años de vida ganados (80 $ por participante por año). Meltzer y Johannesson (1999).</span></label>
+        <div class="field">
+          <label for="T">Horizonte (años)</label>
+          <div class="row"><input type="range" id="T" min="3" max="30" step="1" value="10"><span class="out" id="TOut"></span></div>
+        </div>
+        <div class="field">
+          <label for="r">Tasa de descuento anual</label>
+          <div class="row"><input type="range" id="r" min="0" max="10" step="0.5" value="5"><span class="out" id="rOut"></span></div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div style="display:grid;gap:18px;align-content:start">
+      <div class="card">
+        <div class="verdict">
+          <span class="big" id="verdict">&nbsp;</span>
+          <span class="chip" id="verdictChip"></span>
+        </div>
+        <div class="kpis" style="margin-top:12px">
+          <div class="kpi"><div class="v" id="kNpv"></div><div class="l">Valor presente neto</div></div>
+          <div class="kpi"><div class="v" id="kBcr"></div><div class="l">Razón beneficio/costo</div></div>
+          <div class="kpi"><div class="v" id="kIcer"></div><div class="l">Costo neto por AVAC (costo-efectividad, sin productividad)</div></div>
+          <div class="kpi"><div class="v" id="kBe"></div><div class="l">Valor de equilibrio por AVAC (VPN = 0)</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Valor presente de costos y beneficios</h3>
+        <div class="chartbox"><svg id="stackChart" viewBox="0 0 620 170" width="100%" role="img" aria-label="Costos y beneficios en valor presente"></svg></div>
+      </div>
+
+      <div class="card">
+        <h3>¿Con qué valor del AVAC cambia la decisión?</h3>
+        <p class="note">VPN según el valor por AVAC, de 0 a 15 veces el PIB per cápita. Las marcas son los métodos del menú.</p>
+        <div class="chartbox"><svg id="npvChart" viewBox="0 0 620 260" width="100%" role="img" aria-label="VPN según valor del AVAC"></svg></div>
+      </div>
+
+      <div class="card">
+        <h3>Diagrama de tornado</h3>
+        <p class="note">Cambio en el VPN al mover cada parámetro ±25% (descuento: 3% y 7%). El parámetro de arriba es el que más vale la pena medir mejor.</p>
+        <div class="chartbox"><svg id="tornado" viewBox="0 0 620 250" width="100%" role="img" aria-label="Diagrama de tornado"></svg></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <h3 style="margin:0">Registro de escenarios</h3>
+          <div style="display:flex;gap:8px"><button class="btn primary" id="saveBtn" type="button">Guardar escenario</button><button class="btn" id="resetLog" type="button">Borrar</button></div>
+        </div>
+        <p class="note">Para el ejercicio integrador 2: cada grupo guarda su escenario y se comparan en plenaria.</p>
+        <div class="tblwrap"><table id="logTbl"><thead><tr><th>#</th><th>Valor AVAC</th><th>Preferencias</th><th>Desc.</th><th>Horiz.</th><th>Prod.</th><th>Fut.</th><th class="r">VPN (M$)</th><th>Decisión</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAF ============ -->
+<section class="panel" id="p-sg" hidden>
+  <div class="card">
+    <div class="eyebrow">Bloque 5 · ejercicio 6 · min 122-130 · y ejercicio 7</div>
+    <h2>Caso: un conjugado anticuerpo-fármaco (CAF) para cierto cáncer triple negativo metastásico</h2>
+    <p>Modelo de supervivencia particionada con tres estados (estable, progresión y muerte), ciclos de 21 días y descuento de 3%. Las curvas son las distribuciones ajustadas a los datos reconstruidos del ensayo fase 3. Mueva el precio por ciclo hasta que la ICER llegue a su umbral.</p>
+    <p class="note" style="color:var(--cost);font-weight:600">Resultados preliminares. No citar.</p>
+    <p class="note">Réplica del modelo del reporte en el navegador. Reproduce los resultados base con diferencias menores a 0.1%. Costos en dólares de 2024.</p>
+  </div>
+  <div class="grid2" style="grid-template-columns:minmax(280px,1fr) minmax(320px,1.6fr)">
+    <div class="card form">
+      <fieldset>
+        <legend>Precio y estrategia</legend>
+        <div class="field">
+          <label for="sgPrice">Precio del CAF por ciclo (USD)</label>
+          <div class="row"><input type="range" id="sgPrice" min="0" max="16000" step="1" value="13374"><span class="out" id="sgPriceOut"></span></div>
+          <span class="note" id="sgDisc"></span>
+        </div>
+        <label class="check"><input type="checkbox" id="sgProph" checked><span>Con profilaxis primaria (G-CSF y loperamida en los ciclos 1 y 2)</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Umbral</legend>
+        <div class="field">
+          <label for="sgLam">Disposición a pagar por AVAC</label>
+          <select id="sgLam">
+            <option value="14000">1 PIB per cápita de México (≈ 14,000 USD)</option>
+            <option value="41000" selected>3 PIB per cápita (≈ 41,000 USD)</option>
+            <option value="150000">150,000 USD</option>
+            <option value="236868">Disposición a pagar de pacientes (≈ 237,000 USD al año)</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+        <div class="field" id="sgLamCustomWrap" hidden>
+          <label for="sgLamCustom">Valor personalizado (USD por AVAC)</label>
+          <input type="number" id="sgLamCustom" value="100000" step="1000" min="0">
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Utilidades</legend>
+        <div class="field">
+          <label for="sgUS">Estable en tratamiento</label>
+          <div class="row"><input type="range" id="sgUS" min="0.5" max="1" step="0.001" value="0.833"><span class="out" id="sgUSOut"></span></div>
+        </div>
+        <div class="field">
+          <label for="sgUP">Enfermedad en progresión</label>
+          <div class="row"><input type="range" id="sgUP" min="0.2" max="0.7" step="0.001" value="0.433"><span class="out" id="sgUPOut"></span></div>
+        </div>
+      </fieldset>
+      <button class="btn" id="sgReset" type="button">Volver a los valores del reporte</button>
+    </div>
+    <div style="display:grid;gap:18px;align-content:start">
+      <div class="card">
+        <div class="verdict"><span class="big" id="sgVerdict">&nbsp;</span><span class="chip" id="sgChip"></span></div>
+        <div class="kpis" style="margin-top:12px">
+          <div class="kpi"><div class="v" id="sgKdC"></div><div class="l">Costo incremental por paciente frente a quimioterapia (USD)</div></div>
+          <div class="kpi"><div class="v" id="sgKdQ"></div><div class="l">AVAC ganados por paciente</div></div>
+          <div class="kpi"><div class="v" id="sgKicer"></div><div class="l">ICER (USD por AVAC)</div></div>
+          <div class="kpi"><div class="v" id="sgKpstar"></div><div class="l">Precio por ciclo que iguala la ICER al umbral</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Curvas de supervivencia del modelo</h3>
+        <p class="note">Área verde: tiempo estable. Área azul: tiempo en progresión. Línea continua: sobrevida global; discontinua: libre de progresión.</p>
+        <div class="chartbox"><svg id="sgCurves" viewBox="0 0 620 280" width="100%" role="img" aria-label="Curvas de supervivencia"></svg></div>
+      </div>
+      <div class="card">
+        <h3>Resultados por paciente</h3>
+        <div class="tblwrap"><table id="sgTbl"><thead><tr><th></th><th class="r">Años de vida</th><th class="r">AVAC</th><th class="r">Costo (USD)</th><th class="r">ICER frente a quimio.</th></tr></thead><tbody></tbody></table></div>
+        <div class="act" style="margin-top:12px"><div class="lab">El valor de la profilaxis</div><span id="sgProphTxt"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEGRADORES ============ -->
+<section class="panel" id="p-integ" hidden>
+  <div class="card">
+    <h2>Ejercicios integradores</h2>
+    <p>Para después de la sesión, o en clase si sobra tiempo. Usan las herramientas de esta página y conectan varios bloques. El tercero alimenta el Proyecto Integrador del diplomado.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <span class="chip acc">Bloques 1, 4 y 5</span>
+      <h3 style="margin-top:.5rem">1. Del menú al umbral</h3>
+      <p>Retoma el umbral implícito que salió del menú de compras (bloque 1) y lo compara con los valores del AVAC del bloque 4.</p>
+      <ol class="steps">
+        <li>Tomar el umbral implícito del ejercicio 1 (1,605 USD por AVAD con 10 millones).</li>
+        <li>Compararlo con 1 y 3 veces el PIB per cápita, con las medianas de Hirth y con la disposición a pagar de las pacientes (237 mil USD al año).</li>
+        <li>En la pestaña 4, calcular a qué precio sería costo-efectivo el CAF con ese umbral.</li>
+      </ol>
+      <div class="idea"><div class="lab">Pregunta central</div>El umbral del presupuesto mide cuánta salud se desplaza (lado de la oferta). Los valores de Hirth miden cuánto pagaría una persona por reducir su riesgo (lado de la demanda). ¿Cuál debe usar el IMSS para decidir qué entra al Compendio? ¿Y cuál para una regulación ambiental?</div>
+    </div>
+
+    <div class="card">
+      <span class="chip acc">Bloques 2, 3 y 4</span>
+      <h3 style="margin-top:.5rem">2. Una intervención, cuatro respuestas</h3>
+      <p>Cada grupo recibe una postura y la traduce a supuestos del modelo. Guarda su escenario en el registro.</p>
+      <ul>
+        <li><b>Hacienda:</b> perspectiva del pagador, sin productividad, con costos futuros, descuento 7%.</li>
+        <li><b>Asociación de pacientes:</b> preferencias de pacientes, valoración contingente, horizonte 20 años.</li>
+        <li><b>Secretaría de Salud:</b> 1 × PIB per cápita, preferencias del público, descuento 5%.</li>
+        <li><b>Economista del bienestar:</b> perspectiva social, productividad y costos futuros incluidos, preferencia revelada.</li>
+      </ul>
+      <div class="idea"><div class="lab">Pregunta central</div>Con los mismos datos clínicos, ¿qué supuesto cambió la decisión? Ordenar los supuestos por su efecto y comparar con el tornado. Casi siempre pesa más un juicio de valor que un parámetro clínico.</div>
+    </div>
+
+    <div class="card">
+      <span class="chip">Después de clase · Proyecto Integrador</span>
+      <h3 style="margin-top:.5rem">3. Dictamen para el Compendio Nacional de Insumos</h3>
+      <p>Cada equipo toma el problema de su Proyecto Integrador, elige una intervención y redacta un dictamen de una página con estos elementos:</p>
+      <ol class="steps">
+        <li>Pregunta de decisión: población, intervención, comparador, resultado y perspectiva.</li>
+        <li>Tipo de evaluación que usaría y por qué no otra.</li>
+        <li>Costos incluidos y excluidos (productividad, tiempo del paciente, costos futuros).</li>
+        <li>Fuente de las preferencias para los AVAC y su efecto probable.</li>
+        <li>Umbral o regla de decisión, con su justificación.</li>
+        <li>Impacto presupuestal a 3 años y quién lo paga.</li>
+        <li>Parámetro más incierto y qué estudio lo reduciría.</li>
+        <li>Quién gana y quién pierde (equidad).</li>
+      </ol>
+      <p class="note">Se retoma en la sesión 6.2 (costos) y en la 7.1 (tecnologías digitales).</p>
+    </div>
+
+    <div class="card">
+      <span class="chip">Opcional · asíncrono</span>
+      <h3 style="margin-top:.5rem">4. Lectura crítica con CHEERS</h3>
+      <p>Cada participante revisa una evaluación económica publicada sobre México con una lista abreviada de 10 puntos basada en CHEERS 2022: pregunta, comparador, perspectiva, horizonte, descuento, fuente de efectividad, fuente de preferencias, costos, incertidumbre y conflicto de interés.</p>
+      <div class="idea"><div class="lab">Qué buscar</div>El comparador elegido. Cualquier intervención parece costo-efectiva frente al comparador "correcto" (Johannesson y Meltzer, citado en Hirth 2000).</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+"use strict";
+const fmt0 = new Intl.NumberFormat('es-MX',{maximumFractionDigits:0});
+const fmt1 = new Intl.NumberFormat('es-MX',{maximumFractionDigits:1,minimumFractionDigits:1});
+const money = v => '$' + fmt0.format(Math.round(v));
+const mill = v => (v<0?'−':'') + '$' + fmt1.format(Math.abs(v)/1e6) + ' M';
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent, text){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; if(parent) parent.appendChild(e); return e; }
+function clear(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+/* ---------------- tabs ---------------- */
+const tabs = [...document.querySelectorAll('.tab')];
+function showTab(id){
+  tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id ? 'true':'false'));
+  document.querySelectorAll('section.panel').forEach(p=>{ p.hidden = p.id !== 'p-'+id; });
+  try{ history.replaceState(null,'','#'+id); }catch(e){}
+  if(id==='cba') runCBA();
+  if(id==='plano') drawCE();
+  if(id==='sg') runSG();
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+
+document.getElementById('projBtn').addEventListener('click',e=>{
+  const on = document.documentElement.classList.toggle('proj');
+  e.currentTarget.textContent = on ? 'Modo normal' : 'Modo proyección';
+});
+
+/* ---------------- temario ---------------- */
+const BLOCKS = [
+ {id:'b1', start:0, dur:25, title:'1. Valor y costo de oportunidad', short:'Valor',
+  acts:[[15,25]],
+  content:['Escasez, costo de oportunidad, eficiencia asignativa y eficiencia técnica.',
+   'Perspectiva: social, del pagador, del prestador y del paciente.',
+   'Dos decisiones en México: el menú de compras (GLP-1, hemodiálisis, VPH en niños, PrEP, salud mental) y las alternativas para un mismo problema (insuficiencia renal; cáncer triple negativo metastásico).',
+   'Qué es una evaluación económica, con un árbol de decisión de dos alternativas.',
+   'La tabla de liga: qué es, cómo se usa y qué supone.'],
+  act:'Ejercicio 1: menú de compras con 10 millones de dólares y costos por AVAD de DCP3 (pestaña 1).',
+  idea:'El umbral no se fija por decreto: resulta del presupuesto. Con programas indivisibles, la tabla de liga no da el óptimo.',
+  refs:'Drummond et al. 2015; Horton et al. 2017; Neumann, Cohen y Weinstein 2014.'},
+ {id:'b2', start:25, dur:20, title:'2. Medir lo que se gana', short:'Medición',
+  acts:[[37,45]],
+  content:['Resultados naturales y medidas resumen; AVAC y AVAD.',
+   'Cómo se obtienen los pesos: EVA, compensación temporal, lotería estándar, EQ-5D. Ejemplo: pesos del caso del bloque 5.',
+   '¿De quién son las preferencias? Público general o pacientes; la adaptación.',
+   'Tres hechos: pesos de expertos (Bell 2001), normas menores que 1 (Fryback 1993), variación por método (Lung 2011).'],
+  act:'Ejercicio 2: valorar un estado de salud con EVA y compensación temporal.',
+  idea:'El Módulo VI promueve los resultados que importan a los pacientes, pero el caso de referencia usa preferencias del público.',
+  refs:'Dolan 1999; Bell et al. 2001; Fryback et al. 1993; Lung et al. 2011.'},
+ {id:'b3a', start:45, dur:15, title:'3a. Tipos de evaluación', short:'Tipos',
+  acts:[[50,58]],
+  content:['Minimización de costos, costo-efectividad, costo-utilidad y costo-beneficio.',
+   'Solo el costo-beneficio se deriva de la economía del bienestar (Weinstein 1999).'],
+  act:'Ejercicio 3: cinco grupos, un caso base y una variante por grupo, y una pregunta extra (pestaña 2).',
+  idea:'La clasificación depende de la pregunta y del denominador, no del tema del estudio.',
+  refs:'Drummond et al. 2015; Weinstein 1999.'},
+ {id:'brk', start:60, dur:10, title:'Descanso', short:'Descanso', acts:[], content:[], act:'', idea:'', refs:''},
+ {id:'b3b', start:70, dur:20, title:'3b. Costos, ICER y plano costo-efectividad', short:'ICER',
+  acts:[[82,90]],
+  content:['Costos económicos y financieros; clasificación de costos.',
+   'Debate 1: productividad en el numerador o en el denominador, con ejemplo numérico.',
+   'Debate 2: costos de vivir más, con ejemplo numérico (Meltzer y Johannesson 1999).',
+   'Comparador; ICER con el ejemplo del bloque 5; plano costo-efectividad; beneficio monetario neto.',
+   'Tres ideas erróneas sobre la costo-efectividad.'],
+  act:'Ejercicio 4: plano costo-efectividad de estrategias contra hipertensión (pestaña 2).',
+  idea:'Elegir qué costos entran es, en parte, elegir quién gana.',
+  refs:'Meltzer y Johannesson 1999; Weinstein 1999.'},
+ {id:'b4', start:90, dur:17, title:'4. Del AVAC al peso', short:'Costo-beneficio',
+  acts:[[100,107]],
+  content:['Por qué ponerle precio a la salud; valor de una vida estadística.',
+   'Hirth et al. (2000): más de 17 veces de diferencia según el método.',
+   'Valor individual (demanda) frente a costo de oportunidad del presupuesto (oferta).'],
+  act:'Ejercicio 5: costo-beneficio en vivo (pestaña 3).',
+  idea:'Costo-beneficio con un precio por AVAC es costo-efectividad con un umbral.',
+  refs:'Hirth et al. 2000; Kenkel 2006; Hammitt 2002.'},
+ {id:'b5', start:107, dur:23, title:'5. Caso: un conjugado anticuerpo-fármaco', short:'Caso CAF',
+  acts:[[122,130]],
+  content:['Pregunta, población y comparador (ensayo fase 3).',
+   'Modelo de supervivencia particionada.',
+   'Reconstrucción de datos por paciente a partir de curvas publicadas (Guyot 2012) y extrapolación paramétrica.',
+   'Costos y utilidades por estado; resultados base; ICER frente a umbrales.',
+   'Hallazgo emergente: el valor de la profilaxis, y por qué casi no mueve la ICER.',
+   'Precio al que sería costo-efectivo.'],
+  act:'Ejercicio 6: negociar el precio entre IMSS, industria y pacientes (pestaña 4).',
+  idea:'Una decisión puede ser correcta dentro de una comparación (dar profilaxis si se usa el fármaco) sin cambiar la decisión de fondo (si financiarlo).',
+  refs:'Guyot et al. 2012. Resultados preliminares, no citar.'},
+ {id:'b6', start:130, dur:20, title:'6. Umbrales, incertidumbre y límites', short:'Umbrales',
+  acts:[[140,145],[146,150]],
+  content:['De dónde salen los umbrales: 50 mil dólares, 1 a 3 PIB per cápita, alternativas.',
+   'La disposición a pagar de las pacientes y cómo leerla.',
+   'Incertidumbre en lenguaje simple con el caso del bloque 5.',
+   'Decidir hoy o investigar más.',
+   'Equidad y acceso: amparos, sector público y privado.',
+   'Límites de la evaluación económica.'],
+  act:'Ejercicio 7: ¿qué dato pediría antes de decidir sobre el CAF? Boleto de salida.',
+  idea:'"La evaluación económica no busca una sabiduría infinita, sino poner límite al error infinito" (Williams, citado en Cheng y Wang 2006).',
+  refs:'Neumann et al. 2014; Marseille et al. 2015; Cheng y Wang 2006.'}
+];
+const TOTAL=150;
+const bar=document.getElementById('tlBar'), axis=document.getElementById('tlAxis');
+BLOCKS.forEach(b=>{
+  const s=document.createElement('div'); s.className='tl-seg'; s.style.flex=b.dur+' 0 0'; s.tabIndex=0; if(b.id==='brk') s.style.background='var(--surface2)';
+  s.innerHTML='<span class="t">'+b.short+'</span><span class="m">'+b.dur+' min</span>';
+  b.acts.forEach(a=>{ const m=document.createElement('div'); m.className='tl-act'; m.style.left=((a[0]-b.start)/b.dur*100)+'%'; m.style.width=((a[1]-a[0])/b.dur*100)+'%'; s.appendChild(m); });
+  const go=()=>document.getElementById(b.id).scrollIntoView({behavior:'smooth',block:'start'});
+  s.addEventListener('click',go); s.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+  bar.appendChild(s);
+});
+[0,25,45,60,70,90,107,130,150].forEach(m=>{ const sp=document.createElement('span'); sp.style.left=(m/TOTAL*100)+'%'; sp.textContent=m; if(m===0) sp.style.transform='none'; if(m===150) sp.style.transform='translateX(-100%)'; axis.appendChild(sp); });
+const bl=document.getElementById('blocks');
+BLOCKS.forEach((b,i)=>{
+  const d=document.createElement('div'); d.className='block'; d.id=b.id; if(i===0) d.style.borderTop='0';
+  if(b.id==='brk'){ d.innerHTML='<div class="when"><b>60-70</b>min · 10</div><div><h3 style="font-size:1.15rem">Descanso</h3></div>'; bl.appendChild(d); return; }
+  d.innerHTML='<div class="when"><b>'+b.start+'-'+(b.start+b.dur)+'</b>min · '+b.dur+'</div>'+
+   '<div><h3 style="font-size:1.15rem">'+b.title+'</h3><ul>'+b.content.map(c=>'<li>'+c+'</li>').join('')+'</ul>'+
+   '<div class="act"><div class="lab">Actividad</div>'+b.act+'</div>'+
+   '<div class="idea"><div class="lab">Idea poco discutida</div>'+b.idea+'</div>'+
+   '<div class="refs">Lecturas: '+b.refs+'</div></div>';
+  bl.appendChild(d);
+});
+
+/* ---------------- menú ---------------- */
+const MENU=[
+ ['Tratamiento de cáncer de mama, todas las etapas (MX)',2.0,230],
+ ['Vacunación contra VPH en niñas, 50 USD por niña',1.5,247],
+ ['Atención intraparto y emergencia obstétrica (América Latina)',2.5,310],
+ ['Depresión: atención psicosocial de mantenimiento',1.2,437],
+ ['Prevención secundaria cardiovascular',3.0,770],
+ ['Tamizaje de retinopatía diabética por telemedicina',1.0,1605],
+ ['Mamografía de tamizaje y tratamiento (MX)',2.5,1838],
+ ['Vacunas contra neumococo y rotavirus a precio de mercado',3.0,2018],
+ ['Conjugado anticuerpo-fármaco para cierto cáncer triple negativo metastásico (preliminar)',2.0,408285]
+];
+const avadOf=i=>MENU[i][1]*1e6/MENU[i][2];
+let menuSel=new Set(), revealed=false, order=MENU.map((_,i)=>i);
+const mt=document.querySelector('#menuTbl tbody'), budgetIn=document.getElementById('budget');
+function renderMenu(){
+  const B=+budgetIn.value; document.getElementById('budgetOut').textContent=fmt1.format(B);
+  mt.innerHTML='';
+  order.forEach(i=>{
+    const [name,c,r]=MENU[i]; const tr=document.createElement('tr'); tr.className='clickable'+(menuSel.has(i)?' sel':'');
+    tr.innerHTML='<td><input type="checkbox" aria-label="Elegir '+name+'" '+(menuSel.has(i)?'checked':'')+'></td><td>'+name+'</td><td class="r num">'+fmt1.format(c)+'</td><td class="r num rev">'+fmt0.format(r)+'</td><td class="r num rev">'+fmt0.format(avadOf(i))+'</td>';
+    tr.addEventListener('click',()=>{ menuSel.has(i)?menuSel.delete(i):menuSel.add(i); renderMenu(); });
+    mt.appendChild(tr);
+  });
+  let spent=0,avad=0,thr=0; menuSel.forEach(i=>{spent+=MENU[i][1];avad+=avadOf(i);thr=Math.max(thr,MENU[i][2]);});
+  const m=document.getElementById('meter'); m.firstElementChild.style.width=Math.min(100,spent/B*100)+'%'; m.classList.toggle('over',spent>B+1e-9);
+  document.getElementById('spentTxt').textContent=fmt1.format(spent)+' M de '+fmt1.format(B)+' M USD'+(spent>B+1e-9?' · excede el presupuesto':'');
+  document.getElementById('kAvad').textContent=revealed?fmt0.format(avad):'?';
+  document.getElementById('kThr').textContent=revealed&&menuSel.size?fmt0.format(thr)+' USD':'?';
+  document.getElementById('menuTbl').classList.toggle('hidecol',!revealed);
+}
+budgetIn.addEventListener('input',renderMenu);
+document.getElementById('revealBtn').addEventListener('click',()=>{revealed=true;renderMenu();});
+document.getElementById('clearBtn').addEventListener('click',()=>{menuSel.clear();order=MENU.map((_,i)=>i);renderMenu();});
+document.getElementById('greedyBtn').addEventListener('click',()=>{
+  revealed=true; order=MENU.map((_,i)=>i).sort((x,y)=>MENU[x][2]-MENU[y][2]);
+  const B=+budgetIn.value; menuSel.clear(); let s=0; order.forEach(i=>{ if(s+MENU[i][1]<=B+1e-9){menuSel.add(i);s+=MENU[i][1];} }); renderMenu();
+});
+document.getElementById('optBtn').addEventListener('click',()=>{
+  revealed=true; const B=+budgetIn.value; let best=0,bm=0;
+  for(let m=0;m<(1<<MENU.length);m++){ let c=0,a=0; for(let i=0;i<MENU.length;i++) if(m&(1<<i)){c+=MENU[i][1];a+=avadOf(i);} if(c<=B+1e-9&&a>best){best=a;bm=m;} }
+  menuSel=new Set(MENU.map((_,i)=>i).filter(i=>bm&(1<<i))); renderMenu();
+});
+renderMenu();
+
+/* ---------------- casos ---------------- */
+const CASES=[
+ ['Hemodiálisis frente a diálisis peritoneal. Un ensayo mostró resultados clínicos equivalentes; se compara el costo anual por paciente.','Minimización de costos','El ensayo "no encontró diferencias significativas" en mortalidad, con intervalo de confianza amplio.','Ya no es válida la minimización de costos: no encontrar diferencias no demuestra equivalencia. Hace falta costo-efectividad o costo-utilidad.'],
+ ['Tamizaje de VIH en centros comunitarios: costo por infección detectada.','Costo-efectividad','Los casos detectados se convierten en AVAC ganados por tratamiento temprano.','Costo-utilidad: cambió la unidad del denominador.'],
+ ['Nuevo antidiabético frente a metformina: costo por AVAC ganado.','Costo-utilidad','El fabricante solo reporta costo por punto de HbA1c reducido.','Costo-efectividad con un resultado intermedio: la HbA1c no dice cuánta salud se gana; hay que modelar el vínculo.'],
+ ['Fluoración del agua: tratamientos dentales evitados y días laborales ganados, en pesos, frente al costo de la planta.','Costo-beneficio','Solo se cuentan los tratamientos dentales evitados; no se valora ningún beneficio en salud.','Análisis de costos (ahorro neto), no evaluación completa: faltan las consecuencias en salud.'],
+ ['Un conjugado anticuerpo-fármaco (CAF) frente a quimioterapia: costo por AVAC ganado.','Costo-utilidad','El CAF con profilaxis frente al CAF sin profilaxis.','Dominancia: con profilaxis cuesta menos y da más AVAC, así que no se calcula ICER (pestaña 4).']
+];
+const cw=document.getElementById('cases');
+CASES.forEach((c,i)=>{
+  const d=document.createElement('div'); d.className='card case'; d.style.background='var(--surface2)';
+  d.innerHTML='<span class="mono muted">Grupo '+(i+1)+'</span><div><b>Caso base:</b> '+c[0]+'</div><button class="btn" type="button">Revelar</button><div class="ans" hidden><span class="chip acc">'+c[1]+'</span><p style="margin:.6rem 0 .2rem"><b>Variante:</b> '+c[2]+'</p><button class="btn v2" type="button">Revelar variante</button><p class="note ans2" hidden style="margin-top:.4rem">'+c[3]+'</p></div>';
+  const b=d.querySelector('button'), a=d.querySelector('.ans'); b.addEventListener('click',()=>{a.hidden=!a.hidden;b.textContent=a.hidden?'Revelar':'Ocultar';});
+  const b2=d.querySelector('.v2'), a2=d.querySelector('.ans2'); b2.addEventListener('click',()=>{a2.hidden=!a2.hidden;b2.textContent=a2.hidden?'Revelar variante':'Ocultar variante';});
+  cw.appendChild(d);
+});
+{ const d=document.createElement('div'); d.className='card case'; d.style.background='var(--cost-soft)';
+  d.innerHTML='<span class="mono muted">Pregunta extra</span><div>"Estudio del costo anual por paciente en hemodiálisis en el IMSS." ¿Qué tipo de evaluación es?</div><button class="btn" type="button">Revelar</button><p class="note" hidden>Ninguna. Hay una sola alternativa y no hay consecuencias. Es un estudio de costos, útil como insumo de una evaluación.</p>';
+  const b=d.querySelector('button'), a=d.querySelector('p'); b.addEventListener('click',()=>{a.hidden=!a.hidden;}); cw.appendChild(d); }
+
+/* ---------------- plano CE ---------------- */
+const CE=[
+ {k:'A',name:'Atención habitual',c:0,q:0},
+ {k:'B',name:'Tamizaje oportunista en consulta',c:1.2e6,q:8},
+ {k:'C',name:'Tamizaje en farmacias',c:4.6e6,q:18},
+ {k:'D',name:'Tamizaje sistemático con tratamiento protocolizado',c:4.4e6,q:22},
+ {k:'E',name:'Telemonitoreo sin tamizaje',c:4.5e6,q:10},
+ {k:'F',name:'D más polipíldora',c:7.4e6,q:28}
+];
+function frontier(){
+  const s=CE.slice().sort((a,b)=>a.c-b.c); const status={};
+  s.forEach(x=>{ if(s.some(y=>y!==x&&y.c<=x.c&&y.q>=x.q&&(y.c<x.c||y.q>x.q))) status[x.k]='dom'; });
+  let f=s.filter(x=>!status[x.k]);
+  let changed=true;
+  while(changed){ changed=false;
+    for(let i=1;i<f.length-1;i++){ const r1=(f[i].c-f[i-1].c)/(f[i].q-f[i-1].q), r2=(f[i+1].c-f[i].c)/(f[i+1].q-f[i].q); if(r1>r2){status[f[i].k]='ext'; f.splice(i,1); changed=true; break;} }
+  }
+  const icer={}; for(let i=1;i<f.length;i++) icer[f[i].k]=(f[i].c-f[i-1].c)/(f[i].q-f[i-1].q);
+  return {f,status,icer};
+}
+let ceRevealed=false;
+const lam=document.getElementById('lambda');
+function drawCE(){
+  const L=+lam.value, pib=+document.getElementById('pib').value||250000;
+  document.getElementById('lambdaOut').textContent=money(L);
+  document.getElementById('lambdaPib').textContent='= '+fmt1.format(L/pib)+' × PIB per cápita (con PIB pc de '+money(pib)+')';
+  const {f,status,icer}=frontier();
+  let best=CE[0],bv=-Infinity; f.forEach(x=>{const v=L*x.q-x.c; if(v>bv){bv=v;best=x;}});
+  const svg=document.getElementById('cePlane'); clear(svg);
+  const W=560,H=400,m={l:62,r:18,t:16,b:48}, xmax=32, ymax=8;
+  const X=v=>m.l+v/xmax*(W-m.l-m.r), Y=v=>H-m.b-v/ymax*(H-m.t-m.b);
+  for(let i=0;i<=8;i++){ el('line',{x1:m.l,x2:W-m.r,y1:Y(i),y2:Y(i),style:'stroke:var(--grid)'},svg); el('text',{x:m.l-8,y:Y(i)+4,'text-anchor':'end','font-size':11,style:'fill:var(--muted)'},svg,i); }
+  for(let i=0;i<=32;i+=4){ el('line',{y1:m.t,y2:H-m.b,x1:X(i),x2:X(i),style:'stroke:var(--grid)'},svg); el('text',{x:X(i),y:H-m.b+16,'text-anchor':'middle','font-size':11,style:'fill:var(--muted)'},svg,i); }
+  el('text',{x:(m.l+W-m.r)/2,y:H-8,'text-anchor':'middle','font-size':12,style:'fill:var(--muted)'},svg,'AVAC incrementales por 1,000 adultos');
+  el('text',{x:14,y:(m.t+H-m.b)/2,'text-anchor':'middle','font-size':12,transform:'rotate(-90 14 '+((m.t+H-m.b)/2)+')',style:'fill:var(--muted)'},svg,'Costo incremental (millones de $)');
+  // threshold line from origin
+  const yEnd=L*xmax/1e6; let x2=xmax,y2=yEnd; if(yEnd>ymax){x2=ymax*1e6/L;y2=ymax;}
+  if(L>0) el('line',{x1:X(0),y1:Y(0),x2:X(x2),y2:Y(y2),style:'stroke:var(--warn);stroke-width:1.5;stroke-dasharray:6 4'},svg);
+  el('text',{x:X(x2)-4,y:Y(y2)-6,'text-anchor':'end','font-size':11,style:'fill:var(--warn)'},svg,'λ');
+  if(ceRevealed){ const pts=f.map(p=>X(p.q/1)+','+Y(p.c/1e6)).join(' '); el('polyline',{points:pts,style:'fill:none;stroke:var(--accent);stroke-width:2'},svg); }
+  CE.forEach(p=>{
+    const st=status[p.k]; let fill='var(--ink)';
+    if(ceRevealed){ fill= st==='dom'?'var(--cost)': st==='ext'?'var(--warn)':'var(--accent)'; }
+    const isBest=ceRevealed&&p===best;
+    el('circle',{cx:X(p.q),cy:Y(p.c/1e6),r:isBest?9:6,style:'fill:'+fill+';stroke:var(--surface);stroke-width:2'},svg);
+    el('text',{x:X(p.q)+10,y:Y(p.c/1e6)-8,'font-size':13,'font-weight':600,style:'fill:var(--ink)'},svg,p.k);
+  });
+  const tb=document.querySelector('#ceTbl tbody'); tb.innerHTML='';
+  CE.forEach(p=>{
+    const st=status[p.k]; const tr=document.createElement('tr'); if(ceRevealed&&p===best) tr.className='sel';
+    const lab= !ceRevealed?'<span class="chip">?</span>': st==='dom'?'<span class="chip no">Dominada</span>': st==='ext'?'<span class="chip" style="color:var(--warn)">Dominancia extendida</span>':'<span class="chip acc">Frontera</span>';
+    const ic= ceRevealed&&icer[p.k]?money(icer[p.k]):'';
+    tr.innerHTML='<td><b>'+p.k+'</b> '+p.name+'</td><td class="r num">'+fmt1.format(p.c/1e6)+'</td><td class="r num">'+p.q+'</td><td class="r num">'+ic+'</td><td>'+lab+'</td><td class="r num">'+(ceRevealed?fmt1.format((L*p.q-p.c)/1e6):'')+'</td>';
+    tb.appendChild(tr);
+  });
+}
+lam.addEventListener('input',drawCE);
+document.getElementById('ceReveal').addEventListener('click',e=>{ceRevealed=!ceRevealed;e.currentTarget.textContent=ceRevealed?'Ocultar respuesta':'Revelar dominancia y frontera';drawCE();});
+drawCE();
+
+/* ---------------- CBA ---------------- */
+const $=id=>document.getElementById(id);
+const PROD_PP=150, FUT_PP=80;
+function params(){
+  const pib=+$('pib').value||0; const mv=$('method').value;
+  const V = mv==='custom' ? (+$('customV').value||0) : pib*(+mv);
+  return {V,pib,q:+$('qaly').value,n:+$('n').value,fixed:+$('fixed').value*1e6,cpp:+$('cpp').value,avert:+$('avert').value,
+    incProd:$('incProd').checked,incFut:$('incFut').checked,T:+$('T').value,r:+$('r').value/100};
+}
+function model(p){
+  let pvProg=0,pvQ=0,pvAv=0,pvProd=0,pvFut=0;
+  for(let t=1;t<=p.T;t++){
+    const d=1/Math.pow(1+p.r,t-1); const ramp=t===1?0:t===2?1/3:t===3?2/3:1;
+    pvProg+=(p.fixed+p.cpp*p.n)*d; pvQ+=p.q*p.n/1000*ramp*d; pvAv+=p.avert*p.n*ramp*d;
+    pvProd+=PROD_PP*p.n*ramp*d; pvFut+=FUT_PP*p.n*ramp*d;
+  }
+  const fut=p.incFut?pvFut:0, prod=p.incProd?pvProd:0;
+  const C=pvProg+fut, Bh=p.V*pvQ, B=Bh+pvAv+prod;
+  return {pvProg,pvQ,pvAv,pvProd:prod,pvFut:fut,C,B,Bh,npv:B-C,bcr:C>0?B/C:0,
+    icer:pvQ>0?(pvProg+fut-pvAv)/pvQ:Infinity, be:pvQ>0?(C-pvAv-prod)/pvQ:Infinity};
+}
+function syncOuts(){
+  $('qalyOut').textContent=fmt1.format(+$('qaly').value); $('nOut').textContent=fmt0.format(+$('n').value);
+  $('fixedOut').textContent=fmt1.format(+$('fixed').value); $('cppOut').textContent=money(+$('cpp').value);
+  $('avertOut').textContent=money(+$('avert').value); $('TOut').textContent=$('T').value+' años'; $('rOut').textContent=fmt1.format(+$('r').value)+'%';
+  $('customWrap').hidden=$('method').value!=='custom';
+}
+function runCBA(){
+  syncOuts(); const p=params(), R=model(p);
+  $('vOut').textContent='Valor usado: '+money(p.V)+' por AVAC'+(p.pib?' ('+fmt1.format(p.V/p.pib)+' × PIB pc)':'');
+  $('kNpv').textContent=mill(R.npv); $('kBcr').textContent=R.bcr.toFixed(2);
+  $('kIcer').textContent=isFinite(R.icer)?money(R.icer):'n.d.'; $('kBe').textContent=isFinite(R.be)?money(R.be):'n.d.';
+  const ok=R.npv>=0; $('verdict').textContent=ok?'El programa conviene':'El programa no conviene';
+  const ch=$('verdictChip'); ch.className='chip '+(ok?'ok':'no'); ch.textContent=ok?'VPN ≥ 0':'VPN < 0';
+  drawStack(R); drawNpv(p,R); drawTornado(p,R);
+}
+function drawStack(R){
+  const svg=$('stackChart'); clear(svg); const W=620,m={l:92,r:20,t:14};
+  const rows=[['Costos',[[R.pvProg,'var(--cost)','Programa'],[R.pvFut,'var(--cost-soft)','Costos futuros']]],
+              ['Beneficios',[[R.Bh,'var(--benefit)','Salud (AVAC × valor)'],[R.pvAv,'var(--benefit-soft)','Costos evitados'],[R.pvProd,'var(--accent-soft)','Productividad']]]];
+  const max=Math.max(R.C,R.B)*1.08||1; const X=v=>v/max*(W-m.l-m.r);
+  rows.forEach((row,ri)=>{
+    const y=m.t+ri*56; let x=m.l;
+    el('text',{x:m.l-10,y:y+22,'text-anchor':'end','font-size':13,'font-weight':600,style:'fill:var(--ink)'},svg,row[0]);
+    row[1].forEach(s=>{ if(s[0]<=0) return; const w=X(s[0]); el('rect',{x:x,y:y,width:w,height:34,style:'fill:'+s[1]+';stroke:var(--surface);stroke-width:1'},svg); x+=w; });
+    const tot=row[1].reduce((a,s)=>a+s[0],0);
+    el('text',{x:Math.min(x+6,W-4),y:y+22,'font-size':12,'text-anchor':x+80>W?'end':'start',style:'fill:var(--ink)','font-family':'IBM Plex Mono'},svg,mill(tot));
+  });
+  let lx=m.l; const ly=138;
+  [['var(--cost)','Programa'],['var(--cost-soft)','Costos futuros'],['var(--benefit)','Salud monetizada'],['var(--benefit-soft)','Costos evitados'],['var(--accent-soft)','Productividad']].forEach(s=>{
+    el('rect',{x:lx,y:ly,width:12,height:10,style:'fill:'+s[0]+';stroke:var(--line)'},svg); const t=el('text',{x:lx+16,y:ly+9,'font-size':11,style:'fill:var(--muted)'},svg,s[1]); lx+=s[1].length*6.3+34;
+  });
+}
+function drawNpv(p,R){
+  const svg=$('npvChart'); clear(svg); const W=620,H=260,m={l:70,r:20,t:14,b:40};
+  const pib=p.pib||1, vmax=15*pib;
+  const f=v=>R.B-R.Bh+v*R.pvQ-R.C;
+  const y0=f(0), y1=f(vmax); const ymin=Math.min(y0,y1,0), ymx=Math.max(y0,y1,0); const pad=(ymx-ymin)*0.08||1;
+  const lo=ymin-pad, hi=ymx+pad;
+  const X=v=>m.l+v/vmax*(W-m.l-m.r), Y=v=>H-m.b-(v-lo)/(hi-lo)*(H-m.t-m.b);
+  const step=niceStep((hi-lo)/5);
+  for(let v=Math.ceil(lo/step)*step; v<=hi; v+=step){ el('line',{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v),style:'stroke:var(--grid)'},svg); el('text',{x:m.l-8,y:Y(v)+4,'text-anchor':'end','font-size':11,style:'fill:var(--muted)'},svg,fmt0.format(v/1e6)); }
+  el('line',{x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0),style:'stroke:var(--ink);stroke-width:1'},svg);
+  for(let k=0;k<=15;k+=3){ el('text',{x:X(k*pib),y:H-m.b+16,'text-anchor':'middle','font-size':11,style:'fill:var(--muted)'},svg,k+'×'); }
+  el('text',{x:(m.l+W-m.r)/2,y:H-6,'text-anchor':'middle','font-size':12,style:'fill:var(--muted)'},svg,'Valor por AVAC (múltiplos del PIB per cápita)');
+  el('text',{x:14,y:(m.t+H-m.b)/2,'text-anchor':'middle','font-size':12,transform:'rotate(-90 14 '+((m.t+H-m.b)/2)+')',style:'fill:var(--muted)'},svg,'VPN (millones de $)');
+  el('line',{x1:X(0),y1:Y(y0),x2:X(vmax),y2:Y(y1),style:'stroke:var(--accent);stroke-width:2.5'},svg);
+  const marks=[[0.79,'CH'],[1,'1×'],[2.97,'RP-S'],[3,'3×'],[5.14,'VC'],[13.64,'RP-L']];
+  marks.forEach((mk,i)=>{ const v=mk[0]*pib, yy=f(v); el('circle',{cx:X(v),cy:Y(yy),r:4,style:'fill:'+(yy>=0?'var(--benefit)':'var(--cost)')+';stroke:var(--surface);stroke-width:1.5'},svg);
+    el('text',{x:X(v)+(i===3?6:-6),y:Y(yy)+(i%2?16:-8),'text-anchor':i===3?'start':'end','font-size':10.5,style:'fill:var(--muted)'},svg,mk[1]); });
+  if(isFinite(R.be)&&R.be>0&&R.be<vmax){ el('line',{x1:X(R.be),x2:X(R.be),y1:m.t,y2:H-m.b,style:'stroke:var(--warn);stroke-dasharray:4 4'},svg);
+    el('text',{x:X(R.be)+5,y:m.t+12,'font-size':11,style:'fill:var(--warn)'},svg,'equilibrio: '+fmt1.format(R.be/pib)+'×'); }
+  if(p.V<=vmax){ el('circle',{cx:X(p.V),cy:Y(f(p.V)),r:7,style:'fill:none;stroke:var(--ink);stroke-width:2'},svg); }
+}
+function niceStep(x){ const e=Math.pow(10,Math.floor(Math.log10(Math.abs(x)||1))); const f=x/e; return (f<1.5?1:f<3?2:f<7?5:10)*e; }
+function drawTornado(p,R){
+  const svg=$('tornado'); clear(svg);
+  const items=[
+    ['AVAC por 1,000','q'],['Valor por AVAC','V'],['Costo por participante','cpp'],['Costos evitados','avert'],['Costo fijo','fixed'],['Participantes','n'],['Tasa de descuento','r']
+  ].map(([lab,k])=>{
+    const lo=Object.assign({},p), hi=Object.assign({},p);
+    if(k==='r'){ lo.r=0.03; hi.r=0.07; } else { lo[k]=p[k]*0.75; hi[k]=p[k]*1.25; }
+    const a=model(lo).npv, b=model(hi).npv; return {lab:k==='r'?'Descuento (3%-7%)':lab,a,b,sw:Math.abs(b-a)};
+  }).sort((x,y)=>y.sw-x.sw);
+  const W=620,H=250,m={l:160,r:30,t:10,b:30}; const base=R.npv;
+  const all=items.flatMap(i=>[i.a,i.b]).concat([base]); const lo=Math.min(...all), hi=Math.max(...all); const pad=(hi-lo)*0.06||1;
+  const X=v=>m.l+(v-(lo-pad))/((hi+pad)-(lo-pad))*(W-m.l-m.r); const rh=(H-m.t-m.b)/items.length;
+  items.forEach((it,i)=>{ const y=m.t+i*rh+4;
+    el('text',{x:m.l-8,y:y+rh/2+1,'text-anchor':'end','font-size':12,style:'fill:var(--ink)'},svg,it.lab);
+    const x1=X(Math.min(it.a,base)), x2=X(Math.max(it.a,base)); el('rect',{x:Math.min(X(it.a),X(base)),y:y,width:Math.abs(X(it.a)-X(base)),height:rh-8,style:'fill:var(--cost)'},svg);
+    el('rect',{x:Math.min(X(it.b),X(base)),y:y,width:Math.abs(X(it.b)-X(base)),height:rh-8,style:'fill:var(--benefit)'},svg);
+  });
+  el('line',{x1:X(base),x2:X(base),y1:m.t,y2:H-m.b,style:'stroke:var(--ink)'},svg);
+  if(lo<0&&hi>0) el('line',{x1:X(0),x2:X(0),y1:m.t,y2:H-m.b,style:'stroke:var(--warn);stroke-dasharray:4 4'},svg);
+  el('text',{x:X(base),y:H-12,'text-anchor':'middle','font-size':11,style:'fill:var(--muted)'},svg,'VPN base '+mill(base));
+  if(lo<0&&hi>0) el('text',{x:X(0),y:H-m.b+14,'text-anchor':'middle','font-size':10.5,style:'fill:var(--warn)'},svg,'VPN = 0');
+  el('rect',{x:W-190,y:H-20,width:10,height:10,style:'fill:var(--cost)'},svg); el('text',{x:W-176,y:H-11,'font-size':10.5,style:'fill:var(--muted)'},svg,'valor bajo');
+  el('rect',{x:W-110,y:H-20,width:10,height:10,style:'fill:var(--benefit)'},svg); el('text',{x:W-96,y:H-11,'font-size':10.5,style:'fill:var(--muted)'},svg,'valor alto');
+}
+$('prefs').addEventListener('change',e=>{ $('qaly').value=e.target.value==='patients'?1.1:1.5; runCBA(); });
+['method','customV','pib','qaly','n','fixed','cpp','avert','incProd','incFut','T','r'].forEach(id=>{ $(id).addEventListener('input',()=>{runCBA(); if(id==='pib') drawCE();}); $(id).addEventListener('change',runCBA); });
+let log=[];
+$('saveBtn').addEventListener('click',()=>{ const p=params(),R=model(p); const mt=$('method'); log.push([mt.options[mt.selectedIndex].text.replace(/\s*\(.*\)/,''), $('prefs').value==='patients'?'Pacientes':'Público', fmt1.format(p.r*100)+'%', p.T, p.incProd?'Sí':'No', p.incFut?'Sí':'No', R.npv]); renderLog(); });
+$('resetLog').addEventListener('click',()=>{log=[];renderLog();});
+function renderLog(){ const tb=document.querySelector('#logTbl tbody'); tb.innerHTML=''; log.forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML='<td class="num">'+(i+1)+'</td><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="num">'+r[2]+'</td><td class="num">'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td class="r num">'+fmt1.format(r[6]/1e6)+'</td><td><span class="chip '+(r[6]>=0?'ok':'no')+'">'+(r[6]>=0?'Conviene':'No conviene')+'</span></td>'; tb.appendChild(tr); }); }
+runCBA();
+
+/* ---------------- caso CAF ---------------- */
+function erf(x){ const sgn=x<0?-1:1; x=Math.abs(x); const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,pp=0.3275911; const t=1/(1+pp*x); const y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x); return sgn*y; }
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+const llS=(t,g,l)=>1/(1+Math.pow(t/l,g));
+const lnS=(t,m,sd)=>t<=0?1:1-Phi((Math.log(t)-m)/sd);
+const SG_CL=21/30.4375, SG_H=52, SG_DM=Math.pow(1.03,1/12)-1;
+const SG_T=[]; for(let t=0;t<=SG_H+1e-9;t+=SG_CL) SG_T.push(t);
+const AE_COST=[51,136.49,51,72.7,24907.09,61.625], AE_DQ=[.029,.03,.038,.038,.15,.10];
+const AE={sg:{n:[135,24,27,4,15,30],p:188/258}, ch:{n:[76,13,13,5,6,2],p:145/224}, sgp:{n:[17,9,6,1,0,9],p:26/50}};
+function aeExp(arm){ const n=AE[arm].n, tot=n.reduce((a,b)=>a+b,0); let c=0,q=0; n.forEach((k,i)=>{c+=k/tot*AE_COST[i]; q+=k/tot*AE_DQ[i];}); return {c:AE[arm].p*c, q:AE[arm].p*q}; }
+function sgRun(arm, price, uS, uP){
+  let C=0,Q=0,LY=0,Sst=0;
+  const ae=aeExp(arm);
+  SG_T.forEach((t,k)=>{
+    const d=1/Math.pow(1+SG_DM,t);
+    let os,pf;
+    if(arm==='ch'){ os=llS(t,1.888,6.5388); pf=llS(t,2.346,2.139); } else { os=llS(t,1.695,11.686); pf=lnS(t,1.528,1.051); }
+    pf=Math.min(pf,os); const pr=Math.max(os-pf,0);
+    const cS = arm==='ch' ? 1118.257 : price+382.65;
+    let c = pf*cS + pr*1525.2057;
+    if(k===0) c += (pf+pr)*ae.c;
+    if(arm==='sgp' && k<2) c += 257/2;
+    C += c*d; Q += (pf*uS+pr*uP)*d*SG_CL/12; LY += (pf+pr)*d*SG_CL/12; Sst += pf*d;
+  });
+  Q -= ae.q;
+  return {C,Q,LY,Sst};
+}
+function sgLambda(){ const v=$('sgLam').value; return v==='custom'?(+$('sgLamCustom').value||0):+v; }
+function runSG(){
+  const price=+$('sgPrice').value, uS=+$('sgUS').value, uP=+$('sgUP').value, arm=$('sgProph').checked?'sgp':'sg', L=sgLambda();
+  $('sgPriceOut').textContent=fmt0.format(price); $('sgUSOut').textContent=uS.toFixed(2); $('sgUPOut').textContent=uP.toFixed(2);
+  $('sgDisc').textContent = price<13374 ? 'Descuento de '+Math.round((1-price/13374)*100)+'% sobre el precio de referencia (13,374 USD)' : 'Precio de referencia en México: 13,374 USD por ciclo';
+  $('sgLamCustomWrap').hidden=$('sgLam').value!=='custom';
+  const ch=sgRun('ch',0,uS,uP), sg=sgRun('sg',price,uS,uP), sgp=sgRun('sgp',price,uS,uP), x=arm==='sgp'?sgp:sg;
+  const dC=x.C-ch.C, dQ=x.Q-ch.Q, icer=dC/dQ;
+  const nonPrice = dC - price*x.Sst; const pstar=(L*dQ-nonPrice)/x.Sst;
+  $('sgKdC').textContent=fmt0.format(dC); $('sgKdQ').textContent=dQ.toFixed(3); $('sgKicer').textContent=fmt0.format(icer);
+  $('sgKpstar').textContent= pstar>0 ? fmt0.format(pstar)+' USD' : 'ninguno';
+  const ok=icer<=L; $('sgVerdict').textContent= ok ? 'Costo-efectivo con este umbral' : 'No es costo-efectivo con este umbral';
+  const chp=$('sgChip'); chp.className='chip '+(ok?'ok':'no'); chp.textContent='umbral '+fmt0.format(L)+' USD';
+  const tb=document.querySelector('#sgTbl tbody'); tb.innerHTML='';
+  [['Quimioterapia',ch,null],['CAF',sg,(sg.C-ch.C)/(sg.Q-ch.Q)],['CAF con profilaxis',sgp,(sgp.C-ch.C)/(sgp.Q-ch.Q)]].forEach(r=>{
+    const tr=document.createElement('tr'); if((r[1]===x)) tr.className='sel';
+    tr.innerHTML='<td>'+r[0]+'</td><td class="r num">'+r[1].LY.toFixed(2)+'</td><td class="r num">'+r[1].Q.toFixed(3)+'</td><td class="r num">'+fmt0.format(r[1].C)+'</td><td class="r num">'+(r[2]==null?'':fmt0.format(r[2]))+'</td>';
+    tb.appendChild(tr);
+  });
+  const sv=sg.C-sgp.C, gq=sgp.Q-sg.Q;
+  $('sgProphTxt').textContent='Frente al CAF sin profilaxis, la profilaxis cuesta '+fmt0.format(Math.abs(sv))+' USD '+(sv>=0?'menos':'más')+' por paciente y da '+gq.toFixed(3)+' AVAC más: '+(sv>=0&&gq>=0?'domina a la estrategia sin profilaxis.':'no domina.')+' La neutropenia febril pasa de 6.4% a 0%; cada episodio evitado ahorra una hospitalización de 24,907 USD. Aun así, la ICER frente a quimioterapia cambia poco, porque el ahorro es menos de 1% del costo incremental del tratamiento.';
+  drawSGCurves(arm);
+}
+function drawSGCurves(arm){
+  const svg=$('sgCurves'); clear(svg); const W=620,H=280,m={l:48,r:16,t:12,b:40};
+  const X=t=>m.l+t/36*(W-m.l-m.r), Y=v=>H-m.b-v*(H-m.t-m.b);
+  for(let v=0;v<=1.0001;v+=0.25){ el('line',{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v),style:'stroke:var(--grid)'},svg); el('text',{x:m.l-6,y:Y(v)+4,'text-anchor':'end','font-size':11,style:'fill:var(--muted)'},svg,v.toFixed(2)); }
+  for(let t=0;t<=36;t+=6){ el('text',{x:X(t),y:H-m.b+16,'text-anchor':'middle','font-size':11,style:'fill:var(--muted)'},svg,t); }
+  el('text',{x:(m.l+W-m.r)/2,y:H-6,'text-anchor':'middle','font-size':12,style:'fill:var(--muted)'},svg,'Meses');
+  const ts=[]; for(let t=0;t<=36.0001;t+=0.25) ts.push(t);
+  const sgOS=ts.map(t=>llS(t,1.695,11.686)), sgPF=ts.map((t,i)=>Math.min(lnS(t,1.528,1.051),sgOS[i]));
+  const chOS=ts.map(t=>llS(t,1.888,6.5388)), chPF=ts.map((t,i)=>Math.min(llS(t,2.346,2.139),chOS[i]));
+  const path=(arr)=>arr.map((v,i)=>(i?'L':'M')+X(ts[i]).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+  const area=(top,bot)=>path(top)+' '+bot.map((v,i)=>'L'+X(ts[bot.length-1-i]).toFixed(1)+','+Y(bot[bot.length-1-i]).toFixed(1)).join(' ')+' Z';
+  el('path',{d:area(sgPF,ts.map(()=>0)),style:'fill:var(--benefit-soft);stroke:none'},svg);
+  el('path',{d:area(sgOS,sgPF),style:'fill:var(--accent-soft);stroke:none'},svg);
+  el('path',{d:path(sgOS),style:'fill:none;stroke:var(--accent);stroke-width:2.5'},svg);
+  el('path',{d:path(sgPF),style:'fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4'},svg);
+  el('path',{d:path(chOS),style:'fill:none;stroke:var(--cost);stroke-width:2.5'},svg);
+  el('path',{d:path(chPF),style:'fill:none;stroke:var(--cost);stroke-width:2;stroke-dasharray:6 4'},svg);
+  el('line',{x1:X(26),x2:X(28),y1:Y(0.95),y2:Y(0.95),style:'stroke:var(--accent);stroke-width:2.5'},svg);
+  el('text',{x:X(28.5),y:Y(0.95)+4,'font-size':12,style:'fill:var(--ink)'},svg,'CAF');
+  el('line',{x1:X(26),x2:X(28),y1:Y(0.86),y2:Y(0.86),style:'stroke:var(--cost);stroke-width:2.5'},svg);
+  el('text',{x:X(28.5),y:Y(0.86)+4,'font-size':12,style:'fill:var(--ink)'},svg,'Quimioterapia');
+}
+['sgPrice','sgUS','sgUP','sgProph','sgLam','sgLamCustom'].forEach(id=>{ $(id).addEventListener('input',runSG); $(id).addEventListener('change',runSG); });
+$('sgReset').addEventListener('click',()=>{ $('sgPrice').value=13374; $('sgUS').value=0.833; $('sgUP').value=0.433; $('sgProph').checked=true; $('sgLam').value='41000'; runSG(); });
+runSG();
+
+const h = (location.hash||'').replace('#','');
+if(['temario','menu','plano','cba','sg','integ'].includes(h)) showTab(h);
+})();
+</script>
+
+</body>
+</html>

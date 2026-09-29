@@ -4,6 +4,8 @@ project:
   resources:
     - custom-styles.css
     - food-systems/dashboard/**
+    - notes/estrategias_salud_2026/*.html
+    - notes/estrategias_salud_2026/*.pdf
 
 execute:
   freeze: auto
@@ -63,6 +65,8 @@ website:
             href: notes/estadistica_matematica_2026/index.qmd
           - text: "Métodos Cuantitativos (2026)"
             href: notes/metodos_cuantitativos_2026/index.qmd
+          - text: "Estrategias de Salud en México (2026)"
+            href: notes/estrategias_salud_2026/index.qmd
 
     right: 
       - text: CV
