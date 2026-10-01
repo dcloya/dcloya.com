@@ -16,7 +16,10 @@ Costo de oportunidad, medición de resultados en salud (AVAC y AVAD), tipos de e
 
 ### 6.2. El costo de los servicios y su organización para una mejor relación costo-beneficio (1 de octubre)
 
-Materiales disponibles antes de la sesión.
+Cómo identificar la restricción de un servicio (organización, insumos, salas o tiempo), de dónde salen las efectividades que usan los modelos, cómo se construye el costo de un servicio y qué incentivos crean las tarifas de intercambio del Servicio Universal de Salud. El caso que recorre la sesión es código infarto.
+
+- [Herramienta interactiva](sesion62_herramienta.html){target="_blank"}: muertes evitadas a partir de un ensayo clínico, la cédula de costos de un infarto con complicaciones para clasificar qué costos desaparecen si el paciente no llega, y las reglas de pago del intercambio de servicios.
+- [Diapositivas (PDF)](sesion62_diapositivas.pdf){target="_blank"}
 
 ### 7.1. Evaluación de efectividad y eficiencia económica de tecnologías digitales (13 de octubre)
 

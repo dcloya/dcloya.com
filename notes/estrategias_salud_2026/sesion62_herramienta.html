@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clase 2: Costo y organización de servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna de trabajo con pestañas por parte de la sesión; tarjetas y tablas como material de mesa */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#14213a; --muted:#56607a; --line:#d9dde6;
+  --accent:#0b3d7a; --accent-soft:#e3ebf6; --alert:#b3261e; --alert-soft:#fbeceb;
+  --ok:#1f6b45; --ok-soft:#e5f2ea; --warn:#8a5a00; --warn-soft:#fbf1dc;
+  --f-display:"Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1420; --surface:#171e2d; --ink:#e6eaf2; --muted:#a3adc2; --line:#2c3549;
+  --accent:#8db4ee; --accent-soft:#1d2b45; --alert:#f08a80; --alert-soft:#3a1f22;
+  --ok:#7fcfa0; --ok-soft:#173026; --warn:#e7b85c; --warn-soft:#352a14; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0f1420; --surface:#171e2d; --ink:#e6eaf2; --muted:#a3adc2; --line:#2c3549;
+  --accent:#8db4ee; --accent-soft:#1d2b45; --alert:#f08a80; --alert-soft:#3a1f22;
+  --ok:#7fcfa0; --ok-soft:#173026; --warn:#e7b85c; --warn-soft:#352a14; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:24px 56px}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15;margin:4px 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:24px;margin:0;text-wrap:balance}
+h3{font-size:15px;margin:0;font-weight:700}
+p{margin:0}
+.prelim-note{font-size:13px;color:var(--alert);background:var(--alert-soft);border:1px solid var(--alert);border-radius:4px;padding:6px 10px;max-width:420px}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--alert);border:1px solid var(--alert);border-radius:3px;padding:0 5px;vertical-align:2px;margin-left:6px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;margin:18px 0 22px;border-bottom:1px solid var(--line)}
+nav.tabs button{font:inherit;font-weight:600;font-size:14px;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:10px 12px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lead{max-width:68ch;color:var(--muted);margin:6px 0 18px}
+.panel{display:grid;gap:18px}
+.source{font-size:12px;color:var(--muted)}
+.num{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--accent);color:var(--accent);background:var(--surface);border-radius:4px;padding:6px 12px;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Tarjetas por estado */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:grid;gap:12px;min-width:0}
+.card h3{font-family:var(--f-display);font-size:21px;font-weight:600}
+.kv{display:grid;grid-template-columns:1fr auto auto;gap:4px 14px;font-size:13px;align-items:baseline}
+.kv .h{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;text-align:right}
+.kv .l{color:var(--muted)}
+.kv .v{font-family:var(--f-data);text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--line);border-radius:3px;position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.bar b{position:absolute;top:-2px;bottom:-2px;left:85%;width:2px;background:var(--alert)}
+.choice{display:flex;flex-wrap:wrap;gap:6px}
+.choice button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer}
+.choice button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.reading{font-size:13.5px;background:var(--accent-soft);border-radius:4px;padding:10px 12px}
+
+/* Calculadoras */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:14px;min-width:0}
+.field{display:grid;gap:4px}
+.field label{font-size:13px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.field label span{font-family:var(--f-data);font-weight:500;color:var(--accent)}
+.field small{color:var(--muted);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.result{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:6px}
+.big{font-family:var(--f-display);font-size:44px;line-height:1;font-weight:600;color:var(--accent)}
+.formula{font-family:var(--f-data);font-size:12.5px;color:var(--muted);overflow-x:auto;white-space:nowrap}
+.reveal-wrap[data-hidden="true"] .big,.reveal-wrap[data-hidden="true"] .formula,.reveal-wrap[data-hidden="true"] .after{filter:blur(8px);user-select:none}
+
+/* Cédula */
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+td.r,th.r{text-align:right}
+tfoot td{font-weight:700;border-bottom:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{font:inherit;font-size:12px;border:0;background:var(--surface);color:var(--muted);padding:4px 9px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"].go{background:var(--ok-soft);color:var(--ok);font-weight:700}
+.seg button[aria-pressed="true"].stay{background:var(--warn-soft);color:var(--warn);font-weight:700}
+.ans{font-size:12px;font-weight:700}
+.ans.ok{color:var(--ok)} .ans.no{color:var(--alert)}
+.stack{display:flex;height:28px;border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.stack div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* Reglas */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;counter-reset:s}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;display:grid;gap:2px}
+.step .d{font-family:var(--f-data);font-size:18px;color:var(--accent)}
+.rule{background:var(--surface);border-left:4px solid var(--alert);padding:14px 16px;border-radius:0 6px 6px 0;display:grid;gap:8px;max-width:78ch}
+.prompt{background:var(--accent-soft);border-radius:6px;padding:14px 16px;display:grid;gap:8px}
+ul{margin:0;padding-left:20px}
+@media (max-width:520px){ .kv{grid-template-columns:1fr auto auto;font-size:12.5px} .big{font-size:36px} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Diplomado Estrategias de Salud en México · Sesión 6.2 · 1 de octubre de 2026</div>
+      <h1>El costo de los servicios y su organización en el SUS</h1>
+    </div>
+    <p class="source" style="max-width:420px">Herramienta de clase. Todas las cifras vienen de fuentes públicas citadas en cada sección.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Partes de la sesión">
+    <button role="tab" id="t-efect" aria-controls="p-efect" aria-selected="true">1. Efectividad</button>
+    <button role="tab" id="t-cedula" aria-controls="p-cedula" aria-selected="false">2. Costo de un servicio</button>
+    <button role="tab" id="t-reglas" aria-controls="p-reglas" aria-selected="false">3. Tarifa y reglas</button>
+  </nav>
+
+
+  <!-- 2 -->
+  <section id="p-efect" role="tabpanel" aria-labelledby="t-efect" class="panel">
+    <div>
+      <h2>De un ensayo a muertes evitadas</h2>
+      <p class="lead">Muertes evitadas = muertes que la intervención puede tocar × reducción relativa × cambio en cobertura efectiva.</p>
+    </div>
+    <div class="two">
+      <div class="box reveal-wrap" id="txaBox" data-hidden="true">
+        <div><h3>Ácido tranexámico en hemorragia posparto</h3><p class="source">Ensayo WOMAN: reducción de 31% en muertes por sangrado si se aplica en las primeras 3 horas (IC 95% 9% a 48%).</p></div>
+        <div class="field"><label for="txaDeaths">Muertes maternas al año <span id="txaDeathsV"></span></label><input id="txaDeaths" type="range" min="300" max="900" step="1" value="568"><small>2024: 568 (INEGI)</small></div>
+        <div class="field"><label for="txaFrac">De ellas, por hemorragia posparto <span id="txaFracV"></span></label><input id="txaFrac" type="range" min="0" max="200" step="1" value="75"><small>2024: 75 con causa O72</small></div>
+        <div class="field"><label for="txaRR">Reducción relativa <span id="txaRRV"></span></label><input id="txaRR" type="range" min="0" max="60" step="1" value="31"><small>WOMAN: 31% (9% a 48%)</small></div>
+        <div class="field"><label for="txaCov">Cobertura efectiva: de <span id="txaCovV"></span></label><input id="txaCov0" type="range" min="0" max="100" step="5" value="0" aria-label="Cobertura actual"><input id="txaCov1" type="range" min="0" max="100" step="5" value="100" aria-label="Cobertura con el programa"><small>Primer control: cobertura actual. Segundo: con el programa.</small></div>
+        <div class="result">
+          <div class="row"><button class="btn primary" id="txaReveal">Revelar resultado</button><span class="source">Primero anoten su predicción.</span></div>
+          <div class="big num" id="txaOut">23</div>
+          <div class="after" id="txaAfter"></div>
+          <div class="formula" id="txaF"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section id="p-cedula" role="tabpanel" aria-labelledby="t-cedula" class="panel" hidden>
+    <div>
+      <h2>Cédula PTIAM-C-1: infarto con complicaciones</h2>
+      <p class="lead">Tarifa 2026 de intercambio: <b class="num">$182,714</b>. Clasifique cada renglón: ¿desaparece si este paciente no llega, o se queda aunque no llegue? Después cambie la situación del hospital.</p>
+    </div>
+    <div class="row">
+      <span class="eyebrow">Situación del hospital</span>
+      <div class="seg" role="group" aria-label="Situación del hospital">
+        <button id="hol1" aria-pressed="true">Con sala y cama ociosas</button>
+        <button id="hol0" aria-pressed="false">Sin holgura</button>
+      </div>
+      <button class="btn" id="cedReveal">Mostrar respuestas</button>
+      <button class="btn" id="cedReset">Borrar</button>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Renglón</th><th class="r">Pesos</th><th class="r">%</th><th>Su clasificación</th><th>Respuesta</th></tr></thead>
+        <tbody id="cedBody"></tbody>
+        <tfoot><tr><td>Base de costeo</td><td class="r num">161,558</td><td class="r num">100</td><td colspan="2" class="source">La tarifa publicada aplica un factor de actualización a esta base.</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="box">
+      <h3 id="stackTitle">Qué parte del costo desaparece si el paciente no llega</h3>
+      <div class="stack" id="stack"></div>
+      <div class="legend"><span><i style="background:var(--ok)"></i>Desaparece</span><span><i style="background:var(--warn)"></i>Se queda</span></div>
+      <p id="stackText"></p>
+    </div>
+    <p class="source">Cédula médico-económica PTIAM-C-1, Comité Nacional para el Intercambio de Servicios (elaborada 17/03/2023, actualizada 10/01/2026). Agrupación propia de renglones.</p>
+  </section>
+
+  <!-- 4 -->
+  <section id="p-reglas" role="tabpanel" aria-labelledby="t-reglas" class="panel" hidden>
+    <div>
+      <h2>La tarifa y las reglas del intercambio</h2>
+      <p class="lead">La tarifa del catálogo es el costo completo, con costos fijos y variables prorrateados. El efecto de esa regla depende de si el hospital que recibe al paciente tiene holgura.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Situación</th><th>Costo real de un paciente más</th><th>Lo que paga la tarifa</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hay holgura</b></td><td>Insumos y personal variable</td><td>Costo completo</td><td>Se paga dos veces un activo ya financiado</td></tr>
+          <tr><td><b>Hay que crear capacidad</b></td><td>Insumos más inversión</td><td>Depreciación de lo que ya existe</td><td>Nadie invierte</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two">
+      <div class="box">
+        <h3>La tarifa paga más donde falta la sala</h3>
+        <p>Sin hemodinamia a menos de 120 minutos, la ruta de fibrinólisis más angioplastia cuesta <b class="num">$180,493</b>; la angioplastia primaria cuesta <b class="num">$167,725</b>. La diferencia, 7.6%, se paga por cada paciente y no financia la sala que falta.</p>
+        <p class="source">Catálogo PTIAM, Anexo 1.1, Comité Nacional para el Intercambio de Servicios; cálculo propio.</p>
+      </div>
+      <div class="box">
+        <h3>Lo que se intercambió en 2023</h3>
+        <ul>
+          <li><b class="num">32,581</b> pacientes y <b class="num">202,349</b> servicios en 26 convenios de 19 estados.</li>
+          <li>Producto más frecuente: hospitalización psiquiátrica por día (<span class="num">34,128</span>).</li>
+          <li>Chihuahua y Baja California: más de la mitad de los pacientes.</li>
+        </ul>
+        <p class="source">Informe anual de productividad de los convenios 2023, DGPLADES.</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">Cómo se paga hoy: hasta 43 días hábiles desde el corte mensual</h3>
+      <div class="steps">
+        <div class="step"><span class="d">5</span>Prestador envía el informe mensual</div>
+        <div class="step"><span class="d">5</span>Quien derivó lo valida</div>
+        <div class="step"><span class="d">5</span>Prestador emite la factura</div>
+        <div class="step"><span class="d">5</span>Quien derivó revisa la factura</div>
+        <div class="step"><span class="d">3</span>Correcciones</div>
+        <div class="step"><span class="d">20</span>Pago</div>
+      </div>
+      <p class="source" style="margin-top:6px">Días hábiles máximos por etapa. Manual de Lineamientos Generales para el Intercambio de Servicios, Anexo 2.</p>
+    </div>
+    <div class="rule">
+      <h3>¿Quién paga una complicación? Regla vigente, numeral 7.7.2.15</h3>
+      <ul>
+        <li>Si la complicación requiere servicios fuera del catálogo, el prestador notifica a la institución que envió al paciente.</li>
+        <li>Se cobra con el <b>tabulador de cuotas del prestador</b>, no con la tarifa del catálogo.</li>
+        <li>Un comité de calidad o bioética dictamina si la complicación fue "con" o "sin responsabilidad".</li>
+      </ul>
+      <p>Consecuencia: el prestador cobra más cuando hay complicaciones, y a su propia tarifa. Una alta temprana que termina en reingreso se paga dos veces.</p>
+    </div>
+    <div class="prompt">
+      <h3>Actividad 5: reescriba la regla</h3>
+      <ol style="margin:0;padding-left:20px">
+        <li>Reescriba la cláusula de complicaciones: ¿quién paga, a qué tarifa y con qué indicador se decide?</li>
+        <li>Elija un instrumento para un estado con mucha necesidad y poca presencia del IMSS: (a) tarifa de liquidación más una línea de capital para lo que falta; (b) tarifa diferenciada con sobretasa de capital; (c) inversión directa en IMSS-Bienestar.</li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  const fmt=(n,d=0)=>n.toLocaleString('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const $=id=>document.getElementById(id);
+
+  /* Pestañas */
+  const tabs=[...document.querySelectorAll('[role=tab]')];
+  function show(id){
+    tabs.forEach(t=>{const on=t.id===id;t.setAttribute('aria-selected',on);$(t.getAttribute('aria-controls')).hidden=!on;});
+    try{localStorage.setItem('s62tabpub',id)}catch(e){}
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.id)));
+  const h=location.hash.replace('#','');
+  if(h && $('t-'+h)) show('t-'+h); else { try{const s=localStorage.getItem('s62tabpub'); if(s&&$(s)) show(s);}catch(e){} }
+
+
+  function txa(){
+    const D=+$('txaDeaths').value, F=Math.min(+$('txaFrac').value,D), rr=+$('txaRR').value/100, c0=+$('txaCov0').value/100, c1=+$('txaCov1').value/100;
+    $('txaDeathsV').textContent=fmt(D); $('txaFracV').textContent=fmt(F); $('txaRRV').textContent=Math.round(rr*100)+'%';
+    $('txaCovV').textContent=Math.round(c0*100)+'% a '+Math.round(c1*100)+'%';
+    const av=F*rr*Math.max(c1-c0,0);
+    $('txaOut').textContent=fmt(av,0);
+    $('txaAfter').textContent=`muertes evitadas al año: ${fmt(av/D*100,1)}% de las muertes maternas; ${fmt(av/2043204*1e5,1)} por 100 mil nacidos vivos.`;
+    $('txaF').textContent=`${fmt(F)} × ${Math.round(rr*100)}% × (${Math.round(c1*100)}% − ${Math.round(c0*100)}%) = ${fmt(av,1)}`;
+  }
+  ['txaDeaths','txaFrac','txaRR','txaCov0','txaCov1'].forEach(id=>$(id).addEventListener('input',txa)); txa();
+  $('txaReveal').addEventListener('click',e=>{const b=$('txaBox');const hid=b.dataset.hidden==='true';b.dataset.hidden=hid?'false':'true';e.target.textContent=hid?'Ocultar resultado':'Revelar resultado';});
+
+
+  /* 3. Cédula */
+  const rows=[
+    {n:'Balón de contrapulsación intraaórtico',p:41351,a:'go'},
+    {n:'Dos transductores de presión',p:41351,a:'go'},
+    {n:'Cuatro catéteres (Swan-Ganz, introductor, venoclisis, venoso central)',p:19508,a:'go'},
+    {n:'Levosimendán, 4 frascos',p:8434,a:'go'},
+    {n:'Estudios: ecocardiograma, gasometrías, radiografía, electrocardiograma',p:6181,a:'go'},
+    {n:'Otros insumos y medicamentos',p:22934,a:'go'},
+    {n:'Equipo de hemodinamia, 60 minutos',p:1460,a:'dep'},
+    {n:'Personal de terapia intensiva, 1 día',p:12789,a:'dep'},
+    {n:'Depreciación de equipo',p:1186,a:'stay'},
+    {n:'Administración, servicios generales y otros indirectos',p:6363,a:'stay'}
+  ];
+  const T=161558; let holgura=true; let shown=false; const pick={};
+  const truth=r=>r.a==='dep'?(holgura?'stay':'go'):r.a;
+  function drawCed(){
+    const tb=$('cedBody'); tb.innerHTML='';
+    rows.forEach((r,i)=>{
+      const tr=document.createElement('tr'); const p=pick[i];
+      const t=truth(r); const lbl=t==='go'?'Desaparece':'Se queda';
+      const note=r.a==='dep'?(holgura?' (el personal ya está pagado)':' (atenderlo desplaza a otro paciente)'):'';
+      tr.innerHTML=`<td style="min-width:0">${r.n}</td><td class="r num">${fmt(r.p)}</td><td class="r num">${fmt(r.p/T*100,1)}</td>
+        <td><div class="seg" role="group" aria-label="Clasificación"><button class="go" aria-pressed="${p==='go'}">Desaparece</button><button class="stay" aria-pressed="${p==='stay'}">Se queda</button></div></td>
+        <td>${shown?`<span class="ans ${p?(p===t?'ok':'no'):''}">${lbl}${note}</span>`:''}</td>`;
+      const [bg,bs]=tr.querySelectorAll('.seg button');
+      bg.addEventListener('click',()=>{pick[i]='go';drawCed();});
+      bs.addEventListener('click',()=>{pick[i]='stay';drawCed();});
+      tb.appendChild(tr);
+    });
+    const go=rows.filter(r=>truth(r)==='go').reduce((s,r)=>s+r.p,0), st=T-go;
+    $('stack').innerHTML=`<div style="width:${go/T*100}%;background:var(--ok)" title="Desaparece"></div><div style="width:${st/T*100}%;background:var(--warn)" title="Se queda"></div>`;
+    $('stackText').innerHTML=holgura
+      ? `Con sala y cama ociosas, desaparece <b class="num">${fmt(go/T*100,1)}%</b> del costo si el paciente no llega. La tarifa cobra además el <b class="num">${fmt(st/T*100,1)}%</b> restante, que ya estaba pagado.`
+      : `Sin holgura, atender a este paciente desplaza a otro: el personal también es costo de oportunidad. Desaparece <b class="num">${fmt(go/T*100,1)}%</b>; solo equipo e indirectos se quedan.`;
+    $('hol1').setAttribute('aria-pressed',holgura); $('hol0').setAttribute('aria-pressed',!holgura);
+  }
+  $('hol1').addEventListener('click',()=>{holgura=true;drawCed();});
+  $('hol0').addEventListener('click',()=>{holgura=false;drawCed();});
+  $('cedReveal').addEventListener('click',e=>{shown=!shown;e.target.textContent=shown?'Ocultar respuestas':'Mostrar respuestas';drawCed();});
+  $('cedReset').addEventListener('click',()=>{for(const k in pick) delete pick[k]; drawCed();});
+  drawCed();
+})();
+</script>
+
+</body>
+</html>
