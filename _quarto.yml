@@ -6,6 +6,7 @@ project:
     - food-systems/dashboard/**
     - notes/estrategias_salud_2026/*.html
     - notes/estrategias_salud_2026/*.pdf
+    - notes/estadistica_matematica_2026/*.html
 
 execute:
   freeze: auto

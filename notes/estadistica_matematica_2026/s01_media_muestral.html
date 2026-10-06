@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La media muestral como estimador · Estadística Matemática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna de trabajo con pestañas por parte de la sesión; figuras interactivas a la izquierda, controles y lectura a la derecha.
+   Convención de color del curso: lo FIJO (parámetros poblacionales) en ocre; lo ALEATORIO (variables, estimadores) en azul; lo OBSERVADO (datos realizados) en tinta. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --surface2:#e9edf1; --line:#d3dae2; --grid:#e4e9ee;
+  --ink:#16212c; --muted:#56636f;
+  --accent:#1f4f86; --accent-soft:#dde7f3;
+  --fixed:#a24a12; --fixed-soft:#f6e6da;
+  --random:#1f6fb8; --random-soft:#dbeaf8;
+  --ok:#23704a; --ok-soft:#dcefe4; --bad:#b23a32; --bad-soft:#f6dfdc; --warn:#8a6100; --warn-soft:#f6ecd2;
+  --f-display:"Literata", Georgia, "Times New Roman", serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --surface2:#202b37; --line:#2e3b49; --grid:#24303c;
+  --ink:#e5ebf1; --muted:#9eabb8;
+  --accent:#8fb6e6; --accent-soft:#1f3048;
+  --fixed:#e7a06a; --fixed-soft:#3b2717;
+  --random:#79b4ef; --random-soft:#19304a;
+  --ok:#78c99d; --ok-soft:#173327; --bad:#ee8a80; --bad-soft:#3d201d; --warn:#e2bb5c; --warn-soft:#352b14;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --surface2:#202b37; --line:#2e3b49; --grid:#24303c;
+  --ink:#e5ebf1; --muted:#9eabb8;
+  --accent:#8fb6e6; --accent-soft:#1f3048;
+  --fixed:#e7a06a; --fixed-soft:#3b2717;
+  --random:#79b4ef; --random-soft:#19304a;
+  --ok:#78c99d; --ok-soft:#173327; --bad:#ee8a80; --bad-soft:#3d201d; --warn:#e2bb5c; --warn-soft:#352b14;
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:15.5px}
+html.proj{font-size:19px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.55;margin:0;padding-inline:16px;padding-block:0 56px}
+.wrap{max-width:1140px;margin:0 auto}
+h1,h2{font-family:var(--f-display);font-weight:600;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:clamp(1.7rem,3.6vw,2.35rem);line-height:1.12;margin:.25rem 0 0}
+h2{font-size:1.45rem;line-height:1.2;margin:0 0 .35rem}
+h3{font-size:1.02rem;font-weight:700;margin:0 0 .3rem}
+p{margin:.3rem 0 .6rem;max-width:72ch}
+a{color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* encabezado */
+header.top{padding-block:26px 14px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink)}
+header.top .lead{color:var(--muted);margin:.4rem 0 0;max-width:70ch}
+.hdr-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:11px;height:11px;border-radius:2px;display:inline-block}
+.key .kf{background:var(--fixed)} .key .kr{background:var(--random)} .key .ko{background:var(--ink)}
+
+/* pestañas */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;margin:0 0 22px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:.75rem .85rem .55rem;cursor:pointer;white-space:nowrap;color:var(--muted);font:inherit;font-weight:600;font-size:.92rem}
+.tab .k{font-family:var(--f-mono);font-size:.78rem;margin-right:.35rem;color:var(--accent)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,.btn:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+section.panel{display:grid;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
+.plain{min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.split{grid-template-columns:1fr}}
+.stack{display:grid;gap:14px;align-content:start;min-width:0}
+
+/* controles */
+.btn{font:inherit;font-size:.86rem;font-weight:600;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:.38rem .8rem;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.field{display:grid;gap:3px}
+.field label{font-size:.86rem;font-weight:600;display:block}
+.field label .v{float:right;margin-left:10px;font-family:var(--f-mono);font-weight:500;color:var(--accent);white-space:nowrap}
+.field small{color:var(--muted);font-size:.78rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=number]{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:.3rem .45rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:.82rem;font-weight:600;border:0;background:var(--surface);color:var(--muted);padding:.32rem .7rem;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
+
+/* lecturas y cajas */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{border-top:2px solid var(--line);padding-top:6px}
+.kpi .v{font-family:var(--f-mono);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.76rem;color:var(--muted);line-height:1.3}
+.kpi.fixed{border-top-color:var(--fixed)} .kpi.fixed .v{color:var(--fixed)}
+.kpi.random{border-top-color:var(--random)} .kpi.random .v{color:var(--random)}
+.predict{background:var(--accent-soft);border-radius:6px;padding:12px 14px;display:grid;gap:6px}
+.predict .lab,.ipad .lab,.idea .lab{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.ipad{border:1px dashed var(--fixed);border-radius:6px;padding:10px 14px}
+.ipad .lab{margin-bottom:4px}
+.ipad .lab{color:var(--fixed)}
+.idea{border-left:3px solid var(--warn);padding:4px 12px}
+.idea .lab{color:var(--warn)}
+.reveal[data-shown="false"] .ans{filter:blur(7px);user-select:none;pointer-events:none}
+.chip{display:inline-block;font-size:.74rem;font-weight:700;padding:.1rem .5rem;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.warn{background:var(--warn-soft);color:var(--warn)}
+details.layer{border-top:1px solid var(--line);padding-top:8px}
+details.layer summary{cursor:pointer;font-weight:700;font-size:.9rem;color:var(--accent)}
+details.layer[open] summary{margin-bottom:6px}
+.math-block{overflow-x:auto;padding:2px 0}
+ul.tight,ol.tight{margin:.2rem 0 .5rem;padding-left:1.2rem}
+ul.tight li,ol.tight li{margin:.18rem 0}
+
+/* mapa de la sesión */
+.tl-bar{display:flex;height:66px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.tl-seg{position:relative;border-right:1px solid var(--line);background:var(--surface);cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.tl-seg:last-child{border-right:0}
+.tl-seg:hover{background:var(--surface2)}
+.tl-seg.brk{background:var(--surface2)}
+.tl-seg .t{font-size:.76rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-seg .m{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.tl-act{position:absolute;bottom:0;height:8px;background:var(--accent);opacity:.85}
+.tl-ipad{position:absolute;top:0;height:5px;background:var(--fixed)}
+.tl-axis{position:relative;height:20px;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:8px;margin-right:6px;vertical-align:middle}
+.block{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 22px;padding:16px 0;border-top:1px solid var(--line)}
+.block:first-child{border-top:0}
+.block .when{font-family:var(--f-mono);font-size:.82rem;color:var(--muted)}
+.block .when b{display:block;font-size:1.25rem;color:var(--ink);font-family:var(--f-display);font-weight:600}
+@media (max-width:640px){.block{grid-template-columns:1fr}.tl-seg .t{font-size:.62rem}.tl-seg{padding:4px}}
+
+/* figuras */
+.fig{width:100%;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-body);fill:var(--muted);font-size:12px}
+svg .ax{stroke:var(--line)} svg .gr{stroke:var(--grid)}
+.caption{font-size:.8rem;color:var(--muted);margin-top:4px}
+
+/* tablas */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:.42rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+td.r,th.r{text-align:right}
+.mat{display:inline-grid;gap:2px 14px;padding:4px 10px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);border-radius:4px;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.95rem}
+.mat span{text-align:right}
+
+/* código */
+.code{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.code .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--surface2);flex-wrap:wrap}
+.code pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:var(--f-mono);font-size:.82rem;line-height:1.55;color:var(--ink)}
+.code .c{color:var(--muted);font-style:italic}
+.code .s{color:var(--fixed)}
+.code .note{font-size:.8rem;color:var(--muted);padding:8px 14px;border-top:1px solid var(--line)}
+
+/* casos */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.case{display:grid;gap:6px;align-content:start}
+.refs li{margin:.25rem 0}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.steps{font-family:var(--f-mono);font-size:.84rem;line-height:1.7;background:var(--surface2);border-radius:6px;padding:10px 12px;overflow-x:auto}
+.steps b{color:var(--ink)}
+.steps .r{color:var(--random)}
+.steps .f{color:var(--fixed)}
+.quiz-fb{font-size:.85rem;margin-top:4px}
+.split>*,.grid2>*{min-width:0}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="index.html" style="display:inline-block;margin:0 0 10px;font-size:.85rem;color:var(--muted);text-decoration:none">&larr; Estadística Matemática (2026)</a>
+<header class="top">
+  <div>
+    <div class="eyebrow">Estadística Matemática · Estimación</div>
+    <h1>La media muestral como estimador</h1>
+    <p class="lead">Un <b>estimador</b> es una regla que, aplicada a una muestra, produce un número que aproxima un parámetro de la población. La media muestral \(\bar X_n=\tfrac1n\sum_{i=1}^n X_i\) estima la media poblacional \(\mu\). Antes de levantar la muestra, \(\bar X_n\) es una variable aleatoria con su propia distribución; por eso tiene sentido preguntar si está centrada en \(\mu\) (sesgo), cuánto varía de una muestra a otra (varianza) y si se acerca a \(\mu\) cuando la muestra crece (convergencia). Las mismas preguntas se hacen después a cualquier estimador, incluidos los coeficientes de una regresión.</p>
+  </div>
+  <div class="hdr-tools">
+    <div class="key" aria-label="Convención de colores"><span><i class="kf"></i>Fijo (parámetro)</span><span><i class="kr"></i>Aleatorio (estimador)</span><span><i class="ko"></i>Observado (dato)</span></div>
+    <button class="btn" id="projBtn" type="button">Modo proyección</button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Partes">
+  <button class="tab" role="tab" data-tab="mapa"><span class="k">0</span>Mapa</button>
+  <button class="tab" role="tab" data-tab="sumas"><span class="k">1</span>Sumatorias y esperanza</button>
+  <button class="tab" role="tab" data-tab="vocab"><span class="k">2</span>Vocabulario</button>
+  <button class="tab" role="tab" data-tab="regla"><span class="k">3</span>Estimador y estimado</button>
+  <button class="tab" role="tab" data-tab="teorema"><span class="k">4</span>Distribución muestral</button>
+  <button class="tab" role="tab" data-tab="calidad"><span class="k">5</span>Error cuadrático medio</button>
+  <button class="tab" role="tab" data-tab="correl"><span class="k">6</span>Observaciones correlacionadas</button>
+  <button class="tab" role="tab" data-tab="s2"><span class="k">7</span>Sesgo de \(S_n^2\)</button>
+  <button class="tab" role="tab" data-tab="codigo"><span class="k">8</span>Código</button>
+  <button class="tab" role="tab" data-tab="estudio"><span class="k">9</span>Lecturas</button>
+</nav>
+
+<!-- MAPA -->
+<section class="panel" id="p-mapa">
+  <div class="grid2">
+    <div class="card">
+      <h2>Qué vas a aprender</h2>
+      <ul class="tight">
+        <li>Distinguir población, parámetro, muestra, estadístico, estimador y estimado.</li>
+        <li>Demostrar que \(\E[\bar X_n]=\mu\) y que \(\Var(\bar X_n)=\sigma^2/n\), y saber qué supuesto usa cada resultado.</li>
+        <li>Describir intuitivamente qué significa que \(\bar X_n\) converja a \(\mu\).</li>
+        <li>Comparar estimadores con el error cuadrático medio y entender por qué un estimador sesgado puede ser mejor.</li>
+        <li>Calcular la pérdida de precisión cuando las observaciones están correlacionadas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Para qué sirve</h2>
+      <p>Un número calculado con una muestra sólo es útil si sabemos qué tan lejos puede estar del valor que buscamos. La media muestral es el estimador más simple y el que tiene las propiedades más fáciles de demostrar; las herramientas que se usan para estudiarla (linealidad de la esperanza, varianza de una suma, error cuadrático medio) son las mismas que se usan para estudiar la regresión.</p>
+      <h3 style="margin-top:12px">Lo que necesitas antes</h3>
+      <ul class="tight">
+        <li>Media, varianza y error estándar (repaso de estadística).</li>
+        <li>Notación de sumatoria y propiedades de la esperanza: la pestaña 1 las repasa.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Cómo está organizado</h2>
+    <table>
+      <thead><tr><th>Pestaña</th><th>Pregunta que responde</th></tr></thead>
+      <tbody>
+        <tr><td>1. Sumatorias y esperanza</td><td>¿Qué reglas de cálculo se usan para obtener la media y la varianza de un promedio?</td></tr>
+        <tr><td>2. Vocabulario</td><td>¿Qué es fijo, qué es aleatorio y qué es observado?</td></tr>
+        <tr><td>3. Estimador y estimado</td><td>¿Por qué la misma regla da números distintos en encuestas distintas?</td></tr>
+        <tr><td>4. Distribución muestral</td><td>¿Dónde está centrada \(\bar X_n\), cuánto varía y qué pasa cuando \(n\) crece?</td></tr>
+        <tr><td>5. Error cuadrático medio</td><td>¿Cómo se comparan dos estimadores, y cuándo conviene aceptar sesgo?</td></tr>
+        <tr><td>6. Observaciones correlacionadas</td><td>¿Cuánta precisión se pierde si las observaciones no son independientes?</td></tr>
+        <tr><td>7. Sesgo de \(S_n^2\)</td><td>¿Por qué la varianza muestral divide entre \(n-1\)?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SUMAS -->
+<section class="panel" id="p-sumas" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Repaso de matemáticas</div>
+      <h2>Sumatorias, linealidad de la esperanza y varianza de una suma</h2>
+      <h3>Sumatorias</h3>
+      <p>\(\sum_{i=1}^n x_i=x_1+x_2+\dots+x_n\). Tres reglas bastan para casi todo el curso:</p>
+      <p class="math-block">\[\sum_{i=1}^n c\,x_i=c\sum_{i=1}^n x_i,\qquad \sum_{i=1}^n (x_i+y_i)=\sum_{i=1}^n x_i+\sum_{i=1}^n y_i,\qquad \sum_{i=1}^n c=n\,c.\]</p>
+      <p>Con ellas se ve, por ejemplo, que las desviaciones respecto al promedio suman cero: \(\sum_i(x_i-\bar x)=\sum_i x_i-n\bar x=0\).</p>
+      <h3>Linealidad de la esperanza</h3>
+      <p class="math-block">\[\E[aX+b]=a\E[X]+b,\qquad \E[X+Y]=\E[X]+\E[Y].\]</p>
+      <p>La segunda vale siempre, aunque \(X\) y \(Y\) estén relacionadas. Combinada con las reglas de la sumatoria: \(\E\big[\sum_i X_i\big]=\sum_i\E[X_i]\).</p>
+      <h3>Varianza de una suma</h3>
+      <p>La varianza no es lineal. Para dos variables, \(\Var(X+Y)=\Var(X)+\Var(Y)+2\Cov(X,Y)\), y \(\Var(aX)=a^2\Var(X)\). Para \(n\) variables:</p>
+      <p class="math-block">\[\Var\Big(\sum_{i=1}^n X_i\Big)=\sum_{i=1}^n\sum_{j=1}^n\Cov(X_i,X_j)=\sum_{i=1}^n\Var(X_i)+\sum_{i\neq j}\Cov(X_i,X_j).\]</p>
+      <p>La figura acomoda los \(n^2\) términos en una tabla: la diagonal tiene las \(n\) varianzas y fuera de la diagonal están las \(n(n-1)\) covarianzas. La varianza de la suma es la suma de todas las celdas.</p>
+      <div class="fig" style="max-width:420px"><svg id="gridSvg" role="img" aria-label="Tabla de varianzas y covarianzas de n observaciones"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="gn">Número de observaciones \(n\) <span class="v" id="gnV"></span></label><input type="range" id="gn" min="2" max="10" step="1" value="5"></div>
+      <div class="field"><label for="gr">Correlación entre observaciones \(\rho\) <span class="v" id="grV"></span></label><input type="range" id="gr" min="0" max="0.5" step="0.05" value="0"><small>Con \(\sigma^2=1\), cada covarianza vale \(\rho\).</small></div>
+      <div class="steps" id="gridSteps"></div>
+      <p class="small">Con observaciones no correlacionadas (\(\rho=0\)) sólo queda la diagonal: \(\Var(\sum_iX_i)=n\sigma^2\) y \(\Var(\bar X_n)=n\sigma^2/n^2=\sigma^2/n\). Con \(\rho&gt;0\) las \(n(n-1)\) celdas de covarianza se acumulan rápido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VOCAB -->
+<section class="panel" id="p-vocab" hidden>
+  <div class="grid2">
+    <div class="card stack">
+      <div class="eyebrow">Parte 2</div>
+      <h2>Probabilidad y estadística</h2>
+      <div class="fig"><svg id="arrowSvg" viewBox="0 0 560 170" role="img" aria-label="Probabilidad va del modelo a los datos; estadística de los datos al modelo"></svg></div>
+      <p>En probabilidad la distribución \(F\) es conocida y preguntamos qué datos puede producir. En estadística observamos datos \(x_1,\dots,x_n\) y queremos decir algo sobre la \(F\) que los generó: su media, su varianza, un coeficiente de regresión.</p>
+      <table>
+        <thead><tr><th>Término</th><th>Qué es</th></tr></thead>
+        <tbody>
+          <tr><td>Población</td><td>Todas las unidades sobre las que queremos aprender: los asalariados de México este mes.</td></tr>
+          <tr><td>Parámetro</td><td>Un número fijo, casi siempre desconocido, que resume la población: \(\mu=\E[X]\).</td></tr>
+          <tr><td>Proceso generador (DGP)</td><td>La distribución \(F\) de la que salen las observaciones: \(X_i\sim F\).</td></tr>
+          <tr><td>Muestra iid</td><td>\(X_1,\dots,X_n\) independientes y con la misma \(F\). Es el supuesto más común y el punto de partida.</td></tr>
+          <tr><td>Estadístico</td><td>Cualquier función de la muestra que no requiere conocer \(F\): \(\bar X_n\), \(\max_i X_i\).</td></tr>
+          <tr><td>Estimador / estimado</td><td>La regla \(\bar X_n\), aleatoria; el número \(\bar x_n=13{,}698\), fijo una vez observado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card stack">
+      <h2>Clasifica cada pieza de la oración</h2>
+      <p class="sentence" style="font-family:var(--f-display);font-size:1.12rem;line-height:1.5">“Los salarios de una población tienen media \(\mu\) y varianza \(\sigma^2\). Encuestamos al azar a \(n=100\) trabajadores y calculamos su salario promedio. Nos dio 13,698 pesos.”</p>
+      <p class="small muted">Elige una opción en cada renglón; debajo aparece por qué es correcta o no.</p>
+      <div id="clsList" class="stack"></div>
+      <div class="row"><button class="btn" type="button" id="clsReset">Borrar</button><span class="small muted" id="clsScore"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- REGLA -->
+<section class="panel" id="p-regla" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 3</div>
+      <h2>Estimador y estimado</h2>
+      <p>Hacer clic equivale a levantar una encuesta nueva: se sortean 10 personas de la misma población y se calcula su promedio. La regla \(\bar X_n=\tfrac1n\sum_iX_i\) es siempre la misma (el <b>estimador</b>); el número que produce en cada encuesta, \(\bar x_n\), cambia (el <b>estimado</b>).</p>
+      <div class="fig"><svg id="popSvg" role="img" aria-label="Población y muestra"></svg></div>
+      <div class="row"><button class="btn primary" type="button" id="survey">Levantar otra encuesta</button><button class="btn" type="button" id="survey20">Levantar 20 encuestas</button><button class="btn" type="button" id="surveyClear">Borrar</button></div>
+      <p class="caption">Población simulada de salarios mensuales: log-normal con media \(\mu=13{,}698\) pesos y desviación estándar \(\sigma=7{,}300\) pesos.</p>
+    </div>
+    <div class="card stack">
+      <div class="kpis">
+        <div class="kpi fixed"><div class="v" id="rMu"></div><div class="l">\(\mu\): no cambia entre encuestas</div></div>
+        <div class="kpi"><div class="v" id="rXb"></div><div class="l">\(\bar x_n\) de la última encuesta</div></div>
+        <div class="kpi"><div class="v" id="rK"></div><div class="l">Encuestas levantadas</div></div>
+        <div class="kpi random"><div class="v" id="rAvg"></div><div class="l">Promedio de las \(\bar x_n\) de todas las encuestas</div></div>
+      </div>
+      <div class="fig"><svg id="histXb" role="img" aria-label="Medias de las encuestas levantadas"></svg></div>
+      <div class="fig"><svg id="runXb" role="img" aria-label="Promedio acumulado de las medias"></svg></div>
+      <p class="small">Arriba: cada punto es el \(\bar x_n\) de una encuesta. Abajo: el promedio de todas las \(\bar x_n\) acumuladas hasta ese momento. Se acerca a \(\mu\) porque la distribución de \(\bar X_n\) está centrada en \(\mu\): el estimador es <b>insesgado</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEOREMA -->
+<section class="panel" id="p-teorema" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 4</div>
+      <h2>Distribución muestral de \(\bar X_n\) y convergencia</h2>
+      <p>La <b>distribución muestral</b> de \(\bar X_n\) es la distribución de los valores que tomaría si repitiéramos la encuesta muchas veces. Arriba, 2,000 encuestas simuladas de tamaño \(n\). La franja ocre marca los valores a menos de \(\varepsilon\) pesos de \(\mu\).</p>
+      <div class="fig"><svg id="sdSvg" role="img" aria-label="Histograma de medias simuladas"></svg></div>
+      <p>Abajo, seis personas que encuestan con paciencia: cada una agrega una observación a la vez y recalcula su promedio. Las líneas punteadas marcan \(\mu\pm1.96\,\sigma/\sqrt n\).</p>
+      <div class="fig"><svg id="pathSvg" role="img" aria-label="Promedios acumulados de seis muestras"></svg></div>
+      <p class="caption">Población log-normal (asimétrica) con \(\mu=13{,}698\) y \(\sigma=7{,}300\) pesos. El eje horizontal de la figura de abajo está en escala logarítmica.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="sdn">Tamaño de muestra \(n\) <span class="v" id="sdnV"></span></label><input type="range" id="sdn" min="0" max="8" step="1" value="2"><small>Valores: 2, 5, 10, 25, 50, 100, 250, 500, 1000.</small></div>
+      <div class="field"><label for="sde">Distancia tolerada \(\varepsilon\) (pesos) <span class="v" id="sdeV"></span></label><input type="range" id="sde" min="250" max="5000" step="250" value="1000"></div>
+      <div class="kpis">
+        <div class="kpi random"><div class="v" id="sdIn"></div><div class="l">Encuestas con \(|\bar x_n-\mu|&lt;\varepsilon\)</div></div>
+        <div class="kpi random"><div class="v" id="sdSd"></div><div class="l">Desv. estándar de las \(\bar x_n\) simuladas</div></div>
+        <div class="kpi fixed"><div class="v" id="sdSe"></div><div class="l">\(\sigma/\sqrt n\) teórico</div></div>
+        <div class="kpi"><div class="v" id="sdSk"></div><div class="l">Asimetría de las \(\bar x_n\) (población: 1.75)</div></div>
+      </div>
+      <div class="idea"><div class="lab">Convergencia, en palabras</div>Fija cualquier distancia \(\varepsilon\), por pequeña que sea. Al crecer \(n\), la proporción de encuestas con \(\bar X_n\) a menos de \(\varepsilon\) de \(\mu\) se acerca a 1. Eso es lo que significa que \(\bar X_n\) <b>converge en probabilidad</b> a \(\mu\) (ley de los grandes números). Además, la forma de la distribución se vuelve cada vez más parecida a una normal, aunque la población sea asimétrica: es la idea del teorema del límite central.</div>
+      <h3>Los dos resultados exactos</h3>
+      <p><b>Supuesto.</b> \(X_1,\dots,X_n\) iid con \(\E[X_i]=\mu\) y \(\Var(X_i)=\sigma^2&lt;\infty\).</p>
+      <p class="math-block">\[\text{(i)}\ \E[\bar X_n]=\mu,\qquad \text{(ii)}\ \Var(\bar X_n)=\frac{\sigma^2}{n}.\]</p>
+      <details class="layer"><summary>Derivación</summary>
+        <p class="math-block">\[\E[\bar X_n]=\E\Big[\frac1n\sum_{i=1}^n X_i\Big]=\frac1n\sum_{i=1}^n\E[X_i]=\frac1n\,n\mu=\mu.\]</p>
+        <p>Sólo usa la linealidad de la esperanza. Vale aunque las observaciones estén correlacionadas.</p>
+        <p class="math-block">\[\Var\Big(\sum_i X_i\Big)=\sum_i\Var(X_i)+\sum_{i\neq j}\Cov(X_i,X_j)=n\sigma^2+0.\]</p>
+        <p>Aquí, y sólo aquí, se usa que las covarianzas entre observaciones son cero. Basta con que no estén correlacionadas.</p>
+        <p class="math-block">\[\Var(\bar X_n)=\frac{1}{n^2}\Var\Big(\sum_i X_i\Big)=\frac{n\sigma^2}{n^2}=\frac{\sigma^2}{n}.\]</p>
+      </details>
+      <p class="small">El resultado (ii) explica la convergencia: si la varianza de \(\bar X_n\) tiende a cero y su centro está en \(\mu\), la distribución se concentra alrededor de \(\mu\).</p>
+    </div>
+  </div>
+</section>
+
+<!-- CALIDAD -->
+<section class="panel" id="p-calidad" hidden>
+  <div class="card">
+    <div class="eyebrow">Parte 5</div>
+    <h2>Error cuadrático medio: sesgo, varianza y regularización</h2>
+    <p>Hasta aquí tenemos dos medidas de dispersión. Para comparar estimadores hace falta una tercera, que mide la distancia al valor verdadero.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Medida</th><th>Mide la distancia entre</th><th>Fórmula</th></tr></thead>
+      <tbody>
+        <tr><td>Desviación estándar de los datos</td><td>cada dato \(X_i\) y la media poblacional \(\mu\)</td><td>\(\sigma=\sqrt{\E[(X_i-\mu)^2]}\)</td></tr>
+        <tr><td>Error estándar de un estimador</td><td>el estimador \(\hat\theta\) y su propio centro \(\E[\hat\theta]\)</td><td>\(\se(\hat\theta)=\sqrt{\E[(\hat\theta-\E[\hat\theta])^2]}\)</td></tr>
+        <tr><td>Error cuadrático medio (ECM)</td><td>el estimador \(\hat\theta\) y el valor verdadero \(\theta\)</td><td>\(\MSE(\hat\theta)=\E[(\hat\theta-\theta)^2]\)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si el estimador está centrado en el valor verdadero (\(\E[\hat\theta]=\theta\), sin sesgo), las dos últimas coinciden: \(\MSE=\se^2\). Si no, el ECM suma las dos formas de equivocarse:</p>
+    <p class="math-block">\[\MSE(\hat\theta)=\underbrace{\big(\E[\hat\theta]-\theta\big)^2}_{\text{sesgo}^2}+\underbrace{\Var(\hat\theta)}_{\se^2}.\]</p>
+  </div>
+  <div class="split">
+    <div class="card stack">
+      <div class="fig"><svg id="qSvg" role="img" aria-label="Distribuciones muestrales de tres estimadores"></svg></div>
+      <div class="tblwrap"><table id="qTbl"><thead><tr><th>Estimador</th><th class="r">Sesgo</th><th class="r">Error estándar</th><th class="r">\(\sqrt{\text{ECM}}\)</th></tr></thead><tbody></tbody></table></div>
+      <p class="caption">Cada nube son 300 encuestas simuladas de un estimador; la barra negra va de \(\E[\hat\theta]-\se\) a \(\E[\hat\theta]+\se\). La tabla usa las fórmulas exactas. Cifras en pesos.</p>
+      <h3>Regularización</h3>
+      <p>El estimador \(c\,\bar X_n\) con \(c&lt;1\) acerca la media muestral hacia cero. Introduce sesgo, \((c-1)\mu\), pero reduce la varianza a \(c^2\sigma^2/n\). Cuando la muestra es chica la reducción de varianza puede pesar más que el sesgo, y el ECM baja. Acercar un estimador hacia un valor fijo para reducir su varianza se llama <b>regularización</b>; es la idea detrás de métodos de regresión como ridge y lasso.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="qn">Tamaño de muestra \(n\) <span class="v" id="qnV"></span></label><input type="range" id="qn" min="2" max="50" step="1" value="10"></div>
+      <div class="field"><label for="qw">Peso de la primera persona encuestada, \(w_1\) <span class="v" id="qwV"></span></label><input type="range" id="qw" min="0" max="1" step="0.01" value="0.5"><small>El promedio ponderado \(\tilde\mu=\sum_iw_iX_i\) le da a una persona el peso \(w_1\) y reparte el resto por igual entre las demás. Con \(w_1=1/n\) todas pesan lo mismo y \(\tilde\mu=\bar X_n\); con \(w_1=1\) sólo se usa a esa persona. Sigue siendo insesgado, pero su varianza crece.</small></div>
+      <div class="field"><label for="qc">Factor de encogimiento \(c\) en \(c\,\bar X_n\) <span class="v" id="qcV"></span></label><input type="range" id="qc" min="0.5" max="1.1" step="0.005" value="0.9"></div>
+      <div class="fig"><svg id="ecmSvg" role="img" aria-label="ECM de c por la media según c"></svg></div>
+      <p class="small" id="cStar"></p>
+      <div class="predict reveal" data-shown="false">
+        <div class="lab">Antes de seguir</div>
+        <div>\(c\,\bar X_n\) con el \(c\) óptimo tiene menor ECM que \(\bar X_n\). ¿Por qué no podemos usarlo tal cual?</div>
+        <div class="ans">El \(c\) óptimo es \(c^*=\mu^2/(\mu^2+\sigma^2/n)\): depende de \(\mu\) y \(\sigma\), que no conocemos. En la práctica el grado de regularización se elige con los mismos datos, por ejemplo con validación cruzada.</div>
+        <div><button class="btn" type="button" data-reveal>Revelar</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORREL -->
+<section class="panel" id="p-correl" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 6</div>
+      <h2>Varianza de la media con observaciones correlacionadas</h2>
+      <p>Si \(\Corr(X_i,X_j)=\rho\) para todo \(i\neq j\), por ejemplo alumnos de la misma escuela o hogares del mismo municipio,</p>
+      <p class="math-block">\[\Var(\bar X_n)=\frac{\sigma^2}{n}\big[1+(n-1)\rho\big],\qquad n_{\text{efectiva}}=\frac{n}{1+(n-1)\rho}.\]</p>
+      <div class="fig"><svg id="rhoSvg" role="img" aria-label="Varianza de la media según n"></svg></div>
+      <p class="caption">Eje vertical: \(\Var(\bar X_n)/\sigma^2\), en escala logarítmica. Gris: \(\rho=0\). Azul: el \(\rho\) elegido.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="rr">Correlación entre observaciones \(\rho\) <span class="v" id="rrV"></span></label><input type="range" id="rr" min="0" max="0.5" step="0.01" value="0.1"></div>
+      <div class="field"><label for="rn">Tamaño de muestra \(n\) <span class="v" id="rnV"></span></label><input type="range" id="rn" min="2" max="1000" step="1" value="100"></div>
+      <div class="kpis">
+        <div class="kpi random"><div class="v" id="rVar"></div><div class="l">\(\Var(\bar X_n)/\sigma^2\)</div></div>
+        <div class="kpi"><div class="v" id="rNe"></div><div class="l">\(n\) efectiva</div></div>
+        <div class="kpi"><div class="v" id="rInf"></div><div class="l">Error estándar real / el que reportaría la fórmula iid</div></div>
+      </div>
+      <div class="predict reveal" data-shown="false">
+        <div class="lab">Antes de seguir</div>
+        <div>Con \(\rho=0.1\), ¿cuántas observaciones independientes valen tus 100 observaciones? ¿Qué pasa cuando \(n\to\infty\)?</div>
+        <div class="ans">\(100/(1+99\times 0.1)\approx 9.2\). Cuando \(n\) crece, \(\Var(\bar X_n)\to\rho\sigma^2\), no a cero: la parte común a todas las observaciones no se promedia. Es la razón de los errores estándar agrupados por conglomerado.</div>
+        <div><button class="btn" type="button" data-reveal>Revelar</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 -->
+<section class="panel" id="p-s2" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 7</div>
+      <h2>Sesgo del estimador de la varianza</h2>
+      <p class="math-block">\[S_n^2=\frac1n\sum_i(X_i-\bar X_n)^2,\qquad \E[S_n^2]=\frac{n-1}{n}\sigma^2,\qquad s^2=\frac{1}{n-1}\sum_i(X_i-\bar X_n)^2,\quad \E[s^2]=\sigma^2.\]</p>
+      <div class="fig"><svg id="s2Svg" role="img" aria-label="Promedio de S_n^2 y s^2 según n"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="s2n">Tamaño de muestra \(n\) <span class="v" id="s2nV"></span></label><input type="range" id="s2n" min="2" max="30" step="1" value="3"></div>
+      <div class="row"><button class="btn primary" type="button" id="s2Run">Simular 20,000 muestras</button></div>
+      <div class="kpis">
+        <div class="kpi fixed"><div class="v" id="s2Sig"></div><div class="l">\(\sigma^2\) de la población (normal estándar)</div></div>
+        <div class="kpi random"><div class="v" id="s2Sn"></div><div class="l">Promedio de \(S_n^2\)</div></div>
+        <div class="kpi random"><div class="v" id="s2s"></div><div class="l">Promedio de \(s^2\)</div></div>
+      </div>
+      <details class="layer"><summary>Por qué: los desvíos se miden respecto a un centro elegido con los mismos datos</summary>
+        <p>\(\bar X_n\) es el número que minimiza \(\sum_i(X_i-a)^2\). Por eso \(\sum_i(X_i-\bar X_n)^2\le\sum_i(X_i-\mu)^2\): medir desde \(\bar X_n\) acerca el centro a los datos y achica la suma. Además los \(n\) desvíos suman cero, así que sólo \(n-1\) son libres.</p>
+        <p class="math-block">\[\sum_i(X_i-\bar X_n)^2=\sum_i(X_i-\mu)^2-n(\bar X_n-\mu)^2\ \Rightarrow\ \E\Big[\sum_i(X_i-\bar X_n)^2\Big]=n\sigma^2-\sigma^2.\]</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CODIGO -->
+<section class="panel" id="p-codigo" hidden>
+  <div class="card">
+    <h2>Distribución muestral de \(\bar X_n\) en código</h2>
+    <p>Simula muchas encuestas, guarda la media de cada una y compara su desviación estándar con \(\sigma/\sqrt n\). Es el mismo ejercicio de la pestaña 4.</p>
+    <div id="codeHolder"></div>
+  </div>
+</section>
+
+<!-- ESTUDIO -->
+<section class="panel" id="p-estudio" hidden>
+  <div class="grid2">
+    <div class="card">
+      <h2>Otros casos con la misma idea</h2>
+      <ul class="tight">
+        <li><b>Evaluaciones educativas.</b> Alumnos de una misma escuela comparten maestro y entorno; un promedio nacional con 10 escuelas grandes es menos preciso de lo que sugiere el número de alumnos.</li>
+        <li><b>Encuestas de hogares.</b> La ENIGH y la ENOE muestrean por conglomerados (manzanas, localidades); por eso sus errores estándar oficiales no son \(s/\sqrt n\).</li>
+        <li><b>Mediciones repetidas.</b> Promediar varias mediciones de presión arterial de la misma persona reduce el error de medición, pero no el que viene de quién es esa persona.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Lecturas y recursos</h2>
+      <ul class="tight refs" id="refList"></ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+/* Núcleo compartido de los artefactos de Estadística Matemática (EO4042). */
+"use strict";
+const $ = id => document.getElementById(id);
+const NF = (d=0) => new Intl.NumberFormat('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmt = (v,d=0) => (v<0?'−':'') + NF(d).format(Math.abs(v));
+const NS = 'http://www.w3.org/2000/svg';
+
+/* ---------- aleatoriedad reproducible ---------- */
+function rng(seed){ let a = seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+let R = rng(2026);
+function reseed(s){ R = rng(s); }
+function runif(a=0,b=1){ return a+(b-a)*R(); }
+let _spare=null;
+function rnorm(m=0,s=1){ if(_spare!==null){const z=_spare;_spare=null;return m+s*z;} let u=0,v=0; while(u===0)u=R(); v=R(); const r=Math.sqrt(-2*Math.log(u)); _spare=r*Math.sin(2*Math.PI*v); return m+s*r*Math.cos(2*Math.PI*v); }
+function rlnorm(ml,sl){ return Math.exp(rnorm(ml,sl)); }
+
+/* ---------- estadística ---------- */
+const sum = a => a.reduce((s,x)=>s+x,0);
+const mean = a => sum(a)/a.length;
+function variance(a,dof=1){ const m=mean(a); return a.reduce((s,x)=>s+(x-m)*(x-m),0)/(a.length-dof); }
+const sd = (a,dof=1) => Math.sqrt(variance(a,dof));
+function cov(a,b){ const ma=mean(a),mb=mean(b); let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-ma)*(b[i]-mb); return s/(a.length-1); }
+const dnorm = (x,m=0,s=1) => Math.exp(-0.5*((x-m)/s)**2)/(s*Math.sqrt(2*Math.PI));
+function pnorm(x){ // Abramowitz-Stegun 7.1.26 vía erf
+  const z=Math.abs(x)/Math.SQRT2, t=1/(1+0.3275911*z);
+  const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-z*z);
+  return 0.5*(1+(x>=0?y:-y)); }
+function qnorm(p){ // Acklam
+  const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.3577518672690,-30.66479806614716,2.506628277459239],
+  b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+  c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+  d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416];
+  const pl=0.02425; let q,r;
+  if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  if(p>1-pl){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
+// t: densidad y cuantil (Cornish-Fisher, suficiente para df>=3)
+function lgamma(x){ const g=7,c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  if(x<0.5) return Math.log(Math.PI/Math.sin(Math.PI*x))-lgamma(1-x); x-=1; let a=c[0]; const t=x+g+0.5; for(let i=1;i<g+2;i++) a+=c[i]/(x+i); return 0.5*Math.log(2*Math.PI)+(x+0.5)*Math.log(t)-t+Math.log(a); }
+const dt = (x,df) => Math.exp(lgamma((df+1)/2)-lgamma(df/2))/Math.sqrt(df*Math.PI)*Math.pow(1+x*x/df,-(df+1)/2);
+function qt(p,df){ const z=qnorm(p), z2=z*z;
+  return z + z*(z2+1)/(4*df) + z*(5*z2*z2+16*z2+3)/(96*df*df) + z*(3*z2**3+19*z2*z2+17*z2-15)/(384*df**3); }
+function pt(x,df){ // integración numérica simple (Simpson) de la densidad t
+  if(df>200) return pnorm(x); const n=400, a=0, b=Math.abs(x), h=(b-a)/n; let s=dt(a,df)+dt(b,df);
+  for(let i=1;i<n;i++) s+=(i%2?4:2)*dt(a+i*h,df); const half=s*h/3; return x>=0?0.5+half:0.5-half; }
+
+/* ---------- SVG ---------- */
+function el(tag,attrs,parent,text){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; if(parent) parent.appendChild(e); return e; }
+function clear(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+function niceTicks(lo,hi,n=5){ const span=hi-lo; if(span<=0) return [lo]; const step0=span/n, mag=Math.pow(10,Math.floor(Math.log10(step0))), r=step0/mag;
+  const step=(r<1.5?1:r<3?2:r<7?5:10)*mag; const t=[]; for(let v=Math.ceil(lo/step-1e-9)*step; v<=hi+1e-9; v+=step) t.push(+v.toFixed(10)); return t; }
+/* Plot: escala lineal x,y dentro de un viewBox fijo */
+function Plot(svg,o){
+  clear(svg); const W=o.w||640, H=o.h||300, m=Object.assign({l:52,r:16,t:14,b:42},o.m||{});
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const P={svg,W,H,m,x0:o.x[0],x1:o.x[1],y0:o.y[0],y1:o.y[1]};
+  P.sx=v=>m.l+(v-P.x0)/(P.x1-P.x0)*(W-m.l-m.r);
+  P.sy=v=>H-m.b-(v-P.y0)/(P.y1-P.y0)*(H-m.t-m.b);
+  P.g=el('g',{},svg);
+  P.axes=(xt,yt,xl,yl,xf=v=>fmt(v,0),yf=v=>fmt(v,0))=>{
+    (yt||[]).forEach(v=>{ el('line',{x1:m.l,x2:W-m.r,y1:P.sy(v),y2:P.sy(v),class:'gr'},P.g); el('text',{x:m.l-6,y:P.sy(v)+4,'text-anchor':'end'},P.g,yf(v)); });
+    (xt||[]).forEach(v=>{ el('line',{x1:P.sx(v),x2:P.sx(v),y1:H-m.b,y2:H-m.b+4,class:'ax'},P.g); el('text',{x:P.sx(v),y:H-m.b+17,'text-anchor':'middle'},P.g,xf(v)); });
+    el('line',{x1:m.l,x2:W-m.r,y1:H-m.b,y2:H-m.b,class:'ax'},P.g);
+    if(xl) el('text',{x:(m.l+W-m.r)/2,y:H-6,'text-anchor':'middle'},P.g,xl);
+    if(yl) el('text',{x:14,y:(m.t+H-m.b)/2,'text-anchor':'middle',transform:`rotate(-90 14 ${(m.t+H-m.b)/2})`},P.g,yl);
+  };
+  P.line=(pts,style,w=2,dash)=>{ const d=pts.filter(p=>isFinite(p[1])).map((p,i)=>(i?'L':'M')+P.sx(p[0]).toFixed(1)+','+P.sy(p[1]).toFixed(1)).join(''); return el('path',{d,style:`fill:none;stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g); };
+  P.area=(pts,style,op=.25)=>{ if(!pts.length) return; const d='M'+P.sx(pts[0][0])+','+P.sy(P.y0)+pts.map(p=>'L'+P.sx(p[0]).toFixed(1)+','+P.sy(p[1]).toFixed(1)).join('')+'L'+P.sx(pts[pts.length-1][0])+','+P.sy(P.y0)+'Z'; return el('path',{d,style:`fill:${style};fill-opacity:${op};stroke:none`},P.g); };
+  P.vline=(x,style,w=2,dash,label)=>{ el('line',{x1:P.sx(x),x2:P.sx(x),y1:m.t,y2:H-m.b,style:`stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g); if(label) el('text',{x:P.sx(x)+4,y:m.t+11,style:`fill:${style};font-weight:600`},P.g,label); };
+  P.hline=(y,style,w=1.5,dash)=>el('line',{x1:m.l,x2:W-m.r,y1:P.sy(y),y2:P.sy(y),style:`stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g);
+  P.dot=(x,y,r,style,op=1)=>el('circle',{cx:P.sx(x),cy:P.sy(y),r,style:`fill:${style};fill-opacity:${op}`},P.g);
+  P.rect=(x0,x1,y0,y1,style,op=1)=>el('rect',{x:Math.min(P.sx(x0),P.sx(x1)),y:Math.min(P.sy(y0),P.sy(y1)),width:Math.abs(P.sx(x1)-P.sx(x0)),height:Math.abs(P.sy(y1)-P.sy(y0)),style:`fill:${style};fill-opacity:${op}`},P.g);
+  P.text=(x,y,t,style='var(--muted)',anchor='start',extra='')=>el('text',{x:P.sx(x),y:P.sy(y),'text-anchor':anchor,style:`fill:${style};${extra}`},P.g,t);
+  P.clip=()=>{ const id='c'+Math.random().toString(36).slice(2); const cp=el('clipPath',{id},svg); el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b},cp); P.g=el('g',{'clip-path':`url(#${id})`},svg); return P; };
+  P.unclip=()=>{ P.g=el('g',{},svg); return P; };
+  return P;
+}
+function hist(data,lo,hi,nb){ const w=(hi-lo)/nb, c=new Array(nb).fill(0); data.forEach(x=>{ const i=Math.floor((x-lo)/w); if(i>=0&&i<nb) c[i]++; }); return {w,c,lo,dens:c.map(k=>k/(data.length*w))}; }
+function drawHist(P,h,style,op=.55){ h.dens.forEach((d,i)=>{ if(d>0) P.rect(h.lo+i*h.w,h.lo+(i+1)*h.w-h.w*0.06,0,d,style,op); }); }
+
+/* leyenda estilo ggplot: tr (arriba derecha), tl, br */
+function legend(P,items,title,pos='tr'){
+  const x0=P.W-P.m.r-8, lh=18; let w=0;
+  items.forEach(it=>{ w=Math.max(w,it[0].length*6.6+26); }); if(title) w=Math.max(w,title.length*6.6+10);
+  const h=items.length*lh+(title?lh:0)+8, x=pos==='tl'?P.m.l+8:x0-w, y=pos==='br'?P.H-P.m.b-h-6:P.m.t+4;
+  const g=el('g',{},P.svg);
+  el('rect',{x,y,width:w,height:h,rx:4,style:'fill:var(--surface);fill-opacity:.88;stroke:var(--line)'},g);
+  let yy=y+4; if(title){ el('text',{x:x+8,y:yy+12,style:'fill:var(--ink);font-weight:600'},g,title); yy+=lh; }
+  items.forEach(it=>{ const [lab,col,op,kind]=it;
+    if(kind==='line') el('line',{x1:x+8,x2:x+22,y1:yy+7,y2:yy+7,style:`stroke:${col};stroke-width:2.5;stroke-dasharray:${it[4]||''}`},g);
+    else if(kind==='dot') el('circle',{cx:x+15,cy:yy+7,r:4,style:`fill:${col};fill-opacity:${op==null?.8:op}`},g);
+    else el('rect',{x:x+8,y:yy+1,width:14,height:12,style:`fill:${col};fill-opacity:${op==null?.6:op}`},g);
+    el('text',{x:x+28,y:yy+12,style:'fill:var(--ink)'},g,lab); yy+=lh; });
+}
+/* ---------- pestañas, mapa, revelar, proyección ---------- */
+function initTabs(onShow){
+  const tabs=[...document.querySelectorAll('.tab')];
+  function show(id){
+    tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===id?'true':'false'));
+    document.querySelectorAll('section.panel').forEach(p=>{ p.hidden=p.id!=='p-'+id; });
+    try{ history.replaceState(null,'','#'+id); }catch(e){}
+    if(onShow) onShow(id);
+    typeset();
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.tab)));
+  const h=(location.hash||'').replace('#','');
+  show(tabs.some(t=>t.dataset.tab===h)?h:tabs[0].dataset.tab);
+  window.showTab=show;
+}
+function initProj(){ const b=$('projBtn'); if(!b) return; b.addEventListener('click',()=>{ const on=document.documentElement.classList.toggle('proj'); b.textContent=on?'Modo normal':'Modo proyección'; }); }
+function initReveal(){ document.querySelectorAll('.reveal').forEach(box=>{ const b=box.querySelector('[data-reveal]'); if(!b) return; b.addEventListener('click',()=>{ const s=box.dataset.shown==='true'; box.dataset.shown=s?'false':'true'; b.textContent=s?(b.dataset.label||'Revelar'):'Ocultar'; if(!s) typeset(); }); b.dataset.label=b.textContent; }); }
+function buildTimeline(BLOCKS,TOTAL=150){
+  const bar=$('tlBar'), axis=$('tlAxis'), bl=$('blocks'); if(!bar) return;
+  BLOCKS.forEach(b=>{
+    const s=document.createElement('div'); s.className='tl-seg'+(b.brk?' brk':''); s.style.flex=b.dur+' 0 0'; s.tabIndex=0;
+    s.innerHTML='<span class="t">'+b.short+'</span><span class="m">'+b.dur+' min</span>';
+    (b.acts||[]).forEach(a=>{ const m=document.createElement('div'); m.className='tl-act'; m.style.left=((a[0]-b.start)/b.dur*100)+'%'; m.style.width=((a[1]-a[0])/b.dur*100)+'%'; s.appendChild(m); });
+    (b.ipad||[]).forEach(a=>{ const m=document.createElement('div'); m.className='tl-ipad'; m.style.left=((a[0]-b.start)/b.dur*100)+'%'; m.style.width=((a[1]-a[0])/b.dur*100)+'%'; s.appendChild(m); });
+    const go=()=>{ if(b.tab) showTab(b.tab); else document.getElementById(b.id)?.scrollIntoView({behavior:'smooth',block:'start'}); };
+    s.addEventListener('click',go); s.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+    bar.appendChild(s);
+  });
+  const marks=[...new Set([0,...BLOCKS.map(b=>b.start+b.dur)])];
+  marks.forEach(mn=>{ const sp=document.createElement('span'); sp.style.left=(mn/TOTAL*100)+'%'; sp.textContent=mn; if(mn===0) sp.style.transform='none'; if(mn===TOTAL) sp.style.transform='translateX(-100%)'; axis.appendChild(sp); });
+  BLOCKS.forEach(b=>{
+    const d=document.createElement('div'); d.className='block'; d.id='blk-'+b.id;
+    if(b.brk){ d.innerHTML='<div class="when"><b>'+b.start+'–'+(b.start+b.dur)+'</b>min</div><div><h3 style="font-size:1.1rem">Descanso</h3></div>'; bl.appendChild(d); return; }
+    d.innerHTML='<div class="when"><b>'+b.start+'–'+(b.start+b.dur)+'</b>min, '+b.dur+'</div><div style="min-width:0">'+
+      '<h3 style="font-size:1.1rem">'+b.title+(b.tab?' <button class="btn" style="margin-left:6px;font-size:.75rem;padding:.15rem .5rem" data-go="'+b.tab+'">Ir a la pestaña</button>':'')+'</h3>'+
+      '<ul class="tight">'+b.content.map(c=>'<li>'+c+'</li>').join('')+'</ul>'+
+      (b.ipad_txt?'<div class="ipad"><div class="lab">En el iPad</div>'+b.ipad_txt+'</div>':'')+
+      (b.idea?'<div class="idea" style="margin-top:8px"><div class="lab">Idea que debe quedar</div>'+b.idea+'</div>':'')+'</div>';
+    bl.appendChild(d);
+  });
+  bl.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>showTab(x.dataset.go)));
+}
+
+/* ---------- código en tres lenguajes ---------- */
+function hl(code,lang){
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return code.split('\n').map(line=>{
+    let cm=-1;
+    if(lang==='Stata'){ const t=line.trimStart(); if(t.startsWith('*')) cm=line.indexOf('*'); else { const i=line.indexOf('//'); if(i>=0) cm=i; } }
+    else { let inS=false,q=''; for(let i=0;i<line.length;i++){ const ch=line[i]; if(inS){ if(ch===q) inS=false; } else if(ch==='"'||ch==="'"){ inS=true;q=ch; } else if(ch==='#'){ cm=i; break; } } }
+    const body=cm>=0?line.slice(0,cm):line, com=cm>=0?line.slice(cm):'';
+    return esc(body).replace(/(&quot;|")(.*?)(")/g,'<span class="s">"$2"</span>')+(com?'<span class="c">'+esc(com)+'</span>':'');
+  }).join('\n');
+}
+function buildCode(holder,codes,note){
+  const langs=Object.keys(codes); let cur=langs[0];
+  const box=document.createElement('div'); box.className='code';
+  box.innerHTML='<div class="bar"><div class="seg" role="group" aria-label="Lenguaje">'+langs.map(l=>'<button type="button" aria-pressed="'+(l===cur)+'" data-l="'+l+'">'+l+'</button>').join('')+'</div><button class="btn" type="button" data-copy>Copiar</button></div><pre tabindex="0"></pre>'+(note?'<div class="note">'+note+'</div>':'');
+  const pre=box.querySelector('pre');
+  const render=()=>{ pre.innerHTML=hl(codes[cur],cur); box.querySelectorAll('[data-l]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===cur)); };
+  box.querySelectorAll('[data-l]').forEach(b=>b.addEventListener('click',()=>{cur=b.dataset.l;render();}));
+  const cb=box.querySelector('[data-copy]');
+  cb.addEventListener('click',()=>{ const done=()=>{cb.textContent='Copiado';setTimeout(()=>cb.textContent='Copiar',1500);};
+    try{ navigator.clipboard.writeText(codes[cur]).then(done,()=>selectPre()); }catch(e){ selectPre(); } });
+  function selectPre(){ const r=document.createRange(); r.selectNodeContents(pre); const s=getSelection(); s.removeAllRanges(); s.addRange(r); cb.textContent='Texto seleccionado'; }
+  render(); holder.appendChild(box);
+}
+
+/* ---------- MathJax ---------- */
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{E:'\\mathbb{E}',Var:'\\operatorname{Var}',Cov:'\\operatorname{Cov}',Corr:'\\operatorname{Corr}',se:'\\operatorname{se}',R:'\\mathbb{R}',P:'\\mathbb{P}',MSE:'\\operatorname{ECM}'}},svg:{fontCache:'global'},startup:{typeset:true}};
+let _tsPending=false;
+function typeset(){ if(_tsPending) return; _tsPending=true; requestAnimationFrame(()=>{ _tsPending=false; if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise().catch(()=>{}); }); }
+function setTeX(id,tex){ const e=$(id); if(!e) return; e.textContent=tex; typeset(); }
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+<script>
+const ML=9.4, SL=0.5;
+const MU=Math.exp(ML+SL*SL/2), SIG=Math.sqrt((Math.exp(SL*SL)-1)*Math.exp(2*ML+SL*SL));
+
+/* ---------- repaso: tabla de varianzas y covarianzas ---------- */
+function drawGrid(){
+  const n=+$('gn').value, r=+$('gr').value; $('gnV').textContent=n; $('grV').textContent=fmt(r,2);
+  const svg=$('gridSvg'); clear(svg); const S=36, pad=34, W=pad+n*S+8;
+  svg.setAttribute('viewBox',`0 0 ${Math.max(W,420)} ${pad+n*S+8}`);
+  for(let i=0;i<n;i++){
+    el('text',{x:pad+i*S+S/2,y:pad-10,'text-anchor':'middle',style:'font-size:11px'},svg,'X'+(i+1));
+    el('text',{x:pad-8,y:pad+i*S+S/2+4,'text-anchor':'end',style:'font-size:11px'},svg,'X'+(i+1));
+    for(let j=0;j<n;j++){ const d=i===j;
+      el('rect',{x:pad+j*S+1,y:pad+i*S+1,width:S-2,height:S-2,rx:3,style:`fill:${d?'var(--fixed)':'var(--accent)'};fill-opacity:${d?0.75:(r>0?0.15+r:0.06)}`},svg);
+      el('text',{x:pad+j*S+S/2,y:pad+i*S+S/2+4,'text-anchor':'middle',style:`font-size:11px;fill:${d?'#fff':'var(--ink)'}`},svg,d?'1':fmt(r,2)); } }
+  const tot=n+n*(n-1)*r;
+  $('gridSteps').innerHTML='diagonal: '+n+' varianzas × 1 = <span class="f">'+fmt(n,2)+'</span><br>fuera: '+(n*(n-1))+' covarianzas × '+fmt(r,2)+' = <span class="r">'+fmt(n*(n-1)*r,2)+'</span><br><b>Var(ΣXᵢ)</b> = '+fmt(tot,2)+'<br><b>Var(X̄ₙ)</b> = '+fmt(tot,2)+' / '+n+'² = '+fmt(tot/(n*n),3)+(r===0?'  (= σ²/n)':'  (σ²/n sería '+fmt(1/n,3)+')');
+}
+['gn','gr'].forEach(i=>$(i).addEventListener('input',drawGrid));
+
+/* ---------- 1 flechas y clasificación ---------- */
+(function(){
+  const s=$('arrowSvg');
+  const box=(x,y,w,t1,t2,col)=>{ el('rect',{x,y,width:w,height:62,rx:6,style:`fill:var(--surface2);stroke:${col};stroke-width:1.5`},s); el('text',{x:x+w/2,y:y+27,'text-anchor':'middle',style:`fill:var(--ink);font-weight:700;font-size:14px`},s,t1); el('text',{x:x+w/2,y:y+47,'text-anchor':'middle',style:'font-size:12px'},s,t2); };
+  box(10,54,170,'Población / modelo','F,  μ = E[X]','var(--fixed)'); box(380,54,170,'Datos','x₁, x₂, …, xₙ','var(--ink)');
+  const defs=el('defs',{},s); const mk=el('marker',{id:'ah',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},defs); el('path',{d:'M0,0L10,5L0,10z',style:'fill:var(--muted)'},mk);
+  el('path',{d:'M185,62 C260,20 300,20 375,62',style:'fill:none;stroke:var(--muted);stroke-width:2','marker-end':'url(#ah)'},s);
+  el('path',{d:'M375,110 C300,152 260,152 185,110',style:'fill:none;stroke:var(--accent);stroke-width:2.5','marker-end':'url(#ah)'},s);
+  el('text',{x:280,y:24,'text-anchor':'middle',style:'font-size:13px;font-weight:600'},s,'Probabilidad');
+  el('text',{x:280,y:162,'text-anchor':'middle',style:'fill:var(--accent);font-size:13px;font-weight:700'},s,'Estadística');
+})();
+const CLS=[
+ ['\\(\\mu\\), el salario medio de la población','f',{f:'Correcto: \\(\\mu\\) describe a la población y no cambia de una muestra a otra. No conocerlo no lo vuelve aleatorio.',r:'No: \\(\\mu\\) no depende de qué personas salgan en la muestra. Que no lo conozcamos no lo vuelve aleatorio.',o:'No: \\(\\mu\\) nunca se observa; sólo observamos datos de una muestra.',x:'Sí es una de las tres: es un parámetro, fijo.'}],
+ ['\\(\\sigma^2\\), la varianza de los salarios en la población','f',{f:'Correcto: es un parámetro de la población, como \\(\\mu\\).',r:'No: la varianza de la población no cambia entre muestras. La que cambia es la varianza muestral \\(s^2\\).',o:'No: \\(\\sigma^2\\) no se observa; se estima con \\(s^2\\).',x:'Sí es una de las tres: es un parámetro, fijo.'}],
+ ['\\(n=100\\)','x',{x:'Correcto: \\(n\\) lo decide quien diseña la encuesta. No describe a la población ni sale de los datos.',f:'Casi: no cambia, pero no es un parámetro de la población; es una decisión del diseño.',r:'No: en este diseño \\(n\\) es el mismo en todas las encuestas.',o:'No es un dato de una persona: es un número que se fija antes de encuestar.'}],
+ ['El salario de la persona \\(i\\) antes de encuestar, \\(X_i\\)','r',{r:'Correcto: antes de encuestar no sabemos quién saldrá sorteado ni cuánto gana.',f:'No: \\(X_i\\) cambia según quién salga en la muestra.',o:'Todavía no: una vez anotado se vuelve el dato \\(x_i\\).',x:'Sí es una de las tres: depende del sorteo, así que es aleatorio.'}],
+ ['El salario que anotó la encuestadora para la persona \\(i\\), \\(x_i\\)','o',{o:'Correcto: es un número ya registrado.',r:'No: una vez anotado ya no cambia. La versión aleatoria es \\(X_i\\).',f:'No es un parámetro: describe a una persona de la muestra, no a la población.',x:'Sí es una de las tres: es un dato observado.'}],
+ ['El promedio como regla, \\(\\bar X_{100}\\)','r',{r:'Correcto: es una regla aplicada a datos que todavía no vemos; su resultado cambia de muestra a muestra.',f:'No: la regla es fija, pero su resultado cambia con la muestra, así que \\(\\bar X_{100}\\) es aleatorio.',o:'Todavía no: lo observado es el número que da la regla en una encuesta concreta, \\(\\bar x_{100}\\).',x:'Sí es una de las tres: es un estimador, aleatorio.'}],
+ ['13,698 pesos','o',{o:'Correcto: es el estimado, el valor que tomó la regla en esta encuesta.',f:'No es \\(\\mu\\): es el resultado de una muestra; otra encuesta daría otro número.',r:'Una vez calculado ya no cambia: es la realización \\(\\bar x\\) de la variable aleatoria \\(\\bar X\\).',x:'Sí es una de las tres: es un número calculado con los datos.'}]
+];
+const LAB={f:'Fijo',r:'Aleatorio',o:'Observado',x:'Ninguna'}; const pick={};
+function drawCls(){
+  const box=$('clsList'); box.innerHTML=''; let ok=0, done=0;
+  CLS.forEach((c,i)=>{ const d=document.createElement('div'); d.className='quiz-item';
+    const k=pick[i]; if(k){ done++; if(k===c[1]) ok++; }
+    d.innerHTML='<div style="margin-bottom:4px">'+c[0]+'</div><div class="seg" role="group" aria-label="Clasificación">'+Object.keys(LAB).map(q=>'<button type="button" data-k="'+q+'" aria-pressed="'+(k===q)+'">'+LAB[q]+'</button>').join('')+'</div>'+(k?'<div class="quiz-fb"><span class="chip '+(k===c[1]?'ok':'bad')+'">'+(k===c[1]?'Correcto':'Revisa')+'</span> '+c[2][k].replace(/^Correcto: /,'')+'</div>':'');
+    d.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>{pick[i]=b.dataset.k;drawCls();}));
+    box.appendChild(d); });
+  $('clsScore').textContent=done?ok+' de '+done+' correctas':''; typeset();
+}
+$('clsReset').addEventListener('click',()=>{for(const k in pick) delete pick[k]; drawCls();});
+
+/* ---------- 2 estimador y estimado ---------- */
+reseed(15); const POP=Array.from({length:8000},()=>rlnorm(ML,SL)); let svCur=null, svAll=[];
+function survey(k=1){ for(let r=0;r<k;r++){ svCur=Array.from({length:10},()=>rlnorm(ML,SL)); svAll.push(mean(svCur)); } drawSurvey(); }
+function drawSurvey(){
+  const hi=45000, h=hist(POP,0,hi,60), ymax=Math.max(...h.dens)*1.15;
+  const P=Plot($('popSvg'),{w:640,h:230,x:[0,hi],y:[0,ymax],m:{l:20}});
+  P.axes(niceTicks(0,hi,6),[],'salario mensual (pesos)',null);
+  drawHist(P,h,'var(--muted)',0.25); P.vline(MU,'var(--fixed)',2.5,null);
+  if(svCur){ svCur.forEach((x,i)=>P.dot(Math.min(x,hi),ymax*(0.12+0.05*(i%4)),4.5,'var(--ink)',0.8)); P.vline(mean(svCur),'var(--random)',2.5,'5 3'); }
+  legend(P,[['población','var(--muted)',.35],['las 10 personas encuestadas','var(--ink)',.8,'dot'],['μ','var(--fixed)',1,'line'],['x̄ de esta encuesta','var(--random)',1,'line','5 3']]);
+  const avg=svAll.length?mean(svAll):null;
+  $('rMu').textContent=fmt(MU,0); $('rXb').textContent=svCur?fmt(mean(svCur),0):'–'; $('rK').textContent=svAll.length; $('rAvg').textContent=avg?fmt(avg,0):'–';
+  const lo=MU-12000, hi2=MU+12000;
+  const Q=Plot($('histXb'),{w:420,h:150,x:[lo,hi2],y:[0,1],m:{l:20,b:34}});
+  Q.axes(niceTicks(lo,hi2,5),[],'x̄ de cada encuesta (n = 10)',null);
+  Q.vline(MU,'var(--fixed)',2,null,'μ');
+  svAll.forEach((x,i)=>Q.dot(x,0.15+0.7*((i*0.618034)%1),4,'var(--random)',0.6));
+  const K=Math.max(svAll.length,10);
+  const R2=Plot($('runXb'),{w:420,h:170,x:[1,K],y:[MU-6000,MU+6000],m:{l:52,b:34}});
+  R2.axes(niceTicks(1,K,5).filter(v=>v>=1),niceTicks(MU-6000,MU+6000,4),'número de encuestas','promedio de las x̄',v=>fmt(v,0),v=>fmt(v/1000,0)+'k');
+  R2.hline(MU,'var(--fixed)',2); let acc=0; const run=svAll.map((x,i)=>{ acc+=x; return [i+1,acc/(i+1)]; });
+  if(run.length) R2.line(run,'var(--random)',2.2);
+}
+$('survey').addEventListener('click',()=>survey(1)); $('survey20').addEventListener('click',()=>survey(20));
+$('surveyClear').addEventListener('click',()=>{svCur=null;svAll=[];drawSurvey();});
+
+/* ---------- 3 distribución muestral y convergencia ---------- */
+const SDN=[2,5,10,25,50,100,250,500,1000];
+function skew(a){ const m=mean(a), s=sd(a,0); return a.reduce((t,x)=>t+((x-m)/s)**3,0)/a.length; }
+reseed(51); const PATHS=Array.from({length:6},()=>{ let t=0; return Array.from({length:2000},(_,i)=>{ t+=rlnorm(ML,SL); return t/(i+1); }); });
+let sdCache={};
+function runSD(){
+  const n=SDN[+$('sdn').value], eps=+$('sde').value; $('sdnV').textContent=n; $('sdeV').textContent=fmt(eps,0);
+  if(!sdCache[n]){ reseed(100+n); sdCache[n]=Array.from({length:2000},()=>{ let t=0; for(let i=0;i<n;i++) t+=rlnorm(ML,SL); return t/n; }); }
+  const xb=sdCache[n], se=SIG/Math.sqrt(n), lo=MU-15000, hi=MU+20000;
+  const bins=n<=10?70:n<=100?120:240;
+  const h=hist(xb,lo,hi,bins), ymax=Math.max(...h.dens)*1.12;
+  const P=Plot($('sdSvg'),{w:640,h:250,x:[lo,hi],y:[0,ymax],m:{l:20}});
+  P.axes(niceTicks(lo,hi,7),[],'x̄ₙ en cada encuesta (pesos)',null);
+  P.rect(MU-eps,MU+eps,0,ymax,'var(--fixed)',0.12);
+  drawHist(P,h,'var(--random)',0.55); P.vline(MU,'var(--fixed)',2,null,'μ');
+  legend(P,[['x̄ₙ de 2,000 encuestas','var(--random)',.55],['μ ± ε','var(--fixed)',.2]]);
+  const inside=xb.filter(x=>Math.abs(x-MU)<eps).length/xb.length;
+  $('sdIn').textContent=fmt(100*inside,1)+'%'; $('sdSd').textContent=fmt(sd(xb),0); $('sdSe').textContent=fmt(se,0); $('sdSk').textContent=fmt(skew(xb),2);
+  const Q=Plot($('pathSvg'),{w:640,h:250,x:[0,Math.log10(2000)],y:[MU-9000,MU+9000],m:{l:52}});
+  Q.axes([0,1,2,3],niceTicks(MU-9000,MU+9000,4),'n, observaciones acumuladas (escala log)','x̄ₙ (pesos)',v=>fmt(Math.round(Math.pow(10,v)),0),v=>fmt(v/1000,0)+'k');
+  const ns=[]; for(let k=1;k<=2000;k=Math.max(k+1,Math.round(k*1.04))) ns.push(k);
+  Q.clip();
+  Q.line(ns.map(k=>[Math.log10(k),MU+1.96*SIG/Math.sqrt(k)]),'var(--ink)',1.2,'4 3'); Q.line(ns.map(k=>[Math.log10(k),MU-1.96*SIG/Math.sqrt(k)]),'var(--ink)',1.2,'4 3');
+  Q.hline(MU,'var(--fixed)',2);
+  PATHS.forEach(p=>Q.line(ns.map(k=>[Math.log10(k),p[k-1]]),'var(--random)',1.4));
+  Q.unclip(); Q.vline(Math.log10(n),'var(--muted)',1,'2 3','n = '+n);
+}
+['sdn','sde'].forEach(i=>$(i).addEventListener('input',runSD));
+
+/* ---------- 4 calidad ---------- */
+function drawQ(){
+  const n=+$('qn').value, w1=Math.max(+$('qw').value,0), c=+$('qc').value;
+  $('qnV').textContent=n; $('qwV').textContent=fmt(w1,2); $('qcV').textContent=fmt(c,3);
+  const wr=(1-w1)/(n-1), varW=SIG*SIG*(w1*w1+(n-1)*wr*wr);
+  const ests=[
+    {name:'\\(\\bar X_n\\)',b:0,v:SIG*SIG/n,col:'var(--random)',gen:()=>{let t=0;for(let i=0;i<n;i++)t+=rlnorm(ML,SL);return t/n;}},
+    {name:'\\(\\tilde\\mu\\), promedio ponderado',b:0,v:varW,col:'var(--accent)',gen:()=>{let t=w1*rlnorm(ML,SL);for(let i=1;i<n;i++)t+=wr*rlnorm(ML,SL);return t;}},
+    {name:'\\(c\\,\\bar X_n\\)',b:(c-1)*MU,v:c*c*SIG*SIG/n,col:'var(--fixed)',gen:()=>{let t=0;for(let i=0;i<n;i++)t+=rlnorm(ML,SL);return c*t/n;}}
+  ];
+  const lo=MU-16000, hi=MU+16000;
+  const P=Plot($('qSvg'),{w:640,h:250,x:[lo,hi],y:[0,3],m:{l:20,t:10}});
+  P.axes(niceTicks(lo,hi,6),[],'valor del estimador en cada encuesta (pesos)',null);
+  reseed(77);
+  ests.forEach((e,k)=>{ const y=2.5-k; for(let r=0;r<300;r++){ const v=e.gen(); P.dot(Math.max(lo,Math.min(hi,v)),y-0.32+0.64*R(),2.2,e.col,0.35);} const m=MU+e.b, s=Math.sqrt(e.v); P.line([[m-s,y],[m+s,y]],'var(--ink)',2.5); P.dot(m,y,4.5,'var(--ink)'); });
+  P.vline(MU,'var(--fixed)',2,'5 3','μ');
+  P.text(lo+300,2.5+0.42,'X̄ₙ','var(--random)','start','font-weight:700'); P.text(lo+300,1.5+0.42,'promedio ponderado','var(--accent)','start','font-weight:700'); P.text(lo+300,0.5+0.42,'c · X̄ₙ','var(--fixed)','start','font-weight:700');
+  $('qTbl').querySelector('tbody').innerHTML=ests.map(e=>'<tr><td>'+e.name+'</td><td class="r num">'+fmt(e.b,0)+'</td><td class="r num">'+fmt(Math.sqrt(e.v),0)+'</td><td class="r num"><b>'+fmt(Math.sqrt(e.b*e.b+e.v),0)+'</b></td></tr>').join('');
+  // curva ECM(c)
+  const cs=[]; for(let i=0;i<=120;i++) cs.push(0.5+0.6*i/120);
+  const ecm=x=>((x-1)*MU)**2+x*x*SIG*SIG/n, cst=MU*MU/(MU*MU+SIG*SIG/n);
+  const ymax=Math.max(...cs.map(ecm))/1e6;
+  const Q=Plot($('ecmSvg'),{w:420,h:250,x:[0.5,1.1],y:[0,Math.min(ymax,ecm(0.5)/1e6)],m:{l:56}});
+  Q.axes([0.5,0.6,0.7,0.8,0.9,1,1.1],niceTicks(0,Math.min(ymax,ecm(0.5)/1e6),4),'c','ECM (millones)',v=>fmt(v,1),v=>fmt(v,0));
+  Q.line(cs.map(x=>[x,((x-1)*MU)**2/1e6]),'var(--fixed)',1.5,'4 3'); Q.line(cs.map(x=>[x,x*x*SIG*SIG/n/1e6]),'var(--random)',1.5,'4 3');
+  Q.line(cs.map(x=>[x,ecm(x)/1e6]),'var(--ink)',2.5);
+  Q.vline(1,'var(--muted)',1,'2 3'); Q.dot(c,ecm(c)/1e6,5,'var(--ink)'); Q.dot(cst,ecm(cst)/1e6,4,'var(--ok)');
+  $('cStar').innerHTML='Línea negra: ECM de \\(c\\,\\bar X_n\\). Ocre punteada: sesgo². Azul punteada: varianza. El mínimo (punto verde) está en \\(c^*='+fmt(cst,3)+'\\) para \\(n='+n+'\\); con \\(c=1\\) no hay regularización. Con \\(n\\) grande, \\(c^*\\to 1\\): con muchos datos conviene regularizar menos.';
+  typeset();
+}
+['qn','qw','qc'].forEach(i=>$(i).addEventListener('input',drawQ));
+
+/* ---------- 5 correlación ---------- */
+function drawRho(){
+  const r=+$('rr').value, n=+$('rn').value; $('rrV').textContent=fmt(r,2); $('rnV').textContent=n;
+  const ns=[]; for(let k=0;k<=200;k++) ns.push(Math.round(Math.exp(Math.log(2)+(Math.log(1000)-Math.log(2))*k/200)));
+  const P=Plot($('rhoSvg'),{w:640,h:280,x:[Math.log10(2),3],y:[-3,0],m:{l:56}});
+  P.axes([Math.log10(2),1,2,3],[-3,-2,-1,0],'n (escala logarítmica)','Var(X̄)/σ²',v=>fmt(Math.pow(10,v),0),v=>v===0?'1':'10'+(v===-1?'⁻¹':v===-2?'⁻²':'⁻³'));
+  P.line(ns.map(m=>[Math.log10(m),Math.log10(1/m)]),'var(--muted)',2);
+  P.line(ns.map(m=>[Math.log10(m),Math.log10((1+(m-1)*r)/m)]),'var(--random)',2.5);
+  if(r>0) P.hline(Math.log10(r),'var(--random)',1,'4 3');
+  P.dot(Math.log10(n),Math.log10((1+(n-1)*r)/n),5,'var(--random)');
+  const v=(1+(n-1)*r)/n; $('rVar').textContent=v<0.01?v.toExponential(2):fmt(v,4); $('rNe').textContent=fmt(n/(1+(n-1)*r),1); $('rInf').textContent=fmt(Math.sqrt(1+(n-1)*r),2)+'×';
+}
+['rr','rn'].forEach(i=>$(i).addEventListener('input',drawRho));
+
+/* ---------- 6 sesgo de S_n^2 ---------- */
+let s2res=null;
+function runS2(){ const n=+$('s2n').value; let a=0,b=0; for(let r=0;r<20000;r++){ const x=Array.from({length:n},()=>rnorm()); const m=mean(x); const ss=x.reduce((t,v)=>t+(v-m)**2,0); a+=ss/n; b+=ss/(n-1); } s2res={n,a:a/20000,b:b/20000}; drawS2(); }
+function drawS2(){
+  const n=+$('s2n').value; $('s2nV').textContent=n;
+  const P=Plot($('s2Svg'),{w:640,h:240,x:[2,30],y:[0,1.15],m:{l:48}});
+  P.axes([2,5,10,15,20,25,30],[0,0.25,0.5,0.75,1],'n','valor esperado',v=>v,v=>fmt(v,2));
+  P.hline(1,'var(--fixed)',2,null);
+  const ns=[]; for(let k=2;k<=30;k++) ns.push(k);
+  P.line(ns.map(k=>[k,(k-1)/k]),'var(--random)',2.5); P.line(ns.map(k=>[k,1]),'var(--accent)',1.5,'5 4');
+  P.text(22,0.88,'E[Sₙ²] = (n−1)/n · σ²','var(--random)','middle','font-weight:600'); P.text(22,1.06,'E[s²] = σ²','var(--accent)','middle','font-weight:600');
+  if(s2res&&s2res.n===n){ P.dot(n,s2res.a,5,'var(--random)'); P.dot(n,s2res.b,5,'var(--accent)'); }
+  $('s2Sig').textContent='1'; $('s2Sn').textContent=s2res&&s2res.n===n?fmt(s2res.a,3):'–'; $('s2s').textContent=s2res&&s2res.n===n?fmt(s2res.b,3):'–';
+}
+$('s2n').addEventListener('input',drawS2); $('s2Run').addEventListener('click',runS2);
+
+/* ---------- 7 código ---------- */
+buildCode($('codeHolder'),{
+R:`# --- Distribución muestral de la media ---
+library(dplyr)
+library(ggplot2)
+
+set.seed(2026)
+meanlog <- 9.4
+sdlog   <- 0.5
+sigma_poblacional <- sqrt((exp(sdlog^2) - 1) * exp(2 * meanlog + sdlog^2))
+
+n_encuestas <- 2000
+n <- 100                                    # prueba con 10, 100 y 900
+
+# Cada fila es una encuesta; guardamos su media
+medias <- tibble(encuesta = 1:n_encuestas) |>
+  mutate(x_barra = replicate(n_encuestas,
+                             mean(rlnorm(n, meanlog, sdlog))))
+
+medias |>
+  summarize(media_de_medias = mean(x_barra),
+            desv_de_medias  = sd(x_barra),
+            se_teorico      = sigma_poblacional / sqrt(n))
+
+ggplot(medias, aes(x = x_barra)) +
+  geom_histogram(bins = 40) +
+  labs(x = "media muestral", y = "encuestas")`,
+Stata:`* --- Distribución muestral de la media ---
+clear all
+set seed 2026
+local meanlog = 9.4
+local sdlog   = 0.5
+local n = 100                               // prueba con 10, 100 y 900
+
+* programa que levanta una encuesta y devuelve su media
+program define una_encuesta, rclass
+    syntax , n(integer) ml(real) sl(real)
+    drop _all
+    set obs \`n'
+    generate salario = exp(rnormal(\`ml', \`sl'))
+    summarize salario, meanonly
+    return scalar x_barra = r(mean)
+end
+
+simulate x_barra = r(x_barra), reps(2000) nodots: ///
+    una_encuesta, n(\`n') ml(\`meanlog') sl(\`sdlog')
+
+summarize x_barra
+display "se teórico = " sqrt((exp(\`sdlog'^2)-1)*exp(2*\`meanlog'+\`sdlog'^2)) / sqrt(\`n')
+histogram x_barra, bin(40)`,
+Python:`# --- Distribución muestral de la media ---
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(2026)
+meanlog, sdlog = 9.4, 0.5
+sigma_poblacional = np.sqrt((np.exp(sdlog**2) - 1) * np.exp(2 * meanlog + sdlog**2))
+
+n_encuestas = 2000
+n = 100                                     # prueba con 10, 100 y 900
+
+# Matriz de encuestas: cada fila es una muestra de tamaño n
+muestras = rng.lognormal(mean=meanlog, sigma=sdlog, size=(n_encuestas, n))
+medias = pd.Series(muestras.mean(axis=1), name="x_barra")
+
+print(medias.mean(), medias.std(), sigma_poblacional / np.sqrt(n))
+medias.plot.hist(bins=40)`
+},'Stata necesita un pequeño programa para <code>simulate</code>: es la única función que escribimos, porque <code>simulate</code> la llama 2,000 veces.');
+
+/* ---------- 8 referencias ---------- */
+const REFS=[
+ ['Hansen, Probability and Statistics for Economists (texto del curso)','https://users.ssc.wisc.edu/~bhansen/probability/'],
+ ['Seeing Theory: distribuciones muestrales y teorema del límite central','https://seeing-theory.brown.edu/probability-distributions/index.html'],
+ ['Moulton (1990), An illustration of a pitfall in estimating the effects of aggregate variables on micro units','https://doi.org/10.2307/2109724'],
+ ['Abadie, Athey, Imbens y Wooldridge (2023), When should you adjust standard errors for clustering?','https://doi.org/10.1093/qje/qjac038']
+];
+$('refList').innerHTML=REFS.map(r=>'<li><a href="'+r[1]+'" target="_blank" rel="noopener">'+r[0]+'</a></li>').join('');
+
+initProj(); initReveal(); drawCls();
+initTabs(id=>{ if(id==='sumas') drawGrid(); if(id==='regla'){ if(!svCur) survey(1); else drawSurvey(); } if(id==='teorema') runSD(); if(id==='calidad') drawQ(); if(id==='correl') drawRho(); if(id==='s2') drawS2(); });
+
+</script>
+</body>
+</html>

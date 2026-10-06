@@ -3,10 +3,33 @@ title: "Estadística Matemática (2026)"
 subtitle: "Maestría en Economía Aplicada, Tecnológico de Monterrey"
 ---
 
-Curso de fundamentos de probabilidad y estadística matemática para economistas aplicados. Cada sesión incluye, además de las notas de clase, un ejercicio interactivo en R que corre directamente en tu navegador: no necesitas instalar nada.
+Curso de fundamentos de probabilidad y estadística matemática para economistas aplicados. Cada sesión tiene una página interactiva que corre directamente en el navegador, sin instalar nada: figuras que se pueden mover, un repaso de las matemáticas que usa la sesión y código en R, Stata y Python.
 
 ## Sesiones
 
-1. [Sesión 1: La distribución muestral de la media](session01_muestreo.qmd)
+### 0. Repaso de estadística
+
+Distribuciones, media y varianza, error estándar, intervalos de confianza y pruebas de hipótesis, incluida la prueba de diferencia de medias.
+
+- [Página interactiva](s00_repaso.html){target="_blank"}
+
+### 1. La media muestral como estimador
+
+Población, parámetro y estimador; insesgadez y varianza de la media muestral; convergencia; error cuadrático medio, sesgo y regularización; observaciones correlacionadas.
+
+- [Página interactiva](s01_media_muestral.html){target="_blank"}
+- [Ejercicio en R: la distribución muestral de la media](session01_muestreo.qmd)
+
+### 2. La matriz de varianza y covarianza
+
+Vectores y matrices, covarianza y correlación, la matriz de varianza y covarianza, varianza de un índice, semidefinición positiva, independencia y portafolios.
+
+- [Página interactiva](s02_varcov.html){target="_blank"}
+
+### 3. La función de esperanza condicional
+
+Probabilidad condicional, la media y la CEF como predictores, ley de esperanzas iteradas, descomposición de la varianza, el error de la CEF, estimación por intervalos, variable omitida y selección.
+
+- [Página interactiva](s03_cef.html){target="_blank"}
 
 Esta lista crece conforme avanza el trimestre.
