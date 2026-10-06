@@ -340,14 +340,14 @@
     "href": "notes/estadistica_matematica_2026/index.html",
     "title": "Estadística Matemática (2026)",
     "section": "",
-    "text": "Curso de fundamentos de probabilidad y estadística matemática para economistas aplicados. Cada sesión incluye, además de las notas de clase, un ejercicio interactivo en R que corre directamente en tu navegador: no necesitas instalar nada."
+    "text": "Curso de fundamentos de probabilidad y estadística matemática para economistas aplicados. Cada sesión tiene una página interactiva que corre directamente en el navegador, sin instalar nada: figuras que se pueden mover, un repaso de las matemáticas que usa la sesión y código en R, Stata y Python."
   },
   {
     "objectID": "notes/estadistica_matematica_2026/index.html#sesiones",
     "href": "notes/estadistica_matematica_2026/index.html#sesiones",
     "title": "Estadística Matemática (2026)",
     "section": "Sesiones",
-    "text": "Sesiones\n\nSesión 1: La distribución muestral de la media\n\nEsta lista crece conforme avanza el trimestre."
+    "text": "Sesiones\n\n0. Repaso de estadística\nDistribuciones, media y varianza, error estándar, intervalos de confianza y pruebas de hipótesis, incluida la prueba de diferencia de medias.\n\nPágina interactiva\n\n\n\n1. La media muestral como estimador\nPoblación, parámetro y estimador; insesgadez y varianza de la media muestral; convergencia; error cuadrático medio, sesgo y regularización; observaciones correlacionadas.\n\nPágina interactiva\nEjercicio en R: la distribución muestral de la media\n\n\n\n2. La matriz de varianza y covarianza\nVectores y matrices, covarianza y correlación, la matriz de varianza y covarianza, varianza de un índice, semidefinición positiva, independencia y portafolios.\n\nPágina interactiva\n\n\n\n3. La función de esperanza condicional\nProbabilidad condicional, la media y la CEF como predictores, ley de esperanzas iteradas, descomposición de la varianza, el error de la CEF, estimación por intervalos, variable omitida y selección.\n\nPágina interactiva\n\nEsta lista crece conforme avanza el trimestre."
   },
   {
     "objectID": "index.html",

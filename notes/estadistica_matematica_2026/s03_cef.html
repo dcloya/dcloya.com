@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La función de esperanza condicional · Estadística Matemática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna de trabajo con pestañas por parte de la sesión; figuras interactivas a la izquierda, controles y lectura a la derecha.
+   Convención de color del curso: lo FIJO (parámetros poblacionales) en ocre; lo ALEATORIO (variables, estimadores) en azul; lo OBSERVADO (datos realizados) en tinta. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --surface2:#e9edf1; --line:#d3dae2; --grid:#e4e9ee;
+  --ink:#16212c; --muted:#56636f;
+  --accent:#1f4f86; --accent-soft:#dde7f3;
+  --fixed:#a24a12; --fixed-soft:#f6e6da;
+  --random:#1f6fb8; --random-soft:#dbeaf8;
+  --ok:#23704a; --ok-soft:#dcefe4; --bad:#b23a32; --bad-soft:#f6dfdc; --warn:#8a6100; --warn-soft:#f6ecd2;
+  --f-display:"Literata", Georgia, "Times New Roman", serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --surface2:#202b37; --line:#2e3b49; --grid:#24303c;
+  --ink:#e5ebf1; --muted:#9eabb8;
+  --accent:#8fb6e6; --accent-soft:#1f3048;
+  --fixed:#e7a06a; --fixed-soft:#3b2717;
+  --random:#79b4ef; --random-soft:#19304a;
+  --ok:#78c99d; --ok-soft:#173327; --bad:#ee8a80; --bad-soft:#3d201d; --warn:#e2bb5c; --warn-soft:#352b14;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --surface2:#202b37; --line:#2e3b49; --grid:#24303c;
+  --ink:#e5ebf1; --muted:#9eabb8;
+  --accent:#8fb6e6; --accent-soft:#1f3048;
+  --fixed:#e7a06a; --fixed-soft:#3b2717;
+  --random:#79b4ef; --random-soft:#19304a;
+  --ok:#78c99d; --ok-soft:#173327; --bad:#ee8a80; --bad-soft:#3d201d; --warn:#e2bb5c; --warn-soft:#352b14;
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:15.5px}
+html.proj{font-size:19px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.55;margin:0;padding-inline:16px;padding-block:0 56px}
+.wrap{max-width:1140px;margin:0 auto}
+h1,h2{font-family:var(--f-display);font-weight:600;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:clamp(1.7rem,3.6vw,2.35rem);line-height:1.12;margin:.25rem 0 0}
+h2{font-size:1.45rem;line-height:1.2;margin:0 0 .35rem}
+h3{font-size:1.02rem;font-weight:700;margin:0 0 .3rem}
+p{margin:.3rem 0 .6rem;max-width:72ch}
+a{color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* encabezado */
+header.top{padding-block:26px 14px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink)}
+header.top .lead{color:var(--muted);margin:.4rem 0 0;max-width:70ch}
+.hdr-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:11px;height:11px;border-radius:2px;display:inline-block}
+.key .kf{background:var(--fixed)} .key .kr{background:var(--random)} .key .ko{background:var(--ink)}
+
+/* pestañas */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;margin:0 0 22px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:.75rem .85rem .55rem;cursor:pointer;white-space:nowrap;color:var(--muted);font:inherit;font-weight:600;font-size:.92rem}
+.tab .k{font-family:var(--f-mono);font-size:.78rem;margin-right:.35rem;color:var(--accent)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,.btn:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+section.panel{display:grid;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
+.plain{min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.split{grid-template-columns:1fr}}
+.stack{display:grid;gap:14px;align-content:start;min-width:0}
+
+/* controles */
+.btn{font:inherit;font-size:.86rem;font-weight:600;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:.38rem .8rem;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.field{display:grid;gap:3px}
+.field label{font-size:.86rem;font-weight:600;display:block}
+.field label .v{float:right;margin-left:10px;font-family:var(--f-mono);font-weight:500;color:var(--accent);white-space:nowrap}
+.field small{color:var(--muted);font-size:.78rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=number]{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:.3rem .45rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:.82rem;font-weight:600;border:0;background:var(--surface);color:var(--muted);padding:.32rem .7rem;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
+
+/* lecturas y cajas */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{border-top:2px solid var(--line);padding-top:6px}
+.kpi .v{font-family:var(--f-mono);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.76rem;color:var(--muted);line-height:1.3}
+.kpi.fixed{border-top-color:var(--fixed)} .kpi.fixed .v{color:var(--fixed)}
+.kpi.random{border-top-color:var(--random)} .kpi.random .v{color:var(--random)}
+.predict{background:var(--accent-soft);border-radius:6px;padding:12px 14px;display:grid;gap:6px}
+.predict .lab,.ipad .lab,.idea .lab{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.ipad{border:1px dashed var(--fixed);border-radius:6px;padding:10px 14px}
+.ipad .lab{margin-bottom:4px}
+.ipad .lab{color:var(--fixed)}
+.idea{border-left:3px solid var(--warn);padding:4px 12px}
+.idea .lab{color:var(--warn)}
+.reveal[data-shown="false"] .ans{filter:blur(7px);user-select:none;pointer-events:none}
+.chip{display:inline-block;font-size:.74rem;font-weight:700;padding:.1rem .5rem;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.warn{background:var(--warn-soft);color:var(--warn)}
+details.layer{border-top:1px solid var(--line);padding-top:8px}
+details.layer summary{cursor:pointer;font-weight:700;font-size:.9rem;color:var(--accent)}
+details.layer[open] summary{margin-bottom:6px}
+.math-block{overflow-x:auto;padding:2px 0}
+ul.tight,ol.tight{margin:.2rem 0 .5rem;padding-left:1.2rem}
+ul.tight li,ol.tight li{margin:.18rem 0}
+
+/* mapa de la sesión */
+.tl-bar{display:flex;height:66px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.tl-seg{position:relative;border-right:1px solid var(--line);background:var(--surface);cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.tl-seg:last-child{border-right:0}
+.tl-seg:hover{background:var(--surface2)}
+.tl-seg.brk{background:var(--surface2)}
+.tl-seg .t{font-size:.76rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-seg .m{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.tl-act{position:absolute;bottom:0;height:8px;background:var(--accent);opacity:.85}
+.tl-ipad{position:absolute;top:0;height:5px;background:var(--fixed)}
+.tl-axis{position:relative;height:20px;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:8px;margin-right:6px;vertical-align:middle}
+.block{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 22px;padding:16px 0;border-top:1px solid var(--line)}
+.block:first-child{border-top:0}
+.block .when{font-family:var(--f-mono);font-size:.82rem;color:var(--muted)}
+.block .when b{display:block;font-size:1.25rem;color:var(--ink);font-family:var(--f-display);font-weight:600}
+@media (max-width:640px){.block{grid-template-columns:1fr}.tl-seg .t{font-size:.62rem}.tl-seg{padding:4px}}
+
+/* figuras */
+.fig{width:100%;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-body);fill:var(--muted);font-size:12px}
+svg .ax{stroke:var(--line)} svg .gr{stroke:var(--grid)}
+.caption{font-size:.8rem;color:var(--muted);margin-top:4px}
+
+/* tablas */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:.42rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+td.r,th.r{text-align:right}
+.mat{display:inline-grid;gap:2px 14px;padding:4px 10px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);border-radius:4px;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.95rem}
+.mat span{text-align:right}
+
+/* código */
+.code{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.code .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--surface2);flex-wrap:wrap}
+.code pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:var(--f-mono);font-size:.82rem;line-height:1.55;color:var(--ink)}
+.code .c{color:var(--muted);font-style:italic}
+.code .s{color:var(--fixed)}
+.code .note{font-size:.8rem;color:var(--muted);padding:8px 14px;border-top:1px solid var(--line)}
+
+/* casos */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.case{display:grid;gap:6px;align-content:start}
+.refs li{margin:.25rem 0}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.steps{font-family:var(--f-mono);font-size:.84rem;line-height:1.7;background:var(--surface2);border-radius:6px;padding:10px 12px;overflow-x:auto}
+.steps b{color:var(--ink)}
+.steps .r{color:var(--random)}
+.steps .f{color:var(--fixed)}
+.quiz-fb{font-size:.85rem;margin-top:4px}
+.split>*,.grid2>*{min-width:0}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="index.html" style="display:inline-block;margin:0 0 10px;font-size:.85rem;color:var(--muted);text-decoration:none">&larr; Estadística Matemática (2026)</a>
+<header class="top">
+  <div>
+    <div class="eyebrow">Estadística Matemática · Esperanza condicional</div>
+    <h1>La función de esperanza condicional</h1>
+    <p class="lead">La <b>función de esperanza condicional</b> (CEF, por sus siglas en inglés), \(m(x)=\E[Y\mid X=x]\), asigna a cada valor \(x\) de una variable \(X\) el promedio de \(Y\) entre las unidades que tienen ese valor. Por ejemplo, el salario promedio de quienes tienen 12 años de escolaridad. Es el mejor predictor de \(Y\) que se puede construir con \(X\), y es el objeto que la regresión intenta aproximar. Saber qué es y qué no es la CEF permite distinguir una descripción de los datos de un efecto causal.</p>
+  </div>
+  <div class="hdr-tools">
+    <div class="key" aria-label="Convención de colores"><span><i class="kf"></i>Fijo (parámetro)</span><span><i class="kr"></i>Aleatorio (estimador)</span><span><i class="ko"></i>Observado (dato)</span></div>
+    <button class="btn" id="projBtn" type="button">Modo proyección</button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Partes">
+  <button class="tab" role="tab" data-tab="mapa"><span class="k">0</span>Mapa</button>
+  <button class="tab" role="tab" data-tab="condicional"><span class="k">1</span>Probabilidad condicional</button>
+  <button class="tab" role="tab" data-tab="media"><span class="k">2</span>Predecir sin información</button>
+  <button class="tab" role="tab" data-tab="grupos"><span class="k">3</span>Predecir con información</button>
+  <button class="tab" role="tab" data-tab="lie"><span class="k">4</span>Esperanzas iteradas</button>
+  <button class="tab" role="tab" data-tab="predictor"><span class="k">5</span>Mejor predictor</button>
+  <button class="tab" role="tab" data-tab="error"><span class="k">6</span>El error de la CEF</button>
+  <button class="tab" role="tab" data-tab="estimar"><span class="k">7</span>Estimar la CEF</button>
+  <button class="tab" role="tab" data-tab="nodice"><span class="k">8</span>Lo que la CEF no dice</button>
+  <button class="tab" role="tab" data-tab="codigo"><span class="k">9</span>Código</button>
+  <button class="tab" role="tab" data-tab="estudio"><span class="k">10</span>Lecturas</button>
+</nav>
+
+<!-- ================= MAPA ================= -->
+<section class="panel" id="p-mapa">
+  <div class="grid2">
+    <div class="card">
+      <h2>Qué vas a aprender</h2>
+      <ul class="tight">
+        <li>Calcular una distribución condicional y su media a partir de una tabla de probabilidades conjuntas.</li>
+        <li>Entender por qué la media es el mejor predictor cuando no se tiene información, y la CEF cuando sí.</li>
+        <li>Usar la ley de esperanzas iteradas y la descomposición de la varianza total.</li>
+        <li>Describir las propiedades del error de la CEF.</li>
+        <li>Explicar por qué una diferencia entre dos promedios condicionales no es, en general, un efecto causal.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Para qué sirve</h2>
+      <p>Muchas preguntas de política empiezan comparando promedios entre grupos: salario por escolaridad, gasto en salud por tipo de seguro, aprendizaje por tamaño de grupo. La CEF es la versión exacta de esas comparaciones. La regresión lineal es una forma de resumirla, y la inferencia causal pregunta cuándo una diferencia en la CEF mide un efecto.</p>
+      <h3 style="margin-top:12px">Lo que necesitas antes</h3>
+      <ul class="tight">
+        <li>Media, varianza y error cuadrático medio de un estimador.</li>
+        <li>Promedios ponderados.</li>
+        <li>Probabilidad condicional: la pestaña 1 la repasa.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Cómo está organizado</h2>
+    <table>
+      <thead><tr><th>Pestaña</th><th>Pregunta que responde</th></tr></thead>
+      <tbody>
+        <tr><td>1. Probabilidad condicional</td><td>¿Cómo se calcula el promedio de \(Y\) dentro de un grupo?</td></tr>
+        <tr><td>2. Predecir sin información</td><td>Si sólo puedo dar un número para todos, ¿cuál conviene?</td></tr>
+        <tr><td>3. Predecir con información</td><td>¿Cuánto mejora la predicción si conozco \(X\)?</td></tr>
+        <tr><td>4. Esperanzas iteradas</td><td>¿Cómo se relaciona el promedio general con los promedios por grupo?</td></tr>
+        <tr><td>5. Mejor predictor</td><td>¿Hay alguna función de \(X\) que prediga mejor que la CEF?</td></tr>
+        <tr><td>6. El error de la CEF</td><td>¿Qué propiedades tiene lo que la CEF no predice?</td></tr>
+        <tr><td>7. Estimar la CEF</td><td>¿Cómo se estima con una muestra cuando \(X\) es continua?</td></tr>
+        <tr><td>8. Lo que la CEF no dice</td><td>¿Por qué comparar grupos no es lo mismo que medir un efecto?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= CONDICIONAL ================= -->
+<section class="panel" id="p-condicional" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Repaso de matemáticas</div>
+      <h2>Probabilidad condicional y media condicional</h2>
+      <p>La tabla da la probabilidad <b>conjunta</b> \(\P(X=x,\,Y=y)\) de que una persona tenga \(x\) años de escolaridad y gane \(y\) pesos por hora. Hay tres niveles de escolaridad y tres niveles de salario, para que las cuentas se puedan hacer a mano.</p>
+      <div class="tblwrap"><table id="jtTbl"></table></div>
+      <p>La probabilidad <b>marginal</b> de \(X\) suma cada renglón: \(\P(X=x)=\sum_y\P(X=x,Y=y)\). La probabilidad <b>condicional</b> divide cada celda del renglón entre ese total:</p>
+      <p class="math-block">\[\P(Y=y\mid X=x)=\frac{\P(X=x,\ Y=y)}{\P(X=x)}.\]</p>
+      <p>Es la distribución de \(Y\) dentro del grupo \(X=x\): las probabilidades del renglón, reescaladas para que sumen 1. Su media es la <b>media condicional</b>:</p>
+      <p class="math-block">\[m(x)=\E[Y\mid X=x]=\sum_y y\ \P(Y=y\mid X=x).\]</p>
+      <p>\(m(x)\) es una <b>función</b>: a cada \(x\) le asigna un número. Si en lugar de un valor fijo \(x\) ponemos la variable aleatoria \(X\), \(m(X)\) es una variable aleatoria: el promedio del grupo al que pertenece una persona elegida al azar.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label>Elige un grupo \(X=x\)</label>
+        <div class="seg" role="group" aria-label="Grupo" id="jtSeg">
+          <button type="button" data-x="0" aria-pressed="false">6 años</button>
+          <button type="button" data-x="1" aria-pressed="true">9 años</button>
+          <button type="button" data-x="2" aria-pressed="false">12 años</button>
+        </div></div>
+      <div class="fig"><svg id="jtSvg" role="img" aria-label="Distribución condicional de Y dado X"></svg></div>
+      <div class="steps" id="jtSteps"></div>
+      <p class="small">Para \(X\) continua se hace lo mismo con densidades: \(f_{Y\mid X}(y\mid x)=f_{XY}(x,y)/f_X(x)\) y \(m(x)=\int y\,f_{Y\mid X}(y\mid x)\,dy\).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDIA ================= -->
+<section class="panel" id="p-media" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 2</div>
+      <h2>El mejor predictor constante es la media</h2>
+      <p>Hay que predecir el salario por hora de una persona elegida al azar sin saber nada de ella: un solo número \(c\) para todos. Un criterio razonable es el <b>error cuadrático medio</b> de la predicción, \(\E[(Y-c)^2]\), el promedio de los errores al cuadrado.</p>
+      <div class="fig"><svg id="mdSvg" role="img" aria-label="Distribución de salarios y predicción constante"></svg></div>
+      <div class="fig"><svg id="mdCurve" role="img" aria-label="Error cuadrático medio según c"></svg></div>
+      <p class="caption">Población simulada de 20,000 personas. Salario por hora en pesos.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="mc">Predicción \(c\) (pesos por hora) <span class="v" id="mcV"></span></label><input type="range" id="mc" min="20" max="160" step="1" value="60"></div>
+      <div class="row"><button class="btn" type="button" id="mcBest">Usar la media</button></div>
+      <div class="kpis">
+        <div class="kpi random"><div class="v" id="mdE"></div><div class="l">\(\E[(Y-c)^2]\) con tu \(c\)</div></div>
+        <div class="kpi fixed"><div class="v" id="mdMu"></div><div class="l">\(\E[Y]\), la media</div></div>
+        <div class="kpi fixed"><div class="v" id="mdVar"></div><div class="l">\(\Var(Y)\): el menor error posible</div></div>
+      </div>
+      <p>Sumando y restando \(\E[Y]\):</p>
+      <p class="math-block">\[\E[(Y-c)^2]=\Var(Y)+\big(\E[Y]-c\big)^2.\]</p>
+      <p>El primer término no depende de \(c\); el segundo es cero sólo si \(c=\E[Y]\). La media es el mejor predictor constante, y su error cuadrático medio es la varianza de \(Y\). Es el modelo mental más común: "un trabajador típico gana el promedio". La pregunta de las pestañas siguientes es cuánto mejora la predicción si usamos información sobre cada persona.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GRUPOS ================= -->
+<section class="panel" id="p-grupos" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 3</div>
+      <h2>Predecir con información: un promedio por grupo</h2>
+      <p>Ahora conocemos la escolaridad \(X\) de cada persona. En lugar de un solo número, predecimos con el promedio de su grupo, \(m(x)=\E[Y\mid X=x]\). Cada punto gris es una persona; cada punto ocre, el promedio de su grupo. Las barras de abajo muestran el tamaño de cada grupo.</p>
+      <div class="fig"><svg id="grpSvg" role="img" aria-label="Salario por escolaridad con promedios por grupo"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="gs">Escolaridad \(x\) <span class="v" id="gsV"></span></label><input type="range" id="gs" min="0" max="20" step="1" value="12"></div>
+      <div class="kpis">
+        <div class="kpi fixed"><div class="v" id="gM"></div><div class="l">\(m(x)=\E[Y\mid X=x]\) (pesos por hora)</div></div>
+        <div class="kpi fixed"><div class="v" id="gP"></div><div class="l">\(\P(X=x)\), tamaño del grupo</div></div>
+        <div class="kpi fixed"><div class="v" id="gSd"></div><div class="l">Desv. estándar de \(Y\) dentro del grupo</div></div>
+      </div>
+      <h3>¿Cuánto mejora la predicción?</h3>
+      <div class="fig"><svg id="vdSvg" role="img" aria-label="Descomposición de la varianza"></svg></div>
+      <p class="small" id="vdTxt"></p>
+      <p>Sin información, el error cuadrático medio es \(\Var(Y)\). Con el promedio del grupo, es el promedio de las varianzas dentro de cada grupo, \(\E[\Var(Y\mid X)]\). Lo que se gana es la varianza de los promedios entre grupos:</p>
+      <p class="math-block">\[\underbrace{\Var(Y)}_{\text{total}}=\underbrace{\E\big[\Var(Y\mid X)\big]}_{\text{dentro de grupos}}+\underbrace{\Var\big(\E[Y\mid X]\big)}_{\text{entre grupos}}.\]</p>
+      <p class="small">Es la <b>descomposición de la varianza total</b>. La fracción entre grupos es la parte de la variación del salario asociada a la escolaridad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LIE ================= -->
+<section class="panel" id="p-lie" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 4</div>
+      <h2>Ley de esperanzas iteradas (<i>law of iterated expectations</i>)</h2>
+      <p>El promedio de todos es el promedio de los promedios de cada grupo, ponderado por el tamaño de cada grupo:</p>
+      <p class="math-block">\[\E[Y]=\sum_x \E[Y\mid X=x]\;\P(X=x)=\sum_x m(x)\,\P(X=x).\]</p>
+      <p>La misma idea se escribe en forma compacta como \(\E[Y]=\E\big[\E[Y\mid X]\big]\). La esperanza de adentro, \(\E[Y\mid X]=m(X)\), promedia \(Y\) dentro de cada grupo; la de afuera promedia esos resultados sobre la distribución de \(X\).</p>
+      <p>Mueve la composición: pasa una fracción de quienes tienen secundaria (9 años) a preparatoria (12). Los promedios de cada grupo, \(m(x)\), no cambian; cambian los pesos \(\P(X=x)\), y con ellos \(\E[Y]\).</p>
+      <div class="fig"><svg id="lieSvg" role="img" aria-label="Distribución de la escolaridad con promedio por grupo"></svg></div>
+      <p class="caption">Barras: \(\P(X=x)\). Encima de cada barra grande, el promedio del grupo \(m(x)\) en pesos por hora.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="lt">Fracción de secundaria que pasa a preparatoria <span class="v" id="ltV"></span></label><input type="range" id="lt" min="0" max="1" step="0.05" value="0"></div>
+      <div class="kpis">
+        <div class="kpi fixed"><div class="v" id="lE"></div><div class="l">\(\sum_x m(x)\P(X=x)\) con la nueva composición (pesos)</div></div>
+        <div class="kpi fixed"><div class="v" id="lE0"></div><div class="l">\(\E[Y]\) con la composición original (pesos)</div></div>
+        <div class="kpi"><div class="v" id="lD"></div><div class="l">Cambio en el promedio general</div></div>
+      </div>
+      <div class="predict reveal" data-shown="false">
+        <div class="lab">Antes de seguir</div>
+        <div>¿Podemos decir que si 100% de quienes tienen secundaria terminaran la preparatoria, el salario medio subiría a lo que marca la figura?</div>
+        <div class="ans">Sólo si quienes pasan de 9 a 12 años ganaran lo que hoy ganan quienes ya tienen 12. Eso supone que los dos grupos sólo difieren en escolaridad. Si quienes estudiaron más también tienen, por ejemplo, más habilidad, el cálculo exagera la ganancia. La pestaña 8 desarrolla esta idea.</div>
+        <div><button class="btn" type="button" data-reveal>Revelar</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PREDICTOR ================= -->
+<section class="panel" id="p-predictor" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 5</div>
+      <h2>La CEF es el mejor predictor de \(Y\) dado \(X\)</h2>
+      <p>La media ignora \(X\); la CEF usa el promedio de cada grupo. Entre las dos hay predictores intermedios, y también más allá. La curva azul es</p>
+      <p class="math-block">\[g_\lambda(x)=\E[Y]+\lambda\,\big(m(x)-\E[Y]\big).\]</p>
+      <p>Con \(\lambda=0\) es la media para todos; con \(\lambda=1\) es la CEF; con \(\lambda&gt;1\) exagera las diferencias entre grupos. El error cuadrático medio es mínimo exactamente en \(\lambda=1\).</p>
+      <div class="fig"><svg id="prdSvg" role="img" aria-label="Datos, CEF y predictor elegido"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="pl">\(\lambda\): cuánto usar la información de \(X\) <span class="v" id="plV"></span></label><input type="range" id="pl" min="-0.5" max="2" step="0.05" value="0.5"></div>
+      <div class="kpis">
+        <div class="kpi random"><div class="v" id="pE"></div><div class="l">\(\E[(Y-g_\lambda(X))^2]\)</div></div>
+        <div class="kpi fixed"><div class="v" id="pC"></div><div class="l">Con la CEF, \(\lambda=1\)</div></div>
+      </div>
+      <div class="fig"><svg id="mseSvg" role="img" aria-label="Error cuadrático medio según lambda"></svg></div>
+      <p>El resultado general: para <b>cualquier</b> función \(g\),</p>
+      <p class="math-block">\[\begin{aligned}\E\big[(Y-g(X))^2\big]&=\E\big[(Y-m(X))^2\big]+\E\big[(m(X)-g(X))^2\big]\\&\ge\ \E\big[(Y-m(X))^2\big].\end{aligned}\]</p>
+      <details class="layer"><summary>Por qué</summary>
+        <p>Sumar y restar \(m(X)\): \(Y-g=(Y-m)+(m-g)\). Al elevar al cuadrado aparece el término cruzado \(2\E[(Y-m)(m-g)]\). Por la ley de esperanzas iteradas, \(\E[(Y-m)(m-g)]=\E\big[(m-g)\,\E[Y-m\mid X]\big]\), y \(\E[Y-m(X)\mid X]=0\) porque \(m(X)\) es justamente el promedio de \(Y\) en cada grupo. Quedan dos términos no negativos.</p>
+      </details>
+      <p class="small">Es la misma idea de la pestaña 2, grupo por grupo: dentro de cada grupo la mejor constante es el promedio del grupo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ERROR ================= -->
+<section class="panel" id="p-error" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 6</div>
+      <h2>El error de la CEF</h2>
+      <p>El error de la CEF, \(e=Y-m(X)\), es la distancia de cada persona al promedio de su grupo. Con él, cualquier \(Y\) se escribe como</p>
+      <p class="math-block">\[Y=m(X)+e,\qquad \E[e\mid X]=0.\]</p>
+      <p>No es un supuesto: se cumple por construcción, porque dentro de cada grupo las desviaciones respecto al promedio del grupo promedian cero. Lo que sí puede cambiar entre grupos es la <b>dispersión</b> del error; cuando cambia se dice que hay <b>heterocedasticidad</b>.</p>
+      <div class="fig"><svg id="errSvg" role="img" aria-label="Error de la CEF por escolaridad"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="tblwrap"><table id="errTbl"><thead><tr><th>Propiedad</th><th class="r">Valor en la población</th></tr></thead><tbody></tbody></table></div>
+      <p>Que el error tenga media cero en cada grupo implica que no está correlacionado con ninguna función de \(X\):</p>
+      <p class="math-block">\[\E[e\,h(X)]=0.\]</p><p class="small">Esto vale para cualquier función \(h\): \(h(X)=X\), \(h(X)=X^2\), o un indicador de que \(X\ge 12\).</p>
+      <details class="layer"><summary>Por qué</summary>
+        <p class="math-block">\[\E[e\,h(X)]=\E\big[\E[e\,h(X)\mid X]\big]=\E\big[h(X)\,\E[e\mid X]\big]=\E[h(X)\cdot 0]=0.\]</p>
+        <p>La primera igualdad es la ley de esperanzas iteradas; la segunda usa que, dentro de un grupo, \(h(X)\) es una constante.</p>
+      </details>
+      <p class="small">En palabras: conociendo \(X\), no hay forma de anticipar si una persona quedará por arriba o por abajo del promedio de su grupo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESTIMAR ================= -->
+<section class="panel" id="p-estimar" hidden>
+  <div class="split">
+    <div class="card stack">
+      <div class="eyebrow">Parte 7</div>
+      <h2>Estimar la CEF: promedios por intervalos</h2>
+      <p>Hasta aquí conocíamos la población. Con una muestra hay que estimar \(m(x)\). Si \(X\) es continua, por ejemplo la experiencia laboral de 0 a 40 años, casi nadie comparte exactamente el mismo valor. Una solución es dividir \(X\) en \(K\) intervalos y promediar \(Y\) dentro de cada uno.</p>
+      <div class="fig"><svg id="binSvg" role="img" aria-label="Estimaciones de la CEF por intervalos"></svg></div>
+      <p class="caption">Curva ocre: la CEF verdadera. Escalones azules: 30 estimaciones con 30 muestras distintas de \(n=200\) (una resaltada). Puntos: la muestra resaltada.</p>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="bk">Número de intervalos \(K\) <span class="v" id="bkV"></span></label><input type="range" id="bk" min="1" max="40" step="1" value="6"></div>
+      <div class="row"><button class="btn" type="button" id="bNew">Otras 30 muestras</button></div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="bB"></div><div class="l">Sesgo² promedio</div></div>
+        <div class="kpi random"><div class="v" id="bV2"></div><div class="l">Varianza promedio</div></div>
+        <div class="kpi"><div class="v" id="bM"></div><div class="l">ECM promedio (pesos²)</div></div>
+      </div>
+      <div class="fig"><svg id="bmSvg" role="img" aria-label="Sesgo, varianza y ECM según K"></svg></div>
+      <p class="small">Pocos intervalos: cada promedio mezcla a personas con experiencia muy distinta y no sigue la curva (sesgo). Muchos intervalos: cada promedio usa pocas observaciones y cambia mucho de una muestra a otra (varianza). El número de intervalos que minimiza el ECM equilibra las dos fuentes de error.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NO DICE ================= -->
+<section class="panel" id="p-nodice" hidden>
+  <div class="card">
+    <div class="eyebrow">Parte 8</div>
+    <h2>Lo que la CEF no dice: comparar grupos no es medir un efecto</h2>
+    <p>Hay dos preguntas que suenan parecidas:</p>
+    <ol class="tight">
+      <li><b>Descriptiva:</b> ¿cuánto más ganan, en promedio, quienes tienen 16 años de escolaridad que quienes tienen 12? La respuesta es \(m(16)-m(12)\).</li>
+      <li><b>Causal:</b> ¿cuánto más ganaría una misma persona si estudiara 16 años en lugar de 12?</li>
+    </ol>
+    <p>Las dos respuestas coinciden sólo si los dos grupos son iguales en todo lo demás. Abajo, una población simulada en la que sí vemos una característica que en los datos reales no se observa: la habilidad de cada persona. Recorre los tres pasos.</p>
+  </div>
+  <div class="split">
+    <div class="card stack">
+      <h3>Paso 1. ¿Los dos grupos son iguales en habilidad?</h3>
+      <div class="fig"><svg id="abSvg" role="img" aria-label="Distribución de la habilidad en dos grupos de escolaridad"></svg></div>
+      <h3>Paso 2. La diferencia de promedios tiene dos partes</h3>
+      <div class="fig"><svg id="dcSvg" role="img" aria-label="Descomposición de la diferencia de promedios"></svg></div>
+      <p class="math-block">\[\underbrace{m(16)-m(12)}_{\text{diferencia observada}}=\underbrace{f(16)-f(12)}_{\text{misma habilidad}}+\underbrace{\gamma\,\big(\E[A\mid X=16]-\E[A\mid X=12]\big)}_{\text{diferencia de habilidad entre grupos}}.\]</p>
+      <p class="small">Aquí \(f(x)\) es el salario promedio con \(x\) años de escolaridad y habilidad media; \(f(16)-f(12)\) es el efecto de estudiar 4 años más sin cambiar la habilidad.</p>
+      <h3>Paso 3. La CEF completa frente al efecto</h3>
+      <div class="fig"><svg id="ovSvg" role="img" aria-label="CEF y efecto con habilidad fija"></svg></div>
+    </div>
+    <div class="card stack">
+      <div class="field"><label for="oa">Qué tanto depende la escolaridad de la habilidad <span class="v" id="oaV"></span></label><input type="range" id="oa" min="0" max="0.9" step="0.05" value="0"><small>Empieza en 0: la escolaridad no tiene nada que ver con la habilidad.</small></div>
+      <div class="field"><label for="og">Efecto de la habilidad en el salario, \(\gamma\) (pesos por desviación estándar) <span class="v" id="ogV"></span></label><input type="range" id="og" min="0" max="30" step="1" value="15"></div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="oCef"></div><div class="l">\(m(16)-m(12)\), diferencia observada (pesos)</div></div>
+        <div class="kpi fixed"><div class="v" id="oCau"></div><div class="l">Efecto de 4 años más, misma habilidad</div></div>
+        <div class="kpi"><div class="v" id="oAb"></div><div class="l">Diferencia de habilidad media entre grupos</div></div>
+      </div>
+      <p class="small">Con la primera perilla en 0, los dos grupos tienen la misma habilidad y la diferencia observada coincide con el efecto. Al subirla, quienes estudian más son en promedio más hábiles y la diferencia observada suma las dos cosas. Si \(\gamma=0\), la habilidad no afecta el salario y tampoco hay problema. El problema aparece sólo cuando la variable omitida se relaciona con \(X\) <b>y</b> con \(Y\).</p>
+      <div class="idea"><div class="lab">Un segundo problema: selección</div>Aunque los grupos fueran iguales, el salario sólo se observa para quien trabaja. Si trabajar depende del salario que la persona ganaría, cada grupo observado es una parte distinta de su población.</div>
+      <div class="fig"><svg id="slSvg" role="img" aria-label="CEF en la población y entre quienes trabajan"></svg></div>
+      <div class="field"><label for="sr">Salario de reserva (pesos por hora) <span class="v" id="srV"></span></label><input type="range" id="sr" min="10" max="100" step="2" value="50"><small>Una persona trabaja si el salario que ganaría supera este valor.</small></div>
+      <div class="kpis">
+        <div class="kpi fixed"><div class="v" id="sAll"></div><div class="l">\(m(16)-m(12)\), toda la población</div></div>
+        <div class="kpi"><div class="v" id="sObs"></div><div class="l">\(m(16)-m(12)\), sólo quienes trabajan</div></div>
+        <div class="kpi"><div class="v" id="sPart"></div><div class="l">Trabajan, con 6 y con 16 años</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="idea"><div class="lab">Idea que debe quedar</div>La CEF describe a la población tal como está. Para que una diferencia en la CEF mida un efecto hacen falta supuestos sobre quién está en cada grupo. Estos dos problemas se llaman <b>sesgo por variable omitida</b> y <b>sesgo de selección</b>.</div>
+  </div>
+</section>
+
+<!-- ================= CÓDIGO ================= -->
+<section class="panel" id="p-codigo" hidden>
+  <div class="card">
+    <h2>La CEF con datos reales</h2>
+    <p>Con <code>wage1</code> (Wooldridge): salario por hora promedio por años de escolaridad, la ley de esperanzas iteradas y la descomposición de la varianza.</p>
+    <div id="codeHolder"></div>
+  </div>
+</section>
+
+<!-- ================= LECTURAS ================= -->
+<section class="panel" id="p-estudio" hidden>
+  <div class="grid2">
+    <div class="card">
+      <h2>Otros casos con la misma idea</h2>
+      <ul class="tight">
+        <li><b>Tabaquismo y peso al nacer.</b> Las madres que fuman difieren en muchas otras cosas; Almond, Chay y Lee (2005) muestran cuánto cambia la diferencia al compararlas con gemelos y controles.</li>
+        <li><b>Seguro médico y gasto.</b> El gasto promedio de quienes tienen seguro mezcla el efecto del seguro con quién decide asegurarse (selección).</li>
+        <li><b>Tamaño de grupo y aprendizaje.</b> Los grupos chicos están en escuelas distintas; Angrist y Lavy (1999) usan la regla de Maimónides para separar ambas cosas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Lecturas y recursos</h2>
+      <ul class="tight refs" id="refList"></ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+/* Núcleo compartido de los artefactos de Estadística Matemática (EO4042). */
+"use strict";
+const $ = id => document.getElementById(id);
+const NF = (d=0) => new Intl.NumberFormat('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmt = (v,d=0) => (v<0?'−':'') + NF(d).format(Math.abs(v));
+const NS = 'http://www.w3.org/2000/svg';
+
+/* ---------- aleatoriedad reproducible ---------- */
+function rng(seed){ let a = seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+let R = rng(2026);
+function reseed(s){ R = rng(s); }
+function runif(a=0,b=1){ return a+(b-a)*R(); }
+let _spare=null;
+function rnorm(m=0,s=1){ if(_spare!==null){const z=_spare;_spare=null;return m+s*z;} let u=0,v=0; while(u===0)u=R(); v=R(); const r=Math.sqrt(-2*Math.log(u)); _spare=r*Math.sin(2*Math.PI*v); return m+s*r*Math.cos(2*Math.PI*v); }
+function rlnorm(ml,sl){ return Math.exp(rnorm(ml,sl)); }
+
+/* ---------- estadística ---------- */
+const sum = a => a.reduce((s,x)=>s+x,0);
+const mean = a => sum(a)/a.length;
+function variance(a,dof=1){ const m=mean(a); return a.reduce((s,x)=>s+(x-m)*(x-m),0)/(a.length-dof); }
+const sd = (a,dof=1) => Math.sqrt(variance(a,dof));
+function cov(a,b){ const ma=mean(a),mb=mean(b); let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-ma)*(b[i]-mb); return s/(a.length-1); }
+const dnorm = (x,m=0,s=1) => Math.exp(-0.5*((x-m)/s)**2)/(s*Math.sqrt(2*Math.PI));
+function pnorm(x){ // Abramowitz-Stegun 7.1.26 vía erf
+  const z=Math.abs(x)/Math.SQRT2, t=1/(1+0.3275911*z);
+  const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-z*z);
+  return 0.5*(1+(x>=0?y:-y)); }
+function qnorm(p){ // Acklam
+  const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.3577518672690,-30.66479806614716,2.506628277459239],
+  b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+  c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+  d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416];
+  const pl=0.02425; let q,r;
+  if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  if(p>1-pl){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
+// t: densidad y cuantil (Cornish-Fisher, suficiente para df>=3)
+function lgamma(x){ const g=7,c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  if(x<0.5) return Math.log(Math.PI/Math.sin(Math.PI*x))-lgamma(1-x); x-=1; let a=c[0]; const t=x+g+0.5; for(let i=1;i<g+2;i++) a+=c[i]/(x+i); return 0.5*Math.log(2*Math.PI)+(x+0.5)*Math.log(t)-t+Math.log(a); }
+const dt = (x,df) => Math.exp(lgamma((df+1)/2)-lgamma(df/2))/Math.sqrt(df*Math.PI)*Math.pow(1+x*x/df,-(df+1)/2);
+function qt(p,df){ const z=qnorm(p), z2=z*z;
+  return z + z*(z2+1)/(4*df) + z*(5*z2*z2+16*z2+3)/(96*df*df) + z*(3*z2**3+19*z2*z2+17*z2-15)/(384*df**3); }
+function pt(x,df){ // integración numérica simple (Simpson) de la densidad t
+  if(df>200) return pnorm(x); const n=400, a=0, b=Math.abs(x), h=(b-a)/n; let s=dt(a,df)+dt(b,df);
+  for(let i=1;i<n;i++) s+=(i%2?4:2)*dt(a+i*h,df); const half=s*h/3; return x>=0?0.5+half:0.5-half; }
+
+/* ---------- SVG ---------- */
+function el(tag,attrs,parent,text){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; if(parent) parent.appendChild(e); return e; }
+function clear(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+function niceTicks(lo,hi,n=5){ const span=hi-lo; if(span<=0) return [lo]; const step0=span/n, mag=Math.pow(10,Math.floor(Math.log10(step0))), r=step0/mag;
+  const step=(r<1.5?1:r<3?2:r<7?5:10)*mag; const t=[]; for(let v=Math.ceil(lo/step-1e-9)*step; v<=hi+1e-9; v+=step) t.push(+v.toFixed(10)); return t; }
+/* Plot: escala lineal x,y dentro de un viewBox fijo */
+function Plot(svg,o){
+  clear(svg); const W=o.w||640, H=o.h||300, m=Object.assign({l:52,r:16,t:14,b:42},o.m||{});
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const P={svg,W,H,m,x0:o.x[0],x1:o.x[1],y0:o.y[0],y1:o.y[1]};
+  P.sx=v=>m.l+(v-P.x0)/(P.x1-P.x0)*(W-m.l-m.r);
+  P.sy=v=>H-m.b-(v-P.y0)/(P.y1-P.y0)*(H-m.t-m.b);
+  P.g=el('g',{},svg);
+  P.axes=(xt,yt,xl,yl,xf=v=>fmt(v,0),yf=v=>fmt(v,0))=>{
+    (yt||[]).forEach(v=>{ el('line',{x1:m.l,x2:W-m.r,y1:P.sy(v),y2:P.sy(v),class:'gr'},P.g); el('text',{x:m.l-6,y:P.sy(v)+4,'text-anchor':'end'},P.g,yf(v)); });
+    (xt||[]).forEach(v=>{ el('line',{x1:P.sx(v),x2:P.sx(v),y1:H-m.b,y2:H-m.b+4,class:'ax'},P.g); el('text',{x:P.sx(v),y:H-m.b+17,'text-anchor':'middle'},P.g,xf(v)); });
+    el('line',{x1:m.l,x2:W-m.r,y1:H-m.b,y2:H-m.b,class:'ax'},P.g);
+    if(xl) el('text',{x:(m.l+W-m.r)/2,y:H-6,'text-anchor':'middle'},P.g,xl);
+    if(yl) el('text',{x:14,y:(m.t+H-m.b)/2,'text-anchor':'middle',transform:`rotate(-90 14 ${(m.t+H-m.b)/2})`},P.g,yl);
+  };
+  P.line=(pts,style,w=2,dash)=>{ const d=pts.filter(p=>isFinite(p[1])).map((p,i)=>(i?'L':'M')+P.sx(p[0]).toFixed(1)+','+P.sy(p[1]).toFixed(1)).join(''); return el('path',{d,style:`fill:none;stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g); };
+  P.area=(pts,style,op=.25)=>{ if(!pts.length) return; const d='M'+P.sx(pts[0][0])+','+P.sy(P.y0)+pts.map(p=>'L'+P.sx(p[0]).toFixed(1)+','+P.sy(p[1]).toFixed(1)).join('')+'L'+P.sx(pts[pts.length-1][0])+','+P.sy(P.y0)+'Z'; return el('path',{d,style:`fill:${style};fill-opacity:${op};stroke:none`},P.g); };
+  P.vline=(x,style,w=2,dash,label)=>{ el('line',{x1:P.sx(x),x2:P.sx(x),y1:m.t,y2:H-m.b,style:`stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g); if(label) el('text',{x:P.sx(x)+4,y:m.t+11,style:`fill:${style};font-weight:600`},P.g,label); };
+  P.hline=(y,style,w=1.5,dash)=>el('line',{x1:m.l,x2:W-m.r,y1:P.sy(y),y2:P.sy(y),style:`stroke:${style};stroke-width:${w}`+(dash?`;stroke-dasharray:${dash}`:'')},P.g);
+  P.dot=(x,y,r,style,op=1)=>el('circle',{cx:P.sx(x),cy:P.sy(y),r,style:`fill:${style};fill-opacity:${op}`},P.g);
+  P.rect=(x0,x1,y0,y1,style,op=1)=>el('rect',{x:Math.min(P.sx(x0),P.sx(x1)),y:Math.min(P.sy(y0),P.sy(y1)),width:Math.abs(P.sx(x1)-P.sx(x0)),height:Math.abs(P.sy(y1)-P.sy(y0)),style:`fill:${style};fill-opacity:${op}`},P.g);
+  P.text=(x,y,t,style='var(--muted)',anchor='start',extra='')=>el('text',{x:P.sx(x),y:P.sy(y),'text-anchor':anchor,style:`fill:${style};${extra}`},P.g,t);
+  P.clip=()=>{ const id='c'+Math.random().toString(36).slice(2); const cp=el('clipPath',{id},svg); el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b},cp); P.g=el('g',{'clip-path':`url(#${id})`},svg); return P; };
+  P.unclip=()=>{ P.g=el('g',{},svg); return P; };
+  return P;
+}
+function hist(data,lo,hi,nb){ const w=(hi-lo)/nb, c=new Array(nb).fill(0); data.forEach(x=>{ const i=Math.floor((x-lo)/w); if(i>=0&&i<nb) c[i]++; }); return {w,c,lo,dens:c.map(k=>k/(data.length*w))}; }
+function drawHist(P,h,style,op=.55){ h.dens.forEach((d,i)=>{ if(d>0) P.rect(h.lo+i*h.w,h.lo+(i+1)*h.w-h.w*0.06,0,d,style,op); }); }
+
+/* leyenda estilo ggplot: tr (arriba derecha), tl, br */
+function legend(P,items,title,pos='tr'){
+  const x0=P.W-P.m.r-8, lh=18; let w=0;
+  items.forEach(it=>{ w=Math.max(w,it[0].length*6.6+26); }); if(title) w=Math.max(w,title.length*6.6+10);
+  const h=items.length*lh+(title?lh:0)+8, x=pos==='tl'?P.m.l+8:x0-w, y=pos==='br'?P.H-P.m.b-h-6:P.m.t+4;
+  const g=el('g',{},P.svg);
+  el('rect',{x,y,width:w,height:h,rx:4,style:'fill:var(--surface);fill-opacity:.88;stroke:var(--line)'},g);
+  let yy=y+4; if(title){ el('text',{x:x+8,y:yy+12,style:'fill:var(--ink);font-weight:600'},g,title); yy+=lh; }
+  items.forEach(it=>{ const [lab,col,op,kind]=it;
+    if(kind==='line') el('line',{x1:x+8,x2:x+22,y1:yy+7,y2:yy+7,style:`stroke:${col};stroke-width:2.5;stroke-dasharray:${it[4]||''}`},g);
+    else if(kind==='dot') el('circle',{cx:x+15,cy:yy+7,r:4,style:`fill:${col};fill-opacity:${op==null?.8:op}`},g);
+    else el('rect',{x:x+8,y:yy+1,width:14,height:12,style:`fill:${col};fill-opacity:${op==null?.6:op}`},g);
+    el('text',{x:x+28,y:yy+12,style:'fill:var(--ink)'},g,lab); yy+=lh; });
+}
+/* ---------- pestañas, mapa, revelar, proyección ---------- */
+function initTabs(onShow){
+  const tabs=[...document.querySelectorAll('.tab')];
+  function show(id){
+    tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===id?'true':'false'));
+    document.querySelectorAll('section.panel').forEach(p=>{ p.hidden=p.id!=='p-'+id; });
+    try{ history.replaceState(null,'','#'+id); }catch(e){}
+    if(onShow) onShow(id);
+    typeset();
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.tab)));
+  const h=(location.hash||'').replace('#','');
+  show(tabs.some(t=>t.dataset.tab===h)?h:tabs[0].dataset.tab);
+  window.showTab=show;
+}
+function initProj(){ const b=$('projBtn'); if(!b) return; b.addEventListener('click',()=>{ const on=document.documentElement.classList.toggle('proj'); b.textContent=on?'Modo normal':'Modo proyección'; }); }
+function initReveal(){ document.querySelectorAll('.reveal').forEach(box=>{ const b=box.querySelector('[data-reveal]'); if(!b) return; b.addEventListener('click',()=>{ const s=box.dataset.shown==='true'; box.dataset.shown=s?'false':'true'; b.textContent=s?(b.dataset.label||'Revelar'):'Ocultar'; if(!s) typeset(); }); b.dataset.label=b.textContent; }); }
+function buildTimeline(BLOCKS,TOTAL=150){
+  const bar=$('tlBar'), axis=$('tlAxis'), bl=$('blocks'); if(!bar) return;
+  BLOCKS.forEach(b=>{
+    const s=document.createElement('div'); s.className='tl-seg'+(b.brk?' brk':''); s.style.flex=b.dur+' 0 0'; s.tabIndex=0;
+    s.innerHTML='<span class="t">'+b.short+'</span><span class="m">'+b.dur+' min</span>';
+    (b.acts||[]).forEach(a=>{ const m=document.createElement('div'); m.className='tl-act'; m.style.left=((a[0]-b.start)/b.dur*100)+'%'; m.style.width=((a[1]-a[0])/b.dur*100)+'%'; s.appendChild(m); });
+    (b.ipad||[]).forEach(a=>{ const m=document.createElement('div'); m.className='tl-ipad'; m.style.left=((a[0]-b.start)/b.dur*100)+'%'; m.style.width=((a[1]-a[0])/b.dur*100)+'%'; s.appendChild(m); });
+    const go=()=>{ if(b.tab) showTab(b.tab); else document.getElementById(b.id)?.scrollIntoView({behavior:'smooth',block:'start'}); };
+    s.addEventListener('click',go); s.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+    bar.appendChild(s);
+  });
+  const marks=[...new Set([0,...BLOCKS.map(b=>b.start+b.dur)])];
+  marks.forEach(mn=>{ const sp=document.createElement('span'); sp.style.left=(mn/TOTAL*100)+'%'; sp.textContent=mn; if(mn===0) sp.style.transform='none'; if(mn===TOTAL) sp.style.transform='translateX(-100%)'; axis.appendChild(sp); });
+  BLOCKS.forEach(b=>{
+    const d=document.createElement('div'); d.className='block'; d.id='blk-'+b.id;
+    if(b.brk){ d.innerHTML='<div class="when"><b>'+b.start+'–'+(b.start+b.dur)+'</b>min</div><div><h3 style="font-size:1.1rem">Descanso</h3></div>'; bl.appendChild(d); return; }
+    d.innerHTML='<div class="when"><b>'+b.start+'–'+(b.start+b.dur)+'</b>min, '+b.dur+'</div><div style="min-width:0">'+
+      '<h3 style="font-size:1.1rem">'+b.title+(b.tab?' <button class="btn" style="margin-left:6px;font-size:.75rem;padding:.15rem .5rem" data-go="'+b.tab+'">Ir a la pestaña</button>':'')+'</h3>'+
+      '<ul class="tight">'+b.content.map(c=>'<li>'+c+'</li>').join('')+'</ul>'+
+      (b.ipad_txt?'<div class="ipad"><div class="lab">En el iPad</div>'+b.ipad_txt+'</div>':'')+
+      (b.idea?'<div class="idea" style="margin-top:8px"><div class="lab">Idea que debe quedar</div>'+b.idea+'</div>':'')+'</div>';
+    bl.appendChild(d);
+  });
+  bl.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>showTab(x.dataset.go)));
+}
+
+/* ---------- código en tres lenguajes ---------- */
+function hl(code,lang){
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return code.split('\n').map(line=>{
+    let cm=-1;
+    if(lang==='Stata'){ const t=line.trimStart(); if(t.startsWith('*')) cm=line.indexOf('*'); else { const i=line.indexOf('//'); if(i>=0) cm=i; } }
+    else { let inS=false,q=''; for(let i=0;i<line.length;i++){ const ch=line[i]; if(inS){ if(ch===q) inS=false; } else if(ch==='"'||ch==="'"){ inS=true;q=ch; } else if(ch==='#'){ cm=i; break; } } }
+    const body=cm>=0?line.slice(0,cm):line, com=cm>=0?line.slice(cm):'';
+    return esc(body).replace(/(&quot;|")(.*?)(")/g,'<span class="s">"$2"</span>')+(com?'<span class="c">'+esc(com)+'</span>':'');
+  }).join('\n');
+}
+function buildCode(holder,codes,note){
+  const langs=Object.keys(codes); let cur=langs[0];
+  const box=document.createElement('div'); box.className='code';
+  box.innerHTML='<div class="bar"><div class="seg" role="group" aria-label="Lenguaje">'+langs.map(l=>'<button type="button" aria-pressed="'+(l===cur)+'" data-l="'+l+'">'+l+'</button>').join('')+'</div><button class="btn" type="button" data-copy>Copiar</button></div><pre tabindex="0"></pre>'+(note?'<div class="note">'+note+'</div>':'');
+  const pre=box.querySelector('pre');
+  const render=()=>{ pre.innerHTML=hl(codes[cur],cur); box.querySelectorAll('[data-l]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===cur)); };
+  box.querySelectorAll('[data-l]').forEach(b=>b.addEventListener('click',()=>{cur=b.dataset.l;render();}));
+  const cb=box.querySelector('[data-copy]');
+  cb.addEventListener('click',()=>{ const done=()=>{cb.textContent='Copiado';setTimeout(()=>cb.textContent='Copiar',1500);};
+    try{ navigator.clipboard.writeText(codes[cur]).then(done,()=>selectPre()); }catch(e){ selectPre(); } });
+  function selectPre(){ const r=document.createRange(); r.selectNodeContents(pre); const s=getSelection(); s.removeAllRanges(); s.addRange(r); cb.textContent='Texto seleccionado'; }
+  render(); holder.appendChild(box);
+}
+
+/* ---------- MathJax ---------- */
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{E:'\\mathbb{E}',Var:'\\operatorname{Var}',Cov:'\\operatorname{Cov}',Corr:'\\operatorname{Corr}',se:'\\operatorname{se}',R:'\\mathbb{R}',P:'\\mathbb{P}',MSE:'\\operatorname{ECM}'}},svg:{fontCache:'global'},startup:{typeset:true}};
+let _tsPending=false;
+function typeset(){ if(_tsPending) return; _tsPending=true; requestAnimationFrame(()=>{ _tsPending=false; if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise().catch(()=>{}); }); }
+function setTeX(id,tex){ const e=$(id); if(!e) return; e.textContent=tex; typeset(); }
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+<script>
+/* ---------- 1 repaso: tabla conjunta ---------- */
+const JX=[6,9,12], JY=[40,70,120], JP=[[.12,.10,.03],[.10,.18,.07],[.05,.17,.18]];
+let jx=1;
+function drawJt(){
+  const rowS=JP.map(r=>r.reduce((a,b)=>a+b,0)), colS=JY.map((_,j)=>JP.reduce((a,r)=>a+r[j],0));
+  let h='<thead><tr><th>Escolaridad \\(x\\)</th>'+JY.map(y=>'<th class="r">\\(y=\\)'+y+'</th>').join('')+'<th class="r">\\(\\P(X=x)\\)</th></tr></thead><tbody>';
+  JP.forEach((r,i)=>{ const on=i===jx; h+='<tr'+(on?' style="background:var(--surface2)"':'')+'><td>'+JX[i]+' años</td>'+r.map(p=>'<td class="r num"'+(on?' style="color:var(--fixed);font-weight:700"':'')+'>'+fmt(p,2)+'</td>').join('')+'<td class="r num"><b>'+fmt(rowS[i],2)+'</b></td></tr>'; });
+  h+='<tr><td>\\(\\P(Y=y)\\)</td>'+colS.map(p=>'<td class="r num">'+fmt(p,2)+'</td>').join('')+'<td class="r num">1.00</td></tr></tbody>';
+  $('jtTbl').innerHTML=h;
+  const r=JP[jx], tot=rowS[jx], cond=r.map(p=>p/tot), m=JY.reduce((a,y,j)=>a+y*cond[j],0);
+  const P=Plot($('jtSvg'),{w:420,h:240,x:[0,150],y:[0,1.4],m:{l:44}});
+  P.axes([0,40,70,120,150],[0,0.25,0.5,0.75,1],'salario por hora y (pesos)','probabilidad',v=>v,v=>fmt(v,2));
+  JY.forEach((y,j)=>{ P.rect(y-7,y-1,0,r[j],'var(--muted)',0.6); P.rect(y+1,y+7,0,cond[j],'var(--fixed)',0.85); });
+  P.vline(m,'var(--fixed)',2,'4 3','m('+JX[jx]+')');
+  legend(P,[['P(X=x, Y=y), conjunta','var(--muted)',.6],['P(Y=y | X=x), condicional','var(--fixed)',.85]],null,'tr');
+  const all=JP.flat().reduce((a,p,k)=>a+p*JY[k%3],0);
+  const ms=JP.map((rr,i)=>JY.reduce((a,y,j)=>a+y*rr[j]/rowS[i],0));
+  $('jtSteps').innerHTML='<b>P(Y=y | X='+JX[jx]+')</b> = ( '+r.map(p=>fmt(p,2)).join(', ')+' ) / '+fmt(tot,2)+' = <span class="f">( '+cond.map(p=>fmt(p,3)).join(', ')+' )</span><br>'+
+   '<b>m('+JX[jx]+')</b> = '+JY.map((y,j)=>y+'·'+fmt(cond[j],3)).join(' + ')+' = <span class="f">'+fmt(m,1)+' pesos</span><br>'+
+   'm(6), m(9), m(12) = '+ms.map(v=>fmt(v,1)).join(', ')+'<br>'+
+   '<b>Σ m(x)·P(X=x)</b> = '+ms.map((v,i)=>fmt(v,1)+'·'+fmt(rowS[i],2)).join(' + ')+' = '+fmt(all,1)+' = <b>E[Y]</b>';
+  typeset();
+}
+document.querySelectorAll('#jtSeg [data-x]').forEach(b=>b.addEventListener('click',()=>{ jx=+b.dataset.x; document.querySelectorAll('#jtSeg [data-x]').forEach(x=>x.setAttribute('aria-pressed',x===b)); drawJt(); }));
+
+/* ---------- población simulada (pesos por hora) ---------- */
+const PS_W={0:1.5,1:0.5,2:0.8,3:1,4:1,5:1,6:12,7:1,8:1.5,9:16,10:2,11:2,12:17,13:1.5,14:2,15:2.5,16:10,17:2,18:3,19:1,20:1};
+const XV=[...Array(21).keys()]; const PW=XV.map(s=>PS_W[s]); const PWS=sum(PW); const PROB=PW.map(p=>p/PWS);
+const CUM=[]; PROB.reduce((a,p,i)=>(CUM[i]=a+p,a+p),0);
+const xOfU=u=>{ for(let i=0;i<21;i++) if(u<=CUM[i]) return i; return 20; };
+const efecto=x=>30+2*x+0.25*x*x;             // salario con habilidad media, pesos por hora
+const LNSD=Math.sqrt((Math.exp(0.36)-1)*Math.exp(0.36));
+function makePop(alpha,gamma,seed=31,N=20000){
+  reseed(seed); const P=[];
+  for(let i=0;i<N;i++){ const A=rnorm(), v=rnorm(); const idx=alpha*A+Math.sqrt(1-alpha*alpha)*v; const X=xOfU(pnorm(idx));
+    const eps=(10+1.5*X)*(Math.exp(0.6*rnorm())-Math.exp(0.18))/LNSD;
+    let Y=efecto(X)+gamma*A+eps; if(Y<10) Y=10+(10-Y)*0.4; P.push({X,A,Y,eta:rnorm(0,8)}); }
+  return P; }
+function cefOf(P,filter=()=>true){ const s=new Array(21).fill(0), c=new Array(21).fill(0), q=new Array(21).fill(0), a=new Array(21).fill(0);
+  P.forEach(p=>{ if(!filter(p)) return; s[p.X]+=p.Y; q[p.X]+=p.Y*p.Y; a[p.X]+=p.A; c[p.X]++; });
+  return XV.map(k=>({x:k,n:c[k],m:c[k]?s[k]/c[k]:NaN,v:c[k]>1?(q[k]-s[k]*s[k]/c[k])/c[k]:NaN,a:c[k]?a[k]/c[k]:NaN})); }
+const POP=makePop(0.5,15); const CEF=cefOf(POP); const Ys=POP.map(p=>p.Y);
+const EY=mean(Ys), VY=variance(Ys,0);
+const WITHIN=sum(XV.map(x=>CEF[x].n>1?CEF[x].v*CEF[x].n:0))/POP.length, BETWEEN=VY-WITHIN;
+const show=POP.slice(0,2500);
+const jit=i=>((i*0.6180339887)%1-0.5)*0.55;
+const YMAX=260;
+
+/* ---------- 2 sin información ---------- */
+function drawMd(){
+  const c=+$('mc').value; $('mcV').textContent=fmt(c,0);
+  const h=hist(Ys,0,YMAX,65), ymax=Math.max(...h.dens)*1.15;
+  const P=Plot($('mdSvg'),{w:640,h:240,x:[0,YMAX],y:[0,ymax],m:{l:20}});
+  P.axes(niceTicks(0,YMAX,6),[],'salario por hora (pesos)',null);
+  drawHist(P,h,'var(--muted)',0.45);
+  P.vline(EY,'var(--fixed)',2,null); P.vline(c,'var(--random)',2.5,'5 3');
+  legend(P,[['salarios de la población','var(--muted)',.45],['E[Y], la media','var(--fixed)',1,'line'],['tu predicción c','var(--random)',1,'line','5 3']]);
+  const cs=[]; for(let v=20;v<=160;v+=1) cs.push(v);
+  const f=v=>VY+(EY-v)**2, top=f(160);
+  const Q=Plot($('mdCurve'),{w:640,h:200,x:[20,160],y:[0,top*1.05],m:{l:56}});
+  Q.axes([20,40,60,80,100,120,140,160],niceTicks(0,top,4),'predicción c (pesos)','E[(Y − c)²]',v=>v,v=>fmt(v,0));
+  Q.hline(VY,'var(--fixed)',1.2,'4 3'); Q.line(cs.map(v=>[v,f(v)]),'var(--ink)',2.4); Q.dot(c,f(c),5.5,'var(--random)'); Q.dot(EY,VY,4.5,'var(--fixed)');
+  legend(Q,[['error cuadrático medio','var(--ink)',1,'line'],['Var(Y), el mínimo','var(--fixed)',1,'line','4 3']]);
+  $('mdE').textContent=fmt(f(c),0); $('mdMu').textContent=fmt(EY,1); $('mdVar').textContent=fmt(VY,0);
+}
+$('mc').addEventListener('input',drawMd); $('mcBest').addEventListener('click',()=>{ $('mc').value=Math.round(EY); drawMd(); });
+
+/* ---------- 3 con información ---------- */
+function drawGrp(){
+  const x0=+$('gs').value; $('gsV').textContent=x0+' años';
+  const P=Plot($('grpSvg'),{w:640,h:440,x:[-0.8,20.8],y:[0,YMAX],m:{l:52,b:110}});
+  P.axes([0,3,6,9,12,15,18,20],[0,50,100,150,200,250],null,'salario por hora (pesos)',v=>v,v=>fmt(v,0));
+  P.clip();
+  show.forEach((p,i)=>P.dot(p.X+jit(i),p.Y,1.8,p.X===x0?'var(--ink)':'var(--muted)',p.X===x0?0.55:0.18));
+  P.line(CEF.filter(c=>c.n).map(c=>[c.x,c.m]),'var(--fixed)',1.5);
+  CEF.forEach(c=>{ if(c.n) P.dot(c.x,c.m,c.x===x0?6.5:4,'var(--fixed)'); });
+  P.unclip();
+  const c=CEF[x0];
+  if(c.n){ const tx=x0>14?x0-0.6:x0+0.6, an=x0>14?'end':'start'; P.text(tx,Math.min(c.m+28,YMAX-10),'E[Y | X = '+x0+'] = '+fmt(c.m,1),'var(--fixed)',an,'font-weight:700;font-size:13px'); }
+  const H=P.H, base=H-26, top=H-P.m.b+26, mx=Math.max(...PROB);
+  PROB.forEach((p,s)=>{ const x=P.sx(s), h=(base-top)*p/mx; el('rect',{x:x-8,y:base-h,width:16,height:h,style:'fill:'+(s===x0?'var(--fixed)':'var(--line)')},P.g); });
+  el('text',{x:(P.m.l+P.W-P.m.r)/2,y:H-6,'text-anchor':'middle'},P.g,'años de escolaridad X   ·   barras: P(X = x)');
+  $('gM').textContent=c.n?fmt(c.m,1):'–'; $('gP').textContent=fmt(PROB[x0],3); $('gSd').textContent=c.n>1?fmt(Math.sqrt(c.v),1):'–';
+  const Q=Plot($('vdSvg'),{w:420,h:96,x:[0,VY],y:[0,1],m:{l:10,r:10,b:30,t:6}});
+  Q.rect(0,WITHIN,0.25,0.85,'var(--muted)',0.6); Q.rect(WITHIN,VY,0.25,0.85,'var(--fixed)',0.85);
+  el('text',{x:Q.sx(WITHIN/2),y:Q.sy(0.55)+4,'text-anchor':'middle',style:'fill:var(--ink);font-weight:600'},Q.g,'dentro: '+fmt(WITHIN,0));
+  el('text',{x:Q.sx(WITHIN+BETWEEN/2),y:Q.sy(0.55)+4,'text-anchor':'middle',style:'fill:#fff;font-weight:600'},Q.g,'entre: '+fmt(BETWEEN,0));
+  el('text',{x:Q.sx(VY/2),y:Q.H-8,'text-anchor':'middle',style:'fill:var(--muted)'},Q.g,'Var(Y) = '+fmt(VY,0)+' pesos²');
+  $('vdTxt').innerHTML='Sin conocer \\(X\\) el error cuadrático medio es '+fmt(VY,0)+'; con el promedio de cada grupo baja a '+fmt(WITHIN,0)+'. La escolaridad se asocia con '+fmt(100*BETWEEN/VY,0)+'% de la varianza del salario.';
+  typeset();
+}
+$('gs').addEventListener('input',drawGrp);
+
+/* ---------- 4 esperanzas iteradas ---------- */
+const E0=sum(XV.map(x=>CEF[x].n?CEF[x].m*PROB[x]:0));
+function drawLie(){
+  const t=+$('lt').value; $('ltV').textContent=Math.round(t*100)+'%';
+  const pr=PROB.slice(); const mv=pr[9]*t; pr[9]-=mv; pr[12]+=mv;
+  const Ey=sum(XV.map(x=>CEF[x].n?CEF[x].m*pr[x]:0));
+  const top=Math.max(...pr)*1.2;
+  const P=Plot($('lieSvg'),{w:640,h:300,x:[-0.8,20.8],y:[0,top],m:{l:48}});
+  P.axes([0,3,6,9,12,15,18,20],niceTicks(0,top*0.95,4),'años de escolaridad X','P(X = x)',v=>v,v=>fmt(v,2));
+  pr.forEach((p,x)=>{ P.rect(x-0.38,x+0.38,0,p,x===9||x===12?'var(--accent)':'var(--line)',0.9); if(PROB[x]>0.05) P.text(x,p+top*0.03,'m = '+fmt(CEF[x].m,0),'var(--fixed)','middle','font-size:11px;font-weight:600'); });
+  $('lE').textContent=fmt(Ey,1); $('lE0').textContent=fmt(E0,1); $('lD').textContent=(Ey>=E0?'+':'')+fmt(Ey-E0,1)+' pesos';
+}
+$('lt').addEventListener('input',drawLie);
+
+/* ---------- 5 mejor predictor ---------- */
+function mseL(l){ let t=0; POP.forEach(p=>{ const g=EY+l*(CEF[p.X].m-EY); t+=(p.Y-g)**2; }); return t/POP.length; }
+const LGRID=[]; for(let l=-0.5;l<=2.0001;l+=0.05) LGRID.push([l,mseL(l)]);
+function drawPrd(){
+  const l=+$('pl').value; $('plV').textContent=fmt(l,2);
+  const P=Plot($('prdSvg'),{w:640,h:380,x:[-0.8,20.8],y:[0,YMAX],m:{l:52}});
+  P.axes([0,3,6,9,12,15,18,20],[0,50,100,150,200,250],'años de escolaridad X','salario por hora (pesos)',v=>v,v=>fmt(v,0));
+  P.clip(); show.forEach((p,i)=>P.dot(p.X+jit(i),p.Y,1.8,'var(--muted)',0.18));
+  P.hline(EY,'var(--muted)',1.2,'4 3');
+  P.line(CEF.filter(c=>c.n).map(c=>[c.x,c.m]),'var(--fixed)',2);
+  P.line(CEF.filter(c=>c.n).map(c=>[c.x,EY+l*(c.m-EY)]),'var(--random)',3);
+  P.unclip();
+  legend(P,[['personas','var(--muted)',.4,'dot'],['media E[Y]','var(--muted)',1,'line','4 3'],['CEF m(x)','var(--fixed)',1,'line'],['tu predictor g_λ(x)','var(--random)',1,'line']],null,'tl');
+  const e=mseL(l), ec=mseL(1);
+  $('pE').textContent=fmt(e,0); $('pC').textContent=fmt(ec,0);
+  const ym=Math.max(...LGRID.map(r=>r[1]));
+  const Q=Plot($('mseSvg'),{w:420,h:220,x:[-0.5,2],y:[ec*0.9,ym*1.03],m:{l:52}});
+  Q.axes([-0.5,0,0.5,1,1.5,2],niceTicks(ec*0.9,ym,4),'λ','ECM (pesos²)',v=>fmt(v,1),v=>fmt(v,0));
+  Q.line(LGRID,'var(--ink)',2.4); Q.vline(1,'var(--fixed)',1.2,'4 3','CEF'); Q.vline(0,'var(--muted)',1,'2 3','media'); Q.dot(l,e,5.5,'var(--random)');
+}
+$('pl').addEventListener('input',drawPrd);
+
+/* ---------- 6 error ---------- */
+function drawErr(){
+  const res=show.map(p=>p.Y-CEF[p.X].m);
+  const P=Plot($('errSvg'),{w:640,h:360,x:[-0.8,20.8],y:[-90,160],m:{l:52}});
+  P.axes([0,3,6,9,12,15,18,20],[-50,0,50,100,150],'años de escolaridad X','e = Y − m(X) (pesos)',v=>v,v=>fmt(v,0));
+  P.clip(); P.hline(0,'var(--ink)',1.2);
+  show.forEach((p,i)=>P.dot(p.X+jit(i),res[i],1.8,'var(--muted)',0.22));
+  XV.forEach(x=>{ if(CEF[x].n>30){ const s=Math.sqrt(CEF[x].v); P.line([[x,-s],[x,s]],'var(--ink)',1.4); P.dot(x,0,4.5,'var(--fixed)'); } });
+  P.unclip();
+  legend(P,[['error de cada persona','var(--muted)',.5,'dot'],['media del error en el grupo','var(--fixed)',1,'dot'],['± una desv. estándar del grupo','var(--ink)',1,'line']]);
+  const all=POP.map(p=>p.Y-CEF[p.X].m);
+  const gmean=x=>{ let t=0,c=0; POP.forEach((p,i)=>{ if(p.X===x){t+=all[i];c++;} }); return t/c; };
+  const rows=[['\\(\\E[e]\\)',mean(all)],['\\(\\E[e\\mid X=6]\\)',gmean(6)],['\\(\\E[e\\mid X=16]\\)',gmean(16)],['\\(\\E[e\\cdot X]\\)',mean(all.map((r,i)=>r*POP[i].X))],['\\(\\E[e\\cdot X^2]\\)',mean(all.map((r,i)=>r*POP[i].X**2))],['Desv. est. de \\(e\\) con \\(X=6\\)',Math.sqrt(CEF[6].v)],['Desv. est. de \\(e\\) con \\(X=16\\)',Math.sqrt(CEF[16].v)]];
+  $('errTbl').querySelector('tbody').innerHTML=rows.map(r=>'<tr><td>'+r[0]+'</td><td class="r num">'+fmt(Math.abs(r[1])<5e-9?0:r[1],2)+'</td></tr>').join('');
+  typeset();
+}
+
+/* ---------- 7 estimar por intervalos ---------- */
+const mx_=x=>3.5+0.05*x-0.0009*x*x, SDN_=0.45, NB=200, GRID=[...Array(81).keys()].map(i=>i*0.5);
+const mTrue=x=>Math.exp(mx_(x)+SDN_*SDN_/2);
+function sampleExp(){ const xs=[],ys=[]; for(let i=0;i<NB;i++){ const x=runif(0,40); xs.push(x); ys.push(Math.exp(mx_(x)+rnorm(0,SDN_))); } return [xs,ys]; }
+function binEst(xs,ys,K){ const w=40/K, s=new Array(K).fill(0), c=new Array(K).fill(0); xs.forEach((x,i)=>{ const k=Math.min(K-1,Math.floor(x/w)); s[k]+=ys[i]; c[k]++; }); return x=>{ const k=Math.min(K-1,Math.floor(x/w)); return c[k]?s[k]/c[k]:NaN; }; }
+function biasVar(K,reps){ const est=GRID.map(()=>[]); for(let r=0;r<reps;r++){ const [xs,ys]=sampleExp(); const f=binEst(xs,ys,K); GRID.forEach((x,j)=>{ const v=f(x); if(!isNaN(v)) est[j].push(v); }); }
+  let b2=0,vv=0; GRID.forEach((x,j)=>{ const m=mean(est[j]); b2+=(m-mTrue(x))**2; vv+=variance(est[j]); }); return [b2/GRID.length,vv/GRID.length]; }
+let BVcurve=null, binSeed=5;
+function drawBin(){
+  const K=+$('bk').value; $('bkV').textContent=K;
+  reseed(binSeed);
+  const P=Plot($('binSvg'),{w:640,h:360,x:[0,40],y:[0,160],m:{l:52}});
+  P.axes([0,10,20,30,40],[0,40,80,120,160],'años de experiencia X','salario por hora (pesos)',v=>v,v=>fmt(v,0));
+  P.clip(); let firstData=null;
+  for(let r=0;r<30;r++){ const [xs,ys]=sampleExp(); if(!firstData) firstData=[xs,ys]; const f=binEst(xs,ys,K); const pts=[]; const w=40/K; for(let k=0;k<K;k++){ const v=f(k*w+w/2); pts.push([k*w,v],[(k+1)*w-1e-6,v]); } const ln=P.line(pts,'var(--random)',r===0?2.4:1); ln.style.strokeOpacity=r===0?0.95:0.22; }
+  firstData[0].forEach((x,i)=>P.dot(x,firstData[1][i],2,'var(--ink)',0.35));
+  P.line(GRID.map(x=>[x,mTrue(x)]),'var(--fixed)',3); P.unclip();
+  const [b2,vv]=biasVar(K,150);
+  $('bB').textContent=fmt(b2,1); $('bV2').textContent=fmt(vv,1); $('bM').textContent=fmt(b2+vv,1);
+  if(!BVcurve){ reseed(99); BVcurve=[]; for(let k=1;k<=40;k+=(k<10?1:3)) BVcurve.push([k,...biasVar(k,60)]); }
+  const ym=Math.max(...BVcurve.map(r=>r[2]))*1.6;
+  const Q=Plot($('bmSvg'),{w:420,h:220,x:[1,40],y:[0,ym],m:{l:48}});
+  Q.axes([1,10,20,30,40],niceTicks(0,ym,4),'número de intervalos K','pesos²',v=>v,v=>fmt(v,0));
+  Q.clip();
+  Q.line(BVcurve.map(r=>[r[0],r[1]]),'var(--fixed)',1.6,'4 3');
+  Q.line(BVcurve.map(r=>[r[0],r[2]]),'var(--random)',1.6,'4 3');
+  Q.line(BVcurve.map(r=>[r[0],r[1]+r[2]]),'var(--ink)',2.4);
+  Q.unclip(); Q.vline(K,'var(--muted)',1,'2 3');
+  legend(Q,[['ECM','var(--ink)',1,'line'],['sesgo²','var(--fixed)',1,'line','4 3'],['varianza','var(--random)',1,'line','4 3']]);
+}
+$('bk').addEventListener('input',drawBin); $('bNew').addEventListener('click',()=>{binSeed++;drawBin();});
+
+/* ---------- 8 variable omitida y selección ---------- */
+function drawOv(){
+  const a=+$('oa').value, g=+$('og').value; $('oaV').textContent=fmt(a,2); $('ogV').textContent=fmt(g,0);
+  const Pp=makePop(a,g,31,80000), C=cefOf(Pp);
+  // paso 1: habilidad en dos grupos
+  const A12=Pp.filter(p=>p.X===12).map(p=>p.A), A16=Pp.filter(p=>p.X===16).map(p=>p.A);
+  const h1=hist(A12,-3.5,3.5,28), h2=hist(A16,-3.5,3.5,28), ym=Math.max(...h1.dens,...h2.dens)*1.2;
+  const P=Plot($('abSvg'),{w:640,h:200,x:[-3.5,3.5],y:[0,ym],m:{l:20}});
+  P.axes([-3,-2,-1,0,1,2,3],[],'habilidad A (desviaciones estándar)',null,v=>fmt(v,0));
+  drawHist(P,h1,'var(--muted)',0.5); drawHist(P,h2,'var(--accent)',0.45);
+  const ma=mean(A12), mb=mean(A16);
+  P.vline(ma,'var(--muted)',2,'4 3'); P.vline(mb,'var(--accent)',2,'4 3');
+  legend(P,[['12 años: E[A] = '+fmt(ma,2),'var(--muted)',.6],['16 años: E[A] = '+fmt(mb,2),'var(--accent)',.55]],null,'tl');
+  // paso 2: descomposición
+  const obs=C[16].m-C[12].m, eff=efecto(16)-efecto(12), abil=obs-eff;
+  const top=Math.max(obs,eff)*1.25+5;
+  const Q=Plot($('dcSvg'),{w:640,h:150,x:[Math.min(0,abil)-5,top],y:[0,3],m:{l:150,b:34,t:6}});
+  Q.axes(niceTicks(Math.min(0,abil)-5,top,6),[],'pesos por hora',null);
+  const rows=[['diferencia observada',0,obs,'var(--ink)'],['efecto de la escolaridad',0,eff,'var(--fixed)'],['diferencia de habilidad',eff,eff+abil,'var(--accent)']];
+  rows.forEach((r,k)=>{ const y=2.5-k; Q.rect(Math.min(r[1],r[2]),Math.max(r[1],r[2]),y-0.3,y+0.3,r[3],0.8); el('text',{x:Q.m.l-8,y:Q.sy(y)+4,'text-anchor':'end'},Q.g,r[0]); Q.text(Math.max(r[1],r[2])+1,y-0.1,fmt(r[2]-r[1],1),'var(--ink)','start','font-size:11px;font-weight:600'); });
+  // paso 3: CEF y efecto
+  const R=Plot($('ovSvg'),{w:640,h:260,x:[-0.5,20.5],y:[0,200],m:{l:52}});
+  R.axes([0,4,8,12,16,20],[0,50,100,150,200],'años de escolaridad X','salario por hora (pesos)',v=>v,v=>fmt(v,0));
+  R.line(XV.map(x=>[x,efecto(x)]),'var(--fixed)',2,'5 4');
+  R.line(C.filter(c=>c.n>40).map(c=>[c.x,c.m]),'var(--ink)',2.6);
+  C.forEach(c=>{ if(c.n>40) R.dot(c.x,c.m,3,'var(--ink)'); });
+  legend(R,[['CEF: promedio observado por grupo','var(--ink)',1,'line'],['salario con habilidad media','var(--fixed)',1,'line','5 4']],null,'tl');
+  $('oCef').textContent=fmt(obs,1); $('oCau').textContent=fmt(eff,1); $('oAb').textContent=fmt(mb-ma,2)+' DE';
+}
+['oa','og'].forEach(i=>$(i).addEventListener('input',drawOv));
+function drawSel(){
+  const r=+$('sr').value; $('srV').textContent=fmt(r,0);
+  const work=p=>p.Y+p.eta>r;
+  const Cw=cefOf(POP,work);
+  const P=Plot($('slSvg'),{w:420,h:240,x:[-0.5,20.5],y:[0,200],m:{l:48}});
+  P.axes([0,4,8,12,16,20],[0,50,100,150,200],'años de escolaridad X','pesos por hora',v=>v,v=>fmt(v,0));
+  P.line(CEF.filter(c=>c.n>40).map(c=>[c.x,c.m]),'var(--fixed)',2.6);
+  P.line(Cw.filter(c=>c.n>40).map(c=>[c.x,c.m]),'var(--random)',2.6,'6 4');
+  legend(P,[['toda la población','var(--fixed)',1,'line'],['sólo quienes trabajan','var(--random)',1,'line','6 4']],null,'tl');
+  const part=x=>{ let c=0,w=0; POP.forEach(p=>{ if(p.X===x){c++; if(work(p)) w++;} }); return c?w/c:0; };
+  $('sAll').textContent=fmt(CEF[16].m-CEF[12].m,1); $('sObs').textContent=Cw[16].n&&Cw[12].n?fmt(Cw[16].m-Cw[12].m,1):'–';
+  $('sPart').textContent=fmt(100*part(6),0)+'% y '+fmt(100*part(16),0)+'%';
+}
+$('sr').addEventListener('input',drawSel);
+
+/* ---------- 7 código ---------- */
+buildCode($('codeHolder'),{
+R:`# --- La CEF con datos reales: salario por hora por escolaridad ---
+library(dplyr)
+library(wooldridge)
+
+trabajadores <- wage1 |>
+  select(wage, educ)
+
+# m(s): salario promedio en cada nivel de escolaridad
+cef <- trabajadores |>
+  group_by(educ) |>
+  summarize(m_s = mean(wage),
+            var_s = var(wage),
+            n_s = n()) |>
+  mutate(p_s = n_s / sum(n_s))
+cef
+
+# Esperanzas iteradas: el promedio ponderado de m(s) es E[Y]
+cef |> summarize(promedio_ponderado = sum(m_s * p_s))
+mean(trabajadores$wage)
+
+# Varianza total = dentro de grupos + entre grupos
+trabajadores <- trabajadores |>
+  group_by(educ) |>
+  mutate(m_s = mean(wage)) |>
+  ungroup()
+mean((trabajadores$wage - trabajadores$m_s)^2)   # dentro
+mean((trabajadores$m_s - mean(trabajadores$wage))^2)  # entre
+mean((trabajadores$wage - mean(trabajadores$wage))^2)  # total`,
+Stata:`* --- La CEF con datos reales: salario por hora por escolaridad ---
+bcuse wage1, clear
+
+* m(s): salario promedio en cada nivel de escolaridad
+table educ, statistic(mean wage) statistic(count wage)
+
+* Esperanzas iteradas: el promedio ponderado de m(s) es E[Y]
+bysort educ: egen m_s = mean(wage)
+summarize wage m_s
+
+* Varianza total = dentro de grupos + entre grupos
+generate dentro = (wage - m_s)^2
+summarize wage
+generate entre = (m_s - r(mean))^2
+generate total = (wage - r(mean))^2
+summarize dentro entre total`,
+Python:`# --- La CEF con datos reales: salario por hora por escolaridad ---
+import wooldridge as woo
+
+trabajadores = woo.data("wage1")[["wage", "educ"]]
+
+# m(s): salario promedio en cada nivel de escolaridad
+cef = (trabajadores.groupby("educ")["wage"]
+       .agg(m_s="mean", var_s="var", n_s="size"))
+cef["p_s"] = cef["n_s"] / cef["n_s"].sum()
+print(cef)
+
+# Esperanzas iteradas: el promedio ponderado de m(s) es E[Y]
+print((cef["m_s"] * cef["p_s"]).sum(), trabajadores["wage"].mean())
+
+# Varianza total = dentro de grupos + entre grupos
+trabajadores["m_s"] = trabajadores.groupby("educ")["wage"].transform("mean")
+y_barra = trabajadores["wage"].mean()
+dentro = ((trabajadores["wage"] - trabajadores["m_s"])**2).mean()
+entre = ((trabajadores["m_s"] - y_barra)**2).mean()
+total = ((trabajadores["wage"] - y_barra)**2).mean()
+print(dentro, entre, dentro + entre, total)`
+},'La descomposición usa el divisor \\(n\\) en los tres términos para que la suma sea exacta.');
+
+/* ---------- 8 referencias ---------- */
+const REFS=[
+ ['Hansen, Econometrics, cap. 2: Conditional Expectation and Projection','https://users.ssc.wisc.edu/~bhansen/econometrics/'],
+ ['Cunningham, Causal Inference: The Mixtape, cap. 2 (propiedades de la CEF)','https://mixtape.scunning.com/'],
+ ['Huntington-Klein, The Effect, cap. 4: Describing Relationships','https://theeffectbook.net/'],
+ ['Card (1999), The causal effect of education on earnings, Handbook of Labor Economics','https://doi.org/10.1016/S1573-4463(99)03011-4'],
+ ['Almond, Chay y Lee (2005), The costs of low birth weight, QJE','https://doi.org/10.1093/qje/120.3.1031']
+];
+$('refList').innerHTML=REFS.map(r=>'<li><a href="'+r[1]+'" target="_blank" rel="noopener">'+r[0]+'</a></li>').join('');
+
+initProj(); initReveal();
+initTabs(id=>{ if(id==='condicional') drawJt(); if(id==='media') drawMd(); if(id==='grupos') drawGrp(); if(id==='lie') drawLie(); if(id==='predictor') drawPrd(); if(id==='error') drawErr(); if(id==='estimar') drawBin(); if(id==='nodice'){drawOv();drawSel();} });
+
+</script>
+</body>
+</html>
