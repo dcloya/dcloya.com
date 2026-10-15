@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sesión 7.1: Microsimulación y tamizaje de diabetes gestacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: misma familia visual que las sesiones 6.1 y 6.2; pestañas por parte de la sesión, controles a la izquierda y resultados a la derecha. */
+:root{
+  --bg:#F4F6F9; --surface:#FFFFFF; --surface2:#EBEFF5; --line:#D5DCE6;
+  --ink:#16202E; --muted:#556275; --accent:#1F4E9E; --accent-soft:#DCE6F7;
+  --benefit:#2B7A57; --benefit-soft:#D7EEE2; --cost:#B0502A; --cost-soft:#F5E0D6;
+  --warn:#9A6B00; --warn-soft:#F7ECCF; --grid:#E3E8EF; --ref:#7A5BA6;
+  --tp:#2B7A57; --fp:#C7782F; --fn:#B03A2E; --tn:#C9D2DE;
+  --f-display:"Spectral", Georgia, "Times New Roman", serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F141B; --surface:#17202B; --surface2:#1E2936; --line:#2D3A4A;
+    --ink:#E6EBF2; --muted:#9AA8BA; --accent:#86AEF2; --accent-soft:#1F3150;
+    --benefit:#6CC49A; --benefit-soft:#1C3A2D; --cost:#E58E66; --cost-soft:#44291E;
+    --warn:#E0B44F; --warn-soft:#3A2F12; --grid:#243140; --ref:#B79CE0;
+    --tp:#5FBE8E; --fp:#E2A05A; --fn:#EE7F70; --tn:#3A4758;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F141B; --surface:#17202B; --surface2:#1E2936; --line:#2D3A4A;
+  --ink:#E6EBF2; --muted:#9AA8BA; --accent:#86AEF2; --accent-soft:#1F3150;
+  --benefit:#6CC49A; --benefit-soft:#1C3A2D; --cost:#E58E66; --cost-soft:#44291E;
+  --warn:#E0B44F; --warn-soft:#3A2F12; --grid:#243140; --ref:#B79CE0;
+  --tp:#5FBE8E; --fp:#E2A05A; --fn:#EE7F70; --tn:#3A4758;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:15px}
+html.proj{font-size:19px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.5;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1160px;margin:0 auto}
+header.top{padding-block:28px 12px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--f-display);font-weight:600;font-size:2.1rem;line-height:1.15;margin:.2rem 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.5rem;margin:0 0 .4rem;text-wrap:balance}
+h3{font-size:1.02rem;margin:0 0 .3rem;font-weight:600}
+p{margin:.3rem 0 .6rem;max-width:74ch}
+.muted{color:var(--muted)}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+.btn{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.35rem .75rem;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.btn:focus-visible,select:focus-visible,input:focus-visible,.tab:focus-visible,.stage:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;margin-bottom:22px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:.7rem .9rem .55rem;cursor:pointer;white-space:nowrap;color:var(--muted);font-weight:500}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab .k{font-family:var(--f-mono);font-size:.8rem;margin-right:.35rem;color:var(--accent)}
+section.panel{display:grid;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.split{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,1.7fr);gap:18px;align-items:start}
+@media (max-width:820px){.split{grid-template-columns:minmax(0,1fr)}}
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.chip.ok{background:var(--benefit-soft);color:var(--benefit)}
+.chip.no{background:var(--cost-soft);color:var(--cost)}
+.chip.mid{background:var(--warn-soft);color:var(--warn)}
+.chip.acc{background:var(--accent-soft);color:var(--accent)}
+.note{font-size:.85rem;color:var(--muted)}
+.prelim{font-size:.85rem;color:var(--cost);font-weight:600}
+.act{background:var(--accent-soft);border-radius:6px;padding:10px 12px;margin:.4rem 0}
+.act .lab,.idea .lab{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+.idea{border-left:3px solid var(--warn);padding:4px 12px;margin:.5rem 0}
+.idea .lab{color:var(--warn)}
+.refs{font-size:.85rem;color:var(--muted)}
+/* timeline */
+.tl-bar{display:flex;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.tl-seg{position:relative;border-right:1px solid var(--line);background:var(--surface);cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.tl-seg:last-child{border-right:0}
+.tl-seg:hover{background:var(--surface2)}
+.tl-seg .t{font-size:.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-seg .m{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.tl-act{position:absolute;bottom:0;height:9px;background:var(--accent);opacity:.85}
+.tl-axis{position:relative;height:20px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.block{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 22px;padding:18px 0;border-top:1px solid var(--line)}
+.block .when{font-family:var(--f-mono);font-size:.85rem;color:var(--muted)}
+.block .when b{display:block;font-size:1.35rem;color:var(--ink);font-family:var(--f-display);font-weight:600}
+.block ul{margin:.2rem 0 .6rem;padding-left:1.1rem}
+.block li{margin:.15rem 0}
+@media (max-width:640px){.block{grid-template-columns:minmax(0,1fr)}.tl-seg .t{font-size:.66rem}.tl-seg{padding:4px}}
+/* tables */
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:.42rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+td.r,th.r{text-align:right}
+td.r{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.tblwrap{overflow-x:auto}
+/* forms */
+.form{display:grid;gap:12px;align-content:start}
+.field{display:grid;gap:3px}
+.field label{font-size:.88rem;font-weight:500;display:flex;justify-content:space-between;gap:8px}
+.field label output{font-family:var(--f-mono);color:var(--accent);font-weight:500}
+.field input[type=range]{width:100%;accent-color:var(--accent)}
+.hint{font-size:.78rem;color:var(--muted)}
+fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 12px 12px;margin:0;display:grid;gap:10px;min-width:0}
+legend{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:0 4px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--surface);color:var(--muted);padding:.4rem .5rem;cursor:pointer;font-size:.86rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets .btn{font-size:.8rem;padding:.2rem .55rem}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:.88rem}
+.check input{margin-top:.25rem;accent-color:var(--accent)}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.kpis.k3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:700px){.kpis,.kpis.k3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .l{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.kpi .v{font-family:var(--f-mono);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.76rem;color:var(--muted)}
+.verdict{border-radius:8px;padding:12px 14px;display:grid;gap:2px}
+.verdict b{font-family:var(--f-display);font-size:1.15rem}
+.v-ok{background:var(--benefit-soft);color:var(--benefit)}
+.v-mid{background:var(--warn-soft);color:var(--warn)}
+.v-no{background:var(--cost-soft);color:var(--cost)}
+/* charts */
+svg.chart{width:100%;height:auto;display:block}
+svg text{font-family:var(--f-body);font-size:11px;fill:var(--muted)}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted)}
+.key i{display:inline-block;width:18px;height:0;border-top:2.5px solid;vertical-align:middle;margin-right:6px}
+.key s{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px;text-decoration:none}
+/* chain */
+.chain-scroll{overflow-x:auto;padding-bottom:4px}
+.chain{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px;min-width:900px}
+.stage{font:inherit;text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:7px;color:var(--ink);position:relative}
+.stage:hover{border-color:var(--muted)}
+.stage[aria-selected="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.stage:not(:last-child)::after{content:"";position:absolute;right:-11px;top:24px;width:10px;height:2px;background:var(--muted)}
+.stage .idx{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.stage .nm{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.2}
+.stage .one{font-size:.8rem;color:var(--muted);line-height:1.35}
+.stage.gap{border-style:dashed;border-color:var(--cost)}
+.detail ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.detail li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px}
+.tag{font-family:var(--f-mono);font-size:.68rem;padding:2px 6px;border-radius:4px;margin-top:3px;text-align:center;min-width:44px;height:max-content}
+.tag.ev{background:var(--surface2);color:var(--muted)}
+.tag.gap{background:var(--cost-soft);color:var(--cost)}
+.tag.f1{background:var(--accent-soft);color:var(--accent)}
+.tag.f2{background:var(--benefit-soft);color:var(--benefit)}
+.frameworks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.frameworks ol{margin:.2rem 0;padding-left:1.2rem;font-size:.9rem}
+/* waffle */
+.waffle{display:grid;grid-template-columns:repeat(50,1fr);gap:2px;max-width:560px}
+.waffle i{display:block;aspect-ratio:1;border-radius:1.5px;background:var(--tn)}
+.waffle i.tp{background:var(--tp)} .waffle i.fp{background:var(--fp)} .waffle i.fn{background:var(--fn)}
+.strip{display:grid;gap:2px}
+.strip .row{display:grid;grid-template-columns:repeat(10,1fr);gap:2px}
+.strip .row i{height:9px;border-radius:1.5px}
+.st-u{background:var(--fp)} .st-c{background:var(--tp)} .st-e{background:var(--ref)} .st-d{background:var(--ink)} .st-n{background:var(--grid)}
+.cols{columns:2 300px;column-gap:28px}
+.cols>*{break-inside:avoid}
+ol.steps{padding-left:1.2rem;margin:.3rem 0}
+ol.steps li{margin:.25rem 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <div class="eyebrow">Diplomado Estrategias de Salud en México. Módulo VII, sesión 7.1, 13 de octubre</div>
+    <h1>Evaluación de efectividad y eficiencia económica de tecnologías digitales</h1>
+    <p class="muted" style="margin:.3rem 0 0">David Contreras-Loya. Tres demostraciones interactivas: microsimulación de pacientes con hipertensión, tamizaje universal de diabetes gestacional con glucosa capilar y tamizaje en dos etapas. Cifras en dólares.</p>
+  </div>
+  <button class="btn" id="projBtn" type="button">Modo proyección</button>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Secciones">
+  <button class="tab" role="tab" data-tab="micro" aria-selected="true"><span class="k">1</span>Microsimulación</button>
+  <button class="tab" role="tab" data-tab="dmg" aria-selected="false"><span class="k">2</span>Tamizaje de DMG</button>
+  <button class="tab" role="tab" data-tab="etapas" aria-selected="false"><span class="k">3</span>Dos etapas</button>
+</nav>
+
+<!-- ============ MICRO ============ -->
+<section class="panel" id="p-micro">
+  <div class="card">
+    <div class="eyebrow">Parte 5, actividad 5, min 103-108</div>
+    <h2>Microsimulación de pacientes con hipertensión</h2>
+    <p>La Fase 2 de DoctorSV propone seguir una cohorte de pacientes cardiometabólicos y proyectar sus resultados con una microsimulación. Esta demostración simula personas una por una durante 10 años: cada año pueden tener su presión controlada, sufrir un evento cardiovascular o morir. Los dos brazos usan los mismos números aleatorios, así que la diferencia refleja solo el control de la presión.</p>
+    <p class="prelim">Parámetros ilustrativos para enseñar el método. No son resultados de DoctorSV.</p>
+  </div>
+  <div class="split">
+    <div class="card form">
+      <div class="field">
+        <label for="mN">Pacientes simulados <output id="mNOut"></output></label>
+        <input type="range" id="mN" min="500" max="10000" step="500" value="4000">
+      </div>
+      <div class="field">
+        <label for="mPd">Control de la presión con DoctorSV <output id="mPdOut"></output></label>
+        <input type="range" id="mPd" min="0.1" max="0.9" step="0.01" value="0.50">
+        <span class="hint">Lo mediría la cohorte de la Fase 2.</span>
+      </div>
+      <div class="field">
+        <label for="mPm">Control de la presión en MINSAL <output id="mPmOut"></output></label>
+        <input type="range" id="mPm" min="0.1" max="0.9" step="0.01" value="0.35">
+        <span class="hint">Comparador simulado: sale de fuentes secundarias, no se observa.</span>
+      </div>
+      <div class="field">
+        <label for="mDrop">Reducción de la presión sistólica si está controlada <output id="mDropOut"></output></label>
+        <input type="range" id="mDrop" min="5" max="25" step="1" value="15">
+      </div>
+      <div class="field">
+        <label for="mSd">Dispersión de la presión inicial (desviación estándar) <output id="mSdOut"></output></label>
+        <input type="range" id="mSd" min="0" max="25" step="1" value="16">
+        <span class="hint">Con 0, todas las personas tienen la presión promedio (152 mmHg).</span>
+      </div>
+      <label class="check"><input type="checkbox" id="mCrn" checked><span>Mismos números aleatorios en los dos brazos</span></label>
+      <button class="btn" id="mRun" type="button">Otra corrida (nueva semilla)</button>
+      <p class="hint" style="margin:0">Riesgo anual de evento: 0.8% a 140 mmHg y 55 años, multiplicado por 1.4 por cada 10 mmHg y por 1.6 por cada 10 años de edad. Después de un evento el riesgo se duplica. Utilidad 0.85 sin evento y 0.70 después de un evento.</p>
+    </div>
+    <div style="display:grid;gap:18px;min-width:0">
+      <div class="kpis k3" id="mKpis"></div>
+      <div class="card">
+        <h3>Eventos cardiovasculares acumulados por 1,000 pacientes</h3>
+        <div class="key"><span><i style="border-color:var(--accent)"></i>DoctorSV</span><span><i style="border-color:var(--cost)"></i>MINSAL simulado</span><span><i style="border-color:var(--muted);border-top-style:dashed"></i>Modelo de cohorte con la presión promedio (MINSAL)</span></div>
+        <svg class="chart" id="mChart" viewBox="0 0 640 260" role="img" aria-label="Eventos acumulados por año"></svg>
+      </div>
+      <div class="card">
+        <h3>Las primeras 40 personas del brazo DoctorSV, año por año</h3>
+        <div class="key" style="margin-bottom:8px"><span><s style="background:var(--tp)"></s>Controlada</span><span><s style="background:var(--fp)"></s>No controlada</span><span><s style="background:var(--ref)"></s>Después de un evento</span><span><s style="background:var(--ink)"></s>Muerte</span></div>
+        <div class="strip" id="mStrip"></div>
+        <p class="note">Cada fila es una persona y cada celda un año. Un modelo de cohorte solo vería proporciones; aquí cada persona conserva su presión, su historia y su riesgo.</p>
+      </div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="act" style="margin:0"><div class="lab">Actividad 5, encuesta 2 min</div>Cohorte de un solo brazo contra un comparador simulado. ¿Cuál es la amenaza principal? a) regresión a la media, b) selección de quien se inscribe, c) atrición entre mediciones, d) efecto de ser observado.</div>
+    <div class="idea" style="margin:0"><div class="lab">Para la demostración</div>Lleve la dispersión a 0 y compare los eventos con 16 mmHg. Como el riesgo crece más que proporcionalmente con la presión, el modelo con la presión promedio subestima los eventos. Después quite los mismos números aleatorios y pulse "Otra corrida" varias veces: la diferencia entre brazos brinca por puro azar.</div>
+  </div>
+</section>
+
+<!-- ============ DMG ============ -->
+<section class="panel" id="p-dmg" hidden>
+  <div class="card">
+    <div class="eyebrow">Parte 6, actividad 6, min 113-130</div>
+    <h2>Glucosa capilar universal frente a la CTOG que llega a 35%</h2>
+    <p>El comparador no es la curva de tolerancia oral a la glucosa (CTOG) como estándar de oro, sino la CTOG con la cobertura que tiene hoy: detecta cerca de 35% de los casos. La prueba capilar gana por cobertura y pierde por precisión. Mueva los parámetros de la prueba.</p>
+    <p class="note">Contreras-Loya D. Evaluación económica de una estrategia de tamizaje universal de diabetes mellitus gestacional. Tec de Monterrey, 2024. Precisión de Gallardo-Rincón et al. (2022), n = 947.</p>
+  </div>
+  <div class="split">
+    <div class="card form">
+      <div class="presets" role="group" aria-label="Escenarios">
+        <button class="btn" type="button" data-dp="base" aria-pressed="true">Caso base (criterios ADA)</button>
+        <button class="btn" type="button" data-dp="best" aria-pressed="false">Mejor caso (Youden)</button>
+      </div>
+      <div class="field">
+        <label for="dPrev">Prevalencia de diabetes gestacional <output id="dPrevOut"></output></label>
+        <input type="range" id="dPrev" min="0.04" max="0.25" step="0.0001" value="0.1404">
+      </div>
+      <div class="field">
+        <label for="dSens">Sensibilidad de la prueba capilar <output id="dSensOut"></output></label>
+        <input type="range" id="dSens" min="0.3" max="1" step="0.0001" value="0.8947">
+      </div>
+      <div class="field">
+        <label for="dSpec">Especificidad de la prueba capilar <output id="dSpecOut"></output></label>
+        <input type="range" id="dSpec" min="0.4" max="1" step="0.0001" value="0.6658">
+      </div>
+      <label class="check"><input type="checkbox" id="dT2d"><span>Incluir el ahorro por diabetes tipo 2 evitada en 10 años (descuento de 5%)</span></label>
+      <p class="hint" style="margin:0">Costo por mujer tratada: USD 950 si tiene DMG y USD 550 si es falsa positiva. Prueba capilar USD 4.4; CTOG USD 26. Cada caso adicional tratado evita 0.24 complicaciones y USD 1,755 en su atención (relación del reporte: 1,818 complicaciones y USD 13.3 M por 7,590 casos). Por redondeo de la sensibilidad y la especificidad, la página da cerca de USD 9.01 M de costo neto y USD 4,960 por complicación evitada; el reporte da 8.97 M y 4,932 (diferencia menor a 1%).</p>
+    </div>
+    <div style="display:grid;gap:18px;min-width:0">
+      <div class="card">
+        <h3>1,000 embarazadas con la prueba capilar universal</h3>
+        <div class="key" style="margin-bottom:8px"><span><s style="background:var(--tp)"></s>Verdaderas positivas <b class="num" id="wTP"></b></span><span><s style="background:var(--fp)"></s>Falsas positivas <b class="num" id="wFP"></b></span><span><s style="background:var(--fn)"></s>Falsas negativas <b class="num" id="wFN"></b></span><span><s style="background:var(--tn)"></s>Verdaderas negativas <b class="num" id="wTN"></b></span></div>
+        <div class="waffle" id="waffle" role="img" aria-label="Clasificación de 1,000 embarazadas"></div>
+        <p class="note" id="wNote"></p>
+      </div>
+      <div class="verdict" id="dVerdict"></div>
+      <div class="kpis k3" id="dKpis"></div>
+      <div class="card">
+        <h3>Capilar menos CTOG al 35%, por 100,000 embarazos</h3>
+        <svg class="chart" id="dBars" viewBox="0 0 640 230" role="img" aria-label="Costos y ahorros"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="act" style="margin:0"><div class="lab">Actividad 6, chat en cascada 5 min</div>De cada 1,000 embarazadas, 140 tienen DMG. Con sensibilidad de 89.5% y especificidad de 66.6%, ¿cuántos verdaderos positivos, falsos negativos y falsos positivos hay? ¿Qué fracción de las positivas tiene DMG? Después, busque la especificidad con la que el costo por complicación evitada iguala USD 4,100.</div>
+    <div class="idea" style="margin:0"><div class="lab">Idea poco discutida</div>Con los mismos parámetros, una CTOG venosa universal a USD 26 ahorraría frente a hoy. El modelo no incluye el costo de llegar: laboratorio, ayuno, dos horas en la unidad, regreso por el resultado. La ventaja de la prueba capilar está justo en lo que el modelo no cuenta.</div>
+  </div>
+</section>
+
+<!-- ============ ETAPAS ============ -->
+<section class="panel" id="p-etapas" hidden>
+  <div class="card">
+    <div class="eyebrow">Parte 6, actividad 7, min 130-138</div>
+    <h2>Tamizaje en dos etapas: el parámetro es el apego</h2>
+    <p>La mayor parte del costo de la prueba capilar universal es tratar a mujeres sin DMG. Una alternativa: las positivas regresan a una CTOG venosa de confirmación y solo se trata a las confirmadas. Eso elimina casi todos los falsos positivos, pero pierde a las que no regresan.</p>
+    <p class="note">Extensión para clase con los parámetros del reporte. No incluye el costo de la segunda visita ni el tiempo de la paciente. La CTOG confirmatoria tiene sensibilidad de 81% y especificidad de 99%.</p>
+  </div>
+  <div class="split">
+    <div class="card form">
+      <div class="field">
+        <label for="eA">Apego a la CTOG de confirmación <output id="eAOut"></output></label>
+        <input type="range" id="eA" min="0" max="1" step="0.01" value="0.70">
+        <span class="hint">Fracción de las positivas a la prueba capilar que regresa a la confirmación.</span>
+      </div>
+      <div class="field">
+        <label for="eVisit">Costo de la segunda visita por mujer (USD) <output id="eVisitOut"></output></label>
+        <input type="range" id="eVisit" min="0" max="60" step="1" value="0">
+        <span class="hint">Tiempo, transporte y consulta. El reporte no lo incluye.</span>
+      </div>
+      <div class="verdict" id="eVerdict"></div>
+    </div>
+    <div style="display:grid;gap:18px;min-width:0">
+      <div class="tblwrap card"><table id="eTbl"></table></div>
+      <div class="card">
+        <h3>Casos detectados y tratados según el apego, por 100,000 embarazos</h3>
+        <div class="key"><span><i style="border-color:var(--accent)"></i>Dos etapas</span><span><i style="border-color:var(--cost);border-top-style:dashed"></i>Hoy: CTOG al 35%</span><span><i style="border-color:var(--benefit);border-top-style:dashed"></i>Una etapa capilar</span></div>
+        <svg class="chart" id="eChart" viewBox="0 0 640 250" role="img" aria-label="Casos detectados según el apego"></svg>
+      </div>
+      <div class="card">
+        <h3>Costo neto frente a hoy según el apego (M USD por 100,000 embarazos)</h3>
+        <svg class="chart" id="eChart2" viewBox="0 0 640 220" role="img" aria-label="Costo neto según el apego"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="act" style="margin:0"><div class="lab">Actividad 7, salas 7 min</div>¿Con qué apego el esquema en dos etapas detecta menos casos que hoy? Su sala debe recomendar una etapa o dos etapas a IMSS-Bienestar. ¿Qué dato pedirían antes de decidir y cómo lo obtendrían?</div>
+</section>
+
+<div class="card refs" style="margin-top:18px">
+    <h3>Fuentes</h3>
+    <p>Contreras-Loya D. Evaluación económica de una estrategia de tamizaje universal de diabetes mellitus gestacional. Reporte técnico, Institute for Obesity Research, Tec de Monterrey, agosto 2024. Gallardo-Rincón H, et al., 2022. Mansell T, et al., 2017. Pillay J, et al., 2021.</p>
+    <p>Sánchez-Romero LM, et al. Projected impact of Mexico's sugar-sweetened beverage tax policy on diabetes and cardiovascular disease: a modeling study. PLoS Medicine, 2016. Krijkamp EM, et al. Microsimulation modeling for health decision sciences using R: a tutorial. Medical Decision Making, 2018.</p>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const fmt=(x,d)=>x.toLocaleString('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
+const usd=(x,d=2)=>(x<0?'−':'')+'$'+fmt(Math.abs(x),d);
+const NS='http://www.w3.org/2000/svg';
+function el(t,a,p,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;if(p)p.appendChild(e);return e;}
+function clear(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function niceTicks(lo,hi,n){const raw=(hi-lo)/n;const p=Math.pow(10,Math.floor(Math.log10(raw)));let st=p;for(const m of [1,2,2.5,5,10]){if(raw<=m*p){st=m*p;break;}}const a=[];for(let v=Math.ceil(lo/st)*st;v<=hi+1e-9;v+=st)a.push(+v.toFixed(8));return a;}
+function frame(svg,W,H,M,xd,yd,xt,yt,xl,yl,xf,yf){
+  clear(svg);
+  const X=v=>M.l+(v-xd[0])/(xd[1]-xd[0])*(W-M.l-M.r), Y=v=>H-M.b-(v-yd[0])/(yd[1]-yd[0])*(H-M.t-M.b);
+  yt.forEach(v=>{el('line',{x1:M.l,x2:W-M.r,y1:Y(v),y2:Y(v),stroke:'var(--grid)','stroke-width':Math.abs(v)<1e-9?1.6:1},svg);el('text',{x:M.l-6,y:Y(v)+4,'text-anchor':'end'},svg,yf(v));});
+  xt.forEach(v=>el('text',{x:X(v),y:H-M.b+16,'text-anchor':'middle'},svg,xf(v)));
+  el('text',{x:(M.l+W-M.r)/2,y:H-4,'text-anchor':'middle'},svg,xl);
+  if(yl)el('text',{x:12,y:(M.t+H-M.b)/2,'text-anchor':'middle',transform:'rotate(-90 12 '+((M.t+H-M.b)/2)+')'},svg,yl);
+  return {X,Y};
+}
+
+/* ---------- tabs ---------- */
+const tabs=[...document.querySelectorAll('.tab')];
+const runners={};
+function showTab(id){
+  tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===id?'true':'false'));
+  document.querySelectorAll('section.panel').forEach(p=>{p.hidden=p.id!=='p-'+id;});
+  try{history.replaceState(null,'','#'+id);}catch(e){}
+  if(runners[id])runners[id]();
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+document.getElementById('projBtn').addEventListener('click',e=>{const on=document.documentElement.classList.toggle('proj');e.currentTarget.textContent=on?'Modo normal':'Modo proyección';});
+
+/* ---------- microsimulación ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+let seed=20261013;
+const mIn={N:document.getElementById('mN'),pd:document.getElementById('mPd'),pm:document.getElementById('mPm'),drop:document.getElementById('mDrop'),sd:document.getElementById('mSd'),crn:document.getElementById('mCrn')};
+const YEARS=10;
+function annRisk(sbp,age,post){let r=0.008*Math.pow(1.4,(sbp-140)/10)*Math.pow(1.6,(age-55)/10);if(post)r*=2;return Math.min(r,0.6);}
+function simulate(){
+  const N=+mIn.N.value,pd=+mIn.pd.value,pm=+mIn.pm.value,drop=+mIn.drop.value,sd=+mIn.sd.value,crn=mIn.crn.checked;
+  const rngP=mulberry32(seed);
+  const pop=[];for(let i=0;i<N;i++){const u1=Math.max(rngP(),1e-12),u2=rngP();const z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);pop.push({sbp:Math.min(200,Math.max(125,152+sd*z)),age:45+25*rngP()});}
+  function arm(p,rng){
+    let ev=new Array(YEARS+1).fill(0),deaths=0,qaly=0;const strip=[];
+    for(let i=0;i<N;i++){const P=pop[i];let state=0,row=[];
+      for(let y=0;y<YEARS;y++){
+        const uc=rng(),ue=rng(),ud=rng(),ub=rng();
+        if(state===2){row.push('d');continue;}
+        const ctrl=uc<p;const sbp=P.sbp-(ctrl?drop:0);const age=P.age+y;
+        let ns=state;
+        if(ue<annRisk(sbp,age,state===1)){ev[y+1]++;if(ud<0.25)ns=2;else ns=1;}
+        else if(ub<0.006*Math.pow(1.09,age-55)+(state===1?0.05:0))ns=2;
+        qaly+=(ns===2?0.5:1)*(state===1?0.70:0.85);
+        row.push(ns===2?'d':(state===1||ns===1)?'e':(ctrl?'c':'u'));
+        state=ns;
+      }
+      if(state===2)deaths++;if(i<40)strip.push(row);
+    }
+    for(let y=1;y<=YEARS;y++)ev[y]+=ev[y-1];
+    return {ev:ev.map(x=>x/N*1000),deaths:deaths/N*1000,qaly:qaly/N*1000,strip};
+  }
+  let rA,rB;
+  if(crn){
+    const draws=new Float64Array(N*YEARS*4);const r=mulberry32(seed+1);for(let i=0;i<draws.length;i++)draws[i]=r();
+    const mk=()=>{let k=0;return()=>draws[k++];};
+    rA=arm(pd,mk());rB=arm(pm,mk());
+  }else{rA=arm(pd,mulberry32(seed+1));rB=arm(pm,mulberry32(seed+7919));}
+  // modelo de cohorte con presión y edad promedio (brazo MINSAL)
+  let alive=1,post=0,cum=[0];const sbpBar=152,ageBar=57.5;
+  for(let y=0;y<YEARS;y++){const rs=pm*annRisk(sbpBar-drop,ageBar+y,false)+(1-pm)*annRisk(sbpBar,ageBar+y,false);const rp=pm*annRisk(sbpBar-drop,ageBar+y,true)+(1-pm)*annRisk(sbpBar,ageBar+y,true);
+    const free=alive-post;const e1=free*rs,e2=post*rp;cum.push(cum[y]+(e1+e2)*1000);
+    const bg=0.006*Math.pow(1.09,ageBar+y-55);
+    const dFree=e1*0.25+(free-e1)*bg,dPost=e2*0.25+(post-e2)*(bg+0.05);
+    post=post-dPost+e1*0.75;alive=alive-dFree-dPost;}
+  return {A:rA,B:rB,cohort:cum};
+}
+function runMicro(){
+  ['N','pd','pm','drop','sd'].forEach(k=>{const o=document.getElementById('m'+{N:'N',pd:'Pd',pm:'Pm',drop:'Drop',sd:'Sd'}[k]+'Out');const v=+mIn[k].value;o.textContent=k==='N'?fmt(v,0):(k==='pd'||k==='pm')?fmt(v*100,0)+'%':fmt(v,0)+' mmHg';});
+  const r=simulate();
+  const dEv=r.B.ev[YEARS]-r.A.ev[YEARS],dQ=r.A.qaly-r.B.qaly,dD=r.B.deaths-r.A.deaths;
+  const k=[['Eventos a 10 años, DoctorSV',fmt(r.A.ev[YEARS],0),'por 1,000 pacientes'],['Eventos a 10 años, MINSAL',fmt(r.B.ev[YEARS],0),'por 1,000 pacientes'],['Eventos evitados',fmt(dEv,1),'por 1,000'],['Muertes evitadas',fmt(dD,1),'por 1,000'],['AVAC ganados',fmt(dQ,1),'por 1,000, sin descuento'],['Modelo de cohorte promedio',fmt(r.cohort[YEARS],0),'eventos MINSAL por 1,000']];
+  document.getElementById('mKpis').innerHTML=k.map(x=>'<div class="kpi"><span class="l">'+x[0]+'</span><span class="v">'+x[1]+'</span><span class="s">'+x[2]+'</span></div>').join('');
+  const svg=document.getElementById('mChart'),W=640,H=260,M={l:48,r:16,t:14,b:36};
+  const ymax=Math.max(r.B.ev[YEARS],r.A.ev[YEARS],r.cohort[YEARS])*1.1||10;
+  const yt=niceTicks(0,ymax,5);const f=frame(svg,W,H,M,[0,YEARS],[0,Math.max(ymax,yt[yt.length-1])],[0,2,4,6,8,10],yt,'Años de seguimiento','Eventos por 1,000',v=>v,v=>fmt(v,0));
+  const line=(arr,col,dash)=>el('path',{d:arr.map((v,i)=>(i?'L':'M')+f.X(i).toFixed(1)+' '+f.Y(v).toFixed(1)).join(' '),fill:'none',stroke:col,'stroke-width':dash?1.6:2.4,'stroke-dasharray':dash?'5 4':'none'},svg);
+  line(r.cohort,'var(--muted)',true);line(r.B.ev,'var(--cost)');line(r.A.ev,'var(--accent)');
+  const stripEl=document.getElementById('mStrip');stripEl.innerHTML=r.A.strip.map(row=>'<div class="row">'+row.map(c=>'<i class="st-'+c+'"></i>').join('')+'</div>').join('');
+}
+Object.values(mIn).forEach(x=>x.addEventListener('input',runMicro));
+document.getElementById('mRun').addEventListener('click',()=>{seed=Math.floor(Math.random()*1e9);runMicro();});
+runners.micro=runMicro;
+
+/* ---------- DMG ---------- */
+const DMG={N:100000,cTP:950,cFP:550,cCB:4.4,cOG:26,compPer:1818/7590,savPer:13324000/7590,t2dPer:563/7590,t2dSav:1663614/7590,
+  sqDet:4976/14040,sqFPr:354/85960,sqDiag:923000,sqTreat:4727000+195000,thr:4100};
+function sqOut(prev){const G=DMG.N*prev,H=DMG.N-G;const tp=G*DMG.sqDet,fp=H*DMG.sqFPr;return {tp,fp,cost:DMG.sqDiag+tp*DMG.cTP+fp*DMG.cFP};}
+function stratOut(prev,tp,fp,diag){const sq=sqOut(prev);const dTP=tp-sq.tp;const cost=diag+tp*DMG.cTP+fp*DMG.cFP;const dCost=cost-sq.cost;const comp=dTP*DMG.compPer;let saved=dTP*DMG.savPer;const t2d=dTP*DMG.t2dPer;const t2dS=dTP*DMG.t2dSav;return {tp,fp,dTP,dCost,comp,saved,t2d,t2dS,diag};}
+const dIn={prev:document.getElementById('dPrev'),sens:document.getElementById('dSens'),spec:document.getElementById('dSpec'),t2d:document.getElementById('dT2d')};
+document.querySelectorAll('[data-dp]').forEach(b=>b.addEventListener('click',()=>{const best=b.dataset.dp==='best';dIn.sens.value=best?0.8717:0.8947;dIn.spec.value=best?0.8104:0.6658;dIn.prev.value=0.1404;runDMG();}));
+const waffle=document.getElementById('waffle');for(let i=0;i<1000;i++)waffle.appendChild(document.createElement('i'));
+function runDMG(){
+  const prev=+dIn.prev.value,se=+dIn.sens.value,sp=+dIn.spec.value,inc=dIn.t2d.checked;
+  document.getElementById('dPrevOut').textContent=fmt(prev*100,1)+'%';document.getElementById('dSensOut').textContent=fmt(se*100,1)+'%';document.getElementById('dSpecOut').textContent=fmt(sp*100,1)+'%';
+  document.querySelectorAll('[data-dp]').forEach(b=>{const best=b.dataset.dp==='best';b.setAttribute('aria-pressed',(Math.abs(prev-0.1404)<1e-4&&Math.abs(se-(best?0.8717:0.8947))<1e-4&&Math.abs(sp-(best?0.8104:0.6658))<1e-4)?'true':'false');});
+  const G=1000*prev,H=1000-G,TP=G*se,FN=G-TP,FP=H*(1-sp),TN=H-FP;
+  const nTP=Math.round(TP),nFN=Math.round(G)-nTP,nFP=Math.round(FP),nTN=1000-nTP-nFN-nFP;
+  const cells=waffle.children;let i=0;
+  // columnas por grupo: primero DMG (TP, FN), luego sin DMG (FP, TN)
+  const order=[];for(let k=0;k<nTP;k++)order.push('tp');for(let k=0;k<nFN;k++)order.push('fn');for(let k=0;k<nFP;k++)order.push('fp');for(let k=0;k<nTN;k++)order.push('tn');
+  for(i=0;i<1000;i++)cells[i].className=order[i]==='tn'?'':order[i];
+  document.getElementById('wTP').textContent=nTP;document.getElementById('wFP').textContent=nFP;document.getElementById('wFN').textContent=nFN;document.getElementById('wTN').textContent=nTN;
+  const ppv=TP/(TP+FP);
+  const sq=sqOut(prev);
+  document.getElementById('wNote').textContent='Positivas: '+fmt(TP+FP,0)+' de cada 1,000. Valor predictivo positivo: '+fmt(ppv*100,0)+'%. Hoy, con la CTOG, se detectan unas '+fmt(sq.tp/100,0)+' de cada 1,000 y quedan '+fmt(G-sq.tp/100,0)+' sin detectar.';
+  const Gn=DMG.N*prev,Hn=DMG.N-Gn;
+  const r=stratOut(prev,Gn*se,Hn*(1-sp),DMG.N*DMG.cCB);
+  const saved=r.saved+(inc?r.t2dS:0);const net=r.dCost-saved;const bcr=saved/r.dCost;const icer=net/r.comp;
+  const k=[['Casos detectados adicionales',fmt(r.dTP,0),'frente a hoy'],['Falsas positivas tratadas',fmt(r.fp,0),'por 100,000'],['Complicaciones evitadas',fmt(r.comp,0),'por 100,000'],['Costo neto',(net<0?'−':'')+'$'+fmt(Math.abs(net)/1e6,2)+' M','por 100,000'],['Razón beneficio-costo',r.dCost>0?fmt(bcr,2):'n. a.','ahorro / costo adicional'],['USD por complicación evitada',r.comp>0?(icer<0?'ahorra':usd(icer,0)):'n. a.','referencia: $4,100']];
+  document.getElementById('dKpis').innerHTML=k.map(x=>'<div class="kpi"><span class="l">'+x[0]+'</span><span class="v">'+x[1]+'</span><span class="s">'+x[2]+'</span></div>').join('');
+  const v=document.getElementById('dVerdict');let cls,h,b;
+  if(r.comp<=0){cls='v-no';h='Menos efectiva que hoy';b='Con estos parámetros la prueba capilar detecta menos casos que la CTOG al 35%.';}
+  else if(net<=0){cls='v-ok';h='Más efectiva y ahorra';b='Evita '+fmt(r.comp,0)+' complicaciones por 100,000 embarazos y el ahorro supera el costo.';}
+  else if(icer<=DMG.thr){cls='v-ok';h='Más efectiva; cuesta menos que tratar las complicaciones';b='USD '+fmt(icer,0)+' por complicación evitada, debajo de USD 4,100.';}
+  else{cls='v-mid';h='Más efectiva y más cara';b='USD '+fmt(icer,0)+' por complicación evitada, arriba de USD 4,100. El argumento para pagar es de equidad: la misma oportunidad de diagnóstico para todas.';}
+  v.className='verdict '+cls;v.innerHTML='<b>'+h+'</b><span>'+b+'</span>';
+  // barras
+  const items=[['Tratar falsas positivas',r.fp*DMG.cFP-sq.fp*DMG.cFP,'c'],['Tratar casos con DMG',r.tp*DMG.cTP-sq.tp*DMG.cTP,'c'],['Diagnóstico',r.diag-DMG.sqDiag,'x'],['Complicaciones evitadas (incluye UCIN)',-r.saved,'b']];
+  if(inc)items.push(['Diabetes tipo 2 evitada, 10 años',-r.t2dS,'b']);
+  items.push(['Costo neto',net,'n']);
+  const svg=document.getElementById('dBars'),W=640,HB=40+items.length*30,M={l:250,r:70,t:10,b:30};svg.setAttribute('viewBox','0 0 '+W+' '+HB);clear(svg);
+  const vals=items.map(x=>x[1]/1e6);const lo=Math.min(0,...vals),hi=Math.max(0,...vals);const xd=[lo*1.05,hi*1.05];
+  const X=v=>M.l+(v-xd[0])/(xd[1]-xd[0])*(W-M.l-M.r);
+  niceTicks(xd[0],xd[1],6).forEach(t=>{el('line',{x1:X(t),x2:X(t),y1:M.t,y2:HB-M.b,stroke:'var(--grid)'},svg);el('text',{x:X(t),y:HB-M.b+15,'text-anchor':'middle'},svg,fmt(t,0));});
+  el('line',{x1:X(0),x2:X(0),y1:M.t,y2:HB-M.b,stroke:'var(--muted)'},svg);
+  items.forEach((it,i)=>{const y=M.t+i*30+4,v=it[1]/1e6;const col=it[2]==='b'?'var(--benefit)':it[2]==='n'?'var(--ink)':it[2]==='x'?'var(--muted)':'var(--cost)';
+    el('rect',{x:Math.min(X(0),X(v)),y,width:Math.abs(X(v)-X(0)),height:20,fill:col,rx:2},svg);
+    el('text',{x:M.l-8,y:y+14,'text-anchor':'end',fill:'var(--ink)'},svg,it[0]);
+    el('text',{x:Math.max(X(0),X(v))+5,y:y+14,fill:'var(--ink)'},svg,(v<0?'−':'')+fmt(Math.abs(v),1));});
+  el('text',{x:(M.l+W-M.r)/2,y:HB-3,'text-anchor':'middle'},svg,'M USD por 100,000 embarazos. Positivo: costo adicional. Negativo: ahorro.');
+}
+Object.values(dIn).forEach(x=>x.addEventListener('input',runDMG));
+runners.dmg=runDMG;
+
+/* ---------- dos etapas ---------- */
+const eIn={a:document.getElementById('eA'),visit:document.getElementById('eVisit')};
+function twoStage(a,visit){const prev=0.1404,se=0.8947,sp=0.6658,G=DMG.N*prev,H=DMG.N-G;const pos=G*se+H*(1-sp);const tp=G*se*a*0.81,fp=H*(1-sp)*a*0.01;const diag=DMG.N*DMG.cCB+pos*a*(DMG.cOG+visit);const r=stratOut(prev,tp,fp,diag);r.net=r.dCost-r.saved;return r;}
+function runEtapas(){
+  const a=+eIn.a.value,visit=+eIn.visit.value;document.getElementById('eAOut').textContent=fmt(a*100,0)+'%';document.getElementById('eVisitOut').textContent='$'+fmt(visit,0);
+  const prev=0.1404,G=DMG.N*prev,H=DMG.N-G;const sq=sqOut(prev);
+  const one=stratOut(prev,G*0.8947,H*(1-0.6658),DMG.N*DMG.cCB);one.net=one.dCost-one.saved;
+  const two=twoStage(a,visit);
+  const be=sq.tp/(G*0.8947*0.81);
+  const rows=[['','Hoy: CTOG al 35%','Una etapa capilar','Dos etapas, apego '+fmt(a*100,0)+'%'],
+   ['Casos detectados y tratados',fmt(sq.tp,0),fmt(one.tp,0),fmt(two.tp,0)],
+   ['Falsas positivas tratadas',fmt(sq.fp,0),fmt(one.fp,0),fmt(two.fp,0)],
+   ['Complicaciones evitadas frente a hoy','–',fmt(one.comp,0),fmt(two.comp,0)],
+   ['Costo neto frente a hoy (M USD)','–',(one.net<0?'−':'+')+fmt(Math.abs(one.net)/1e6,2),(two.net<0?'−':'+')+fmt(Math.abs(two.net)/1e6,2)]];
+  document.getElementById('eTbl').innerHTML='<thead><tr>'+rows[0].map((c,i)=>'<th'+(i?' class="r"':'')+'>'+c+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(1).map(r=>'<tr>'+r.map((c,i)=>'<td'+(i?' class="r"':'')+'>'+c+'</td>').join('')+'</tr>').join('')+'</tbody>';
+  const v=document.getElementById('eVerdict');let cls,h,b;
+  if(two.tp<sq.tp){cls='v-no';h='Detecta menos que hoy';b='Con apego menor a '+fmt(be*100,0)+'%, las dos etapas detectan menos casos que la CTOG actual.';}
+  else if(two.net<0){cls='v-ok';h='Detecta más y ahorra frente a hoy';b='Evita '+fmt(two.comp,0)+' complicaciones por 100,000 embarazos con un ahorro neto de USD '+fmt(-two.net/1e6,2)+' M.';}
+  else{cls='v-mid';h='Detecta más y cuesta más';b='USD '+fmt(two.net/two.comp,0)+' por complicación evitada frente a hoy.';}
+  v.className='verdict '+cls;v.innerHTML='<b>'+h+'</b><span>'+b+'</span>';
+  // gráfica 1
+  const svg=document.getElementById('eChart'),W=640,HC=250,M={l:56,r:16,t:14,b:36};
+  const f=frame(svg,W,HC,M,[0,1],[0,14000],[0,.2,.4,.6,.8,1],[0,2000,4000,6000,8000,10000,12000,14000],'Apego a la confirmación','Casos por 100,000',v=>fmt(v*100,0)+'%',v=>fmt(v,0));
+  el('line',{x1:f.X(0),x2:f.X(1),y1:f.Y(sq.tp),y2:f.Y(sq.tp),stroke:'var(--cost)','stroke-dasharray':'5 4','stroke-width':1.6},svg);
+  el('line',{x1:f.X(0),x2:f.X(1),y1:f.Y(one.tp),y2:f.Y(one.tp),stroke:'var(--benefit)','stroke-dasharray':'5 4','stroke-width':1.6},svg);
+  el('text',{x:f.X(0)+6,y:f.Y(sq.tp)-5,fill:'var(--cost)'},svg,'Hoy '+fmt(sq.tp,0));el('text',{x:f.X(0)+6,y:f.Y(one.tp)-5,fill:'var(--benefit)'},svg,'Una etapa '+fmt(one.tp,0));
+  el('line',{x1:f.X(0),y1:f.Y(0),x2:f.X(1),y2:f.Y(G*0.8947*0.81),stroke:'var(--accent)','stroke-width':2.4},svg);
+  el('line',{x1:f.X(be),x2:f.X(be),y1:M.t,y2:HC-M.b,stroke:'var(--muted)','stroke-dasharray':'2 3'},svg);el('text',{x:f.X(be)+4,y:HC-M.b-6},svg,'umbral '+fmt(be*100,0)+'%');
+  el('circle',{cx:f.X(a),cy:f.Y(two.tp),r:5.5,fill:'var(--accent)',stroke:'var(--surface)','stroke-width':2},svg);
+  // gráfica 2
+  const svg2=document.getElementById('eChart2'),H2=220;const pts=[];for(let i=0;i<=100;i++){const x=i/100;pts.push([x,twoStage(x,visit).net/1e6]);}
+  const vals=pts.map(p=>p[1]).concat([one.net/1e6,0]);const lo=Math.min(...vals),hi=Math.max(...vals);const yt=niceTicks(lo,hi,8);
+  const g=frame(svg2,W,H2,M,[0,1],[Math.min(yt[0],lo),Math.max(yt[yt.length-1],hi)],[0,.2,.4,.6,.8,1],yt,'Apego a la confirmación','M USD',v=>fmt(v*100,0)+'%',v=>fmt(v,0));
+  el('line',{x1:g.X(0),x2:g.X(1),y1:g.Y(one.net/1e6),y2:g.Y(one.net/1e6),stroke:'var(--benefit)','stroke-dasharray':'5 4','stroke-width':1.6},svg2);el('text',{x:g.X(0)+6,y:g.Y(one.net/1e6)-5,fill:'var(--benefit)'},svg2,'Una etapa +'+fmt(one.net/1e6,1));
+  el('path',{d:pts.map((p,i)=>(i?'L':'M')+g.X(p[0]).toFixed(1)+' '+g.Y(p[1]).toFixed(1)).join(' '),fill:'none',stroke:'var(--accent)','stroke-width':2.4},svg2);
+  el('circle',{cx:g.X(a),cy:g.Y(two.net/1e6),r:5.5,fill:'var(--accent)',stroke:'var(--surface)','stroke-width':2},svg2);
+  el('text',{x:g.X(1)-4,y:g.Y(0)-5,'text-anchor':'end'},svg2,'arriba de 0: cuesta más que hoy');
+}
+Object.values(eIn).forEach(x=>x.addEventListener('input',runEtapas));
+runners.etapas=runEtapas;
+
+/* ---------- init ---------- */
+const h=(location.hash||'').replace('#','');
+if(h&&document.getElementById('p-'+h))showTab(h);
+// prerender everything so tabs open in a working state
+runMicro();runDMG();runEtapas();
+})();
+</script>
+
+</body></html>
