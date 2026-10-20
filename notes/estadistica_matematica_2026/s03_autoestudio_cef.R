@@ -522,23 +522,22 @@ par(mfrow = c(1, 1))
 # Hacia la tarea: la CEF en la ENOE
 # ======================================================================
 
-# Requiere el archivo de la ENOE: quita el '# ' inicial de cada línea para correrlo.
-# # Lee la tabla sociodemográfica. El nombre del archivo cambia con el trimestre.
-# enoe <- read.csv("ENOE_SDEMT.csv")            # <- pon aquí el nombre de tu archivo
-
-# # Los nombres de las columnas vienen en mayúsculas o minúsculas según el año.
-# names(enoe) <- tolower(names(enoe))
-
-# # Entrevista completa (r_def = 00), residentes (c_res = 1 o 3), 15 años o más.
-# enoe <- subset(enoe, r_def == 0 & c_res %in% c(1, 3) & eda >= 15 & eda <= 97)
+# Requiere el archivo enoe_sdem_2t2026.csv (Canvas > Archivos) en la carpeta datos/.
+# Quita el '# ' inicial de cada línea para correrlo.
+# # Lee el archivo de Canvas (guárdalo en la carpeta datos/ de tu proyecto).
+# enoe <- read.csv("datos/enoe_sdem_2t2026.csv")
+# dim(enoe)                                     # 324,081 personas y 11 variables
 
 # # Ocupados (clase2 = 1) con ingreso por hora positivo y escolaridad conocida.
 # ocupados <- subset(enoe, clase2 == 1 & ing_x_hrs > 0 & anios_esc != 99)
-# nrow(ocupados)
+# nrow(ocupados)                                # 119,315
 
 # # Tu submuestra: los dígitos de tu matrícula como semilla (A01234567 -> 1234567).
 # set.seed(1234567)                             # <- tu matrícula
 # mi_muestra <- ocupados[sample(nrow(ocupados), 5000), ]
 
 # # Primer vistazo: ingreso por hora promedio por años de escolaridad.
-# tapply(mi_muestra$ing_x_hrs, mi_muestra$anios_esc, mean)
+# round(tapply(mi_muestra$ing_x_hrs, mi_muestra$anios_esc, mean), 1)
+
+# # ¿Cuántas personas hay en cada grupo? Fíjate en los grupos chicos.
+# table(mi_muestra$anios_esc)

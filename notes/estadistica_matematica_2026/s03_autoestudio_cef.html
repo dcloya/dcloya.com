@@ -2766,29 +2766,86 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>Comprobar en tus datos la ley de esperanzas iteradas y la descomposición dentro + entre, y reportar tu <span class="math inline">\(\eta^2\)</span> (secciones 5 y 7).</li>
 <li>Tratar la edad como <span class="math inline">\(X\)</span> continua y comparar dos valores de <span class="math inline">\(K\)</span> (sección 11.2).</li>
 </ol>
-<p>Las instrucciones completas y la fecha de entrega se publican en Canvas. Para ir adelantando: descarga los microdatos de la ENOE (trimestre más reciente, formato CSV) desde el sitio del INEGI y prueba que puedes leer la tabla sociodemográfica (SDEMT).</p>
+<p>Las instrucciones completas y la fecha de entrega se publican en Canvas. Para ir adelantando: descarga de <strong>Canvas &gt; Archivos</strong> el archivo <code>enoe_sdem_2t2026.csv</code> (segundo trimestre de 2026, unos 10 MB), guárdalo en la carpeta <code>datos/</code> de tu proyecto de RStudio y prueba que puedes leerlo con el bloque de abajo. Si todavía no tienes R instalado, sigue la <a href="../../notes/estadistica_matematica_2026/guia_r_rstudio.html">guía para instalar R y RStudio</a>.</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lee la tabla sociodemográfica. El nombre del archivo cambia con el trimestre.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>enoe <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"ENOE_SDEMT.csv"</span>)            <span class="co"># &lt;- pon aquí el nombre de tu archivo</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Los nombres de las columnas vienen en mayúsculas o minúsculas según el año.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(enoe) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">names</span>(enoe))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrevista completa (r_def = 00), residentes (c_res = 1 o 3), 15 años o más.</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>enoe <span class="ot">&lt;-</span> <span class="fu">subset</span>(enoe, r_def <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> c_res <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>) <span class="sc">&amp;</span> eda <span class="sc">&gt;=</span> <span class="dv">15</span> <span class="sc">&amp;</span> eda <span class="sc">&lt;=</span> <span class="dv">97</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Ocupados (clase2 = 1) con ingreso por hora positivo y escolaridad conocida.</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ocupados <span class="ot">&lt;-</span> <span class="fu">subset</span>(enoe, clase2 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> ing_x_hrs <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> anios_esc <span class="sc">!=</span> <span class="dv">99</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ocupados)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu submuestra: los dígitos de tu matrícula como semilla (A01234567 -&gt; 1234567).</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234567</span>)                             <span class="co"># &lt;- tu matrícula</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>mi_muestra <span class="ot">&lt;-</span> ocupados[<span class="fu">sample</span>(<span class="fu">nrow</span>(ocupados), <span class="dv">5000</span>), ]</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer vistazo: ingreso por hora promedio por años de escolaridad.</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(mi_muestra<span class="sc">$</span>ing_x_hrs, mi_muestra<span class="sc">$</span>anios_esc, mean)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Variables de la SDEMT que vas a usar: <code>anios_esc</code> (años de escolaridad), <code>ing_x_hrs</code> (ingreso promedio por hora trabajada), <code>eda</code> (edad), <code>sex</code> (1 hombre, 2 mujer), <code>clase2</code> (1 población ocupada). Fuente: INEGI, <a href="https://www.inegi.org.mx/contenidos/programas/enoe/15ymas/doc/enoe_325_fd_c_bas_amp.pdf">descripción de la base de datos de la ENOE</a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lee el archivo de Canvas (guárdalo en la carpeta datos/ de tu proyecto).</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>enoe <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"datos/enoe_sdem_2t2026.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(enoe)                                     <span class="co"># 324,081 personas y 11 variables</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ocupados (clase2 = 1) con ingreso por hora positivo y escolaridad conocida.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ocupados <span class="ot">&lt;-</span> <span class="fu">subset</span>(enoe, clase2 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> ing_x_hrs <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> anios_esc <span class="sc">!=</span> <span class="dv">99</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ocupados)                                <span class="co"># 119,315</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu submuestra: los dígitos de tu matrícula como semilla (A01234567 -&gt; 1234567).</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234567</span>)                             <span class="co"># &lt;- tu matrícula</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>mi_muestra <span class="ot">&lt;-</span> ocupados[<span class="fu">sample</span>(<span class="fu">nrow</span>(ocupados), <span class="dv">5000</span>), ]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer vistazo: ingreso por hora promedio por años de escolaridad.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(mi_muestra<span class="sc">$</span>ing_x_hrs, mi_muestra<span class="sc">$</span>anios_esc, mean), <span class="dv">1</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Cuántas personas hay en cada grupo? Fíjate en los grupos chicos.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mi_muestra<span class="sc">$</span>anios_esc)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El archivo es la tabla sociodemográfica (SDEMT) de la ENOE del segundo trimestre de 2026, ya filtrada a residentes de 15 años o más con entrevista completa. Sus variables:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Qué es</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>cve_ent</code></td>
+<td style="text-align: left;">entidad federativa (1 a 32)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>sex</code></td>
+<td style="text-align: left;">sexo: 1 hombre, 2 mujer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>eda</code></td>
+<td style="text-align: left;">edad en años</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>anios_esc</code></td>
+<td style="text-align: left;">años de escolaridad (99 = no especificado)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>clase1</code></td>
+<td style="text-align: left;">1 población económicamente activa, 2 no activa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>clase2</code></td>
+<td style="text-align: left;">1 ocupada, 2 desocupada, 3 disponible, 4 no disponible</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>pos_ocu</code></td>
+<td style="text-align: left;">posición en la ocupación</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>hrsocup</code></td>
+<td style="text-align: left;">horas trabajadas en la semana</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ingocup</code></td>
+<td style="text-align: left;">ingreso mensual, en pesos (0 si no tiene o no lo reportó)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ing_x_hrs</code></td>
+<td style="text-align: left;">ingreso promedio por hora trabajada, en pesos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>fac_tri</code></td>
+<td style="text-align: left;">factor de expansión trimestral</td>
+</tr>
+</tbody>
+</table>
+<p>Fuente: INEGI, Encuesta Nacional de Ocupación y Empleo, segundo trimestre de 2026, y su <a href="https://www.inegi.org.mx/contenidos/programas/enoe/15ymas/doc/enoe_325_fd_c_bas_amp.pdf">descripción de la base de datos</a>.</p>
 
 
 </section>

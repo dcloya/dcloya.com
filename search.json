@@ -452,7 +452,7 @@
     "href": "notes/estadistica_matematica_2026/guia_r_rstudio.html#leer-un-archivo-de-datos",
     "title": "Guía para instalar R y RStudio",
     "section": "5.1 Leer un archivo de datos",
-    "text": "5.1 Leer un archivo de datos\nPara la tarea vas a leer un archivo CSV (la ENOE del INEGI). Guárdalo en la carpeta datos/ de tu proyecto y léelo así:\nenoe &lt;- read.csv(\"datos/ENOE_SDEMT.csv\")   # &lt;- el nombre de tu archivo\ndim(enoe)                                  # renglones y columnas\nnames(enoe)                                # nombres de las variables\nSi R dice cannot open file, revisa que abriste el proyecto (el nombre aparece arriba a la derecha de RStudio) y que el nombre del archivo esté escrito igual, con mayúsculas y extensión."
+    "text": "5.1 Leer un archivo de datos\nPara la tarea vas a leer un archivo CSV con datos de la ENOE del INEGI (enoe_sdem_2t2026.csv, en Canvas &gt; Archivos). Guárdalo en la carpeta datos/ de tu proyecto y léelo así:\nenoe &lt;- read.csv(\"datos/enoe_sdem_2t2026.csv\")\ndim(enoe)                                  # renglones y columnas\nnames(enoe)                                # nombres de las variables\nSi R dice cannot open file, revisa que abriste el proyecto (el nombre aparece arriba a la derecha de RStudio) y que el nombre del archivo esté escrito igual, con mayúsculas y extensión."
   },
   {
     "objectID": "notes/estadistica_matematica_2026/s03_autoestudio_cef.html",
