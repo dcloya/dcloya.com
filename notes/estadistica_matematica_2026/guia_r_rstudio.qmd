@@ -136,10 +136,10 @@ Si ves la versión de R, el número `2`, una media cercana a 13,700 y un histogr
 
 ## Leer un archivo de datos
 
-Para la tarea vas a leer un archivo CSV (la ENOE del INEGI). Guárdalo en la carpeta `datos/` de tu proyecto y léelo así:
+Para la tarea vas a leer un archivo CSV con datos de la ENOE del INEGI (`enoe_sdem_2t2026.csv`, en Canvas > Archivos). Guárdalo en la carpeta `datos/` de tu proyecto y léelo así:
 
 ```r
-enoe <- read.csv("datos/ENOE_SDEMT.csv")   # <- el nombre de tu archivo
+enoe <- read.csv("datos/enoe_sdem_2t2026.csv")
 dim(enoe)                                  # renglones y columnas
 names(enoe)                                # nombres de las variables
 ```
