@@ -1,0 +1,852 @@
+---
+title: "La esperanza condicional en R"
+subtitle: "Sesión de estudio del 20 de octubre · Estadística Matemática, Maestría en Economía Aplicada"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+lang: es
+filters:
+  - webr
+---
+
+::: {.callout-note title="Sesión de estudio del 20 de octubre"}
+Hoy no hay sesión por Zoom. Esta página la sustituye: trabájala por tu cuenta. Toma unas dos horas y media. Sigue la numeración del handout de la sesión (secciones 1 a 11.3). Al final hay un adelanto de la tarea.
+:::
+
+# Cómo usar esta página {.unnumbered}
+
+La página alterna dos tipos de bloque, igual que en clase:
+
+- **Pizarrón** (recuadros con título "Pizarrón"): lo que se escribiría en el pizarrón. Cópialo a mano en tu cuaderno; las cuentas se entienden mejor escribiéndolas.
+- **R**: el mismo resultado con números y una gráfica. Esta página corre R directamente en tu navegador (vía webR); no necesitas instalar nada. Presiona **Run Code** en cada bloque. La primera vez, R tarda unos segundos en cargar. Cada bloque es editable: cambia los valores marcados con `# <-` y vuelve a correrlo. Si prefieres RStudio, [descarga el script completo](s03_autoestudio_cef.R).
+
+Todo lo que va después de un `#` es un comentario: R lo ignora. El símbolo `<-` guarda lo de la derecha en el objeto de la izquierda; si escribes sólo el nombre del objeto, R lo imprime. Cada bloque corre por sí solo.
+
+Las preguntas de **Comprueba** tienen una respuesta única; intenta resolverlas antes de abrir la respuesta.
+
+Notación: $X$ es lo que conocemos (escolaridad, en años) y $Y$ lo que queremos predecir (salario por hora, en pesos). Trabajamos en pesos, no en logaritmos.
+
+# De la media a la media condicional
+
+::: {.callout-note title="Pizarrón: La pregunta de hoy" icon=false}
+Hasta ahora: un solo número para toda la población, $\mathbb{E}[Y]$.
+
+Hoy: un número para cada valor de otra variable,
+$$m(x)=\mathbb{E}[Y\mid X=x],$$
+el promedio de $Y$ entre quienes tienen $X=x$.
+
+Ejemplos: la brecha salarial entre mujeres y hombres con licenciatura; una tabla de mortalidad (probabilidad de morir en el año, por edad); el gasto de bolsillo con y sin seguro.
+:::
+
+Dos preguntas para empezar. ¿Cuánto gana en promedio alguien con preparatoria? ¿Y si no supieras nada de la persona, qué número dirías? La primera es una esperanza condicional; la segunda, la esperanza de siempre. La CEF (función de esperanza condicional, por sus siglas en inglés) es el mejor predictor de una variable a partir de otra. También es el punto de partida para hablar de efectos causales, aunque no es lo mismo que un efecto causal.
+
+# Repaso: probabilidad condicional
+
+::: {.callout-note title="Pizarrón: La tabla (tenla a la vista toda la sesión)" icon=false}
+$\mathbb{P}(X=x,\,Y=y)$:
+
+|            | $Y=40$ | $Y=70$ | $Y=120$ | $\mathbb{P}(X=x)$ |
+|:-----------|:------:|:------:|:-------:|:-----------------:|
+| $X=6$      | 0.12   | 0.10   | 0.03    | 0.25              |
+| $X=9$      | 0.10   | 0.18   | 0.07    | 0.35              |
+| $X=12$     | 0.05   | 0.17   | 0.18    | 0.40              |
+| $\mathbb{P}(Y=y)$ | 0.27 | 0.45 | 0.28 | 1                |
+
+Marginal de $X$: sumar cada renglón. Marginal de $Y$: sumar cada columna.
+
+Condicional: cada renglón entre su total,
+$$\mathbb{P}(Y=y\mid X=x)=\frac{\mathbb{P}(X=x,\,Y=y)}{\mathbb{P}(X=x)}.$$
+Cada renglón de la condicional es una distribución: la de $Y$ dentro del grupo $X=x$.
+
+**Independencia:** $\mathbb{P}(X=x,Y=y)=\mathbb{P}(X=x)\,\mathbb{P}(Y=y)$ para todo $x,y$. En la tabla, $0.25\times0.27=0.0675\neq0.12$: no hay independencia.
+:::
+
+```{webr-r}
+# matrix() acomoda un vector de números en una tabla.
+# byrow = TRUE llena renglón por renglón, en el orden en que lo leemos.
+# dimnames pone nombres a renglones (valores de X) y columnas (valores de Y).
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+P
+
+sum(P)                             # una distribución conjunta suma 1
+
+px <- rowSums(P)                   # marginal de X
+py <- colSums(P)                   # marginal de Y
+px
+py
+
+# Y dado X: cada renglón entre su total. R divide la tabla entre px
+# renglón por renglón (recicla px a lo largo de las columnas).
+PY_dado_X <- P / px
+round(PY_dado_X, 3)                # cada renglón suma 1
+
+# Independencia: ¿la conjunta es el producto de las marginales?
+# outer(a, b) arma la tabla de todos los productos a_i * b_j.
+producto <- outer(px, py)
+round(P - producto, 4)             # no son cero: no hay independencia
+
+# Cada barra es la distribución de salarios dentro de un grupo;
+# la última es la de toda la población. Con independencia, serían iguales.
+colores <- c("grey85", "steelblue", "firebrick")
+barras <- cbind(t(PY_dado_X), total = py)
+barplot(barras, col = colores,
+        xlab = "escolaridad x (la última barra: toda la población)",
+        ylab = "P(Y = y | X = x)", ylim = c(0, 1.2),
+        main = "Distribución de salarios dentro de cada grupo",
+        legend.text = c("Y = 40", "Y = 70", "Y = 120"),
+        args.legend = list(x = "top", bty = "n", horiz = TRUE))
+```
+
+A mayor escolaridad, la distribución de salarios se recorre hacia arriba: la probabilidad de ganar 120 pasa de 0.12 a 0.20 y a 0.45.
+
+En sentido inverso está Bayes: entre quienes ganan 120, ¿qué fracción tiene 12 años? Es la celda entre el total de su columna, $0.18/0.28=0.643$. El denominador de la fórmula de Bayes,
+$$\mathbb{P}(Y=y)=\sum_x \mathbb{P}(Y=y\mid X=x)\,\mathbb{P}(X=x),$$
+es la primera aparición de la idea central de hoy: un total es un promedio de lo que pasa dentro de cada grupo, ponderado por el tamaño del grupo.
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+px <- rowSums(P)
+py <- colSums(P)
+PY_dado_X <- P / px
+
+# Directo: celda entre total de la columna.
+P["12", "120"] / py["120"]
+
+# Con la fórmula de Bayes.
+numerador <- PY_dado_X["12", "120"] * px["12"]
+denominador <- sum(PY_dado_X[, "120"] * px)
+numerador / denominador            # el mismo número
+```
+
+**Comprueba.** Con la tabla, calcula $\mathbb{P}(Y=40\mid X=6)$ y $\mathbb{P}(X=6\mid Y=40)$.
+
+::: {.callout-tip title="Respuesta" collapse="true"}
+$\mathbb{P}(Y=40\mid X=6)=0.12/0.25=0.48$ (renglón). $\mathbb{P}(X=6\mid Y=40)=0.12/0.27=0.444$ (columna). Son preguntas distintas: entre quienes tienen 6 años, casi la mitad gana 40; entre quienes ganan 40, 44% tiene 6 años.
+:::
+
+# Predecir sin información
+
+::: {.callout-note title="Pizarrón: La mejor constante" icon=false}
+Predecir $Y$ con un mismo número $c$ para todos. Criterio: el error cuadrático medio $\mathbb{E}[(Y-c)^2]$.
+
+Sumo y resto $\mathbb{E}[Y]$, desarrollo el cuadrado; el término cruzado es cero porque $\mathbb{E}\big[Y-\mathbb{E}[Y]\big]=0$:
+$$\mathbb{E}[(Y-c)^2]=\operatorname{Var}(Y)+(\mathbb{E}[Y]-c)^2.$$
+El primer término no depende de $c$. El segundo es el costo de equivocarse de centro, y vale cero sólo si $c=\mathbb{E}[Y]$.
+
+Mejor constante: $\mathbb{E}[Y]$. Error que queda: $\operatorname{Var}(Y)$.
+
+En la tabla:
+$$\mathbb{E}[Y]=40(0.27)+70(0.45)+120(0.28)=75.9,\qquad \operatorname{Var}(Y)=908.2.$$
+:::
+
+```{webr-r}
+y <- c(40, 70, 120)                # valores de Y
+py <- c(0.27, 0.45, 0.28)          # P(Y = y)
+
+EY <- sum(y * py)                  # E[Y]
+VarY <- sum((y - EY)^2 * py)       # Var(Y)
+EY
+VarY
+
+# Error cuadrático medio de predecir c para todos.
+ecm <- function(c) sum((y - c)^2 * py)
+
+predicciones <- c(60, 75.9, 90)    # <- cambia o agrega predicciones
+sapply(predicciones, ecm)
+VarY + (EY - predicciones)^2       # la fórmula da lo mismo
+
+# optimize() busca el mínimo de una función de una variable en un intervalo.
+optimize(ecm, interval = c(0, 200))$minimum
+
+# La parábola: el piso es Var(Y); el segmento rojo es (E[Y] - c)^2.
+cs <- seq(30, 120, by = 0.5)
+plot(cs, sapply(cs, ecm), type = "l", lwd = 2,
+     xlab = "constante c", ylab = "E[(Y - c)^2]",
+     main = "Error = Var(Y) + (E[Y] - c)^2")
+abline(h = VarY, lty = 3)
+abline(v = EY, lty = 2)
+points(predicciones, sapply(predicciones, ecm), pch = 19, col = "firebrick", cex = 1.3)
+segments(predicciones, VarY, predicciones, sapply(predicciones, ecm),
+         col = "firebrick", lwd = 2)
+text(EY, VarY, "Var(Y)", pos = 1, cex = 0.9)
+```
+
+La media es el modelo mental más común ("un trabajador típico gana el promedio"), y su error es toda la varianza de $Y$. La pregunta del resto de la sesión es cuánto baja ese error si usamos información sobre cada persona.
+
+El resultado depende del criterio: si el costo de equivocarse es proporcional al tamaño del error y no a su cuadrado, la mejor constante es la mediana (sección 3.1 del handout, sólo como lectura). En adelante nos quedamos con el error cuadrático y la media.
+
+**Comprueba.** ¿Cuál es el error cuadrático medio de predecir $c=100$ para todos?
+
+::: {.callout-tip title="Respuesta" collapse="true"}
+$908.2+(75.9-100)^2=908.2+580.8=1489.0$. En R: `ecm(100)`.
+:::
+
+# Predecir con información: la CEF
+
+::: {.callout-note title="Pizarrón: Definición" icon=false}
+Con $X$ discreta y $\mathbb{P}(X=x)>0$:
+$$m(x)=\mathbb{E}[Y\mid X=x]=\sum_y y\;\mathbb{P}(Y=y\mid X=x).$$
+Es la media de la distribución condicional: el promedio de $Y$ dentro del grupo $X=x$.
+
+Dos objetos con nombre parecido:
+
+- $m(x)$ es una **función**: para cada $x$, un número fijo.
+- $m(X)=\mathbb{E}[Y\mid X]$ es una **variable aleatoria**: el promedio del grupo de una persona elegida al azar.
+:::
+
+::: {.callout-note title="Pizarrón: La CEF en la tabla" icon=false}
+$$m(6)=\frac{40(0.12)+70(0.10)+120(0.03)}{0.25}=\frac{15.4}{0.25}=61.6$$
+$$m(9)=\frac{25}{0.35}=71.43\qquad m(12)=\frac{35.5}{0.40}=88.75$$
+
+| valor de $m(X)$ | 61.6 | 71.43 | 88.75 |
+|:----------------|:----:|:-----:|:-----:|
+| probabilidad    | 0.25 | 0.35  | 0.40  |
+
+$m(X)$ toma tantos valores como grupos, cada uno con la probabilidad de su grupo.
+:::
+
+Haz tú la cuenta de $m(9)$ antes de correr el bloque.
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+x <- c(6, 9, 12)
+y <- c(40, 70, 120)
+px <- rowSums(P)
+py <- colSums(P)
+
+# m(x) = sum_y y P(x, y) / P(x). El producto %*% hace las sumas por renglón.
+m <- drop(P %*% y) / px
+m
+
+# m(X) como variable aleatoria: valores y probabilidades.
+rbind(valor = round(m, 2), probabilidad = px)
+
+# La otra dirección, E[X | Y = y], es otra función.
+mX <- drop(x %*% P) / py
+mX
+
+# Cada círculo es un salario posible dentro de un grupo, con tamaño
+# proporcional a P(Y = y | X = x). El punto rojo es m(x).
+PY_dado_X <- P / px
+plot(NULL, xlim = c(5, 13), ylim = c(30, 130), xlab = "escolaridad x",
+     ylab = "salario y", main = "E[Y | X = x]: un promedio por grupo")
+for (i in 1:3) {
+  points(rep(x[i], 3), y, cex = 8 * PY_dado_X[i, ], col = "grey40")
+}
+points(x, m, pch = 19, col = "firebrick", cex = 1.6)
+text(x, m, round(m, 1), pos = 4, col = "firebrick")
+```
+
+Las dos funciones contestan preguntas distintas: quienes tienen 12 años ganan en promedio 88.75, y quienes ganan 120 tienen en promedio 10.6 años. Una no se obtiene despejando la otra.
+
+::: {.callout-note title="Pizarrón: Más de una variable" icon=false}
+Con escolaridad ($X_1$) y sexo ($X_2$):
+$$m(x_1,x_2)=\mathbb{E}[Y\mid X_1=x_1,\,X_2=x_2],$$
+un promedio por cada combinación. Todo lo de hoy vale igual con $X$ vector.
+
+Con $X$ discreta, la CEF es una lista de promedios: cuatro niveles de escolaridad son cuatro números. No hay que suponer nada sobre cómo están acomodados; en la gráfica no hay curva ni recta.
+:::
+
+# La ley de esperanzas iteradas
+
+::: {.callout-note title="Pizarrón: El promedio de los promedios" icon=false}
+$$\mathbb{E}[Y]=\sum_x m(x)\,\mathbb{P}(X=x)\qquad\text{es decir}\qquad \mathbb{E}[Y]=\mathbb{E}\big[\mathbb{E}[Y\mid X]\big]$$
+
+Demostración (discreta): sustituye la definición de $m(x)$; los $\mathbb{P}(X=x)$ se cancelan; cambia el orden de las sumas; la suma sobre $x$ de la conjunta es la marginal de $Y$.
+
+En la tabla:
+$$61.6(0.25)+71.43(0.35)+88.75(0.40)=15.4+25+35.5=75.9$$
+:::
+
+En palabras: el promedio de todos es el promedio de los promedios de los grupos, ponderado por el tamaño de cada grupo. La esperanza de adentro promedia $Y$ dentro de cada grupo; la de afuera promedia esos resultados sobre la distribución de $X$.
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+y <- c(40, 70, 120)
+px <- rowSums(P)
+py <- colSums(P)
+m <- drop(P %*% y) / px
+
+m * px                             # lo que aporta cada grupo
+sum(m * px)                        # promedio de promedios
+sum(y * py)                        # promedio general: el mismo
+
+# Barras con ALTURA m(x) y ANCHO P(X = x). El área total es E[Y]:
+# la línea punteada es la altura promedio, pesando por el ancho.
+barplot(m, width = px, space = 0, col = c("grey80", "steelblue", "firebrick"),
+        names.arg = paste0("x = ", names(m), "\n(peso ", px, ")"),
+        ylab = "m(x)", ylim = c(0, 100),
+        main = "E[Y] = promedio de m(x) ponderado por P(X = x)")
+abline(h = sum(m * px), lty = 2, lwd = 2)
+text(0.05, sum(m * px), "E[Y] = 75.9", pos = 3, adj = 0)
+```
+
+### La composición importa: paradoja de Simpson {.unnumbered}
+
+Como el promedio general mezcla promedios de grupos con pesos que pueden ser distintos, una comparación puede ir en un sentido dentro de cada grupo y en el sentido opuesto en el agregado.
+
+```{webr-r}
+pH <- c(0.4, 0.6)                  # <- escolaridad de los hombres (secundaria, universidad)
+mH <- c(60, 120)                   # salario promedio por nivel, hombres
+pM <- c(0.8, 0.2)                  # <- escolaridad de las mujeres
+mM <- c(62, 124)                   # salario promedio por nivel, mujeres
+
+mM - mH                            # dentro de cada nivel, las mujeres ganan más
+
+EH <- sum(pH * mH)                 # ley de esperanzas iteradas, hombres
+EM <- sum(pM * mM)                 # ley de esperanzas iteradas, mujeres
+EM - EH                            # en el agregado, las mujeres ganan menos
+
+# Descomposición: sumar y restar sum(mH * pM).
+dentro <- sum((mM - mH) * pM)      # diferencias dentro de cada nivel
+composicion <- sum(mH * (pM - pH)) # diferencias en la escolaridad
+c(dentro = dentro, composicion = composicion, suma = dentro + composicion)
+
+# Promedios por nivel (izquierda) y promedio general (derecha).
+plot(c(1, 2), mH, type = "b", pch = 19, col = "steelblue", lwd = 2,
+     xlim = c(0.6, 3.6), ylim = c(40, 135), xaxt = "n",
+     xlab = "", ylab = "salario promedio", main = "Paradoja de Simpson")
+lines(c(1, 2), mM, type = "b", pch = 15, col = "firebrick", lwd = 2)
+points(3.2, EH, pch = 19, col = "steelblue", cex = 2)
+points(3.2, EM, pch = 15, col = "firebrick", cex = 2)
+axis(1, at = c(1, 2, 3.2), labels = c("secundaria", "universidad", "general"))
+abline(v = 2.6, col = "grey60")
+legend("topleft", bty = "n", pch = c(19, 15), col = c("steelblue", "firebrick"),
+       legend = c("hombres", "mujeres"))
+```
+
+Dentro de cada nivel, las mujeres ganan más (+2 y +4); en el agregado ganan 21.6 menos, porque muchas menos llegaron a la universidad.
+
+**Comprueba.** Cambia `pM <- c(0.4, 0.6)` (la misma escolaridad que los hombres). ¿Cuánto vale ahora la brecha `EM - EH`?
+
+::: {.callout-tip title="Respuesta" collapse="true"}
+$0.4(62)+0.6(124)=99.2$ contra $96$: la brecha es $+3.2$. La parte de composición se vuelve cero y la brecha cambia de signo.
+:::
+
+# Propiedades de la esperanza condicional
+
+::: {.callout-note title="Pizarrón: Las herramientas de todo lo que sigue" icon=false}
+1. **Linealidad:** $\mathbb{E}[aY+bZ\mid X]=a\,\mathbb{E}[Y\mid X]+b\,\mathbb{E}[Z\mid X]$.
+2. **Las funciones de $X$ son constantes:** $\mathbb{E}[g(X)\mid X]=g(X)$.
+3. **Sacar lo conocido:** $\mathbb{E}[g(X)\,Y\mid X]=g(X)\,\mathbb{E}[Y\mid X]$.
+4. **Independencia:** si $Y$ y $X$ son independientes, $\mathbb{E}[Y\mid X]=\mathbb{E}[Y]$.
+5. $\mathbb{E}[g(X)\,Y]=\mathbb{E}[g(X)\,m(X)]$ (ley de esperanzas iteradas, luego la 3).
+
+Dentro del grupo $X=x$, $g(X)=g(x)$ es un número fijo: por eso sale de la esperanza.
+:::
+
+::: {.callout-note title="Pizarrón: Varianza condicional" icon=false}
+$$\sigma^2(x)=\operatorname{Var}(Y\mid X=x)=\mathbb{E}[Y^2\mid X=x]-m(x)^2$$
+En la tabla: $\sigma^2(6)=4456-61.6^2=661.4$; $\sigma^2(9)=755.1$; $\sigma^2(12)=885.9$. La dispersión crece con la escolaridad.
+:::
+
+La propiedad 5 se usa una y otra vez: para calcular un promedio que involucra a $Y$ y a funciones de $X$, puedes reemplazar $Y$ por su promedio condicional.
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+x <- c(6, 9, 12)
+y <- c(40, 70, 120)
+px <- rowSums(P)
+m <- drop(P %*% y) / px
+
+EY2_dado_X <- drop(P %*% y^2) / px # E[Y^2 | X = x]
+s2 <- EY2_dado_X - m^2             # varianza condicional
+s2
+sqrt(s2)                           # desviación estándar dentro de cada grupo
+
+# Propiedad 5: E[g(X) Y] celda por celda contra E[g(X) m(X)] con promedios de grupo.
+g <- function(x) x                 # <- prueba x^2, log(x), x >= 12
+EgY <- sum(outer(g(x), y) * P)
+Egm <- sum(g(x) * m * px)
+c(celda_por_celda = EgY, promedios_de_grupo = Egm)
+
+# m(x) con una banda de más/menos una desviación estándar.
+plot(x, m, pch = 19, col = "firebrick", cex = 1.5, xlim = c(5, 13), ylim = c(20, 130),
+     xlab = "escolaridad x", ylab = "salario", main = "m(x) y su dispersión sigma(x)")
+arrows(x, m - sqrt(s2), x, m + sqrt(s2), angle = 90, code = 3, length = 0.08, lwd = 2)
+text(x, m + sqrt(s2), paste("sigma =", round(sqrt(s2), 1)), pos = 3, cex = 0.9)
+```
+
+# Varianza total
+
+::: {.callout-note title="Pizarrón: Dentro más entre" icon=false}
+$$\operatorname{Var}(Y)=\underbrace{\mathbb{E}\big[\operatorname{Var}(Y\mid X)\big]}_{\text{dentro}}+\underbrace{\operatorname{Var}\big(\mathbb{E}[Y\mid X]\big)}_{\text{entre}}$$
+
+Idea de la demostración: sumo y resto $m(X)$ en $Y-\mathbb{E}[Y]$, desarrollo el cuadrado y el término cruzado es cero (condicionar en $X$, sacar lo conocido, y el promedio de $Y-m(X)$ dentro de cada grupo es cero).
+
+| | error |
+|:--|:--|
+| sin información (predigo con la media) | $\operatorname{Var}(Y)=908.2$ |
+| con el promedio de cada grupo | $\mathbb{E}[\operatorname{Var}(Y\mid X)]=784.0$ |
+| lo que gano al conocer $X$ | $\operatorname{Var}(m(X))=124.2$ |
+
+$\eta^2=\operatorname{Var}(m(X))/\operatorname{Var}(Y)$: la fracción de la varianza de $Y$ asociada a $X$.
+:::
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+y <- c(40, 70, 120)
+px <- rowSums(P)
+py <- colSums(P)
+m <- drop(P %*% y) / px
+s2 <- drop(P %*% y^2) / px - m^2
+EY <- sum(y * py)
+
+dentro <- sum(s2 * px)             # E[Var(Y | X)]
+entre <- sum((m - EY)^2 * px)      # Var(m(X))
+VarY <- sum(y^2 * py) - EY^2       # Var(Y)
+
+c(dentro = dentro, entre = entre, suma = dentro + entre, VarY = VarY)
+entre / VarY                       # eta^2
+
+# La varianza total partida en sus dos pedazos.
+partes <- matrix(c(dentro, entre), ncol = 1)
+barplot(partes, col = c("steelblue", "darkorange"), horiz = TRUE,
+        xlab = "varianza", main = "Var(Y) = dentro + entre")
+text(dentro / 2, 0.7, paste("dentro: E[Var(Y | X)] =", round(dentro, 1)), col = "white")
+text(dentro + entre / 2, 0.7, paste("entre\n", round(entre, 1)))
+```
+
+En esta tabla, la escolaridad está asociada con 13.7% de la varianza del salario: la mayor parte de la variación salarial ocurre entre personas con la misma escolaridad. Lo mismo pasa en datos reales, como vas a ver en la tarea.
+
+# La CEF es el mejor predictor
+
+::: {.callout-note title="Pizarrón: El teorema" icon=false}
+Para cualquier regla $g(X)$:
+$$\mathbb{E}\big[(Y-g(X))^2\big]=\mathbb{E}\big[(Y-m(X))^2\big]+\mathbb{E}\big[(m(X)-g(X))^2\big].$$
+El primer término no depende de $g$. El segundo es lo que se pierde por usar $g$ en lugar de la CEF, y vale cero sólo si $g=m$.
+
+Es la mejor constante aplicada dentro de cada grupo: en cada grupo, la mejor constante es el promedio del grupo.
+
+Lectura geométrica: el error $Y-m(X)$ es ortogonal a cualquier función de $X$, así que la igualdad es un teorema de Pitágoras. $m(X)$ es el punto más cercano a $Y$ entre todas las funciones de $X$.
+:::
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+y <- c(40, 70, 120)
+px <- rowSums(P)
+py <- colSums(P)
+m <- drop(P %*% y) / px
+s2 <- drop(P %*% y^2) / px - m^2
+EY <- sum(y * py)
+
+# Error de una regla g, calculado celda por celda.
+# outer(g, y, ...) arma la tabla de errores al cuadrado (y - g(x))^2.
+error_regla <- function(g) sum(P * outer(g, y, function(a, b) (b - a)^2))
+
+# Varias reglas: una predicción para x = 6, 9, 12.
+reglas <- list(
+  "constante 60" = c(60, 60, 60),
+  "media" = rep(EY, 3),
+  "regla de dedo" = c(60, 60, 90),     # <- cambia la regla
+  "CEF" = m,
+  "CEF exagerada" = EY + 2 * (m - EY)
+)
+errores <- sapply(reglas, error_regla)
+round(errores, 1)
+
+# El teorema: error de la CEF + promedio de (m - g)^2.
+g <- reglas[["regla de dedo"]]
+c(directo = error_regla(g), teorema = sum(s2 * px) + sum((m - g)^2 * px))
+
+barplot(errores, col = ifelse(names(errores) == "CEF", "firebrick", "grey70"),
+        ylab = "error cuadrático medio", main = "Ninguna regla le gana a la CEF",
+        ylim = c(0, 1250), cex.names = 0.8)
+abline(h = errores["CEF"], lty = 2)
+```
+
+Ninguna regla baja de 784. Una familia útil para ver por qué: $g_\lambda(x)=\mathbb{E}[Y]+\lambda\,(m(x)-\mathbb{E}[Y])$ va de la media ($\lambda=0$) a la CEF ($\lambda=1$). Su error es $784+(1-\lambda)^2\,124.2$.
+
+```{webr-r}
+dentro <- 784.0                    # E[Var(Y | X)]
+entre <- 124.2                     # Var(m(X))
+
+ecm_lambda <- function(lam) dentro + (1 - lam)^2 * entre
+
+lambda <- 1.5                      # <- cambia lambda
+ecm_lambda(c(0, 1, 2))
+
+curve(ecm_lambda(x), from = -0.5, to = 2.5, lwd = 2,
+      xlab = "lambda", ylab = "error cuadrático medio",
+      main = "De la media (0) a la CEF (1) y más allá")
+abline(v = 1, lty = 2)
+points(lambda, ecm_lambda(lambda), pch = 19, col = "firebrick", cex = 1.5)
+```
+
+**Comprueba.** ¿Por qué $\lambda=0$ y $\lambda=2$ dan el mismo error? ¿Cuánto vale el error con $\lambda=0.5$?
+
+::: {.callout-tip title="Respuesta" collapse="true"}
+Porque $(1-\lambda)^2$ es simétrico alrededor de 1: exagerar al doble las diferencias entre grupos es tan malo como ignorarlas. Con $\lambda=0.5$: $784+0.25(124.2)=815.05$.
+:::
+
+# El error de la CEF
+
+::: {.callout-note title="Pizarrón: Definición y propiedades" icon=false}
+$$e=Y-m(X)\qquad\Longrightarrow\qquad Y=m(X)+e\quad\text{(por construcción)}$$
+
+1. $\mathbb{E}[e\mid X]=0$. No es un supuesto: se cumple para cualquier par $(Y,X)$.
+2. $\mathbb{E}[e]=0$ (ley de esperanzas iteradas).
+3. $\mathbb{E}[h(X)\,e]=0$ para **toda** función $h$: $X$, $X^2$, $\log X$, $\mathbf{1}\{X\ge 12\}$.
+4. $\operatorname{Var}(e\mid X=x)=\sigma^2(x)$. Si no depende de $x$: homocedástico. Si depende: heterocedástico.
+
+En la tabla: $\sigma(6)=25.7$, $\sigma(9)=27.5$, $\sigma(12)=29.8$. Heterocedástico.
+:::
+
+```{webr-r}
+P <- matrix(c(0.12, 0.10, 0.03,
+              0.10, 0.18, 0.07,
+              0.05, 0.17, 0.18),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(x = c(6, 9, 12), y = c(40, 70, 120)))
+x <- c(6, 9, 12)
+y <- c(40, 70, 120)
+px <- rowSums(P)
+m <- drop(P %*% y) / px
+
+# Tabla de errores: en la celda (x, y), e = y - m(x).
+E <- outer(-m, y, "+")
+round(E, 2)
+
+sum(E * P)                         # E[e] = 0
+
+# E[h(X) e] para varias funciones h: todas dan cero.
+h <- list(x = x, x2 = x^2, log = log(x), mayor12 = as.numeric(x >= 12))
+round(sapply(h, function(hx) sum(hx * E * P)), 10)
+
+# Los errores posibles en cada grupo, con tamaño proporcional a su
+# probabilidad condicional. El promedio (rojo) es cero en los tres grupos;
+# la barra azul (más/menos sigma) crece con x.
+PY_dado_X <- P / px
+sd_e <- sqrt(drop(P %*% y^2) / px - m^2)
+plot(NULL, xlim = c(5, 13), ylim = c(-60, 70), xlab = "escolaridad x",
+     ylab = "error e = y - m(x)", main = "Promedio cero, dispersión creciente")
+abline(h = 0, lty = 2)
+for (i in 1:3) {
+  points(rep(x[i], 3), E[i, ], cex = 8 * PY_dado_X[i, ], col = "grey40")
+}
+points(x, rep(0, 3), pch = 19, col = "firebrick", cex = 1.5)
+arrows(x + 0.6, -sd_e, x + 0.6, sd_e, angle = 90, code = 3, length = 0.05,
+       col = "steelblue", lwd = 2)
+```
+
+**Cuidado: media condicional cero no es independencia.** El promedio del error no depende de $X$, pero su tamaño sí puede depender. En el ejemplo de abajo, con $X=0$ el error vale $\pm1$ y con $X=1$ vale $\pm3$: conocer $X$ dice exactamente qué tan grande es el error.
+
+```{webr-r}
+set.seed(1)
+n <- 10000
+X <- rbinom(n, 1, 0.5)                             # X vale 0 o 1
+signo <- sample(c(-1, 1), n, replace = TRUE)       # mitad y mitad
+Y <- ifelse(X == 0, 1, 3) * signo                  # Y = +-1 si X = 0; +-3 si X = 1
+
+tapply(Y, X, mean)                 # m(0) y m(1): casi cero
+tapply(abs(Y), X, mean)            # pero el tamaño del error es 1 o 3
+```
+
+# La CEF de una variable binaria
+
+::: {.callout-note title="Pizarrón: Promedio de una binaria = probabilidad" icon=false}
+Si $D$ vale 0 o 1: $\;\mathbb{E}[D\mid X=x]=\mathbb{P}(D=1\mid X=x)$.
+
+Ejemplo: $D=1$ si la persona trabaja. Trabaja si su salario potencial supera su salario de reserva $r$. Si el salario potencial es normal con media $m(x)$ y desviación $\sigma$:
+$$\mathbb{P}(D=1\mid X=x)=\Phi\!\left(\frac{m(x)-r}{\sigma}\right),$$
+donde $\Phi$ es la acumulada de la normal estándar (`pnorm()` en R). La CEF de $D$ tiene forma de S.
+:::
+
+```{webr-r}
+r <- 60                            # <- salario de reserva
+sigma <- 30                        # <- dispersión del salario potencial
+m <- function(x) 30 + 2 * x + 0.25 * x^2
+x <- c(6, 9, 12, 16)
+
+# pnorm() es Phi, la acumulada de la normal estándar.
+p <- pnorm((m(x) - r) / sigma)
+round(rbind(m = m(x), z = (m(x) - r) / sigma, p = p), 3)
+
+# Comprobación por simulación: la fracción que trabaja en cada grupo.
+set.seed(2026)
+n <- 100000
+X <- sample(x, n, replace = TRUE)
+e <- rnorm(n, mean = 0, sd = sigma)
+D <- as.numeric(m(X) + e > r)      # 1 si trabaja
+tapply(D, X, mean)                 # cerca de p
+
+curve(pnorm((m(x) - r) / sigma), from = 0, to = 20, lwd = 2, col = "steelblue",
+      ylim = c(0, 1), xlab = "escolaridad x", ylab = "P(D = 1 | X = x)",
+      main = "La CEF de una binaria")
+points(x, tapply(D, X, mean), pch = 19, col = "firebrick")
+```
+
+El error de una CEF binaria, $D-p(X)$, tiene varianza condicional $p(x)(1-p(x))$: es heterocedástico salvo que $p(x)$ sea constante.
+
+# Estimar la CEF
+
+Hasta aquí conocíamos la población. Con datos, hay que estimar $m(x)$.
+
+## Con $X$ discreta: un promedio por grupo
+
+::: {.callout-note title="Pizarrón: Un promedio por grupo" icon=false}
+Muestra $(Y_i,X_i)$, $i=1,\dots,n$. En el grupo $x$ hay $n_x$ observaciones.
+$$\hat m(x)=\frac{1}{n_x}\sum_{i:\,X_i=x}Y_i$$
+Es la media muestral, dentro del grupo. Todo lo que ya sabemos de $\bar X$ aplica:
+$$\mathbb{E}[\hat m(x)]=m(x),\qquad \operatorname{se}=\frac{s_x}{\sqrt{n_x}},\qquad \text{IC 95\%: }\hat m(x)\pm 1.96\,\frac{s_x}{\sqrt{n_x}}.$$
+Lo único nuevo: el tamaño de muestra que importa es el del grupo, $n_x$, no el total.
+
+Ejemplo: $\sigma(x)=30$ y $n_x=25$ dan $\operatorname{se}=30/5=6$ pesos.
+:::
+
+Una población simulada: cuatro niveles de escolaridad, una habilidad que crece en promedio con $X$, y un ruido cuya dispersión crece con $X$.
+
+```{webr-r}
+n <- 20000                         # <- tamaño de muestra (prueba 200)
+
+set.seed(2026)
+# Escolaridad: 6, 9, 12 o 16 años.
+X <- sample(c(6, 9, 12, 16), n, replace = TRUE, prob = c(0.25, 0.30, 0.30, 0.15))
+# Habilidad: mayor, en promedio, con más escolaridad.
+A <- rnorm(n, mean = -1 + 0.08 * X)
+# Salario: depende de X, de A y de un ruido cuya dispersión (2X) crece con X.
+f <- function(x) 30 + 2 * x + 0.25 * x^2
+u <- rnorm(n, mean = 0, sd = 2 * X)
+Y <- f(X) + 15 * A + u
+
+xs <- c(6, 9, 12, 16)
+m_true <- f(xs) + 15 * (-1 + 0.08 * xs)            # la CEF verdadera
+
+# tapply(Y, X, función) aplica la función a Y dentro de cada grupo de X.
+m_hat <- tapply(Y, X, mean)
+n_x <- table(X)
+se_x <- tapply(Y, X, sd) / sqrt(n_x)
+inf <- m_hat - 1.96 * se_x                          # intervalo de 95%
+sup <- m_hat + 1.96 * se_x
+
+round(cbind(n_x, m_hat, se_x, inf, sup, m_true), 2)
+
+# Nube de puntos, promedio por grupo con su intervalo, y la verdad.
+plot(jitter(X, amount = 0.4), Y, pch = 16, cex = 0.3, col = adjustcolor("grey40", 0.3),
+     xlab = "escolaridad", ylab = "salario por hora",
+     main = paste("Un promedio por grupo, n =", n))
+arrows(xs, inf, xs, sup, angle = 90, code = 3, length = 0.05, col = "firebrick", lwd = 2)
+points(xs, m_hat, pch = 19, col = "firebrick", cex = 1.3)
+points(xs + 0.6, m_true, pch = 4, col = "black", cex = 1.3, lwd = 2)
+legend("topleft", bty = "n", pch = c(19, 4), col = c("firebrick", "black"),
+       legend = c("promedio del grupo", "m(x) verdadera"))
+
+# La descomposición de la varianza también vale en la muestra (con denominador n).
+m_i <- ave(Y, X)                   # a cada persona, el promedio de su grupo
+c(total = mean((Y - mean(Y))^2),
+  dentro = mean((Y - m_i)^2),
+  entre = mean((m_i - mean(Y))^2))
+```
+
+Corre el bloque otra vez con `n <- 200`. Los intervalos se ensanchan, sobre todo en el grupo de 16 años, que es el más chico y el más disperso.
+
+**Comprueba.** Si $\sigma(x)=30$, ¿cuántas observaciones necesita el grupo para que el error estándar sea de 2 pesos?
+
+::: {.callout-tip title="Respuesta" collapse="true"}
+$30/\sqrt{n_x}=2$, así que $\sqrt{n_x}=15$ y $n_x=225$.
+:::
+
+## Con $X$ continua: sesgo contra varianza
+
+::: {.callout-note title="Pizarrón: Promediar por intervalos" icon=false}
+Con $X$ continua (experiencia, edad) casi nadie comparte el mismo valor. Se divide el rango de $X$ en $K$ intervalos y se promedia $Y$ en cada uno.
+
+- Pocos intervalos: cada promedio mezcla valores de $X$ muy distintos. **Sesgo.**
+- Muchos intervalos: cada promedio usa pocas observaciones. **Varianza.**
+
+El error total es sesgo$^2$ + varianza, y hay un $K$ intermedio que lo minimiza.
+:::
+
+```{webr-r}
+K <- 8                             # <- número de intervalos (prueba 2 y 40)
+n <- 2000                          # <- tamaño de muestra
+sigma <- 60                        # <- ruido
+
+set.seed(2026)
+m <- function(x) 50 + 4 * x - 0.06 * x^2           # salario según experiencia
+malla <- seq(0.5, 39.5, by = 1)                    # puntos donde medimos el error
+cortes <- seq(0, 40, length.out = K + 1)
+
+# Una estimación: cut() asigna cada x a su intervalo; tapply() promedia y en cada uno.
+una_estimacion <- function() {
+  x <- runif(n, 0, 40)
+  y <- m(x) + rnorm(n, sd = sigma)
+  m_hat <- tapply(y, cut(x, cortes, include.lowest = TRUE), mean)
+  m_hat[cut(malla, cortes, include.lowest = TRUE)]
+}
+
+# 30 muestras distintas: cada línea azul es una estimación.
+plot(NULL, xlim = c(0, 40), ylim = c(20, 160), xlab = "experiencia",
+     ylab = "salario por hora", main = paste("30 estimaciones con K =", K))
+errores <- numeric(30)
+for (r in 1:30) {
+  est <- una_estimacion()
+  lines(malla, est, type = "s", col = adjustcolor("steelblue", 0.35))
+  errores[r] <- mean((est - m(malla))^2)
+}
+curve(m(x), add = TRUE, lwd = 3)
+mean(errores)                      # error cuadrático medio promedio con este K
+```
+
+Corre el bloque con `K <- 2`, `8` y `40`. Con 2, las 30 estimaciones coinciden entre sí pero no siguen la curva (sesgo). Con 40, siguen la curva pero brincan mucho (varianza). El siguiente bloque calcula el error para muchos valores de $K$; en el navegador tarda alrededor de medio minuto.
+
+```{webr-r}
+set.seed(2026)
+m <- function(x) 50 + 4 * x - 0.06 * x^2
+malla <- seq(0.5, 39.5, by = 1)
+n <- 2000
+sigma <- 60
+
+# Error cuadrático medio con K intervalos, promediado sobre R muestras.
+# En el navegador usamos R = 40 muestras por K; en RStudio puedes subirlo a 100.
+ecm_K <- function(K, R = 40) {
+  cortes <- seq(0, 40, length.out = K + 1)
+  j <- cut(malla, cortes, include.lowest = TRUE)
+  errores <- replicate(R, {
+    x <- runif(n, 0, 40)
+    y <- m(x) + rnorm(n, sd = sigma)
+    m_hat <- tapply(y, cut(x, cortes, include.lowest = TRUE), mean)
+    mean((m_hat[j] - m(malla))^2)
+  })
+  mean(errores)
+}
+
+K <- c(2, 4, 6, 8, 11, 15, 20, 30, 40)
+ecm <- sapply(K, ecm_K)
+round(cbind(K, ecm), 1)
+
+plot(K, ecm, type = "b", pch = 19, cex = 1.3, ylim = c(0, 150),
+     xlab = "número de intervalos K", ylab = "error cuadrático medio",
+     main = "Sesgo contra varianza")
+abline(v = K[which.min(ecm)], lty = 2, col = "firebrick")
+```
+
+## Muchas variables: la maldición de la dimensionalidad
+
+::: {.callout-note title="Pizarrón: Las celdas se vacían" icon=false}
+Con $k$ variables de 10 valores cada una hay $10^k$ combinaciones (celdas), y la CEF es un promedio por celda.
+
+| $k$ | celdas | hogares por celda, en promedio, con $n=10{,}000$ |
+|:---:|:------:|:--------------------:|
+| 1 | 10 | 1,000 |
+| 2 | 100 | 100 |
+| 3 | 1,000 | 10 |
+| 4 | 10,000 | 1 |
+
+Con cuatro variables, más de la mitad de las celdas ocupadas ya tiene un solo hogar; con cinco o más, casi todas. Un "promedio" de una sola observación.
+:::
+
+```{webr-r}
+n <- 10000                         # <- hogares en la encuesta
+set.seed(2026)
+
+ks <- 1:6                          # número de variables
+ocupadas <- numeric(length(ks))
+con_una <- numeric(length(ks))
+
+for (k in ks) {
+  # Cada hogar recibe k valores al azar entre 0 y 9; paste() los pega en
+  # una etiqueta de celda, por ejemplo "3 0 7".
+  columnas <- replicate(k, sample(0:9, n, replace = TRUE), simplify = FALSE)
+  celdas <- do.call(paste, columnas)
+  tab <- table(celdas)
+  ocupadas[k] <- length(tab)
+  con_una[k] <- mean(tab == 1)
+}
+
+data.frame(k = ks,
+           posibles = format(10^ks, big.mark = ",", scientific = FALSE),
+           ocupadas = ocupadas,
+           fraccion_con_un_hogar = round(con_una, 3))
+
+par(mfrow = c(1, 2))
+plot(ks, 10^ks, log = "y", type = "b", pch = 19, xlab = "número de variables k",
+     ylab = "celdas (escala log)", main = "Celdas posibles y ocupadas")
+lines(ks, ocupadas, type = "b", pch = 19, col = "firebrick")
+abline(h = n, lty = 2)
+legend("topleft", bty = "n", pch = 19, col = c("black", "firebrick"),
+       legend = c("posibles", "ocupadas"))
+plot(ks, con_una, type = "b", pch = 19, col = "steelblue", ylim = c(0, 1),
+     xlab = "número de variables k", ylab = "fracción",
+     main = "Celdas con un solo hogar")
+par(mfrow = c(1, 1))
+```
+
+La salida es suponer algo sobre la forma de $m$ y usar todas las observaciones a la vez. Qué forma suponer, y qué se estima cuando la forma supuesta no es la correcta, son las preguntas que siguen en el curso.
+
+::: {.callout-note title="Pizarrón: Lo que hay que llevarse" icon=false}
+1. $m(x)=\mathbb{E}[Y\mid X=x]$ es el promedio de $Y$ en cada grupo; $m(X)$ es una variable aleatoria.
+2. Ley de esperanzas iteradas: $\mathbb{E}[Y]=\mathbb{E}\big[\mathbb{E}[Y\mid X]\big]$ (promedio de promedios).
+3. Sacar lo conocido: $\mathbb{E}[g(X)Y\mid X]=g(X)\,m(X)$.
+4. $\operatorname{Var}(Y)=\mathbb{E}[\operatorname{Var}(Y\mid X)]+\operatorname{Var}(m(X))$ (dentro + entre).
+5. La CEF es el mejor predictor de $Y$ con $X$; su error cumple $\mathbb{E}[e\mid X]=0$ y $\mathbb{E}[h(X)e]=0$ para toda $h$.
+6. Estimar: un promedio por grupo; con $X$ continua o muchas variables, sesgo contra varianza.
+:::
+
+# Hacia la tarea: la CEF en la ENOE {.unnumbered #tarea}
+
+::: {.callout-important title="Lo que vas a hacer"}
+La tarea de esta sesión repite lo que hiciste en esta página, ahora con datos reales: la **Encuesta Nacional de Ocupación y Empleo** (ENOE) del INEGI. Cada persona trabaja con una submuestra distinta, sacada con su matrícula como semilla, así que nadie tiene los mismos números.
+
+Con tu submuestra de personas ocupadas vas a:
+
+1. Estimar $\hat m(x)$ del ingreso por hora para cada nivel de escolaridad, con su intervalo de 95% (sección 11.1).
+2. Comprobar en tus datos la ley de esperanzas iteradas y la descomposición dentro + entre, y reportar tu $\eta^2$ (secciones 5 y 7).
+3. Tratar la edad como $X$ continua y comparar dos valores de $K$ (sección 11.2).
+
+Las instrucciones completas y la fecha de entrega se publican en Canvas. Para ir adelantando: descarga los microdatos de la ENOE (trimestre más reciente, formato CSV) desde el sitio del INEGI y prueba que puedes leer la tabla sociodemográfica (SDEMT).
+:::
+
+```r
+# Lee la tabla sociodemográfica. El nombre del archivo cambia con el trimestre.
+enoe <- read.csv("ENOE_SDEMT.csv")            # <- pon aquí el nombre de tu archivo
+
+# Los nombres de las columnas vienen en mayúsculas o minúsculas según el año.
+names(enoe) <- tolower(names(enoe))
+
+# Entrevista completa (r_def = 00), residentes (c_res = 1 o 3), 15 años o más.
+enoe <- subset(enoe, r_def == 0 & c_res %in% c(1, 3) & eda >= 15 & eda <= 97)
+
+# Ocupados (clase2 = 1) con ingreso por hora positivo y escolaridad conocida.
+ocupados <- subset(enoe, clase2 == 1 & ing_x_hrs > 0 & anios_esc != 99)
+nrow(ocupados)
+
+# Tu submuestra: los dígitos de tu matrícula como semilla (A01234567 -> 1234567).
+set.seed(1234567)                             # <- tu matrícula
+mi_muestra <- ocupados[sample(nrow(ocupados), 5000), ]
+
+# Primer vistazo: ingreso por hora promedio por años de escolaridad.
+tapply(mi_muestra$ing_x_hrs, mi_muestra$anios_esc, mean)
+```
+
+Variables de la SDEMT que vas a usar: `anios_esc` (años de escolaridad), `ing_x_hrs` (ingreso promedio por hora trabajada), `eda` (edad), `sex` (1 hombre, 2 mujer), `clase2` (1 población ocupada). Fuente: INEGI, [descripción de la base de datos de la ENOE](https://www.inegi.org.mx/contenidos/programas/enoe/15ymas/doc/enoe_325_fd_c_bas_amp.pdf).
