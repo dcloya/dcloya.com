@@ -1,0 +1,183 @@
+---
+title: "Guía para instalar R y RStudio"
+subtitle: "Estadística Matemática, Maestría en Economía Aplicada"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+lang: es
+---
+
+::: {.callout-note title="En resumen"}
+1. Instala **R** (el lenguaje) desde CRAN.
+2. Instala **RStudio Desktop** (el programa donde escribes y corres R) desde Posit.
+3. Abre RStudio, crea un proyecto para el curso y corre el bloque de prueba de la sección 5.
+
+Todo es gratuito y toma unos 20 minutos. El orden importa: primero R, después RStudio.
+:::
+
+# Qué vas a instalar {.unnumbered}
+
+- **R** hace los cálculos. Por sí solo tiene una ventana muy austera.
+- **RStudio** es el programa donde trabajas: un editor para tus scripts, la consola donde R responde, el panel de gráficas y la lista de objetos que has creado. RStudio necesita que R ya esté instalado.
+
+Si por ahora no puedes instalar nada (computadora del trabajo, sin permisos de administrador), ve a la sección 7: hay dos alternativas que funcionan en el navegador.
+
+# Instalar R
+
+Entra a [CRAN](https://cran.r-project.org/) y elige tu sistema operativo.
+
+## Windows
+
+1. Ve a [R para Windows](https://cran.r-project.org/bin/windows/base/) y descarga el instalador (*Download R-4.x.x for Windows*).
+2. Ábrelo y acepta las opciones por omisión.
+3. No necesitas *Rtools* para este curso.
+
+## macOS
+
+1. Revisa qué procesador tiene tu Mac: menú Apple > *Acerca de esta Mac*. Si dice **Apple M1, M2, M3 o M4** (o posterior), es *Apple silicon*; si dice **Intel**, es Intel.
+2. Ve a [R para macOS](https://cran.r-project.org/bin/macosx/) y descarga el `.pkg` que corresponde a tu procesador (`arm64` para Apple silicon, `x86_64` para Intel). Instalar el de otro procesador es el error más común en Mac.
+3. Abre el `.pkg` y sigue los pasos.
+
+## Linux
+
+Sigue las instrucciones de tu distribución en [R para Linux](https://cran.r-project.org/bin/linux/).
+
+::: {.callout-tip title="¿Qué versión?"}
+La versión más reciente es la 4.6 (la 4.6.1 salió en junio de 2026). Para este curso funciona cualquier versión de la 4.4 en adelante. Si ya tienes R, revisa tu versión escribiendo `R.version.string` en la consola.
+:::
+
+# Instalar RStudio
+
+1. Ve a la [página de descarga de RStudio Desktop](https://posit.co/download/rstudio-desktop/). Ya instalaste R, así que salta al paso 2 de esa página.
+2. Descarga el instalador para tu sistema operativo y ábrelo.
+   - **Windows:** acepta las opciones por omisión.
+   - **macOS:** arrastra el ícono de RStudio a la carpeta *Aplicaciones*. Ábrelo desde ahí, no desde la ventana del instalador.
+3. Abre RStudio. Si en la consola (panel inferior izquierdo) aparece un texto que empieza con `R version 4...`, RStudio encontró a R.
+
+# Configurar RStudio (una sola vez)
+
+En *Tools > Global Options > General*:
+
+- Desmarca **Restore .RData into workspace at startup**.
+- En **Save workspace to .RData on exit**, elige **Never**.
+
+Así, cada vez que abres RStudio empiezas desde cero, y todo lo que tienes en memoria salió de un script que puedes volver a correr. Es la base de un trabajo reproducible.
+
+Opcional, en *Tools > Global Options > Appearance*: cambia el tamaño de letra o el tema de colores.
+
+## Los cuatro paneles
+
+| Panel | Dónde | Para qué |
+|:--|:--|:--|
+| Editor | arriba a la izquierda | tus scripts (`.R`): aquí escribes |
+| Consola | abajo a la izquierda | donde R corre y responde |
+| Environment | arriba a la derecha | los objetos que has creado |
+| Plots / Files / Help | abajo a la derecha | gráficas, archivos y ayuda |
+
+# Trabajar con proyectos y scripts
+
+## Un proyecto para el curso
+
+Un proyecto de RStudio es una carpeta con un archivo `.Rproj`. Al abrir el proyecto, R trabaja dentro de esa carpeta, y los archivos se leen con rutas cortas como `"datos/enoe.csv"`, sin escribir la ruta completa de tu computadora.
+
+1. *File > New Project > New Directory > New Project*.
+2. Ponle un nombre sin espacios ni acentos, por ejemplo `estadistica_matematica`, y elige dónde guardarlo.
+3. Dentro de esa carpeta, crea subcarpetas: `datos/` para los archivos que descargas y `scripts/` para tu código.
+
+La próxima vez, abre el curso con doble clic en `estadistica_matematica.Rproj`.
+
+::: {.callout-warning title="Evita OneDrive y rutas con acentos"}
+En Windows, las carpetas sincronizadas con OneDrive (por ejemplo *Documentos* o *Escritorio*) y las rutas con acentos o espacios causan errores al instalar paquetes o leer archivos. Una carpeta como `C:/cursos/estadistica_matematica` evita el problema.
+:::
+
+## Escribe en scripts, no en la consola
+
+Abre un script nuevo con *File > New File > R Script* (`Ctrl + Shift + N` en Windows, `Cmd + Shift + N` en Mac) y guárdalo en `scripts/`. Para correr una línea o una selección, presiona `Ctrl + Enter` (`Cmd + Enter` en Mac). La consola sirve para pruebas rápidas; lo que escribes ahí se pierde.
+
+Tres hábitos que usamos en el curso:
+
+```r
+# 1. Un objeto por línea, con un comentario que diga qué es.
+n <- 500                           # tamaño de muestra
+x_barra <- 13698                   # media muestral, en pesos
+
+# 2. Nombres en minúsculas, con guion bajo entre palabras.
+salario_por_hora <- 85
+
+# 3. Una semilla al inicio de cualquier simulación, para obtener
+#    los mismos números cada vez que corres el script.
+set.seed(2026)
+```
+
+# Comprueba que todo funciona
+
+Copia este bloque en un script nuevo y córrelo completo (selecciona todo y presiona `Ctrl + Enter` o `Cmd + Enter`).
+
+```r
+# Versión de R
+R.version.string
+
+# Una cuenta
+1 + 1
+
+# Una simulación: 1,000 salarios lognormales
+set.seed(2026)
+salarios <- rlnorm(1000, meanlog = 9.4, sdlog = 0.5)
+mean(salarios)
+
+# Una gráfica: debe aparecer en el panel de abajo a la derecha
+hist(salarios, breaks = 40, col = "grey80", border = "white",
+     main = "Salarios simulados", xlab = "pesos al mes")
+```
+
+Si ves la versión de R, el número `2`, una media cercana a 13,700 y un histograma, todo funciona.
+
+## Leer un archivo de datos
+
+Para la tarea vas a leer un archivo CSV (la ENOE del INEGI). Guárdalo en la carpeta `datos/` de tu proyecto y léelo así:
+
+```r
+enoe <- read.csv("datos/ENOE_SDEMT.csv")   # <- el nombre de tu archivo
+dim(enoe)                                  # renglones y columnas
+names(enoe)                                # nombres de las variables
+```
+
+Si R dice `cannot open file`, revisa que abriste el proyecto (el nombre aparece arriba a la derecha de RStudio) y que el nombre del archivo esté escrito igual, con mayúsculas y extensión.
+
+# Instalar paquetes
+
+El código del curso usa sólo funciones de R base: no necesitas instalar nada más. Cuando quieras un paquete, se instala una vez y se carga en cada sesión:
+
+```r
+install.packages("readxl")         # una sola vez
+library(readxl)                    # cada vez que abres R
+```
+
+Si al instalar R pregunta *"Would you like to use a personal library instead?"*, contesta **yes**.
+
+# Si no puedes instalar nada
+
+- **Las páginas del curso.** Las sesiones con bloques de R (botón **Run Code**) corren R en tu navegador, sin instalar nada. Sirven para seguir el material, pero no para leer archivos grandes como la ENOE.
+- **[Posit Cloud](https://posit.cloud/).** RStudio completo en el navegador, con una cuenta gratuita. El plan gratuito tiene horas y memoria limitadas, pero alcanza para las tareas del curso. Puedes subir archivos con el botón *Upload* del panel *Files*.
+
+# Problemas comunes
+
+| Síntoma | Causa probable | Solución |
+|:--|:--|:--|
+| RStudio no encuentra R | Instalaste RStudio antes que R, o R no terminó de instalarse | Reinstala R y vuelve a abrir RStudio |
+| En Mac, R se cierra o va muy lento | Instalaste el `.pkg` de otro procesador | Descarga el que corresponde a tu Mac (sección 1.2) |
+| macOS dice que la app "no se puede abrir" | Bloqueo de seguridad de macOS | Clic derecho en RStudio > *Abrir* |
+| Error al instalar paquetes en Windows | Carpeta en OneDrive o ruta con acentos | Mueve el proyecto a `C:/cursos/...` |
+| `cannot open file` al leer datos | R está buscando en otra carpeta | Abre el `.Rproj` y usa rutas como `"datos/archivo.csv"` |
+| `could not find function` | Falta cargar el paquete o hay un error de dedo | Corre `library(paquete)` o revisa el nombre |
+| `object not found` | El objeto no se ha creado en esta sesión | Corre el script desde arriba |
+
+Si un error no aparece en la tabla, copia el mensaje exacto en un buscador; casi siempre alguien ya lo resolvió. Si sigues atorado, escríbeme por Canvas con el mensaje de error y una captura de pantalla.
+
+# Para seguir aprendiendo {.unnumbered}
+
+- [R for Data Science, 2a. edición](https://r4ds.hadley.nz/), de Wickham, Çetinkaya-Rundel y Grolemund (gratuito en línea).
+- [Hojas de referencia de Posit](https://posit.co/resources/cheatsheets/), en particular la de RStudio IDE.
+- [swirl](https://swirlstats.com/): tutoriales interactivos que corren dentro de R.

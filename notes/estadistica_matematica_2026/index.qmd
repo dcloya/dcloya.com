@@ -30,7 +30,8 @@ Vectores y matrices, covarianza y correlación, la matriz de varianza y covarian
 
 Probabilidad condicional, la media y la CEF como predictores, ley de esperanzas iteradas, descomposición de la varianza, el error de la CEF, estimación por intervalos, variable omitida y selección.
 
-- [Página interactiva](s03_cef.html){target="_blank"}
 - [Sesión de estudio del 20 de octubre: la esperanza condicional en R](s03_autoestudio_cef.qmd)
+- [Guía para instalar R y RStudio](guia_r_rstudio.qmd)
+- [Página interactiva (versión anterior, sólo como respaldo)](s03_cef.html){target="_blank"}
 
 Esta lista crece conforme avanza el trimestre.
